@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        designer.xrc
+    Purpose:     Designer window
+    Author:      Andrea Zanellato
+    Modified by:
+    Created:     2011/11/28
+    Revision:    $Id$
+    Copyright:   (c) Andrea Zanellato
+    Licence:     wxWindows licence
+-->
+<resource xmlns="http://www.wxwidgets.org/wxxrc" version="2.5.3.0">
+    <object class="wxPanel" name="DesignerWindow">
+        <style>wxTAB_TRAVERSAL</style>
+        <!--exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
+        <hidden>0</hidden>
+        <object class="wxBoxSizer">
+            <orient>wxVERTICAL</orient>
+            <object class="sizeritem">
+                <option>0</option>
+                <flag>wxEXPAND</flag>
+                <object class="wxPanel" name="WindowTitle">
+                    <style>wxTAB_TRAVERSAL</style>
+                    <bg>#000000</bg>
+                    <hidden>1</hidden>
+                    <object class="wxBoxSizer">
+                        <orient>wxHORIZONTAL</orient>
+                        <object class="sizeritem">
+                            <option>0</option>
+                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                            <border>3</border>
+                            <object class="wxStaticBitmap" name="BitmapTitle">
+                                <bitmap>images/w_icon.png</bitmap>
+                            </object>
+                        </object>
+                        <object class="sizeritem">
+                            <option>1</option>
+                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                            <border>3</border>
+                            <object class="wxStaticText" name="WindowLabel">
+                                <fg>#ffffff</fg>
+                                <font>
+                                    <size>9</size>
+                                    <family>default</family>
+                                    <style>normal</style>
+                                    <weight>bold</weight>
+                                    <underlined>0</underlined>
+                                </font>
+                                <label>Title</label>
+                                <wrap>-1</wrap>
+                            </object>
+                        </object>
+                        <object class="sizeritem">
+                            <option>0</option>
+                            <flag>wxALL</flag>
+                            <border>3</border>
+                            <object class="wxBoxSizer">
+                                <orient>wxHORIZONTAL</orient>
+                                <object class="sizeritem">
+                                    <option>0</option>
+                                    <flag></flag>
+                                    <border>3</border>
+                                    <object class="wxStaticBitmap" name="ButtonMinimize">
+                                        <hidden>1</hidden>
+                                        <bitmap>images/w_minimize.png</bitmap>
+                                    </object>
+                                </object>
+                                <object class="sizeritem">
+                                    <option>0</option>
+                                    <flag></flag>
+                                    <border>3</border>
+                                    <object class="wxStaticBitmap" name="ButtonMaximize">
+                                        <hidden>1</hidden>
+                                        <bitmap>images/w_maximize.png</bitmap>
+                                    </object>
+                                </object>
+                                <object class="sizeritem">
+                                    <option>0</option>
+                                    <flag></flag>
+                                    <border>3</border>
+                                    <object class="wxStaticBitmap" name="ButtonClose">
+                                        <hidden>1</hidden>
+                                        <bitmap>images/w_close.png</bitmap>
+                                    </object>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                </object>
+            </object>
+            <object class="sizeritem">
+                <option>1</option>
+                <flag>wxEXPAND | wxALL</flag>
+                <border>5</border>
+                <object class="wxPanel" name="WindowPanel">
+                    <style>wxTAB_TRAVERSAL</style>
+                    <size>150,90</size>
+                </object>
+            </object>
+        </object-->
+    </object>
+</resource>

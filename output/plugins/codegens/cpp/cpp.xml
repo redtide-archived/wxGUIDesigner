@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<codegenerator>
+    <container>
+        <label>C++</label>
+        <bitmap>images/file_cpp.png</bitmap>
+        <editor>
+            <label>cpp</label>
+            <bitmap>images/file_cpp.png</bitmap>
+        </editor>
+        <editor>
+            <label>h</label>
+            <bitmap>images/file_h.png</bitmap>
+        </editor>
+    </container>
+</codegenerator>

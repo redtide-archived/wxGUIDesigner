@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource xmlns="http://www.wxwidgets.org/wxxrc" version="2.5.3.0">
+    <object_ref ref="ObjectProperties" name="DefaultProject">
+        <page>
+            <label>Properties</label>
+            <property class="wxPropertyCategory">
+                <label>Project</label>
+                <property class="wxStringProperty">
+                    <label>Name</label>
+                    <description>Project name.</description>
+                </property>
+                <property class="wxDirProperty">
+                    <label>Path</label>
+                    <value>.</value>
+                    <description>The path to generated files.</description>
+                </property>
+                <property class="wxDirProperty">
+                    <label>Embedded files path</label>
+                    <value>res</value>
+                    <description>The path to generated files for embedded files.</description>
+                </property>
+                <property class="wxLongStringProperty">
+                    <label>File</label>
+                    <description>The filenames for generated files</description>
+                </property>
+                <property class="wxBoolProperty">
+                    <attribute name="UseCheckbox" type="int">1</attribute>
+                    <label>Relative path</label>
+                    <description>Use relative paths for external files (e.g. image files).</description>
+                    <value>true</value>
+                </property>
+                <property class="wxIntProperty">
+                    <label>First ID</label>
+                    <description>All GUI controls have an integer ID, this is the value for the first control, each additional control with increment by 1.</description>
+                    <value>10000</value>
+                </property>
+                <property class="wxIntProperty">
+                    <label>Last ID</label>
+                    <description>Specify a value greater than First ID if you need an ID range (a value of -1 means not used).</description>
+                    <value>-1</value>
+                </property>
+                <property class="wxStringProperty">
+                    <label>Code generation</label>
+                    <description>Specify which programming language(s) will be used for generated file(s).</description>
+                    <value>&#60;composed&#62;</value>
+                    <property class="wxBoolProperty">
+                        <attribute name="UseCheckbox" type="int">1</attribute>
+                        <label>C++</label>
+                        <description>Generate C++ Code</description>
+                        <value>1</value>
+                    </property>
+                    <property class="wxBoolProperty">
+                        <attribute name="UseCheckbox" type="int">1</attribute>
+                        <label>Python</label>
+                        <description>Generate Python Code</description>
+                    </property>
+                </property>
+                <property class="wxBoolProperty">
+                    <attribute name="UseCheckbox" type="int">1</attribute>
+                    <label>Internationalize</label>
+                    <description>Generate strings using gettext. This allows for translation.</description>
+                    <value>0</value>
+                </property>
+                <property class="wxPropertyCategory">
+                    <label>C++ Properties</label>
+                    <description>C++ Language specific options.</description>
+                    <property class="wxBoolProperty">
+                        <attribute name="UseCheckbox" type="int">1</attribute>
+                        <label>Use enum</label>
+                        <description>For C++ Only.&#x0A;Generate an enumeration for control IDs instead of a list of #defines.</description>
+                        <value>0</value>
+                    </property>
+                    <property class="wxBoolProperty">
+                        <attribute name="UseCheckbox" type="int">1</attribute>
+                        <label>Use Microsoft BOM</label>
+                        <description>For C++ and WXMSW Only.&#x0A;Files are generated with UTF-8 encoding. Microsoft compiliers expect a specific byte sequence at the beginning of a file. GCC does NOT expect this. Only set this to true when using a Microsoft compiler.</description>
+                        <value>0</value>
+                    </property>
+                    <property class="wxLongStringProperty">
+                        <attribute name="UseCheckbox" type="int">1</attribute>
+                        <label>Precompiled Header</label>
+                        <description>For C++ Only.&#x0A;The exact code to be generated at the top of the source file to support precompiled headers. For example, to include wxprec.h, the value of this property should be:&#x0A;#include &lt;wx/wxprec.h&gt;</description>
+                    </property>
+                    <property class="wxStringProperty">
+                        <label>Class decoration</label>
+                        <description>For C++ Only.&#x0A;Used to decorate classes with DLL export macros.</description>
+                        <value>&#60;composed&#62;</value>
+                        <property class="wxStringProperty">
+                            <label>Decoration</label>
+                            <description>The name of the macro or the dll export decoration.</description>
+                        </property>
+                        <property class="wxStringProperty">
+                            <label>Header</label>
+                            <description>Optional header file where the export macro is defined.</description>
+                        </property>
+                    </property>
+                    <property class="wxEnumProperty">
+                        <label>Encoding</label>
+                        <description>Specify which programming language(s) will be used for generated file(s).</description>
+                        <choices id="Encoding">
+                            "ANSI"
+                            "UTF-8"
+                        </choices>
+                        <value>UTF-8</value>
+                    </property>
+                    <property class="wxArrayStringProperty">
+                        <label>Namespace</label>
+                        <description>For C++ Only.&#x0A;Namespaces to wrap class declarations in.</description>
+                    </property>
+                    <property class="wxEnumProperty">
+                        <label>Event generation</label>
+                        <description>For C++ Only.&#x0A;Type of event connection to generate.</description>
+                        <choices id="EventGeneration">
+                            "Connect"
+                            "Table"
+                        </choices>
+                        <value>Connect</value>
+                    </property>
+                    <property class="wxBoolProperty">
+                        <attribute name="UseCheckbox" type="int">1</attribute>
+                        <label>Disconnect events</label>
+                        <description>For event_generation=connect Only.&#x0A;Disconnect events in the destructor.</description>
+                        <value>1</value>
+                    </property>
+                    <property class="wxEnumProperty">
+                        <label>Help provider</label>
+                        <description>For C++ Only.&#x0A;The class of help provider to use for context-sensitive help.</description>
+                        <choices id="HelpProvider">
+                            "None"
+                            "wxSimpleHelpProvider"
+                            "wxHelpControllerHelpProvider"
+                        </choices>
+                        <value>None</value>
+                    </property>
+                </property>
+                <property class="wxPropertyCategory">
+                    <label>Python Properties</label>
+                    <description>Python Language specific options.</description>
+                    <property class="wxBoolProperty">
+                        <attribute name="UseCheckbox" type="int">1</attribute>
+                        <label>Skip Python events</label>
+                        <description>For Python Only.&#x0A;Call Skip() function in all generated event handlers.</description>
+                        <value>1</value>
+                    </property>
+                    <property class="wxBoolProperty">
+                        <attribute name="UseCheckbox" type="int">1</attribute>
+                        <label>Disconnect Python events</label>
+                        <description>For Python Only.&#x0A;Disconnect events in the destructor.</description>
+                        <value>0</value>
+                    </property>
+                    <property class="wxEnumProperty">
+                        <label>Disconnect mode</label>
+                        <description>For Python Only.&#x0A;Choose which strategy will be used for disconnecting of events (due to different prototypes of Unbind() function in wxPython).</description>
+                        <choices id="DisconnectMode">
+                            "Source name"
+                            "Handler name"
+                        </choices>
+                        <value>Source name</value>
+                    </property>
+                </property>
+            </property>
+        </page>
+    </object_ref>
+</resource>

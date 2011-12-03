@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        dialog.xml
+    Purpose:     wxDialog class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2011/12/02
+    Revision:    $Id$
+    Licence:     wxWindows licence
+-->
+<class name="wxDialog">
+    <class name="wxTopLevelWindow"/>
+    <properties>
+        <name>m_dialog</name>
+        <styles name="Styles">
+            <style name="wxDEFAULT_DIALOG_STYLE">
+                <description>Equivalent to a combination of wxCAPTION, wxCLOSE_BOX and wxSYSTEM_MENU (the last one is not used under Unix).</description>
+            </style>
+            <style name="wxCAPTION">
+                <description>Puts a caption on the dialog box.</description>
+            </style>
+            <style name="wxMINIMIZE_BOX">
+                <description>Displays a minimize box on the dialog.</description>
+            </style>
+            <style name="wxMAXIMIZE_BOX">
+                <description>Displays a maximize box on the dialog.</description>
+            </style>
+            <style name="wxCLOSE_BOX">
+                <description>Displays a close box on the dialog.</description>
+            </style>
+            <style name="wxSTAY_ON_TOP">
+                <description>The dialog stays on top of all other windows.</description>
+            </style>
+            <style name="wxSYSTEM_MENU">
+                <description>Displays a system menu.</description>
+            </style>
+            <style name="wxRESIZE_BORDER">
+                <description>Display a resizable frame around the window.</description>
+            </style>
+            <style name="wxNO_3D">
+                <description>Under Windows, specifies that the child controls should not have 3D borders unless specified in the control.</description>
+            </style>
+            <style name="wxDIALOG_NO_PARENT">
+                <description>By default, a dialog created with a NULL parent window will be given the application's top level window as parent. Use this style to prevent this from happening and create an orphan dialog. This is not recommended for modal dialogs.</description>
+            </style>
+        </styles>
+        <styles name="Extra styles">
+            <style name="wxDIALOG_EX_CONTEXTHELP">
+                <description>Under Windows, puts a query button on the caption. When pressed, Windows will go into a context-sensitive help mode and wxWidgets will send a wxEVT_HELP event if the user clicked on an application window. Note that this is an extended style and must be set by calling SetExtraStyle() before Create is called (two-step construction).</description>
+            </style>
+            <style name="wxDIALOG_EX_METAL">
+                <description>On Mac OS X, frames with this style will be shown with a metallic look. This is an extra style.</description>
+            </style>
+        </styles>
+    </properties>
+    <events>
+        <category name="wxCloseEvent">
+            <event name="EVT_CLOSE">
+                <description>The dialog is being closed by the user or programmatically (see wxWindow::Close). The user may generate this event clicking the close button (typically the 'X' on the top-right of the title bar) if it's present (see the wxCLOSE_BOX style) or by clicking a button with the wxID_CANCEL or wxID_OK ids.</description>
+            </event>
+        </category>
+        <category name="wxInitDialogEvent">
+            <event name="EVT_INIT_DIALOG">
+                <description>Process a wxEVT_INIT_DIALOG event.</description>
+            </event>
+        </category>
+    </events>
+</class>

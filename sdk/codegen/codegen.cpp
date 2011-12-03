@@ -1,0 +1,14 @@
+///////////////////////////////////////////////////////////////////////////////
+// Name:        sdk/plugin/codegen.cpp
+// Purpose:     
+// Author:      Andrea Zanellato
+// Modified by:
+// Created:     2011/11/26
+// Revision:    $Id$
+// Copyright:   (c) Andrea Zanellato
+// Licence:     wxWindows licence
+///////////////////////////////////////////////////////////////////////////////
+
+#include "codegen.h"
+
+

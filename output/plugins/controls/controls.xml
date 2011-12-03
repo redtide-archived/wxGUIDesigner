@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        controls.xml
+    Purpose:     Control plugin list
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2011/12/01
+    Revision:    $Id$
+    Copyright:   (c) Andrea Zanellato
+    Licence:     wxWindows licence
+-->
+<plugins>
+    <plugin label="Top Level">
+        <item>frame</item>
+        <item>dialog</item>
+        <separator/>
+        <item>wizard</item>
+        <item>wizpage</item>
+    </plugin>
+    <plugin label="Bars">
+        <item>toolbar</item>
+        <!--item>auibar</item-->
+        <separator/>
+        <item>tool</item>
+        <item>separator</item>
+        <separator/>
+        <item>menubar</item>
+        <item>menu</item>
+        <item>menuitem</item>
+        <separator/>
+        <item>statusbar</item>
+    </plugin>
+    <plugin label="Sizers">
+        <item>box</item>
+        <item>grid</item>
+        <item>flexgrid</item>
+        <item>gridbag</item>
+        <item>staticbox</item>
+        <item>stddlgbtn</item>
+        <item>spacer</item>
+    </plugin>
+    <plugin label="Common">
+        <item>button</item>
+        <item>tglbtn</item>
+        <item>bmpbtn</item>
+        <item>textctrl</item>
+        <item>combobox</item>
+        <item>choice</item>
+        <item>listbox</item>
+        <item>checklst</item>
+        <item>listctrl</item>
+        <item>treectrl</item>
+        <item>stattext</item>
+        <item>statbmp</item>
+        <item>statline</item>
+        <item>chkbox</item>
+        <item>radiobtn</item>
+        <item>radiobox</item>
+        <item>gauge</item>
+        <item>slider</item>
+        <item>spinbutt</item>
+        <item>spinctrl</item>
+        <item>scrolbar</item>
+    </plugin>
+    <plugin label="Containers">
+        <item>panel</item>
+        <separator/>
+        <item>notebook</item>
+        <item>auibook</item>
+        <item>choicebk</item>
+        <item>listbook</item>
+        <item>toolbook</item>
+        <item>treebook</item>
+        <separator/>
+        <item>scrolled</item>
+        <item>splitter</item>
+    </plugin>
+    <plugin label="Advanced">
+        <item>animation</item>
+        <item>calendar</item>
+        <!--item>custctrl</item-->
+        <!--item>dataview</item>
+        <item>datavcol</item-->
+        <item>dirctrl</item>
+        <item>grid</item>
+        <item>hyperlink</item>
+        <item>mediactrl</item>
+        <item>richtextctrl</item>
+        <item>srchctrl</item>
+    </plugin>
+    <plugin label="Pickers">
+        <item>clrpicker</item>
+        <item>datectrl</item>
+        <item>dirpicker</item>
+        <item>clrpicker</item>
+        <item>fontpicker</item>
+    </plugin>
+    <plugin label="Web">
+        <item>htmlwin</item>
+        <item>htmllbox</item>
+        <item>webview</item>
+    </plugin>
+</plugins>

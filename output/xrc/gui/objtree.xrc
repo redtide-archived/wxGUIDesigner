@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource xmlns="http://www.wxwidgets.org/wxxrc" version="2.5.3.0">
+    <object class="wxTreeCtrl" name="ObjectTree">
+        <imagelist>
+            <size>22,22</size>
+            <bitmap>images/project.png</bitmap>
+        </imagelist>
+        <size>210,420</size>
+        <style>wxTR_DEFAULT_STYLE</style>
+    </object>
+</resource>

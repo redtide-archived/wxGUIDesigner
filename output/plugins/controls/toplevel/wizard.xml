@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        wizard.xml
+    Purpose:     wxWizard class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2011/12/02
+    Revision:    $Id$
+    Licence:     wxWindows licence
+-->
+<class name="wxWizard">
+    <class name="wxDialog"/>
+    <children>
+        <class name="wxWizardPage"/>
+        <class name="wxWizardPageSimple"/>
+    </children>
+    <properties>
+        <name>m_wizard</name>
+        <styles name="Extra styles">
+            <style name="wxWIZARD_EX_HELPBUTTON">
+                <description>Shows a Help button using wxID_HELP.</description>
+            </style>
+        </styles>
+        <bitmap name="Bitmap">
+            <description>Bitmap to display on the left side of the wizard (default: none).</description>
+        </bitmap>
+    </properties>
+    <events>
+        <category name="wxWizardEvent">
+            <event name="EVT_WIZARD_PAGE_CHANGED">
+                <description>The page has just been changed (this event cannot be vetoed).</description>
+            </event>
+            <event name="EVT_WIZARD_PAGE_CHANGING">
+                <description>The page is being changed (this event can be vetoed).</description>
+            </event>
+            <event name="EVT_WIZARD_PAGE_SHOWN">
+                <description>The page was shown and laid out (this event cannot be vetoed).</description>
+            </event>
+            <event name="EVT_WIZARD_CANCEL">
+                <description>The user attempted to cancel the wizard (this event may also be vetoed).</description>
+            </event>
+            <event name="EVT_WIZARD_HELP">
+                <description>The wizard help button was pressed.</description>
+             </event>
+            <event name="EVT_WIZARD_FINISHED">
+                <description>The wizard finished button was pressed.</description>
+            </event>
+        </category>
+    </events>
+</class>

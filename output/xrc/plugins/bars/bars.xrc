@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        bars.xrc
+    Purpose:     Bar controls plugin
+    Author:      Andrea Zanellato
+    Modified by:
+    Created:     2011/11/23
+    Revision:    $Id$
+    Copyright:   (c) Andrea Zanellato
+    Licence:     wxWindows licence
+-->
+<resource xmlns="http://www.wxwidgets.org/wxxrc" version="2.5.3.0">
+    <property class="wxPropertyCategory">
+        <label>wxToolBar</label>
+        <bitmap>icons/toolbar.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxAuiToolBar</label>
+        <bitmap>icons/auibar.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>tool</label>
+        <bitmap>icons/tool.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxMenuBar</label>
+        <bitmap>icons/menubar.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxMenu</label>
+        <bitmap>icons/menu.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxMenuItem</label>
+        <bitmap>icons/menuitem.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>separator</label>
+        <bitmap>icons/separator.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxStatusBar</label>
+        <bitmap>icons/statusbar.png</bitmap>
+    </property>
+    <description>Bar controls plugin</description>
+</resource>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource xmlns="http://www.wxwidgets.org/wxxrc" version="2.5.3.0">
+    <object class="wxNotebook" name="ObjectInspector">
+        <imagelist>
+            <size>16,16</size>
+            <bitmap>images/properties.png</bitmap>
+            <bitmap>images/events.png</bitmap>
+        </imagelist>
+        <object class="notebookpage" name="PropGridPage">
+            <label>Properties</label>
+            <image>0</image>
+            <object class="wxSplitterWindow" name="PropGridSplitter">
+                <style>wxSP_3D|wxSP_LIVE_UPDATE</style>
+                <minsize>1</minsize>
+                <object class="wxPropertyGrid" name="PropGrid">
+                    <style>wxTAB_TRAVERSAL|wxPG_BOLD_MODIFIED|wxPG_SPLITTER_AUTO_CENTER|wxPG_THEME_BORDER</style>
+                </object>
+                <object class="wxPanel" name="PropDescPanel">
+                    <style>wxTAB_TRAVERSAL|wxBORDER_THEME</style>
+                    <object class="wxStaticText" name="PropDescription">
+                        <style>wxTAB_TRAVERSAL</style>
+                    </object>
+                </object>
+            </object>
+        </object>
+        <object class="notebookpage" name="EventGridPage">
+            <label>Events</label>
+            <image>1</image>
+            <object class="wxSplitterWindow" name="EventGridSplitter">
+                <style>wxSP_3D|wxSP_LIVE_UPDATE</style>
+                <minsize>1</minsize>
+                <object class="wxPropertyGrid" name="EventGrid">
+                    <style>wxTAB_TRAVERSAL|wxPG_BOLD_MODIFIED|wxPG_SPLITTER_AUTO_CENTER|wxPG_THEME_BORDER</style>
+                </object>
+                <object class="wxPanel" name="EventDescPanel">
+                    <style>wxTAB_TRAVERSAL|wxBORDER_THEME</style>
+                    <object class="wxStaticText" name="EventDescription">
+                        <style>wxTAB_TRAVERSAL</style>
+                    </object>
+                </object>
+            </object>
+        </object>
+    </object>
+</resource>

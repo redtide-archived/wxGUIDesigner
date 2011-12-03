@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        window.xrc
+    Purpose:     wxWindow wxPropertyCategory: Properties and Events
+    Author:      Andrea Zanellato
+    Modified by:
+    Created:     2011/09/17
+    Revision:    $Id$
+    Copyright:   (c) Andrea Zanellato
+    Licence:     wxWindows licence
+-->
+<resource xmlns="http://www.wxwidgets.org/wxxrc" version="2.5.3.0">
+    <property class="wxPropertyCategory">
+        <label>wxWindow</label>
+        <property class="wxStringProperty">
+            <label>ID</label>
+            <value>wxID__ANY</value>
+        </property>
+        <property class="wxPointProperty">
+            <label>Position</label>
+            <description>Initial position of the window (default: wxDefaultPosition).</description>
+        </property>
+        <property class="wxSizeProperty">
+            <label>Size</label>
+            <description>Initial size of the window (default: wxDefaultSize).</description>
+        </property>
+        <property class="wxSizeProperty">
+            <label>Minimum Size</label>
+            <description>Sets the minimum size of the window, to indicate to the sizer layout mechanism that this is the minimum required size.</description>
+        </property>
+        <property class="wxSizeProperty">
+            <label>Maximum Size</label>
+            <description>Sets the maximum size of the window, to indicate to the sizer layout mechanism that this is the maximum allowable size.</description>
+        </property>
+        <property class="wxFontProperty">
+            <label>Font</label>
+            <description>Sets the font for this window. This should not be use for a parent window if you don't want its font to be inherited by its children.</description>
+        </property>
+        <property class="wxColourProperty">
+            <label>Foreground</label>
+            <description>Sets the foreground colour of the window.</description>
+        </property>
+        <property class="wxColourProperty">
+            <label>Background</label>
+            <description>Sets the background colour of the window.</description>
+        </property>
+        <property class="wxStringProperty">
+            <label>Window Name</label>
+            <description>The name of the window. This parameter is used to associate a name with the item, allowing the application user to set Motif resource values for individual windows.</description>
+        </property>
+        <property class="wxStringProperty">
+            <label>Window Style</label>
+            <property class="wxBoolProperty">
+                <attribute name="UseCheckbox" type="int">1</attribute>
+                <label>wxSIMPLE__BORDER</label>
+                <description>Displays a thin border around the window. wxBORDER is the old name for this style.</description>
+            </property>
+            <property class="wxBoolProperty">
+                <attribute name="UseCheckbox" type="int">1</attribute>
+                <label>wxDOUBLE__BORDER</label>
+                <description>Displays a double border. Windows and Mac only.</description>
+            </property>
+            <property class="wxBoolProperty">
+                <attribute name="UseCheckbox" type="int">1</attribute>
+                <label>wxSUNKEN__BORDER</label>
+                <description>Displays a sunken border.</description>
+            </property>
+            <property class="wxBoolProperty">
+                <attribute name="UseCheckbox" type="int">1</attribute>
+                <label>wxRAISED__BORDER</label>
+                <description>Displays a raised border.</description>
+            </property>
+            <property class="wxBoolProperty">
+                <attribute name="UseCheckbox" type="int">1</attribute>
+                <label>wxSTATIC__BORDER</label>
+                <description>Displays a border suitable for a static control. Windows only.</description>
+            </property>
+            <property class="wxBoolProperty">
+                <attribute name="UseCheckbox" type="int">1</attribute>
+                <label>wxNO__BORDER</label>
+                <description>Displays no border, overriding the default border style for the window.</description>
+            </property>
+            <property class="wxBoolProperty">
+                <attribute name="UseCheckbox" type="int">1</attribute>
+                <label>wxTRANSPARENT__WINDOW</label>
+                <description>The window is transparent, that is, it will not receive paint events. Windows only.</description>
+            </property>
+            <property class="wxBoolProperty">
+                <attribute name="UseCheckbox" type="int">1</attribute>
+                <label>wxTAB__TRAVERSAL</label>
+                <description>Use this to enable tab traversal for non-dialog windows.</description>
+            </property>
+            <property class="wxBoolProperty">
+                <attribute name="UseCheckbox" type="int">1</attribute>
+                <label>wxWANTS__CHARS</label>
+                <description>Use this to indicate that the window wants to get all char/key events for all keys - even for keys like TAB or ENTER which are usually used for dialog navigation and which wouldn't be generated without this style. If you need to use this style in order to get the arrows or etc., but would still like to have normal keyboard navigation take place, you should create and send a wxNavigationKeyEvent in response to the key events for Tab and Shift-Tab.</description>
+            </property>
+            <property class="wxBoolProperty">
+                <attribute name="UseCheckbox" type="int">1</attribute>
+                <label>wxVSCROLL</label>
+                <description>Use this style to enable a vertical scrollbar.</description>
+            </property>
+            <property class="wxBoolProperty">
+                <attribute name="UseCheckbox" type="int">1</attribute>
+                <label>wxHSCROLL</label>
+                <description>Use this style to enable a horizontal scrollbar.</description>
+            </property>
+            <property class="wxBoolProperty">
+                <attribute name="UseCheckbox" type="int">1</attribute>
+                <label>wxALWAYS__SHOW__SB</label>
+                <description>If a window has scrollbars, disable them instead of hiding them when they are not needed (i.e. when the size of the window is big enough to not require the scrollbars to navigate it). This style is currently only implemented for wxMSW and wxUniversal and does nothing on the other platforms.</description>
+            </property>
+            <property class="wxBoolProperty">
+                <attribute name="UseCheckbox" type="int">1</attribute>
+                <label>wxCLIP__CHILDREN</label>
+                <description>Use this style to eliminate flicker caused by the background being repainted, then children being painted over them. Windows only.</description>
+            </property>
+            <property class="wxBoolProperty">
+                <attribute name="UseCheckbox" type="int">1</attribute>
+                <label>wxFULL__REPAINT__ON__RESIZE</label>
+                <description>Use this style to force a complete redraw of the window whenever it is resized instead of redrawing just the part of the window affected by resizing. Note that this was the behaviour by default before 2.5.1 release and that if you experience redraw problems with code which previously used to work you may want to try this. Currently this style applies on GTK+ 2 and Windows only, and full repainting is always done on other platforms.</description>
+            </property>
+        </property>
+        <property class="wxStringProperty">
+            <label>Window Extra Style</label>
+            <!--value>&#60;composed&#62;</value-->
+            <property class="wxBoolProperty">
+                <attribute name="UseCheckbox" type="int">1</attribute>
+                <label>wxWS__EX__VALIDATE__RECURSIVELY</label>
+                <description>By default, Validate/TransferDataTo/FromWindow() only work on direct children of the window (compatible behaviour). Set this flag to make them recursively descend into all subwindows.</description>
+            </property>
+            <property class="wxBoolProperty">
+                <attribute name="UseCheckbox" type="int">1</attribute>
+                <label>wxWS__EX__BLOCK__EVENTS</label>
+                <description>wxCommandEvents and the objects of the derived classes are forwarded to the parent window and so on recursively by default. Using this flag for the given window allows to block this propagation at this window, i.e. prevent the events from being propagated further upwards. Dialogs have this flag on by default.</description>
+            </property>
+            <property class="wxBoolProperty">
+                <attribute name="UseCheckbox" type="int">1</attribute>
+                <label>wxWS__EX__TRANSIENT</label>
+                <description>Don't use this window as an implicit parent for the other windows: this must be used with transient windows as otherwise there is the risk of creating a dialog/frame with this window as a parent which would lead to a crash if the parent is destroyed before the child.</description>
+            </property>
+            <property class="wxBoolProperty">
+                <attribute name="UseCheckbox" type="int">1</attribute>
+                <label>wxWS__EX__PROCESS__IDLE</label>
+                <description>This window should always process idle events, even if the mode set by wxIdleEvent::SetMode is wxIDLE__PROCESS__SPECIFIED.</description>
+            </property>
+            <property class="wxBoolProperty">
+                <attribute name="UseCheckbox" type="int">1</attribute>
+                <label>wxWS__EX__PROCESS__UI__UPDATES</label>
+                <description>This window should always process UI update events, even if the mode set by wxUpdateUIEvent::SetMode is wxUPDATE__UI__PROCESS__SPECIFIED.</description>
+            </property>
+        </property>
+        <property class="wxLongStringProperty">
+            <label>Tooltip</label>
+            <description>Attach a tooltip to the window.</description>
+        </property>
+        <property class="wxBoolProperty">
+            <attribute name="UseCheckbox" type="int">1</attribute>
+            <label>Context Menu</label>
+            <description>Generates event handler for displaying of menu assigned to this widget as a context menu.</description>
+        </property>
+        <property class="wxLongStringProperty">
+            <label>Context Help</label>
+            <description>Attach context-sensitive help to the window. Note: The Project's &quot;help__provider&quot; property must be set for context-sensitive help to work.</description>
+        </property>
+        <property class="wxBoolProperty">
+            <attribute name="UseCheckbox" type="int">1</attribute>
+            <label>Enabled</label>
+            <description>Enable or disable the window for user input. Note that when a parent window is disabled, all of its children are disabled as well and they are reenabled again when the parent is.</description>
+            <value>1</value>
+        </property>
+        <property class="wxBoolProperty">
+            <attribute name="UseCheckbox" type="int">1</attribute>
+            <label>Hidden</label>
+            <description>Shows or hides the window.</description>
+        </property>
+        <property class="wxStringProperty">
+            <label>Subclass</label>
+            <value>&#60;composed&#62;</value>
+            <description>For easy use of custom widgets which are simple variations from standard ones, without requiring a new plugin for wxFB or a full xrc handler for wxWidgets. For C++, this replaces the name of the class. For XRC, this sets the subclass value on the object tag.</description>
+            <property class="wxStringProperty">
+                <label>Name</label>
+                <description>The name of the subclass.</description>
+            </property>
+            <property class="wxStringProperty">
+                <label>Header</label>
+                <description>For C++ Only. The header to be included for the subclass.</description>
+            </property>
+        </property>
+    </property>
+
+    <property class="wxPropertyCategory">
+        <label>wxWindow</label>
+        <property class="wxPropertyCategory">
+            <label>wxKeyEvent</label>
+            <property class="wxStringProperty">
+                <label>OnChar</label>
+                <description>Process a wxEVT__CHAR event.</description>
+            </property>
+            <property class="wxStringProperty">
+                <label>OnKeyDown</label>
+                <description>Process a wxEVT__KEY__DOWN event (any key has been pressed).</description>
+            </property>
+            <property class="wxStringProperty">
+                <label>OnKeyUp</label>
+                <description>Process a wxEVT__KEY__UP event (any key has been released).</description>
+            </property>
+        </property>
+        <property class="wxPropertyCategory">
+            <label>wxMouseEvent</label>
+            <property class="wxStringProperty">
+                <label>OnEnterWindow</label>
+                <description>Process a wxEVT__ENTER__WINDOW event.</description>
+            </property>
+            <property class="wxStringProperty">
+                <label>OnLeaveWindow</label>
+                <description>Process a wxEVT__LEAVE__WINDOW event.</description>
+            </property>
+            <property class="wxStringProperty">
+                <label>OnLeftDClick</label>
+                <description>Process a wxEVT__LEFT__DCLICK event.</description>
+            </property>
+            <property class="wxStringProperty">
+                <label>OnLeftDown</label>
+                <description>Process a wxEVT__LEFT__DOWN event.</description>
+            </property>
+            <property class="wxStringProperty">
+                <label>OnLeftUp</label>
+                <description>Process a wxEVT__LEFT__UP event.</description>
+            </property>
+            <property class="wxStringProperty">
+                <label>OnMiddleDClick</label>
+                <description>Process a wxEVT__MIDDLE__DCLICK event.</description>
+            </property>
+            <property class="wxStringProperty">
+                <label>OnMiddleDown</label>
+                <description>Process a wxEVT__MIDDLE__DOWN event.</description>
+            </property>
+            <property class="wxStringProperty">
+                <label>OnMiddleUp</label>
+                <description>Process a wxEVT__MIDDLE__UP event.</description>
+            </property>
+            <property class="wxStringProperty">
+                <label>OnMotion</label>
+                <description>Process a wxEVT__MOTION event.</description>
+            </property>
+            <property class="wxStringProperty">
+                <label>OnMouseEvents</label>
+                <description>Process all mouse events.</description>
+            </property>
+            <property class="wxStringProperty">
+                <label>OnMouseWheel</label>
+                <description>Process a wxEVT__MOUSEWHEEL event.</description>
+            </property>
+            <property class="wxStringProperty">
+                <label>OnRightDClick</label>
+                <description>Process a wxEVT__RIGHT__DCLICK event.</description>
+            </property>
+            <property class="wxStringProperty">
+                <label>OnRightDown</label>
+                <description>Process a wxEVT__RIGHT__DOWN event.</description>
+            </property>
+            <property class="wxStringProperty">
+                <label>OnRightUp</label>
+                <description>Process a wxEVT__RIGHT__UP event.</description>
+            </property>
+        </property>
+        <property class="wxPropertyCategory">
+            <label>wxFocusEvent</label>
+            <property class="wxStringProperty">
+                <label>OnKillFocus</label>
+                <description>Process a wxEVT__KILL__FOCUS event.</description>
+            </property>
+            <property class="wxStringProperty">
+                <label>OnSetFocus</label>
+                <description>Process a wxEVT__SET__FOCUS event.</description>
+            </property>
+        </property>
+    </property>
+</resource>

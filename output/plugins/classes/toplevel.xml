@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        toplevel.xml
+    Purpose:     wxTopLevelWindow class definition
+    Author:      Andrea Zanellato
+    Modified by:
+    Created:     2011/09/28
+    Revision:    $Id$
+    Licence:     wxWindows licence
+-->
+<class name="wxTopLevelWindow">
+    <class name="wxWindow"/>
+    <properties>
+        <text name="Title">
+            <description>Window's title (default: empty).</description>
+        </text>
+        <bitmap name="Icon">
+            <description>Window's icon (default: not used).</description>
+        </bitmap>
+        <bool name="Centered">
+            <description>Whether the dialog should be centered on the screen (default: 0).</description>
+        </bool>
+    </properties>
+    <events>
+        <category name="wxMoveEvent">
+            <event name="EVT_MOVE">
+                <description>Process a wxEVT_MOVE event, which is generated when a window is moved.</description>
+            </event>
+            <event name="EVT_MOVE_START">
+                <description>Process a wxEVT_MOVE_START event, which is generated when the user starts to move or size a window. wxMSW only.</description>
+            </event>
+            <event name="EVT_MOVE_END">
+                <description>Process a wxEVT_MOVE_END event, which is generated when the user stops moving or sizing a window. wxMSW only.</description>
+            </event>
+        </category>
+        <category name="wxMaximizeEvent">
+            <event name="EVT_MAXIMIZE">
+                <description>Process a wxEVT_MAXIMIZE event.</description>
+            </event>
+        </category>
+        <category name="wxShowEvent">
+            <event name="EVT_SHOW">
+                <description>Process a wxEVT_SHOW event.</description>
+            </event>
+        </category>
+    </events>
+</class>

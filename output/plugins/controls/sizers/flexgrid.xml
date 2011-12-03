@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        flexgrid.xml
+    Purpose:     wxFlexGridSizer class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2011/12/03
+    Revision:    $Id$
+    Licence:     wxWindows licence
+-->
+<class name="wxFlexGridSizer">
+    <class name="wxGridSizer">
+    <properties>
+        <name>fgSizer</name>
+        <string name="growablerows" label="Growable rows">
+            <description>Comma-separated list of indexes of rows that are growable (default: none).</description>
+        </string>
+        <string name="growablecols" label="Growable cols">
+            <description>Comma-separated list of indexes of columns that are growable (default: none).</description>
+        </string>
+    </properties>
+</class>

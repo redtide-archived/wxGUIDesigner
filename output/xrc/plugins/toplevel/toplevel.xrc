@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        toplevel.xrc
+    Purpose:     wxTopLevelWindow controls plugin
+    Author:      Andrea Zanellato
+    Modified by:
+    Created:     2011/11/23
+    Revision:    $Id$
+    Copyright:   (c) Andrea Zanellato
+    Licence:     wxWindows licence
+-->
+<resource xmlns="http://www.wxwidgets.org/wxxrc" version="2.5.3.0">
+    <property class="wxPropertyCategory">
+        <label>wxFrame</label>
+        <bitmap>icons/frame.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxDialog</label>
+        <bitmap>icons/dialog.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxWizard</label>
+        <bitmap>icons/wizard.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxWizardPageSimple</label>
+        <bitmap>icons/wizpage.png</bitmap>
+    </property>
+    <description>wxTopLevelWindow controls plugin</description>
+</resource>

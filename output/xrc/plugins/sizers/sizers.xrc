@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        sizers.xrc
+    Purpose:     Sizer controls plugin
+    Author:      Andrea Zanellato
+    Modified by:
+    Created:     2011/11/23
+    Revision:    $Id$
+    Copyright:   (c) Andrea Zanellato
+    Licence:     wxWindows licence
+-->
+<resource xmlns="http://www.wxwidgets.org/wxxrc" version="2.5.3.0">
+    <property class="wxPropertyCategory">
+        <label>wxBoxSizer</label>
+        <bitmap>icons/box.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxGridSizer</label>
+        <bitmap>icons/grid.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxFlexGridSizer</label>
+        <bitmap>icons/flexgrid.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxGridBagSizer</label>
+        <bitmap>icons/gridbag.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxStaticBoxSizer</label>
+        <bitmap>icons/staticbox.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxStdDialogButtonSizer</label>
+        <bitmap>icons/stddialogbutton.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>spacer</label>
+        <bitmap>icons/spacer.png</bitmap>
+    </property>
+    <description>Sizer controls plugin</description>
+</resource>

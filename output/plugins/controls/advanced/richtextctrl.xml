@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        richtextctrl.xml
+    Purpose:     wxRichTextCtrl class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2011/12/02
+    Revision:    $Id$
+    Licence:     wxWindows licence
+-->
+<class name="wxRichTextCtrl">
+    <class name="wxControl"/>
+    <properties>
+        <name>m_richText</name>
+        <styles>
+            <style name="wxRE_CENTRE_CARET">
+                <description>The control will try to keep the caret line centred vertically while editing. wxRE_CENTER_CARET is a synonym for this style.</description>
+            </style>
+            <style name="wxRE_MULTILINE">
+                <description>The control will be multiline (mandatory).</description>
+            </style>
+            <style name="wxRE_READONLY">
+                <description>The control will not be editable.</description>
+            </style>
+        </styles>
+    </properties>
+</class>

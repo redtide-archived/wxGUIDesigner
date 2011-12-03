@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        separator.xml
+    Purpose:     separator class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2011/12/03
+    Revision:    $Id$
+    Licence:     wxWindows licence
+-->
+<class name="separator">
+    <parents>
+        <!-- class name="wxAuiToolBar" -->
+        <class name="wxToolBar">
+        <class name="wxMenu">
+    </parents>
+</class>

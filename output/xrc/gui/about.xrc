@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource xmlns="http://www.wxwidgets.org/wxxrc" version="2.5.3.0">
+    <object class="wxDialog" name="About">
+        <style>wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER</style>
+        <title>About wxGUIDesigner</title>
+        <centered>1</centered>
+        <object class="wxBoxSizer">
+            <orient>wxVERTICAL</orient>
+            <object class="sizeritem">
+                <option>1</option>
+                <flag>wxEXPAND|wxLEFT|wxRIGHT|wxTOP</flag>
+                <border>5</border>
+                <object class="wxNotebook" name="AboutBook">
+                    <bg>#ffffff</bg>
+                    <object class="notebookpage">
+                        <label>About</label>
+                        <selected>0</selected>
+                        <object class="wxPanel" name="AboutPanel">
+                            <style>wxTAB_TRAVERSAL</style>
+                            <bg>#ffffff</bg>
+                            <object class="wxBoxSizer">
+                                <orient>wxVERTICAL</orient>
+                                <object class="sizeritem">
+                                    <option>0</option>
+                                    <flag>wxALIGN_CENTER</flag>
+                                    <border>5</border>
+                                    <object class="wxPanel" name="AboutLogoPanel">
+                                        <style>wxNO_BORDER|wxTAB_TRAVERSAL</style>
+                                        <bg>#ffffff</bg>
+                                        <object class="wxBoxSizer">
+                                            <orient>wxHORIZONTAL</orient>
+                                            <object class="sizeritem">
+                                                <option>0</option>
+                                                <flag>wxALIGN_CENTER_VERTICAL|wxBOTTOM|wxFIXED_MINSIZE|wxRIGHT|wxTOP</flag>
+                                                <border>5</border>
+                                                <object class="wxStaticBitmap" name="AboutImage">
+                                                    <bitmap>images/logo.png</bitmap>
+                                                </object>
+                                            </object>
+                                            <object class="sizeritem">
+                                                <option>1</option>
+                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                <border>5</border>
+                                                <object class="wxBoxSizer">
+                                                    <orient>wxVERTICAL</orient>
+                                                    <object class="sizeritem">
+                                                        <option>0</option>
+                                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+                                                        <border>5</border>
+                                                        <object class="wxStaticText" name="LabelLogo">
+                                                            <font>
+                                                                <size>20</size>
+                                                                <family>default</family>
+                                                                <style>normal</style>
+                                                                <weight>bold</weight>
+                                                                <underlined>0</underlined>
+                                                            </font>
+                                                            <label>wxGUIDesigner</label>
+                                                            <wrap>-1</wrap>
+                                                        </object>
+                                                    </object>
+                                                    <object class="sizeritem">
+                                                        <option>0</option>
+                                                        <flag>wxALIGN_CENTER_HORIZONTAL</flag>
+                                                        <border>5</border>
+                                                        <object class="wxStaticText" name="LabelVersion">
+                                                            <label></label>
+                                                            <wrap>-1</wrap>
+                                                        </object>
+                                                    </object>
+                                                </object>
+                                            </object>
+                                        </object>
+                                    </object>
+                                </object>
+                                <object class="sizeritem">
+                                    <option>0</option>
+                                    <flag>wxALIGN_CENTER_HORIZONTAL</flag>
+                                    <border>5</border>
+                                    <object class="wxPanel" name="DescPanel">
+                                        <style>wxNO_BORDER|wxTAB_TRAVERSAL</style>
+                                        <bg>#ffffff</bg>
+                                        <object class="wxBoxSizer">
+                                            <orient>wxHORIZONTAL</orient>
+                                            <object class="sizeritem">
+                                                <option>0</option>
+                                                <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+                                                <border>3</border>
+                                                <object class="wxStaticText" name="DescLabel">
+                                                    <label>An Open Source GUI designer for</label>
+                                                    <wrap>-1</wrap>
+                                                </object>
+                                            </object>
+                                            <object class="sizeritem">
+                                                <option>0</option>
+                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                <border>5</border>
+                                                <object class="wxHyperlinkCtrl" name="wxLink">
+                                                    <style>wxHL_DEFAULT_STYLE</style>
+                                                    <label>wxWidgets</label>
+                                                    <url>wxwidgets.org</url>
+                                                    <bg>#ffffff</bg>
+                                                    <font>
+                                                        <underlined>0</underlined>
+                                                    </font>
+                                                </object>
+                                            </object>
+                                        </object>
+                                    </object>
+                                </object>
+                                <object class="sizeritem">
+                                    <option>1</option>
+                                    <flag>wxEXPAND|wxFIXED_MINSIZE</flag>
+                                    <border>5</border>
+                                    <object class="wxHtmlWindow" name="HtmlDevs">
+                                        <style>wxHW_NO_SELECTION|wxHW_SCROLLBAR_NEVER</style>
+                                        <size>-1,120</size>
+                                        <htmlcode>
+                                            &lt;div align=center&gt;
+                                                &lt;b&gt;Developed by:&lt;&#47;b&gt;&lt;br&gt;
+                                                Andrea Zanellato&lt;br&gt;
+                                            &lt;&#47;div&gt;
+                                        </htmlcode>
+                                    </object>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="notebookpage">
+                        <label>Credits</label>
+                        <selected>0</selected>
+                        <object class="wxPanel" name="AboutCreditsPanel">
+                            <style>wxTAB_TRAVERSAL</style>
+                            <object class="wxBoxSizer">
+                                <orient>wxVERTICAL</orient>
+                                <object class="sizeritem">
+                                    <option>1</option>
+                                    <flag>wxALIGN_CENTER_HORIZONTAL|wxEXPAND</flag>
+                                    <border>5</border>
+                                    <object class="wxHtmlWindow" name="AboutHtml">
+                                        <style>wxHW_SCROLLBAR_AUTO</style>
+                                        <htmlcode>
+                                            &lt;div align=center&gt;
+                                            &lt;&#47;div&gt;
+                                        </htmlcode>
+                                    </object>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                </object>
+            </object>
+            <object class="sizeritem">
+                <option>0</option>
+                <flag>wxBOTTOM|wxEXPAND|wxLEFT|wxRIGHT</flag>
+                <border>5</border>
+                <object class="wxStaticBoxSizer">
+                    <orient>wxVERTICAL</orient>
+                    <label></label>
+                    <object class="sizeritem">
+                        <option>1</option>
+                        <flag>wxEXPAND</flag>
+                        <border>5</border>
+                        <object class="wxFlexGridSizer">
+                            <rows>0</rows>
+                            <cols>2</cols>
+                            <vgap>0</vgap>
+                            <hgap>0</hgap>
+                            <growablecols></growablecols>
+                            <growablerows></growablerows>
+                            <object class="sizeritem">
+                                <option>1</option>
+                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="HomePageLabel">
+                                    <font>
+                                        <family>default</family>
+                                        <style>normal</style>
+                                        <weight>bold</weight>
+                                        <underlined>0</underlined>
+                                    </font>
+                                    <label>Home Page:</label>
+                                    <wrap>-1</wrap>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <option>0</option>
+                                <flag>wxTOP</flag>
+                                <border>5</border>
+                                <object class="wxHyperlinkCtrl" name="HomePageLink">
+                                    <style>wxHL_DEFAULT_STYLE</style>
+                                    <label></label>
+                                    <font>
+                                        <underlined>0</underlined>
+                                    </font>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <option>0</option>
+                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="ForumLabel">
+                                    <font>
+                                        <family>default</family>
+                                        <style>normal</style>
+                                        <weight>bold</weight>
+                                        <underlined>0</underlined>
+                                    </font>
+                                    <label>Forum:</label>
+                                    <wrap>-1</wrap>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <option>0</option>
+                                <flag>wxRIGHT|wxTOP</flag>
+                                <border>5</border>
+                                <object class="wxHyperlinkCtrl" name="ForumLink">
+                                    <style>wxHL_DEFAULT_STYLE</style>
+                                    <label></label>
+                                    <font>
+                                        <underlined>0</underlined>
+                                    </font>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                </object>
+            </object>
+            <object class="sizeritem">
+                <option>0</option>
+                <flag>wxALIGN_BOTTOM|wxALIGN_CENTER_HORIZONTAL|wxBOTTOM</flag>
+                <border>5</border>
+                <object class="wxButton" name="wxID_OK">
+                    <label></label>
+                    <default>1</default>
+                </object>
+            </object>
+        </object>
+    </object>
+</resource>

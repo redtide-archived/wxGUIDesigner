@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        control.xml
+    Purpose:     wxControl class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2011/12/01
+    Revision:    $Id$
+    Licence:     wxWindows licence
+-->
+<class name="wxControl">
+    <class name="wxWindow"/>
+    <properties>
+        <text name="Label">
+            <description>Label to display on the control.</description>
+        </text>
+    </properties>
+    <events>
+        <category name="wxClipboardTextEvent">
+            <event name="EVT_TEXT_COPY">
+                <description>Some or all of the controls content was copied to the clipboard.</description>
+            </event>
+            <event name="EVT_TEXT_CUT">
+                <description>Some or all of the controls content was cut (i.e. copied and deleted).</description>
+            </event>
+            <event name="EVT_TEXT_PASTE">
+                <description>Clipboard content was pasted into the control.</description>
+            </event>
+        </category>
+    </events>
+</class>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        common.xrc
+    Purpose:     Common controls plugin
+    Author:      Andrea Zanellato
+    Modified by:
+    Created:     2011/11/23
+    Revision:    $Id$
+    Copyright:   (c) Andrea Zanellato
+    Licence:     wxWindows licence
+-->
+<resource xmlns="http://www.wxwidgets.org/wxxrc" version="2.5.3.0">
+    <property class="wxPropertyCategory">
+        <label>wxButton</label>
+        <bitmap>icons/button.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxToggleButton</label>
+        <bitmap>icons/tglbtn.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxBitmapButton</label>
+        <bitmap>icons/bmpbtn.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxTextCtrl</label>
+        <bitmap>icons/textctrl.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxComboBox</label>
+        <bitmap>icons/combobox.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxChoice</label>
+        <bitmap>icons/choice.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxListBox</label>
+        <bitmap>icons/listbox.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxCheckListBox</label>
+        <bitmap>icons/checklst.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxListCtrl</label>
+        <bitmap>icons/listctrl.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxTreeCtrl</label>
+        <bitmap>icons/treectrl.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxStaticText</label>
+        <bitmap>icons/stattext.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxStaticBitmap</label>
+        <bitmap>icons/statbmp.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxStaticLine</label>
+        <bitmap>icons/statline.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxCheckBox</label>
+        <bitmap>icons/chkbox.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxRadioButton</label>
+        <bitmap>icons/radiobtn.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxRadioBox</label>
+        <bitmap>icons/radiobox.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxGauge</label>
+        <bitmap>icons/gauge.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxSlider</label>
+        <bitmap>icons/slider.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxSpinButton</label>
+        <bitmap>icons/spinbutt.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxSpinCtrl</label>
+        <bitmap>icons/spinctrl.png</bitmap>
+    </property>
+    <property class="wxPropertyCategory">
+        <label>wxScrollBar</label>
+        <bitmap>icons/scrolbar.png</bitmap>
+    </property>
+    <description>Common controls plugin</description>
+</resource>
