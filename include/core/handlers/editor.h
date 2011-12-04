@@ -4,8 +4,7 @@
 // Author:      Andrea Zanellato
 // Modified by:
 // Created:     2011/11/30
-// RCS-ID:      $Id$
-// Copyright:   (c) Andrea Zanellato
+// Revision:    $Hash$
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
