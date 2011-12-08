@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        gridbag.xml
+    Purpose:     wxGridBagSizer class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2011/12/03
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<class name="gbsizeritem">
+    <class name="sizeritembase"/>
+    <properties>
+        <position name="cellpos" label="Cell position">
+            <description>Position, see wxGBSizerItem::SetPos() (required).</description>
+        </position>
+        <size name="cellspan" label="Cell span">
+            <description>Span, see wxGBSizerItem::SetSpan() (required).</description>
+        </size>
+    </properties>
+</class>
+
+<class name="wxGridBagSizer">
+    <class name="wxFlexGridSizer"/>
+    <children>
+        <class name="gbsizeritem"/>
+    </children>
+    <properties>
+        <name>boxSizer</name>
+    </properties>
+</class>

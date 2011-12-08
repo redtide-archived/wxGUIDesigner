@@ -5,10 +5,10 @@
 --  Author:      Andrea Zanellato
 --  Modified by: 
 --  Created:     19/10/2011
---  Copyright:   (c) Andrea Zanellato
+--  Revision:    $Hash$
 --  Licence:     GNU General Public License Version 2
 -----------------------------------------------------------------------------
-solution "Solution"
+solution "wxGUIDesigner"
     language "C++"
     configurations      {"Debug", "Release"}
 

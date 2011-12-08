@@ -5,99 +5,98 @@
     Author:      Andrea Zanellato
     Modified by: 
     Created:     2011/12/01
-    Revision:    $Id$
-    Copyright:   (c) Andrea Zanellato
+    Revision:    $Hash$
     Licence:     wxWindows licence
 -->
-<plugins>
+<plugins itembmpsize="22">
     <plugin label="Top Level">
-        <item>frame</item>
-        <item>dialog</item>
+        <item name="wxFrame"/>
+        <item name="wxDialog"/>
         <separator/>
-        <item>wizard</item>
-        <item>wizpage</item>
+        <item name="wxWizard"/>
+        <item name="wxWizardPage"/>
+        <item name="wxWizardPageSimple"/>
     </plugin>
     <plugin label="Bars">
-        <item>toolbar</item>
-        <!--item>auibar</item-->
+        <item name="wxToolBar"/>
+        <!--item name="wxAuiToolBar"-->
+        <item name="tool"/>
+        <item name="separator"/>
         <separator/>
-        <item>tool</item>
-        <item>separator</item>
+        <item name="wxMenuBar"/>
+        <item name="wxMenu"/>
+        <item name="wxMenuItem"/>
         <separator/>
-        <item>menubar</item>
-        <item>menu</item>
-        <item>menuitem</item>
-        <separator/>
-        <item>statusbar</item>
+        <item name="wxStatusBar"/>
     </plugin>
     <plugin label="Sizers">
-        <item>box</item>
-        <item>grid</item>
-        <item>flexgrid</item>
-        <item>gridbag</item>
-        <item>staticbox</item>
-        <item>stddlgbtn</item>
-        <item>spacer</item>
+        <item name="wxBoxSizer"/>
+        <item name="wxGridSizer"/>
+        <item name="wxFlexGridSizer"/>
+        <item name="wxGridBagSizer"/>
+        <item name="wxStaticBoxSizer"/>
+        <item name="wxStdDialogButtonSizer"/>
+        <item name="spacer"/>
     </plugin>
     <plugin label="Common">
-        <item>button</item>
-        <item>tglbtn</item>
-        <item>bmpbtn</item>
-        <item>textctrl</item>
-        <item>combobox</item>
-        <item>choice</item>
-        <item>listbox</item>
-        <item>checklst</item>
-        <item>listctrl</item>
-        <item>treectrl</item>
-        <item>stattext</item>
-        <item>statbmp</item>
-        <item>statline</item>
-        <item>chkbox</item>
-        <item>radiobtn</item>
-        <item>radiobox</item>
-        <item>gauge</item>
-        <item>slider</item>
-        <item>spinbutt</item>
-        <item>spinctrl</item>
-        <item>scrolbar</item>
+        <item name="wxButton"/>
+        <item name="wxToggleButton"/>
+        <item name="wxBitmapButton"/>
+        <item name="wxTextCtrl"/>
+        <item name="wxComboBox"/>
+        <item name="wxChoice"/>
+        <item name="wxListBox"/>
+        <item name="wxCheckListBox"/>
+        <item name="wxListCtrl"/>
+        <item name="wxTreeCtrl"/>
+        <item name="wxStaticText"/>
+        <item name="wxStaticBitmap"/>
+        <item name="wxStaticLine"/>
+        <item name="wxCheckBox"/>
+        <item name="wxRadioButton"/>
+        <item name="wxRadioBox"/>
+        <item name="wxGauge"/>
+        <item name="wxSlider"/>
+        <item name="wxSpinButton"/>
+        <item name="wxSpinCtrl"/>
+        <item name="wxScrollBar"/>
     </plugin>
     <plugin label="Containers">
-        <item>panel</item>
+        <item name="wxPanel"/>
         <separator/>
-        <item>notebook</item>
-        <item>auibook</item>
-        <item>choicebk</item>
-        <item>listbook</item>
-        <item>toolbook</item>
-        <item>treebook</item>
+        <item name="wxNoteBook"/>
+        <item name="wxAuiNoteBook"/>
+        <item name="wxChoiceBook"/>
+        <item name="wxListBook"/>
+        <item name="wxToolBook"/>
+        <item name="wxTreeBook"/>
         <separator/>
-        <item>scrolled</item>
-        <item>splitter</item>
+        <item name="wxScrolledWindow"/>
+        <item name="wxSplitterWindow"/>
     </plugin>
     <plugin label="Advanced">
-        <item>animation</item>
-        <item>calendar</item>
-        <!--item>custctrl</item-->
-        <!--item>dataview</item>
-        <item>datavcol</item-->
-        <item>dirctrl</item>
-        <item>grid</item>
-        <item>hyperlink</item>
-        <item>mediactrl</item>
-        <item>richtextctrl</item>
-        <item>srchctrl</item>
+        <item name="wxAnimationCtrl"/>
+        <item name="wxCalendarCtrl"/>
+        <!--item name="CustomCtrl"/>
+        <item name="wxDataViewCtrl"/>
+        <item name="wxDataViewColumn" -->
+        <item name="wxGenericDirCtrl"/>
+        <item name="wxGrid"/>
+        <item name="wxHyperLinkCtrl"/>
+        <item name="wxMediaCtrl"/>
+        <item name="wxRichTextCtrl"/>
+        <item name="wxSearchCtrl"/>
     </plugin>
     <plugin label="Pickers">
-        <item>clrpicker</item>
-        <item>datectrl</item>
-        <item>dirpicker</item>
-        <item>clrpicker</item>
-        <item>fontpicker</item>
+        <item name="wxColourPickerCtrl"/>
+        <item name="wxDatePickerCtrl"/>
+        <item name="wxDirPickerCtrl"/>
+        <item name="wxFilePickerCtrl"/>
+        <item name="wxFontPickerCtrl"/>
     </plugin>
     <plugin label="Web">
-        <item>htmlwin</item>
-        <item>htmllbox</item>
-        <item>webview</item>
+        <item name="wxHtmlWindow"/>
+        <item name="wxHtmlListBox"/>
+        <item name="wxWebView"/>
     </plugin>
 </plugins>

@@ -2,8 +2,9 @@
 // Name:        wx/xrc/xh_stc.h
 // Purpose:     XRC resource handler for wxStyledTextCtrl
 // Author:      Andrea Zanellato
+// Modified by: 
 // Created:     2011-09-18
-// RCS-ID:      $Id: $
+// Revision:    $Hash$
 // Copyright:   (c) 2011 wxWidgets Team
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

@@ -4,8 +4,7 @@
 // Author:      Andrea Zanellato
 // Modified by:
 // Created:     2011/11/20
-// Revision:    $Id$
-// Copyright:   (c) Andrea Zanellato
+// Revision:    $Hash$
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -25,6 +24,7 @@
 #include "defs.h"
 
 #include "handlers/mainframe.h"
+#include "handlers/editor.h"
 #include "handlers/palette.h"
 
 #include "handlers/xh_aui.h"
@@ -78,6 +78,7 @@ protected:
     wxPropertyGrid  *m_pgProps;
     wxPropertyGrid  *m_pgEvents;
 
+    EditorHandler   *m_editorHandler;
     FrameHandler    *m_frameHandler;
     PaletteHandler  *m_paletteHandler;
 

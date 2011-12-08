@@ -11,12 +11,19 @@
 #ifndef __WXGDCORE_EDITOR_H__
 #define __WXGDCORE_EDITOR_H__
 
+#include <wx/event.h>
 #include <wx/notebook.h>
+#include <wx/stc/stc.h>
+#include <wx/vector.h>
+
+#include <plugin.h>
 
 class EditorHandler
 {
 public:
     EditorHandler( wxNotebook *owner );
+
+    void OnPluginLoaded( PluginEvent &event );
 
 protected:
     wxNotebook *m_editor;

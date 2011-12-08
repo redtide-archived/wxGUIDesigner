@@ -4,7 +4,7 @@
 // Author:      Andrea Zanellato
 // Modified by:
 // Created:     2011/11/20
-// Revision:    $Id$
+// Revision:    $Hash$
 // Copyright:   (c) Andrea Zanellato
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -20,20 +20,24 @@
 #include <wx/sizer.h>
 #include <wx/dcclient.h>
 #include <wx/log.h>
+#include <wx/filesys.h>
+#include <wx/fs_arc.h>
 
 wxGUIDesigner::wxGUIDesigner()
 {
-    m_frame     = NULL;
     m_frameHandler   = NULL;
+    m_editorHandler  = NULL;
     m_paletteHandler = NULL;
-    m_menuBar   = NULL;
-    m_toolBar   = NULL;
-    m_objTree   = NULL;
-    m_editor    =
-    m_objInsp   =
-    m_objPalette = NULL;
-    m_objInspImages = NULL;
-    m_pgProps = m_pgEvents = NULL;
+    m_frame          = NULL;
+    m_menuBar        = NULL;
+    m_toolBar        = NULL;
+    m_objTree        = NULL;
+    m_editor         = NULL;
+    m_objInsp        = NULL;
+    m_objPalette     = NULL;
+    m_objInspImages  = NULL;
+    m_pgProps        = NULL;
+    m_pgEvents       = NULL;
 
     wxInitAllImageHandlers();
 
@@ -45,17 +49,18 @@ wxGUIDesigner::wxGUIDesigner()
     m_xmlResource->AddHandler( new wxPropertyGridXmlHandler );
     m_xmlResource->AddHandler( new wxStyledTextCtrlXmlHandler );
 
+    wxFileSystem::AddHandler( new wxArchiveFSHandler );
+
     m_xmlResource->Load( wxGD_MAINMENU );
     m_xmlResource->Load( wxGD_TOOLBAR );
 
+    if ( !m_xmlResource->Load( wxGD_IMAGES ) ) return;
     if ( !m_xmlResource->Load( wxGD_ABOUT ) ) return;
 //  if ( !m_xmlResource->Load( wxGD_DESIGNER ) ) return;
     if ( !m_xmlResource->Load( wxGD_EDITOR ) ) return;
     if ( !m_xmlResource->Load( wxGD_OBJECT_INSPECTOR ) ) return;
     if ( !m_xmlResource->Load( wxGD_OBJECT_PALETTE ) ) return;
     if ( !m_xmlResource->Load( wxGD_OBJECT_TREE ) ) return;
-    
-    m_xmlResource->Load( wxGD_XRC_DIR + wxFILE_SEP_PATH + "plugins/advanced/animation.xrc" );
 }
 
 wxGUIDesigner::~wxGUIDesigner()
@@ -117,11 +122,14 @@ wxFrame *wxGUIDesigner::GetMainFrame( wxWindow *parent )
         m_frame->Bind( wxEVT_CLOSE_WINDOW, &FrameHandler::OnClose, m_frameHandler );
     }
 
-    if ( wxFileExists( wxGD_LOGO ) );
+    wxBitmap bmpLogo = m_xmlResource->LoadBitmap("Logo");
+
+    if ( bmpLogo.IsOk() )
     {
+        wxImage imgLogo = bmpLogo.ConvertToImage();
+
         wxIcon       ico16, ico32;
         wxIconBundle bundle;
-        wxImage      imgLogo = wxImage( wxGD_LOGO );
 
         ico16.CopyFromBitmap( imgLogo.Scale( 16, 16 ) );
         bundle.AddIcon( ico16 );
@@ -138,7 +146,20 @@ wxFrame *wxGUIDesigner::GetMainFrame( wxWindow *parent )
 wxNotebook *wxGUIDesigner::GetEditor( wxWindow *parent )
 {
     if ( !m_editor )
+    {
         m_editor = XRCCTRL( *parent, "Editor", wxNotebook );
+
+        if ( m_editor )
+        {
+            m_editorHandler = new EditorHandler( m_editor );
+
+            m_editor->Bind( wxEVT_PLUGIN_LOADED,
+                            &EditorHandler::OnPluginLoaded, m_editorHandler );
+
+            m_plugMgr->AddHandler( m_editor );
+            m_plugMgr->LoadPlugins("codegens");
+        }
+    }
 
     return m_editor;
 }
@@ -176,7 +197,7 @@ wxNotebook *wxGUIDesigner::GetObjectPalette( wxWindow *parent )
                                 &PaletteHandler::OnPluginLoaded, m_paletteHandler );
 
             m_plugMgr->AddHandler( m_objPalette );
-            m_plugMgr->LoadPlugins();
+            m_plugMgr->LoadPlugins("controls");
 
             m_objPalette->Bind( wxEVT_COMMAND_TOOL_CLICKED,
                                 &PaletteHandler::OnToolClicked, m_paletteHandler );
@@ -221,19 +242,20 @@ void wxGUIDesigner::CreateObject( const wxString &classname, wxWindow *parent )
         parent = GetDesignerWindow();
 
     if ( !parent ) return;
-
+/*
     wxObject *obj = m_xmlResource->LoadObject( parent, name, classname );
     wxWindow *win = wxDynamicCast( obj, wxWindow );
     if ( win )
     {
         
-    }
+    }*/
 }
 
 void wxGUIDesigner::Free()
 {
     m_xmlResource->ClearHandlers();
 
+    if ( m_editorHandler )  delete m_editorHandler;
     if ( m_frameHandler )   delete m_frameHandler;
     if ( m_paletteHandler ) delete m_paletteHandler;
 

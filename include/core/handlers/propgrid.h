@@ -4,7 +4,7 @@
 // Author:      Andrea Zanellato
 // Modified by:
 // Created:     2011/11/20
-// Revision:    $Id$
+// Revision:    $Hash$
 // Copyright:   (c) Andrea Zanellato
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////

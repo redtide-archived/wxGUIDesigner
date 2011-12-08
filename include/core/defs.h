@@ -4,8 +4,7 @@
 // Author:      Andrea Zanellato
 // Modified by:
 // Created:     2011/11/20
-// Revision:    $Id$
-// Copyright:   (c) Andrea Zanellato
+// Revision:    $Hash$
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -14,7 +13,7 @@
 
 #if defined(WXMAKINGLIB)
   #define DLLIMPEXP_CORE
-#elif defined(WXMAKINGDLL)
+#elif defined(MAKINGDLL_CORE)
   #define DLLIMPEXP_CORE WXEXPORT
 #elif defined(WXUSINGDLL)
   #define DLLIMPEXP_CORE WXIMPORT
@@ -26,21 +25,18 @@
 #include <wx/stdpaths.h>
 
 #define wxGD_XRC_DIR wxStandardPaths::Get().GetResourcesDir().BeforeLast('/') + \
-                        wxFILE_SEP_PATH + "wxguidesigner" + \
-                        wxFILE_SEP_PATH + "xrc" + wxFILE_SEP_PATH
+                        wxFILE_SEP_PATH + "wxguidesigner" + wxFILE_SEP_PATH
 
-#define wxGD_ABOUT              wxGD_XRC_DIR + "gui/about.xrc"
-//#define wxGD_DESIGNER           wxGD_XRC_DIR + "gui/designer.xrc"
-#define wxGD_EDITOR             wxGD_XRC_DIR + "gui/editor.xrc"
-#define wxGD_AUIFRAME           wxGD_XRC_DIR + "gui/mainframe.xrc"
-#define wxGD_MAINMENU           wxGD_XRC_DIR + "gui/mainmenu.xrc"
-#define wxGD_OBJECT_INSPECTOR   wxGD_XRC_DIR + "gui/objinsp.xrc"
-#define wxGD_OBJECT_TREE        wxGD_XRC_DIR + "gui/objtree.xrc"
-#define wxGD_OBJECT_PALETTE     wxGD_XRC_DIR + "gui/palette.xrc"
-#define wxGD_TOOLBAR            wxGD_XRC_DIR + "gui/toolbar.xrc"
-#define wxGD_LOGO               wxGD_XRC_DIR + "gui/images/logo.png"
-
-#define wxGD_PROP_WINDOW        wxGD_XRC_DIR + "classes/window.xrc"
-#define wxGD_PROP_TOPLEVEL      wxGD_XRC_DIR + "classes/toplevel.xrc"
+#define wxGD_XRS                wxGD_XRC_DIR + "wxguidesigner.xrs"
+#define wxGD_ABOUT              wxGD_XRS + "#zip:about.xrc"
+#define wxGD_DESIGNER           wxGD_XRS + "#zip:designer.xrc"
+#define wxGD_EDITOR             wxGD_XRS + "#zip:editor.xrc"
+#define wxGD_AUIFRAME           wxGD_XRS + "#zip:mainframe.xrc"
+#define wxGD_MAINMENU           wxGD_XRS + "#zip:mainmenu.xrc"
+#define wxGD_OBJECT_INSPECTOR   wxGD_XRS + "#zip:objinsp.xrc"
+#define wxGD_OBJECT_TREE        wxGD_XRS + "#zip:objtree.xrc"
+#define wxGD_OBJECT_PALETTE     wxGD_XRS + "#zip:palette.xrc"
+#define wxGD_TOOLBAR            wxGD_XRS + "#zip:toolbar.xrc"
+#define wxGD_IMAGES             wxGD_XRS + "#zip:images.xrc"
 
 #endif //__WXGDCORE_DEFS_H__

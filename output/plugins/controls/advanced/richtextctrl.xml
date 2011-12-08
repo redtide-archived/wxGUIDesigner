@@ -5,7 +5,7 @@
     Author:      Andrea Zanellato
     Modified by: 
     Created:     2011/12/02
-    Revision:    $Id$
+    Revision:    $Hash$
     Licence:     wxWindows licence
 -->
 <class name="wxRichTextCtrl">

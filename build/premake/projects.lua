@@ -1,3 +1,12 @@
+-----------------------------------------------------------------------------
+--  Name:        projects.lua
+--  Purpose:     Projects support script.
+--  Author:      Andrea Zanellato
+--  Modified by:
+--  Created:     2011/11/21
+--  Revision:    $Hash$
+--  Licence:     GNU General Public License Version 2
+-----------------------------------------------------------------------------
 CustomPrefix = "wxgd"
 --  dofile( scriptDir .. "/plugins/advanced.lua" )
 --  dofile( scriptDir .. "/plugins/bars.lua" )

@@ -4,7 +4,7 @@
 // Author:      Andrea Zanellato
 // Modified by:
 // Created:     2011/11/23
-// RCS-ID:      $Id$
+// Revision:    $Hash$
 // Copyright:   (c) Andrea Zanellato
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -24,7 +24,7 @@
 #include <wx/notebook.h>
 #include <wx/vector.h>
 
-#include "plugin.h"
+#include <plugin.h>
 
 class PaletteHandler
 {
@@ -36,7 +36,7 @@ public:
 #else
     wxAuiToolBar *
 #endif
-         AddGroup( const wxString &name, const wxBitmap &bitmap );
+         AddGroup( const wxString &label, const wxBitmap &bitmap );
 
     void OnPluginLoaded( PluginEvent &event );
     void OnToolClicked( wxCommandEvent &event );

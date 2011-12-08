@@ -1,13 +1,12 @@
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 // Name:        core/handlers/palette.cpp
 // Purpose:     
 // Author:      Andrea Zanellato
 // Modified by:
 // Created:     2011/11/23
-// RCS-ID:      $Id$
-// Copyright:   (c) Andrea Zanellato
+// Revision:    $Hash$
 // Licence:     wxWindows licence
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 
 #include "handlers/palette.h"
 #include "manager.h"
@@ -30,7 +29,7 @@ void PaletteHandler::OnToolClicked( wxCommandEvent &event )
         wxWindowID toolId = event.GetId();
         wxString   clsNme = tb->GetToolShortHelp( toolId );
 
-        wxGUIDesigner::Get()->CreateObject( clsNme );
+        wxGUIDesigner::Get()->CreateObject( clsNme, NULL );
     }
 }
 
@@ -39,7 +38,7 @@ void PaletteHandler::OnToolClicked( wxCommandEvent &event )
 #else
     wxAuiToolBar *
 #endif
-PaletteHandler::AddGroup( const wxString &name, const wxBitmap &bitmap )
+PaletteHandler::AddGroup( const wxString &label, const wxBitmap &bitmap )
 {
 #ifndef USE_AUIBAR
     wxToolBar *tb = new wxToolBar( m_palette, wxID_ANY );
@@ -50,7 +49,7 @@ PaletteHandler::AddGroup( const wxString &name, const wxBitmap &bitmap )
     m_palette->GetImageList()->Add( bitmap );
 
     m_toolbars.push_back( tb );
-    m_palette->AddPage( tb, name, false, m_palette->GetPageCount() );
+    m_palette->AddPage( tb, label, false, m_palette->GetPageCount() );
 
     return tb;
 }
@@ -59,14 +58,14 @@ void PaletteHandler::OnPluginLoaded( PluginEvent &event )
 {
     Plugin *plugin = wxDynamicCast( event.GetEventObject(), Plugin );
 
-    if ( plugin )
+    if ( plugin && plugin->GetCategory() == "controls" )
     {
     #ifndef USE_AUIBAR
         wxToolBar *
     #else
         wxAuiToolBar *
     #endif
-        tb = AddGroup( plugin->GetName(), plugin->GetBitmap() );
+        tb = AddGroup( plugin->GetLabel(), plugin->GetBitmap() );
 
         wxVector< PluginItem * > items = plugin->GetItems();
 
@@ -74,8 +73,20 @@ void PaletteHandler::OnPluginLoaded( PluginEvent &event )
             it != items.end(); ++it )
         {
             PluginItem *item = (*it);
+            wxString    name = item->GetName();
 
-            tb->AddTool(wxID_ANY, item->GetName(), item->GetBitmap(), item->GetName());
+            if ( name == "<separator>" )
+            {
+                tb->AddSeparator();
+            }
+            else
+            {
+                tb->AddTool( wxID_ANY, name, item->GetBitmap(), name );
+            }
         }
+
+        tb->Realize();
     }
+
+    event.Skip();
 }

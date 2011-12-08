@@ -4,7 +4,7 @@
 // Author:      Jaakko Salli
 // Modified by:
 // Created:     May-16-2007
-// RCS-ID:      $Id:
+// Revision:    $Hash$
 // Copyright:   (c) Jaakko Salli
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
@@ -334,7 +334,7 @@ bool wxPropertyGridXmlHandler::CanHandle(wxXmlNode *node)
             || (!m_populator && IsOfClass(node, wxS("wxPropertyGridManager")))
             || ( m_manager   && IsOfClass(node, wxS("wxPropertyGridPage")))
         );
-    wxLogDebug("%s: %s", node->GetAttribute("name"), canhandle ? "true" : "false");
+//  wxLogDebug("%s: %s", node->GetAttribute("name"), canhandle ? "true" : "false");
     return canhandle;
 }
 

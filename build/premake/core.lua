@@ -4,7 +4,7 @@
 --  Author:      Andrea Zanellato
 --  Modified by:
 --  Created:     2011/11/19
---  Copyright:   (c) Andrea Zanellato
+--  Revision:    $Hash$
 --  Licence:     GNU General Public License Version 2
 -----------------------------------------------------------------------------
 project "LibCore"
@@ -12,26 +12,26 @@ project "LibCore"
     files
     {
         "../../include/core/**.h", "../../src/core/**.cpp",
-        "../../build/premake/*.lua",
-        "../../output/xrc/gui/*.xrc", "../../output/xrc/classes/*.xrc"
+        "../../output/xrc/*.xrc", "../../output/xrc/classes/*.xrc"
     }
     includedirs
     {
         "../../include/core", "../../include/core/handlers",
-        "../../sdk/plugin"
+        "../../include/sdk"
     }
-    libdirs             {"../../sdk/lib"}
     defines             {"MAKINGDLL_CORE"}
     flags               {"ExtraWarnings"}
     links               {"LibPlugin"}
     targetname          ( CustomPrefix .. "core" )
 
     configuration "not windows"
+        libdirs         {"../../output/lib/wxguidesigner"}
         targetdir       "../../output/lib/wxguidesigner"
 
     configuration "windows"
-        targetprefix    "lib"
+        libdirs         {"../../output"}
         targetdir       "../../output"
+        targetprefix    "lib"
 
     configuration "vs*"
         defines         {"_CRT_SECURE_NO_DEPRECATE"}

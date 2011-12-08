@@ -4,23 +4,24 @@
 --  Author:      Andrea Zanellato
 --  Modified by: 
 --  Created:     19/10/2011
---  Copyright:   (c) Andrea Zanellato
+--  Revision:    $Hash$
 --  Licence:     GNU General Public License Version 2
 -----------------------------------------------------------------------------
 project "wxGUIDesigner"
     kind                    "WindowedApp"
     files
     {
-        "../../src/main.h", "../../src/main.cpp"
+        "../../src/main.h", "../../src/main.cpp",
+        "../../build/premake/*.lua"
     }
     includedirs
     {
-        "../../include/core", "../../sdk/plugin"
+        "../../include/core", "../../include/sdk"
     }
     defines                 {"NO_GCC_PRAGMA"}
     flags                   {"ExtraWarnings"}
     libdirs                 {"../../sdk/lib"}
-    links                   {"LibCore"}
+    links                   {"LibPlugin", "LibCore"}
 
     configuration {"codelite", "not windows"}
         linkoptions         {"-Wl,-rpath,$$``ORIGIN/../lib/wxguidesigner"}

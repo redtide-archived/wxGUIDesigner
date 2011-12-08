@@ -4,25 +4,30 @@
 --  Author:      Andrea Zanellato
 --  Modified by:
 --  Created:     2011/11/19
---  Copyright:   (c) Andrea Zanellato
+--  Revision:    $Hash$
 --  Licence:     GNU General Public License Version 2
 -----------------------------------------------------------------------------
 project "LibPlugin"
-    kind                "StaticLib"
+    kind                "SharedLib"
     files
     {
-        "../../sdk/**.h", "../../sdk/**.cpp",
+        "../../include/sdk/**.h", "../../src/sdk/**.cpp",
         "../../output/plugins/**.xml"
     }
-    includedirs         {"../../sdk/plugin"}
-    libdirs             {"../../sdk/lib"}
-    targetdir           "../../sdk/lib/"
+    includedirs         {"../../include/sdk"}
+    defines             {"MAKINGDLL_PLUGIN"}
     flags               {"ExtraWarnings"}
-    links               {}
     targetname          ( CustomPrefix .. "plugin" )
 
 configuration "not windows"
-    buildoptions {"-fPIC"}
+--  buildoptions {"-fPIC"}
+    libdirs             {"../../output/lib/wxguidesigner"}
+    targetdir           "../../output/lib/wxguidesigner"
+
+configuration "windows"
+    libdirs             {"../../output"}
+    targetdir           "../../output"
+    targetprefix        "lib"
 
  -- Visual C++ 2005/2008
 configuration "vs*"

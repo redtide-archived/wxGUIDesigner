@@ -3,6 +3,7 @@
 --  Purpose:     wxWidgets configuration file for Premake4
 --  Author:      laurent.humbertclaude@gmail.com, v.krishnakumar@gmail.com
 --  Modified by: Andrea Zanellato zanellato.andrea@gmail.com
+--  Revision:    $Hash$
 -----------------------------------------------------------------------------
 -- Optional root folder of wxWidgets installation folder
 newoption  {

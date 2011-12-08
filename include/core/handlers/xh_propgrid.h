@@ -4,7 +4,7 @@
 // Author:      Jaakko Salli
 // Modified by: Andrea Zanellato
 // Created:     May-16-2007
-// RCS-ID:      $Id:
+// Revision:    $Hash$
 // Copyright:   (c) Jaakko Salli
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        stddlgbtn.xml
+    Purpose:     wxStdDialogButtonSizer class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2011/12/03
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<library name="Sizers">
+    <class name="button">
+        <children>
+            <class name="wxButton"/>
+            1
+        </children>
+    </class>
+
+    <class name="wxStdDialogButtonSizer">
+        <class name="wxSizer">
+        <children>
+            <class name="button"/>
+        </children>
+        <properties>
+            <name>sdbSizer</name>
+            <text name="label">
+                <description>Label to be used for the static box around the sizer (required).</description>
+            </text>
+        </properties>
+    </class>
+</library>
