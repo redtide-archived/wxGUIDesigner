@@ -64,6 +64,9 @@ int wxGUIDesignerApp::OnRun()
         asm volatile ("movl %0, %%fs:0" : : "r" (&ex));
     #endif
 
+    wxApp::SetAppName(" wxGUIDesigner");
+    delete wxConfigBase::Set( new wxConfig("wxGUIDesigner") );
+
     // Get the data directory
     wxStandardPathsBase& stdPaths = wxStandardPaths::Get();
     wxString             dataDir  = stdPaths.GetDataDir();

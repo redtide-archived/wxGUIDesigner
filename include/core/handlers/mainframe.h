@@ -11,17 +11,19 @@
 #ifndef __WXGDCORE_MAINFRAME_H__
 #define __WXGDCORE_MAINFRAME_H__
 
+#include <wx/aui/framemanager.h>
 #include <wx/event.h>
 #include <wx/frame.h>
 
 class FrameHandler
 {
 public:
-    FrameHandler( wxFrame *owner );
+    FrameHandler( wxFrame *owner, wxAuiManager *mgr );
 
     // MainFrame
     void OnClose( wxCloseEvent &event );
 
+    void LoadLayout();
     void SaveLayout();
     bool SaveWarning();
 
@@ -31,6 +33,7 @@ public:
     void OnNewProject( wxCommandEvent & );
 
 private:
+    wxAuiManager *m_mgr;
     wxFrame      *m_frame;
 };
 

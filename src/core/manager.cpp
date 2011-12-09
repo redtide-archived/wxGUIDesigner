@@ -12,6 +12,7 @@
 #include "manager.h"
 
 #include <wx/aui/auibar.h>
+#include <wx/aui/framemanager.h>
 #include <wx/dir.h>
 #include <wx/image.h>
 #include <wx/msgdlg.h>
@@ -108,18 +109,23 @@ wxFrame *wxGUIDesigner::GetMainFrame( wxWindow *parent )
         GetObjectTree( m_frame );
         GetEditor( m_frame );
 
-        m_frameHandler = new FrameHandler( m_frame );
+        wxWindow *panel = wxWindow::FindWindowById( XRCID("PanelMain") );
 
-        m_frame->Bind( wxEVT_COMMAND_TOOL_CLICKED,
-                        &FrameHandler::OnAbout,      m_frameHandler, XRCID("wxID_ABOUT") );
+        wxAuiManager *mgr = m_auiXmlHandler->GetAuiManager( panel );
 
-        m_frame->Bind( wxEVT_COMMAND_TOOL_CLICKED,
-                        &FrameHandler::OnNewProject, m_frameHandler, XRCID("wxID_NEW") );
+        m_frameHandler = new FrameHandler( m_frame, mgr );
 
-        m_frame->Bind( wxEVT_COMMAND_TOOL_CLICKED,
-                        &FrameHandler::OnExit,       m_frameHandler, XRCID("wxID_EXIT") );
+        m_frame->Bind( wxEVT_COMMAND_TOOL_CLICKED, &FrameHandler::OnAbout,
+                        m_frameHandler, XRCID("wxID_ABOUT") );
 
-        m_frame->Bind( wxEVT_CLOSE_WINDOW, &FrameHandler::OnClose, m_frameHandler );
+        m_frame->Bind( wxEVT_COMMAND_TOOL_CLICKED, &FrameHandler::OnNewProject,
+                        m_frameHandler, XRCID("wxID_NEW") );
+
+        m_frame->Bind( wxEVT_COMMAND_TOOL_CLICKED, &FrameHandler::OnExit,
+                        m_frameHandler, XRCID("wxID_EXIT") );
+
+        m_frame->Bind( wxEVT_CLOSE_WINDOW, &FrameHandler::OnClose,
+                        m_frameHandler );
     }
 
     wxBitmap bmpLogo = m_xmlResource->LoadBitmap("Logo");

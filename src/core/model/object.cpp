@@ -16,14 +16,12 @@ wxDEFINE_EVENT( wxEVT_OBJECT_CREATE,    ObjectEvent );
 wxDEFINE_EVENT( wxEVT_OBJECT_CREATED,   ObjectEvent );
 wxDEFINE_EVENT( wxEVT_OBJECT_SELECTED,  ObjectEvent );
 
-ObjectEvent::ObjectEvent( wxEventType type, int id )
-                : wxEvent( id, type )
+ObjectEvent::ObjectEvent( wxEventType type, int id ) : wxEvent( id, type )
 {
 
 }
 
-ObjectEvent::ObjectEvent( const ObjectEvent &event )
-            : wxEvent( event )
+ObjectEvent::ObjectEvent( const ObjectEvent &event ) : wxEvent( event )
 {
     
 }
