@@ -26,7 +26,7 @@ public:
     void OnPluginLoaded( PluginEvent &event );
 
 protected:
-    wxNotebook *m_editor;
+    wxNotebook *m_editBook;
 };
 
 #endif //__WXGDCORE_EDITOR_H__

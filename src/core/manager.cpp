@@ -32,11 +32,11 @@ wxGUIDesigner::wxGUIDesigner()
     m_frame          = NULL;
     m_menuBar        = NULL;
     m_toolBar        = NULL;
-    m_objTree        = NULL;
-    m_editor         = NULL;
-    m_objInsp        = NULL;
-    m_objPalette     = NULL;
-    m_objInspImages  = NULL;
+    m_treeView       = NULL;
+    m_editBook       = NULL;
+    m_propBook       = NULL;
+    m_palette        = NULL;
+    m_ilsPropBook    = NULL;
     m_pgProps        = NULL;
     m_pgEvents       = NULL;
 
@@ -55,13 +55,13 @@ wxGUIDesigner::wxGUIDesigner()
     m_xmlResource->Load( wxGD_MAINMENU );
     m_xmlResource->Load( wxGD_TOOLBAR );
 
-    if ( !m_xmlResource->Load( wxGD_IMAGES ) ) return;
-    if ( !m_xmlResource->Load( wxGD_ABOUT ) ) return;
-//  if ( !m_xmlResource->Load( wxGD_DESIGNER ) ) return;
-    if ( !m_xmlResource->Load( wxGD_EDITOR ) ) return;
+    if ( !m_xmlResource->Load( wxGD_IMAGES ) )           return;
+    if ( !m_xmlResource->Load( wxGD_ABOUT ) )            return;
+//  if ( !m_xmlResource->Load( wxGD_DESIGNER ) )         return;
+    if ( !m_xmlResource->Load( wxGD_EDITOR ) )           return;
     if ( !m_xmlResource->Load( wxGD_OBJECT_INSPECTOR ) ) return;
-    if ( !m_xmlResource->Load( wxGD_OBJECT_PALETTE ) ) return;
-    if ( !m_xmlResource->Load( wxGD_OBJECT_TREE ) ) return;
+    if ( !m_xmlResource->Load( wxGD_OBJECT_PALETTE ) )   return;
+    if ( !m_xmlResource->Load( wxGD_OBJECT_TREE ) )      return;
 }
 
 wxGUIDesigner::~wxGUIDesigner()
@@ -91,7 +91,7 @@ wxToolBar *wxGUIDesigner::GetToolBar( wxWindow *parent )
     return m_toolBar;
 }
 
-wxFrame *wxGUIDesigner::GetMainFrame( wxWindow *parent )
+wxFrame *wxGUIDesigner::GetFrame( wxWindow *parent )
 {
     if ( !m_frame )
     {
@@ -104,10 +104,10 @@ wxFrame *wxGUIDesigner::GetMainFrame( wxWindow *parent )
 
         if ( !m_frame ) return NULL;
 
-        GetObjectInspector( m_frame );
-        GetObjectPalette( m_frame );
-        GetObjectTree( m_frame );
-        GetEditor( m_frame );
+        GetPropertyBook( m_frame );
+        GetPaletteBook( m_frame );
+        GetTreeView( m_frame );
+        GetEditorBook( m_frame );
 
         wxWindow *panel = wxWindow::FindWindowById( XRCID("PanelMain") );
 
@@ -149,30 +149,30 @@ wxFrame *wxGUIDesigner::GetMainFrame( wxWindow *parent )
     return m_frame;
 }
 
-wxNotebook *wxGUIDesigner::GetEditor( wxWindow *parent )
+wxNotebook *wxGUIDesigner::GetEditorBook( wxWindow *parent )
 {
-    if ( !m_editor )
+    if ( !m_editBook )
     {
-        m_editor = XRCCTRL( *parent, "Editor", wxNotebook );
+        m_editBook = XRCCTRL( *parent, "Editor", wxNotebook );
 
-        if ( m_editor )
+        if ( m_editBook )
         {
-            m_editorHandler = new EditorHandler( m_editor );
+            m_editorHandler = new EditorHandler( m_editBook );
 
-            m_editor->Bind( wxEVT_PLUGIN_LOADED,
+            m_editBook->Bind( wxEVT_PLUGIN_LOADED,
                             &EditorHandler::OnPluginLoaded, m_editorHandler );
 
-            m_plugMgr->AddHandler( m_editor );
+            m_plugMgr->AddHandler( m_editBook );
             m_plugMgr->LoadPlugins("codegens");
         }
     }
 
-    return m_editor;
+    return m_editBook;
 }
 
-wxPanel *wxGUIDesigner::GetDesignerWindow()
+wxPanel *wxGUIDesigner::GetDesignPanel()
 {
-    return XRCCTRL( *GetEditor(), "DesignerWindow", wxPanel );
+    return XRCCTRL( *m_editBook, "DesignerWindow", wxPanel );
 }
 
 void wxGUIDesigner::OnWindowPaint( wxPaintEvent &event )
@@ -190,51 +190,51 @@ void wxGUIDesigner::OnWindowPaint( wxPaintEvent &event )
     event.Skip();
 }
 
-wxNotebook *wxGUIDesigner::GetObjectPalette( wxWindow *parent )
+wxNotebook *wxGUIDesigner::GetPaletteBook( wxWindow *parent )
 {
-    if ( !m_objPalette )
+    if ( !m_palette )
     {
-        m_objPalette = XRCCTRL( *parent, "ObjectPalette", wxNotebook );
-        if ( m_objPalette )
+        m_palette = XRCCTRL( *parent, "ObjectPalette", wxNotebook );
+        if ( m_palette )
         {
-            m_paletteHandler = new PaletteHandler( m_objPalette );
+            m_paletteHandler = new PaletteHandler( m_palette );
 
-            m_objPalette->Bind( wxEVT_PLUGIN_LOADED,
-                                &PaletteHandler::OnPluginLoaded, m_paletteHandler );
+            m_palette->Bind( wxEVT_PLUGIN_LOADED,
+                            &PaletteHandler::OnPluginLoaded, m_paletteHandler );
 
-            m_plugMgr->AddHandler( m_objPalette );
+            m_plugMgr->AddHandler( m_palette );
             m_plugMgr->LoadPlugins("controls");
 
-            m_objPalette->Bind( wxEVT_COMMAND_TOOL_CLICKED,
-                                &PaletteHandler::OnToolClicked, m_paletteHandler );
+            m_palette->Bind( wxEVT_COMMAND_TOOL_CLICKED,
+                            &PaletteHandler::OnToolClicked, m_paletteHandler );
         }
     }
 
-    return m_objPalette;
+    return m_palette;
 }
 
-wxTreeCtrl *wxGUIDesigner::GetObjectTree( wxWindow *parent )
+wxTreeCtrl *wxGUIDesigner::GetTreeView( wxWindow *parent )
 {
-    if ( !m_objTree )
-        m_objTree = XRCCTRL( *parent, "ObjectTree", wxTreeCtrl );
+    if ( !m_treeView )
+        m_treeView = XRCCTRL( *parent, "ObjectTree", wxTreeCtrl );
 
-    return m_objTree;
+    return m_treeView;
 }
 
-wxNotebook *wxGUIDesigner::GetObjectInspector( wxWindow *parent )
+wxNotebook *wxGUIDesigner::GetPropertyBook( wxWindow *parent )
 {
-    if ( !m_objInsp )
+    if ( !m_propBook )
     {
-        m_objInsp = XRCCTRL( *parent, "ObjectInspector", wxNotebook );
-        if ( m_objInsp )
+        m_propBook = XRCCTRL( *parent, "ObjectInspector", wxNotebook );
+        if ( m_propBook )
         {
-            m_pgProps       = XRCCTRL( *m_objInsp, "PropGrid", wxPropertyGrid );
-            m_pgEvents      = XRCCTRL( *m_objInsp, "EventGrid", wxPropertyGrid );
-            m_objInspImages = m_objInsp->GetImageList();
+            m_pgProps     = XRCCTRL( *m_propBook, "PropGrid", wxPropertyGrid );
+            m_pgEvents    = XRCCTRL( *m_propBook, "EventGrid", wxPropertyGrid );
+            m_ilsPropBook = m_propBook->GetImageList();
         }
     }
 
-    return m_objInsp;
+    return m_propBook;
 }
 
 void wxGUIDesigner::NewProject()
@@ -245,7 +245,7 @@ void wxGUIDesigner::NewProject()
 void wxGUIDesigner::CreateObject( const wxString &classname, wxWindow *parent )
 {
     if ( !parent )
-        parent = GetDesignerWindow();
+        parent = GetDesignPanel();
 
     if ( !parent ) return;
 /*

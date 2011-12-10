@@ -120,7 +120,7 @@ int wxGUIDesignerApp::OnRun()
 
     wxYield();
 
-    m_frame = wxGUIDesigner::Get()->GetMainFrame( NULL );
+    m_frame = wxGUIDesigner::Get()->GetFrame( NULL );
 
     if ( !m_frame )
     {

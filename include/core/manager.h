@@ -36,17 +36,18 @@
 class DLLIMPEXP_CORE wxGUIDesigner
 {
 public:
-    wxDialog        *GetAboutDialog     ( wxWindow *parent = NULL );
-    wxFrame         *GetMainFrame       ( wxWindow *parent = NULL );
-    wxMenuBar       *GetMainMenu        ( wxWindow *parent = NULL );
-    wxPanel         *GetDesignerWindow();
-    wxNotebook      *GetEditor          ( wxWindow *parent = NULL );
-    wxNotebook      *GetObjectInspector ( wxWindow *parent = NULL );
-    wxNotebook      *GetObjectPalette   ( wxWindow *parent = NULL );
-    wxTreeCtrl      *GetObjectTree      ( wxWindow *parent = NULL );
-    wxToolBar       *GetToolBar         ( wxWindow *parent = NULL );
-    wxPropertyGrid  *GetPGManagerProperties()   { return m_pgProps; }
-    wxPropertyGrid  *GetPGManagerEvents()       { return m_pgEvents; }
+    wxDialog        *GetAboutDialog      ( wxWindow *parent = NULL );
+    wxFrame         *GetFrame            ( wxWindow *parent = NULL );
+    wxMenuBar       *GetMainMenu         ( wxWindow *parent = NULL );
+    wxPanel         *GetDesignPanel();
+    wxNotebook      *GetEditorBook       ( wxWindow *parent = NULL );
+    wxNotebook      *GetPropertyBook     ( wxWindow *parent = NULL );
+    wxNotebook      *GetPaletteBook      ( wxWindow *parent = NULL );
+    wxTreeCtrl      *GetTreeView         ( wxWindow *parent = NULL );
+    wxToolBar       *GetToolBar          ( wxWindow *parent = NULL );
+
+    wxPropertyGrid  *GetPropertiesGrid() { return m_pgProps; }
+    wxPropertyGrid  *GetEventsGrid()     { return m_pgEvents; }
 
     void NewProject();
     void CreateObject( const wxString &name, wxWindow *parent );
@@ -61,22 +62,20 @@ protected:
     void OnWindowPaint( wxPaintEvent &event );
 
     wxFrame     *m_frame;
-    wxImageList *m_objInspImages;
+    wxImageList *m_ilsPropBook;
     wxMenuBar   *m_menuBar;
     wxToolBar   *m_toolBar;
-    wxNotebook  *m_editor;
-    wxNotebook  *m_objInsp;
-    wxNotebook  *m_objPalette;
-    wxTreeCtrl  *m_objTree;
+    wxNotebook  *m_editBook;
+    wxNotebook  *m_propBook;
+    wxNotebook  *m_palette;
+    wxTreeCtrl  *m_treeView;
 
-    wxWindow *m_win;
+    wxPropertyGrid  *m_pgProps;
+    wxPropertyGrid  *m_pgEvents;
 
     wxXmlResource            *m_xmlResource;
     wxAuiXmlHandler          *m_auiXmlHandler;
     wxPropertyGridXmlHandler *m_pgXmlHandler;
-
-    wxPropertyGrid  *m_pgProps;
-    wxPropertyGrid  *m_pgEvents;
 
     EditorHandler   *m_editorHandler;
     FrameHandler    *m_frameHandler;
