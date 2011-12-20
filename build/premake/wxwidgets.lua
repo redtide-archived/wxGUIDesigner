@@ -177,12 +177,14 @@ function wx_config_Private(wxRoot, wxDebug, wxHost, wxVersion, wxStatic, wxUnico
             links { "wxmsw"..libVersion..wxBuildType }
         else
             links { "wxbase"..libVersion..wxBuildType } -- base lib
-            for i, lib in ipairs(string.explode(wxLibs, ",")) do
-                local libPrefix = 'wxmsw'
-                if lib == "xml" or lib == "net" or lib == "odbc" then
-                    libPrefix = 'wxbase'
+            if wxLibs ~= "" then
+                for i, lib in ipairs(string.explode(wxLibs, ",")) do
+                    local libPrefix = 'wxmsw'
+                    if lib == "xml" or lib == "net" or lib == "odbc" then
+                        libPrefix = 'wxbase'
+                    end
+                    links { libPrefix..libVersion..wxBuildType..'_'..lib}
                 end
-                links { libPrefix..libVersion..wxBuildType..'_'..lib}
             end
             -- link with support libraries
             for i, lib in ipairs({"wxjpeg", "wxpng", "wxzlib", "wxtiff", "wxexpat"}) do
