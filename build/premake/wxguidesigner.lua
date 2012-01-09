@@ -9,15 +9,8 @@
 -----------------------------------------------------------------------------
 project "wxGUIDesigner"
     kind                    "WindowedApp"
-    files
-    {
-        "../../src/main.h", "../../src/main.cpp",
-        "../../build/premake/*.lua"
-    }
-    includedirs
-    {
-        "../../include/core", "../../include/sdk"
-    }
+    files                   {"../../src/main.h", "../../src/main.cpp"}
+    includedirs             { "../../include" }
     defines                 {"NO_GCC_PRAGMA"}
     flags                   {"ExtraWarnings"}
     libdirs                 {"../../sdk/lib"}

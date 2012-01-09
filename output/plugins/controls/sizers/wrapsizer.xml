@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Name:        wrap.xml
+    Name:        wrapsizer.xml
     Purpose:     wxWrapSizer class definition
     Author:      Andrea Zanellato
     Modified by: 
@@ -9,19 +9,19 @@
     Licence:     wxWindows licence
 -->
 <class name="wxWrapSizer">
-    <class name="wxBoxSizer"/>
-    <properties>
-        <name>wrapSizer</name>
-        <styles name="flag">
-            <style name="wxWRAPSIZER_DEFAULT_FLAGS">
-                <description>Equivalent to a combination of wxEXTEND_LAST_ON_EACH_LINE and wxREMOVE_LEADING_SPACES.</description>
-            </style>
-            <style name="wxEXTEND_LAST_ON_EACH_LINE">
-                <description>Will cause the last item on each line to use any remaining space on that line.</description>
-            </style>
-            <style name="wxREMOVE_LEADING_SPACES">
-                <description>Removes any spacer elements from the beginning of a row.</description>
-            </style>
-         <styles>
-    </properties>
+    <inherits>
+        <class>wxBoxSizer</class>
+    </inherits>
+    <name>wrapSizer</name>
+    <style name="flag">
+        <flag name="wxWRAPSIZER_DEFAULT_FLAGS">
+            <description>Equivalent to a combination of wxEXTEND_LAST_ON_EACH_LINE and wxREMOVE_LEADING_SPACES.</description>
+        </flag>
+        <flag name="wxEXTEND_LAST_ON_EACH_LINE">
+            <description>Will cause the last item on each line to use any remaining space on that line.</description>
+        </flag>
+        <flag name="wxREMOVE_LEADING_SPACES">
+            <description>Removes any spacer elements from the beginning of a row.</description>
+        </flag>
+    </style>
 </class>

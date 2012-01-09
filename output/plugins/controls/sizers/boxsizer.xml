@@ -9,13 +9,13 @@
     Licence:     wxWindows licence
 -->
 <class name="wxBoxSizer">
-    <class name="wxSizer"/>
-    <properties>
-        <name>boxSizer</name>
-        <styles name="orient" label="Orientation">
-            <style name="wxHORIZONTAL"/>
-            <style name="wxVERTICAL"/>
-            <description>Sizer orientation, "wxHORIZONTAL" or "wxVERTICAL" (default: wxHORIZONTAL).</description>
-         <styles>
-    </properties>
+    <inherits>
+        <class>wxSizer</class>
+    </inherits>
+    <name>boxSizer</name>
+    <style name="orient" label="Orientation">
+        <description>Sizer orientation, "wxHORIZONTAL" or "wxVERTICAL" (default: wxHORIZONTAL).</description>
+        <flag name="wxHORIZONTAL"/>
+        <flag name="wxVERTICAL"/>
+     </style>
 </class>

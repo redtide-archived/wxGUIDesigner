@@ -9,23 +9,22 @@
     Licence:     wxWindows licence
 -->
 <class name="wxControl">
-    <class name="wxWindow"/>
-    <properties>
-        <text name="Label">
-            <description>Label to display on the control.</description>
-        </text>
-    </properties>
-    <events>
-        <category name="wxClipboardTextEvent">
-            <event name="EVT_TEXT_COPY">
-                <description>Some or all of the controls content was copied to the clipboard.</description>
-            </event>
-            <event name="EVT_TEXT_CUT">
-                <description>Some or all of the controls content was cut (i.e. copied and deleted).</description>
-            </event>
-            <event name="EVT_TEXT_PASTE">
-                <description>Clipboard content was pasted into the control.</description>
-            </event>
-        </category>
-    </events>
+    <include>classes/window.xml</include>
+    <inherits>
+        <class>wxWindow</class>
+    </inherits>
+    <text name="Label">
+        <description>Label to display on the control.</description>
+    </text>
+    <event name="wxClipboardTextEvent">
+        <type name="EVT_TEXT_COPY">
+            <description>Some or all of the controls content was copied to the clipboard.</description>
+        </type>
+        <type name="EVT_TEXT_CUT">
+            <description>Some or all of the controls content was cut (i.e. copied and deleted).</description>
+        </type>
+        <type name="EVT_TEXT_PASTE">
+            <description>Clipboard content was pasted into the control.</description>
+        </type>
+    </event>
 </class>

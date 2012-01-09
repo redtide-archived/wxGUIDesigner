@@ -9,50 +9,48 @@
     Licence:     wxWindows licence
 -->
 <class name="wxCalendarCtrl">
-    <class name="wxControl"/>
-    <properties>
-        <name>m_calendar</name>
-        <styles>
-            <style name="wxCAL_SUNDAY_FIRST">
-                <description>Show Sunday as the first day in the week (not in wxGTK)</description>
-            </style>
-            <style name="wxCAL_MONDAY_FIRST">
-                <description>Show Monday as the first day in the week (not in wxGTK)</description>
-            </style>
-            <style name="wxCAL_SHOW_HOLIDAYS">
-                <description>Highlight holidays in the calendar (only generic)</description>
-            </style>
-            <style name="wxCAL_NO_MONTH_CHANGE">
-                <description>Disable the month (and, implicitly, the year) changing</description>
-            </style>
-            <style name="wxCAL_SHOW_SURROUNDING_WEEKS">
-                <description>Show the neighbouring weeks in the previous and next months (only generic, always on for the native controls)</description>
-            </style>
-            <style name="wxCAL_SEQUENTIAL_MONTH_SELECTION">
-                <description>Use alternative, more compact, style for the month and year selection controls. (only generic)</description>
-            </style>
-            <style name="wxCAL_SHOW_WEEK_NUMBERS">
-                <description>Show week numbers on the left side of the calendar. (not in generic)</description>
-            </style>
-        </styles>
-    </properties>
-    <events>
-        <category name="wxCalendarEvent">
-            <event name="EVT_CALENDAR">
-                <description>A day was double clicked in the calendar.</description>
-            </event>
-            <event name="EVT_CALENDAR_SEL_CHANGED">
-                <description>The selected date changed.</description>
-            </event>
-            <event name="EVT_CALENDAR_PAGE_CHANGED">
-                <description>The selected month (and/or year) changed.</description>
-            </event>
-            <event name="EVT_CALENDAR_WEEKDAY_CLICKED">
-                <description>User clicked on the week day header (only generic).</description>
-            </event>
-            <event name="EVT_CALENDAR_WEEK_CLICKED">
-                <description>User clicked on the week of the year number (only generic).</description>
-            </event>
-        </category>
-    </events>
+    <inherits>
+        <class>wxControl</class>
+    </inherits>
+    <name>m_calendar</name>
+    <style>
+        <flag name="wxCAL_SUNDAY_FIRST">
+            <description>Show Sunday as the first day in the week (not in wxGTK)</description>
+        </flag>
+        <flag name="wxCAL_MONDAY_FIRST">
+            <description>Show Monday as the first day in the week (not in wxGTK)</description>
+        </flag>
+        <flag name="wxCAL_SHOW_HOLIDAYS">
+            <description>Highlight holidays in the calendar (only generic)</description>
+        </flag>
+        <flag name="wxCAL_NO_MONTH_CHANGE">
+            <description>Disable the month (and, implicitly, the year) changing</description>
+        </flag>
+        <flag name="wxCAL_SHOW_SURROUNDING_WEEKS">
+            <description>Show the neighbouring weeks in the previous and next months (only generic, always on for the native controls)</description>
+        </flag>
+        <flag name="wxCAL_SEQUENTIAL_MONTH_SELECTION">
+            <description>Use alternative, more compact, style for the month and year selection controls. (only generic)</description>
+        </flag>
+        <flag name="wxCAL_SHOW_WEEK_NUMBERS">
+            <description>Show week numbers on the left side of the calendar. (not in generic)</description>
+        </flag>
+    </style>
+    <event name="wxCalendarEvent">
+        <type name="EVT_CALENDAR">
+            <description>A day was double clicked in the calendar.</description>
+        </type>
+        <type name="EVT_CALENDAR_SEL_CHANGED">
+            <description>The selected date changed.</description>
+        </type>
+        <type name="EVT_CALENDAR_PAGE_CHANGED">
+            <description>The selected month (and/or year) changed.</description>
+        </type>
+        <type name="EVT_CALENDAR_WEEKDAY_CLICKED">
+            <description>User clicked on the week day header (only generic).</description>
+        </type>
+        <type name="EVT_CALENDAR_WEEK_CLICKED">
+            <description>User clicked on the week of the year number (only generic).</description>
+        </type>
+    </event>
 </class>

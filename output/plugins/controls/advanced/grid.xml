@@ -9,8 +9,8 @@
     Licence:     wxWindows licence
 -->
 <class name="wxGrid">
-    <class name="wxScrolledWindow"/>
-    <properties>
-        <name>m_grid</name>
-    </properties>
+    <inherits>
+        <class>wxScrolledWindow</class>
+    </inherits>
+    <name>m_grid</name>
 </class>

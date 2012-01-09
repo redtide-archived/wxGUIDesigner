@@ -10,6 +10,6 @@
 -->
 <class name="break">
     <parents>
-        <class name="wxMenu">
+        <class>wxMenu</class>
     </parents>
 </class>

@@ -10,6 +10,6 @@
 -->
 <class name="space">
     <parents>
-        <class name="wxToolBar">
+        <class>wxToolBar</class>
     </parents>
 </class>

@@ -10,8 +10,8 @@
 -->
 <class name="separator">
     <parents>
-        <!-- class name="wxAuiToolBar" -->
-        <class name="wxToolBar">
-        <class name="wxMenu">
+        <!-- class>wxAuiToolBar</class-->
+        <class>wxToolBar</class>
+        <class>wxMenu</class>
     </parents>
 </class>

@@ -9,14 +9,14 @@
     Licence:     wxWindows licence
 -->
 <class name="wxFlexGridSizer">
-    <class name="wxGridSizer">
-    <properties>
-        <name>fgSizer</name>
-        <string name="growablerows" label="Growable rows">
-            <description>Comma-separated list of indexes of rows that are growable (default: none).</description>
-        </string>
-        <string name="growablecols" label="Growable cols">
-            <description>Comma-separated list of indexes of columns that are growable (default: none).</description>
-        </string>
-    </properties>
+    <inherits>
+        <class>wxGridSizer</class>
+    </inherits>
+    <name>fgSizer</name>
+    <string name="growablerows" label="Growable rows">
+        <description>Comma-separated list of indexes of rows that are growable (default: none).</description>
+    </string>
+    <string name="growablecols" label="Growable cols">
+        <description>Comma-separated list of indexes of columns that are growable (default: none).</description>
+    </string>
 </class>

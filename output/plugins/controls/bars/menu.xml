@@ -9,29 +9,23 @@
     Licence:     wxWindows licence
 -->
 <class name="wxMenu">
-    <class name="wxEvtHandler"/>
+    <inherits>
+        <class>wxEvtHandler</class>
+    </inherits>
     <parents>
-        <class name="wxControl">
-        <class name="wxMenuBar">
-        <class name="tool">
+        <class>tool</class>
+        <class>wxControl</class>
+        <class>wxMenuBar</class>
     </parents>
-    <children>
-        <class name="break"/>
-        <class name="separator"/>
-        <class name="wxMenu"/>
-        <class name="wxMenuItem"/>
-    </children>
-    <properties>
-        <name>m_menu</name>
-        <text name="label">
-            <description>Menu's label (default: empty, but required for menus other than popup menus).</description>
-        </text>
-        <text name="help">
-            <description>Help shown in statusbar when the menu is selected (only for submenus of another wxMenu, default: none).</description>
-        </text>
-        <bool name="enabled">
-            <value>1</value>
-            <description>Is the submenu item enabled (only for submenus of another wxMenu, default: 1)?</description>
-        </bool>
-    </properties>
+    <name>m_menu</name>
+    <text name="label">
+        <description>Menu's label (default: empty, but required for menus other than popup menus).</description>
+    </text>
+    <text name="help">
+        <description>Help shown in statusbar when the menu is selected (only for submenus of another wxMenu, default: none).</description>
+    </text>
+    <bool name="enabled">
+        <value>1</value>
+        <description>Is the submenu item enabled (only for submenus of another wxMenu, default: 1)?</description>
+    </bool>
 </class>

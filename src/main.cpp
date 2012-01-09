@@ -10,7 +10,8 @@
 
 #include "main.h"
 
-#include <manager.h>
+#include <core/gui/manager.h>
+#include <core/object/database.h>
 
 #include <wx/config.h>
 #include <wx/cmdline.h>
@@ -57,7 +58,8 @@ int wxGUIDesignerApp::OnRun()
         ::wxHandleFatalExceptions( true );
     #elif defined(_WIN32) && defined(__MINGW32__)
         // Structured Exception handlers are stored in a linked list at FS:[0]
-        // THIS MUST BE A LOCAL VARIABLE - windows won't use an object outside of the thread's stack frame
+        // THIS MUST BE A LOCAL VARIABLE
+        // windows won't use an object outside of the thread's stack frame
         EXCEPTION_REGISTRATION ex;
         ex.handler = StructuredExceptionHandler;
         asm volatile ("movl %%fs:0, %0" : "=r" (ex.prev));
@@ -120,7 +122,7 @@ int wxGUIDesignerApp::OnRun()
 
     wxYield();
 
-    m_frame = wxGUIDesigner::Get()->GetFrame( NULL );
+    m_frame = GUIManager::Get()->GetMainFrame( NULL );
 
     if ( !m_frame )
     {
@@ -138,8 +140,10 @@ int wxGUIDesignerApp::OnRun()
         m_frame->Show( true );
         SetTopWindow( m_frame );
     }
+    ObjectDBManager::Get()->AddDatabase("controls");
+    ObjectDBManager::Get()->Free();
 /*
-    wxGUIDesigner::Get()->NewProject();
+    GUIManager::Get()->NewProject();
     PluginManager::Get()->LoadPlugins();
 */
     return wxApp::OnRun();
@@ -154,7 +158,7 @@ bool wxGUIDesignerApp::OnInit()
 
 int wxGUIDesignerApp::OnExit()
 {
-    wxGUIDesigner::Get()->Free();
+    GUIManager::Get()->Free();
 
     return wxApp::OnExit();
 }

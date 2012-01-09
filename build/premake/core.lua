@@ -12,12 +12,12 @@ project "LibCore"
     files
     {
         "../../include/core/**.h", "../../src/core/**.cpp",
+        "../../include/wx/**.h", "../../src/wx/**.cpp",
         "../../output/xrc/*.xrc", "../../output/xrc/classes/*.xrc"
     }
     includedirs
     {
-        "../../include/core", "../../include/core/handlers",
-        "../../include/sdk"
+        "../../include"
     }
     defines             {"MAKINGDLL_CORE"}
     flags               {"ExtraWarnings"}

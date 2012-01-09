@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Name:        staticbox.xml
+    Name:        staticboxsizer.xml
     Purpose:     wxStaticBoxSizer class definition
     Author:      Andrea Zanellato
     Modified by: 
@@ -9,11 +9,11 @@
     Licence:     wxWindows licence
 -->
 <class name="wxStaticBoxSizer">
-    <class name="wxBoxSizer">
-    <properties>
-        <name>sbSizer</name>
-        <text name="label">
-            <description>Label to be used for the static box around the sizer (required).</description>
-        </text>
-    </properties>
+    <inherits>
+        <class>wxBoxSizer</class>
+    </inherits>
+    <name>sbSizer</name>
+    <text name="label">
+        <description>Label to be used for the static box around the sizer (required).</description>
+    </text>
 </class>

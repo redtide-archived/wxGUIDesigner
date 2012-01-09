@@ -11,10 +11,10 @@ project "LibPlugin"
     kind                "SharedLib"
     files
     {
-        "../../include/sdk/**.h", "../../src/sdk/**.cpp",
+        "../../include/plugin/**.h", "../../src/plugin/**.cpp",
         "../../output/plugins/**.xml"
     }
-    includedirs         {"../../include/sdk"}
+    includedirs         {"../../include/plugin"}
     defines             {"MAKINGDLL_PLUGIN"}
     flags               {"ExtraWarnings"}
     targetname          ( CustomPrefix .. "plugin" )

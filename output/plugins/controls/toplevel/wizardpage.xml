@@ -8,19 +8,24 @@
     Revision:    $Hash$
     Licence:     wxWindows licence
 -->
-<class name="wxWizardPage">
-    <class name="wxPanel"/>
-    <parents>
-        <class name="wxWizard"/>
-    </parents>
-    <properties>
+<plugin name="Top Level">
+    <include>wizard.xml</include>
+    <class name="wxWizardPage">
+        <inherits>
+            <class>wxPanel</class>
+        </inherits>
+        <parents>
+            <class>wxWizard</class>
+        </parents>
         <name>m_wizPage</name>
         <bitmap name="Bitmap">
             <description>Page-specific bitmap (default: none).</description>
         </bitmap>
-    </properties>
-</class>
+    </class>
 
-<class name="wxWizardPageSimple">
-    <class name="wxWizardPage"/>
-</class>
+    <class name="wxWizardPageSimple">
+        <inherits>
+            <class>wxWizardPage</class>
+        </inherits>
+    </class>
+</plugin>

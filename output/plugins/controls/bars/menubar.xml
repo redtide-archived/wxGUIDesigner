@@ -9,19 +9,16 @@
     Licence:     wxWindows licence
 -->
 <class name="wxMenuBar">
-    <class name="wxWindow"/>
+    <inherits>
+        <class>wxWindow</class>
+    </inherits>
     <parents>
-        <class name="wxFrame">
+        <class>wxFrame</class>
     </parents>
-    <children>
-        <class name="wxMenu"/>
-    </children>
-    <properties>
-        <name>m_menuBar</name>
-        <styles name="Style">
-            <style name="wxMB_DOCKABLE">
-                <description>The menu bar can be detached (wxGTK only).</description>
-            </style>
-        </styles>
-    </properties>
+    <name>m_menuBar</name>
+    <style name="Style">
+        <flag name="wxMB_DOCKABLE">
+            <description>The menu bar can be detached (wxGTK only).</description>
+        </flag>
+    </style>
 </class>
