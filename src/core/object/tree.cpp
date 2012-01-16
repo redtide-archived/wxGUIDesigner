@@ -119,6 +119,7 @@ wxString PropertyBase::GetAsURL() const
 ObjectBase::~ObjectBase()
 {
     m_props.clear();
+    m_events.clear();
     m_children.clear();
 }
 /*
@@ -159,19 +160,15 @@ void ObjectTree::Free()
     }
 }
 
-bool ObjectTree::CreateObject( const wxString &className,
-                               const wxString &category )
+bool ObjectTree::CreateObject( const wxString &className )
 {
     if( !HaveRoot() || !HaveSelection() )
     {
-        wxLogError("No root object");
+        wxLogError("No root/parent object");
         return false;
     }
 
-    ClassInfo clsInfo
-    (
-        ObjectDBManager::Get()->GetClassInfo( className, category )
-    );
+    ClassInfo clsInfo( ClassInfoDataBase::Get()->GetClassInfo( className ) );
 
     if ( clsInfo->GetBaseNames().Index( m_sel->GetClassName() ) == wxNOT_FOUND )
     {

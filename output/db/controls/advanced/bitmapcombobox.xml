@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        bitmapcombobox.xml
+    Purpose:     wxBitmapComboBox class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/14
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<classes>
+    <class name="wxBitmapComboBox">
+        <inherits>
+            <class>wxComboBox</class>
+        </inherits>
+        <name>m_bmpCBox</name>
+        <int name="selection">
+            <value>-1</value>
+            <description>Index of the initially selected item or -1 for no selection (default: -1).</description>
+        </int>
+        <string name="value">
+            <description>Initial value in the control (doesn't have to be one of content values; default: empty).</description>
+        </string>
+    </class>
+
+    <class name="ownerdrawnitem">
+        <parents>
+            <class>wxBitmapComboBox</class>
+        </parents>
+        <text>
+            <description>Item's label (required).</description>
+        </text>
+        <bitmap>
+            <description>Item's bitmap (default: no bitmap).</description>
+        </bitmap>
+    </class>
+</classes>

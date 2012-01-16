@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        togglebutton.xml
+    Purpose:     wxToggleButton class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/14
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<class name="wxToggleButton">
+    <inherits>
+        <class>wxAnyButton</class>
+    </inherits>
+    <name>m_toggleBtn</name>
+    <bool name="checked">
+        <description>Should the button be checked/pressed initially (default: 0)?</description>
+    </bool>
+    <event name="wxCommandEvent">
+        <type name="EVT_TOGGLEBUTTON">
+            <description>Handles a wxEVT_COMMAND_TOGGLEBUTTON_CLICKED event.</description>
+        </type>
+    </event>
+</class>

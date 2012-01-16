@@ -11,6 +11,8 @@
 #ifndef __WXGD_IOBJECT_H__
 #define __WXGD_IOBJECT_H__
 
+class wxString;
+
 //-----------------------------------------------------------------------------
 // IObject Class Interface
 //-----------------------------------------------------------------------------
@@ -30,30 +32,29 @@ class IObjectHandler
 public:
     virtual ~IObjectHandler() {}
 
-    virtual void OnObjectCreated ( const IObject &object ) = 0;
-    virtual void OnObjectDeleted ( const IObject &object ) = 0;
-    virtual void OnObjectExpanded( const IObject &object ) = 0;
-    virtual void OnObjectSelected( const IObject &object ) = 0;
-
 protected:
+    virtual void OnObjectCreated ( IObject *object ) = 0;
+    virtual void OnObjectDeleted ( IObject *object ) = 0;
+    virtual void OnObjectExpanded( IObject *object ) = 0;
+    virtual void OnObjectSelected( IObject *object ) = 0;
+
     IObjectHandler() {}
 };
 //-----------------------------------------------------------------------------
-// IObjectTree Class Interface
+// IObjectManager Class Interface
 //-----------------------------------------------------------------------------
 
-class IObjectTree
+class IObjectManager
 {
 public:
-    virtual bool CreateObject   ( const wxString &className,
-                                  const wxString &category ) = 0;
+    virtual bool CreateObject   ( const wxString &className ) = 0;
 
     virtual void AddHandler     ( IObjectHandler *handler ) = 0;
     virtual void RemoveHandler  ( IObjectHandler *handler ) = 0;
 
 protected:
-    IObjectTree() {}
-    virtual ~IObjectTree() {}
+    IObjectManager() {}
+    virtual ~IObjectManager() {}
 };
 
 #endif //__WXGD_IOBJECT_H__

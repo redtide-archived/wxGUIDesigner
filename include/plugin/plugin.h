@@ -145,12 +145,15 @@ typedef void ( wxEvtHandler::*PluginEventFunction )( PluginEvent & );
                                         )
 #endif // SWIG
 
-class DLLIMPEXP_PLUGIN PluginHandler
+class DLLIMPEXP_PLUGIN IPluginHandler
 {
-public:
-    PluginHandler() { }
-    virtual ~PluginHandler() { }
+    friend class PluginManager;
 
+public:
+    IPluginHandler() {}
+    virtual ~IPluginHandler() {}
+
+protected:
     virtual void OnPluginLoaded( Plugin *plugin ) = 0;
 };
 
@@ -161,7 +164,7 @@ public:
     void Free();
 
     void LoadPlugins( const wxString &category );
-    void AddHandler( PluginHandler *handler ) { m_handlers.push_back( handler ); }
+    void AddHandler( IPluginHandler *handler ) { m_handlers.push_back( handler ); }
 
 private:
     PluginManager();
@@ -175,7 +178,7 @@ private:
     wxString                    m_ctrlDir;
     wxString                    m_editDir;
     wxVector< Plugin * >        m_plugins;
-    wxVector< PluginHandler * > m_handlers;
+    wxVector< IPluginHandler * > m_handlers;
     static PluginManager       *ms_instance;
 };
 

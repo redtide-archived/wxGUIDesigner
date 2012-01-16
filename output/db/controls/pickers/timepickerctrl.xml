@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        timepickerctrl.xml
+    Purpose:     wxTimePickerCtrl class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/14
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<class name="wxTimePickerCtrl">
+    <inherits>
+        <class>wxControl</class>
+    </inherits>
+    <name>m_timePickerCtrl</name>
+    <event name="wxDateEvent">
+        <type name="EVT_TIME_CHANGED">
+            <description>This event fires when the user changes the current selection in the control.</description>
+        </type>
+    </event>
+</class>

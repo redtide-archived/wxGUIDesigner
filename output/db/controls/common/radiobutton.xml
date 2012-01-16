@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        radiobutton.xml
+    Purpose:     wxRadioButton class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/15
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<class name="wxRadioButton">
+    <inherits>
+        <class>wxControl</class>
+    </inherits>
+    <name>m_radioBtn</name>
+    <style>
+        <flag name="wxRB_GROUP">
+            <description>Marks the beginning of a new group of radio buttons.</description>
+        </flag>
+        <flag name="wxRB_SINGLE">
+            <description>In some circumstances, radio buttons that are not consecutive siblings trigger a hang bug in Windows (only). If this happens, add this style to mark the button as not belonging to a group, and implement the mutually-exclusive group behaviour yourself.</description>
+        </flag>
+    </style>
+    <bool name="value">
+        <description>Initial value of the control (default: 0).</description>
+    </bool>
+    <event name="wxCommandEvent">
+        <type name="EVT_RADIOBUTTON">
+            <description>Process a wxEVT_COMMAND_RADIOBUTTON_SELECTED event, when the radiobutton is clicked.</description>
+        </type>
+    </event>
+</class>

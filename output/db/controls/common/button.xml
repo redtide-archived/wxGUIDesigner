@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        button.xml
+    Purpose:     wxButton class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/14
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<class name="wxButton">
+    <inherits>
+        <class>wxAnyButton</class>
+    </inherits>
+    <name>m_button</name>
+    <style name="bitmapposition" label="Bitmap position">
+        <description>Position of the bitmap in the button, see wxButton::SetBitmapPosition().</description>
+        <flag name="wxTOP"/>
+        <flag name="wxBOTTOM"/>
+        <flag name="wxLEFT"/>
+        <flag name="wxRIGHT"/>
+    </style>
+    <bool name="default">
+        <description>Should this button be the default button in dialog (default: 0)?</description>
+    </bool>
+    <bitmap>
+        <description>Bitmap to show on the button (required).</description>
+    </bitmap>
+    <event name="wxCommandEvent">
+        <type name="EVT_BUTTON">
+            <description>Process a wxEVT_COMMAND_BUTTON_CLICKED event, when the button is clicked.</description>
+        </type>
+    </event>
+</class>

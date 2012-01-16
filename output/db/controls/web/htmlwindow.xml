@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        htmlwindow.xml
+    Purpose:     wxHtmlWindow class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/15
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<class name="wxHtmlWindow">
+    <inherits>
+        <class>wxScrolledWindow</class>
+    </inherits>
+    <name>m_htmlWnd</name>
+    <style>
+        <flag name="wxHW_SCROLLBAR_NEVER">
+            <description>Never display scrollbars, not even when the page is larger than the window.</description>
+        </flag>
+        <flag name="wxHW_SCROLLBAR_AUTO">
+            <description>Display scrollbars only if page's size exceeds window's size.</description>
+        </flag>
+        <flag name="wxHW_NO_SELECTION">
+            <description>Don't allow the user to select text.</description>
+        </flag>
+    </style>
+    <url>
+        <description>Page to display in the window.</description>
+    </url>
+    <text name="htmlcode" label="HTML code">
+        <description>HTML markup to display in the window.</description>
+    </text>
+    <dimension name="borders">
+        <description>Border around HTML content (default: 0).</description>
+    </dimension>
+    <event name="wxHtmlCellEvent">
+        <type name="EVT_HTML_CELL_CLICKED">
+            <description>A wxHtmlCell was clicked.</description>
+        </type>
+        <type name="EVT_HTML_CELL_HOVER">
+            <description>The mouse passed over a wxHtmlCell.</description>
+        </type>
+    </event>
+    <event name="wxHtmlLinkEvent">
+        <type name="EVT_HTML_LINK_CLICKED">
+            <description>A wxHtmlCell which contains an hyperlink was clicked.</description>
+        </type>
+    </event>
+</class>

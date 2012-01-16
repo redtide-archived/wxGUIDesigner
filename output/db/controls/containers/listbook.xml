@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        listbook.xml
+    Purpose:     wxListbook class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/15
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<classes>
+    <class name="wxListbook">
+        <inherits>
+            <class>wxBookCtrlBase</class>
+        </inherits>
+        <name>m_listBook</name>
+        <style>
+            <flag name="wxLB_DEFAULT">
+                <description>Choose the default location for the labels depending on the current platform (left everywhere except Mac where it is top).</description>
+            </flag>
+            <flag name="wxLB_TOP">
+                <description>Place labels above the page area.</description>
+            </flag>
+            <flag name="wxLB_LEFT">
+                <description>Place labels on the left side.</description>
+            </flag>
+            <flag name="wxLB_RIGHT">
+                <description>Place labels on the right side.</description>
+            </flag>
+            <flag name="wxLB_BOTTOM">
+                <description>Place labels below the page area.</description>
+            </flag>
+        </style>
+        <event name="wxBookCtrlEvent">
+            <type name="EVT_LISTBOOK_PAGE_CHANGED">
+                <description>The page selection was changed. Processes a wxEVT_COMMAND_LISTBOOK_PAGE_CHANGED event.</description>
+            </type>
+            <type name="EVT_LISTBOOK_PAGE_CHANGING">
+                <description>The page selection is about to be changed. Processes a wxEVT_COMMAND_LISTBOOK_PAGE_CHANGING event. This event can be vetoed.</description>
+            </type>
+        </event>
+    </class>
+
+    <class name="listbookpage">
+        <parents>
+            <class>wxListbook</class>
+        </parents>
+        <text name="label">
+            <description>Sheet page's title (required).</description>
+        </text>
+        <bitmap>
+            <description>Bitmap shown alongside the label (default: none).</description>
+        </bitmap>
+        <int name="image">
+            <description>The zero-based index of the image associated with the item into the image list.</description>
+        </int>
+        <bool name="selected">
+            <description>Is the page selected initially (only one page can be selected; default: 0)?</description>
+        </bool>
+    </class>
+</classes>

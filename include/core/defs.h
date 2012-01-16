@@ -21,6 +21,7 @@
 enum PropertyType
 {
     PROPERTY_TYPE_UNKNOWN = 0,
+    PROPERTY_TYPE_ARRAYSTRING,
     PROPERTY_TYPE_BITMAP,
     PROPERTY_TYPE_BOOL,
     PROPERTY_TYPE_CATEGORY,
@@ -33,6 +34,8 @@ enum PropertyType
     PROPERTY_TYPE_FLAG,
     PROPERTY_TYPE_FONT,
     PROPERTY_TYPE_INT,
+    PROPERTY_TYPE_ITEMS,
+    PROPERTY_TYPE_LISTCOLFMT,
     PROPERTY_TYPE_NAME,
     PROPERTY_TYPE_POINT,
     PROPERTY_TYPE_SIZE,
@@ -49,7 +52,6 @@ class ClassInfoBase;
 class EventBase;
 class PropertyBase;
 class ObjectBase;
-class XMLDataBase;
 
 class wxString;
 
@@ -60,12 +62,10 @@ typedef class std::tr1::shared_ptr< ClassInfoBase >     ClassInfo;
 typedef class std::tr1::shared_ptr< EventBase >         Event;
 typedef class std::tr1::shared_ptr< PropertyBase >      Property;
 typedef class std::tr1::shared_ptr< ObjectBase >        Object;
-typedef class std::tr1::shared_ptr< XMLDataBase >       ObjectDB;
 
 typedef std::map< wxString, EventInfo >                 EventInfoMap;
 typedef std::map< wxString, PropertyInfo >              PropertyInfoMap;
 typedef std::map< wxString, ClassInfo >                 ClassInfoMap;
-typedef std::map< wxString, ObjectDB >                  ObjectDBMap;
 
 typedef std::map< wxString, wxString >                  EventTypeMap;
 typedef std::map< wxString, PropertyType >              PropertyTypeMap;

@@ -11,12 +11,14 @@
 #ifndef __WXGDCORE_EDITOR_H__
 #define __WXGDCORE_EDITOR_H__
 
-#include "core/gui/manager.h"
+#include "interfaces/iobject.h"
 
 #include <plugin/plugin.h>
-#include <wx/notebook.h>
 
-class EditorHandler : public PluginHandler
+class wxNotebook;
+
+class EditorHandler : public IPluginHandler,
+                      public IObjectHandler
 {
     friend class GUIManager;
 
@@ -24,7 +26,12 @@ public:
     EditorHandler( wxNotebook *owner ) : m_editBook( owner ) {}
 
 private:
-    void OnPluginLoaded( Plugin *plugin );
+    virtual void OnPluginLoaded( Plugin *plugin );
+
+    virtual void OnObjectCreated ( IObject *object );
+    virtual void OnObjectDeleted ( IObject *object );
+    virtual void OnObjectExpanded( IObject *object );
+    virtual void OnObjectSelected( IObject *object );
 
     wxNotebook *m_editBook;
 };

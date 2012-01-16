@@ -26,7 +26,7 @@
 class wxEvent;
 class wxNotebook;
 
-class PaletteHandler : public PluginHandler
+class PaletteHandler : public IPluginHandler
 {
     friend class GUIManager;
 

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        animation.xml
+    Purpose:     wxAnimationCtrl class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2011/12/01
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<class name="wxAnimationCtrl">
+    <inherits>
+        <class>wxControl</class>
+    </inherits>
+    <name>m_animCtrl</name>
+    <style>
+        <flag name="wxAC_DEFAULT_STYLE">
+            <description>The default style: wxBORDER_NONE.</description>
+        </flag>
+        <flag name="wxAC_NO_AUTORESIZE">
+            <description>By default, the control will adjust its size to exactly fit to the size of the animation when SetAnimation is called. If this style flag is given, the control will not change its size.</description>
+        </flag>
+    </style>
+    <url name="Animation">
+        <description>Sets the animation to play in this control.</description>
+    </url>
+    <bitmap name="Inactive bitmap">
+        <description>Sets the bitmap to show on the control when it's not playing an animation.</description>
+    </bitmap>
+    <bool name="Play">
+        <description>Starts playing the animation.</description>
+    </bool>
+</class>

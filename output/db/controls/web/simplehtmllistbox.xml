@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        simplehtmllistbox.xml
+    Purpose:     wxHtmlListBox class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/15
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<class name="wxSimpleHtmlListBox">
+    <inherits>
+        <class>wxListBox</class>
+    </inherits>
+    <name>m_htmlListBox</name>
+    <style>
+        <flag name="wxHLB_DEFAULT_STYLE">
+            <description>The default style: wxBORDER_SUNKEN</description>
+        </flag>
+        <flag name="wxHLB_MULTIPLE">
+            <description>Multiple-selection list: the user can toggle multiple items on and off.</description>
+        </flag>
+    </style>
+    <event name="wxHtmlCellEvent">
+        <type name="EVT_HTML_CELL_CLICKED">
+            <description>A wxHtmlCell was clicked.</description>
+        </type>
+        <type name="EVT_HTML_CELL_HOVER">
+            <description>The mouse passed over a wxHtmlCell.</description>
+        </type>
+    </event>
+    <event name="wxHtmlLinkEvent">
+        <type name="EVT_HTML_LINK_CLICKED">
+            <description>A wxHtmlCell which contains an hyperlink was clicked.</description>
+        </type>
+    </event>
+</class>

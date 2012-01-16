@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        bitmapbutton.xml
+    Purpose:     wxBitmapButton class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/14
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<class name="wxBitmapButton">
+    <inherits>
+        <class>wxButton</class>
+    </inherits>
+    <name>m_bmpBtn</name>
+    <bitmap name="selected">
+        <description>Bitmap to show when the button is selected (default: none, same as bitmap).</description>
+    </bitmap>
+    <bitmap name="focus">
+        <description>Bitmap to show when the button has focus (default: none, same as bitmap).</description>
+    </bitmap>
+    <bitmap name="disabled">
+        <description>Bitmap to show when the button is disabled (default: none, same as bitmap).</description>
+    </bitmap>
+    <bitmap name="hover">
+        <description>Bitmap to show when mouse cursor hovers above the bitmap (default: none, same as bitmap).</description>
+    </bitmap>
+</class>

@@ -20,57 +20,100 @@
 
 #include <wx/log.h>
 //-----------------------------------------------------------------------------
-//  XMLDataBase
+//  ClassInfoDataBase
 //-----------------------------------------------------------------------------
 
-XMLDataBase::~XMLDataBase()
+ClassInfoDataBase *ClassInfoDataBase::ms_instance = NULL;
+
+ClassInfoDataBase *ClassInfoDataBase::Get()
 {
-    m_classes.erase( m_classes.begin(), m_classes.end() );
+    if ( !ms_instance )
+        ms_instance = new ClassInfoDataBase;
+
+    return ms_instance;
 }
 
-bool XMLDataBase::Load()
+void ClassInfoDataBase::Free()
 {
-    wxString basePath = ObjectDBManager::Get()->GetBasePath();
-    wxString dbPath   = basePath + m_category + wxFILE_SEP_PATH;
+    m_classes.erase( m_classes.begin(), m_classes.end() );
+
+    if ( ms_instance )
+    {
+        delete ms_instance;
+        ms_instance = NULL;
+    }
+}
+
+void ClassInfoDataBase::InitPropertyTypes()
+{
+    m_types.insert( PropertyTypeMap::value_type( "arraystring", PROPERTY_TYPE_ARRAYSTRING ) );
+    m_types.insert( PropertyTypeMap::value_type( "bitmap",      PROPERTY_TYPE_BITMAP ) );
+    m_types.insert( PropertyTypeMap::value_type( "bool",        PROPERTY_TYPE_BOOL ) );
+    m_types.insert( PropertyTypeMap::value_type( "category",    PROPERTY_TYPE_CATEGORY ) );
+    m_types.insert( PropertyTypeMap::value_type( "colour",      PROPERTY_TYPE_COLOUR ) );
+    m_types.insert( PropertyTypeMap::value_type( "dimension",   PROPERTY_TYPE_DIMENSION ) );
+    m_types.insert( PropertyTypeMap::value_type( "double",      PROPERTY_TYPE_DOUBLE ) );
+    m_types.insert( PropertyTypeMap::value_type( "event",       PROPERTY_TYPE_EVENT ) );
+    m_types.insert( PropertyTypeMap::value_type( "enum",        PROPERTY_TYPE_ENUM ) );
+    m_types.insert( PropertyTypeMap::value_type( "float",       PROPERTY_TYPE_FLOAT ) );
+    m_types.insert( PropertyTypeMap::value_type( "flag",        PROPERTY_TYPE_FLAG ) );
+    m_types.insert( PropertyTypeMap::value_type( "font",        PROPERTY_TYPE_FONT ) );
+    m_types.insert( PropertyTypeMap::value_type( "listcolfmt",  PROPERTY_TYPE_LISTCOLFMT ) );
+    m_types.insert( PropertyTypeMap::value_type( "items",       PROPERTY_TYPE_ITEMS ) );
+    m_types.insert( PropertyTypeMap::value_type( "int",         PROPERTY_TYPE_INT ) );
+    m_types.insert( PropertyTypeMap::value_type( "name",        PROPERTY_TYPE_NAME ) );
+    m_types.insert( PropertyTypeMap::value_type( "point",       PROPERTY_TYPE_POINT ) );
+    m_types.insert( PropertyTypeMap::value_type( "size",        PROPERTY_TYPE_SIZE ) );
+    m_types.insert( PropertyTypeMap::value_type( "string",      PROPERTY_TYPE_STRING ) );
+    m_types.insert( PropertyTypeMap::value_type( "style",       PROPERTY_TYPE_STYLE ) );
+    m_types.insert( PropertyTypeMap::value_type( "exstyle",     PROPERTY_TYPE_STYLE ) );
+    m_types.insert( PropertyTypeMap::value_type( "text",        PROPERTY_TYPE_TEXT ) );
+    m_types.insert( PropertyTypeMap::value_type( "url",         PROPERTY_TYPE_URL ) );
+}
+
+void ClassInfoDataBase::Init()
+{
+    InitPropertyTypes();
+
+    // /path/to/db/controls/
+    wxString dbPath = GetBasePath() + "controls" + wxFILE_SEP_PATH;
 
     if ( !wxDirExists( dbPath ) )
-        return false;
+        return;
 
     wxDir dbDir( dbPath );
     if ( !dbDir.IsOpened() )
-        return false;
+        return;
 
-    wxString currentDirName;
-    bool haveDir = dbDir.GetFirst( &currentDirName, wxEmptyString,
+    wxString currentDir;
+    bool haveDir = dbDir.GetFirst( &currentDir, wxEmptyString,
                                     wxDIR_DIRS | wxDIR_HIDDEN );
     while ( haveDir )
     {
-        wxString pluginPath = dbPath + currentDirName;
-        wxDir pluginDir( pluginPath );
-        if ( pluginDir.IsOpened() )
+        wxString categoryPath = dbPath + currentDir;
+        wxDir categoryDir( categoryPath );
+        if ( categoryDir.IsOpened() )
         {
-            wxString xmlFilePath;
-            bool haveXml = pluginDir.GetFirst( &xmlFilePath, "*.xml",
+            wxString xmlFile;
+            bool haveXml = categoryDir.GetFirst( &xmlFile, "*.xml",
                                                 wxDIR_FILES | wxDIR_HIDDEN );
             while ( haveXml )
             {
-                wxFileName xmlFileName( pluginPath + wxFILE_SEP_PATH + xmlFilePath );
+                wxFileName xmlFileName( categoryPath + wxFILE_SEP_PATH + xmlFile );
                 if ( !xmlFileName.IsAbsolute() )
                     xmlFileName.MakeAbsolute();
 
                 ReadXML( xmlFileName.GetFullPath() );
 
-                haveXml = pluginDir.GetNext( &xmlFilePath );
+                haveXml = categoryDir.GetNext( &xmlFile );
             }
         }
 
-        haveDir = dbDir.GetNext( &currentDirName );
+        haveDir = dbDir.GetNext( &currentDir );
     }
-
-    return true;
 }
 
-bool XMLDataBase::ReadXML( const wxString &xmlpath )
+bool ClassInfoDataBase::ReadXML( const wxString &xmlpath )
 {
     // Check document
     wxXmlDocument doc;
@@ -94,7 +137,7 @@ bool XMLDataBase::ReadXML( const wxString &xmlpath )
     return true;
 }
 
-void XMLDataBase::Parse( wxXmlNode *classNode, bool recursively )
+void ClassInfoDataBase::Parse( wxXmlNode *classNode, bool recursively )
 {
     // 'class' element must have a non-empty 'name' attribute
     wxString name = classNode->GetAttribute("name");
@@ -103,7 +146,7 @@ void XMLDataBase::Parse( wxXmlNode *classNode, bool recursively )
         wxLogError( "Class '%s' without a name", classNode->GetName() );
         return;
     }
-
+wxLogDebug(name);
     wxArrayString   parents;
     wxArrayString   baseClasses;
     EventInfoMap    evtInfoMap;
@@ -119,7 +162,7 @@ void XMLDataBase::Parse( wxXmlNode *classNode, bool recursively )
             if ( !includePath.empty() )
             {
                 includePath.Replace( "/", wxFILE_SEP_PATH );
-                wxString path = ObjectDBManager::Get()->GetBasePath() + includePath;
+                wxString path = GetBasePath() + includePath;
                 Parse( path, true );
             }
         }
@@ -182,7 +225,7 @@ void XMLDataBase::Parse( wxXmlNode *classNode, bool recursively )
     }
 }
 
-EventInfoBase *XMLDataBase::DoGetEventInfo( wxXmlNode *eventNode )
+EventInfoBase *ClassInfoDataBase::DoGetEventInfo( wxXmlNode *eventNode )
 {
     wxString evtClsName = eventNode->GetAttribute("name");
 
@@ -215,7 +258,7 @@ EventInfoBase *XMLDataBase::DoGetEventInfo( wxXmlNode *eventNode )
     return evtInfoBase;
 }
 
-PropertyInfoBase *XMLDataBase::DoGetPropertyInfo( wxXmlNode *propertyNode )
+PropertyInfoBase *ClassInfoDataBase::DoGetPropertyInfo( wxXmlNode *propertyNode )
 {
     PropertyInfoBase *propInfoBase = NULL;
     PropertyType propType = GetPropertyType( propertyNode->GetName() );
@@ -270,7 +313,7 @@ PropertyInfoBase *XMLDataBase::DoGetPropertyInfo( wxXmlNode *propertyNode )
     return propInfoBase;
 }
 
-ClassInfo XMLDataBase::GetClassInfo( const wxString &className )
+ClassInfo ClassInfoDataBase::GetClassInfo( const wxString &className )
 {
     ClassInfoMap::const_iterator it = m_classes.find( className );
 
@@ -280,68 +323,7 @@ ClassInfo XMLDataBase::GetClassInfo( const wxString &className )
     return ClassInfo();
 }
 
-/*
-int XMLDataBase::GetBaseClassInfoIndex( const wxString &name )
-{
-    for ( ClassInfoMap::iterator it = m_baseClasses.begin();
-            it != m_baseClasses.end(); ++it )
-    {
-        ClassInfo baseClass = (*it);
-        if ( baseClass.get()->GetClassName() == name )
-            return baseClass;
-    }
-}
-*/
-//-----------------------------------------------------------------------------
-//  ObjectDBManager
-//-----------------------------------------------------------------------------
-
-ObjectDBManager *ObjectDBManager::ms_instance = NULL;
-
-ObjectDBManager *ObjectDBManager::Get()
-{
-    if ( !ms_instance )
-        ms_instance = new ObjectDBManager;
-
-    return ms_instance;
-}
-
-void ObjectDBManager::Free()
-{
-    m_databases.erase( m_databases.begin(), m_databases.end() );
-
-    if ( ms_instance )
-    {
-        delete ms_instance;
-        ms_instance = NULL;
-    }
-}
-
-void ObjectDBManager::InitTypes()
-{
-    m_types.insert( PropertyTypeMap::value_type( "bitmap",   PROPERTY_TYPE_BITMAP ) );
-    m_types.insert( PropertyTypeMap::value_type( "bool",     PROPERTY_TYPE_BOOL ) );
-    m_types.insert( PropertyTypeMap::value_type( "category", PROPERTY_TYPE_CATEGORY ) );
-    m_types.insert( PropertyTypeMap::value_type( "colour",   PROPERTY_TYPE_COLOUR ) );
-    m_types.insert( PropertyTypeMap::value_type( "dimension",PROPERTY_TYPE_DIMENSION ) );
-    m_types.insert( PropertyTypeMap::value_type( "double",   PROPERTY_TYPE_DOUBLE ) );
-    m_types.insert( PropertyTypeMap::value_type( "event",    PROPERTY_TYPE_EVENT ) );
-    m_types.insert( PropertyTypeMap::value_type( "enum",     PROPERTY_TYPE_ENUM ) );
-    m_types.insert( PropertyTypeMap::value_type( "float",    PROPERTY_TYPE_FLOAT ) );
-    m_types.insert( PropertyTypeMap::value_type( "flag",     PROPERTY_TYPE_FLAG ) );
-    m_types.insert( PropertyTypeMap::value_type( "font",     PROPERTY_TYPE_FONT ) );
-    m_types.insert( PropertyTypeMap::value_type( "int",      PROPERTY_TYPE_INT ) );
-    m_types.insert( PropertyTypeMap::value_type( "name",     PROPERTY_TYPE_NAME ) );
-    m_types.insert( PropertyTypeMap::value_type( "point",    PROPERTY_TYPE_POINT ) );
-    m_types.insert( PropertyTypeMap::value_type( "size",     PROPERTY_TYPE_SIZE ) );
-    m_types.insert( PropertyTypeMap::value_type( "string",   PROPERTY_TYPE_STRING ) );
-    m_types.insert( PropertyTypeMap::value_type( "style",    PROPERTY_TYPE_STYLE ) );
-    m_types.insert( PropertyTypeMap::value_type( "exstyle",  PROPERTY_TYPE_STYLE ) );
-    m_types.insert( PropertyTypeMap::value_type( "text",     PROPERTY_TYPE_TEXT ) );
-    m_types.insert( PropertyTypeMap::value_type( "url",      PROPERTY_TYPE_URL ) );
-}
-
-PropertyType ObjectDBManager::GetPropertyType( const wxString &tagname ) const
+PropertyType ClassInfoDataBase::GetPropertyType( const wxString &tagname ) const
 {
     PropertyTypeMap::const_iterator it = m_types.find( tagname );
 
@@ -351,39 +333,8 @@ PropertyType ObjectDBManager::GetPropertyType( const wxString &tagname ) const
     return PROPERTY_TYPE_UNKNOWN;
 }
 
-bool ObjectDBManager::AddDatabase( const wxString &category )
+const wxString ClassInfoDataBase::GetBasePath() const
 {
-    ObjectDB db( new XMLDataBase( category ) );
-
-    if ( !db->Load() )
-    {
-        db.reset();
-        return false;
-    }
-
-    m_databases.insert( ObjectDBMap::value_type( category, db ) );
-    return true;
-}
-
-const wxString ObjectDBManager::GetBasePath() const
-{
-#ifdef __WXMSW__
-    return wxStandardPaths::Get().GetResourcesDir().BeforeLast('/') +
-                wxFILE_SEP_PATH + "plugins" + wxFILE_SEP_PATH;
-#else
-    return wxStandardPaths::Get().GetResourcesDir().BeforeLast('/') +
-                wxFILE_SEP_PATH + wxTheApp->GetAppName().Lower().Trim( false ) +
-                wxFILE_SEP_PATH + "plugins" + wxFILE_SEP_PATH;
-#endif
-}
-
-ClassInfo ObjectDBManager::GetClassInfo( const wxString &className,
-                                        const wxString &dataBaseName )
-{
-    ObjectDBMap::const_iterator it = m_databases.find( dataBaseName );
-
-    if ( it != m_databases.end() )
-        return it->second->GetClassInfo( className );
-
-    return ClassInfo();
+    return wxStandardPaths::Get().GetResourcesDir() + wxFILE_SEP_PATH +
+                                                    "db" + wxFILE_SEP_PATH;
 }

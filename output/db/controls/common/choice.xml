@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        choice.xml
+    Purpose:     wxChoice class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/14
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<class name="wxChoice">
+    <inherits>
+        <class>wxControl</class>
+    </inherits>
+    <name>m_choice</name>
+    <style>
+        <flag name="wxCB_SORT">
+            <description>Sorts the entries alphabetically.</description>
+        </flag>
+    </style>
+    <int name="selection">
+        <value>-1</value>
+        <description>Index of the initially selected item or -1 for no selection (default: -1).</description>
+    </int>
+    <arraystring name="content">
+        <description>Content of the control; this property has any number of &lt;item&gt; XML elements as its children, with the items text as their text values (default: empty).</description>
+    </arraystring>
+    <event name="wxCommandEvent">
+        <type name="EVT_CHOICE">
+            <description>Process a wxEVT_COMMAND_CHOICE_SELECTED event, when an item on the list is selected.</description>
+        </type>
+    </event>
+</class>

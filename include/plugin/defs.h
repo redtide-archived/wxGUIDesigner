@@ -27,11 +27,11 @@
 #ifdef __WXMSW__
     #define wxGD_PLUGIN_DIR \
     wxStandardPaths::Get().GetResourcesDir().BeforeLast('/') + wxFILE_SEP_PATH + \
-                                    "plugins" + wxFILE_SEP_PATH
+                                    "db" + wxFILE_SEP_PATH
 #else
     #define wxGD_PLUGIN_DIR \
     wxStandardPaths::Get().GetResourcesDir().BeforeLast('/') + wxFILE_SEP_PATH + \
-                                    "wxguidesigner/plugins" + wxFILE_SEP_PATH
+                                    "wxguidesigner/db" + wxFILE_SEP_PATH
 #endif
 
 #endif //__WXGDPLUGIN_DEFS_H__

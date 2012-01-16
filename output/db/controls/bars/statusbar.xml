@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        statusbar.xml
+    Purpose:     wxStatusBar class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2011/12/03
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<class name="wxStatusBar">
+    <inherits>
+        <class>wxControl</class>
+    </inherits>
+    <parents>
+        <class>wxFrame</class>
+    </parents>
+    <name>m_statusBar</name>
+    <style name="Flag">
+        <flag name="wxSTB_SIZEGRIP">
+            <description>Displays a gripper at the right-hand side of the status bar which can be used to resize the parent window.</description>
+        </flag >
+        <flag name="wxSTB_SHOW_TIPS">
+            <description>Displays tooltips for those panes whose status text has been ellipsized/truncated because the status text doesn't fit the pane width. Note that this flag has effect only on wxGTK (with GTK+ >= 2.12) currently.</description>
+        </flag >
+        <flag name="wxSTB_ELLIPSIZE_START">
+            <description>Replace the beginning of the status texts with an ellipsis when the status text widths exceed the status bar pane's widths (uses wxControl::Ellipsize).</description>
+        </flag >
+        <flag name="wxSTB_ELLIPSIZE_MIDDLE">
+            <description>Replace the middle of the status texts with an ellipsis when the status text widths exceed the status bar pane's widths (uses wxControl::Ellipsize).</description>
+        </flag >
+        <flag name="wxSTB_ELLIPSIZE_END">
+            <description>Replace the end of the status texts with an ellipsis when the status text widths exceed the status bar pane's widths (uses wxControl::Ellipsize).</description>
+        </flag >
+        <flag name="wxSTB_DEFAULT_STYLE">
+            <description>The default style: includes wxSTB_SIZEGRIP|wxSTB_SHOW_TIPS|wxSTB_ELLIPSIZE_END|wxFULL_REPAINT_ON_RESIZE.</description>
+        </flag >
+    </style>
+    <int name="fields">
+        <value>1</value>
+        <description>Number of status bar fields (default: 1).</description>
+    </int>
+    <string name="widths">
+        <description>Comma-separated list of fields integers. Each value specifies width of one field; the values are interpreted using the same convention used by wxStatusBar::SetStatusWidths().</description>
+    </string>
+    <string name="styles">
+        <description>Comma-separated list of fields flags. Each value specifies status bar field flag and can be one of wxSB_NORMAL, wxSB_FLAT or wxSB_RAISED. See wxStatusBar::SetStatusStyles() for their description.</description>
+    </string>
+    <string name="accel" label="Accelerator">
+        <description>Item's accelerator (default: none).</description>
+    </string>
+</class>

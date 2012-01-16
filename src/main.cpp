@@ -10,8 +10,7 @@
 
 #include "main.h"
 
-#include <core/gui/manager.h>
-#include <core/object/database.h>
+#include <core/manager.h>
 
 #include <wx/config.h>
 #include <wx/cmdline.h>
@@ -66,13 +65,8 @@ int wxGUIDesignerApp::OnRun()
         asm volatile ("movl %0, %%fs:0" : : "r" (&ex));
     #endif
 
-    wxApp::SetAppName(" wxGUIDesigner");
+    wxApp::SetAppDisplayName("wxGUIDesigner");
     delete wxConfigBase::Set( new wxConfig("wxGUIDesigner") );
-
-    // Get the data directory
-    wxStandardPathsBase& stdPaths = wxStandardPaths::Get();
-    wxString             dataDir  = stdPaths.GetDataDir();
-    dataDir.Replace( GetAppName(), "wxguidesigner" );
 
     // Parse command line
     wxCmdLineParser parser( s_cmdLineDesc, argc, argv );
@@ -118,18 +112,16 @@ int wxGUIDesignerApp::OnRun()
     wxSystemOptions::SetOption( "msw.staticbox.optimized-paint", 0 );
 #endif
 
-    m_frame = NULL;
-
     wxYield();
 
-    m_frame = GUIManager::Get()->GetMainFrame( NULL );
+    m_frame = wxGUIDesigner::Get()->GetMainFrame( NULL );
 
     if ( !m_frame )
     {
         wxLogError(_("Error while loading the main frame.") ); return 1;
     }
 
-    wxSetWorkingDirectory( dataDir );
+    wxSetWorkingDirectory( wxStandardPaths::Get().GetDataDir() );
 
     if ( generatingCode )
     {
@@ -140,12 +132,9 @@ int wxGUIDesignerApp::OnRun()
         m_frame->Show( true );
         SetTopWindow( m_frame );
     }
-    ObjectDBManager::Get()->AddDatabase("controls");
-    ObjectDBManager::Get()->Free();
-/*
-    GUIManager::Get()->NewProject();
-    PluginManager::Get()->LoadPlugins();
-*/
+
+    wxGUIDesigner::Get()->NewProject();
+
     return wxApp::OnRun();
 }
 
@@ -158,8 +147,6 @@ bool wxGUIDesignerApp::OnInit()
 
 int wxGUIDesignerApp::OnExit()
 {
-    GUIManager::Get()->Free();
-
     return wxApp::OnExit();
 }
 

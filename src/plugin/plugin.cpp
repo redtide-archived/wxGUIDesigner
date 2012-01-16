@@ -70,7 +70,7 @@ PluginManager::PluginManager()
     }
 
     wxString ctrlDir = wxGD_PLUGIN_DIR + "controls" + wxFILE_SEP_PATH;
-    wxString editDir = wxGD_PLUGIN_DIR + "codegens" + wxFILE_SEP_PATH;
+    wxString editDir = wxGD_PLUGIN_DIR + "languages" + wxFILE_SEP_PATH;
 
     if ( CheckDir( ctrlDir ) ) m_ctrlDir = ctrlDir;
     if ( CheckDir( editDir ) ) m_editDir = editDir;
@@ -122,7 +122,7 @@ void PluginManager::LoadPlugins( const wxString &category )
     if ( !dbDir.IsOpened() ) return;
 
     wxXmlDocument doc;
-    if ( !doc.Load( dbDir.GetName() + wxFILE_SEP_PATH + category + ".xml" ) ) return;
+    if ( !doc.Load( dbDir.GetName() + ".xml" ) ) return;
 
     wxXmlNode *rootNode = doc.GetRoot();
 
@@ -168,7 +168,7 @@ void PluginManager::LoadPlugins( const wxString &category )
             }
 
             // Plugin directory (e.g. 'path/to/plugins/toplevel')
-            wxString pluginPath    = dbPath + plugDirName;
+            wxString pluginPath = dbPath + plugDirName;
 
             // Icons directory (e.g. 'path/to/plugins/toplevel/icons')
             wxString plugIconsPath = pluginPath + wxFILE_SEP_PATH + "icons";
@@ -250,10 +250,10 @@ void PluginManager::LoadPlugins( const wxString &category )
 
                 m_plugins.push_back( plugin );
 
-                for ( wxVector< PluginHandler * >::iterator it = m_handlers.begin();
+                for ( wxVector< IPluginHandler * >::iterator it = m_handlers.begin();
                         it != m_handlers.end(); ++it )
                 {
-                    PluginHandler *handler = (*it);
+                    IPluginHandler *handler = (*it);
                     handler->OnPluginLoaded( plugin );
                 }
             }

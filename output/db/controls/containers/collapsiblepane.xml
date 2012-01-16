@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        collapsiblepane.xml
+    Purpose:     wxCollapsiblePane class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/15
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<class name="wxCollapsiblePane">
+    <inherits>
+        <class>wxControl</class>
+    </inherits>
+    <name>m_collPane</name>
+    <style>
+        <flag name="wxCP_DEFAULT_STYLE">
+            <description>The default style. It includes wxTAB_TRAVERSAL and wxBORDER_NONE.</description>
+        </flag>
+        <flag name="wxCP_NO_TLW_RESIZE">
+            <description>By default wxCollapsiblePane resizes the top level window containing it when its own size changes. This allows to easily implement dialogs containing an optionally shown part, for example, and so is the default behaviour but can be inconvenient in some specific cases -- use this flag to disable this automatic parent resizing then.</description>
+        </flag>
+    </style>
+    <bool name="collapsed">
+        <description>Should the pane be collapsed initially (default: 0)?</description>
+    </bool>
+    <event name="wxCollapsiblePaneEvent">
+        <type name="EVT_COLLAPSIBLEPANE_CHANGED">
+            <description>The user expanded or collapsed the collapsible pane.</description>
+        </type>
+    </event>
+    <event name="wxNavigationKeyEvent">
+        <type name="EVT_NAVIGATION_KEY">
+            <description>Process a navigation key event.</description>
+        </type>
+    </event>
+</class>

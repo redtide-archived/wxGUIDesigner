@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        commandlinkbutton.xml
+    Purpose:     wxCommandLinkButton class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/15
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<class name="wxCommandLinkButton">
+    <inherits>
+        <class>wxButton</class>
+    </inherits>
+    <name>m_cmdLinkBtn</name>
+    <text name="note">
+        <description>Second line of text describing the action performed when the button is pressed.</description>
+    </text>
+</class>

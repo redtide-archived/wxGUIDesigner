@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        dirpickerctrl.xml
+    Purpose:     wxDirPickerCtrl class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/14
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<class name="wxDirPickerCtrl">
+    <inherits>
+        <class>wxControl</class>
+    </inherits>
+    <name>m_dirPicker</name>
+    <style>
+        <flag name="wxDIRP_DEFAULT_STYLE">
+            <description>The default style: includes wxDIRP_DIR_MUST_EXIST and, under wxMSW only, wxDIRP_USE_TEXTCTRL.</description>
+        </flag>
+        <flag name="wxDIRP_USE_TEXTCTRL">
+            <description>Creates a text control to the left of the picker button which is completely managed by the wxDirPickerCtrl and which can be used by the user to specify a path (see SetPath). The text control is automatically synchronized with button's value. Use functions defined in wxPickerBase to modify the text control.</description>
+        </flag>
+        <flag name="wxDIRP_DIR_MUST_EXIST">
+            <description>Creates a picker which allows to select only existing directories. wxGTK control always adds this flag internally as it does not support its absence.</description>
+        </flag>
+        <flag name="wxDIRP_CHANGE_DIR">
+            <description>Change current working directory on each user directory selection change.</description>
+        </flag>
+        <flag name="wxDIRP_SMALL">
+            <description>Use smaller version of the control with a small "..." button instead of the normal "Browse" one. This flag is new since wxWidgets 2.9.3.</description>
+        </flag>
+    </style>
+    <string name="value">
+        <description>Initial value of the control (default: empty).</description>
+    </string>
+    <text name="message">
+        <description>Message shown to the user in wxDirDialog shown by the control (required).</description>
+    </text>
+    <event name="wxFileDirPickerEvent">
+        <type name="EVT_DIRPICKER_CHANGED">
+            <description>The user changed the directory selected in the control either using the button or using text control (see wxDIRP_USE_TEXTCTRL; note that in this case the event is fired only if the user's input is valid, e.g. an existing directory path).</description>
+        </type>
+    </event>
+</class>

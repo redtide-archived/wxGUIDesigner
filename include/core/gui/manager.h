@@ -8,18 +8,17 @@
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef __WXGDCORE_MANAGER_H__
-#define __WXGDCORE_MANAGER_H__
+#ifndef __CORE_GUI_MANAGER_H__
+#define __CORE_GUI_MANAGER_H__
 
 #include "core/dllimpexp.h"
 #include "core/utils.h"
-
-#include "interfaces/iobject.h"
 
 class MainFrame;
 class EditorHandler;
 class PropBookHandler;
 class PaletteHandler;
+class TreeViewHandler;
 
 class PluginManager;
 
@@ -35,7 +34,7 @@ class wxXmlResource;
 
 class wxPropertyGridXmlHandler;
 
-class DLLIMPEXP_CORE GUIManager : public IObjectHandler
+class DLLIMPEXP_CORE GUIManager
 {
 public:
     wxDialog        *GetAboutDialog      ( wxWindow *parent = NULL );
@@ -61,11 +60,6 @@ private:
     GUIManager();
     virtual ~GUIManager();
 
-    virtual void OnObjectCreated ( const IObject &object );
-    virtual void OnObjectDeleted ( const IObject &object );
-    virtual void OnObjectExpanded( const IObject &object );
-    virtual void OnObjectSelected( const IObject &object );
-
     void OnWindowPaint( wxPaintEvent &event );
 
     MainFrame  *m_frame;
@@ -81,13 +75,12 @@ private:
     wxPropertyGrid  *m_pgProps;
     wxPropertyGrid  *m_pgEvents;
 
-    wxPropertyGridXmlHandler *m_pgXmlHandler;
-
     EditorHandler   *m_editBookHndlr;
     PaletteHandler  *m_paletteHndlr;
     PropBookHandler *m_propBookHndlr;
+    TreeViewHandler *m_treeViewHndlr;
 
     static GUIManager *ms_instance;
 };
 
-#endif //__WXGDCORE_MANAGER_H__
+#endif //__CORE_GUI_MANAGER_H__

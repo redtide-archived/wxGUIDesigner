@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        gauge.xml
+    Purpose:     wxGauge class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/14
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<class name="wxGauge">
+    <inherits>
+        <class>wxControl</class>
+    </inherits>
+    <name>m_gauge</name>
+    <style>
+        <flag name="wxGA_HORIZONTAL">
+            <description>Creates a horizontal gauge.</description>
+        </flag>
+        <flag name="wxGA_VERTICAL">
+            <description>Creates a vertical gauge.</description>
+        </flag>
+        <flag name="wxGA_SMOOTH">
+            <description>Creates smooth progress bar with one pixel wide update step (not supported by all platforms).</description>
+        </flag>
+    </style>
+    <int name="range">
+        <value>100</value>
+        <description>Maximum value of the gauge (default: 100).</description>
+    </int>
+    <int name="value">
+        <description>Initial value of the control (default: 0).</description>
+    </int>
+    <dimension name="shadow">
+        <description>Rendered shadow size (default: none; ignored by most platforms).</description>
+    </dimension>
+    <dimension name="bezel">
+        <description>Rendered bezel size (default: none; ignored by most platforms).</description>
+    </dimension>
+</class>

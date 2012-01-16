@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        controls.xml
+    Purpose:     Control plugin list
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2011/12/01
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<plugins itembmpsize="22">
+    <plugin label="Top Level">
+        <item name="wxFrame"/>
+        <item name="wxDialog"/>
+        <separator/>
+        <item name="wxWizard"/>
+        <item name="wxWizardPage"/>
+        <item name="wxWizardPageSimple"/>
+        <separator/>
+        <item name="wxPropertySheetDialog"/>
+        <item name="propertysheetpage"/>
+    </plugin>
+    <plugin label="Bars">
+        <item name="wxToolBar"/>
+        <!--item name="wxAuiToolBar"-->
+        <item name="tool"/>
+        <separator/>
+        <item name="separator"/>
+        <separator/>
+        <item name="wxMenuBar"/>
+        <item name="wxMenu"/>
+        <item name="wxMenuItem"/>
+        <separator/>
+        <item name="wxStatusBar"/>
+    </plugin>
+    <plugin label="Sizers">
+        <item name="wxBoxSizer"/>
+        <item name="wxGridSizer"/>
+        <item name="wxFlexGridSizer"/>
+        <item name="wxGridBagSizer"/>
+        <item name="wxStaticBoxSizer"/>
+        <item name="wxStdDialogButtonSizer"/>
+        <item name="spacer"/>
+    </plugin>
+    <plugin label="Common">
+        <item name="wxButton"/>
+        <item name="wxBitmapButton"/>
+        <item name="wxBitmapToggleButton"/>
+        <item name="wxToggleButton"/>
+        <item name="wxTextCtrl"/>
+        <item name="wxChoice"/>
+        <item name="wxComboBox"/>
+        <item name="wxListBox"/>
+        <item name="wxCheckListBox"/>
+        <item name="wxImageList"/>
+        <separator/>
+        <item name="wxListCtrl"/>
+        <item name="listcol"/>
+        <item name="listitem"/>
+        <separator/>
+        <item name="wxGenericDirCtrl"/>
+        <item name="wxFileCtrl"/>
+        <item name="wxTreeCtrl"/>
+        <item name="wxStaticBitmap"/>
+        <item name="wxStaticBox"/>
+        <item name="wxStaticLine"/>
+        <item name="wxStaticText"/>
+        <item name="wxCheckBox"/>
+        <item name="wxRadioButton"/>
+        <item name="wxRadioBox"/>
+        <item name="wxGauge"/>
+        <item name="wxSlider"/>
+        <item name="wxSpinButton"/>
+        <item name="wxSpinCtrl"/>
+        <item name="wxScrollBar"/>
+    </plugin>
+    <plugin label="Containers">
+        <item name="wxPanel"/>
+        <separator/>
+        <item name="wxNoteBook"/>
+        <item name="wxAuiNoteBook"/>
+        <item name="wxChoiceBook"/>
+        <item name="wxListBook"/>
+        <item name="wxToolBook"/>
+        <item name="wxTreeBook"/>
+        <separator/>
+        <item name="wxCollapsiblePane"/>
+        <item name="wxScrolledWindow"/>
+        <item name="wxSplitterWindow"/>
+    </plugin>
+    <plugin label="Advanced">
+        <item name="wxAnimationCtrl"/>
+        <item name="wxBannerWindow"/>
+        <item name="wxCalendarCtrl"/>
+        <item name="wxCommandLinkButton"/>
+        <item name="wxOwnerDrawnComboBox"/>
+        <separator/>
+        <item name="wxBitmapComboBox"/>
+        <item name="ownerdrawnitem"/>
+        <separator/>
+        <item name="wxTreeListCtrl"/>
+        <item name="treelistcol"/>
+        <item name="treelistitem"/>
+        <separator/>
+        <item name="wxGrid"/>
+        <item name="wxHyperLinkCtrl"/>
+        <item name="wxMediaCtrl"/>
+        <item name="wxRichTextCtrl"/>
+        <item name="wxSearchCtrl"/>
+        <!--item name="CustomCtrl"/-->
+    </plugin>
+    <plugin label="Pickers">
+        <item name="wxColourPickerCtrl"/>
+        <item name="wxDatePickerCtrl"/>
+        <item name="wxDirPickerCtrl"/>
+        <item name="wxFilePickerCtrl"/>
+        <item name="wxFontPickerCtrl"/>
+        <item name="wxTimePickerCtrl"/>
+    </plugin>
+    <plugin label="Web">
+        <item name="wxHtmlWindow"/>
+        <item name="wxSimpleHtmlListBox"/>
+        <!--item name="wxWebView"/-->
+    </plugin>
+</plugins>

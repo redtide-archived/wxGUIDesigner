@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        bannerwindow.xml
+    Purpose:     wxBannerWindow class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/14
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<class name="wxBannerWindow">
+    <inherits>
+        <class>wxControl</class>
+    </inherits>
+    <name>m_bannerWindow</name>
+    <style name="direction">
+        <description>The side along which the banner will be positioned.</description>
+        <flag name="wxTOP"/>
+        <flag name="wxBOTTOM"/>
+        <flag name="wxLEFT"/>
+        <flag name="wxRIGHT"/>
+    </style>
+    <bitmap>
+        <description>Bitmap to use as the banner background.</description>
+    </bitmap>
+    <text name="title">
+        <description>Banner title, should be single line.</description>
+    </text>
+    <text name="message">
+        <description>Possibly multi-line banner message.</description>
+    </text>
+    <colour name="gradient-start">
+        <description>Starting colour of the gradient used as banner background. Can't be used if a valid bitmap is specified.</description>
+    </colour>
+    <colour name="gradient-end">
+        <description>End colour of the gradient used as banner background. Can't be used if a valid bitmap is specified.</description>
+    </colour>
+</class>

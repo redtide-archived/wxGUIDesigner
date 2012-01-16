@@ -8,22 +8,12 @@
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "core/utils.h"
 #include "core/gui/propgrid.h"
 #include "core/gui/manager.h"
+#include "core/utils.h"
 
 #include <wx/splitter.h>
 #include <wx/xrc/xmlres.h>
-
-PropBookHandler::PropBookHandler( wxNotebook *owner )
-{
-    m_propBook = owner;
-}
-
-void PropBookHandler::OnPluginLoaded( Plugin *plugin )
-{
-
-}
 
 void PropBookHandler::OnSize( wxSizeEvent &event )
 {

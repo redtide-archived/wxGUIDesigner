@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        bitmaptogglebutton.xml
+    Purpose:     wxBitmapToggleButton class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/14
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<class name="wxBitmapToggleButton">
+    <inherits>
+        <class>wxToggleButton</class>
+    </inherits>
+    <name>m_toggleBtn</name>
+    <bitmap>
+        <description>Bitmap to display (required).</description>
+    </bitmap>
+</class>

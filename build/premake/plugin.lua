@@ -12,7 +12,7 @@ project "LibPlugin"
     files
     {
         "../../include/plugin/**.h", "../../src/plugin/**.cpp",
-        "../../output/plugins/**.xml"
+        "../../output/db/**.xml"
     }
     includedirs         {"../../include/plugin"}
     defines             {"MAKINGDLL_PLUGIN"}

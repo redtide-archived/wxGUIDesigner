@@ -58,7 +58,7 @@ public:
 
     @library{core}
 */
-class Object : public PluginItem
+class Object : public IObject
 {
 public:
     /**
@@ -81,6 +81,14 @@ public:
         Adds a child object to the children vector.
     */
     void AddChild( Object *child );
+    /**
+        Adds a Property object to the Properties vector.
+    */
+    void AddProperty( Property property );
+    /**
+        Adds a Event object to the Events vector.
+    */
+    void AddEvent( Event event );
     /**
         Adds a child object to the children vector.
     */

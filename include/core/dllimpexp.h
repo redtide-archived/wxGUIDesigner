@@ -1,4 +1,4 @@
-/**
+/*
     Name:        core/dllimpexp.h
     Purpose:     
     Author:      Andrea Zanellato
@@ -10,6 +10,8 @@
 
 #ifndef __WXGDCORE_DLLIMPEXP_H__
 #define __WXGDCORE_DLLIMPEXP_H__
+
+#include <wx/dlimpexp.h>
 
 #if defined(WXMAKINGLIB)
   #define DLLIMPEXP_CORE

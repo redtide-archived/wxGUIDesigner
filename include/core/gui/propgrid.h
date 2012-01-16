@@ -11,20 +11,17 @@
 #ifndef __WXGDCORE_PROPGRID_H__
 #define __WXGDCORE_PROPGRID_H__
 
-class wxSizeEvent;
 class wxNotebook;
+class wxSizeEvent;
 
-#include <plugin/plugin.h>
-
-class PropBookHandler : public PluginHandler
+class PropBookHandler
 {
     friend class GUIManager;
 
 public:
-    PropBookHandler( wxNotebook *owner );
+    PropBookHandler( wxNotebook *owner ) : m_propBook( owner ) {}
 
-protected:
-    void OnPluginLoaded( Plugin *plugin );
+private:
     void OnSize( wxSizeEvent &event );
 
     wxNotebook *m_propBook;

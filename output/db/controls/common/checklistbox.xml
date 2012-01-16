@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        checklistbox.xml
+    Purpose:     wxCheckListBox class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/14
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<classes>
+    <class name="wxCheckListBox">
+        <inherits>
+            <class>wxListBox</class>
+        </inherits>
+        <name>m_chkLstBox</name>
+        <items name="content">
+            <description>Content of the control; this property has any number of &gt;item&lt; XML elements as its children, with the items text as their text values (see below; default: empty).</description>
+        </items>
+        <event name="wxCommandEvent">
+            <type name="EVT_CHECKLISTBOX">
+                <description>Process a wxEVT_COMMAND_CHECKLISTBOX_TOGGLED event, when an item in the check list box is checked or unchecked. wxCommandEvent::GetInt() will contain the index of the item that was checked or unchecked. wxCommandEvent::IsChecked() is not valid! Use wxCheckListBox::IsChecked() instead.</description>
+            </type>
+        </event>
+    </class>
+
+    <class name="checklistboxitem" xrcname="item">
+        <bool name="checked" xrcattribute="1"/>
+    </class>
+</classes>

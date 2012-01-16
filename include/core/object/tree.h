@@ -122,21 +122,20 @@ private:
 // ObjectTree Singleton Class
 //-----------------------------------------------------------------------------
 
-class ObjectTree : public IObjectTree
+class ObjectTree : public IObjectManager
 {
 public:
     static ObjectTree *Get();
     void Free();
 
-    virtual bool CreateObject( const wxString &className,
-                                const wxString &category );
+    virtual bool CreateObject   ( const wxString &className );
 
-    virtual void AddHandler( IObjectHandler *handler );
-    virtual void RemoveHandler( IObjectHandler *handler );
+    virtual void AddHandler     ( IObjectHandler *handler );
+    virtual void RemoveHandler  ( IObjectHandler *handler );
 
     void SetRoot( Object object );
-    bool HaveRoot()                 { return m_root.get() != NULL; }
-    bool HaveSelection()            { return m_sel.get() != NULL; }
+    bool HaveRoot()             { return m_root.get() != NULL; }
+    bool HaveSelection()        { return m_sel.get() != NULL; }
 
 private:
     ObjectTree() : m_root( Object() ), m_sel( Object() ) {}

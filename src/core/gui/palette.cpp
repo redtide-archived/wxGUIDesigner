@@ -15,9 +15,8 @@
 
 #include <wx/notebook.h>
 
-PaletteHandler::PaletteHandler( wxNotebook *owner )
+PaletteHandler::PaletteHandler( wxNotebook *owner ) : m_palette( owner )
 {
-    m_palette = owner;
     m_palette->SetImageList( new wxImageList( 16, 16 ) );
 }
 
@@ -31,7 +30,7 @@ void PaletteHandler::OnToolClicked( wxCommandEvent &event )
         wxString   clsNme = tg->GetToolShortHelp( toolId );
         int        selPge = m_palette->GetSelection();
         wxString   pgeNme = m_palette->GetPageText( selPge );
-        ObjectTree::Get()->CreateObject( clsNme, pgeNme );
+        ObjectTree::Get()->CreateObject( clsNme );
     }
 }
 

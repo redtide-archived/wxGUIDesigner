@@ -110,65 +110,41 @@ private:
     PropertyInfoMap m_propInfos;
 };
 //-----------------------------------------------------------------------------
-//  ObjectDBManager
+//  ClassInfoDataBase
 //-----------------------------------------------------------------------------
 
-class DLLIMPEXP_CORE ObjectDBManager
+class DLLIMPEXP_CORE ClassInfoDataBase
 {
 public:
-    static ObjectDBManager *Get();
+    static ClassInfoDataBase *Get();
     void Free();
 
-    bool            AddDatabase( const wxString &category );
     const wxString  GetBasePath() const;
-    ClassInfo       GetClassInfo( const wxString &className,
-                                  const wxString &dataBaseName );
+    ClassInfo       GetClassInfo( const wxString &className );
     PropertyType    GetPropertyType( const wxString &tagname ) const;
 
 private:
-    ObjectDBManager() { InitTypes(); }
-    ~ObjectDBManager() {}
+    ClassInfoDataBase() { Init(); }
+    ~ClassInfoDataBase() {}
 
-    ObjectDBManager( const ObjectDBManager& );
-    ObjectDBManager& operator=( ObjectDBManager const& );
+    ClassInfoDataBase( const ClassInfoDataBase& );
+    ClassInfoDataBase& operator=( ClassInfoDataBase const& );
 
-    void InitTypes();
+    void Init();
+    void InitPropertyTypes();
+    bool ReadXML( const wxString &xmlpath );
+    void Parse( wxXmlNode *node, bool recursively = false );
 
-    typedef std::map< wxString, wxArrayString > ParentInfoMap;
-
-    ObjectDBMap     m_databases;
-    ParentInfoMap   m_infoMap;
-    PropertyTypeMap m_types;
-
-    static ObjectDBManager *ms_instance;
-};
-//-----------------------------------------------------------------------------
-//  XMLDataBase
-//-----------------------------------------------------------------------------
-
-class XMLDataBase
-{
-public:
-    XMLDataBase( const wxString &category )
-                : m_category( category ) {}
-    ~XMLDataBase();
-
-    bool         Load();
-    bool         ReadXML( const wxString &xmlpath );
-    void         Parse( wxXmlNode *node, bool recursively = false );
-    PropertyType GetPropertyType( const wxString &tagname ) const
-    {
-        return ObjectDBManager::Get()->GetPropertyType( tagname );
-    }
-
-    ClassInfo    GetClassInfo( const wxString &className );
-
-private:
     EventInfoBase    *DoGetEventInfo( wxXmlNode *eventNode );
     PropertyInfoBase *DoGetPropertyInfo( wxXmlNode *propertyNode );
 
-    wxString        m_category;
+    typedef std::map< wxString, wxArrayString > ParentInfoMap;
+
     ClassInfoMap    m_classes;
+    ParentInfoMap   m_infoMap;
+    PropertyTypeMap m_types;
+
+    static ClassInfoDataBase *ms_instance;
 };
 
 #endif //__WXGDCORE_DATABASE_H__

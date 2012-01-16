@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        colourpickerctrl.xml
+    Purpose:     wxColourPickerCtrl class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/14
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<class name="wxColourPickerCtrl">
+    <inherits>
+        <class>wxControl</class>
+    </inherits>
+    <name>m_clrPicker</name>
+    <style>
+        <flag name="wxCLRP_DEFAULT_STYLE">
+            <description>The default style: 0.</description>
+        </flag>
+        <flag name="wxCLRP_USE_TEXTCTRL">
+            <description>Creates a text control to the left of the picker button which is completely managed by the wxColourPickerCtrl and which can be used by the user to specify a colour (see SetColour). The text control is automatically synchronized with button's value. Use functions defined in wxPickerBase to modify the text control.</description>
+        </flag>
+        <flag name="wxCLRP_SHOW_LABEL">
+            <description>Shows the colour in HTML form (AABBCC) as colour button label (instead of no label at all).</description>
+        </flag>
+    </style>
+    <colour name="value">
+        <description>Initial value of the control (default: wxBLACK).</description>
+    </colour>
+    <event name="wxColourPickerEvent">
+        <type name="EVT_COLOURPICKER_CHANGED">
+            <description>The user changed the colour selected in the control either using the button or using text control (see wxCLRP_USE_TEXTCTRL; note that in this case the event is fired only if the user’s input is valid, i.e. recognizable).</description>
+        </type>
+    </event>
+</class>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        filectrl.xml
+    Purpose:     wxFileCtrl class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/15
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<class name="wxFileCtrl">
+    <inherits>
+        <class>wxControl</class>
+    </inherits>
+    <name></name>
+    <style>
+        <flag name="wxFC_DEFAULT_STYLE">
+            <description>The default style: wxFC_OPEN</description>
+        </flag>
+        <flag name="wxFC_OPEN">
+            <description>Creates an file control suitable for opening files. Cannot be combined with wxFC_SAVE.</description>
+        </flag>
+        <flag name="wxFC_SAVE">
+            <description>Creates an file control suitable for saving files. Cannot be combined with wxFC_OPEN.</description>
+        </flag>
+        <flag name="wxFC_MULTIPLE">
+            <description>For open control only, Allows selecting multiple files. Cannot be combined with wxFC_SAVE</description>
+        </flag>
+        <flag name="wxFC_NOSHOWHIDDEN">
+            <description>Hides the "Show Hidden Files" checkbox (Generic only)</description>
+        </flag>
+    </style>
+    <string name="defaultdirectory" label="Default directory">
+        <description>Sets the current directory displayed in the control.</description>
+    </string>
+    <string name="defaultfilename" label="Default filename">
+        <description>Selects a certain file.</description>
+    </string>
+    <string name="wildcard">
+        <description>Sets the wildcard, which can contain multiple file types, for example: "BMP files (*.bmp)|*.bmp|GIF files (*.gif)|*.gif".</description>
+    </string>
+    <event name="wxFileCtrlEvent">
+        <type name="EVT_FILECTRL_FILEACTIVATED">
+            <description>The user activated a file(by double-clicking or pressing Enter)</description>
+        </type>
+        <type name="EVT_FILECTRL_SELECTIONCHANGED">
+            <description>The user changed the current selection(by selecting or deselecting a file)</description>
+        </type>
+        <type name="EVT_FILECTRL_FOLDERCHANGED">
+            <description>The current folder of the file control has been changed</description>
+        </type>
+        <type name="EVT_FILECTRL_FILTERCHANGED">
+            <description>The current file filter of the file control has been changed. (Since: 2.9.1)</description>
+        </type>
+    </event>
+</class>

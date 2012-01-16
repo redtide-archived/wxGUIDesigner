@@ -9,7 +9,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "core/gui/editor.h"
+#include "core/gui/manager.h"
 
+#include <wx/notebook.h>
 #include <wx/stc/stc.h>
 #include <wx/xrc/xmlres.h>
 
@@ -19,7 +21,7 @@ void EditorHandler::OnPluginLoaded( Plugin *plugin )
     wxString      category = plugin->GetCategory();
     wxString      plugDir  = wxGD_PLUGIN_DIR + category + wxFILE_SEP_PATH;
 
-    if ( plugin && category == "codegens" )
+    if ( plugin && category == "languages" )
     {
         wxImageList *imgLst  = m_editBook->GetImageList();
         wxImageList *itmLst  = new wxImageList( 16, 16 );
@@ -70,4 +72,24 @@ void EditorHandler::OnPluginLoaded( Plugin *plugin )
             }
         }
     }
+}
+
+void EditorHandler::OnObjectCreated( IObject *object )
+{
+    
+}
+
+void EditorHandler::OnObjectDeleted( IObject *object )
+{
+    
+}
+
+void EditorHandler::OnObjectExpanded( IObject *object )
+{
+    
+}
+
+void EditorHandler::OnObjectSelected( IObject *object )
+{
+    
 }

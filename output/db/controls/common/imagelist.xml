@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        imagelist.xml
+    Purpose:     wxImageList class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/15
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<class name="wxImageList" xrc="imagelist">
+    <parents>
+        <class>wxChoicebook</class>
+        <class>wxListbook</class>
+        <class>wxListCtrl</class>
+        <class>wxNotebook</class>
+        <class>wxTreebook</class>
+        <class>wxTreeCtrl</class>
+    </parents>
+    <bitmap>
+        <description>Adds a new image by keeping its optional mask bitmap.</description>
+    </bitmap>
+    <bool name="mask">
+        <value>1</value>
+        <description>If masks should be created for all images (default: true).</description>
+    </bool>
+    <size>
+        <description>The size of the images in the list (default: the size of the first bitmap).</description>
+    </size>
+</class>

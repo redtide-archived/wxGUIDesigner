@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        treebook.xml
+    Purpose:     wxTreeBook class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/15
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<classes>
+    <class name="wxTreeBook">
+        <inherits>
+            <class>wxBookCtrlBase</class>
+        </inherits>
+        <name>m_treeBook</name>
+        <style>
+            <flag name="wxBK_DEFAULT">
+                <description>Native controller placement.</description>
+            </flag>
+            <flag name="wxBK_TOP">
+                <description>Controller above pages.</description>
+            </flag>
+            <flag name="wxBK_BOTTOM">
+                <description>Controller below pages.</description>
+            </flag>
+            <flag name="wxBK_LEFT">
+                <description>Controller on the left.</description>
+            </flag>
+            <flag name="wxBK_RIGHT">
+                <description>Controller on the right.</description>
+            </flag>
+        </style>
+        <event name="wxBookCtrlEvent">
+            <type name="EVT_TREEBOOK_PAGE_CHANGED">
+                <description>The page selection was changed. Processes a wxEVT_COMMAND_TOOLBOOK_PAGE_CHANGED event.</description>
+            </type>
+            <type name="EVT_TREEBOOK_PAGE_CHANGING">
+                <description>The page selection is about to be changed. Processes a wxEVT_COMMAND_TOOLBOOK_PAGE_CHANGING event. This event can be vetoed (using wxNotifyEvent::Veto()).</description>
+            </type>
+            <type name="EVT_TREEBOOK_NODE_COLLAPSED">
+                <description>The page node is going to be collapsed. Processes a wxEVT_COMMAND_TREEBOOK_NODE_COLLAPSED event.</description>
+            </type>
+            <type name="EVT_TREEBOOK_NODE_EXPANDED">
+                <description>The page node is going to be expanded. Processes a wxEVT_COMMAND_TREEBOOK_NODE_EXPANDED event.</description>
+            </type>
+        </event>
+    </class>
+
+    <class name="treebookpage">
+        <parents>
+            <class>wxTreeBook</class>
+        </parents>
+        <int name="depth">
+            <description>Page's depth in the labels tree.</description>
+        </int>
+        <text name="label">
+            <description>Sheet page's title (required).</description>
+        </text>
+        <bitmap>
+            <description>Bitmap shown alongside the label (default: none).</description>
+        </bitmap>
+        <int name="image">
+            <description>The zero-based index of the image associated with the item into the image list.</description>
+        </int>
+        <bool name="selected">
+            <description>Is the page selected initially (only one page can be selected; default: 0)?</description>
+        </bool>
+        <bool name="expanded">
+            <description>If set to 1, the page is initially expanded. By default all pages are initially collapsed.</description>
+        </bool>
+    </class>
+</classes>

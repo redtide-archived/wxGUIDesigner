@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        space.xml
+    Purpose:     space pseudo-class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2011/12/03
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<class name="space">
+    <parents>
+        <class>wxToolBar</class>
+    </parents>
+</class>

@@ -14,6 +14,7 @@
 #include "core/gui/editor.h"
 #include "core/gui/palette.h"
 #include "core/gui/propgrid.h"
+#include "core/gui/treeview.h"
 
 #include "core/object/tree.h"
 
@@ -22,6 +23,7 @@
 #include <wx/xrc/xh_propgrid.h>
 
 #include <wx/frame.h>
+#include <wx/notebook.h>
 #include <wx/propgrid/propgrid.h>
 #include <wx/treectrl.h>
 #include <wx/fs_arc.h>
@@ -29,27 +31,24 @@
 #include <wx/filefn.h>
 #include <wx/stdpaths.h>
 
-#include "core/utils.h"
-
 #include <wx/log.h>
 #include <wx/xrc/xmlres.h>
 
-GUIManager::GUIManager()
+GUIManager::GUIManager() :  m_frame( NULL ),
+                            m_menuBar( NULL ),
+                            m_toolBar( NULL ),
+                            m_editBook( NULL ),
+                            m_propBook( NULL ),
+                            m_palette( NULL ),
+                            m_treeView( NULL ),
+                            m_ilsPropBook( NULL ),
+                            m_pgProps( NULL ),
+                            m_pgEvents( NULL ),
+                            m_editBookHndlr( NULL ),
+                            m_paletteHndlr( NULL ),
+                            m_propBookHndlr( NULL ),
+                            m_treeViewHndlr( NULL )
 {
-    m_editBookHndlr = NULL;
-    m_paletteHndlr  = NULL;
-    m_propBookHndlr = NULL;
-    m_frame         = NULL;
-    m_menuBar       = NULL;
-    m_toolBar       = NULL;
-    m_treeView      = NULL;
-    m_editBook      = NULL;
-    m_propBook      = NULL;
-    m_palette       = NULL;
-    m_ilsPropBook   = NULL;
-    m_pgProps       = NULL;
-    m_pgEvents      = NULL;
-
     wxInitAllImageHandlers();
 
     wxXmlResource::Get()->InitAllHandlers();
@@ -94,6 +93,7 @@ void GUIManager::Free()
 
     if ( m_editBookHndlr )
     {
+        ObjectTree::Get()->RemoveHandler( m_editBookHndlr );
         delete m_editBookHndlr;
         m_editBookHndlr = NULL;
     }
@@ -108,6 +108,12 @@ void GUIManager::Free()
     {
         delete m_propBookHndlr;
         m_propBookHndlr = NULL;
+    }
+
+    if ( m_treeViewHndlr )
+    {
+        delete m_treeViewHndlr;
+        m_treeViewHndlr = NULL;
     }
 
     PluginManager::Get()->Free();
@@ -212,7 +218,8 @@ wxNotebook *GUIManager::GetEditorBook( wxWindow *parent )
             m_editBookHndlr = new EditorHandler( m_editBook );
 
             PluginManager::Get()->AddHandler( m_editBookHndlr );
-            PluginManager::Get()->LoadPlugins("codegens");
+            PluginManager::Get()->LoadPlugins("languages");
+            ObjectTree::Get()->AddHandler( m_editBookHndlr );
         }
     }
 
@@ -263,7 +270,17 @@ wxTreeCtrl *GUIManager::GetTreeView( wxWindow *parent )
 {
     if ( !m_treeView )
         m_treeView = XRCCTRL( *parent, "ObjectTree", wxTreeCtrl );
+/*
+        if ( m_treeView )
+        {
+            m_treeViewHndlr = new TreeViewHandler( m_treeView );
 
+            ObjectTree::Get()->AddHandler( m_treeViewHndlr );
+
+            m_treeView->Bind( wxEVT_COMMAND_TOOL_CLICKED,
+                            &TreeViewHandler::OnToolClicked, m_treeViewHndlr );
+        }
+*/
     return m_treeView;
 }
 
@@ -375,24 +392,3 @@ void GUIManager::CreateObject( const wxString &classname )
     }
 }
 */
-
-
-void GUIManager::OnObjectCreated( const IObject &object )
-{
-    
-}
-
-void GUIManager::OnObjectDeleted( const IObject &object )
-{
-    
-}
-
-void GUIManager::OnObjectExpanded( const IObject &object )
-{
-    
-}
-
-void GUIManager::OnObjectSelected( const IObject &object )
-{
-    
-}

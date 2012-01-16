@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        ownerdrawncombobox.xml
+    Purpose:     wxOwnerDrawnComboBox class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/15
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<class name="wxOwnerDrawnComboBox">
+    <inherits>
+        <class>wxComboBox</class>
+    </inherits>
+    <name>m_ownCboBox</name>
+    <style>
+        <flag name="wxODCB_DCLICK_CYCLES">
+            <description>Double-clicking cycles item if wxCB_READONLY is also used. Synonymous with wxCC_SPECIAL_DCLICK.</description>
+        </flag>
+        <flag name="wxODCB_STD_CONTROL_PAINT">
+            <description>Place labels on the left side.</description>
+        </flag>
+    </style>
+    <size name="buttonsize" label="Button size">
+        <description>Control itself is not custom painted using OnDrawItem. Even if this style is not used, writable wxOwnerDrawnComboBox is never custom painted unless SetCustomPaintWidth() is called.</description>
+    </size>
+</class>

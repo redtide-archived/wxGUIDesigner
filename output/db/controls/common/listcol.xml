@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        listcol.xml
+    Purpose:     listcol class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/15
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<class name="listcol">
+    <parents>
+        <class>wxListCtrl</class>
+    </parents>
+    <listcolfmt name="align">
+        <description>The alignment for the item. Can be one of wxLIST_FORMAT_LEFT, wxLIST_FORMAT_RIGHT or wxLIST_FORMAT_CENTRE.</description>
+    </listcolfmt>
+    <string name="text">
+        <description>The title of the column.</description>
+    </string>
+    <int name="width">
+        <description>The column width.</description>
+    </int>
+    <int name="image">
+        <description>The zero-based index of the image associated with the item in the 'small' image list.</description>
+    </int>
+</class>

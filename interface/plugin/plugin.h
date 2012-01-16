@@ -123,7 +123,7 @@ public:
     wxVector< PluginItem * > GetItems();
 };
 /**
-    @class PluginHandler
+    @class IPluginHandler
 
     Plugin handler interface:
     All event handlers that deals with Plugin objects must implement this
@@ -131,17 +131,17 @@ public:
 
     @library{plugin}
 */
-class PluginHandler
+class IPluginHandler
 {
 public:
     /**
         Default constructor.
     */
-    PluginHandler();
+    IPluginHandler();
     /**
         Virtual destructor.
     */
-    virtual ~PluginHandler();
+    virtual ~IPluginHandler();
     /**
         The handler used when a plugin was loaded by the application.
     */
@@ -172,7 +172,7 @@ public:
     void LoadPlugins( const wxString &category );
     /**
         Adds an event handler to the handlers managed in this class,
-        which must implement the PluginHandler interface.
+        which must implement the IPluginHandler interface.
     */
-    void AddHandler( PluginHandler *handler );
+    void AddHandler( IPluginHandler *handler );
 };

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        panel.xml
+    Purpose:     wxPanel class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/15
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<class name="wxPanel">
+    <inherits>
+        <class>wxWindow</class>
+    </inherits>
+    <name>m_panel</name>
+    <event name="wxNavigationKeyEvent">
+        <type name="EVT_NAVIGATION_KEY">
+            <description>Process a navigation key event.</description>
+        </type>
+    </event>
+</class>

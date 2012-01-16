@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        checkbox.xml
+    Purpose:     wxCheckBox class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/14
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<class name="wxCheckBox">
+    <inherits>
+        <class>wxControl</class>
+    </inherits>
+    <name>m_chkBox</name>
+    <style>
+        <flag name="wxCHK_2STATE">
+            <description>Create a 2-state checkbox. This is the default.</description>
+        </flag>
+        <flag name="wxCHK_3STATE">
+            <description>Create a 3-state checkbox. Not implemented in wxMGL, wxOS2 and wxGTK built against GTK+ 1.2.</description>
+        </flag>
+        <flag name="wxCHK_ALLOW_3RD_STATE_FOR_USER">
+            <description>By default a user can't set a 3-state checkbox to the third state. It can only be done from code. Using this flags allows the user to set the checkbox to the third state by clicking.</description>
+        </flag>
+        <flag name="wxALIGN_RIGHT">
+            <description>Makes the text appear on the left of the checkbox.</description>
+        </flag>
+    </style>
+    <bool name="checked">
+        <description>Should the checkbox be checked initially (default: 0)?</description>
+    </bool>
+    <event name="wxCommandEvent">
+        <type name="EVT_CHECKBOX">
+            <description>Process a wxEVT_COMMAND_CHECKBOX_CLICKED event, when the checkbox is clicked.</description>
+        </type>
+    </event>
+</class>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        toolbook.xml
+    Purpose:     wxToolBook class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/15
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<classes>
+    <class name="wxToolBook">
+        <inherits>
+            <class>wxBookCtrlBase</class>
+        </inherits>
+        <name>m_toolBook</name>
+        <style>
+            <flag name="wxBK_DEFAULT">
+                <description>Native controller placement.</description>
+            </flag>
+            <flag name="wxBK_TOP">
+                <description>Controller above pages.</description>
+            </flag>
+            <flag name="wxBK_BOTTOM">
+                <description>Controller below pages.</description>
+            </flag>
+            <flag name="wxBK_LEFT">
+                <description>Controller on the left.</description>
+            </flag>
+            <flag name="wxBK_RIGHT">
+                <description>Controller on the right.</description>
+            </flag>
+            <flag name="wxTBK_BUTTONBAR">
+                <description>Use wxButtonToolBar-based implementation under Mac OS (ignored under other platforms).</description>
+            </flag>
+            <flag name="wxTBK_HORZ_LAYOUT">
+                <description>Shows the text and the icons alongside, not vertically stacked (only implement under Windows and GTK 2 platforms as it relies on wxTB_HORZ_LAYOUT flag support).</description>
+            </flag>
+        </style>
+        <event name="wxBookCtrlEvent">
+            <type name="EVT_TOOLBOOK_PAGE_CHANGED">
+                <description>The page selection was changed. Processes a wxEVT_COMMAND_TOOLBOOK_PAGE_CHANGED event.</description>
+            </type>
+            <type name="EVT_TOOLBOOK_PAGE_CHANGING">
+                <description>The page selection is about to be changed. Processes a wxEVT_COMMAND_TOOLBOOK_PAGE_CHANGING event. This event can be vetoed (using wxNotifyEvent::Veto()).</description>
+            </type>
+        </event>
+    </class>
+
+    <class name="toolbookpage">
+        <parents>
+            <class>wxToolBook</class>
+        </parents>
+        <text name="label">
+            <description>Sheet page's title (required).</description>
+        </text>
+        <bitmap>
+            <description>Bitmap shown alongside the label (default: none).</description>
+        </bitmap>
+        <int name="image">
+            <description>The zero-based index of the image associated with the item into the image list.</description>
+        </int>
+        <bool name="selected">
+            <description>Is the page selected initially (only one page can be selected; default: 0)?</description>
+        </bool>
+    </class>
+</classes>
