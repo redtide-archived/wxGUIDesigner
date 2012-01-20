@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Name:        codegens.xml
+    Name:        languages.xml
     Purpose:     Code generator plugin list
     Author:      Andrea Zanellato
     Modified by: 
@@ -8,11 +8,11 @@
     Revision:    $Hash$
     Licence:     wxWindows licence
 -->
-<plugins>
-    <plugin label="XRC"/>
-    <plugin label="C++" name="cpp">
-        <item name="cpp"/>
-        <item name="h"/>
-    </plugin>
-    <plugin label="Python"/>
-</plugins>
+<category name="languages">
+    <group name="xrc" label="XRC"/>
+    <group name="cpp" label="C++">
+        <item>cpp</item>
+        <item>h</item>
+    </group>
+    <group name="python"/>
+</category>

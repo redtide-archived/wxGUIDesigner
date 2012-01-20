@@ -10,6 +10,7 @@
 
 #include "core/gui/frame.h"
 #include "core/gui/manager.h"
+#include "core/manager.h"
 
 #include <wx/aui/framemanager.h>
 #include <wx/config.h>
@@ -55,7 +56,7 @@ void MainFrame::OnClose( wxCloseEvent &event )
 
 void MainFrame::OnNewProject( wxCommandEvent & )
 {
-//  GUIManager::Get()->NewProject(); //TODO
+    wxGUIDesigner::Get()->NewProject();
 }
 
 void MainFrame::LoadLayout()

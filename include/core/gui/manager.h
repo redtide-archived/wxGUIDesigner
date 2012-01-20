@@ -12,7 +12,7 @@
 #define __CORE_GUI_MANAGER_H__
 
 #include "core/dllimpexp.h"
-#include "core/utils.h"
+#include <map>
 
 class MainFrame;
 class EditorHandler;
@@ -20,16 +20,19 @@ class PropBookHandler;
 class PaletteHandler;
 class TreeViewHandler;
 
-class PluginManager;
-
 class wxDialog;
+class wxFrame;
 class wxImageList;
 class wxMenuBar;
 class wxNotebook;
+class wxPaintEvent;
 class wxPanel;
 class wxPropertyGrid;
+class wxString;
+class wxStyledTextCtrl;
 class wxToolBar;
 class wxTreeCtrl;
+class wxWindow;
 class wxXmlResource;
 
 class wxPropertyGridXmlHandler;
@@ -37,21 +40,20 @@ class wxPropertyGridXmlHandler;
 class DLLIMPEXP_CORE GUIManager
 {
 public:
-    wxDialog        *GetAboutDialog      ( wxWindow *parent = NULL );
-    wxFrame         *GetMainFrame        ( wxWindow *parent = NULL );
-    wxMenuBar       *GetMainMenu         ( wxWindow *parent = NULL );
+    wxDialog        *GetAboutDialog      ( wxWindow *parent = 0L );
+    wxFrame         *GetMainFrame        ( wxWindow *parent = 0L );
+    wxMenuBar       *GetMainMenu         ( wxWindow *parent = 0L );
     wxPanel         *GetDesignPanel();
-    wxNotebook      *GetEditorBook       ( wxWindow *parent = NULL );
-    wxNotebook      *GetPropertyBook     ( wxWindow *parent = NULL );
-    wxNotebook      *GetPaletteBook      ( wxWindow *parent = NULL );
-    wxTreeCtrl      *GetTreeView         ( wxWindow *parent = NULL );
-    wxToolBar       *GetToolBar          ( wxWindow *parent = NULL );
+    wxNotebook      *GetEditorBook       ( wxWindow *parent = 0L );
+    wxNotebook      *GetPropertyBook     ( wxWindow *parent = 0L );
+    wxNotebook      *GetPaletteBook      ( wxWindow *parent = 0L );
+    wxTreeCtrl      *GetTreeView         ( wxWindow *parent = 0L );
+    wxToolBar       *GetToolBar          ( wxWindow *parent = 0L );
 
     wxPropertyGrid  *GetPropertiesGrid() { return m_pgProps; }
     wxPropertyGrid  *GetEventsGrid()     { return m_pgEvents; }
 
-//  void NewProject();
-//  void CreateObject( const wxString &classname );
+    wxStyledTextCtrl *GetEditor( wxWindow *parent, const wxString &name );
 
     static GUIManager *Get();
     void Free();
@@ -62,19 +64,19 @@ private:
 
     void OnWindowPaint( wxPaintEvent &event );
 
-    MainFrame  *m_frame;
-    wxMenuBar  *m_menuBar;
-    wxToolBar  *m_toolBar;
-    wxNotebook *m_editBook;
-    wxNotebook *m_propBook;
-    wxNotebook *m_palette;
-    wxTreeCtrl *m_treeView;
+    typedef std::map< wxString, wxStyledTextCtrl * > CodeEditors;
 
-    wxImageList *m_ilsPropBook;
-
+    CodeEditors     m_editors;
+    MainFrame       *m_frame;
+    wxMenuBar       *m_menuBar;
+    wxToolBar       *m_toolBar;
+    wxNotebook      *m_editBook;
+    wxNotebook      *m_propBook;
+    wxNotebook      *m_palette;
+    wxTreeCtrl      *m_treeView;
+    wxImageList     *m_ilsPropBook;
     wxPropertyGrid  *m_pgProps;
     wxPropertyGrid  *m_pgEvents;
-
     EditorHandler   *m_editBookHndlr;
     PaletteHandler  *m_paletteHndlr;
     PropBookHandler *m_propBookHndlr;

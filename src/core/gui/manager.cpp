@@ -9,6 +9,7 @@
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
+#include "core/gui/iconprovider.h"
 #include "core/gui/manager.h"
 #include "core/gui/frame.h"
 #include "core/gui/editor.h"
@@ -17,19 +18,22 @@
 #include "core/gui/treeview.h"
 
 #include "core/object/tree.h"
+#include "core/utils.h"
 
 #include <wx/xrc/xh_aui.h>
 #include <wx/xrc/xh_stc.h>
 #include <wx/xrc/xh_propgrid.h>
 
+#include <wx/dir.h>
+#include <wx/filefn.h>
 #include <wx/frame.h>
+#include <wx/fs_arc.h>
 #include <wx/notebook.h>
 #include <wx/propgrid/propgrid.h>
-#include <wx/treectrl.h>
-#include <wx/fs_arc.h>
-#include <wx/xml/xml.h>
-#include <wx/filefn.h>
+#include <wx/stc/stc.h>
 #include <wx/stdpaths.h>
+#include <wx/treectrl.h>
+#include <wx/xml/xml.h>
 
 #include <wx/log.h>
 #include <wx/xrc/xmlres.h>
@@ -50,6 +54,8 @@ GUIManager::GUIManager() :  m_frame( NULL ),
                             m_treeViewHndlr( NULL )
 {
     wxInitAllImageHandlers();
+
+    IconProvider::Get();
 
     wxXmlResource::Get()->InitAllHandlers();
     wxXmlResource::Get()->AddHandler( new wxPropertyGridXmlHandler );
@@ -89,8 +95,6 @@ GUIManager::~GUIManager()
 
 void GUIManager::Free()
 {
-    wxXmlResource::Get()->ClearHandlers();
-
     if ( m_editBookHndlr )
     {
         ObjectTree::Get()->RemoveHandler( m_editBookHndlr );
@@ -116,7 +120,11 @@ void GUIManager::Free()
         m_treeViewHndlr = NULL;
     }
 
-    PluginManager::Get()->Free();
+    m_editors.erase( m_editors.begin(), m_editors.end() );
+
+    IconProvider::Get()->Free();
+
+    wxXmlResource::Get()->ClearHandlers();
 
     if( ms_instance )
     {
@@ -217,8 +225,47 @@ wxNotebook *GUIManager::GetEditorBook( wxWindow *parent )
         {
             m_editBookHndlr = new EditorHandler( m_editBook );
 
-            PluginManager::Get()->AddHandler( m_editBookHndlr );
-            PluginManager::Get()->LoadPlugins("languages");
+            IconProvider::Get()->SelectCategory("languages");
+
+            for ( size_t i = 0; i < IconProvider::Get()->GetGroupCount(); i++ )
+            {
+                wxString    label   = IconProvider::Get()->GetGroupLabel( i );
+                wxBitmap    bmp     = IconProvider::Get()->GetGroupBitmap( i );
+                wxImageList *imgLst = m_editBook->GetImageList();
+
+                if ( IconProvider::Get()->GetItemCount( i ) )
+                {
+                    wxNotebook  *nb     = new wxNotebook( m_editBook, wxID_ANY );
+                    wxImageList *itmLst = new wxImageList( 16, 16 );
+
+                    nb->SetImageList( itmLst );
+                    m_editBook->AddPage( nb, label, false, imgLst->Add( bmp ) );
+
+                    for ( size_t n = 0;
+                          n < IconProvider::Get()->GetItemCount( i ); n++ )
+                    {
+                        wxString item = IconProvider::Get()->GetItemLabel( i, n );
+                        wxStyledTextCtrl *stc = GetEditor( nb, item );
+
+                        if ( stc )
+                        {
+                            bmp = IconProvider::Get()->GetItemBitmap( i, n );
+                            nb->AddPage( stc, item, false, itmLst->Add( bmp ) );
+                        }
+                    }
+                }
+                else
+                {
+                    wxString name = IconProvider::Get()->GetGroupName( i );
+                    wxStyledTextCtrl *stc = GetEditor( m_editBook, name );
+
+                    if ( stc )
+                    {
+                        m_editBook->AddPage( stc, label, false, imgLst->Add( bmp ) );
+                    }
+                }
+            }
+
             ObjectTree::Get()->AddHandler( m_editBookHndlr );
         }
     }
@@ -255,8 +302,32 @@ wxNotebook *GUIManager::GetPaletteBook( wxWindow *parent )
         {
             m_paletteHndlr = new PaletteHandler( m_palette );
 
-            PluginManager::Get()->AddHandler( m_paletteHndlr );
-            PluginManager::Get()->LoadPlugins("controls");
+            IconProvider::Get()->SelectCategory("controls");
+
+            for ( size_t i = 0; i < IconProvider::Get()->GetGroupCount(); i++ )
+            {
+                wxString    label = IconProvider::Get()->GetGroupLabel( i );
+                wxBitmap    bmp   = IconProvider::Get()->GetGroupBitmap( i );
+                wxToolGroup *tg   = m_paletteHndlr->AddGroup( label, bmp );
+
+                for ( size_t n = 0;
+                      n < IconProvider::Get()->GetItemCount( i ); n++ )
+                {
+                    wxString item = IconProvider::Get()->GetItemLabel( i, n );
+                    bmp = IconProvider::Get()->GetItemBitmap( i, n );
+
+                    if ( item == "-" )
+                    {
+                        tg->AddSeparator();
+                    }
+                    else
+                    {
+                        tg->AddTool( wxID_ANY, item, bmp, item );
+                    }
+                }
+
+                tg->Realize();
+            }
 
             m_palette->Bind( wxEVT_COMMAND_TOOL_CLICKED,
                             &PaletteHandler::OnToolClicked, m_paletteHndlr );
@@ -304,6 +375,42 @@ wxNotebook *GUIManager::GetPropertyBook( wxWindow *parent )
 
     return m_propBook;
 }
+
+wxStyledTextCtrl *GUIManager::GetEditor( wxWindow *parent, const wxString &name )
+{
+    // If already loaded, return this editor
+    CodeEditors::const_iterator it = m_editors.find( name );
+    if ( it != m_editors.end() )
+        return it->second;
+
+    wxString langDirPath = GetDataBasePath() + wxFILE_SEP_PATH + "languages" +
+                                    wxFILE_SEP_PATH + name + wxFILE_SEP_PATH;
+    wxDir langDir( langDirPath );
+
+    if ( langDir.IsOpened() )
+    {
+        wxString xrcFile;
+        bool haveXrc =
+            langDir.GetFirst( &xrcFile, "*.xrc", wxDIR_FILES | wxDIR_HIDDEN );
+
+        wxString xrcPath = langDirPath + wxFILE_SEP_PATH + xrcFile;
+
+        if ( !haveXrc || !wxXmlResource::Get()->Load( xrcPath ) )
+            return NULL;
+    }
+
+    wxObject *obj = wxXmlResource::Get()->LoadObject
+                                        ( parent, name, "wxStyledTextCtrl" );
+
+    wxStyledTextCtrl *stc = wxDynamicCast( obj, wxStyledTextCtrl );
+
+    // Save editor for later use
+    if ( stc )
+        m_editors.insert( CodeEditors::value_type( name, stc ) );
+
+    return stc;
+}
+
 /*
 void GUIManager::NewProject()
 {

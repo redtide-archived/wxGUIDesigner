@@ -18,6 +18,8 @@
 #include <map>
 #include <vector>
 
+#include <wx/arrstr.h>
+
 enum PropertyType
 {
     PROPERTY_TYPE_UNKNOWN = 0,
@@ -45,8 +47,8 @@ enum PropertyType
     PROPERTY_TYPE_URL
 };
 
-class EventInfoBase;
 class PropertyInfoBase;
+class EventInfoBase;
 class ClassInfoBase;
 
 class EventBase;
@@ -55,8 +57,8 @@ class ObjectBase;
 
 class wxString;
 
-typedef class std::tr1::shared_ptr< EventInfoBase >     EventInfo;
 typedef class std::tr1::shared_ptr< PropertyInfoBase >  PropertyInfo;
+typedef class std::tr1::shared_ptr< EventInfoBase >     EventInfo;
 typedef class std::tr1::shared_ptr< ClassInfoBase >     ClassInfo;
 
 typedef class std::tr1::shared_ptr< EventBase >         Event;
@@ -66,6 +68,7 @@ typedef class std::tr1::shared_ptr< ObjectBase >        Object;
 typedef std::map< wxString, EventInfo >                 EventInfoMap;
 typedef std::map< wxString, PropertyInfo >              PropertyInfoMap;
 typedef std::map< wxString, ClassInfo >                 ClassInfoMap;
+typedef std::map< wxString, wxArrayString >             ParentInfoMap;
 
 typedef std::map< wxString, wxString >                  EventTypeMap;
 typedef std::map< wxString, PropertyType >              PropertyTypeMap;

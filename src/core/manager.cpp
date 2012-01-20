@@ -10,12 +10,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "core/manager.h"
+#include "core/gui/iconprovider.h"
 #include "core/gui/manager.h"
 #include "core/object/database.h"
 
 wxGUIDesigner::wxGUIDesigner()
 {
-    
     ClassInfoDataBase::Get();
 }
 

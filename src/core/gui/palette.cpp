@@ -46,33 +46,3 @@ wxToolGroup *PaletteHandler::AddGroup( const wxString &label,
 
     return tg;
 }
-
-void PaletteHandler::OnPluginLoaded( Plugin *plugin )
-{
-    if ( plugin && plugin->GetCategory() == "controls" )
-    {
-        wxToolGroup *tg = AddGroup( plugin->GetLabel(), plugin->GetBitmap() );
-
-        wxVector< PluginItem * > items = plugin->GetItems();
-
-        for( wxVector< PluginItem * >::iterator it = items.begin();
-            it != items.end(); ++it )
-        {
-            PluginItem *item = (*it);
-            wxString    name = item->GetName();
-
-            if ( name == "<separator>" )
-            {
-                tg->AddSeparator();
-            }
-            else
-            {
-                tg->AddTool( wxID_ANY, name, item->GetBitmap(), name );
-            }
-        }
-
-        tg->Realize();
-    }
-
-//  event.Skip();
-}

@@ -12,7 +12,6 @@
 #ifndef __WXGDCORE_PALETTE_H__
 #define __WXGDCORE_PALETTE_H__
 
-#include <plugin/plugin.h>
 #include <wx/vector.h>
 
 #if defined(__WXMAC__) || defined( USE_AUIBAR )
@@ -26,22 +25,20 @@
 class wxEvent;
 class wxNotebook;
 
-class PaletteHandler : public IPluginHandler
+class PaletteHandler
 {
-    friend class GUIManager;
-
 public:
     PaletteHandler( wxNotebook *owner );
 
     wxToolGroup *AddGroup( const wxString &label, const wxBitmap &bitmap );
 
-    void OnToolClicked( wxCommandEvent &event );
-
 private:
-    void OnPluginLoaded( Plugin *plugin );
+    void OnToolClicked( wxCommandEvent &event );
 
     wxVector< wxToolGroup * >  m_toolGroups;
     wxNotebook                  *m_palette;
+
+    friend class GUIManager;
 };
 
 #endif //__WXGDCORE_PALETTE_H__

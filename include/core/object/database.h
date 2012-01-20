@@ -9,18 +9,18 @@
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef __WXGDCORE_DATABASE_H__
-#define __WXGDCORE_DATABASE_H__
+#ifndef __CORE_OBJECT_DATABASE_H__
+#define __CORE_OBJECT_DATABASE_H__
 
 #include "core/defs.h"
+
+#include <wx/string.h>
 #include <wx/arrstr.h>
 
 class wxXmlNode;
-class wxString;
 //-----------------------------------------------------------------------------
 //  PropertyInfoBase
 //-----------------------------------------------------------------------------
-
 class PropertyInfoBase
 {
 public:
@@ -41,6 +41,7 @@ public:
     wxString     GetLabel()        const { return m_label; }
     wxString     GetDefaultValue() const { return m_value; }
     wxString     GetDescription()  const { return m_desc; }
+//  size_t       GetChildCount()   const { return m_children.size(); }
 
     void AddChild( const wxString &name, PropertyInfo info )
     {
@@ -88,8 +89,7 @@ public:
                    const wxArrayString  &parents,
                    EventInfoMap         eventInfoMap,
                    PropertyInfoMap      propInfoMap )
-                 : m_className( name ),
-                   m_baseNames( basenames ), m_parents( parents ),
+                 : m_className( name ), m_parents( parents ),
                    m_evtInfos( eventInfoMap ), m_propInfos( propInfoMap ) {}
     ~ClassInfoBase()
     {
@@ -119,7 +119,6 @@ public:
     static ClassInfoDataBase *Get();
     void Free();
 
-    const wxString  GetBasePath() const;
     ClassInfo       GetClassInfo( const wxString &className );
     PropertyType    GetPropertyType( const wxString &tagname ) const;
 
@@ -132,19 +131,18 @@ private:
 
     void Init();
     void InitPropertyTypes();
-    bool ReadXML( const wxString &xmlpath );
+
+    bool LoadXML( const wxString &path );
     void Parse( wxXmlNode *node, bool recursively = false );
 
     EventInfoBase    *DoGetEventInfo( wxXmlNode *eventNode );
     PropertyInfoBase *DoGetPropertyInfo( wxXmlNode *propertyNode );
 
-    typedef std::map< wxString, wxArrayString > ParentInfoMap;
-
-    ClassInfoMap    m_classes;
     ParentInfoMap   m_infoMap;
+    ClassInfoMap    m_classes;
     PropertyTypeMap m_types;
 
     static ClassInfoDataBase *ms_instance;
 };
 
-#endif //__WXGDCORE_DATABASE_H__
+#endif //__CORE_OBJECT_DATABASE_H__

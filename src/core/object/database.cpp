@@ -10,6 +10,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "core/object/database.h"
+#include "core/utils.h"
 
 #include <wx/app.h>
 #include <wx/dir.h>
@@ -76,7 +77,7 @@ void ClassInfoDataBase::Init()
     InitPropertyTypes();
 
     // /path/to/db/controls/
-    wxString dbPath = GetBasePath() + "controls" + wxFILE_SEP_PATH;
+    wxString dbPath = GetDataBasePath() + wxFILE_SEP_PATH + "controls" + wxFILE_SEP_PATH;
 
     if ( !wxDirExists( dbPath ) )
         return;
@@ -103,7 +104,7 @@ void ClassInfoDataBase::Init()
                 if ( !xmlFileName.IsAbsolute() )
                     xmlFileName.MakeAbsolute();
 
-                ReadXML( xmlFileName.GetFullPath() );
+                LoadXML( xmlFileName.GetFullPath() );
 
                 haveXml = categoryDir.GetNext( &xmlFile );
             }
@@ -113,11 +114,11 @@ void ClassInfoDataBase::Init()
     }
 }
 
-bool ClassInfoDataBase::ReadXML( const wxString &xmlpath )
+bool ClassInfoDataBase::LoadXML( const wxString &path )
 {
     // Check document
     wxXmlDocument doc;
-    if ( !doc.Load( xmlpath ) )
+    if ( !doc.Load( path ) )
         return false;
 
     // If the 'class' element isn't the root, then we could have
@@ -146,7 +147,7 @@ void ClassInfoDataBase::Parse( wxXmlNode *classNode, bool recursively )
         wxLogError( "Class '%s' without a name", classNode->GetName() );
         return;
     }
-wxLogDebug(name);
+
     wxArrayString   parents;
     wxArrayString   baseClasses;
     EventInfoMap    evtInfoMap;
@@ -156,17 +157,6 @@ wxLogDebug(name);
     while ( node )
     {
         // Parse the base class data recursively to add into the ClassInfo
-/*      if ( node->GetName() == "include" )
-        {
-            wxString includePath = node->GetNodeContent();
-            if ( !includePath.empty() )
-            {
-                includePath.Replace( "/", wxFILE_SEP_PATH );
-                wxString path = GetBasePath() + includePath;
-                Parse( path, true );
-            }
-        }
-        else */
         if ( node->GetName() == "inherits" )
         {
             wxXmlNode *childNode = node->GetChildren();
@@ -331,10 +321,4 @@ PropertyType ClassInfoDataBase::GetPropertyType( const wxString &tagname ) const
         return it->second;
 
     return PROPERTY_TYPE_UNKNOWN;
-}
-
-const wxString ClassInfoDataBase::GetBasePath() const
-{
-    return wxStandardPaths::Get().GetResourcesDir() + wxFILE_SEP_PATH +
-                                                    "db" + wxFILE_SEP_PATH;
 }

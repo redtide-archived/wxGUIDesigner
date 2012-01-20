@@ -14,7 +14,7 @@ project "wxGUIDesigner"
     defines                 {"NO_GCC_PRAGMA"}
     flags                   {"ExtraWarnings"}
     libdirs                 {"../../sdk/lib"}
-    links                   {"LibPlugin", "LibCore"}
+    links                   {"LibCore"}
 
     configuration {"codelite", "not windows"}
         linkoptions         {"-Wl,-rpath,$$``ORIGIN/../lib/wxguidesigner"}
@@ -42,18 +42,22 @@ project "wxGUIDesigner"
         libdirs             {"../../output"}
         targetdir           "../../output"
 
-if wxCompiler == "gcc" then
-        buildoptions        {"-gstabs"}
-        links               {"bfd", "intl", "iberty", "psapi", "imagehlp"}
-end
+        if wxCompiler == "gcc" then
+            buildoptions    {"-gstabs"}
+            links           {"bfd", "intl", "iberty", "psapi", "imagehlp"}
+        end
+
     configuration "Debug"
         wx_config           { Debug="yes" }
 
     configuration "Release"
-        buildoptions        {"-fno-strict-aliasing"}
+
+        if wxCompiler == "gcc" then
+            buildoptions    {"-fno-strict-aliasing"}
+        end
         wx_config           {}
 
-    if os.is("windows") then
-        flags               {"Symbols"}
-    end
+        if os.is("windows") then
+            flags               {"Symbols"}
+        end
 

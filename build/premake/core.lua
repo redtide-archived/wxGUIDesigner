@@ -13,7 +13,8 @@ project "LibCore"
     {
         "../../include/core/**.h", "../../src/core/**.cpp",
         "../../include/wx/**.h", "../../src/wx/**.cpp",
-        "../../output/xrc/*.xrc", "../../output/xrc/classes/*.xrc"
+        "../../output/xrc/*.xrc", "../../output/xrc/classes/*.xrc",
+        "../../output/db/**.xml"
     }
     includedirs
     {
@@ -21,7 +22,7 @@ project "LibCore"
     }
     defines             {"MAKINGDLL_CORE"}
     flags               {"ExtraWarnings"}
-    links               {"LibPlugin"}
+--  links               {"LibPlugin"}
     targetname          ( CustomPrefix .. "core" )
 
     configuration "not windows"

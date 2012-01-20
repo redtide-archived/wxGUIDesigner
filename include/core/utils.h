@@ -11,6 +11,7 @@
 #ifndef __WXGDCORE_UTILS_H__
 #define __WXGDCORE_UTILS_H__
 
+#include <wx/stdpaths.h>
 #include <wx/window.h>
 
 class wxColour;
@@ -19,6 +20,11 @@ class wxString;
 inline wxWindow *wxFindWindowById( long winid, const wxWindow *parent = NULL )
 {
     return wxWindow::FindWindowById( winid, parent );
+}
+
+inline wxString GetDataBasePath()
+{
+    return wxStandardPaths::Get().GetResourcesDir() + wxFILE_SEP_PATH + "db";
 }
 
 namespace wxGDConv

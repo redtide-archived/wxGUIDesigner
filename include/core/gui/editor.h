@@ -13,12 +13,9 @@
 
 #include "interfaces/iobject.h"
 
-#include <plugin/plugin.h>
-
 class wxNotebook;
 
-class EditorHandler : public IPluginHandler,
-                      public IObjectHandler
+class EditorHandler : public IObjectHandler
 {
     friend class GUIManager;
 
@@ -26,8 +23,6 @@ public:
     EditorHandler( wxNotebook *owner ) : m_editBook( owner ) {}
 
 private:
-    virtual void OnPluginLoaded( Plugin *plugin );
-
     virtual void OnObjectCreated ( IObject *object );
     virtual void OnObjectDeleted ( IObject *object );
     virtual void OnObjectExpanded( IObject *object );
