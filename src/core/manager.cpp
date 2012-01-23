@@ -16,13 +16,13 @@
 
 wxGUIDesigner::wxGUIDesigner()
 {
-    ClassInfoDataBase::Get();
+    WidgetInfoDB::Get();
 }
 
 wxGUIDesigner::~wxGUIDesigner()
 {
     GUIManager::Get()->Free();
-    ClassInfoDataBase::Get()->Free();
+    WidgetInfoDB::Get()->Free();
 }
 
 wxGUIDesigner *wxGUIDesigner::ms_instance = NULL;

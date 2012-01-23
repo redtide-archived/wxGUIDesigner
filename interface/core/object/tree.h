@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        core/object/tree.h
-// Purpose:     interface of Object
+// Purpose:     interface of Widget
 // Author:      Andrea Zanellato
 // Modified by:
 // Created:     2011/12/12
@@ -11,7 +11,7 @@
 /**
     @class Property
 
-    Object property
+    Widget property
 */
 class Property
 {
@@ -38,41 +38,41 @@ public:
 };
 
 /**
-    @class Object
+    @class Widget
 
     it keeps informations used by GUIManager to manage wxObject
     derived class instances.
 
     @beginEventEmissionTable
-    @event{EVT_OBJECT_CREATING(func)}
-        Process a @c wxEVT_OBJECT_CREATE event. See ObjectEvent.
-    @event{EVT_OBJECT_CREATED(func)}
-        Process a @c wxEVT_OBJECT_CREATED event. See ObjectEvent.
-    @event{EVT_OBJECT_SELECTED(func)}
-        Process a @c wxEVT_OBJECT_SELECTED event. See ObjectEvent.
-    @event{EVT_OBJECT_DELETE(func)}
-        Process a @c wxEVT_OBJECT_DELETE event. See ObjectEvent.
-    @event{EVT_OBJECT_DELETED(func)}
-        Process a @c wxEVT_OBJECT_DELETED event. See ObjectEvent.
+    @event{EVT_WIDGET_CREATING(func)}
+        Process a @c wxEVT_WIDGET_CREATE event. See WidgetEvent.
+    @event{EVT_WIDGET_CREATED(func)}
+        Process a @c wxEVT_WIDGET_CREATED event. See WidgetEvent.
+    @event{EVT_WIDGET_SELECTED(func)}
+        Process a @c wxEVT_WIDGET_SELECTED event. See WidgetEvent.
+    @event{EVT_WIDGET_DELETE(func)}
+        Process a @c wxEVT_WIDGET_DELETE event. See WidgetEvent.
+    @event{EVT_WIDGET_DELETED(func)}
+        Process a @c wxEVT_WIDGET_DELETED event. See WidgetEvent.
     @endEventTable
 
     @library{core}
 */
-class Object : public IObject
+class Widget : public IWidgetNode
 {
 public:
     /**
         Default constructor.
     */
-    Object();
+    Widget();
     /**
         Virtual destructor.
     */
-    virtual ~Object();
+    virtual ~Widget();
     /**
         Sets the parent object.
     */
-    void SetParent( Object *parent );
+    void SetParent( Widget *parent );
     /**
         Sets the object to be contained.
     */
@@ -80,7 +80,7 @@ public:
     /**
         Adds a child object to the children vector.
     */
-    void AddChild( Object *child );
+    void AddChild( Widget *child );
     /**
         Adds a Property object to the Properties vector.
     */
@@ -92,7 +92,7 @@ public:
     /**
         Adds a child object to the children vector.
     */
-    Object *GetParent();
+    Widget *GetParent();
     /**
         Returns the wxObject contained.
     */
@@ -100,22 +100,22 @@ public:
     /**
         Returns all the children objects.
     */
-    wxVector< Object * > GetChildren();
+    wxVector< Widget * > GetChildren();
 };
 /**
-    @class ObjectTree
+    @class WidgetTree
 
     Singleton class: GUI object's management.
 
     @library{core}
 */
-class ObjectTree
+class WidgetTree
 {
 public:
     /**
         Gets the static instance of this class.
     */
-    static ObjectTree *Get();
+    static WidgetTree *Get();
     /**
         Free resources used by this class and destroy it.
     */
@@ -123,24 +123,24 @@ public:
     /**
         Create a new control object.
     */
-    void CreateObject( const wxString &classname );
+    void CreateObject( const wxString &className );
 };
 /**
-    @class ObjectEvent
+    @class WidgetEvent
 
     @library{core}
 */
-class ObjectEvent
+class WidgetEvent
 {
 public:
     /**
         Default constructor.
     */
-    ObjectEvent( wxEventType type = wxEVT_NULL, int id = 0 );
+    WidgetEvent( wxEventType type = wxEVT_NULL, int id = 0 );
     /**
         Destructor.
     */
-    ~ObjectEvent();
+    ~WidgetEvent();
 
     
 };

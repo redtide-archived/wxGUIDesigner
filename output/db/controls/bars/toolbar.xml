@@ -8,94 +8,148 @@
     Revision:    $Hash$
     Licence:     wxWindows licence
 -->
-<class name="wxToolBar">
-    <inherits>
-        <class>wxControl</class>
-    </inherits>
-    <parents>
-        <class>wxFrame</class>
-    </parents>
-    <name>m_toolBar</name>
-    <style>
-        <flag name="wxTB_FLAT">
-            <description>Gives the toolbar a flat look (Windows and GTK only).</description>
-        </flag>
-        <flag name="wxTB_DOCKABLE">
-            <description>Makes the toolbar floatable and dockable (GTK only).</description>
-        </flag>
-        <flag name="wxTB_HORIZONTAL">
-            <description>Specifies horizontal layout (default).</description>
-        </flag>
-        <flag name="wxTB_VERTICAL">
-            <description>Specifies vertical layout.</description>
-        </flag>
-        <flag name="wxTB_TEXT">
-            <description>Shows the text in the toolbar buttons; by default only icons are shown.</description>
-        </flag>
-        <flag name="wxTB_NOICONS">
-            <description>Specifies no icons in the toolbar buttons; by default they are shown.</description>
-        </flag>
-        <flag name="wxTB_NODIVIDER">
-            <description>Specifies no divider (border) above the toolbar (Windows only)</description>
-        </flag>
-        <flag name="wxTB_NOALIGN">
-            <description>Specifies no alignment with the parent window (Windows only, not very useful).</description>
-        </flag>
-        <flag name="wxTB_HORZ_LAYOUT">
-            <description>Shows the text and the icons alongside, not vertically stacked (Windows and GTK 2 only). This style must be used with wxTB_TEXT.</description>
-        </flag>
-        <flag name="wxTB_HORZ_TEXT">
-            <description>Combination of wxTB_HORZ_LAYOUT and wxTB_TEXT.</description>
-        </flag>
-        <flag name="wxTB_NO_TOOLTIPS">
-            <description>Don't show the short help tooltips for the tools when the mouse hovers over them.</description>
-        </flag>
-        <flag name="wxTB_BOTTOM">
-            <description>Align the toolbar at the bottom of parent window.</description>
-        </flag>
-        <flag name="wxTB_RIGHT">
-            <description>Align the toolbar at the right side of parent window.</description>
-        </flag>
-    </style>
-    <size name="Bitmap size">
-        <description>Size of toolbar bitmaps (default: not set).</description>
-    </size>
-    <size name="Margins">
-        <description>Margins (default: platform default).</description>
-    </size>
-    <int name="Packing">
-        <description>Packing, see wxToolBar::SetToolPacking() (default: not set).</description>
-    </int>
-    <int name="Separation">
-        <description>Default separator size, see wxToolBar::SetToolSeparation() (default: not set).</description>
-    </int>
-    <size name="Don't attack to frame">
-        <description>If set to 0 and the toolbar object is child of a wxFrame, wxFrame::SetToolBar() is called; otherwise, you have to add it to a frame manually. The toolbar is attached by default, you have to set this property to 1 to disable this behaviour (default: 0).</description>
-    </size>
-    <event name="wxCommandEvent">
-        <type name="EVT_TOOL">
-            <description>Process a wxEVT_COMMAND_TOOL_CLICKED event (a synonym for wxEVT_COMMAND_MENU_SELECTED). Pass the id of the tool.</description>
-        </type>
-        <type name="EVT_MENU">
-            <description>The same as EVT_TOOL().</description>
-        </type>
-        <type name="EVT_TOOL_RANGE">
-            <description>Process a wxEVT_COMMAND_TOOL_CLICKED event for a range of identifiers. Pass the ids of the tools.</description>
-        </type>
-        <type name="EVT_MENU_RANGE">
-            <description>The same as EVT_TOOL_RANGE()</description>
-        </type>
-        <type name="EVT_TOOL_RCLICKED">
-            <description>Process a wxEVT_COMMAND_TOOL_RCLICKED event. Pass the id of the tool. (Not available on wxOSX.)</description>
-         </type>
-        <type name="EVT_TOOL_RCLICKED_RANGE">
-            <description>Process a wxEVT_COMMAND_TOOL_RCLICKED event for a range of ids. Pass the ids of the tools. (Not available on wxOSX.)</description>
-        </type>
-        <type name="EVT_TOOL_ENTER">
-            <description>Process a wxEVT_COMMAND_TOOL_ENTER event. Pass the id of the toolbar itself. The value of wxCommandEvent::GetSelection() is the tool id, or -1 if the mouse cursor has moved off a tool. (Not available on wxOSX.)</description>
-        </type>
-        <type name="EVT_TOOL_DROPDOWN">
-            <description>Process a wxEVT_COMMAND_TOOL_DROPDOWN_CLICKED event. If unhandled, displays the default dropdown menu set using wxToolBar::SetDropdownMenu().</description>
-        </type>
-    </event>
-</class>
+<classes>
+    <class name="wxToolBar">
+        <inherits>
+            <class>wxControl</class>
+        </inherits>
+        <parents>
+            <class>wxFrame</class>
+        </parents>
+        <name>m_toolBar</name>
+        <style>
+            <flag name="wxTB_FLAT">
+                <description>Gives the toolbar a flat look (Windows and GTK only).</description>
+            </flag>
+            <flag name="wxTB_DOCKABLE">
+                <description>Makes the toolbar floatable and dockable (GTK only).</description>
+            </flag>
+            <flag name="wxTB_HORIZONTAL">
+                <description>Specifies horizontal layout (default).</description>
+            </flag>
+            <flag name="wxTB_VERTICAL">
+                <description>Specifies vertical layout.</description>
+            </flag>
+            <flag name="wxTB_TEXT">
+                <description>Shows the text in the toolbar buttons; by default only icons are shown.</description>
+            </flag>
+            <flag name="wxTB_NOICONS">
+                <description>Specifies no icons in the toolbar buttons; by default they are shown.</description>
+            </flag>
+            <flag name="wxTB_NODIVIDER">
+                <description>Specifies no divider (border) above the toolbar (Windows only)</description>
+            </flag>
+            <flag name="wxTB_NOALIGN">
+                <description>Specifies no alignment with the parent window (Windows only, not very useful).</description>
+            </flag>
+            <flag name="wxTB_HORZ_LAYOUT">
+                <description>Shows the text and the icons alongside, not vertically stacked (Windows and GTK 2 only). This style must be used with wxTB_TEXT.</description>
+            </flag>
+            <flag name="wxTB_HORZ_TEXT">
+                <description>Combination of wxTB_HORZ_LAYOUT and wxTB_TEXT.</description>
+            </flag>
+            <flag name="wxTB_NO_TOOLTIPS">
+                <description>Don't show the short help tooltips for the tools when the mouse hovers over them.</description>
+            </flag>
+            <flag name="wxTB_BOTTOM">
+                <description>Align the toolbar at the bottom of parent window.</description>
+            </flag>
+            <flag name="wxTB_RIGHT">
+                <description>Align the toolbar at the right side of parent window.</description>
+            </flag>
+        </style>
+        <size name="Bitmap size">
+            <description>Size of toolbar bitmaps (default: not set).</description>
+        </size>
+        <size name="Margins">
+            <description>Margins (default: platform default).</description>
+        </size>
+        <int name="Packing">
+            <description>Packing, see wxToolBar::SetToolPacking() (default: not set).</description>
+        </int>
+        <int name="Separation">
+            <description>Default separator size, see wxToolBar::SetToolSeparation() (default: not set).</description>
+        </int>
+        <size name="Don't attack to frame">
+            <description>If set to 0 and the toolbar object is child of a wxFrame, wxFrame::SetToolBar() is called; otherwise, you have to add it to a frame manually. The toolbar is attached by default, you have to set this property to 1 to disable this behaviour (default: 0).</description>
+        </size>
+        <event name="wxCommandEvent">
+            <type name="EVT_TOOL">
+                <description>Process a wxEVT_COMMAND_TOOL_CLICKED event (a synonym for wxEVT_COMMAND_MENU_SELECTED). Pass the id of the tool.</description>
+            </type>
+            <type name="EVT_MENU">
+                <description>The same as EVT_TOOL().</description>
+            </type>
+            <type name="EVT_TOOL_RANGE">
+                <description>Process a wxEVT_COMMAND_TOOL_CLICKED event for a range of identifiers. Pass the ids of the tools.</description>
+            </type>
+            <type name="EVT_MENU_RANGE">
+                <description>The same as EVT_TOOL_RANGE()</description>
+            </type>
+            <type name="EVT_TOOL_RCLICKED">
+                <description>Process a wxEVT_COMMAND_TOOL_RCLICKED event. Pass the id of the tool. (Not available on wxOSX.)</description>
+             </type>
+            <type name="EVT_TOOL_RCLICKED_RANGE">
+                <description>Process a wxEVT_COMMAND_TOOL_RCLICKED event for a range of ids. Pass the ids of the tools. (Not available on wxOSX.)</description>
+            </type>
+            <type name="EVT_TOOL_ENTER">
+                <description>Process a wxEVT_COMMAND_TOOL_ENTER event. Pass the id of the toolbar itself. The value of wxCommandEvent::GetSelection() is the tool id, or -1 if the mouse cursor has moved off a tool. (Not available on wxOSX.)</description>
+            </type>
+            <type name="EVT_TOOL_DROPDOWN">
+                <description>Process a wxEVT_COMMAND_TOOL_DROPDOWN_CLICKED event. If unhandled, displays the default dropdown menu set using wxToolBar::SetDropdownMenu().</description>
+            </type>
+        </event>
+    </class>
+
+    <class name="tool" type="item">
+        <inherits>
+            <class>wxObject</class>
+        </inherits>
+        <parents>
+            <!-- class>wxAuiToolBar</class-->
+            <class>wxToolBar</class>
+        </parents>
+        <name>m_tool</name>
+        <bitmap name="bitmap">
+            <description>Tool's bitmap (required).</description>
+        </bitmap>
+        <bitmap name="bitmap2" label="Disabled bitmap">
+            <description>Bitmap for disabled tool (default: derived from bitmap).</description>
+        </bitmap>
+        <text name="label">
+            <description>Label to display on the tool (default: no label).</description>
+        </text>
+        <enum name="kind">
+            <flag name="wxITEM_NORMAL">
+                <description>A normal button (default)</description>
+            </flag>
+            <flag name="wxITEM_RADIO" xrc="radio">
+                <description>A checkable tool which makes part of a radio group of tools each of which is automatically unchecked whenever another button in the group is checked.</description>
+            </flag>
+            <flag name="wxITEM_CHECK" xrc="toggle">
+                <description>A checkable tool (such tool stays pressed after it had been toggled)</description>
+            </flag>
+            <flag name="wxITEM_DROPDOWN" xrc="dropdown">
+                <description>Specifies that a drop-down menu button will appear next to the tool button (only GTK+ and MSW) (only available since wxWidgets 2.9.0).</description>
+            </flag>
+        </enum>
+        <text name="tooltip">
+            <description>Tooltip to use for the tool (default: none).</description>
+        </text>
+        <text name="longhelp" label="Long help">
+            <description>Help text shown in statusbar when the mouse is on the tool (default: none).</description>
+        </text>
+        <bool name="disabled">
+            <description>Is the tool initially disabled (default: 0)?</description>
+        </bool>
+        <bool name="checked">
+            <description>Is the tool initially checked (default: 0)? (only available since wxWidgets 2.9.3)</description>
+        </bool>
+    </class>
+
+    <class name="space" type="item">
+        <parents>
+            <class>wxToolBar</class>
+        </parents>
+    </class>
+</classes>

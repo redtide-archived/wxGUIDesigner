@@ -55,6 +55,8 @@ public:
 
     wxStyledTextCtrl *GetEditor( wxWindow *parent, const wxString &name );
 
+    int GetImageIndex( const wxString &classname );
+
     static GUIManager *Get();
     void Free();
 
@@ -65,7 +67,9 @@ private:
     void OnWindowPaint( wxPaintEvent &event );
 
     typedef std::map< wxString, wxStyledTextCtrl * > CodeEditors;
+    typedef std::map< wxString, int >                ImageIds;
 
+    ImageIds        m_imgIds;
     CodeEditors     m_editors;
     MainFrame       *m_frame;
     wxMenuBar       *m_menuBar;

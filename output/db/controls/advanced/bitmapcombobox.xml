@@ -23,7 +23,7 @@
         </string>
     </class>
 
-    <class name="ownerdrawnitem">
+    <class name="ownerdrawnitem" type="item">
         <parents>
             <class>wxBitmapComboBox</class>
         </parents>

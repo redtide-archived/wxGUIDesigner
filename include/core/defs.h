@@ -16,6 +16,7 @@
 #include <boost/tr1/memory.hpp>
 #include <list>
 #include <map>
+#include <utility>
 #include <vector>
 
 #include <wx/arrstr.h>
@@ -49,32 +50,27 @@ enum PropertyType
 
 class PropertyInfoBase;
 class EventInfoBase;
-class ClassInfoBase;
+class WidgetInfoBase;
 
 class EventBase;
 class PropertyBase;
-class ObjectBase;
+class WidgetNode;
 
 class wxString;
 
 typedef class std::tr1::shared_ptr< PropertyInfoBase >  PropertyInfo;
 typedef class std::tr1::shared_ptr< EventInfoBase >     EventInfo;
-typedef class std::tr1::shared_ptr< ClassInfoBase >     ClassInfo;
+typedef class std::tr1::shared_ptr< WidgetInfoBase >    WidgetInfo;
 
 typedef class std::tr1::shared_ptr< EventBase >         Event;
 typedef class std::tr1::shared_ptr< PropertyBase >      Property;
-typedef class std::tr1::shared_ptr< ObjectBase >        Object;
+typedef class std::tr1::shared_ptr< WidgetNode >        Widget;
 
-typedef std::map< wxString, EventInfo >                 EventInfoMap;
-typedef std::map< wxString, PropertyInfo >              PropertyInfoMap;
-typedef std::map< wxString, ClassInfo >                 ClassInfoMap;
-typedef std::map< wxString, wxArrayString >             ParentInfoMap;
-
-typedef std::map< wxString, wxString >                  EventTypeMap;
-typedef std::map< wxString, PropertyType >              PropertyTypeMap;
+// Event type name + event type description
+typedef std::pair< wxString, wxString >                 EventTypeInfo;
 
 typedef std::vector< Property >                         Properties;
 typedef std::vector< Event >                            Events;
-typedef std::list< Object >                             Objects;
+typedef std::list< Widget >                             Widgets;
 
 #endif //__WXGDCORE_DEFS_H__

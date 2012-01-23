@@ -8,10 +8,13 @@
     Revision:    $Hash$
     Licence:     wxWindows licence
 -->
-<class name="wxFrame">
+<class name="wxFrame" type="toplevel">
     <inherits>
         <class>wxTopLevelWindow</class>
     </inherits>
+    <parents>
+        <class>Root</class>
+    </parents>
     <name>m_frame</name>
     <style>
         <flag name="wxDEFAULT_FRAME_STYLE">

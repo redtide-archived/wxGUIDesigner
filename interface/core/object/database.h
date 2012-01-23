@@ -58,5 +58,5 @@ public:
 
     void AddChild( const wxString &name, PropertyInfo info );
 
-    void SetChildren( PropertyInfoMap children ) { m_children = children; }
+    void SetChildren( std::map< wxString, PropertyInfo > children ) { m_children = children; }
 };

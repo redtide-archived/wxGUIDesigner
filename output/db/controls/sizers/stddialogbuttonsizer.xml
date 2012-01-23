@@ -9,13 +9,6 @@
     Licence:     wxWindows licence
 -->
 <classes>
-    <class name="button">
-        <children>
-            <class>wxButton</class>
-            1
-        </children>
-    </class>
-
     <class name="wxStdDialogButtonSizer">
         <inherits>
             <class>wxSizer</class>
@@ -24,5 +17,15 @@
         <text name="label">
             <description>Label to be used for the static box around the sizer (required).</description>
         </text>
+    </class>
+
+    <class name="button" type="item">
+        <parents>
+            <class>wxStdDialogButtonSizer</class>
+        </parents>
+        <!--children>
+            <class>wxButton</class>
+            1
+        </children-->
     </class>
 </classes>

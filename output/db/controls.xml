@@ -9,7 +9,7 @@
     Licence:     wxWindows licence
 -->
 <category name="controls">
-    <group  name="toplevel" label="Top level">
+    <group name="toplevel" label="Top level">
         <item>wxFrame</item>
         <item>wxDialog</item>
         <separator/>
@@ -40,6 +40,7 @@
         <item>wxGridBagSizer</item>
         <item>wxStaticBoxSizer</item>
         <item>wxStdDialogButtonSizer</item>
+        <item>wxWrapSizer</item>
         <item>spacer</item>
     </group>
     <group name="common">
@@ -78,12 +79,12 @@
     <group name="containers">
         <item>wxPanel</item>
         <separator/>
-        <item>wxNoteBook</item>
-        <item>wxAuiNoteBook</item>
-        <item>wxChoiceBook</item>
-        <item>wxListBook</item>
-        <item>wxToolBook</item>
-        <item>wxTreeBook</item>
+        <item>wxNotebook</item>
+        <item>wxAuiNotebook</item>
+        <item>wxChoicebook</item>
+        <item>wxListbook</item>
+        <item>wxToolbook</item>
+        <item>wxTreebook</item>
         <separator/>
         <item>wxCollapsiblePane</item>
         <item>wxScrolledWindow</item>
@@ -102,13 +103,13 @@
         <item>treelistitem</item>
         <separator/>
         <item>wxCalendarCtrl</item>
-        <item>wxHyperLinkCtrl</item>
+        <item>wxHyperlinkCtrl</item>
         <item>wxGrid</item>
         <item>wxBannerWindow</item>
         <item>wxAnimationCtrl</item>
         <separator/>
         <item>wxMediaCtrl</item>
-        <!--item>CustomCtrl</item-->
+        <item>CustomCtrl</item>
         <separator/>
         <item>wxRichTextCtrl</item>
         <separator/>
@@ -128,6 +129,6 @@
     <group name="web">
         <item>wxHtmlWindow</item>
         <item>wxSimpleHtmlListBox</item>
-        <!--item>wxWebView</item-->
+        <item>wxWebView</item>
     </group>
 </category>

@@ -8,37 +8,62 @@
     Revision:    $Hash$
     Licence:     wxWindows licence
 -->
-<class name="wxWizard">
-    <inherits>
-        <class>wxDialog</class>
-    </inherits>
-    <name>m_wizard</name>
-    <exstyle>
-        <flag name="wxWIZARD_EX_HELPBUTTON">
-            <description>Shows a Help button using wxID_HELP.</description>
-        </flag>
-    </exstyle>
-    <bitmap>
-        <description>Bitmap to display on the left side of the wizard (default: none).</description>
-    </bitmap>
-    <event name="wxWizardEvent">
-        <type name="EVT_WIZARD_PAGE_CHANGED">
-            <description>The page has just been changed (this event cannot be vetoed).</description>
-        </type>
-        <type name="EVT_WIZARD_PAGE_CHANGING">
-            <description>The page is being changed (this event can be vetoed).</description>
-        </type>
-        <type name="EVT_WIZARD_PAGE_SHOWN">
-            <description>The page was shown and laid out (this event cannot be vetoed).</description>
-        </type>
-        <type name="EVT_WIZARD_CANCEL">
-            <description>The user attempted to cancel the wizard (this event may also be vetoed).</description>
-        </type>
-        <type name="EVT_WIZARD_HELP">
-            <description>The wizard help button was pressed.</description>
-        </type>
-        <type name="EVT_WIZARD_FINISHED">
-            <description>The wizard finished button was pressed.</description>
-        </type>
-    </event>
-</class>
+<classes>
+    <class name="wxWizard" type="toplevel">
+        <inherits>
+            <class>wxDialog</class>
+        </inherits>
+        <parents>
+            <class>Root</class>
+            <class>wxFrame</class>
+        </parents>
+        <name>m_wizard</name>
+        <exstyle>
+            <flag name="wxWIZARD_EX_HELPBUTTON">
+                <description>Shows a Help button using wxID_HELP.</description>
+            </flag>
+        </exstyle>
+        <bitmap>
+            <description>Bitmap to display on the left side of the wizard (default: none).</description>
+        </bitmap>
+        <event name="wxWizardEvent">
+            <type name="EVT_WIZARD_PAGE_CHANGED">
+                <description>The page has just been changed (this event cannot be vetoed).</description>
+            </type>
+            <type name="EVT_WIZARD_PAGE_CHANGING">
+                <description>The page is being changed (this event can be vetoed).</description>
+            </type>
+            <type name="EVT_WIZARD_PAGE_SHOWN">
+                <description>The page was shown and laid out (this event cannot be vetoed).</description>
+            </type>
+            <type name="EVT_WIZARD_CANCEL">
+                <description>The user attempted to cancel the wizard (this event may also be vetoed).</description>
+            </type>
+            <type name="EVT_WIZARD_HELP">
+                <description>The wizard help button was pressed.</description>
+            </type>
+            <type name="EVT_WIZARD_FINISHED">
+                <description>The wizard finished button was pressed.</description>
+            </type>
+        </event>
+    </class>
+
+    <class name="wxWizardPage" type="abstract">
+        <inherits>
+            <class>wxPanel</class>
+        </inherits>
+        <parents>
+            <class>wxWizard</class>
+        </parents>
+        <name>m_wizPage</name>
+        <bitmap name="Bitmap">
+            <description>Page-specific bitmap (default: none).</description>
+        </bitmap>
+    </class>
+
+    <class name="wxWizardPageSimple">
+        <inherits>
+            <class>wxWizardPage</class>
+        </inherits>
+    </class>
+</classes>

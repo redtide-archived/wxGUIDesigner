@@ -8,7 +8,7 @@
     Revision:    $Hash$
     Licence:     wxWindows licence
 -->
-<class name="wxAnyButton">
+<class name="wxAnyButton" type="abstract">
     <inherits>
         <class>wxControl</class>
     </inherits>

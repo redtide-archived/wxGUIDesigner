@@ -8,11 +8,12 @@
     Revision:    $Hash$
     Licence:     wxWindows licence
 -->
-<class name="wxDialog">
+<class name="wxDialog" type="toplevel">
     <inherits>
         <class>wxTopLevelWindow</class>
     </inherits>
     <parents>
+        <class>Root</class>
         <class>wxFrame</class>
     </parents>
     <name>m_dialog</name>

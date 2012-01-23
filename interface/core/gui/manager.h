@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 /**
-    @class GUIManager
+    @class IGUIManager
 
     wxGUIDesigner provides access to all its GUI components trough this
     singleton class when using it either as a stand-alone application or
@@ -17,7 +17,7 @@
 
     @library{core}
 */
-class GUIManager
+class IGUIManager
 {
 public:
     /**

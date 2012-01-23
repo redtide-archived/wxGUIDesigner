@@ -8,11 +8,11 @@
     Revision:    $Hash$
     Licence:     wxWindows licence
 -->
-<class name="wxWindow">
-    <id>
+<class name="wxWindow" type="abstract">
+    <!--id>
         <value>wxID_ANY</value>
         <description>The type of unique identifiers (ID) used for wxWindow-derived classes.</description>
-    </id>
+    </id-->
     <point name="Position">
         <description>Initial position of the window (default: wxDefaultPosition).</description>
     </point>

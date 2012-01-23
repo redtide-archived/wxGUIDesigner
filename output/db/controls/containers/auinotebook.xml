@@ -80,7 +80,7 @@
         </event>
     </class>
 
-    <class name="auinotebookpage">
+    <class name="auinotebookpage" type="item">
         <parents>
             <class>wxAuiNotebook</class>
         </parents>

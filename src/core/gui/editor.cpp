@@ -9,23 +9,24 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "core/gui/editor.h"
+#include "core/defs.h"
 
-void EditorHandler::OnObjectCreated( IObject *object )
+void EditorHandler::OnObjectCreated( Widget widget )
 {
     
 }
 
-void EditorHandler::OnObjectDeleted( IObject *object )
+void EditorHandler::OnObjectDeleted( Widget widget )
 {
     
 }
 
-void EditorHandler::OnObjectExpanded( IObject *object )
+void EditorHandler::OnObjectExpanded( Widget widget )
 {
     
 }
 
-void EditorHandler::OnObjectSelected( IObject *object )
+void EditorHandler::OnObjectSelected( Widget widget )
 {
     
 }

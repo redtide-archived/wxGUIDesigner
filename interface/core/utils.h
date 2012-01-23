@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        core/utils.h
-// Purpose:     interface of Object
+// Purpose:     interface of Widget
 // Author:      Andrea Zanellato
 // Modified by:
 // Created:     2011/12/21

@@ -88,10 +88,10 @@ wxBitmap IconProvider::GetBitmap( const wxString &label, IconType type ) const
         }
     }
 
-    wxSize size = wxSize( 16, 16 ); // ICONTYPE_ITEM
+    wxSize size = wxSize( 22, 22 ); // ICONTYPE_ITEM
 
     if ( type == ICONTYPE_GROUP )
-        size = wxSize( 22, 22 );
+        size = wxSize( 16, 16 );
 
     return wxArtProvider::GetBitmap( wxART_MISSING_IMAGE, wxART_OTHER, size );
 }

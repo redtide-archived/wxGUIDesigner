@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
     Name:        treebook.xml
-    Purpose:     wxTreeBook class definition
+    Purpose:     wxTreebook class definition
     Author:      Andrea Zanellato
     Modified by: 
     Created:     2012/01/15
@@ -9,7 +9,7 @@
     Licence:     wxWindows licence
 -->
 <classes>
-    <class name="wxTreeBook">
+    <class name="wxTreebook">
         <inherits>
             <class>wxBookCtrlBase</class>
         </inherits>
@@ -47,9 +47,9 @@
         </event>
     </class>
 
-    <class name="treebookpage">
+    <class name="treebookpage" type="item">
         <parents>
-            <class>wxTreeBook</class>
+            <class>wxTreebook</class>
         </parents>
         <int name="depth">
             <description>Page's depth in the labels tree.</description>

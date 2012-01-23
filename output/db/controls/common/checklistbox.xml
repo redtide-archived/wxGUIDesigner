@@ -24,7 +24,10 @@
         </event>
     </class>
 
-    <class name="checklistboxitem" xrcname="item">
+    <class name="checklistboxitem" type="item">
+        <parents>
+            <class>wxCheckListBox</class>
+        </parents>
         <bool name="checked" xrcattribute="1"/>
     </class>
 </classes>

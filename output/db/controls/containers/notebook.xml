@@ -50,7 +50,7 @@
         </event>
     </class>
 
-    <class name="notebookpage">
+    <class name="notebookpage" type="item">
         <parents>
             <class>wxNotebook</class>
         </parents>

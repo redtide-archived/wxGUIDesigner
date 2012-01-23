@@ -8,119 +8,187 @@
     Revision:    $Hash$
     Licence:     wxWindows licence
 -->
-<class name="wxListCtrl">
-    <inherits>
-        <class>wxControl</class>
-    </inherits>
-    <name>m_listCtrl</name>
-    <style>
-        <flag name="wxLC_LIST">
-            <description>Multicolumn list view, with optional small icons. Columns are computed automatically, i.e. you don't set columns as in wxLC_REPORT. In other words, the list wraps, unlike a wxListBox.</description>
-        </flag>
-        <flag name="wxLC_REPORT">
-            <description>Single or multicolumn report view, with optional header.</description>
-        </flag>
-        <flag name="wxLC_VIRTUAL">
-            <description>The application provides items text on demand. May only be used with wxLC_REPORT.</description>
-        </flag>
-        <flag name="wxLC_ICON">
-            <description>Large icon view, with optional labels.</description>
-        </flag>
-        <flag name="wxLC_SMALL_ICON">
-            <description>Small icon view, with optional labels.</description>
-        </flag>
-        <flag name="wxLC_ALIGN_TOP">
-            <description>Icons align to the top. Win32 default, Win32 only.</description>
-        </flag>
-        <flag name="wxLC_ALIGN_LEFT">
-            <description>Icons align to the left.</description>
-        </flag>
-        <flag name="wxLC_AUTOARRANGE">
-            <description>Icons arrange themselves. Win32 only.</description>
-        </flag>
-        <flag name="wxLC_EDIT_LABELS">
-            <description>Labels are editable: the application will be notified when editing starts.</description>
-        </flag>
-        <flag name="wxLC_NO_HEADER">
-            <description>No header in report mode.</description>
-        </flag>
-        <flag name="wxLC_SINGLE_SEL">
-            <description>Single selection (default is multiple).</description>
-        </flag>
-        <flag name="wxLC_SORT_ASCENDING">
-            <description>Sort in ascending order. (You must still supply a comparison callback in wxListCtrl::SortItems.)</description>
-        </flag>
-        <flag name="wxLC_SORT_DESCENDING">
-            <description>Sort in descending order. (You must still supply a comparison callback in wxListCtrl::SortItems.)</description>
-        </flag>
-        <flag name="wxLC_HRULES">
-            <description>Draws light horizontal rules between rows in report mode.</description>
-        </flag>
-        <flag name="wxLC_VRULES">
-            <description>Draws light vertical rules between columns in report mode.</description>
-        </flag>
-    </style>
-    
-    <event name="wxListEvent">
-        <type name="EVT_LIST_BEGIN_DRAG">
-            <description>Begin dragging with the left mouse button. Processes a wxEVT_COMMAND_LIST_BEGIN_DRAG event type.</description>
-        </type>
-        <type name="EVT_LIST_BEGIN_RDRAG">
-            <description>Begin dragging with the right mouse button. Processes a wxEVT_COMMAND_LIST_BEGIN_RDRAG event type.</description>
-        </type>
-        <type name="EVT_BEGIN_LABEL_EDIT">
-            <description>Begin editing a label. This can be prevented by calling Veto(). Processes a wxEVT_COMMAND_LIST_BEGIN_LABEL_EDIT event type.</description>
-        </type>
-        <type name="EVT_LIST_END_LABEL_EDIT">
-            <description>Finish editing a label. This can be prevented by calling Veto(). Processes a wxEVT_COMMAND_LIST_END_LABEL_EDIT event type.</description>
-        </type>
-        <type name="EVT_LIST_DELETE_ITEM">
-            <description>An item was deleted. Processes a wxEVT_COMMAND_LIST_DELETE_ITEM event type.</description>
-        </type>
-        <type name="EVT_LIST_DELETE_ALL_ITEMS">
-            <description>All items were deleted. Processes a wxEVT_COMMAND_LIST_DELETE_ALL_ITEMS event type.</description>
-        </type>
-        <type name="EVT_LIST_ITEM_SELECTED">
-            <description>The item has been selected. Processes a wxEVT_COMMAND_LIST_ITEM_SELECTED event type.</description>
-        </type>
-        <type name="EVT_LIST_ITEM_DESELECTED">
-            <description>The item has been deselected. Processes a wxEVT_COMMAND_LIST_ITEM_DESELECTED event type.</description>
-        </type>
-        <type name="EVT_LIST_ITEM_ACTIVATED">
-            <description>The item has been activated (ENTER or double click). Processes a wxEVT_COMMAND_LIST_ITEM_ACTIVATED event type.</description>
-        </type>
-        <type name="EVT_LIST_ITEM_FOCUSED">
-            <description>The currently focused item has changed. Processes a wxEVT_COMMAND_LIST_ITEM_FOCUSED event type.</description>
-        </type>
-        <type name="EVT_LIST_ITEM_MIDDLE_CLICK">
-            <description>The middle mouse button has been clicked on an item. This is only supported by the generic control. Processes a wxEVT_COMMAND_LIST_ITEM_MIDDLE_CLICK event type.</description>
-        </type>
-        <type name="EVT_LIST_ITEM_RIGHT_CLICK">
-            <description>The right mouse button has been clicked on an item. Processes a wxEVT_COMMAND_LIST_ITEM_RIGHT_CLICK event type.</description>
-        </type>
-        <type name="EVT_LIST_KEY_DOWN">
-            <description>A key has been pressed. Processes a wxEVT_COMMAND_LIST_KEY_DOWN event type.</description>
-        </type>
-        <type name="EVT_LIST_INSERT_ITEM">
-            <description>An item has been inserted. Processes a wxEVT_COMMAND_LIST_INSERT_ITEM event type.</description>
-        </type>
-        <type name="EVT_LIST_COL_CLICK">
-            <description>A column (m_col) has been left-clicked. Processes a wxEVT_COMMAND_LIST_COL_CLICK event type.</description>
-        </type>
-        <type name="EVT_LIST_COL_RIGHT_CLICK">
-            <description>A column (m_col) has been right-clicked. Processes a wxEVT_COMMAND_LIST_COL_RIGHT_CLICK event type.</description>
-        </type>
-        <type name="EVT_LIST_COL_BEGIN_DRAG">
-            <description>The user started resizing a column - can be vetoed. Processes a wxEVT_COMMAND_LIST_COL_BEGIN_DRAG event type.</description>
-        </type>
-        <type name="EVT_LIST_COL_DRAGGING">
-            <description>The divider between columns is being dragged. Processes a wxEVT_COMMAND_LIST_COL_DRAGGING event type.</description>
-        </type>
-        <type name="EVT_LIST_COL_END_DRAG">
-            <description>A column has been resized by the user. Processes a wxEVT_COMMAND_LIST_COL_END_DRAG event type.</description>
-        </type>
-        <type name="EVT_LIST_CACHE_HINT">
-            <description>Prepare cache for a virtual list control. Processes a wxEVT_COMMAND_LIST_CACHE_HINT event type.</description>
-        </type>
-    </event>
-</class>
+<classes>
+    <class name="wxListCtrl">
+        <inherits>
+            <class>wxControl</class>
+        </inherits>
+        <name>m_listCtrl</name>
+        <style>
+            <flag name="wxLC_LIST">
+                <description>Multicolumn list view, with optional small icons. Columns are computed automatically, i.e. you don't set columns as in wxLC_REPORT. In other words, the list wraps, unlike a wxListBox.</description>
+            </flag>
+            <flag name="wxLC_REPORT">
+                <description>Single or multicolumn report view, with optional header.</description>
+            </flag>
+            <flag name="wxLC_VIRTUAL">
+                <description>The application provides items text on demand. May only be used with wxLC_REPORT.</description>
+            </flag>
+            <flag name="wxLC_ICON">
+                <description>Large icon view, with optional labels.</description>
+            </flag>
+            <flag name="wxLC_SMALL_ICON">
+                <description>Small icon view, with optional labels.</description>
+            </flag>
+            <flag name="wxLC_ALIGN_TOP">
+                <description>Icons align to the top. Win32 default, Win32 only.</description>
+            </flag>
+            <flag name="wxLC_ALIGN_LEFT">
+                <description>Icons align to the left.</description>
+            </flag>
+            <flag name="wxLC_AUTOARRANGE">
+                <description>Icons arrange themselves. Win32 only.</description>
+            </flag>
+            <flag name="wxLC_EDIT_LABELS">
+                <description>Labels are editable: the application will be notified when editing starts.</description>
+            </flag>
+            <flag name="wxLC_NO_HEADER">
+                <description>No header in report mode.</description>
+            </flag>
+            <flag name="wxLC_SINGLE_SEL">
+                <description>Single selection (default is multiple).</description>
+            </flag>
+            <flag name="wxLC_SORT_ASCENDING">
+                <description>Sort in ascending order. (You must still supply a comparison callback in wxListCtrl::SortItems.)</description>
+            </flag>
+            <flag name="wxLC_SORT_DESCENDING">
+                <description>Sort in descending order. (You must still supply a comparison callback in wxListCtrl::SortItems.)</description>
+            </flag>
+            <flag name="wxLC_HRULES">
+                <description>Draws light horizontal rules between rows in report mode.</description>
+            </flag>
+            <flag name="wxLC_VRULES">
+                <description>Draws light vertical rules between columns in report mode.</description>
+            </flag>
+        </style>
+        
+        <event name="wxListEvent">
+            <type name="EVT_LIST_BEGIN_DRAG">
+                <description>Begin dragging with the left mouse button. Processes a wxEVT_COMMAND_LIST_BEGIN_DRAG event type.</description>
+            </type>
+            <type name="EVT_LIST_BEGIN_RDRAG">
+                <description>Begin dragging with the right mouse button. Processes a wxEVT_COMMAND_LIST_BEGIN_RDRAG event type.</description>
+            </type>
+            <type name="EVT_BEGIN_LABEL_EDIT">
+                <description>Begin editing a label. This can be prevented by calling Veto(). Processes a wxEVT_COMMAND_LIST_BEGIN_LABEL_EDIT event type.</description>
+            </type>
+            <type name="EVT_LIST_END_LABEL_EDIT">
+                <description>Finish editing a label. This can be prevented by calling Veto(). Processes a wxEVT_COMMAND_LIST_END_LABEL_EDIT event type.</description>
+            </type>
+            <type name="EVT_LIST_DELETE_ITEM">
+                <description>An item was deleted. Processes a wxEVT_COMMAND_LIST_DELETE_ITEM event type.</description>
+            </type>
+            <type name="EVT_LIST_DELETE_ALL_ITEMS">
+                <description>All items were deleted. Processes a wxEVT_COMMAND_LIST_DELETE_ALL_ITEMS event type.</description>
+            </type>
+            <type name="EVT_LIST_ITEM_SELECTED">
+                <description>The item has been selected. Processes a wxEVT_COMMAND_LIST_ITEM_SELECTED event type.</description>
+            </type>
+            <type name="EVT_LIST_ITEM_DESELECTED">
+                <description>The item has been deselected. Processes a wxEVT_COMMAND_LIST_ITEM_DESELECTED event type.</description>
+            </type>
+            <type name="EVT_LIST_ITEM_ACTIVATED">
+                <description>The item has been activated (ENTER or double click). Processes a wxEVT_COMMAND_LIST_ITEM_ACTIVATED event type.</description>
+            </type>
+            <type name="EVT_LIST_ITEM_FOCUSED">
+                <description>The currently focused item has changed. Processes a wxEVT_COMMAND_LIST_ITEM_FOCUSED event type.</description>
+            </type>
+            <type name="EVT_LIST_ITEM_MIDDLE_CLICK">
+                <description>The middle mouse button has been clicked on an item. This is only supported by the generic control. Processes a wxEVT_COMMAND_LIST_ITEM_MIDDLE_CLICK event type.</description>
+            </type>
+            <type name="EVT_LIST_ITEM_RIGHT_CLICK">
+                <description>The right mouse button has been clicked on an item. Processes a wxEVT_COMMAND_LIST_ITEM_RIGHT_CLICK event type.</description>
+            </type>
+            <type name="EVT_LIST_KEY_DOWN">
+                <description>A key has been pressed. Processes a wxEVT_COMMAND_LIST_KEY_DOWN event type.</description>
+            </type>
+            <type name="EVT_LIST_INSERT_ITEM">
+                <description>An item has been inserted. Processes a wxEVT_COMMAND_LIST_INSERT_ITEM event type.</description>
+            </type>
+            <type name="EVT_LIST_COL_CLICK">
+                <description>A column (m_col) has been left-clicked. Processes a wxEVT_COMMAND_LIST_COL_CLICK event type.</description>
+            </type>
+            <type name="EVT_LIST_COL_RIGHT_CLICK">
+                <description>A column (m_col) has been right-clicked. Processes a wxEVT_COMMAND_LIST_COL_RIGHT_CLICK event type.</description>
+            </type>
+            <type name="EVT_LIST_COL_BEGIN_DRAG">
+                <description>The user started resizing a column - can be vetoed. Processes a wxEVT_COMMAND_LIST_COL_BEGIN_DRAG event type.</description>
+            </type>
+            <type name="EVT_LIST_COL_DRAGGING">
+                <description>The divider between columns is being dragged. Processes a wxEVT_COMMAND_LIST_COL_DRAGGING event type.</description>
+            </type>
+            <type name="EVT_LIST_COL_END_DRAG">
+                <description>A column has been resized by the user. Processes a wxEVT_COMMAND_LIST_COL_END_DRAG event type.</description>
+            </type>
+            <type name="EVT_LIST_CACHE_HINT">
+                <description>Prepare cache for a virtual list control. Processes a wxEVT_COMMAND_LIST_CACHE_HINT event type.</description>
+            </type>
+        </event>
+    </class>
+
+    <class name="listcol" type="item">
+        <parents>
+            <class>wxListCtrl</class>
+        </parents>
+        <listcolfmt name="align">
+            <description>The alignment for the item. Can be one of wxLIST_FORMAT_LEFT, wxLIST_FORMAT_RIGHT or wxLIST_FORMAT_CENTRE.</description>
+        </listcolfmt>
+        <string name="text">
+            <description>The title of the column.</description>
+        </string>
+        <int name="width">
+            <description>The column width.</description>
+        </int>
+        <int name="image">
+            <description>The zero-based index of the image associated with the item in the 'small' image list.</description>
+        </int>
+    </class>
+
+    <class name="listitem" type="item">
+        <parents>
+            <class>wxListCtrl</class>
+        </parents>
+        <string name="label">
+            <description>The text label for the item.</description>
+        </string>
+        <style name="state">
+            <description>The item state. Can be any combination of the following values:</description>
+            <flag name="wxLIST_STATE_FOCUSED">
+                <description>The item has the focus.</description>
+            </flag>
+            <flag name="wxLIST_STATE_SELECTED">
+                <description>The item is selected.</description>
+            </flag>
+        </style>
+        <font>
+            <description>The font for the item.</description>
+        </font>
+        <listcolfmt name="align">
+            <description>The alignment for the item. Can be one of wxLIST_FORMAT_LEFT, wxLIST_FORMAT_RIGHT or wxLIST_FORMAT_CENTRE.</description>
+        </listcolfmt>
+        <colour name="bg">
+            <description>The background color for the item.</description>
+        </colour>
+        <colour label="Text colour">
+            <description>The text colour for the item.</description>
+        </colour>
+        <bitmap>
+            <description>Add a bitmap to the (normal) wxImageList associated with the wxListCtrl parent and associate it with this item. If the imagelist is not defined it will be created implicitly.</description>
+        </bitmap>
+        <bitmap name="bitmap-small">
+            <description>Add a bitmap in the 'small' wxImageList associated with the wxListCtrl parent and associate it with this item. If the 'small' imagelist is not defined it will be created implicitly.</description>
+        </bitmap>
+        <int name="image">
+            <description>The zero-based index of the image associated with the item in the (normal) image list.</description>
+        </int>
+        <int name="image-small">
+            <description>The zero-based index of the image associated with the item in the 'small' image list.</description>
+        </int>
+        <int name="col">
+            <description>The zero-based column index.</description>
+        </int>
+        <int name="data">
+            <description>The client data for the item.</description>
+        </int>
+    </class>
+</classes>

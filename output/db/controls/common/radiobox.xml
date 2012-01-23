@@ -39,7 +39,7 @@
         </event>
     </class>
 
-    <class name="radioboxitem" xrcname="item">
+    <class name="radioboxitem" type="item">
         <parents>
             <class>wxRadioBox</class>
         </parents>

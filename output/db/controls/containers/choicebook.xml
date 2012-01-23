@@ -41,7 +41,7 @@
         </event>
     </class>
 
-    <class name="choicebookpage">
+    <class name="choicebookpage" type="item">
         <parents>
             <class>wxChoicebook</class>
         </parents>

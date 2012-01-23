@@ -113,45 +113,45 @@ wxString PropertyBase::GetAsURL() const
     return GetAsString(); // TODO
 }
 //-----------------------------------------------------------------------------
-// ObjectBase Class
+// WidgetNode Class
 //-----------------------------------------------------------------------------
 
-ObjectBase::~ObjectBase()
+WidgetNode::~WidgetNode()
 {
     m_props.clear();
     m_events.clear();
     m_children.clear();
 }
-/*
-bool ObjectBase::Destroy()
+
+wxString WidgetNode::GetName() const
 {
-    return false;
+    // return m_info->GetName() + i;
+    return wxEmptyString;
 }
-*/
 //-----------------------------------------------------------------------------
-// ObjectTree Singleton Class
+// WidgetTree Singleton Class
 //-----------------------------------------------------------------------------
 
-ObjectTree::~ObjectTree()
+WidgetTree::~WidgetTree()
 {
-    for ( std::list< IObjectHandler * >::iterator
-            it = m_handlers.begin(); it != m_handlers.end(); ++it )
+    for ( std::list< IWidgetHandler * >::iterator it = m_handlers.begin();
+                                                it != m_handlers.end(); ++it )
     {
         m_handlers.erase( it );
     }
 }
 
-ObjectTree *ObjectTree::ms_instance = NULL;
+WidgetTree *WidgetTree::ms_instance = NULL;
 
-ObjectTree *ObjectTree::Get()
+WidgetTree *WidgetTree::Get()
 {
     if( !ms_instance )
-        ms_instance = new ObjectTree;
+        ms_instance = new WidgetTree;
 
     return ms_instance;
 }
 
-void ObjectTree::Free()
+void WidgetTree::Free()
 {
     if( ms_instance )
     {
@@ -160,69 +160,94 @@ void ObjectTree::Free()
     }
 }
 
-bool ObjectTree::CreateObject( const wxString &className )
+bool WidgetTree::CreateObject( const wxString &className )
 {
-    if( !HaveRoot() || !HaveSelection() )
-    {
-        wxLogError("No root/parent object");
-        return false;
-    }
+    WidgetInfo clsInfo( WidgetInfoDB::Get()->GetClassInfo( className ) );
 
-    ClassInfo clsInfo( ClassInfoDataBase::Get()->GetClassInfo( className ) );
-
-    if ( clsInfo->GetBaseNames().Index( m_sel->GetClassName() ) == wxNOT_FOUND )
+    if ( !clsInfo->CanBeChildOf( m_sel->GetClassName() ) )
     {
         wxLogError
         (
-            "No parent object '%s' found in class '%s'",
+            "Selected object '%s' is not a valid parent for class '%s'",
             m_sel->GetClassName(), className
         );
 
         return false;
     }
 
-    Object obj( new ObjectBase( clsInfo, m_sel ) );
-    m_sel->AddChild( obj );
+    Widget widget( new WidgetNode( m_sel, clsInfo ) );
+    SendEvent( widget, EVT_WIDGET_CREATED );
+
+    m_sel->AddChild( widget );
+
+    m_sel = widget;
 
     return true;
 }
 
-void ObjectTree::AddHandler( IObjectHandler *handler )
+void WidgetTree::SelectObject( Widget widget )
+{
+    m_sel = widget;
+    SendEvent( widget, EVT_WIDGET_SELECTED );
+}
+
+void WidgetTree::AddHandler( IWidgetHandler *handler )
 {
     m_handlers.push_back( handler );
 }
 
-void ObjectTree::RemoveHandler( IObjectHandler *handler )
+void WidgetTree::RemoveHandler( IWidgetHandler *handler )
 {
     m_handlers.remove( handler );
 }
 
-void ObjectTree::SetRoot( Object object )
+void WidgetTree::SendEvent( Widget widget, WidgetEventType eventType )
 {
-    m_root.reset( object.get() );
+    for ( std::list< IWidgetHandler * >::iterator it  = m_handlers.begin();
+                                                  it != m_handlers.end(); ++it )
+    {
+        switch ( eventType )
+        {
+        case EVT_WIDGET_CREATED:
+            (*it)->OnObjectCreated( widget );
+            break;
+
+        case EVT_WIDGET_DELETED:
+            (*it)->OnObjectDeleted( widget );
+            break;
+
+        case EVT_WIDGET_EXPANDED:
+            (*it)->OnObjectExpanded( widget );
+            break;
+
+        case EVT_WIDGET_SELECTED:
+            (*it)->OnObjectSelected( widget );
+            break;
+        }
+    }
 }
 
 /*-----------------------------------------------------------------------------
-// ObjectEvent
+// WidgetEvent
 //-----------------------------------------------------------------------------
 
-wxIMPLEMENT_DYNAMIC_CLASS( ObjectEvent, wxEvent );
+wxIMPLEMENT_DYNAMIC_CLASS( WidgetEvent, wxEvent );
 
-wxDEFINE_EVENT( wxEVT_OBJECT_CREATE,    ObjectEvent );
-wxDEFINE_EVENT( wxEVT_OBJECT_CREATED,   ObjectEvent );
-wxDEFINE_EVENT( wxEVT_OBJECT_SELECTED,  ObjectEvent );
+wxDEFINE_EVENT( wxEVT_WIDGET_CREATE,    WidgetEvent );
+wxDEFINE_EVENT( wxEVT_WIDGET_CREATED,   WidgetEvent );
+wxDEFINE_EVENT( wxEVT_WIDGET_SELECTED,  WidgetEvent );
 
-ObjectEvent::ObjectEvent( wxEventType type, int id ) : wxEvent( id, type )
+WidgetEvent::WidgetEvent( wxEventType type, int id ) : wxEvent( id, type )
 {
     
 }
 
-ObjectEvent::ObjectEvent( const ObjectEvent &event ) : wxEvent( event )
+WidgetEvent::WidgetEvent( const WidgetEvent &event ) : wxEvent( event )
 {
     
 }
 
-ObjectEvent::~ObjectEvent()
+WidgetEvent::~WidgetEvent()
 {
     
 }*/

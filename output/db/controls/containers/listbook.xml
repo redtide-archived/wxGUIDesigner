@@ -41,7 +41,7 @@
         </event>
     </class>
 
-    <class name="listbookpage">
+    <class name="listbookpage" type="item">
         <parents>
             <class>wxListbook</class>
         </parents>

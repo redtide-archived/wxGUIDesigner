@@ -71,8 +71,8 @@ GUIManager::GUIManager() :  m_frame( NULL ),
     wxString wxGDDesignerPanel = wxGDXRCArchive + "#zip:designer.xrc";
     wxString wxGDEditorBook    = wxGDXRCArchive + "#zip:editor.xrc";
     wxString wxGDMainMenu      = wxGDXRCArchive + "#zip:mainmenu.xrc";
-    wxString wxGDPropertyBook  = wxGDXRCArchive + "#zip:objinsp.xrc";
-    wxString wxGDTreeView      = wxGDXRCArchive + "#zip:objtree.xrc";
+    wxString wxGDPropertyBook  = wxGDXRCArchive + "#zip:propbook.xrc";
+    wxString wxGDTreeView      = wxGDXRCArchive + "#zip:treeview.xrc";
     wxString wxGDPaletteBook   = wxGDXRCArchive + "#zip:palette.xrc";
     wxString wxGDToolbar       = wxGDXRCArchive + "#zip:toolbar.xrc";
     wxString wxGDImages        = wxGDXRCArchive + "#zip:images.xrc";
@@ -97,7 +97,7 @@ void GUIManager::Free()
 {
     if ( m_editBookHndlr )
     {
-        ObjectTree::Get()->RemoveHandler( m_editBookHndlr );
+        WidgetTree::Get()->RemoveHandler( m_editBookHndlr );
         delete m_editBookHndlr;
         m_editBookHndlr = NULL;
     }
@@ -116,6 +116,7 @@ void GUIManager::Free()
 
     if ( m_treeViewHndlr )
     {
+        WidgetTree::Get()->RemoveHandler( m_treeViewHndlr );
         delete m_treeViewHndlr;
         m_treeViewHndlr = NULL;
     }
@@ -219,13 +220,11 @@ wxNotebook *GUIManager::GetEditorBook( wxWindow *parent )
 {
     if ( !m_editBook )
     {
-        m_editBook = XRCCTRL( *parent, "Editor", wxNotebook );
+        m_editBook = XRCCTRL( *parent, "EditorBook", wxNotebook );
 
-        if ( m_editBook )
+        if ( m_editBook && IconProvider::Get()->SelectCategory("languages") )
         {
             m_editBookHndlr = new EditorHandler( m_editBook );
-
-            IconProvider::Get()->SelectCategory("languages");
 
             for ( size_t i = 0; i < IconProvider::Get()->GetGroupCount(); i++ )
             {
@@ -266,7 +265,7 @@ wxNotebook *GUIManager::GetEditorBook( wxWindow *parent )
                 }
             }
 
-            ObjectTree::Get()->AddHandler( m_editBookHndlr );
+            WidgetTree::Get()->AddHandler( m_editBookHndlr );
         }
     }
 
@@ -275,7 +274,7 @@ wxNotebook *GUIManager::GetEditorBook( wxWindow *parent )
 
 wxPanel *GUIManager::GetDesignPanel()
 {
-    return XRCCTRL( *m_editBook, "DesignerWindow", wxPanel );
+    return XRCCTRL( *m_editBook, "DesignerPanel", wxPanel );
 }
 
 void GUIManager::OnWindowPaint( wxPaintEvent &event )
@@ -297,12 +296,11 @@ wxNotebook *GUIManager::GetPaletteBook( wxWindow *parent )
 {
     if ( !m_palette )
     {
-        m_palette = XRCCTRL( *parent, "ObjectPalette", wxNotebook );
-        if ( m_palette )
+        m_palette = XRCCTRL( *parent, "ToolPalette", wxNotebook );
+
+        if ( m_palette && IconProvider::Get()->SelectCategory("controls") )
         {
             m_paletteHndlr = new PaletteHandler( m_palette );
-
-            IconProvider::Get()->SelectCategory("controls");
 
             for ( size_t i = 0; i < IconProvider::Get()->GetGroupCount(); i++ )
             {
@@ -314,7 +312,6 @@ wxNotebook *GUIManager::GetPaletteBook( wxWindow *parent )
                       n < IconProvider::Get()->GetItemCount( i ); n++ )
                 {
                     wxString item = IconProvider::Get()->GetItemLabel( i, n );
-                    bmp = IconProvider::Get()->GetItemBitmap( i, n );
 
                     if ( item == "-" )
                     {
@@ -322,6 +319,7 @@ wxNotebook *GUIManager::GetPaletteBook( wxWindow *parent )
                     }
                     else
                     {
+                        bmp = IconProvider::Get()->GetItemBitmap( i, n );
                         tg->AddTool( wxID_ANY, item, bmp, item );
                     }
                 }
@@ -340,18 +338,48 @@ wxNotebook *GUIManager::GetPaletteBook( wxWindow *parent )
 wxTreeCtrl *GUIManager::GetTreeView( wxWindow *parent )
 {
     if ( !m_treeView )
-        m_treeView = XRCCTRL( *parent, "ObjectTree", wxTreeCtrl );
-/*
-        if ( m_treeView )
+    {
+        m_treeView = XRCCTRL( *parent, "TreeView", wxTreeCtrl );
+
+        if ( m_treeView && IconProvider::Get()->SelectCategory("controls") )
         {
+            wxImageList *ils = m_treeView->GetImageList();
+            if ( !ils )
+            {
+                ils = new wxImageList( 22, 22 );
+                m_treeView->AssignImageList( ils );
+            }
+
+            for ( size_t i = 0; i < IconProvider::Get()->GetGroupCount(); i++ )
+            {
+                for ( size_t n = 0;
+                      n < IconProvider::Get()->GetItemCount( i ); n++ )
+                {
+                    wxString lbl = IconProvider::Get()->GetItemLabel( i, n );
+                    if ( lbl != "-" )
+                    {
+                        wxBitmap bmp = IconProvider::Get()->GetItemBitmap( i, n );
+                        int      idx = ils->Add( bmp );
+                        m_imgIds.insert( ImageIds::value_type( lbl, idx ) );
+                    }
+                }
+            }
+
             m_treeViewHndlr = new TreeViewHandler( m_treeView );
 
-            ObjectTree::Get()->AddHandler( m_treeViewHndlr );
+            WidgetTree::Get()->AddHandler( m_treeViewHndlr );
 
-            m_treeView->Bind( wxEVT_COMMAND_TOOL_CLICKED,
-                            &TreeViewHandler::OnToolClicked, m_treeViewHndlr );
+            m_treeView->Bind( wxEVT_COMMAND_TREE_SEL_CHANGED,
+                            &TreeViewHandler::OnSelChanged, m_treeViewHndlr );
+
+            m_treeView->Bind( wxEVT_COMMAND_TREE_BEGIN_DRAG,
+                            &TreeViewHandler::OnBeginDrag, m_treeViewHndlr );
+
+            m_treeView->Bind( wxEVT_COMMAND_TREE_END_DRAG,
+                            &TreeViewHandler::OnEndDrag, m_treeViewHndlr );
         }
-*/
+    }
+
     return m_treeView;
 }
 
@@ -359,7 +387,7 @@ wxNotebook *GUIManager::GetPropertyBook( wxWindow *parent )
 {
     if ( !m_propBook )
     {
-        m_propBook = XRCCTRL( *parent, "ObjectInspector", wxNotebook );
+        m_propBook = XRCCTRL( *parent, "PropertyBook", wxNotebook );
         if ( m_propBook )
         {
             m_propBookHndlr = new PropBookHandler( m_propBook );
@@ -411,91 +439,11 @@ wxStyledTextCtrl *GUIManager::GetEditor( wxWindow *parent, const wxString &name 
     return stc;
 }
 
-/*
-void GUIManager::NewProject()
+int GUIManager::GetImageIndex( const wxString &classname )
 {
-    wxPanel *designer = GetDesignPanel();
-    if ( !designer || !m_treeView || !m_pgProps ) return;
+    ImageIds::iterator it = m_imgIds.find( classname );
+    if ( it != m_imgIds.end() )
+        return it->second;
 
-    wxString projFile = wxGD_PLUGIN_DIR + wxFILE_SEP_PATH + "classes" +
-                        wxFILE_SEP_PATH + "project.xml";
-
-    if ( !wxFileExists( projFile ) ) return;
-
-    wxXmlDocument doc;
-    if ( !doc.Load( projFile ) ) return;
-
-    wxXmlNode *rootNode = doc.GetRoot();
-
-    if ( rootNode->GetName() != "class" ) return;
-
-    wxXmlNode *childNode = rootNode->GetChildren();
-    while ( childNode )
-    {
-        if ( childNode && childNode->GetName() == "properties" )
-        {
-            wxXmlNode *propNode = childNode->GetChildren();
-            while ( propNode )
-            {
-                if ( propNode->GetName() == "name" )
-                {
-                    //m_project = new Object( propNode->GetNodeContent() );
-                }
-
-                propNode = propNode->GetNext();
-            }
-        }
-
-        childNode = childNode->GetNext();
-    }
-
-    if ( m_project )
-    {
-        
-    }
+    return wxNOT_FOUND;
 }
-
-void GUIManager::CreateObject( const wxString &classname )
-{
-
-    using namespace wxGDConv;
-
-//  wxLogDebug(HexToString(wxBORDER_RAISED));
-//  wxLogDebug("%i", StringToHex("0x04000000"));
-//  wxColour clr = wxGDConv::GetSystemColour("wxSYS_COLOUR_BTNSHADOW");
-//  GetEditorBook()->SetBackgroundColour(clr);
-    int i = wxUP | wxDOWN | wxRIGHT | wxLEFT;
-    wxLogDebug("%i", i);
-    wxLogDebug("%i", StringToHex("0x00F0"));
-
-    #define TEST1(arg) #arg
-    #define TEST2(arg) TEST1(arg)
-
-    wxString s = TEST1(wxBORDER_RAISED);
-
-    const char *c = TEST1(s);
-
-    int i = (int)&c;
-
-    wxLogDebug(s);
-    wxLogDebug("%i", i);
-
-
-    #undef TEST1
-    #undef TEST2
-
-    if ( !m_project ) return;
-
-    
-
-//  Object *object = new Object();
-    
-
-    wxObject *obj = m_xmlResource->LoadObject( parent, name, classname );
-    wxWindow *win = wxDynamicCast( obj, wxWindow );
-    if ( win )
-    {
-        
-    }
-}
-*/

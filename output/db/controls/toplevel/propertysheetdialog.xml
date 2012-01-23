@@ -9,10 +9,14 @@
     Licence:     wxWindows licence
 -->
 <classes>
-    <class name="wxPropertySheetDialog">
+    <class name="wxPropertySheetDialog" type="toplevel">
         <inherits>
             <class>wxDialog</class>
         </inherits>
+        <parents>
+            <class>Root</class>
+            <class>wxFrame</class>
+        </parents>
         <name>m_propDlg</name>
         <style name="buttons">
             <description>Buttons to show, combination of flags accepted by wxPropertySheetDialog::CreateButtons() (default: 0).</description>
@@ -21,7 +25,7 @@
         </style>
     </class>
 
-    <class name="propertysheetpage">
+    <class name="propertysheetpage" type="item">
         <parents>
             <class>wxPropertySheetDialog</class>
         </parents>

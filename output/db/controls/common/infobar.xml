@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Name:        webview.xml
-    Purpose:     wxWebView class definition
+    Name:        infobar.xml
+    Purpose:     wxInfoBar class definition
     Author:      Andrea Zanellato
     Modified by: 
     Created:     2012/01/21
     Revision:    $Hash$
     Licence:     wxWindows licence
 -->
-<class name="wxWebView">
-    
+<class name="wxInfoBar">
+    <inherits>
+        <class>wxControl</class>
+    </inherits>
+    <name>m_infoBar</name>
 </class>

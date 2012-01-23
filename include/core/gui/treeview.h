@@ -11,17 +11,34 @@
 #ifndef __WXGDCORE_TREEVIEW_H__
 #define __WXGDCORE_TREEVIEW_H__
 
-class wxTreeCtrl;
-class wxTreeEvent;
+#include "interfaces/iwidget.h"
+#include "core/defs.h"
 
-class TreeViewHandler
+#include <wx/treectrl.h>
+
+class TreeViewItemData : public wxTreeItemData
+{
+public:
+    TreeViewItemData( Widget widget ) : m_widget( widget ) {}
+    ~TreeViewItemData() {}
+
+    Widget GetWidget() { return m_widget; }
+
+private:
+    Widget m_widget;
+};
+
+class TreeViewHandler : public IWidgetHandler
 {
     friend class GUIManager;
 
-public:
     TreeViewHandler( wxTreeCtrl *owner ) : m_treeView( owner ) {}
 
-private:
+    virtual void OnObjectCreated ( Widget widget );
+    virtual void OnObjectDeleted ( Widget widget );
+    virtual void OnObjectExpanded( Widget widget );
+    virtual void OnObjectSelected( Widget widget );
+
     void OnBeginDrag        ( wxTreeEvent &event );
     void OnEndDrag          ( wxTreeEvent &event );
     void OnSelChanged       ( wxTreeEvent &event );

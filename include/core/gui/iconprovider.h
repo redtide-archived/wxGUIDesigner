@@ -81,7 +81,7 @@ public:
     static IconProvider *Get();
     void Free();
 
-    wxBitmap GetBitmap( const wxString &name, IconType type ) const;
+    wxBitmap GetBitmap( const wxString &name, IconType type = ICONTYPE_GROUP ) const;
 
     wxBitmap GetGroupBitmap( size_t index ) const
     {

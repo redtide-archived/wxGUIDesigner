@@ -8,27 +8,26 @@
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef __WXGDCORE_EDITOR_H__
-#define __WXGDCORE_EDITOR_H__
+#ifndef __CORE_GUI_EDITOR_H__
+#define __CORE_GUI_EDITOR_H__
 
-#include "interfaces/iobject.h"
+#include "interfaces/iwidget.h"
+#include "core/defs.h"
 
 class wxNotebook;
 
-class EditorHandler : public IObjectHandler
+class EditorHandler : public IWidgetHandler
 {
     friend class GUIManager;
 
-public:
     EditorHandler( wxNotebook *owner ) : m_editBook( owner ) {}
 
-private:
-    virtual void OnObjectCreated ( IObject *object );
-    virtual void OnObjectDeleted ( IObject *object );
-    virtual void OnObjectExpanded( IObject *object );
-    virtual void OnObjectSelected( IObject *object );
+    virtual void OnObjectCreated ( Widget widget );
+    virtual void OnObjectDeleted ( Widget widget );
+    virtual void OnObjectExpanded( Widget widget );
+    virtual void OnObjectSelected( Widget widget );
 
     wxNotebook *m_editBook;
 };
 
-#endif //__WXGDCORE_EDITOR_H__
+#endif //__CORE_GUI_EDITOR_H__

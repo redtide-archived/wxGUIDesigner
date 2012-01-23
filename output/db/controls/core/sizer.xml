@@ -9,7 +9,7 @@
     Licence:     wxWindows licence
 -->
 <classes>
-    <class name="wxSizer">
+    <class name="wxSizer" type="abstract">
         <parents>
             <class>wxTopLevelWindow</class>
             <class>wxPanel</class>
@@ -19,7 +19,7 @@
         </size>
     </class>
 
-    <class name="sizeritembase">
+    <class name="sizeritembase" type="item">
         <parents>
             <class>wxSizer</class>
         </parents>
@@ -100,7 +100,7 @@
         </size>
     </class>
 
-    <class name="sizeritem">
+    <class name="sizeritem" type="item">
         <inherits>
             <class>sizeritembase</class>
         </inherits>
@@ -109,7 +109,7 @@
         </int>
     </class>
 
-    <class name="spacer">
+    <class name="spacer" type="item">
         <inherits>
             <class>sizeritembase</class>
         </inherits>
