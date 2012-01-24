@@ -8,7 +8,7 @@
     Revision:    $Hash$
     Licence:     wxWindows licence
 -->
-<class name="wxStaticBoxSizer">
+<class name="wxStaticBoxSizer" type="layout">
     <inherits>
         <class>wxBoxSizer</class>
     </inherits>

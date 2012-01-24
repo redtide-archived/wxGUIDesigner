@@ -22,7 +22,6 @@
     </group>
     <group name="bars">
         <item>wxToolBar</item>
-        <item>wxAuiToolBar</item>
         <item>tool</item>
         <separator/>
         <item>separator</item>
@@ -80,7 +79,6 @@
         <item>wxPanel</item>
         <separator/>
         <item>wxNotebook</item>
-        <item>wxAuiNotebook</item>
         <item>wxChoicebook</item>
         <item>wxListbook</item>
         <item>wxToolbook</item>
@@ -89,6 +87,14 @@
         <item>wxCollapsiblePane</item>
         <item>wxScrolledWindow</item>
         <item>wxSplitterWindow</item>
+    </group>
+    <group name="pickers">
+        <item>wxColourPickerCtrl</item>
+        <item>wxDatePickerCtrl</item>
+        <item>wxDirPickerCtrl</item>
+        <item>wxFilePickerCtrl</item>
+        <item>wxFontPickerCtrl</item>
+        <item>wxTimePickerCtrl</item>
     </group>
     <group name="advanced">
         <item>wxCommandLinkButton</item>
@@ -109,7 +115,6 @@
         <item>wxAnimationCtrl</item>
         <separator/>
         <item>wxMediaCtrl</item>
-        <item>CustomCtrl</item>
         <separator/>
         <item>wxRichTextCtrl</item>
         <separator/>
@@ -117,16 +122,18 @@
         <separator/>
         <item>wxPropertyGrid</item>
         <item>wxPropertyGridManager</item>
+        <separator/>
+        <item>CustomCtrl</item>
     </group>
-    <group name="pickers">
-        <item>wxColourPickerCtrl</item>
-        <item>wxDatePickerCtrl</item>
-        <item>wxDirPickerCtrl</item>
-        <item>wxFilePickerCtrl</item>
-        <item>wxFontPickerCtrl</item>
-        <item>wxTimePickerCtrl</item>
+    <group name="aui" label="AUI">
+        <item>wxAuiManager</item>
+        <separator/>
+        <item>wxAuiToolBar</item>
+        <item>wxAuiToolBarItem</item>
+        <separator/>
+        <item>wxAuiNotebook</item>
     </group>
-    <group name="web">
+    <group name="web" label="HTML">
         <item>wxHtmlWindow</item>
         <item>wxSimpleHtmlListBox</item>
         <item>wxWebView</item>

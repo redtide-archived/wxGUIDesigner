@@ -233,39 +233,47 @@ void WidgetInfoDB::Parse( wxXmlNode *classNode, bool recursively )
         return;
     }
 
-    bool listed = m_classList.Index( name ) != wxNOT_FOUND;
-    bool isBase = (classNode->GetAttribute("type") == "abstract");
-    bool isItem = (classNode->GetAttribute("type") == "item");
-    bool isTop  = (classNode->GetAttribute("type") == "toplevel");
-    bool isSizer= (classNode->GetAttribute("type") == "sizer");
+    bool listed   = m_classList.Index( name ) != wxNOT_FOUND;
+    bool isBase   = classNode->GetAttribute("type") == "abstract";
+    bool isItem   = classNode->GetAttribute("type") == "item";
+    bool isTop    = classNode->GetAttribute("type") == "toplevel";
+    bool isLayout = classNode->GetAttribute("type") == "layout";
+    bool isCustom = classNode->GetAttribute("type") == "custom";
 
     WidgetType type = WIDGET_TYPE_DEFAULT;
     if ( isBase )
     {
         type = WIDGET_TYPE_ABSTRACT;
     }
+    else if ( isCustom )
+    {
+        type = WIDGET_TYPE_CUSTOM;
+    }
     else if ( isItem )
     {
         type = WIDGET_TYPE_ITEM;
     }
-    else if ( isSizer )
+    else if ( isLayout )
     {
-        type = WIDGET_TYPE_SIZER;
+        type = WIDGET_TYPE_LAYOUT;
     }
     else if ( isTop )
     {
         type = WIDGET_TYPE_TOPLEVEL;
     }
 
-    // Can't check for baseclasses: wxRTTI doesn't support them,
-    // item types are pseudo classes, they will be used and tested through XRC,
-    // disabled classes in XML will be skipped, the rest will be ignored
-    // if not supported by wxRTTI
-    if ( !isBase && !isItem )
+    // Can't check for:
+    // - Base   classes: wxRTTI doesn't support them.
+    // - Item   classes: pseudo classes, no need to check them here.
+    // - Custom classes: CustomCtrl will be managed somewhere else.
+    //
+    // Disabled classes in XML (wxXML_COMMENT_NODEs) will be skipped.
+
+    if ( !isBase && !isItem && !isCustom )
     {
         if ( !listed )
         {
-            wxLogError( "Class '%s' was not found in registred list.", name );
+            wxLogError( "Class '%s' was not found in registered list.", name );
             return;
         }
         else if ( !CheckClass( name ) )

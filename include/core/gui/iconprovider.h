@@ -45,23 +45,10 @@ public:
     wxString GetName()   const { return m_name; }
     wxString GetLabel()  const { return m_label; }
     wxBitmap GetBitmap() const { return m_bitmap; }
+
     size_t   GetItemCount()    { return m_items.size(); }
-
-    wxString GetItemLabel( size_t index )
-    {
-        if ( index < m_items.size() )
-            return m_items.at( index ).first;
-
-        return wxEmptyString;
-    }
-
-    wxBitmap GetItemBitmap( size_t index )
-    {
-        if ( index < m_items.size() )
-            return m_items.at( index ).second;
-
-        return wxNullBitmap;
-    }
+    wxString GetItemLabel( size_t index ) const;
+    wxBitmap GetItemBitmap( size_t index ) const;
 
     void AddItem( IconInfo item ) { m_items.push_back( item ); }
 
@@ -81,77 +68,16 @@ public:
     static IconProvider *Get();
     void Free();
 
-    wxBitmap GetBitmap( const wxString &name, IconType type = ICONTYPE_GROUP ) const;
+    bool SelectCategory( const wxString &category );
 
-    wxBitmap GetGroupBitmap( size_t index ) const
-    {
-        if ( ms_instance->CheckIconDB() && ( index < m_cts.at(m_sel).size() ) )
-            return m_cts.at(m_sel)[index]->GetBitmap();
+    size_t   GetGroupCount() { return m_cts.at(m_sel).size(); }
+    wxString GetGroupName( size_t index ) const;
+    wxString GetGroupLabel( size_t index ) const;
+    wxBitmap GetGroupBitmap( size_t index ) const;
 
-        return wxNullBitmap;
-    }
-
-    wxString GetGroupLabel( size_t index ) const
-    {
-        if ( ms_instance->CheckIconDB() && ( index < m_cts.at(m_sel).size() ) )
-            return m_cts.at(m_sel)[index]->GetLabel();
-
-        return wxEmptyString;
-    }
-
-    wxString GetGroupName( size_t index ) const
-    {
-        if ( ms_instance->CheckIconDB() && ( index < m_cts.at(m_sel).size() ) )
-            return m_cts.at(m_sel)[index]->GetName();
-
-        return wxEmptyString;
-    }
-
-    size_t GetGroupCount() { return m_cts.at(m_sel).size(); }
-
-    wxBitmap GetItemBitmap( size_t groupIndex, size_t itemIndex )
-    {
-        if ( CheckIconDB() && ( groupIndex < m_cts.at(m_sel).size() ) &&
-             ( itemIndex < m_cts.at(m_sel)[groupIndex]->GetItemCount() ) )
-            return m_cts.at(m_sel)[groupIndex]->GetItemBitmap( itemIndex );
-
-        return wxNullBitmap;
-    }
-
-    wxString GetItemLabel( size_t groupIndex, size_t itemIndex ) const
-    {
-        if
-        (
-            ms_instance->CheckIconDB() && (groupIndex < m_cts.at(m_sel).size())
-            && (itemIndex < m_cts.at(m_sel)[groupIndex]->GetItemCount())
-        )
-            return m_cts.at(m_sel)[groupIndex]->GetItemLabel( itemIndex );
-
-        return wxEmptyString;
-    }
-
-    size_t GetItemCount( size_t groupIndex )
-    {
-        if ( CheckIconDB() && groupIndex < m_cts.at(m_sel).size() )
-        {
-            return m_cts.at(m_sel)[groupIndex]->GetItemCount();
-        }
-
-        return wxNOT_FOUND;
-    }
-
-    bool SelectCategory( const wxString &category )
-    {
-        IconCategories::iterator it = m_cts.find( category );
-
-        if ( it != m_cts.end() )
-        {
-            m_sel = category;
-            return true;
-        }
-
-        return false;
-    }
+    size_t   GetItemCount( size_t groupIndex );
+    wxString GetItemLabel( size_t groupIndex, size_t itemIndex ) const;
+    wxBitmap GetItemBitmap( size_t groupIndex, size_t itemIndex ) const;
 
 private:
     IconProvider() : m_sel( wxEmptyString ) { Init(); }

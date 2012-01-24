@@ -25,8 +25,9 @@ enum WidgetType
 {
     WIDGET_TYPE_DEFAULT = 0,
     WIDGET_TYPE_ABSTRACT,
+    WIDGET_TYPE_CUSTOM,
     WIDGET_TYPE_ITEM,
-    WIDGET_TYPE_SIZER,
+    WIDGET_TYPE_LAYOUT,
     WIDGET_TYPE_TOPLEVEL
 };
 
@@ -133,7 +134,7 @@ public:
     bool IsKindOf       ( const wxString &classname );
     bool IsAbstract()   { return m_type == WIDGET_TYPE_ABSTRACT; }
     bool IsItem()       { return m_type == WIDGET_TYPE_ITEM; }
-    bool IsSizer()      { return m_type == WIDGET_TYPE_SIZER; }
+    bool IsLayout()     { return m_type == WIDGET_TYPE_LAYOUT; }
     bool IsTopLevel()   { return m_type == WIDGET_TYPE_TOPLEVEL; }
 
 private:
@@ -165,6 +166,15 @@ public:
 
     WidgetInfo   GetClassInfo   ( const wxString &name );
     PropertyType GetPropertyType( const wxString &name ) const;
+
+    bool ClassInfoExists( const wxString &name )
+    {
+        std::map< wxString, WidgetInfo >::iterator it = m_classes.find( name );
+        if ( it != m_classes.end() )
+            return true;
+
+        return false;
+    }
 
 private:
     WidgetInfoDB() { Init(); }

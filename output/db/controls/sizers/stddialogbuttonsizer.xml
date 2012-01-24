@@ -9,7 +9,7 @@
     Licence:     wxWindows licence
 -->
 <classes>
-    <class name="wxStdDialogButtonSizer">
+    <class name="wxStdDialogButtonSizer" type="layout">
         <inherits>
             <class>wxSizer</class>
         </inherits>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        auimanager.xml
+    Purpose:     wxAuiManager class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/24
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<class name="wxAuiManager" type="layout">
+    <inherits>
+        <class>wxEvtHandler</class>
+    </inherits>
+    <parents>
+        <class>wxWindow</class>
+    </parents>
+    <name>m_mgr</name>
+    <style>
+        <flag name="wxAUI_MGR_ALLOW_FLOATING">
+            <description>Allow a pane to be undocked to take the form of a wxMiniFrame.</description>
+        </flag>
+        <flag name="wxAUI_MGR_ALLOW_ACTIVE_PANE">
+            <description>Change the color of the title bar of the pane when it is activated.</description>
+        </flag>
+        <flag name="wxAUI_MGR_TRANSPARENT_DRAG">
+            <description>Make the pane transparent during its movement.</description>
+        </flag>
+        <flag name="wxAUI_MGR_TRANSPARENT_HINT">
+            <description>The possible location for docking is indicated by a translucent area.</description>
+        </flag>
+        <flag name="wxAUI_MGR_VENETIAN_BLINDS_HINT">
+            <description>The possible location for docking is indicated by gradually appearing partially transparent hint.</description>
+        </flag>
+        <flag name="wxAUI_MGR_RECTANGLE_HINT">
+            <description>The possible location for docking is indicated by a rectangular outline.</description>
+        </flag>
+        <flag name="wxAUI_MGR_HINT_FADE">
+            <description>The translucent area where the pane could be docked appears gradually.</description>
+        </flag>
+        <flag name="wxAUI_MGR_NO_VENETIAN_BLINDS_FADE">
+            <description>Used in complement of wxAUI_MGR_VENETIAN_BLINDS_HINT to show the docking hint immediately.</description>
+        </flag>
+        <flag name="wxAUI_MGR_LIVE_RESIZE">
+            <description>When a docked pane is resized, its content is refreshed in live (instead of moving the border alone and refreshing the content at the end).</description>
+        </flag>
+        <flag name="wxAUI_MGR_DEFAULT">
+            <description>Default behavior, combines: wxAUI_MGR_ALLOW_FLOATING | wxAUI_MGR_TRANSPARENT_HINT | wxAUI_MGR_HINT_FADE | wxAUI_MGR_NO_VENETIAN_BLINDS_FADE.</description>
+        </flag>
+    </style>
+    <event name="wxAuiManagerEvent">
+        <type name="EVT_AUI_PANE_BUTTON">
+            <description>Triggered when any button is pressed for any docked panes.</description>
+        </type>
+        <type name="EVT_AUI_PANE_CLOSE">
+            <description>Triggered when a docked or floating pane is closed.</description>
+        </type>
+        <type name="EVT_AUI_PANE_MAXIMIZE">
+            <description>Triggered when a pane is maximized.</description>
+        </type>
+        <type name="EVT_AUI_PANE_RESTORE">
+            <description>Triggered when a pane is restored.</description>
+        </type>
+        <type name="EVT_AUI_RENDER">
+            <description>This event can be caught to override the default renderer in order to custom draw your wxAuiManager window (not recommended).</description>
+        </type>
+    </event>
+</class>

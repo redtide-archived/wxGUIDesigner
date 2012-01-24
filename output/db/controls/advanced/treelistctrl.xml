@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        treelistctrl.xml
+    Purpose:     wxTreeListCtrl class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/24
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<classes>
+    <class name="wxTreeListCtrl">
+        <inherits>
+            <class>wxWindow</class>
+        </inherits>
+        <name>m_treeListCtrl</name>
+        <style>
+            <flag name="wxTL_SINGLE">
+                <description>Single selection, this is the default.</description>
+            </flag>
+            <flag name="wxTL_MULTIPLE">
+                <description>Allow multiple selection, see GetSelections().</description>
+            </flag>
+            <flag name="wxTL_CHECKBOX">
+                <description>Show the usual, 2 state, checkboxes for the items in the first column.</description>
+            </flag>
+            <flag name="wxTL_3STATE">
+                <description>Show the checkboxes that can possibly be set by the program, but not the user, to a third, undetermined, state, for the items in the first column. Implies wxTL_CHECKBOX.</description>
+            </flag>
+            <flag name="wxTL_USER_3STATE">
+                <description>Same as wxTL_3STATE but the user can also set the checkboxes to the undetermined state. Implies wxTL_3STATE.</description>
+            </flag>
+            <flag name="wxTL_DEFAULT_STYLE">
+                <description>Style used by the control by default, just wxTL_SINGLE currently.</description>
+            </flag>
+        </style>
+        <event name="wxTreeListEvent">
+            <type name="EVT_TREELIST_SELECTION_CHANGED">
+                <description>Process wxEVT_COMMAND_TREELIST_SELECTION_CHANGED event and notifies about the selection change in the control. In the single selection case the item indicated by the event has been selected and previously selected item, if any, was deselected. In multiple selection case, the selection of this item has just changed (it may have been either selected or deselected) but notice that the selection of other items could have changed as well, use wxTreeListCtrl::GetSelections() to retrieve the new selection if necessary.</description>
+            </type>
+            <type name="EVT_TREELIST_ITEM_EXPANDING">
+                <description>Process wxEVT_COMMAND_TREELIST_ITEM_EXPANDING event notifying about the given branch being expanded. This event is sent before the expansion occurs and can be vetoed to prevent it from happening.</description>
+            </type>
+            <type name="EVT_TREELIST_ITEM_EXPANDED">
+                <description>Process wxEVT_COMMAND_TREELIST_ITEM_EXPANDED event notifying about the expansion of the given branch. This event is sent after the expansion occurs and can't be vetoed.</description>
+            </type>
+            <type name="EVT_TREELIST_ITEM_CHECKED">
+                <description>Process wxEVT_COMMAND_TREELIST_ITEM_CHeCKED event notifying about the user checking or unchecking the item. You can use wxTreeListCtrl::GetCheckedState() to retrieve the new item state and wxTreeListEvent::GetOldCheckedState() to get the previous one.</description>
+            </type>
+            <type name="EVT_TREELIST_ITEM_ACTIVATED">
+                <description>Process wxEVT_COMMAND_TREELIST_ITEM_ACTIVATED event notifying about the user double clicking the item or activating it from keyboard.</description>
+            </type>
+            <type name="EVT_TREELIST_ITEM_CONTEXT_MENU">
+                <description>Process wxEVT_COMMAND_TREELIST_ITEM_CONTEXT_MENU event indicating that the popup menu for the given item should be displayed.</description>
+            </type>
+            <type name="EVT_TREELIST_COLUMN_SORTED">
+                <description>Process wxEVT_COMMAND_TREELIST_COLUMN_SORTED event indicating that the control contents has just been resorted using the specified column. The event doesn't carry the sort direction, use GetSortColumn() method if you need to know it.</description>
+            </type>
+        </event>
+    </class>
+
+    <class name="treelistcol" type="item">
+        <parents>
+            <class>wxTreeListCtrl</class>
+        </parents>
+    </class>
+
+    <class name="treelistitem" type="item">
+        <parents>
+            <class>wxTreeListCtrl</class>
+        </parents>
+    </class>
+</classes>

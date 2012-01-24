@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        auitoolbar.xml
+    Purpose:     wxAuiToolBar class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/24
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<classes>
+    <class name="wxAuiToolBar">
+        <inherits>
+            <class>wxControl</class>
+        </inherits>
+        <parents>
+            <class>wxTopLevelWindow</class>
+        </parents>
+        <name>m_toolBar</name>
+        <style>
+            <flag name="wxAUI_TB_TEXT">
+                <description></description>
+            </flag>
+            <flag name="wxAUI_TB_NO_TOOLTIPS">
+                <description></description>
+            </flag>
+            <flag name="wxAUI_TB_NO_AUTORESIZE">
+                <description></description>
+            </flag>
+            <flag name="wxAUI_TB_GRIPPER">
+                <description></description>
+            </flag>
+            <flag name="wxAUI_TB_OVERFLOW">
+                <description></description>
+            </flag>
+            <flag name="wxAUI_TB_VERTICAL">
+                <description>using this style forces the toolbar to be vertical and be only dockable to the left or right sides of the window whereas by default it can be horizontal or vertical and be docked anywhere</description>
+            </flag>
+            <flag name="wxAUI_TB_HORZ_LAYOUT">
+                <description></description>
+            </flag>
+            <flag name="wxAUI_TB_HORIZONTAL">
+                <description>analogous to wxAUI_TB_VERTICAL, but forces the toolbar to be horizontal</description>
+            </flag>
+            <flag name="wxAUI_TB_HORZ_TEXT">
+                <description>Equivalent to wxAUI_TB_HORZ_LAYOUT | wxAUI_TB_TEXT</description>
+            </flag>
+            <flag name="wxAUI_TB_DEFAULT_STYLE">
+                <description>The default is to have no styles</description>
+            </flag>
+        </style>
+        <event name="wxAuiToolBarEvent">
+            <type name="EVT_AUITOOLBAR_TOOL_DROPDOWN">
+                <description>Process a wxEVT_COMMAND_AUITOOLBAR_TOOL_DROPDOWN event</description>
+            </type>
+            <type name="EVT_AUITOOLBAR_OVERFLOW_CLICK">
+                <description>Process a wxEVT_COMMAND_AUITOOLBAR_OVERFLOW_CLICK event</description>
+            </type>
+            <type name="EVT_AUITOOLBAR_RIGHT_CLICK">
+                <description>Process a wxEVT_COMMAND_AUITOOLBAR_RIGHT_CLICK event</description>
+            </type>
+            <type name="EVT_AUITOOLBAR_MIDDLE_CLICK">
+                <description>Process a wxEVT_COMMAND_AUITOOLBAR_MIDDLE_CLICK event</description>
+            </type>
+            <type name="EVT_AUITOOLBAR_BEGIN_DRAG">
+                <description>Process a wxEVT_COMMAND_AUITOOLBAR_BEGIN_DRAG event</description>
+            </type>
+        </event>
+    </class>
+
+    <class name="wxAuiToolBarItem" type="item">
+        <parents>
+            <class>wxAuiToolBar</class>
+        </parents>
+    </class>
+</classes>

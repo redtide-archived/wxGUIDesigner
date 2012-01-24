@@ -8,7 +8,7 @@
     Revision:    $Hash$
     Licence:     wxWindows licence
 -->
-<class name="wxFlexGridSizer">
+<class name="wxFlexGridSizer" type="layout">
     <inherits>
         <class>wxGridSizer</class>
     </inherits>

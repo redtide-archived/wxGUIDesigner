@@ -9,7 +9,7 @@
     Licence:     wxWindows licence
 -->
 <classes>
-    <class name="wxGridBagSizer">
+    <class name="wxGridBagSizer" type="layout">
         <inherits>
            <class>wxFlexGridSizer</class>
         </inherits>

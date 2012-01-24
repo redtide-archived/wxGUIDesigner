@@ -19,6 +19,28 @@
 #include <wx/xml/xml.h>
 
 #include <wx/log.h>
+//-----------------------------------------------------------------------------
+//  IconGroup
+//-----------------------------------------------------------------------------
+
+wxString IconGroup::GetItemLabel( size_t index ) const
+{
+    if ( index < m_items.size() )
+        return m_items.at( index ).first;
+
+    return wxEmptyString;
+}
+
+wxBitmap IconGroup::GetItemBitmap( size_t index ) const
+{
+    if ( index < m_items.size() )
+        return m_items.at( index ).second;
+
+    return wxNullBitmap;
+}
+//-----------------------------------------------------------------------------
+//  IconProvider
+//-----------------------------------------------------------------------------
 
 IconProvider *IconProvider::ms_instance = NULL;
 
@@ -66,36 +88,6 @@ void IconProvider::Init()
     }
 }
 
-wxBitmap IconProvider::GetBitmap( const wxString &label, IconType type ) const
-{
-    if ( ms_instance->CheckIconDB() )
-    {
-        for ( IconGroups::const_iterator it = m_cts.at(m_sel).begin();
-                                        it != m_cts.at(m_sel).end(); it++ )
-        {
-            if ( type == ICONTYPE_GROUP && (*it)->GetLabel() == label )
-            {
-                return (*it)->GetBitmap();
-            }
-            else // if type == ICONTYPE_ITEM
-            {
-                for ( size_t i = 0; i < (*it)->GetItemCount(); i++ )
-                {
-                    if ( (*it)->GetItemLabel( i ) == label )
-                        return (*it)->GetItemBitmap( i );
-                }
-            }
-        }
-    }
-
-    wxSize size = wxSize( 22, 22 ); // ICONTYPE_ITEM
-
-    if ( type == ICONTYPE_GROUP )
-        size = wxSize( 16, 16 );
-
-    return wxArtProvider::GetBitmap( wxART_MISSING_IMAGE, wxART_OTHER, size );
-}
-
 bool IconProvider::LoadXML( const wxString &path )
 {
     wxXmlDocument doc;
@@ -135,16 +127,39 @@ bool IconProvider::LoadXML( const wxString &path )
             wxBitmap bmp = LoadBitmap( catName, groupName );
             IconGroupPtr group( new IconGroup( groupName, groupLabel, bmp ) );
 
+            bool wasOk = false;
+
             wxXmlNode *itemNode = groupNode->GetChildren();
             while ( itemNode )
             {
-                wxString itemName = itemNode->GetNodeContent();
+                wxString itemName  = itemNode->GetNodeContent();
+                bool     separator = itemNode->GetName() == "separator";
 
-                if ( itemNode->GetName() == "separator" )
+                if ( separator )
                 {
-                    itemName = "-";
+                    if ( wasOk )
+                    {
+                        itemName = "-";
+                    }
+                    else
+                    {
+                        separator = false; // Avoid unneeded separator
+                    }
                 }
-                else if ( (itemNode->GetName() != "item") || itemName.empty() )
+                else if ( catName == "controls" )
+                {
+                    wasOk = WidgetInfoDB::Get()->ClassInfoExists( itemName );
+                    if ( !wasOk )
+                    {
+                        wxLogDebug("Discarding %s", itemName);
+                    }
+                }
+                else
+                {
+                    wasOk = (itemNode->GetName() == "item") && !itemName.empty();
+                }
+
+                if ( !wasOk && !separator )
                 {
                     itemNode = itemNode->GetNext();
                     continue;
@@ -211,4 +226,88 @@ bool IconProvider::CheckIconDB()
     }
 
     return true;
+}
+//-----------------------------------------------------------------------------
+//  IconProvider public functions
+//-----------------------------------------------------------------------------
+
+bool IconProvider::SelectCategory( const wxString &category )
+{
+    IconCategories::iterator it = m_cts.find( category );
+
+    if ( it != m_cts.end() )
+    {
+        m_sel = category;
+        return true;
+    }
+
+    return false;
+}
+
+wxBitmap IconProvider::GetGroupBitmap( size_t index ) const
+{
+    if ( ms_instance->CheckIconDB() && ( index < m_cts.at(m_sel).size() ) )
+    {
+        wxBitmap bmp = m_cts.at(m_sel)[index]->GetBitmap();
+        if ( bmp.IsOk() )
+            return bmp;
+    }
+
+    return wxArtProvider::GetBitmap
+                    ( wxART_MISSING_IMAGE, wxART_OTHER, wxSize( 16, 16 ) );
+}
+
+wxString IconProvider::GetGroupLabel( size_t index ) const
+{
+    if ( ms_instance->CheckIconDB() && ( index < m_cts.at(m_sel).size() ) )
+        return m_cts.at(m_sel)[index]->GetLabel();
+
+    return wxEmptyString;
+}
+
+wxString IconProvider::GetGroupName( size_t index ) const
+{
+    if ( ms_instance->CheckIconDB() && ( index < m_cts.at(m_sel).size() ) )
+        return m_cts.at(m_sel)[index]->GetName();
+
+    return wxEmptyString;
+}
+
+size_t IconProvider::GetItemCount( size_t groupIndex )
+{
+    if ( CheckIconDB() && groupIndex < m_cts.at(m_sel).size() )
+    {
+        return m_cts.at(m_sel)[groupIndex]->GetItemCount();
+    }
+
+    return wxNOT_FOUND;
+}
+
+wxString IconProvider::GetItemLabel( size_t groupIndex, size_t itemIndex ) const
+{
+    if
+    (
+        ms_instance->CheckIconDB() && (groupIndex < m_cts.at(m_sel).size())
+        && (itemIndex < m_cts.at(m_sel)[groupIndex]->GetItemCount())
+    )
+        return m_cts.at(m_sel)[groupIndex]->GetItemLabel( itemIndex );
+
+    return wxEmptyString;
+}
+
+wxBitmap IconProvider::GetItemBitmap( size_t groupIndex, size_t itemIndex ) const
+{
+    if
+    (
+        ms_instance->CheckIconDB() && ( groupIndex < m_cts.at(m_sel).size() ) &&
+        ( itemIndex < m_cts.at(m_sel)[groupIndex]->GetItemCount() )
+    )
+    {
+        wxBitmap bmp = m_cts.at(m_sel)[groupIndex]->GetItemBitmap( itemIndex );
+        if ( bmp.IsOk() )
+            return bmp;
+    }
+
+    return wxArtProvider::GetBitmap
+                    ( wxART_MISSING_IMAGE, wxART_OTHER, wxSize( 22, 22 ) );
 }
