@@ -13,6 +13,10 @@
         <inherits>
             <class>wxBookCtrlBase</class>
         </inherits>
+        <children>
+            <class name="toolbookpage" max="-1"/>
+            <class name="wxImageList"  max="1"/>
+        </children>
         <name>m_toolBook</name>
         <style>
             <flag name="wxBK_DEFAULT">
@@ -48,9 +52,6 @@
     </class>
 
     <class name="toolbookpage" type="item">
-        <parents>
-            <class>wxToolbook</class>
-        </parents>
         <text name="label">
             <description>Sheet page's title (required).</description>
         </text>

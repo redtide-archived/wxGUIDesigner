@@ -12,6 +12,9 @@
     <inherits>
         <class>wxControl</class>
     </inherits>
+    <children>
+        <class name="wxImageList" max="1"/>
+    </children>
     <name>m_treeCtrl</name>
     <style>
         <flag name="wxTR_EDIT_LABELS">

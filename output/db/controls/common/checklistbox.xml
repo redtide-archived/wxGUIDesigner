@@ -13,6 +13,9 @@
         <inherits>
             <class>wxListBox</class>
         </inherits>
+        <children>
+            <class name="checklistboxitem" max="-1"/>
+        </children>
         <name>m_chkLstBox</name>
         <items name="content">
             <description>Content of the control; this property has any number of &gt;item&lt; XML elements as its children, with the items text as their text values (see below; default: empty).</description>
@@ -25,9 +28,6 @@
     </class>
 
     <class name="checklistboxitem" type="item">
-        <parents>
-            <class>wxCheckListBox</class>
-        </parents>
         <bool name="checked" xrcattribute="1"/>
     </class>
 </classes>

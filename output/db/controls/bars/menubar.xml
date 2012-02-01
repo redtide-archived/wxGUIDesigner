@@ -13,9 +13,9 @@
         <inherits>
             <class>wxWindow</class>
         </inherits>
-        <parents>
-            <class>wxFrame</class>
-        </parents>
+        <children>
+            <class name="wxMenu" max="-1"/>
+        </children>
         <name>m_menuBar</name>
         <style name="Style">
             <flag name="wxMB_DOCKABLE">
@@ -28,11 +28,12 @@
         <inherits>
             <class>wxEvtHandler</class>
         </inherits>
-        <parents>
-            <class>tool</class>
-            <class>wxControl</class>
-            <class>wxMenuBar</class>
-        </parents>
+        <children>
+            <class name="break"      max="-1"/>
+            <class name="separator"  max="-1"/>
+            <class name="wxMenu"     max="-1"/>
+            <class name="wxMenuItem" max="-1"/>
+        </children>
         <name>m_menu</name>
         <text name="label">
             <description>Menu's label (default: empty, but required for menus other than popup menus).</description>
@@ -50,9 +51,6 @@
         <inherits>
             <class>wxObject</class>
         </inherits>
-        <parents>
-            <class>wxMenu</class>
-        </parents>
         <name>m_menuItem</name>
         <bitmap name="bitmap">
             <description>Bitmap to show with the item (default: none).</description>
@@ -110,17 +108,7 @@
         </event>
     </class>
 
-    <class name="separator" type="item">
-        <parents>
-            <!-- class>wxAuiToolBar</class-->
-            <class>wxToolBar</class>
-            <class>wxMenu</class>
-        </parents>
-    </class>
+    <class name="separator" type="item"/>
 
-    <class name="break" type="item">
-        <parents>
-            <class>wxMenu</class>
-        </parents>
-    </class>
+    <class name="break" type="item"/>
 </classes>

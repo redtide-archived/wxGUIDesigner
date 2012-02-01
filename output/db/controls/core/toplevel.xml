@@ -22,23 +22,23 @@
         <description>Whether the dialog should be centered on the screen (default: 0).</description>
     </bool>
     <event name="wxMoveEvent">
-        <type name="EVT_MOVE">
+        <type name="wxEVT_MOVE">
             <description>Process a wxEVT_MOVE event, which is generated when a window is moved.</description>
         </type>
-        <type name="EVT_MOVE_START">
+        <type name="wxEVT_MOVE_START">
             <description>Process a wxEVT_MOVE_START event, which is generated when the user starts to move or size a window. wxMSW only.</description>
         </type>
-        <type name="EVT_MOVE_END">
+        <type name="wxEVT_MOVE_END">
             <description>Process a wxEVT_MOVE_END event, which is generated when the user stops moving or sizing a window. wxMSW only.</description>
         </type>
     </event>
     <event name="wxMaximizeEvent">
-        <type name="EVT_MAXIMIZE">
+        <type name="wxEVT_MAXIMIZE">
             <description>Process a wxEVT_MAXIMIZE event.</description>
         </type>
     </event>
     <event name="wxShowEvent">
-        <type name="EVT_SHOW">
+        <type name="wxEVT_SHOW">
             <description>Process a wxEVT_SHOW event.</description>
         </type>
     </event>

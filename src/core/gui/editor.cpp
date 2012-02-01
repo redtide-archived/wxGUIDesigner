@@ -11,22 +11,22 @@
 #include "core/gui/editor.h"
 #include "core/defs.h"
 
-void EditorHandler::OnObjectCreated( Widget widget )
+void EditorHandler::OnObjectCreated( Object object )
 {
     
 }
 
-void EditorHandler::OnObjectDeleted( Widget widget )
+void EditorHandler::OnObjectDeleted( Object object )
 {
     
 }
 
-void EditorHandler::OnObjectExpanded( Widget widget )
+void EditorHandler::OnObjectExpanded( Object object )
 {
     
 }
 
-void EditorHandler::OnObjectSelected( Widget widget )
+void EditorHandler::OnObjectSelected( Object object )
 {
     
 }

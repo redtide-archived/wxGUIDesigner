@@ -8,23 +8,40 @@
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef __WXGDCORE_PROPGRID_H__
-#define __WXGDCORE_PROPGRID_H__
+#ifndef __CORE_PROPGRID_H__
+#define __CORE_PROPGRID_H__
+
+#include "interfaces/iobject.h"
+#include "core/defs.h"
 
 class wxNotebook;
+class wxPGProperty;
+class wxPropertyGridEvent;
 class wxSizeEvent;
 
-class PropBookHandler
+class PropBookHandler : public IObjectHandler
 {
     friend class GUIManager;
 
-public:
     PropBookHandler( wxNotebook *owner ) : m_propBook( owner ) {}
 
-private:
+    virtual void OnObjectCreated ( Object object );
+    virtual void OnObjectDeleted ( Object object );
+    virtual void OnObjectExpanded( Object object );
+    virtual void OnObjectSelected( Object object );
+
+    void OnPGChanged(  wxPropertyGridEvent &event );
+    void OnEGChanged(  wxPropertyGridEvent &event );
+    void OnEGDblClick( wxPropertyGridEvent &event );
+
     void OnSize( wxSizeEvent &event );
+
+    void LoadEvents( Object object );
+    void LoadProperties( Object object );
+
+    wxPGProperty *AddProperty( Property prop );
 
     wxNotebook *m_propBook;
 };
 
-#endif //__WXGDCORE_PROPGRID_H__
+#endif //__CORE_PROPGRID_H__

@@ -11,10 +11,8 @@
 <class name="wxStatusBar">
     <inherits>
         <class>wxControl</class>
+        <class>wxWindow</class>
     </inherits>
-    <parents>
-        <class>wxFrame</class>
-    </parents>
     <name>m_statusBar</name>
     <style name="Flag">
         <flag name="wxSTB_SIZEGRIP">

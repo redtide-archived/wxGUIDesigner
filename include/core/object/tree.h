@@ -8,248 +8,175 @@
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef __WXGD_WIDGET_H__
-#define __WXGD_WIDGET_H__
+#ifndef __CORE_OBJECT_H__
+#define __CORE_OBJECT_H__
 
 #include "core/object/database.h"
 #include "core/defs.h"
 
-#include "interfaces/iwidget.h"
+#include "interfaces/iobject.h"
 
 #include <wx/any.h>
-
-// Note: in wxPropertyGrid a string property can be used as category
-
-//-----------------------------------------------------------------------------
-// PropertyBase Class
-//-----------------------------------------------------------------------------
 
 class wxBitmap;
 class wxColour;
 class wxFont;
 class wxPoint;
 class wxSize;
-
-enum WidgetEventType
-{
-    EVT_WIDGET_CREATED,
-    EVT_WIDGET_DELETED,
-    EVT_WIDGET_EXPANDED,
-    EVT_WIDGET_SELECTED
-};
-
-class PropertyBase
-{
-public:
-    PropertyBase( PropertyInfo info ) : m_info( info ),
-                                        m_value( info->GetDefaultValue() ) {}
-    ~PropertyBase();
-
-    wxString     GetName()        const { return m_info->GetName(); }
-    wxString     GetLabel()       const { return m_info->GetLabel(); }
-    wxString     GetDescription() const { return m_info->GetDescription(); }
-    PropertyType GetType()        const { return m_info->GetType(); }
-
-    wxBitmap    GetAsBitmap()   const;
-    bool        GetAsBool()     const;
-    wxColour    GetAsColour()   const;
-    float       GetAsFloat()    const;
-    wxFont      GetAsFont()     const;
-    int         GetAsInt()      const;
-    wxPoint     GetAsPoint()    const;
-    wxSize      GetAsSize()     const;
-    wxString    GetAsString()   const;
-    long        GetAsStyle()    const;
-    wxString    GetAsText()     const;
-    wxString    GetAsURL()      const;
-
-private:
-    PropertyInfo m_info;
-    wxAny        m_value;
-};
-
 //-----------------------------------------------------------------------------
-// EventBase Class
+// EventNode Class
 //-----------------------------------------------------------------------------
 
-class EventBase
+class EventNode
 {
 public:
-    EventBase( EventInfo eventInfo ) : m_info( eventInfo )
-    {
-        m_handlers.Alloc( m_info->GetTypeCount() );
-    }
-    ~EventBase() {}
+    EventNode( EventInfo eventInfo );
+    ~EventNode();
 
     wxString GetClassName()         { return m_info->GetClassName(); }
     wxString GetClassDescription()  { return m_info->GetClassDescription(); }
 
-    wxString GetHandlerName( size_t eventTypeIndex )
-    {
-        if ( eventTypeIndex < m_handlers.GetCount() )
-            return m_handlers.Item( eventTypeIndex );
+    wxString GetHandlerName     ( size_t evtTypeIndex ) const;
+    bool     SetHandlerName     ( size_t evtTypeIndex, const wxString &name );
+    bool     SetHandlerName     ( const wxString &type , const wxString &name );
 
-        return wxEmptyString;
-    }
-
-    bool SetHandlerName( size_t eventTypeIndex, const wxString &name )
-    {
-        if ( eventTypeIndex < m_handlers.GetCount() )
-        {
-            m_handlers[eventTypeIndex] = name;
-            return true;
-        }
-
-        return false;
-    }
+    wxString GetTypeName        ( size_t evtTypeIndex  ) const;
+    wxString GetTypeDescription ( size_t evtTypeIndex  ) const;
+    size_t   GetTypeCount()     { return m_info->GetTypeCount(); }
 
 private:
     EventInfo     m_info;
     wxArrayString m_handlers;
 };
-
 //-----------------------------------------------------------------------------
-// WidgetNode Class
+// PropertyNode Class
 //-----------------------------------------------------------------------------
 
-class WidgetNode : public IWidgetNode
+class PropertyNode
 {
 public:
-    WidgetNode( Widget      parent,
-                WidgetInfo  classInfo = WidgetInfo(),
-                bool        expanded  = true )
-    : m_parent( parent ), m_info( classInfo ), m_expanded( expanded ) {}
+    PropertyNode( PropertyInfo info ) : m_info( info ),
+                                        m_value( info->GetDefaultValue() ) {}
+    ~PropertyNode();
 
-    ~WidgetNode();
+    wxString        GetName()        const { return m_info->GetName(); }
+    wxString        GetLabel()       const { return m_info->GetLabel(); }
+    wxString        GetDescription() const { return m_info->GetDescription(); }
+    PropertyType    GetType()        const { return m_info->GetType(); }
 
-    void AddChild   ( Widget child )        { m_children.push_back( child ); }
-    void AddProperty( Property property )   { m_props.push_back( property ); }
-    void AddEvent   ( Event event )         { m_events.push_back( event ); }
+    void            AddChild( Property prop )   { m_children.push_back( prop ); }
+    size_t          GetChildCount()             { return m_children.size(); }
+    Property        GetChild( size_t index ) const;
 
-    Widget   GetParent()    const           { return m_parent; }
-    Widgets  GetChildren()  const           { return m_children; }
-
-    virtual wxString GetName()      const;
-    virtual wxString GetClassName() const   { return m_info->GetClassName(); }
-
-    bool HasChildren()                      { return m_children.size() > 0; }
-
-    bool IsExpanded()                       { return m_expanded; }
-    void Collapse()                         { m_expanded = false; }
-    void Expand()                           { m_expanded = true; }
-
-    bool IsRoot()
-    {
-        bool isroot = m_info->GetClassName() == "Root";
-        wxLogDebug( isroot ? "is root" : "not root" );
-
-        if ( m_info.get() )
-            return m_info->GetClassName() == "Root";
-
-        return false;
-    }
+    wxArrayString   GetAsArrayString()  const;
+    wxBitmap        GetAsBitmap()       const;
+    bool            GetAsBool()         const;
+    wxColour        GetAsColour()       const;
+    float           GetAsFloat()        const;
+    wxFont          GetAsFont()         const;
+    int             GetAsInt()          const;
+    wxPoint         GetAsPoint()        const;
+    wxSize          GetAsSize()         const;
+    wxString        GetAsString()       const;
+    long            GetAsStyle()        const;
+    wxString        GetAsText()         const;
+    wxString        GetAsURL()          const;
 
 private:
-    Widget      m_parent;
-    WidgetInfo  m_info;
-    bool        m_expanded;
-    Widgets     m_children;
-    Events      m_events;
-    Properties  m_props;
+    PropertyInfo    m_info;
+    Properties      m_children;
+    wxAny           m_value;
+};
+//-----------------------------------------------------------------------------
+// ObjectNode Class
+//-----------------------------------------------------------------------------
+
+class ObjectNode : public IObjectNode
+{
+public:
+    ObjectNode( Object parent, ClassInfo classInfo = ClassInfo(),
+                bool expanded = true );
+    ~ObjectNode();
+
+//  virtual wxString GetNameValue() const;
+    virtual wxString GetClassName() const { return m_info->GetClassName(); }
+
+    ClassInfo   GetClassInfo() const            { return m_info; }
+
+    bool        IsRoot() { return m_info->GetType() == CLASS_TYPE_ROOT; }
+    bool        IsExpanded()                    { return m_expanded; }
+    void        Collapse()                      { m_expanded = false; }
+    void        Expand()                        { m_expanded = true; }
+
+    // Events
+    void        AddEvent( Event event )         { m_events.push_back( event ); }
+    Event       GetEvent( size_t index );
+    Event       GetEvent( const wxString &name );
+    size_t      GetEventCount()                 { return m_events.size(); }
+
+    // Properties
+    void        AddProperty( Property prop );
+    Property    GetProperty( size_t index );
+    Property    GetProperty( const wxString &name );
+    size_t      GetPropertyCount();
+    bool        PropertyExists( const wxString &name );
+
+    // Inherited classes
+    void        AddBaseInfo( ClassInfo info ) { m_baseinfos.push_back( info ); }
+    ClassInfo   GetBaseInfo( size_t index );
+    wxString    GetBaseName( size_t index );
+    size_t      GetBaseCount()              { return m_info->GetBaseCount(); }
+
+    // Parent / children objects
+    void        AddChild( Object child )    { m_children.push_back( child ); }
+    Object      GetChild( size_t index );
+    Object      GetParent()                 { return m_parent; }
+    size_t      GetChildCount()             { return m_children.size(); }
+
+private:
+    Object          m_parent;
+    Objects         m_children;
+    ClassInfo       m_info;
+    ClassInfos      m_baseinfos;
+    bool            m_expanded;
+    Events          m_events;
+    Properties      m_props;
 };
 
 //-----------------------------------------------------------------------------
-// WidgetTree Singleton Class
+// ObjectTree Singleton Class
 //-----------------------------------------------------------------------------
 
-class WidgetTree : public IWidgetManager
+class ObjectTree : public IObjectManager
 {
 public:
-    static WidgetTree *Get();
-    void Free();
+    static ObjectTree *Get();
+    static void Free();
 
-    virtual bool CreateObject   ( const wxString &className );
-    virtual void SelectObject   ( Widget widget );
+    virtual bool    CreateObject   ( const wxString &className );
+    virtual void    SelectObject   ( Object object, bool withEvent = true );
 
-    virtual void AddHandler     ( IWidgetHandler *handler );
-    virtual void RemoveHandler  ( IWidgetHandler *handler );
+    virtual void    AddHandler     ( IObjectHandler *handler );
+    virtual void    RemoveHandler  ( IObjectHandler *handler );
 
-private:
-    WidgetTree() : m_root( new WidgetNode( Widget(),
-                           WidgetInfo( new WidgetInfoBase("Root") ) ) ),
-                   m_sel( m_root ) {}
-    ~WidgetTree();
-
-    bool CheckType( const wxString &parentType, const wxString &childType );
-
-    void SendEvent( Widget widget, WidgetEventType eventType );
-
-    Widget m_root;
-    Widget m_sel;
-
-    std::list< IWidgetHandler * > m_handlers;
-
-    static WidgetTree *ms_instance;
-};
-/*
-//-----------------------------------------------------------------------------
-// WidgetEvent
-//-----------------------------------------------------------------------------
-
-class WidgetEvent : public wxEvent
-{
-public:
-    WidgetEvent( wxEventType type = wxEVT_NULL, int id = 0 );
-
-#ifndef SWIG
-    WidgetEvent( const WidgetEvent &event );
-#endif
-    ~WidgetEvent();
-
-    virtual wxEvent *Clone() const { return new WidgetEvent( *this ); }
+    virtual Object  GetSelectObject() const { return m_sel; }
 
 private:
-#ifndef SWIG
-    wxDECLARE_DYNAMIC_CLASS( WidgetEvent );
-#endif
+    ObjectTree();
+    ~ObjectTree();
+
+    bool            CheckType( const wxString &parentType,
+                                const wxString &childType );
+    void            SendEvent( Object object, ObjectEventType eventType );
+
+    size_t          GetChildCountByType( Object parent, ClassType clsType );
+
+    typedef std::list< IObjectHandler * > ObjectHandlers;
+
+    Object          m_sel;
+    ObjectHandlers  m_handlers;
+
+    static ObjectTree *ms_instance;
 };
 
-#ifndef SWIG
-    wxDECLARE_EVENT( DLLIMPEXP_CORE, wxEVT_WIDGET_CREATE, WidgetEvent );
-    wxDECLARE_EVENT( DLLIMPEXP_CORE, wxEVT_WIDGET_CREATED, WidgetEvent );
-    wxDECLARE_EVENT( DLLIMPEXP_CORE, wxEVT_WIDGET_SELECTED, WidgetEvent );
-#else
-    enum
-    {
-        wxEVT_WIDGET_CREATE,
-        wxEVT_WIDGET_CREATED,
-        wxEVT_WIDGET_SELECTED
-    };
-#endif
-
-#ifndef SWIG
-typedef void ( wxEvtHandler::*WidgetEventFunction )( WidgetEvent & );
-
-#define WidgetEventHandler( func ) wxEVENT_HANDLER_CAST( WidgetEventFunction, func )
-
-#define EVT_WIDGET_CREATE( id, fn )     wxDECLARE_EVENT_TABLE_ENTRY \
-                                        ( \
-                                            wxEVT_WIDGET_CREATE, id, wxID_ANY, \
-                                            WidgetEventHandler( fn ), \
-                                            (wxObject *) NULL \
-                                        )
-#define EVT_WIDGET_CREATED( id, fn )    wxDECLARE_EVENT_TABLE_ENTRY \
-                                        ( \
-                                            wxEVT_WIDGET_CREATED, id, wxID_ANY, \
-                                            WidgetEventHandler( fn ), \
-                                            (wxObject *) NULL \
-                                        )
-#define EVT_WIDGET_SELECTED( id, fn )   wxDECLARE_EVENT_TABLE_ENTRY \
-                                        ( \
-                                            wxEVT_WIDGET_SELECTED, id, wxID_ANY, \
-                                            WidgetEventHandler( fn ), \
-                                            (wxObject *) NULL \
-                                        )
-#endif // SWIG
-*/
-#endif //__WXGD_WIDGET_H__
+#endif //__CORE_OBJECT_H__

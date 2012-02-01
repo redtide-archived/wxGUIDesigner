@@ -13,6 +13,10 @@
         <inherits>
             <class>wxWindow</class>
         </inherits>
+        <children>
+            <class>treelistcol</class>
+            <class>treelistitem</class>
+        </children>
         <name>m_treeListCtrl</name>
         <style>
             <flag name="wxTL_SINGLE">
@@ -60,14 +64,8 @@
     </class>
 
     <class name="treelistcol" type="item">
-        <parents>
-            <class>wxTreeListCtrl</class>
-        </parents>
     </class>
 
     <class name="treelistitem" type="item">
-        <parents>
-            <class>wxTreeListCtrl</class>
-        </parents>
     </class>
 </classes>

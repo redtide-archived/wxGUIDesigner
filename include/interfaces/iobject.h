@@ -15,51 +15,53 @@
 
 class wxString;
 //-----------------------------------------------------------------------------
-// IWidgetNode Class Interface
+// IObjectNode Class Interface
 //-----------------------------------------------------------------------------
 
-class IWidgetNode
+class IObjectNode
 {
 public:
-    IWidgetNode() {}
-    virtual ~IWidgetNode() {}
+    IObjectNode() {}
+    virtual ~IObjectNode() {}
 
     virtual wxString GetClassName() const = 0;
-    virtual wxString GetName()      const = 0;
+//  virtual wxString GetName()      const = 0;
 };
 //-----------------------------------------------------------------------------
-// IWidgetHandler Class Interface
+// IObjectHandler Class Interface
 //-----------------------------------------------------------------------------
 
-class IWidgetHandler
+class IObjectHandler
 {
 public:
-    virtual ~IWidgetHandler() {}
+    virtual ~IObjectHandler() {}
 
-    virtual void OnObjectCreated ( Widget widget ) = 0;
-    virtual void OnObjectDeleted ( Widget widget ) = 0;
-    virtual void OnObjectExpanded( Widget widget ) = 0;
-    virtual void OnObjectSelected( Widget widget ) = 0;
+    virtual void OnObjectCreated ( Object object ) = 0;
+    virtual void OnObjectDeleted ( Object object ) = 0;
+    virtual void OnObjectExpanded( Object object ) = 0;
+    virtual void OnObjectSelected( Object object ) = 0;
 
 protected:
-    IWidgetHandler() {}
+    IObjectHandler() {}
 };
 //-----------------------------------------------------------------------------
-// IWidgetManager Class Interface
+// IObjectManager Class Interface
 //-----------------------------------------------------------------------------
 
-class IWidgetManager
+class IObjectManager
 {
 public:
     virtual bool CreateObject   ( const wxString &className ) = 0;
-    virtual void SelectObject   ( Widget widget ) = 0;
+    virtual void SelectObject   ( Object object, bool withEvent ) = 0;
 
-    virtual void AddHandler     ( IWidgetHandler *handler ) = 0;
-    virtual void RemoveHandler  ( IWidgetHandler *handler ) = 0;
+    virtual void AddHandler     ( IObjectHandler *handler ) = 0;
+    virtual void RemoveHandler  ( IObjectHandler *handler ) = 0;
+
+    virtual Object GetSelectObject() const = 0;
 
 protected:
-    IWidgetManager() {}
-    virtual ~IWidgetManager() {}
+    IObjectManager() {}
+    virtual ~IObjectManager() {}
 };
 
 #endif //__CORE_IWIDGET_H__

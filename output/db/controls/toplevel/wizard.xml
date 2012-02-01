@@ -12,11 +12,12 @@
     <class name="wxWizard" type="toplevel">
         <inherits>
             <class>wxDialog</class>
+            <class>wxTopLevelWindow</class>
+            <class>wxWindow</class>
         </inherits>
-        <parents>
-            <class>Root</class>
-            <class>wxFrame</class>
-        </parents>
+        <children>
+            <class name="wxWizardPage" max="-1"/>
+        </children>
         <name>m_wizard</name>
         <exstyle>
             <flag name="wxWIZARD_EX_HELPBUTTON">
@@ -27,23 +28,23 @@
             <description>Bitmap to display on the left side of the wizard (default: none).</description>
         </bitmap>
         <event name="wxWizardEvent">
-            <type name="EVT_WIZARD_PAGE_CHANGED">
-                <description>The page has just been changed (this event cannot be vetoed).</description>
+            <type name="wxEVT_WIZARD_FINISHED">
+                <description>The wizard finished button was pressed.</description>
             </type>
-            <type name="EVT_WIZARD_PAGE_CHANGING">
-                <description>The page is being changed (this event can be vetoed).</description>
-            </type>
-            <type name="EVT_WIZARD_PAGE_SHOWN">
-                <description>The page was shown and laid out (this event cannot be vetoed).</description>
-            </type>
-            <type name="EVT_WIZARD_CANCEL">
-                <description>The user attempted to cancel the wizard (this event may also be vetoed).</description>
-            </type>
-            <type name="EVT_WIZARD_HELP">
+            <type name="wxEVT_WIZARD_HELP">
                 <description>The wizard help button was pressed.</description>
             </type>
-            <type name="EVT_WIZARD_FINISHED">
-                <description>The wizard finished button was pressed.</description>
+            <type name="wxEVT_WIZARD_CANCEL">
+                <description>The user attempted to cancel the wizard (this event may also be vetoed).</description>
+            </type>
+            <type name="wxEVT_WIZARD_PAGE_CHANGED">
+                <description>The page has just been changed (this event cannot be vetoed).</description>
+            </type>
+            <type name="wxEVT_WIZARD_PAGE_CHANGING">
+                <description>The page is being changed (this event can be vetoed).</description>
+            </type>
+            <type name="wxEVT_WIZARD_PAGE_SHOWN">
+                <description>The page was shown and laid out (this event cannot be vetoed).</description>
             </type>
         </event>
     </class>
@@ -52,9 +53,6 @@
         <inherits>
             <class>wxPanel</class>
         </inherits>
-        <parents>
-            <class>wxWizard</class>
-        </parents>
         <name>m_wizPage</name>
         <bitmap name="Bitmap">
             <description>Page-specific bitmap (default: none).</description>

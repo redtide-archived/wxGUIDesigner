@@ -14,193 +14,163 @@
 
 #include "core/defs.h"
 
-#include <utility>
-
 #include <wx/arrstr.h>
 #include <wx/string.h>
 
 #include <wx/log.h>
 
-enum WidgetType
-{
-    WIDGET_TYPE_DEFAULT = 0,
-    WIDGET_TYPE_ABSTRACT,
-    WIDGET_TYPE_CUSTOM,
-    WIDGET_TYPE_ITEM,
-    WIDGET_TYPE_LAYOUT,
-    WIDGET_TYPE_TOPLEVEL
-};
-
 class wxXmlNode;
-//-----------------------------------------------------------------------------
-//  PropertyInfoBase
-//-----------------------------------------------------------------------------
-class PropertyInfoBase
+//*****************************************************************************
+//  EventInfoNode
+//*****************************************************************************
+
+class EventInfoNode
 {
 public:
-    PropertyInfoBase( PropertyType type,
-                      const wxString &name, const wxString &label,
-                      const wxString &defaultValue = wxEmptyString,
-                      const wxString &description = wxEmptyString )
-                    : m_type( type ), m_name( name ), m_label( label ),
-                      m_value( defaultValue ), m_desc( description ) {}
-
-    ~PropertyInfoBase()
-    {
-        m_children.erase( m_children.begin(), m_children.end() );
-    }
-
-    PropertyType GetType()         { return m_type; }
-    wxString     GetName()         { return m_name; }
-    wxString     GetLabel()        { return m_label; }
-    wxString     GetDefaultValue() { return m_value; }
-    wxString     GetDescription()  { return m_desc; }
-    size_t       GetChildCount()   { return m_children.size(); }
-
-    void AddChild( const wxString &name, PropertyInfo info )
-    {
-        m_children.insert
-        ( std::map< wxString, PropertyInfo >::value_type( name, info ) );
-    }
-
-    void SetChildren( std::map< wxString, PropertyInfo > children )
-    {
-        m_children = children;
-    }
-
-private:
-    PropertyType    m_type;
-    wxString        m_name, m_label, m_value, m_desc;
-    std::map< wxString, PropertyInfo > m_children;
-};
-//-----------------------------------------------------------------------------
-//  EventInfoBase
-//-----------------------------------------------------------------------------
-
-class EventInfoBase
-{
-public:
-    EventInfoBase( const wxString &name,
-                   const wxString &description = wxEmptyString )
-                 : m_name( name ), m_desc( description ) {}
-    ~EventInfoBase() {}
+    EventInfoNode( const wxString &name,
+                   const wxString &description = wxEmptyString );
+    ~EventInfoNode();
 
     wxString GetClassName()         { return m_name; }
     wxString GetClassDescription()  { return m_desc; }
+
+    wxString GetTypeName            ( size_t index );
+    wxString GetTypeDescription     ( size_t index );
     size_t   GetTypeCount()         { return m_types.size(); }
 
-    wxString GetTypeName( size_t eventTypeIndex )
-    {
-        if ( !eventTypeIndex >= m_types.size() )
-            return m_types.at( eventTypeIndex ).first;
-
-        return wxEmptyString;
-    }
-
-    wxString GetTypeDescription( size_t eventTypeIndex )
-    {
-        if ( !eventTypeIndex >= m_types.size() )
-            return m_types.at( eventTypeIndex ).second;
-
-        return wxEmptyString;
-    }
-
-    void AddType( const wxString &name, const wxString &description )
-    {
-        EventTypeInfo info = std::make_pair( name, description );
-        m_types.push_back( info );
-    }
+    void AddType( const wxString &name, const wxString &description );
 
 private:
-    wxString                     m_name; // event class name
-    wxString                     m_desc; // event class description
-    std::vector< EventTypeInfo > m_types;
+    wxString    m_name;
+    wxString    m_desc;
+    EventTypes  m_types;
 };
-//-----------------------------------------------------------------------------
-//  WidgetInfoBase
-//-----------------------------------------------------------------------------
+//*****************************************************************************
+//  PropertyInfoNode
+//*****************************************************************************
 
-class WidgetInfoBase
+class PropertyInfoNode
 {
 public:
-    WidgetInfoBase( const wxString &classname,
-                    WidgetType type = WIDGET_TYPE_DEFAULT )
-                    : m_classname( classname ), m_type( type ) {}
-    ~WidgetInfoBase();
+    PropertyInfoNode( PropertyType   type,
+                      const wxString &name,
+                      const wxString &label );
 
-    wxString GetClassName() const { return m_classname; }
+    ~PropertyInfoNode();
 
-    bool CanBeChildOf   ( const wxString &classname );
-    bool IsKindOf       ( const wxString &classname );
-    bool IsAbstract()   { return m_type == WIDGET_TYPE_ABSTRACT; }
-    bool IsItem()       { return m_type == WIDGET_TYPE_ITEM; }
-    bool IsLayout()     { return m_type == WIDGET_TYPE_LAYOUT; }
-    bool IsTopLevel()   { return m_type == WIDGET_TYPE_TOPLEVEL; }
+    PropertyType GetType()          { return m_type; }
+    wxString     GetName()          { return m_name; }
+    wxString     GetLabel()         { return m_label; }
+
+    wxString     GetDefaultValue()  { return m_value; }
+    wxString     GetDescription()   { return m_desc; }
+    size_t       GetChildCount()    { return m_children.size(); }
+
+    void AddChild( const wxString &name, PropertyInfo info );
 
 private:
-    void AddBaseName    ( const wxString &name ) { m_bases.Add( name ); }
-    void AddParentName  ( const wxString &name ) { m_parents.Add( name ); }
+    friend class ClassInfoDB;
 
-    void AddEventInfo   ( EventInfo    info );
-    void AddPropertyInfo( PropertyInfo info );
+    void SetDefaultValue( const wxString &value )     { m_value = value; }
+    void SetDescription( const wxString &description ){ m_desc  = description; }
 
-    wxString        m_classname;
-    WidgetType      m_type;
+    PropertyInfoMap m_children;
+    PropertyType    m_type;
+    wxString        m_name, m_label, m_value, m_desc;
+};
+//*****************************************************************************
+//  ClassNode
+//*****************************************************************************
+
+class ClassNode
+{
+public:
+    ClassNode( const wxString &className, ClassType type = CLASS_TYPE_WIDGET );
+    ~ClassNode();
+
+    wxString        GetClassName()  const   { return m_name; }
+    ClassType       GetType()       const   { return m_type; }
+
+    int             GetMaxAllowedBy( const wxString &parentClsName ) const;
+    bool            IsKindOf( const wxString &className );
+    bool            IsTypeOf( ClassType type );
+
+    size_t          GetBaseCount()          { return m_bases.GetCount(); }
+    size_t          GetEventInfoCount()     { return m_events.size(); }
+    size_t          GetPropertyInfoCount()  { return m_props.size(); }
+
+    wxString        GetBaseName( size_t index );
+    EventInfo       GetEventInfo( size_t index );
+    PropertyInfo    GetPropertyInfo( size_t index );
+
+    bool            PropertyInfoExists ( const wxString &name );
+
+private:
+    void AddBaseName( const wxString &clsName ) { m_bases.Add( clsName ); }
+    void AddEventInfo( EventInfo info )         { m_events.push_back( info ); }
+    void AddPropertyInfo( PropertyInfo info )   { m_props.push_back( info ); }
+
+    void AddAllowedChildType( AllowedChildType type )
+                            { m_childTypes.push_back( type ); }
+
+    void AddAllowedChildName( AllowedChildName name )
+                            { m_childNames.push_back( name ); }
+
+    AllowedChildType GetAllowedChildType( size_t index ) const;
+    AllowedChildName GetAllowedChildName( size_t index ) const;
+
+    size_t GetChildTypeCount() { return m_childTypes.size(); }
+    size_t GetChildNameCount() { return m_childNames.size(); }
+
+    wxString        m_name;
+    ClassType       m_type;
     wxArrayString   m_bases;
-    wxArrayString   m_parents;
+    EventInfos      m_events;
+    PropertyInfos   m_props;
 
-    std::map< wxString, EventInfo >    m_evtInfos;
-    std::map< wxString, PropertyInfo > m_propInfos;
+    AllowedChildTypes m_childTypes;
+    AllowedChildNames m_childNames;
 
-    friend class WidgetInfoDB;
+    friend class ClassInfoDB;
 };
-//-----------------------------------------------------------------------------
-//  WidgetInfoDB
-//-----------------------------------------------------------------------------
+//*****************************************************************************
+//  ClassInfoDB
+//*****************************************************************************
 
-class DLLIMPEXP_CORE WidgetInfoDB
+class DLLIMPEXP_CORE ClassInfoDB
 {
 public:
-    static WidgetInfoDB *Get();
-    void Free();
+    static ClassInfoDB *Get();
+    static void Free();
 
-    WidgetInfo   GetClassInfo   ( const wxString &name );
+    bool         ClassInfoExists( const wxString &name );
+    ClassInfo    GetClassInfo   ( const wxString &name ) const;
     PropertyType GetPropertyType( const wxString &name ) const;
 
-    bool ClassInfoExists( const wxString &name )
-    {
-        std::map< wxString, WidgetInfo >::iterator it = m_classes.find( name );
-        if ( it != m_classes.end() )
-            return true;
-
-        return false;
-    }
-
 private:
-    WidgetInfoDB() { Init(); }
-    ~WidgetInfoDB() {}
+    ClassInfoDB();
+    ~ClassInfoDB();
 
-    WidgetInfoDB( const WidgetInfoDB& );
-    WidgetInfoDB& operator=( WidgetInfoDB const& );
+    ClassInfoDB( const ClassInfoDB & );
+    ClassInfoDB& operator=( ClassInfoDB const & );
 
     bool InitClassList( const wxString &path );
     void InitPropertyTypes();
     void Init();
 
-    bool LoadXML( const wxString &path );
-    bool CheckClass( const wxString &name );
-    void Parse( wxXmlNode *node, bool recursively = false );
+    bool LoadXML    ( const wxString &path );
+    bool CheckClass ( const wxString &name );
+    void Parse      ( wxXmlNode *node, bool recursively = false );
 
-    EventInfo    DoGetEventInfo    ( wxXmlNode *eventNode );
-    PropertyInfo DoGetPropertyInfo ( wxXmlNode *propertyNode );
+    EventInfo    DoGetEventInfo     ( wxXmlNode *eventNode );
+    PropertyInfo DoGetPropertyInfo  ( wxXmlNode *propertyNode );
 
-    std::map< wxString, wxArrayString > m_parents;
-    std::map< wxString, WidgetInfo >    m_classes;
-    std::map< wxString, PropertyType >  m_types;
+    ClassInfoMap    m_classes;
+    PropertyTypeMap m_types;
 
     wxArrayString m_classList;
 
-    static WidgetInfoDB *ms_instance;
+    static ClassInfoDB *ms_instance;
 };
 
 #endif //__CORE_WIDGET_DATABASE_H__

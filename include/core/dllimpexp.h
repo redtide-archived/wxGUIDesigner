@@ -8,8 +8,8 @@
     Licence:     wxWindows licence
 */
 
-#ifndef __WXGDCORE_DLLIMPEXP_H__
-#define __WXGDCORE_DLLIMPEXP_H__
+#ifndef __CORE_DLLIMPEXP_H__
+#define __CORE_DLLIMPEXP_H__
 
 #include <wx/dlimpexp.h>
 
@@ -23,4 +23,4 @@
   #define DLLIMPEXP_CORE
 #endif
 
-#endif /*__WXGDCORE_DLLIMPEXP_H__*/
+#endif /*__CORE_DLLIMPEXP_H__*/

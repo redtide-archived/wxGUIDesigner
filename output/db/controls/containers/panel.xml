@@ -12,6 +12,10 @@
     <inherits>
         <class>wxWindow</class>
     </inherits>
+    <children>
+        <class name="widget"  max="-1"/>
+        <class name="wxSizer" max="1"/>
+    </children>
     <name>m_panel</name>
     <event name="wxNavigationKeyEvent">
         <type name="EVT_NAVIGATION_KEY">

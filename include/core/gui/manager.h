@@ -55,10 +55,10 @@ public:
 
     wxStyledTextCtrl *GetEditor( wxWindow *parent, const wxString &name );
 
-    int GetImageIndex( const wxString &classname );
+    int GetImageIndex( const wxString &className );
 
     static GUIManager *Get();
-    void Free();
+    static void Free();
 
 private:
     GUIManager();

@@ -165,7 +165,7 @@ public:
     /**
         Free resources used by this class and destroy it.
     */
-    void Free();
+    static void Free();
     /**
         Loads all plugins described in a XML file with the specified category.
     */

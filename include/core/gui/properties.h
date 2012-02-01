@@ -9,8 +9,8 @@
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef __WXGDCORE_PROPGRID_H__
-#define __WXGDCORE_PROPGRID_H__
+#ifndef __CORE_PROPERTIES_H__
+#define __CORE_PROPERTIES_H__
 
 #include <wx/propgrid/propgrid.h>
 #include <wx/propgrid/advprops.h>
@@ -59,4 +59,4 @@ protected:
     void DoSetValue( const wxPoint& value ) { m_value = WXVARIANT( value ); }
 };
 
-#endif //__WXGDCORE_PROPGRID_H__
+#endif //__CORE_PROPERTIES_H__

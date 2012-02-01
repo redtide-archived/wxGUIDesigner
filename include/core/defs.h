@@ -8,8 +8,8 @@
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef __WXGDCORE_DEFS_H__
-#define __WXGDCORE_DEFS_H__
+#ifndef __CORE_DEFS_H__
+#define __CORE_DEFS_H__
 
 #include "core/dllimpexp.h"
 
@@ -19,7 +19,26 @@
 #include <utility>
 #include <vector>
 
-#include <wx/arrstr.h>
+enum ClassType
+{
+    CLASS_TYPE_UNKNOWN = 0,
+    CLASS_TYPE_ABSTRACT,
+    CLASS_TYPE_CONTAINER,
+    CLASS_TYPE_CUSTOM,
+    CLASS_TYPE_ITEM,
+    CLASS_TYPE_LAYOUT,
+    CLASS_TYPE_ROOT,
+    CLASS_TYPE_TOPLEVEL,
+    CLASS_TYPE_WIDGET
+};
+
+enum ObjectEventType
+{
+    EVT_OBJECT_CREATED,
+    EVT_OBJECT_DELETED,
+    EVT_OBJECT_EXPANDED,
+    EVT_OBJECT_SELECTED
+};
 
 enum PropertyType
 {
@@ -48,29 +67,51 @@ enum PropertyType
     PROPERTY_TYPE_URL
 };
 
-class PropertyInfoBase;
-class EventInfoBase;
-class WidgetInfoBase;
+class EventInfoNode;
+class PropertyInfoNode;
+class ClassNode;
 
-class EventBase;
-class PropertyBase;
-class WidgetNode;
+class EventNode;
+class PropertyNode;
+class ObjectNode;
 
 class wxString;
+class wxArrayString;
 
-typedef class std::tr1::shared_ptr< PropertyInfoBase >  PropertyInfo;
-typedef class std::tr1::shared_ptr< EventInfoBase >     EventInfo;
-typedef class std::tr1::shared_ptr< WidgetInfoBase >    WidgetInfo;
+typedef class std::tr1::shared_ptr< EventInfoNode >     EventInfo;
+typedef class std::tr1::shared_ptr< PropertyInfoNode >  PropertyInfo;
+typedef class std::tr1::shared_ptr< ClassNode >         ClassInfo;
 
-typedef class std::tr1::shared_ptr< EventBase >         Event;
-typedef class std::tr1::shared_ptr< PropertyBase >      Property;
-typedef class std::tr1::shared_ptr< WidgetNode >        Widget;
+typedef class std::tr1::shared_ptr< EventNode >         Event;
+typedef class std::tr1::shared_ptr< PropertyNode >      Property;
+typedef class std::tr1::shared_ptr< ObjectNode >        Object;
+
+typedef std::vector< Event >                            Events;
+typedef std::vector< Property >                         Properties;
+typedef std::vector< Object >                           Objects;
+
+typedef std::vector< EventInfo >                        EventInfos;
+typedef std::vector< PropertyInfo >                     PropertyInfos;
+typedef std::vector< ClassInfo >                        ClassInfos;
 
 // Event type name + event type description
-typedef std::pair< wxString, wxString >                 EventTypeInfo;
+typedef std::pair< wxString, wxString >                 EventType;
 
-typedef std::vector< Property >                         Properties;
-typedef std::vector< Event >                            Events;
-typedef std::list< Widget >                             Widgets;
+// Class type (widget, container, item) + max. instances allowed 
+typedef std::pair< ClassType, int >                     AllowedChildType;
 
-#endif //__WXGDCORE_DEFS_H__
+// E.g. class name "wxSplitterWindow", max = 2 
+typedef std::pair< wxString,  int >                     AllowedChildName;
+
+typedef std::map< wxString, PropertyType >              PropertyTypeMap;
+typedef std::map< wxString, PropertyInfo >              PropertyInfoMap;
+typedef std::map< wxString, ClassInfo >                 ClassInfoMap;
+typedef std::map< wxString, Event >                     EventMap;
+
+typedef std::vector< ClassType >                        ClassTypes;
+typedef std::vector< EventType >                        EventTypes;
+
+typedef std::vector< AllowedChildType >                 AllowedChildTypes;
+typedef std::vector< AllowedChildName >                 AllowedChildNames;
+
+#endif //__CORE_DEFS_H__

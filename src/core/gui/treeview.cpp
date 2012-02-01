@@ -16,31 +16,76 @@
 #include <wx/imaglist.h>
 #include <wx/treectrl.h>
 
-void TreeViewHandler::OnObjectCreated( Widget widget )
+class TreeViewItemData : public wxTreeItemData
 {
-    wxTreeItemId parent = m_treeView->GetRootItem();
-    wxString     name   = widget->GetClassName();
-    int          imgIdx = GUIManager::Get()->GetImageIndex( name );
+public:
+    TreeViewItemData( Object object ) : m_object( object ) {}
+    ~TreeViewItemData() {}
 
-    wxTreeItemId item = m_treeView->AppendItem( parent, name, imgIdx );
+    Object GetObject() { return m_object; }
 
-    m_treeView->SetItemData( item, new TreeViewItemData( widget ) );
+private:
+    Object m_object;
+};
+
+void TreeViewHandler::OnObjectCreated( Object object )
+{
+    wxString name   = object->GetClassName();
+    int      imgIdx = GUIManager::Get()->GetImageIndex( name );
+
+    wxTreeItemId item;
+    if ( object->IsRoot() )
+    {
+        item = m_treeView->AddRoot( name, imgIdx );
+    }
+    else
+    {
+        wxTreeItemId parent;
+        if ( object->GetParent()->IsRoot() )
+        {
+            parent = m_treeView->GetRootItem();
+        }
+        else
+        {
+            parent = m_treeView->GetSelection();
+            while ( parent.IsOk() )
+            {
+                TreeViewItemData *data =
+                            dynamic_cast< TreeViewItemData * >
+                                        ( m_treeView->GetItemData( parent ) );
+                if ( !data )
+                    return;
+
+                if ( object->GetParent() == data->GetObject() )
+                    break;
+
+                parent = m_treeView->GetItemParent( parent );
+            }
+
+            if ( !parent.IsOk() )
+                return;
+        }
+
+        item = m_treeView->AppendItem( parent, name, imgIdx );
+    }
+
+    m_treeView->SetItemData( item, new TreeViewItemData( object ) );
     m_treeView->SelectItem( item );
 }
 
-void TreeViewHandler::OnObjectDeleted( Widget widget )
+void TreeViewHandler::OnObjectDeleted( Object object )
 {
-    wxLogDebug( "Deleted %s", widget->GetClassName() );
+    wxLogDebug( "Deleted %s", object->GetClassName() );
 }
 
-void TreeViewHandler::OnObjectExpanded( Widget widget )
+void TreeViewHandler::OnObjectExpanded( Object object )
 {
-    wxLogDebug( "Expanded %s", widget->GetClassName() );
+    wxLogDebug( "Expanded %s", object->GetClassName() );
 }
 
-void TreeViewHandler::OnObjectSelected( Widget widget )
+void TreeViewHandler::OnObjectSelected( Object object )
 {
-    wxLogDebug( "Selected %s", widget->GetClassName() );
+    wxLogDebug( "Selected %s", object->GetClassName() );
 }
 
 void TreeViewHandler::OnBeginDrag( wxTreeEvent &event )
@@ -55,16 +100,16 @@ void TreeViewHandler::OnEndDrag( wxTreeEvent &event )
 
 void TreeViewHandler::OnSelChanged( wxTreeEvent &event )
 {
-    wxTreeItemId      item = event.GetItem();
+    wxTreeItemId item = event.GetItem();
     TreeViewItemData *data =
     dynamic_cast< TreeViewItemData * >( m_treeView->GetItemData( item ) );
 
     if ( data )
     {
-        Widget widget( data->GetWidget() );
+        Object object( data->GetObject() );
 
-        if ( widget.get() )
-            WidgetTree::Get()->SelectObject( widget );
+        if ( object.get() )
+            ObjectTree::Get()->SelectObject( object );
     }
 
     event.Skip();
@@ -78,10 +123,10 @@ void TreeViewHandler::OnItemCollapsed( wxTreeEvent &event )
 
     if ( data )
     {
-        Widget widget( data->GetWidget() );
+        Object object( data->GetObject() );
 
-        if ( widget.get() )
-            widget->Collapse();
+        if ( object.get() )
+            object->Collapse();
     }
 
     event.Skip();
@@ -95,10 +140,10 @@ void TreeViewHandler::OnItemExpanded( wxTreeEvent &event )
 
     if ( data )
     {
-        Widget widget( data->GetWidget() );
+        Object object( data->GetObject() );
 
-        if ( widget.get() )
-            widget->Expand();
+        if ( object.get() )
+            object->Expand();
     }
 
     event.Skip();

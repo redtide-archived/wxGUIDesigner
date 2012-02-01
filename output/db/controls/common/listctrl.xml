@@ -13,6 +13,11 @@
         <inherits>
             <class>wxControl</class>
         </inherits>
+        <children>
+            <class name="listcol"     max="-1"/>
+            <class name="listitem"    max="-1"/>
+            <class name="wxImageList" max="-1"/>
+        </children>
         <name>m_listCtrl</name>
         <style>
             <flag name="wxLC_LIST">
@@ -61,7 +66,6 @@
                 <description>Draws light vertical rules between columns in report mode.</description>
             </flag>
         </style>
-        
         <event name="wxListEvent">
             <type name="EVT_LIST_BEGIN_DRAG">
                 <description>Begin dragging with the left mouse button. Processes a wxEVT_COMMAND_LIST_BEGIN_DRAG event type.</description>
@@ -127,9 +131,6 @@
     </class>
 
     <class name="listcol" type="item">
-        <parents>
-            <class>wxListCtrl</class>
-        </parents>
         <listcolfmt name="align">
             <description>The alignment for the item. Can be one of wxLIST_FORMAT_LEFT, wxLIST_FORMAT_RIGHT or wxLIST_FORMAT_CENTRE.</description>
         </listcolfmt>
@@ -145,9 +146,6 @@
     </class>
 
     <class name="listitem" type="item">
-        <parents>
-            <class>wxListCtrl</class>
-        </parents>
         <string name="label">
             <description>The text label for the item.</description>
         </string>

@@ -9,14 +9,6 @@
     Licence:     wxWindows licence
 -->
 <class name="wxImageList" xrc="imagelist">
-    <parents>
-        <class>wxChoicebook</class>
-        <class>wxListbook</class>
-        <class>wxListCtrl</class>
-        <class>wxNotebook</class>
-        <class>wxTreebook</class>
-        <class>wxTreeCtrl</class>
-    </parents>
     <bitmap>
         <description>Adds a new image by keeping its optional mask bitmap.</description>
     </bitmap>

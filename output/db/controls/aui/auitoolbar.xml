@@ -13,9 +13,9 @@
         <inherits>
             <class>wxControl</class>
         </inherits>
-        <parents>
-            <class>wxTopLevelWindow</class>
-        </parents>
+        <children>
+            <class>wxAuiToolBarItem</class>
+        </children>
         <name>m_toolBar</name>
         <style>
             <flag name="wxAUI_TB_TEXT">
@@ -69,8 +69,5 @@
     </class>
 
     <class name="wxAuiToolBarItem" type="item">
-        <parents>
-            <class>wxAuiToolBar</class>
-        </parents>
     </class>
 </classes>

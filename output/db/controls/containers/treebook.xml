@@ -13,6 +13,10 @@
         <inherits>
             <class>wxBookCtrlBase</class>
         </inherits>
+        <children>
+            <class name="treebookpage" max="-1"/>
+            <class name="wxImageList"  max="1"/>
+        </children>
         <name>m_treeBook</name>
         <style>
             <flag name="wxBK_DEFAULT">
@@ -48,9 +52,6 @@
     </class>
 
     <class name="treebookpage" type="item">
-        <parents>
-            <class>wxTreebook</class>
-        </parents>
         <int name="depth">
             <description>Page's depth in the labels tree.</description>
         </int>

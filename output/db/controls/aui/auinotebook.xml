@@ -9,10 +9,13 @@
     Licence:     wxWindows licence
 -->
 <classes>
-    <class name="wxAuiNotebook">
+    <class name="wxAuiNotebook" type="container">
         <inherits>
             <class>wxBookCtrlBase</class>
         </inherits>
+        <children>
+            <class>auinotebookpage</class>
+        </children>
         <name>m_auiBook</name>
         <style>
             <flag name="wxAUI_NB_DEFAULT_STYLE">
@@ -81,9 +84,6 @@
     </class>
 
     <class name="auinotebookpage" type="item">
-        <parents>
-            <class>wxAuiNotebook</class>
-        </parents>
         <text name="label">
             <description>Sheet page's title (required).</description>
         </text>

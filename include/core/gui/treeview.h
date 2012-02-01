@@ -8,36 +8,25 @@
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef __WXGDCORE_TREEVIEW_H__
-#define __WXGDCORE_TREEVIEW_H__
+#ifndef __CORE_TREEVIEW_H__
+#define __CORE_TREEVIEW_H__
 
-#include "interfaces/iwidget.h"
+#include "interfaces/iobject.h"
 #include "core/defs.h"
 
-#include <wx/treectrl.h>
+class wxTreeCtrl;
+class wxTreeEvent;
 
-class TreeViewItemData : public wxTreeItemData
-{
-public:
-    TreeViewItemData( Widget widget ) : m_widget( widget ) {}
-    ~TreeViewItemData() {}
-
-    Widget GetWidget() { return m_widget; }
-
-private:
-    Widget m_widget;
-};
-
-class TreeViewHandler : public IWidgetHandler
+class TreeViewHandler : public IObjectHandler
 {
     friend class GUIManager;
 
     TreeViewHandler( wxTreeCtrl *owner ) : m_treeView( owner ) {}
 
-    virtual void OnObjectCreated ( Widget widget );
-    virtual void OnObjectDeleted ( Widget widget );
-    virtual void OnObjectExpanded( Widget widget );
-    virtual void OnObjectSelected( Widget widget );
+    virtual void OnObjectCreated ( Object object );
+    virtual void OnObjectDeleted ( Object object );
+    virtual void OnObjectExpanded( Object object );
+    virtual void OnObjectSelected( Object object );
 
     void OnBeginDrag        ( wxTreeEvent &event );
     void OnEndDrag          ( wxTreeEvent &event );
@@ -49,6 +38,6 @@ class TreeViewHandler : public IWidgetHandler
     wxTreeCtrl *m_treeView;
 };
 
-#endif //__WXGDCORE_TREEVIEW_H__
+#endif //__CORE_TREEVIEW_H__
 
 

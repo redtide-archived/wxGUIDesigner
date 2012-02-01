@@ -11,7 +11,7 @@
 #include "core/gui/palette.h"
 #include "core/object/tree.h"
 
-#include "interfaces/iwidget.h"
+#include "interfaces/iobject.h"
 
 #include <wx/notebook.h>
 
@@ -30,7 +30,7 @@ void PaletteHandler::OnToolClicked( wxCommandEvent &event )
         wxString   clsNme = tg->GetToolShortHelp( toolId );
         int        selPge = m_palette->GetSelection();
         wxString   pgeNme = m_palette->GetPageText( selPge );
-        WidgetTree::Get()->CreateObject( clsNme );
+        ObjectTree::Get()->CreateObject( clsNme );
     }
 }
 

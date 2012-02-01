@@ -13,6 +13,9 @@
         <inherits>
             <class>wxControl</class>
         </inherits>
+        <children>
+            <class name="radioboxitem" max="-1"/>
+        </children>
         <name>m_radioBtn</name>
         <style>
             <flag name="wxRA_SPECIFY_ROWS">
@@ -40,9 +43,6 @@
     </class>
 
     <class name="radioboxitem" type="item">
-        <parents>
-            <class>wxRadioBox</class>
-        </parents>
         <string name="tooltip" xrcattribute="1">
             <description>Tooltip to show over this ratio button (default: none).</description>
         </string>

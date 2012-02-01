@@ -9,8 +9,8 @@
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef __WXGDCORE_PALETTE_H__
-#define __WXGDCORE_PALETTE_H__
+#ifndef __CORE_PALETTE_H__
+#define __CORE_PALETTE_H__
 
 #include <wx/vector.h>
 
@@ -41,4 +41,4 @@ private:
     friend class GUIManager;
 };
 
-#endif //__WXGDCORE_PALETTE_H__
+#endif //__CORE_PALETTE_H__

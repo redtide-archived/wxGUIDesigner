@@ -76,5 +76,5 @@ public:
     /**
         Free resources used by this class and destroy it.
     */
-    void Free();
+    static void Free();
 };

@@ -13,6 +13,10 @@
         <inherits>
             <class>wxBookCtrlBase</class>
         </inherits>
+        <children>
+            <class name="listbookpage" max="-1"/>
+            <class name="wxImageList"  max="1"/>
+        </children>
         <name>m_listBook</name>
         <style>
             <flag name="wxLB_DEFAULT">
@@ -42,9 +46,6 @@
     </class>
 
     <class name="listbookpage" type="item">
-        <parents>
-            <class>wxListbook</class>
-        </parents>
         <text name="label">
             <description>Sheet page's title (required).</description>
         </text>

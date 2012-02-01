@@ -13,6 +13,10 @@
         <inherits>
             <class>wxBookCtrlBase</class>
         </inherits>
+        <children>
+            <class name="choicebookpage" max="-1"/>
+            <class name="wxImageList"    max="1"/>
+        </children>
         <name>m_choiceBook</name>
         <style>
             <flag name="wxCHB_DEFAULT">
@@ -42,9 +46,10 @@
     </class>
 
     <class name="choicebookpage" type="item">
-        <parents>
-            <class>wxChoicebook</class>
-        </parents>
+        <children>
+            <class name="container" max="1"/>
+            <class name="widget"    max="1"/>
+        </children>
         <text name="label">
             <description>Sheet page's title (required).</description>
         </text>

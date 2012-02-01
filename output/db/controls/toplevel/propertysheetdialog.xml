@@ -12,11 +12,12 @@
     <class name="wxPropertySheetDialog" type="toplevel">
         <inherits>
             <class>wxDialog</class>
+            <class>wxTopLevelWindow</class>
+            <class>wxWindow</class>
         </inherits>
-        <parents>
-            <class>Root</class>
-            <class>wxFrame</class>
-        </parents>
+        <children>
+            <class name="propertysheetpage" max="-1"/>
+        </children>
         <name>m_propDlg</name>
         <style name="buttons">
             <description>Buttons to show, combination of flags accepted by wxPropertySheetDialog::CreateButtons() (default: 0).</description>
@@ -26,9 +27,6 @@
     </class>
 
     <class name="propertysheetpage" type="item">
-        <parents>
-            <class>wxPropertySheetDialog</class>
-        </parents>
         <text name="label">
             <value>page</value>
             <description>Sheet page's title (required).</description>

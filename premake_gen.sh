@@ -30,7 +30,7 @@ do
         echo "                          Default: Unicode build on all versions."
 #       echo "                          Current: $wxcharset"
         echo
-        echo "--wx-root                 Specify the wxWidgets build path,"
+        echo "--wx-root                 Specify the wx-config directory path,"
         echo "                          useful for wxWidgets builds not installed"
         echo "                          in your system (alternate/custom builds)"
         echo "                          Example: --wx-root=/home/devel/wx/3.0/buildgtk"

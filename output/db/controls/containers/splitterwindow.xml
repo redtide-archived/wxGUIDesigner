@@ -8,10 +8,13 @@
     Revision:    $Hash$
     Licence:     wxWindows licence
 -->
-<class name="wxSplitterWindow">
+<class name="wxSplitterWindow" type="container">
     <inherits>
         <class>wxWindow</class>
     </inherits>
+    <children>
+        <child type="widget" max="2"/>
+    </children>
     <name>m_splitter</name>
     <style>
         <flag name="wxSP_3D">

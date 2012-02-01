@@ -10,19 +10,15 @@
 -->
 <classes>
     <class name="wxSizer" type="abstract">
-        <parents>
-            <class>wxTopLevelWindow</class>
-            <class>wxPanel</class>
-        </parents>
+        <children>
+            <class name="sizeritembase" max="-1"/>
+        </children>
         <size name="minsize" label="Minimal size">
             <description>Minimal size that this sizer will have, see wxSizer::SetMinSize() (default: no min size).</description>
         </size>
     </class>
 
     <class name="sizeritembase" type="item">
-        <parents>
-            <class>wxSizer</class>
-        </parents>
         <style label="Flag">
             <flag name="wxTOP">
                 <value>0x0040</value>
@@ -101,18 +97,12 @@
     </class>
 
     <class name="sizeritem" type="item">
-        <inherits>
-            <class>sizeritembase</class>
-        </inherits>
         <int name="option" label="Proportion">
             <description>The "option" value for sizers. Used by wxBoxSizer to set proportion of the item in the growable direction (default: 0).</description>
         </int>
     </class>
 
     <class name="spacer" type="item">
-        <inherits>
-            <class>sizeritembase</class>
-        </inherits>
         <size name="size">
             <description>Size of the empty space (required).</description>
         </size>

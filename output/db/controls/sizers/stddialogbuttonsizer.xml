@@ -13,6 +13,9 @@
         <inherits>
             <class>wxSizer</class>
         </inherits>
+        <children>
+            <class name="button" max="-1"/>
+        </children>
         <name>sdbSizer</name>
         <text name="label">
             <description>Label to be used for the static box around the sizer (required).</description>
@@ -20,12 +23,8 @@
     </class>
 
     <class name="button" type="item">
-        <parents>
-            <class>wxStdDialogButtonSizer</class>
-        </parents>
-        <!--children>
-            <class>wxButton</class>
-            1
-        </children-->
+        <children>
+            <class name="wxButton" max="1"/>
+        </children>
     </class>
 </classes>

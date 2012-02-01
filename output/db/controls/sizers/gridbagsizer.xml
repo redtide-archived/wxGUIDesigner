@@ -13,6 +13,9 @@
         <inherits>
            <class>wxFlexGridSizer</class>
         </inherits>
+        <children>
+            <class name="gbsizeritem"  max="-1"/>
+        </children>
         <name>gbSizer</name>
     </class>
 
@@ -20,9 +23,6 @@
         <inherits>
             <class>sizeritembase</class>
         </inherits>
-        <parents>
-            <class>wxGridBagSizer</class>
-        </parents>
         <point name="cellpos" label="Cell position">
             <description>Position, see wxGBSizerItem::SetPos() (required).</description>
         </point>

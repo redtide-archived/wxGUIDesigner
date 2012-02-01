@@ -13,6 +13,9 @@
         <inherits>
             <class>wxComboBox</class>
         </inherits>
+        <children>
+            <class>ownerdrawnitem</class>
+        </children>
         <name>m_bmpCBox</name>
         <int name="selection">
             <value>-1</value>
@@ -24,9 +27,6 @@
     </class>
 
     <class name="ownerdrawnitem" type="item">
-        <parents>
-            <class>wxBitmapComboBox</class>
-        </parents>
         <text>
             <description>Item's label (required).</description>
         </text>

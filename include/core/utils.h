@@ -8,8 +8,10 @@
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef __WXGDCORE_UTILS_H__
-#define __WXGDCORE_UTILS_H__
+#ifndef __CORE_UTILS_H__
+#define __CORE_UTILS_H__
+
+#include "core/defs.h"
 
 #include <wx/stdpaths.h>
 #include <wx/window.h>
@@ -31,7 +33,9 @@ namespace wxGDConv
 {
     const int       StringToHex( const wxString &text );
     const wxString  HexToString( int value );
+    const ClassType ClassTypeFromString( const wxString &value );
+    const int       IntFromString( const wxString &value );
     const wxColour  GetSystemColour( const wxString &name );
 };
 
-#endif //__WXGDCORE_UTILS_H__
+#endif //__CORE_UTILS_H__

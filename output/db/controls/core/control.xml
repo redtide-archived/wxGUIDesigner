@@ -12,11 +12,6 @@
     <inherits>
         <class>wxWindow</class>
     </inherits>
-    <parents>
-        <class>wxBookCtrl</class>
-        <class>wxSizer</class>
-        <class>wxTopLevelWindow</class>
-    </parents>
     <text name="Label">
         <description>Label to display on the control.</description>
     </text>

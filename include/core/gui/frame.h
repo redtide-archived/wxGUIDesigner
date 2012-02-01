@@ -8,8 +8,8 @@
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef __WXGDCORE_MAINFRAME_H__
-#define __WXGDCORE_MAINFRAME_H__
+#ifndef __CORE_MAINFRAME_H__
+#define __CORE_MAINFRAME_H__
 
 #include <wx/frame.h>
 
@@ -41,4 +41,4 @@ private:
     wxAuiManager *m_mgr;
 };
 
-#endif //__WXGDCORE_MAINFRAME_H__
+#endif //__CORE_MAINFRAME_H__

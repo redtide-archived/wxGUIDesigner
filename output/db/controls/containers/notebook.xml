@@ -13,6 +13,10 @@
         <inherits>
             <class>wxBookCtrlBase</class>
         </inherits>
+        <children>
+            <class name="notebookpage" max="-1"/>
+            <class name="wxImageList"  max="1"/>
+        </children>
         <name>m_listBook</name>
         <style>
             <flag name="wxNB_TOP">
@@ -51,9 +55,6 @@
     </class>
 
     <class name="notebookpage" type="item">
-        <parents>
-            <class>wxNotebook</class>
-        </parents>
         <text name="label">
             <description>Page's title (required).</description>
         </text>

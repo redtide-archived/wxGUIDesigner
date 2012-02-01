@@ -91,13 +91,9 @@ GUIManager::GUIManager() :  m_frame( NULL ),
 
 GUIManager::~GUIManager()
 {
-}
-
-void GUIManager::Free()
-{
     if ( m_editBookHndlr )
     {
-        WidgetTree::Get()->RemoveHandler( m_editBookHndlr );
+        ObjectTree::Get()->RemoveHandler( m_editBookHndlr );
         delete m_editBookHndlr;
         m_editBookHndlr = NULL;
     }
@@ -110,20 +106,25 @@ void GUIManager::Free()
 
     if ( m_propBookHndlr )
     {
+        ObjectTree::Get()->RemoveHandler( m_propBookHndlr );
         delete m_propBookHndlr;
         m_propBookHndlr = NULL;
     }
 
     if ( m_treeViewHndlr )
     {
-        WidgetTree::Get()->RemoveHandler( m_treeViewHndlr );
+        ObjectTree::Get()->RemoveHandler( m_treeViewHndlr );
         delete m_treeViewHndlr;
         m_treeViewHndlr = NULL;
     }
 
-    m_editors.erase( m_editors.begin(), m_editors.end() );
+    m_editors.clear();
+}
 
-    IconProvider::Get()->Free();
+void GUIManager::Free()
+{
+    IconProvider::Free();
+    ObjectTree::Free();
 
     wxXmlResource::Get()->ClearHandlers();
 
@@ -265,7 +266,7 @@ wxNotebook *GUIManager::GetEditorBook( wxWindow *parent )
                 }
             }
 
-            WidgetTree::Get()->AddHandler( m_editBookHndlr );
+            ObjectTree::Get()->AddHandler( m_editBookHndlr );
         }
     }
 
@@ -365,9 +366,11 @@ wxTreeCtrl *GUIManager::GetTreeView( wxWindow *parent )
                 }
             }
 
+            m_treeView->AddRoot( "Project", 0 );
+
             m_treeViewHndlr = new TreeViewHandler( m_treeView );
 
-            WidgetTree::Get()->AddHandler( m_treeViewHndlr );
+            ObjectTree::Get()->AddHandler( m_treeViewHndlr );
 
             m_treeView->Bind( wxEVT_COMMAND_TREE_SEL_CHANGED,
                             &TreeViewHandler::OnSelChanged, m_treeViewHndlr );
@@ -392,12 +395,23 @@ wxNotebook *GUIManager::GetPropertyBook( wxWindow *parent )
         {
             m_propBookHndlr = new PropBookHandler( m_propBook );
 
+            ObjectTree::Get()->AddHandler( m_propBookHndlr );
+
             m_propBook->Bind( wxEVT_SIZE, &PropBookHandler::OnSize,
                                 m_propBookHndlr );
 
             m_pgProps     = XRCCTRL( *m_propBook, "PropGrid", wxPropertyGrid );
             m_pgEvents    = XRCCTRL( *m_propBook, "EventGrid", wxPropertyGrid );
             m_ilsPropBook = m_propBook->GetImageList();
+
+            m_pgProps->Bind( wxEVT_PG_CHANGED,
+                            &PropBookHandler::OnPGChanged, m_propBookHndlr );
+
+            m_pgEvents->Bind( wxEVT_PG_CHANGED,
+                            &PropBookHandler::OnEGChanged, m_propBookHndlr );
+
+            m_pgEvents->Bind( wxEVT_PG_DOUBLE_CLICK,
+                            &PropBookHandler::OnEGDblClick, m_propBookHndlr );
         }
     }
 
@@ -439,9 +453,9 @@ wxStyledTextCtrl *GUIManager::GetEditor( wxWindow *parent, const wxString &name 
     return stc;
 }
 
-int GUIManager::GetImageIndex( const wxString &classname )
+int GUIManager::GetImageIndex( const wxString &className )
 {
-    ImageIds::iterator it = m_imgIds.find( classname );
+    ImageIds::iterator it = m_imgIds.find( className );
     if ( it != m_imgIds.end() )
         return it->second;
 

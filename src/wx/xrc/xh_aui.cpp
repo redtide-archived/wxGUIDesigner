@@ -69,19 +69,19 @@ wxObject *wxAuiXmlHandler::DoCreateResource()
         {
             if ( ( windowNode->GetName() == "object" || windowNode->GetName() == "object_ref") )
             {
-                wxString classname = "class";
+                wxString className = "class";
                 wxString name      = "name";
 
-                if ( windowNode->HasAttribute( classname ) &&
+                if ( windowNode->HasAttribute( className ) &&
                      windowNode->HasAttribute( name ) )
                 {
-                    classname = windowNode->GetAttribute( classname );
+                    className = windowNode->GetAttribute( className );
                     name      = windowNode->GetAttribute( name );
 
-                    if ( classname != "wxAuiPaneInfo" &&
-                         classname != "wxStatusBar"   &&
-                         classname != "wxToolBar"     &&
-                         classname != "wxMenuBar" )
+                    if ( className != "wxAuiPaneInfo" &&
+                         className != "wxStatusBar"   &&
+                         className != "wxToolBar"     &&
+                         className != "wxMenuBar" )
                     {
                         // Using XRCID here causes undefined references when linking
                         wxWindow *window = wxWindow::FindWindowByName( name );

@@ -141,214 +141,205 @@
         </flag>
     </exstyle>
     <event name="wxFocusEvent">
-        <type name="EVT_SET_FOCUS">
+        <type name="wxEVT_SET_FOCUS">
             <description>Process a wxEVT_SET_FOCUS event.</description>
         </type>
-        <type name="EVT_KILL_FOCUS">
+        <type name="wxEVT_KILL_FOCUS">
             <description>Process a wxEVT_KILL_FOCUS event.</description>
         </type>
     </event>
     <event name="wxHelpEvent">
-        <type name="EVT_HELP">
+        <type name="wxEVT_HELP">
             <description>Process a wxEVT_HELP event.</description>
         </type>
-        <type name="EVT_HELP_RANGE">
+        <type name="wxEVT_HELP_RANGE">
             <description>Process a wxEVT_HELP event for a range of ids.</description>
         </type>
     </event>
     <event name="wxJoystickEvent">
-        <type name="EVT_JOY_BUTTON_DOWN">
+        <type name="wxEVT_JOY_BUTTON_DOWN">
             <description>Process a wxEVT_JOY_BUTTON_DOWN event.</description>
         </type>
-        <type name="EVT_JOY_BUTTON_UP">
+        <type name="wxEVT_JOY_BUTTON_UP">
             <description>Process a wxEVT_JOY_BUTTON_UP event.</description>
         </type>
-        <type name="EVT_JOY_BUTTON_MOVE">
+        <type name="wxEVT_JOY_BUTTON_MOVE">
             <description>Process a wxEVT_JOY_BUTTON_MOVE event.</description>
         </type>
-        <type name="EVT_JOY_BUTTON_ZMOVE">
+        <type name="wxEVT_JOY_BUTTON_ZMOVE">
             <description>Process a wxEVT_JOY_BUTTON_ZMOVE event.</description>
-        </type>
-        <type name="EVT_JOYSTICK_EVENTS">
-            <description>Processes all joystick events.</description>
         </type>
     </event>
     <event name="wxKeyEvent">
-        <type name="EVT_KEY_DOWN">
+        <type name="wxEVT_KEY_DOWN">
             <description>Process a wxEVT_KEY_DOWN event (any key has been pressed).</description>
         </type>
-        <type name="EVT_KEY_UP">
+        <type name="wxEVT_KEY_UP">
             <description>Process a wxEVT_KEY_UP event (any key has been released).</description>
         </type>
-        <type name="EVT_CHAR">
+        <type name="wxEVT_CHAR">
             <description>Process a wxEVT_CHAR event.</description>
         </type>
-        <type name="EVT_CHAR_HOOK">
+        <type name="wxEVT_CHAR_HOOK">
             <description>Process a wxEVT_CHAR_HOOK event.</description>
         </type>
     </event>
     <event name="wxMouseEvent">
-        <type name="EVT_LEFT_DOWN">
-            <description>Process a wxEVT_LEFT_DOWN event. The handler of this event should normally call event.Skip() to allow the default processing to take place as otherwise the window under mouse wouldn't get the focus.</description>
-        </type>
-        <type name="EVT_LEFT_UP">
-            <description>Process a wxEVT_LEFT_UP event.</description>
-        </type>
-        <type name="EVT_LEFT_DCLICK">
-            <description>Process a wxEVT_LEFT_DCLICK event.</description>
-        </type>
-        <type name="EVT_MIDDLE_DOWN">
-            <description>Process a wxEVT_MIDDLE_DOWN event.</description>
-        </type>
-        <type name="EVT_MIDDLE_UP">
-            <description>Process a wxEVT_MIDDLE_UP event.</description>
-        </type>
-        <type name="EVT_MIDDLE_DCLICK">
-            <description>Process a wxEVT_MIDDLE_DCLICK event.</description>
-        </type>
-        <type name="EVT_RIGHT_DOWN">
-            <description>Process a wxEVT_RIGHT_DOWN event.</description>
-        </type>
-        <type name="EVT_RIGHT_UP">
-            <description>Process a wxEVT_RIGHT_UP event.</description>
-        </type>
-        <type name="EVT_RIGHT_DCLICK">
-            <description>Process a wxEVT_RIGHT_DCLICK event.</description>
-        </type>
-        <type name="EVT_MOUSE_AUX1_DOWN">
-            <description>Process a wxEVT_AUX1_DOWN event.</description>
-        </type>
-        <type name="EVT_MOUSE_AUX1_UP">
-            <description>Process a wxEVT_AUX1_UP event.</description>
-        </type>
-        <type name="EVT_MOUSE_AUX1_DCLICK">
-            <description>Process a wxEVT_AUX1_DCLICK event.</description>
-        </type>
-        <type name="EVT_MOUSE_AUX2_DOWN">
-            <description>Process a wxEVT_AUX2_DOWN event.</description>
-        </type>
-        <type name="EVT_MOUSE_AUX2_UP">
-            <description>Process a wxEVT_AUX2_UP event.</description>
-        </type>
-        <type name="EVT_MOUSE_AUX2_DCLICK">
-            <description>Process a wxEVT_AUX2_DCLICK event.</description>
-        </type>
-        <type name="EVT_MOTION">
-            <description>Process a wxEVT_MOTION event.</description>
-        </type>
-        <type name="EVT_ENTER_WINDOW">
+        <type name="wxEVT_ENTER_WINDOW">
             <description>Process a wxEVT_ENTER_WINDOW event.</description>
         </type>
-        <type name="EVT_LEAVE_WINDOW">
+        <type name="wxEVT_LEAVE_WINDOW">
             <description>Process a wxEVT_LEAVE_WINDOW event.</description>
         </type>
-        <type name="EVT_MOUSEWHEEL">
+        <type name="wxEVT_LEFT_DOWN">
+            <description>Process a wxEVT_LEFT_DOWN event. The handler of this event should normally call event.Skip() to allow the default processing to take place as otherwise the window under mouse wouldn't get the focus.</description>
+        </type>
+        <type name="wxEVT_LEFT_UP">
+            <description>Process a wxEVT_LEFT_UP event.</description>
+        </type>
+        <type name="wxEVT_LEFT_DCLICK">
+            <description>Process a wxEVT_LEFT_DCLICK event.</description>
+        </type>
+        <type name="wxEVT_MIDDLE_DOWN">
+            <description>Process a wxEVT_MIDDLE_DOWN event.</description>
+        </type>
+        <type name="wxEVT_MIDDLE_UP">
+            <description>Process a wxEVT_MIDDLE_UP event.</description>
+        </type>
+        <type name="wxEVT_MIDDLE_DCLICK">
+            <description>Process a wxEVT_MIDDLE_DCLICK event.</description>
+        </type>
+        <type name="wxEVT_RIGHT_DOWN">
+            <description>Process a wxEVT_RIGHT_DOWN event.</description>
+        </type>
+        <type name="wxEVT_RIGHT_UP">
+            <description>Process a wxEVT_RIGHT_UP event.</description>
+        </type>
+        <type name="wxEVT_RIGHT_DCLICK">
+            <description>Process a wxEVT_RIGHT_DCLICK event.</description>
+        </type>
+        <type name="wxEVT_MOUSE_AUX1_DOWN">
+            <description>Process a wxEVT_AUX1_DOWN event.</description>
+        </type>
+        <type name="wxEVT_MOUSE_AUX1_UP">
+            <description>Process a wxEVT_AUX1_UP event.</description>
+        </type>
+        <type name="wxEVT_MOUSE_AUX1_DCLICK">
+            <description>Process a wxEVT_AUX1_DCLICK event.</description>
+        </type>
+        <type name="wxEVT_MOUSE_AUX2_DOWN">
+            <description>Process a wxEVT_AUX2_DOWN event.</description>
+        </type>
+        <type name="wxEVT_MOUSE_AUX2_UP">
+            <description>Process a wxEVT_AUX2_UP event.</description>
+        </type>
+        <type name="wxEVT_MOUSE_AUX2_DCLICK">
+            <description>Process a wxEVT_AUX2_DCLICK event.</description>
+        </type>
+        <type name="wxEVT_MOTION">
+            <description>Process a wxEVT_MOTION event.</description>
+        </type>
+        <type name="wxEVT_MOUSEWHEEL">
             <description>Process a wxEVT_MOUSEWHEEL event.</description>
         </type>
-        <type name="EVT_MOUSE_EVENTS">
-            <description>Process all mouse events.</description>
-        </type>
     </event>
-    <event name="wxPowerEvent">
-        <type name="EVT_POWER_SUSPENDING">
+    <!--event name="wxPowerEvent">
+        <type name="wxEVT_POWER_SUSPENDING">
             <description>System is about to be suspended, this event can be vetoed to prevent suspend from taking place.</description>
         </type>
-        <type name="EVT_POWER_SUSPENDED">
+        <type name="wxEVT_POWER_SUSPENDED">
             <description>System is about to suspend: normally the application should quickly (i.e. without user intervention) close all the open files and network connections here, possibly remembering them to reopen them later when the system is resumed.</description>
         </type>
-        <type name="EVT_POWER_SUSPEND_CANCEL">
+        <type name="wxEVT_POWER_SUSPEND_CANCEL">
             <description>System suspension was cancelled because some application vetoed it.</description>
         </type>
-        <type name="EVT_POWER_RESUME">
+        <type name="wxEVT_POWER_RESUME">
             <description>System resumed from suspend: normally the application should restore the state in which it had been before the suspension.</description>
         </type>
-    </event>
+    </event-->
     <event name="wxScrollWinEvent">
-        <type name="EVT_SCROLLWIN">
-            <description>Process all scroll events.</description>
-        </type>
-        <type name="EVT_SCROLLWIN_TOP">
+        <type name="wxEVT_SCROLLWIN_TOP">
             <description>Process wxEVT_SCROLLWIN_TOP scroll-to-top events.</description>
         </type>
-        <type name="EVT_SCROLLWIN_BOTTOM">
+        <type name="wxEVT_SCROLLWIN_BOTTOM">
             <description>Process wxEVT_SCROLLWIN_BOTTOM scroll-to-bottom events.</description>
         </type>
-        <type name="EVT_SCROLLWIN_LINEUP">
+        <type name="wxEVT_SCROLLWIN_LINEUP">
             <description>Process wxEVT_SCROLLWIN_LINEUP line up events.</description>
         </type>
-        <type name="EVT_SCROLLWIN_LINEDOWN">
+        <type name="wxEVT_SCROLLWIN_LINEDOWN">
             <description>Process wxEVT_SCROLLWIN_LINEDOWN line down events.</description>
         </type>
-        <type name="EVT_SCROLLWIN_PAGEUP">
+        <type name="wxEVT_SCROLLWIN_PAGEUP">
             <description>Process wxEVT_SCROLLWIN_PAGEUP page up events.</description>
         </type>
-        <type name="EVT_SCROLLWIN_PAGEDOWN">
+        <type name="wxEVT_SCROLLWIN_PAGEDOWN">
             <description>Process wxEVT_SCROLLWIN_PAGEDOWN page down events.</description>
         </type>
-        <type name="EVT_SCROLLWIN_THUMBTRACK">
+        <type name="wxEVT_SCROLLWIN_THUMBTRACK">
             <description>Process wxEVT_SCROLLWIN_THUMBTRACK thumbtrack events (frequent events sent as the user drags the thumbtrack).</description>
         </type>
-        <type name="EVT_SCROLLWIN_THUMBRELEASE">
+        <type name="wxEVT_SCROLLWIN_THUMBRELEASE">
             <description>Process wxEVT_SCROLLWIN_THUMBRELEASE thumb release events.</description>
         </type>
     </event>
     <event name="wxActivateEvent">
-        <type name="EVT_ACTIVATE">
+        <type name="wxEVT_ACTIVATE">
             <description>Process a wxEVT_ACTIVATE event.</description>
         </type>
     </event>
     <event name="wxChildFocusEvent">
-        <type name="EVT_CHILD_FOCUS">
+        <type name="wxEVT_CHILD_FOCUS">
             <description>Process a wxEVT_CHILD_FOCUS event.</description>
         </type>
     </event>
     <event name="wxContextMenuEvent">
-        <type name="EVT_CONTEXT_MENU">
+        <type name="wxEVT_CONTEXT_MENU">
             <description>A right click (or other context menu command depending on platform) has been detected.</description>
         </type>
     </event>
     <event name="wxDropFilesEvent">
-        <type name="EVT_DROP_FILES">
+        <type name="wxEVT_DROP_FILES">
             <description>Process a wxEVT_DROP_FILES event.</description>
         </type>
     </event>
     <event name="wxEraseEvent">
-        <type name="EVT_ERASE_BACKGROUND">
+        <type name="wxEVT_ERASE_BACKGROUND">
             <description>Process a wxEVT_ERASE_BACKGROUND event.</description>
         </type>
     </event>
     <event name="wxIdleEvent">
-        <type name="EVT_IDLE">
+        <type name="wxEVT_IDLE">
             <description>Process a wxEVT_IDLE event.</description>
         </type>
     </event>
     <event name="wxMouseCaptureLostEvent">
-        <type name="EVT_MOUSE_CAPTURE_LOST">
+        <type name="wxEVT_MOUSE_CAPTURE_LOST">
             <description>Process a wxEVT_MOUSE_CAPTURE_LOST event.</description>
         </type>
     </event>
     <event name="wxMouseCaptureChangedEvent">
-        <type name="EVT_MOUSE_CAPTURE_CHANGED">
+        <type name="wxEVT_MOUSE_CAPTURE_CHANGED">
             <description>Process a wxEVT_MOUSE_CAPTURE_CHANGED event.</description>
         </type>
     </event>
     <event name="wxPaintEvent">
-        <type name="EVT_PAINT">
+        <type name="wxEVT_PAINT">
             <description>Process a wxEVT_PAINT event.</description>
         </type>
     </event>
     <event name="wxSetCursorEvent">
-        <type name="EVT_SET_CURSOR">
+        <type name="wxEVT_SET_CURSOR">
             <description>Process a wxEVT_SET_CURSOR event.</description>
         </type>
     </event>
     <event name="wxSizeEvent">
-        <type name="EVT_SIZE">
+        <type name="wxEVT_SIZE">
             <description>Process a wxEVT_SIZE event.</description>
         </type>
     </event>
     <event name="wxSysColourChangedEvent">
-        <type name="EVT_SYS_COLOUR_CHANGED">
+        <type name="wxEVT_SYS_COLOUR_CHANGED">
             <description>Process a wxEVT_SYS_COLOUR_CHANGED event.</description>
         </type>
     </event>

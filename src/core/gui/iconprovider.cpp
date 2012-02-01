@@ -148,7 +148,7 @@ bool IconProvider::LoadXML( const wxString &path )
                 }
                 else if ( catName == "controls" )
                 {
-                    wasOk = WidgetInfoDB::Get()->ClassInfoExists( itemName );
+                    wasOk = ClassInfoDB::Get()->ClassInfoExists( itemName );
                     if ( !wasOk )
                     {
                         wxLogDebug("Discarding %s", itemName);

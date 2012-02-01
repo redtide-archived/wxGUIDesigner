@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        core/object/tree.h
-// Purpose:     interface of Widget
+// Purpose:     interface of Object
 // Author:      Andrea Zanellato
 // Modified by:
 // Created:     2011/12/12
@@ -11,7 +11,7 @@
 /**
     @class Property
 
-    Widget property
+    Object property
 */
 class Property
 {
@@ -19,26 +19,27 @@ public:
     Property( PropertyInfo info, const wxAny& value );
     ~Property();
 
-    const wxString&     GetLabel()    const;
-    const wxString&     GetName()     const;
-    const PropertyType  GetType()     const;
+    const wxString&     GetLabel()          const;
+    const wxString&     GetName()           const;
+    const PropertyType  GetType()           const;
 
-    wxBitmap            GetAsBitmap() const;
-    bool                GetAsBool()   const;
-    wxColour            GetAsColour() const;
-    float               GetAsFloat()  const;
-    wxFont              GetAsFont()   const;
-    int                 GetAsInt()    const;
-    wxPoint             GetAsPoint()  const;
-    wxSize              GetAsSize()   const;
-    wxString            GetAsString() const;
-    long                GetAsStyle()  const;
-    wxString            GetAsText()   const;
-    wxString            GetAsURL()    const;
+    wxArrayString       GetAsArrayString()  const;
+    wxBitmap            GetAsBitmap()       const;
+    bool                GetAsBool()         const;
+    wxColour            GetAsColour()       const;
+    float               GetAsFloat()        const;
+    wxFont              GetAsFont()         const;
+    int                 GetAsInt()          const;
+    wxPoint             GetAsPoint()        const;
+    wxSize              GetAsSize()         const;
+    wxString            GetAsString()       const;
+    long                GetAsStyle()        const;
+    wxString            GetAsText()         const;
+    wxString            GetAsURL()          const;
 };
 
 /**
-    @class Widget
+    @class Object
 
     it keeps informations used by GUIManager to manage wxObject
     derived class instances.
@@ -46,33 +47,33 @@ public:
     @beginEventEmissionTable
     @event{EVT_WIDGET_CREATING(func)}
         Process a @c wxEVT_WIDGET_CREATE event. See WidgetEvent.
-    @event{EVT_WIDGET_CREATED(func)}
+    @event{EVT_OBJECT_CREATED(func)}
         Process a @c wxEVT_WIDGET_CREATED event. See WidgetEvent.
-    @event{EVT_WIDGET_SELECTED(func)}
+    @event{EVT_OBJECT_SELECTED(func)}
         Process a @c wxEVT_WIDGET_SELECTED event. See WidgetEvent.
     @event{EVT_WIDGET_DELETE(func)}
         Process a @c wxEVT_WIDGET_DELETE event. See WidgetEvent.
-    @event{EVT_WIDGET_DELETED(func)}
+    @event{EVT_OBJECT_DELETED(func)}
         Process a @c wxEVT_WIDGET_DELETED event. See WidgetEvent.
     @endEventTable
 
     @library{core}
 */
-class Widget : public IWidgetNode
+class Object : public IObjectNode
 {
 public:
     /**
         Default constructor.
     */
-    Widget();
+    Object();
     /**
         Virtual destructor.
     */
-    virtual ~Widget();
+    virtual ~Object();
     /**
         Sets the parent object.
     */
-    void SetParent( Widget *parent );
+    void SetParent( Object *parent );
     /**
         Sets the object to be contained.
     */
@@ -80,7 +81,7 @@ public:
     /**
         Adds a child object to the children vector.
     */
-    void AddChild( Widget *child );
+    void AddChild( Object *child );
     /**
         Adds a Property object to the Properties vector.
     */
@@ -92,7 +93,7 @@ public:
     /**
         Adds a child object to the children vector.
     */
-    Widget *GetParent();
+    Object *GetParent();
     /**
         Returns the wxObject contained.
     */
@@ -100,26 +101,26 @@ public:
     /**
         Returns all the children objects.
     */
-    wxVector< Widget * > GetChildren();
+    wxVector< Object * > GetChildren();
 };
 /**
-    @class WidgetTree
+    @class ObjectTree
 
     Singleton class: GUI object's management.
 
     @library{core}
 */
-class WidgetTree
+class ObjectTree
 {
 public:
     /**
         Gets the static instance of this class.
     */
-    static WidgetTree *Get();
+    static ObjectTree *Get();
     /**
         Free resources used by this class and destroy it.
     */
-    void Free();
+    static void Free();
     /**
         Create a new control object.
     */

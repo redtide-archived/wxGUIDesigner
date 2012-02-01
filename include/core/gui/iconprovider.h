@@ -66,7 +66,7 @@ class DLLIMPEXP_CORE IconProvider
 {
 public:
     static IconProvider *Get();
-    void Free();
+    static void Free();
 
     bool SelectCategory( const wxString &category );
 

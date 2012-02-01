@@ -11,21 +11,21 @@
 #ifndef __CORE_GUI_EDITOR_H__
 #define __CORE_GUI_EDITOR_H__
 
-#include "interfaces/iwidget.h"
+#include "interfaces/iobject.h"
 #include "core/defs.h"
 
 class wxNotebook;
 
-class EditorHandler : public IWidgetHandler
+class EditorHandler : public IObjectHandler
 {
     friend class GUIManager;
 
     EditorHandler( wxNotebook *owner ) : m_editBook( owner ) {}
 
-    virtual void OnObjectCreated ( Widget widget );
-    virtual void OnObjectDeleted ( Widget widget );
-    virtual void OnObjectExpanded( Widget widget );
-    virtual void OnObjectSelected( Widget widget );
+    virtual void OnObjectCreated ( Object object );
+    virtual void OnObjectDeleted ( Object object );
+    virtual void OnObjectExpanded( Object object );
+    virtual void OnObjectSelected( Object object );
 
     wxNotebook *m_editBook;
 };

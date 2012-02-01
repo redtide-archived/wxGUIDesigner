@@ -11,12 +11,17 @@
 <class name="wxFrame" type="toplevel">
     <inherits>
         <class>wxTopLevelWindow</class>
+        <class>wxWindow</class>
     </inherits>
-    <parents>
-        <class>Root</class>
-    </parents>
-    <name>m_frame</name>
-    <style>
+    <children>
+        <child type="widget"      max="1"/>
+        <class name="wxSizer"     max="1"/>
+        <class name="wxMenuBar"   max="1"/>
+        <class name="wxStatusBar" max="1"/>
+        <class name="wxToolBar"   max="1"/>
+    </children>
+    <name label="Name">m_frame</name>
+    <style label="Style">
         <flag name="wxDEFAULT_FRAME_STYLE">
             <description>Defined as wxMINIMIZE_BOX | wxMAXIMIZE_BOX | wxRESIZE_BORDER | wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN.</description>
         </flag>
@@ -63,36 +68,33 @@
             <description>Windows with this style are allowed to have their shape changed with the SetShape() method.</description>
         </flag>
     </style>
-    <exstyle>
+    <style name="exstyle" label="Extra style">
         <flag name="wxFRAME_EX_CONTEXTHELP">
             <description>Under Windows, puts a query button on the caption. When pressed, Windows will go into a context-sensitive help mode and wxWidgets will send a wxEVT_HELP event if the user clicked on an application window. Note that this is an extended style and must be set by calling SetExtraStyle before Create is called (two-step construction). You cannot use this style together with wxMAXIMIZE_BOX or wxMINIMIZE_BOX, so you should use wxDEFAULT_FRAME_STYLE ~ (wxMINIMIZE_BOX | wxMAXIMIZE_BOX) for the frames having this style (the dialogs don't have a minimize or a maximize box by default)</description>
         </flag>
         <flag name="wxFRAME_EX_METAL">
             <description>On Mac OS X, frames with this style will be shown with a metallic look. This is an extra style.</description>
         </flag>
-    </exstyle>
+    </style>
     <event name="wxCloseEvent">
-        <type name="EVT_CLOSE">
+        <type name="wxEVT_CLOSE">
             <description>The frame is being closed by the user or programmatically (see wxWindow::Close). The user may generate this event clicking the close button (typically the 'X' on the top-right of the title bar) if it's present (see the wxCLOSE_BOX style).</description>
         </type>
     </event>
     <event name="wxIconizeEvent">
-        <type name="EVT_ICONIZE">
+        <type name="wxEVT_ICONIZE">
             <description>Process a wxEVT_ICONIZE event.</description>
         </type>
     </event>
     <event name="wxMenuEvent">
-        <type name="EVT_MENU_OPEN">
+        <type name="wxEVT_MENU_OPEN">
             <description>A menu is about to be opened.</description>
         </type>
-        <type name="EVT_MENU_CLOSE">
+        <type name="wxEVT_MENU_CLOSE">
             <description>A menu has been just closed.</description>
         </type>
-        <type name="EVT_MENU_HIGHLIGHT">
+        <type name="wxEVT_MENU_HIGHLIGHT">
             <description>The menu item with the specified id has been highlighted: used to show help prompts in the status bar by wxFrame.</description>
-        </type>
-        <type name="EVT_MENU_HIGHLIGHT_ALL">
-            <description>A menu item has been highlighted, i.e. the currently selected menu item has changed.</description>
         </type>
     </event>
 </class>

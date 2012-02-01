@@ -20,7 +20,7 @@ class DLLIMPEXP_CORE wxGUIDesigner
 {
 public:
     static wxGUIDesigner *Get();
-    void Free();
+    static void Free();
 
     wxFrame *GetMainFrame( wxWindow *parent );
     void NewProject();

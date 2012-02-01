@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        project.xml
+    Purpose:     Project class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/31
+    Revision:    $Hash$
+    Licence:     wxWindows licence
+-->
+<class name="Project" type="root">
+    <children>
+        <child type="toplevel" max="-1"/>
+    </children>
+</class>
