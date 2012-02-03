@@ -74,9 +74,9 @@
         <int name="Separation">
             <description>Default separator size, see wxToolBar::SetToolSeparation() (default: not set).</description>
         </int>
-        <size name="Don't attack to frame">
+        <bool name="Don't attack to frame">
             <description>If set to 0 and the toolbar object is child of a wxFrame, wxFrame::SetToolBar() is called; otherwise, you have to add it to a frame manually. The toolbar is attached by default, you have to set this property to 1 to disable this behaviour (default: 0).</description>
-        </size>
+        </bool>
         <event name="wxCommandEvent">
             <type name="wxEVT_COMMAND_TOOL_CLICKED">
                 <description>Process a wxEVT_COMMAND_TOOL_CLICKED event (a synonym for wxEVT_COMMAND_MENU_SELECTED). Pass the id of the tool.</description>

@@ -27,7 +27,7 @@ public:
     wxBitmap            GetAsBitmap()       const;
     bool                GetAsBool()         const;
     wxColour            GetAsColour()       const;
-    float               GetAsFloat()        const;
+    double              GetAsDouble()       const;
     wxFont              GetAsFont()         const;
     int                 GetAsInt()          const;
     wxPoint             GetAsPoint()        const;

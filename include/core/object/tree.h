@@ -65,15 +65,15 @@ public:
     PropertyType    GetType()        const { return m_info->GetType(); }
     PropertyInfo    GetInfo()        const { return m_info; }
 
-    void            AddChild( Property prop )   { m_children.push_back( prop ); }
-    size_t          GetChildCount()             { return m_children.size(); }
+    void            AddChild( Property prop ) { m_children.push_back( prop ); }
+    size_t          GetChildCount()           { return m_children.size(); }
     Property        GetChild( size_t index ) const;
 
     wxArrayString   GetAsArrayString()  const;
     wxBitmap        GetAsBitmap()       const;
     bool            GetAsBool()         const;
     wxColour        GetAsColour()       const;
-    float           GetAsFloat()        const;
+    double          GetAsDouble()        const;
     wxFont          GetAsFont()         const;
     int             GetAsInt()          const;
     wxPoint         GetAsPoint()        const;
@@ -105,7 +105,7 @@ public:
 
     ClassInfo   GetClassInfo() const            { return m_info; }
 
-    bool        IsRoot() { return m_info->GetType() == CLASS_TYPE_ROOT; }
+    bool        IsRoot()    { return m_info->GetType() == CLASS_TYPE_ROOT; }
     bool        IsExpanded()                    { return m_expanded; }
     void        Collapse()                      { m_expanded = false; }
     void        Expand()                        { m_expanded = true; }

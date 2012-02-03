@@ -125,12 +125,12 @@ wxColour PropertyNode::GetAsColour() const
     return wxColour();
 }
 
-float PropertyNode::GetAsFloat() const
+double PropertyNode::GetAsDouble() const
 {
-    if ( m_value.CheckType< float >() )
-        return m_value.As< float >();
+    if ( m_value.CheckType< double >() )
+        return m_value.As< double >();
 
-    return 0;
+    return 0.0;
 }
 
 wxFont PropertyNode::GetAsFont() const

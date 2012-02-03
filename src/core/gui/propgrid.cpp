@@ -240,6 +240,18 @@ void PropBookHandler::LoadProperties( Object object )
                     if ( pgChild )
                         pgProp->AppendChild( pgChild );
                 }
+
+                ClassInfo info =
+                    ClassInfoDB::Get()->GetClassInfo( prop->GetName() );
+
+                if ( info.get() && info->IsTypeOf( CLASS_TYPE_ABSTRACT ) )
+                {
+                    pgProp->SetBackgroundColour( wxColour( 255, 255, 225 ) );
+                }
+                else if ( info.get() && info->IsTypeOf( CLASS_TYPE_ITEM ) )
+                {
+                    pgProp->SetBackgroundColour( wxColour( 225, 255, 255 ) );
+                }
             }
             else
             {
@@ -260,7 +272,12 @@ wxPGProperty *PropBookHandler::AddProperty( Property prop )
         {
             return new wxArrayStringProperty( prop->GetLabel(), prop->GetName(),
                                               prop->GetAsArrayString() );
-        }
+        }/*
+        case PROPERTY_TYPE_BITMAP:
+        {
+            return new wxBitmapProperty( prop->GetLabel(), prop->GetName(),
+                                         prop->GetAsBitmap() );
+        }*/
         case PROPERTY_TYPE_BOOL:
         {
             wxPGProperty *pgProp =
@@ -278,6 +295,44 @@ wxPGProperty *PropBookHandler::AddProperty( Property prop )
         {
             return new wxSystemColourProperty( prop->GetLabel(), prop->GetName(),
                                                prop->GetAsColour() );
+        }/*
+        case PROPERTY_TYPE_DIMENSION:
+        {
+            return new wxDimensionProperty( prop->GetLabel(), prop->GetName(),
+                                            prop->GetAsDimension() );
+        }*/
+        case PROPERTY_TYPE_FLOAT:
+        case PROPERTY_TYPE_DOUBLE:
+        {
+            return new wxFloatProperty( prop->GetLabel(), prop->GetName(),
+                                        prop->GetAsDouble() );
+        }
+        case PROPERTY_TYPE_ENUM:
+        {
+            wxArrayString flagNames;
+            wxArrayInt    flagValues;
+
+            for ( size_t i = 0; i < prop->GetInfo()->GetChildCount(); i++ )
+            {
+                wxString name = prop->GetInfo()->GetChild( i )->GetName();
+                int      flag = wxFlagsManager::Get()->GetFlag( name );
+
+                flagNames.Add( name );
+                flagValues.Add( flag );
+            }
+    
+            return new wxEnumProperty( prop->GetLabel(), prop->GetName(),
+                                    flagNames, flagValues, prop->GetAsInt() );
+        }
+        case PROPERTY_TYPE_FONT:
+        {
+            return new wxFontProperty( prop->GetLabel(), prop->GetName(),
+                                       prop->GetAsFont() );
+        }
+        case PROPERTY_TYPE_INT:
+        {
+            return new wxIntProperty( prop->GetLabel(), prop->GetName(),
+                                      prop->GetAsInt() );
         }
         case PROPERTY_TYPE_NAME:
         case PROPERTY_TYPE_STRING:
@@ -294,8 +349,14 @@ wxPGProperty *PropBookHandler::AddProperty( Property prop )
         case PROPERTY_TYPE_SIZE:
         {
             return new wxPointProperty( prop->GetLabel(), prop->GetName(),
-                                       prop->GetAsPoint() );
+                                        prop->GetAsPoint() );
         }
+        case PROPERTY_TYPE_URL:
+        {
+            return new wxFileProperty( prop->GetLabel(), prop->GetName(),
+                                       prop->GetAsURL() );
+        }
+        case PROPERTY_TYPE_FLAG:
         case PROPERTY_TYPE_STYLE:
         {
             wxArrayString styleNames;
@@ -311,8 +372,8 @@ wxPGProperty *PropBookHandler::AddProperty( Property prop )
             }
 
             wxPGProperty *pgProp =
-                    new wxFlagsProperty( prop->GetLabel(), prop->GetName(),
-                                        styleNames, styleValues );
+                new wxFlagsProperty( prop->GetLabel(), prop->GetName(),
+                                    styleNames, styleValues, prop->GetAsInt() );
 
             pgProp->SetAttribute( wxPG_BOOL_USE_CHECKBOX, true );
             return pgProp;
