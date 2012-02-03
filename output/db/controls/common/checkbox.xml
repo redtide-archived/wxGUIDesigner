@@ -31,7 +31,7 @@
         <description>Should the checkbox be checked initially (default: 0)?</description>
     </bool>
     <event name="wxCommandEvent">
-        <type name="EVT_CHECKBOX">
+        <type name="wxEVT_COMMAND_CHECKBOX_CLICKED">
             <description>Process a wxEVT_COMMAND_CHECKBOX_CLICKED event, when the checkbox is clicked.</description>
         </type>
     </event>

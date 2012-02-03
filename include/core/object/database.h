@@ -9,8 +9,8 @@
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef __CORE_WIDGET_DATABASE_H__
-#define __CORE_WIDGET_DATABASE_H__
+#ifndef __CORE_OBJECT_DATABASE_H__
+#define __CORE_OBJECT_DATABASE_H__
 
 #include "core/defs.h"
 
@@ -31,16 +31,19 @@ public:
                    const wxString &description = wxEmptyString );
     ~EventInfoNode();
 
-    wxString GetClassName()         { return m_name; }
-    wxString GetClassDescription()  { return m_desc; }
+    wxString GetName()          { return m_name; }
+    wxString GetDescription()   { return m_desc; }
 
-    wxString GetTypeName            ( size_t index );
-    wxString GetTypeDescription     ( size_t index );
-    size_t   GetTypeCount()         { return m_types.size(); }
-
-    void AddType( const wxString &name, const wxString &description );
+    wxString GetTypeName        ( size_t index );
+    wxString GetTypeDescription ( size_t index );
+    size_t   GetTypeCount()     { return m_types.size(); }
 
 private:
+    friend class ClassInfoDB;
+
+    void AddDescription( const wxString &description ) { m_desc = description; }
+    void AddType( const wxString &name, const wxString &description );
+
     wxString    m_name;
     wxString    m_desc;
     EventTypes  m_types;
@@ -66,7 +69,8 @@ public:
     wxString     GetDescription()   { return m_desc; }
     size_t       GetChildCount()    { return m_children.size(); }
 
-    void AddChild( const wxString &name, PropertyInfo info );
+    PropertyInfo GetChild( size_t index );
+    void         AddChild( const wxString &name, PropertyInfo info );
 
 private:
     friend class ClassInfoDB;
@@ -74,7 +78,7 @@ private:
     void SetDefaultValue( const wxString &value )     { m_value = value; }
     void SetDescription( const wxString &description ){ m_desc  = description; }
 
-    PropertyInfoMap m_children;
+    PropertyInfos   m_children;
     PropertyType    m_type;
     wxString        m_name, m_label, m_value, m_desc;
 };
@@ -88,8 +92,9 @@ public:
     ClassNode( const wxString &className, ClassType type = CLASS_TYPE_WIDGET );
     ~ClassNode();
 
-    wxString        GetClassName()  const   { return m_name; }
-    ClassType       GetType()       const   { return m_type; }
+    wxString        GetName()        const { return m_name; }
+    wxString        GetDescription() const { return m_desc; }
+    ClassType       GetType()        const { return m_type; }
 
     int             GetMaxAllowedBy( const wxString &parentClsName ) const;
     bool            IsKindOf( const wxString &className );
@@ -123,6 +128,7 @@ private:
     size_t GetChildNameCount() { return m_childNames.size(); }
 
     wxString        m_name;
+    wxString        m_desc;
     ClassType       m_type;
     wxArrayString   m_bases;
     EventInfos      m_events;
@@ -143,9 +149,9 @@ public:
     static ClassInfoDB *Get();
     static void Free();
 
-    bool         ClassInfoExists( const wxString &name );
-    ClassInfo    GetClassInfo   ( const wxString &name ) const;
-    PropertyType GetPropertyType( const wxString &name ) const;
+    bool            ClassInfoExists( const wxString &name );
+    ClassInfo       GetClassInfo   ( const wxString &name ) const;
+    PropertyType    GetPropertyType( const wxString &name ) const;
 
 private:
     ClassInfoDB();
@@ -154,23 +160,22 @@ private:
     ClassInfoDB( const ClassInfoDB & );
     ClassInfoDB& operator=( ClassInfoDB const & );
 
-    bool InitClassList( const wxString &path );
-    void InitPropertyTypes();
-    void Init();
+    bool            InitClassList( const wxString &path );
+    void            InitPropertyTypes();
+    void            Init();
 
-    bool LoadXML    ( const wxString &path );
-    bool CheckClass ( const wxString &name );
-    void Parse      ( wxXmlNode *node, bool recursively = false );
+    bool            LoadXML    ( const wxString &path );
+    bool            CheckClass ( const wxString &name );
+    void            Parse      ( wxXmlNode *node, bool recursively = false );
 
-    EventInfo    DoGetEventInfo     ( wxXmlNode *eventNode );
-    PropertyInfo DoGetPropertyInfo  ( wxXmlNode *propertyNode );
+    EventInfo       DoGetEventInfo     ( wxXmlNode *eventNode );
+    PropertyInfo    DoGetPropertyInfo  ( wxXmlNode *propertyNode );
 
     ClassInfoMap    m_classes;
     PropertyTypeMap m_types;
-
-    wxArrayString m_classList;
+    wxArrayString   m_classList;
 
     static ClassInfoDB *ms_instance;
 };
 
-#endif //__CORE_WIDGET_DATABASE_H__
+#endif //__CORE_OBJECT_DATABASE_H__

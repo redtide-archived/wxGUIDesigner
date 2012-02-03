@@ -27,7 +27,7 @@
         <description>Bitmap to show on the button (required).</description>
     </bitmap>
     <event name="wxCommandEvent">
-        <type name="EVT_BUTTON">
+        <type name="wxEVT_COMMAND_BUTTON_CLICKED">
             <description>Process a wxEVT_COMMAND_BUTTON_CLICKED event, when the button is clicked.</description>
         </type>
     </event>

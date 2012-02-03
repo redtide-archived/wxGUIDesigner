@@ -15,13 +15,13 @@
     </inherits>
     <children>
         <child type="widget"      max="1"/>
-        <class name="wxSizer"     max="1"/>
+        <child type="layout"      max="1"/>
         <class name="wxMenuBar"   max="1"/>
         <class name="wxStatusBar" max="1"/>
         <class name="wxToolBar"   max="1"/>
     </children>
     <name label="Name">m_frame</name>
-    <style label="Style">
+    <style label="Frame style">
         <flag name="wxDEFAULT_FRAME_STYLE">
             <description>Defined as wxMINIMIZE_BOX | wxMAXIMIZE_BOX | wxRESIZE_BORDER | wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN.</description>
         </flag>
@@ -68,7 +68,7 @@
             <description>Windows with this style are allowed to have their shape changed with the SetShape() method.</description>
         </flag>
     </style>
-    <style name="exstyle" label="Extra style">
+    <style label="Frame extra style" xrc="exstyle">
         <flag name="wxFRAME_EX_CONTEXTHELP">
             <description>Under Windows, puts a query button on the caption. When pressed, Windows will go into a context-sensitive help mode and wxWidgets will send a wxEVT_HELP event if the user clicked on an application window. Note that this is an extended style and must be set by calling SetExtraStyle before Create is called (two-step construction). You cannot use this style together with wxMAXIMIZE_BOX or wxMINIMIZE_BOX, so you should use wxDEFAULT_FRAME_STYLE ~ (wxMINIMIZE_BOX | wxMAXIMIZE_BOX) for the frames having this style (the dialogs don't have a minimize or a maximize box by default)</description>
         </flag>
@@ -82,11 +82,13 @@
         </type>
     </event>
     <event name="wxIconizeEvent">
+        <description>&lt;p&gt;An event being sent when the frame is iconized (minimized) or restored.&lt;/p&gt;&lt;p&gt;Currently only wxMSW and wxGTK generate such events.&lt;/p&gt;</description>
         <type name="wxEVT_ICONIZE">
             <description>Process a wxEVT_ICONIZE event.</description>
         </type>
     </event>
     <event name="wxMenuEvent">
+        <description>&lt;p&gt;This class is used for a variety of menu-related events.&lt;/p&gt;&lt;p&gt;Note that these do not include menu command events, which are handled using wxCommandEvent objects.&lt;/p&gt;&lt;p&gt;The default handler for wxEVT_MENU_HIGHLIGHT displays help text in the first field of the status bar.&lt;/p&gt;</description>
         <type name="wxEVT_MENU_OPEN">
             <description>A menu is about to be opened.</description>
         </type>

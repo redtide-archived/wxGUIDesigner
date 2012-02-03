@@ -78,28 +78,19 @@
             <description>If set to 0 and the toolbar object is child of a wxFrame, wxFrame::SetToolBar() is called; otherwise, you have to add it to a frame manually. The toolbar is attached by default, you have to set this property to 1 to disable this behaviour (default: 0).</description>
         </size>
         <event name="wxCommandEvent">
-            <type name="EVT_TOOL">
+            <type name="wxEVT_COMMAND_TOOL_CLICKED">
                 <description>Process a wxEVT_COMMAND_TOOL_CLICKED event (a synonym for wxEVT_COMMAND_MENU_SELECTED). Pass the id of the tool.</description>
             </type>
-            <type name="EVT_MENU">
-                <description>The same as EVT_TOOL().</description>
+            <type name="wxEVT_COMMAND_MENU_SELECTED">
+                <description>The same as wxEVT_COMMAND_TOOL_CLICKED.</description>
             </type>
-            <type name="EVT_TOOL_RANGE">
-                <description>Process a wxEVT_COMMAND_TOOL_CLICKED event for a range of identifiers. Pass the ids of the tools.</description>
-            </type>
-            <type name="EVT_MENU_RANGE">
-                <description>The same as EVT_TOOL_RANGE()</description>
-            </type>
-            <type name="EVT_TOOL_RCLICKED">
+            <type name="wxEVT_COMMAND_TOOL_RCLICKED">
                 <description>Process a wxEVT_COMMAND_TOOL_RCLICKED event. Pass the id of the tool. (Not available on wxOSX.)</description>
              </type>
-            <type name="EVT_TOOL_RCLICKED_RANGE">
-                <description>Process a wxEVT_COMMAND_TOOL_RCLICKED event for a range of ids. Pass the ids of the tools. (Not available on wxOSX.)</description>
-            </type>
-            <type name="EVT_TOOL_ENTER">
+            <type name="wxEVT_COMMAND_TOOL_ENTER">
                 <description>Process a wxEVT_COMMAND_TOOL_ENTER event. Pass the id of the toolbar itself. The value of wxCommandEvent::GetSelection() is the tool id, or -1 if the mouse cursor has moved off a tool. (Not available on wxOSX.)</description>
             </type>
-            <type name="EVT_TOOL_DROPDOWN">
+            <type name="wxEVT_COMMAND_TOOL_DROPDOWN_CLICKED">
                 <description>Process a wxEVT_COMMAND_TOOL_DROPDOWN_CLICKED event. If unhandled, displays the default dropdown menu set using wxToolBar::SetDropdownMenu().</description>
             </type>
         </event>

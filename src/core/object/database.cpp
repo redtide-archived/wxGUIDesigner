@@ -74,21 +74,27 @@ PropertyInfoNode::PropertyInfoNode( PropertyType type,
 
 PropertyInfoNode::~PropertyInfoNode()
 {
-    m_children.erase( m_children.begin(), m_children.end() );
+    m_children.clear();
 }
 
 void PropertyInfoNode::AddChild( const wxString &name, PropertyInfo info )
 {
-    m_children.insert( PropertyInfoMap::value_type( name, info ) );
+    m_children.push_back( info );
 }
 
+PropertyInfo PropertyInfoNode::GetChild( size_t index )
+{
+    if ( index < m_children.size() )
+        return m_children.at( index );
+
+    return PropertyInfo();
+}
 //-----------------------------------------------------------------------------
 //  ClassNode
 //-----------------------------------------------------------------------------
 
 ClassNode::ClassNode( const wxString &className, ClassType type )
-                            : m_name( className ),
-                              m_type( type )
+                            : m_name( className ), m_type( type )
 {
 }
 
@@ -407,7 +413,11 @@ void ClassInfoDB::Parse( wxXmlNode *classNode, bool recursively )
     wxXmlNode *node = classNode->GetChildren();
     while ( node )
     {
-        if ( node->GetName() == "inherits" )
+        if ( node->GetName() == "description" )
+        {
+            clsInfo->m_desc = node->GetNodeContent();
+        }
+        else if ( node->GetName() == "inherits" )
         {
             wxXmlNode *childNode = node->GetChildren();
             while ( childNode && childNode->GetName() == "class" )
@@ -474,7 +484,6 @@ void ClassInfoDB::Parse( wxXmlNode *classNode, bool recursively )
 EventInfo ClassInfoDB::DoGetEventInfo( wxXmlNode *eventNode )
 {
     wxString evtClsName = eventNode->GetAttribute("name");
-
     if ( evtClsName.empty() )
     {
         wxLogError("Event info without a name in class '%s'",
@@ -484,21 +493,27 @@ EventInfo ClassInfoDB::DoGetEventInfo( wxXmlNode *eventNode )
 
     EventInfo evtInfo( new EventInfoNode( evtClsName ) );
 
-    wxXmlNode *evtTypeNode = eventNode->GetChildren();
-    while ( evtTypeNode && evtTypeNode->GetName() == "type" )
+    wxXmlNode *node = eventNode->GetChildren();
+    while ( node )
     {
-        wxString evtTypeName = evtTypeNode->GetAttribute("name");
-        wxString evtTypeDesc = wxEmptyString;
-
-        wxXmlNode *descNode = evtTypeNode->GetChildren();
-        if ( descNode && descNode->GetName() == "description" )
+        if ( node->GetName() == "description" )
         {
-            evtTypeDesc = descNode->GetNodeContent();
+            evtInfo->AddDescription( node->GetNodeContent() );
+        }
+        else if ( node->GetName() == "type" )
+        {
+            wxString evtTypeDesc = wxEmptyString;
+
+            wxXmlNode *descNode = node->GetChildren();
+            if ( descNode && descNode->GetName() == "description" )
+            {
+                evtTypeDesc = descNode->GetNodeContent();
+            }
+
+            evtInfo->AddType( node->GetAttribute("name"), evtTypeDesc );
         }
 
-        evtInfo->AddType( evtTypeName, evtTypeDesc );
-
-        evtTypeNode = evtTypeNode->GetNext();
+        node = node->GetNext();
     }
 
     return evtInfo;
@@ -511,13 +526,23 @@ PropertyInfo ClassInfoDB::DoGetPropertyInfo( wxXmlNode *propertyNode )
 
     if ( type != PROPERTY_TYPE_UNKNOWN )
     {
-        wxString name = propertyNode->GetAttribute("name");
-        if ( name.empty() )
-            name = propertyNode->GetName();
-
+        wxString name  = propertyNode->GetAttribute("name");
         wxString label = propertyNode->GetAttribute("label");
-        if ( label.empty() )
+
+        // At least one attribute is mandatory
+        if ( label.empty() && name.empty() )
+        {
+            return propInfo;
+        }
+        else if ( label.empty() )
+        {
             label = name.Capitalize();
+        }
+        else // name.empty()
+        {
+            name = label.Lower();
+            name.Replace( " ", "_" );
+        }
 
         wxXmlNode *childNode = propertyNode->GetChildren();
 

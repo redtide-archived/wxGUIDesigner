@@ -36,10 +36,10 @@
             </flag>
         </style>
         <event name="wxBookCtrlEvent">
-            <type name="EVT_CHOICEBOOK_PAGE_CHANGED">
+            <type name="wxEVT_COMMAND_CHOICEBOOK_PAGE_CHANGED">
                 <description>The page selection was changed. Processes a wxEVT_COMMAND_CHOICEBOOK_PAGE_CHANGED event.</description>
             </type>
-            <type name="EVT_CHOICEBOOK_PAGE_CHANGING">
+            <type name="wxEVT_COMMAND_CHOICEBOOK_PAGE_CHANGING">
                 <description>The page selection is about to be changed. Processes a wxEVT_COMMAND_CHOICEBOOK_PAGE_CHANGING event. This event can be vetoed (using wxNotifyEvent::Veto()).</description>
             </type>
         </event>

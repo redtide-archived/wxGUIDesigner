@@ -30,8 +30,10 @@ class PropBookHandler : public IObjectHandler
     virtual void OnObjectExpanded( Object object );
     virtual void OnObjectSelected( Object object );
 
-    void OnPGChanged(  wxPropertyGridEvent &event );
-    void OnEGChanged(  wxPropertyGridEvent &event );
+    void OnPGChanged( wxPropertyGridEvent &event );
+    void OnEGChanged( wxPropertyGridEvent &event );
+    void OnPGSelected( wxPropertyGridEvent &event );
+    void OnEGSelected( wxPropertyGridEvent &event );
     void OnEGDblClick( wxPropertyGridEvent &event );
 
     void OnSize( wxSizeEvent &event );

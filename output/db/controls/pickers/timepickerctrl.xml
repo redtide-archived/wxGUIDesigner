@@ -14,7 +14,7 @@
     </inherits>
     <name>m_timePickerCtrl</name>
     <event name="wxDateEvent">
-        <type name="EVT_TIME_CHANGED">
+        <type name="wxEVT_DATE_CHANGED">
             <description>This event fires when the user changes the current selection in the control.</description>
         </type>
     </event>

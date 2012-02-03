@@ -14,11 +14,11 @@
         <class>wxWindow</class>
     </inherits>
     <children>
-        <child type="widget"  max="1"/>
-        <class name="wxSizer" max="1"/>
+        <child type="widget" max="1"/>
+        <child type="layout" max="1"/>
     </children>
     <name label="Name">m_dialog</name>
-    <style label="Style">
+    <style label="Dialog style">
         <flag name="wxDEFAULT_DIALOG_STYLE">
             <description>Equivalent to a combination of wxCAPTION, wxCLOSE_BOX and wxSYSTEM_MENU (the last one is not used under Unix).</description>
         </flag>
@@ -50,7 +50,7 @@
             <description>By default, a dialog created with a NULL parent window will be given the application's top level window as parent. Use this style to prevent this from happening and create an orphan dialog. This is not recommended for modal dialogs.</description>
         </flag>
     </style>
-    <style name="exstyle" label="Extra style">
+    <style label="Dialog extra style" xrc="exstyle">
         <flag name="wxDIALOG_EX_CONTEXTHELP">
             <description>Under Windows, puts a query button on the caption. When pressed, Windows will go into a context-sensitive help mode and wxWidgets will send a wxEVT_HELP event if the user clicked on an application window. Note that this is an extended style and must be set by calling SetExtraStyle() before Create is called (two-step construction).</description>
         </flag>

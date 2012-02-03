@@ -13,9 +13,11 @@
 #include "core/gui/iconprovider.h"
 #include "core/gui/manager.h"
 #include "core/object/database.h"
+#include "core/object/flags.h"
 
 wxGUIDesigner::wxGUIDesigner()
 {
+    wxFlagsManager::Get();
     ClassInfoDB::Get();
 }
 
@@ -23,6 +25,7 @@ wxGUIDesigner::~wxGUIDesigner()
 {
     GUIManager::Free();
     ClassInfoDB::Free();
+    wxFlagsManager::Free();
 }
 
 wxGUIDesigner *wxGUIDesigner::ms_instance = NULL;

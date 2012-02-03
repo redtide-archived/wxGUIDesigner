@@ -14,6 +14,7 @@
 #include <wx/gdicmn.h>
 #include <wx/event.h>
 #include <wx/font.h>
+#include <wx/tokenzr.h>
 
 #include <wx/log.h>
 //*****************************************************************************
@@ -121,7 +122,7 @@ wxColour PropertyNode::GetAsColour() const
     if ( m_value.CheckType< wxColour >() )
         return m_value.As< wxColour >();
 
-    return wxColour( *wxBLACK );
+    return wxColour();
 }
 
 float PropertyNode::GetAsFloat() const
@@ -172,9 +173,12 @@ wxString PropertyNode::GetAsString() const
     return wxEmptyString;
 }
 
-long PropertyNode::GetAsStyle() const
+int PropertyNode::GetAsStyle() const
 {
-    return GetAsInt();
+    if ( m_value.CheckType< int >() )
+        return m_value.As< int >();
+
+    return 0;
 }
 
 wxString PropertyNode::GetAsText() const
@@ -234,7 +238,7 @@ Event ObjectNode::GetEvent( const wxString &name )
     for ( Events::iterator it = m_events.begin();
                                 it != m_events.end(); ++it )
     {
-        if ( (*it)->GetClassName() == name )
+        if ( (*it)->GetName() == name )
             return *it;
     }
 
@@ -257,12 +261,28 @@ Property ObjectNode::GetProperty( size_t index )
     return Property();
 }
 
+Property ObjectNode::GetChildProperty( Property parent, const wxString &name )
+{
+    for ( size_t i = 0; i < parent->GetChildCount(); i++ )
+    {
+        Property prop = parent->GetChild( i );
+        if ( prop.get() && prop->GetName() == name )
+            return prop;
+    }
+
+    return Property();
+}
+
 Property ObjectNode::GetProperty( const wxString &name )
 {
     for ( Properties::iterator it = m_props.begin(); it != m_props.end(); ++it )
     {
         if ( (*it)->GetName() == name )
             return *it;
+
+        Property prop = GetChildProperty( *it, name );
+        if ( prop.get() && prop->GetName() == name )
+            return prop;
     }
 
     return Property();
@@ -348,13 +368,12 @@ size_t ObjectTree::GetChildCountByType( Object object, ClassType clsType )
 
 bool ObjectTree::CreateObject( const wxString &className )
 {
-/*
-    - Get the requested object class information
-    - Count how many children are allowed for the current object
-    - and how many are already created
+//  - Get the requested object class information
+//  - Count how many children are allowed for the current object
+//  - and how many are already created
 
-    This function is not called for the special root object.
-*/
+//  This function is not called for the special root object.
+
     ClassInfo   clsInfo = ClassInfoDB::Get()->GetClassInfo( className );
     int         count   = GetChildCountByType( m_sel, clsInfo->GetType() );
     int         max     = clsInfo->GetMaxAllowedBy( m_sel->GetClassName() );
@@ -435,8 +454,8 @@ bool ObjectTree::CreateObject( const wxString &className )
 
         if ( baseInfo.get() )
         {
-            PropertyInfo catInfo
-            ( new PropertyInfoNode( PROPERTY_TYPE_CATEGORY, baseName, baseName ) );
+            PropertyInfo catInfo( new PropertyInfoNode
+            ( PROPERTY_TYPE_CATEGORY, baseName, baseName ) );
 
             Property category( new PropertyNode( catInfo ) );
             object->AddProperty( category );

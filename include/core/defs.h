@@ -101,10 +101,10 @@ typedef std::pair< wxString, wxString >                 EventType;
 typedef std::pair< ClassType, int >                     AllowedChildType;
 
 // E.g. class name "wxSplitterWindow", max = 2 
-typedef std::pair< wxString,  int >                     AllowedChildName;
+typedef std::pair< wxString, int >                      AllowedChildName;
 
 typedef std::map< wxString, PropertyType >              PropertyTypeMap;
-typedef std::map< wxString, PropertyInfo >              PropertyInfoMap;
+//typedef std::map< wxString, PropertyInfo >              PropertyInfoMap;
 typedef std::map< wxString, ClassInfo >                 ClassInfoMap;
 typedef std::map< wxString, Event >                     EventMap;
 

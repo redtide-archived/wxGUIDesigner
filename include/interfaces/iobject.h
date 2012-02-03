@@ -24,8 +24,9 @@ public:
     IObjectNode() {}
     virtual ~IObjectNode() {}
 
-    virtual wxString GetClassName() const = 0;
-//  virtual wxString GetName()      const = 0;
+    virtual wxString GetClassName()   const = 0;
+    virtual wxString GetDescription() const = 0;
+//  virtual wxString GetName()        const = 0;
 };
 //-----------------------------------------------------------------------------
 // IObjectHandler Class Interface
@@ -36,10 +37,10 @@ class IObjectHandler
 public:
     virtual ~IObjectHandler() {}
 
-    virtual void OnObjectCreated ( Object object ) = 0;
-    virtual void OnObjectDeleted ( Object object ) = 0;
-    virtual void OnObjectExpanded( Object object ) = 0;
-    virtual void OnObjectSelected( Object object ) = 0;
+    virtual void OnObjectCreated ( Object ) = 0;
+    virtual void OnObjectDeleted ( Object ) = 0;
+    virtual void OnObjectExpanded( Object ) = 0;
+    virtual void OnObjectSelected( Object ) = 0;
 
 protected:
     IObjectHandler() {}
@@ -51,11 +52,11 @@ protected:
 class IObjectManager
 {
 public:
-    virtual bool CreateObject   ( const wxString &className ) = 0;
-    virtual void SelectObject   ( Object object, bool withEvent ) = 0;
+    virtual bool CreateObject   ( const wxString & ) = 0;
+    virtual void SelectObject   ( Object, bool ) = 0;
 
-    virtual void AddHandler     ( IObjectHandler *handler ) = 0;
-    virtual void RemoveHandler  ( IObjectHandler *handler ) = 0;
+    virtual void AddHandler     ( IObjectHandler * ) = 0;
+    virtual void RemoveHandler  ( IObjectHandler * ) = 0;
 
     virtual Object GetSelectObject() const = 0;
 

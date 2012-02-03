@@ -29,11 +29,11 @@ public:
 /**
     Returns the event class name.
 */
-    wxString GetClassName();
+    wxString GetName();
 /**
     Returns the event class description.
 */
-    wxString GetClassDescription();
+    wxString GetDescription();
 /**
     Returns the event type name at the given index.
 */
@@ -125,7 +125,7 @@ public:
 /**
     Returns the class name.
 */
-    wxString        GetClassName() const;
+    wxString        GetName() const;
 /**
     Returns if this class is a possible child of the specified class name.
     E.g. a wxButton can be a child of a toplevel (wxTopLevelWindow)

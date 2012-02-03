@@ -17,7 +17,7 @@
         <description>Should the button be checked/pressed initially (default: 0)?</description>
     </bool>
     <event name="wxCommandEvent">
-        <type name="EVT_TOGGLEBUTTON">
+        <type name="wxEVT_COMMAND_TOGGLEBUTTON_CLICKED">
             <description>Handles a wxEVT_COMMAND_TOGGLEBUTTON_CLICKED event.</description>
         </type>
     </event>

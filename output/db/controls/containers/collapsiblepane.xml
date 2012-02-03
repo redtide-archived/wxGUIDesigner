@@ -25,12 +25,12 @@
         <description>Should the pane be collapsed initially (default: 0)?</description>
     </bool>
     <event name="wxCollapsiblePaneEvent">
-        <type name="EVT_COLLAPSIBLEPANE_CHANGED">
+        <type name="wxEVT_COMMAND_COLLPANE_CHANGED">
             <description>The user expanded or collapsed the collapsible pane.</description>
         </type>
     </event>
     <event name="wxNavigationKeyEvent">
-        <type name="EVT_NAVIGATION_KEY">
+        <type name="wxEVT_NAVIGATION_KEY">
             <description>Process a navigation key event.</description>
         </type>
     </event>

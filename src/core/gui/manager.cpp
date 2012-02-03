@@ -406,10 +406,12 @@ wxNotebook *GUIManager::GetPropertyBook( wxWindow *parent )
 
             m_pgProps->Bind( wxEVT_PG_CHANGED,
                             &PropBookHandler::OnPGChanged, m_propBookHndlr );
-
+            m_pgProps->Bind( wxEVT_PG_SELECTED,
+                            &PropBookHandler::OnPGSelected, m_propBookHndlr );
             m_pgEvents->Bind( wxEVT_PG_CHANGED,
                             &PropBookHandler::OnEGChanged, m_propBookHndlr );
-
+            m_pgEvents->Bind( wxEVT_PG_SELECTED,
+                            &PropBookHandler::OnEGSelected, m_propBookHndlr );
             m_pgEvents->Bind( wxEVT_PG_DOUBLE_CLICK,
                             &PropBookHandler::OnEGDblClick, m_propBookHndlr );
         }

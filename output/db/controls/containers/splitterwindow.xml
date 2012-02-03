@@ -59,17 +59,17 @@
         <description>Sash gravity, see wxSplitterWindow::SetSashGravity() (default: not set).</description>
     </float>
     <event name="wxSplitterEvent">
-        <type name="EVT_SPLITTER_SASH_POS_CHANGING">
-            <description>The sash position is in the process of being changed. May be used to modify the position of the tracking bar to properly reflect the position that would be set if the drag were to be completed at this point. Processes a wxEVT_COMMAND_SPLITTER_SASH_POS_CHANGING event.</description>
+        <type name="wxEVT_COMMAND_SPLITTER_SASH_POS_CHANGING">
+            <description>The sash position is in the process of being changed. May be used to modify the position of the tracking bar to properly reflect the position that would be set if the drag were to be completed at this point.</description>
         </type>
-        <type name="EVT_SPLITTER_SASH_POS_CHANGED">
-            <description>The sash position was changed. May be used to modify the sash position before it is set, or to prevent the change from taking place. Processes a wxEVT_COMMAND_SPLITTER_SASH_POS_CHANGED event.</description>
+        <type name="wxEVT_COMMAND_SPLITTER_SASH_POS_CHANGED">
+            <description>The sash position was changed. May be used to modify the sash position before it is set, or to prevent the change from taking place</description>
         </type>
-        <type name="EVT_SPLITTER_UNSPLIT">
+        <type name="wxEVT_COMMAND_SPLITTER_UNSPLIT">
             <description>The splitter has been just unsplit. Processes a wxEVT_COMMAND_SPLITTER_UNSPLIT event.</description>
         </type>
-        <type name="EVT_SPLITTER_DCLICK">
-            <description>The sash was double clicked. The default behaviour is to unsplit the window when this happens (unless the minimum pane size has been set to a value greater than zero). Processes a wxEVT_COMMAND_SPLITTER_DOUBLECLICKED event.</description>
+        <type name="wxEVT_COMMAND_SPLITTER_DOUBLECLICKED">
+            <description>The sash was double clicked. The default behaviour is to unsplit the window when this happens (unless the minimum pane size has been set to a value greater than zero).</description>
         </type>
     </event>
 </class>

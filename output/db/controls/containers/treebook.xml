@@ -36,17 +36,17 @@
             </flag>
         </style>
         <event name="wxBookCtrlEvent">
-            <type name="EVT_TREEBOOK_PAGE_CHANGED">
-                <description>The page selection was changed. Processes a wxEVT_COMMAND_TOOLBOOK_PAGE_CHANGED event.</description>
+            <type name="wxEVT_COMMAND_TOOLBOOK_PAGE_CHANGED">
+                <description>The page selection was changed.</description>
             </type>
-            <type name="EVT_TREEBOOK_PAGE_CHANGING">
-                <description>The page selection is about to be changed. Processes a wxEVT_COMMAND_TOOLBOOK_PAGE_CHANGING event. This event can be vetoed (using wxNotifyEvent::Veto()).</description>
+            <type name="wxEVT_COMMAND_TOOLBOOK_PAGE_CHANGING">
+                <description>The page selection is about to be changed. This event can be vetoed (using wxNotifyEvent::Veto()).</description>
             </type>
-            <type name="EVT_TREEBOOK_NODE_COLLAPSED">
-                <description>The page node is going to be collapsed. Processes a wxEVT_COMMAND_TREEBOOK_NODE_COLLAPSED event.</description>
+            <type name="wxEVT_COMMAND_TREEBOOK_NODE_COLLAPSED">
+                <description>The page node is going to be collapsed.</description>
             </type>
-            <type name="EVT_TREEBOOK_NODE_EXPANDED">
-                <description>The page node is going to be expanded. Processes a wxEVT_COMMAND_TREEBOOK_NODE_EXPANDED event.</description>
+            <type name="wxEVT_COMMAND_TREEBOOK_NODE_EXPANDED">
+                <description>The page node is going to be expanded.</description>
             </type>
         </event>
     </class>

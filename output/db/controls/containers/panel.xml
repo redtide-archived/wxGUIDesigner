@@ -18,7 +18,7 @@
     </children>
     <name>m_panel</name>
     <event name="wxNavigationKeyEvent">
-        <type name="EVT_NAVIGATION_KEY">
+        <type name="wxEVT_NAVIGATION_KEY">
             <description>Process a navigation key event.</description>
         </type>
     </event>

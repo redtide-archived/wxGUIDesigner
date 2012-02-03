@@ -45,16 +45,16 @@ public:
     derived class instances.
 
     @beginEventEmissionTable
-    @event{EVT_WIDGET_CREATING(func)}
-        Process a @c wxEVT_WIDGET_CREATE event. See WidgetEvent.
+    @event{EVT_OBJECT_CREATING(func)}
+        Process a @c wxEVT_OBJECT_CREATE event. See WidgetEvent.
     @event{EVT_OBJECT_CREATED(func)}
-        Process a @c wxEVT_WIDGET_CREATED event. See WidgetEvent.
+        Process a @c wxEVT_OBJECT_CREATED event. See WidgetEvent.
     @event{EVT_OBJECT_SELECTED(func)}
-        Process a @c wxEVT_WIDGET_SELECTED event. See WidgetEvent.
-    @event{EVT_WIDGET_DELETE(func)}
-        Process a @c wxEVT_WIDGET_DELETE event. See WidgetEvent.
+        Process a @c wxEVT_OBJECT_SELECTED event. See WidgetEvent.
+    @event{EVT_OBJECT_DELETE(func)}
+        Process a @c wxEVT_OBJECT_DELETE event. See WidgetEvent.
     @event{EVT_OBJECT_DELETED(func)}
-        Process a @c wxEVT_WIDGET_DELETED event. See WidgetEvent.
+        Process a @c wxEVT_OBJECT_DELETED event. See WidgetEvent.
     @endEventTable
 
     @library{core}

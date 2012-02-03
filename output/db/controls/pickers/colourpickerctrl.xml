@@ -28,7 +28,7 @@
         <description>Initial value of the control (default: wxBLACK).</description>
     </colour>
     <event name="wxColourPickerEvent">
-        <type name="EVT_COLOURPICKER_CHANGED">
+        <type name="wxEVT_COMMAND_COLOURPICKER_CHANGED">
             <description>The user changed the colour selected in the control either using the button or using text control (see wxCLRP_USE_TEXTCTRL; note that in this case the event is fired only if the user’s input is valid, i.e. recognizable).</description>
         </type>
     </event>

@@ -33,8 +33,8 @@ public:
     EventNode( EventInfo eventInfo );
     ~EventNode();
 
-    wxString GetClassName()         { return m_info->GetClassName(); }
-    wxString GetClassDescription()  { return m_info->GetClassDescription(); }
+    wxString GetName()         { return m_info->GetName(); }
+    wxString GetDescription()  { return m_info->GetDescription(); }
 
     wxString GetHandlerName     ( size_t evtTypeIndex ) const;
     bool     SetHandlerName     ( size_t evtTypeIndex, const wxString &name );
@@ -63,6 +63,7 @@ public:
     wxString        GetLabel()       const { return m_info->GetLabel(); }
     wxString        GetDescription() const { return m_info->GetDescription(); }
     PropertyType    GetType()        const { return m_info->GetType(); }
+    PropertyInfo    GetInfo()        const { return m_info; }
 
     void            AddChild( Property prop )   { m_children.push_back( prop ); }
     size_t          GetChildCount()             { return m_children.size(); }
@@ -78,7 +79,7 @@ public:
     wxPoint         GetAsPoint()        const;
     wxSize          GetAsSize()         const;
     wxString        GetAsString()       const;
-    long            GetAsStyle()        const;
+    int             GetAsStyle()        const;
     wxString        GetAsText()         const;
     wxString        GetAsURL()          const;
 
@@ -99,7 +100,8 @@ public:
     ~ObjectNode();
 
 //  virtual wxString GetNameValue() const;
-    virtual wxString GetClassName() const { return m_info->GetClassName(); }
+    virtual wxString GetClassName()   const { return m_info->GetName(); }
+    virtual wxString GetDescription() const { return m_info->GetDescription(); }
 
     ClassInfo   GetClassInfo() const            { return m_info; }
 
@@ -134,13 +136,15 @@ public:
     size_t      GetChildCount()             { return m_children.size(); }
 
 private:
-    Object          m_parent;
-    Objects         m_children;
-    ClassInfo       m_info;
-    ClassInfos      m_baseinfos;
-    bool            m_expanded;
-    Events          m_events;
-    Properties      m_props;
+    Property    GetChildProperty( Property parent, const wxString &name );
+
+    Object      m_parent;
+    Objects     m_children;
+    ClassInfo   m_info;
+    ClassInfos  m_baseinfos;
+    bool        m_expanded;
+    Events      m_events;
+    Properties  m_props;
 };
 
 //-----------------------------------------------------------------------------
