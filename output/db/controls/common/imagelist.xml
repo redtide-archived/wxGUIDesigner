@@ -12,11 +12,14 @@
     <bitmap>
         <description>Adds a new image by keeping its optional mask bitmap.</description>
     </bitmap>
+    <name>
+        <value>m_imgList</value>
+    </name>
     <bool name="mask">
         <value>1</value>
         <description>If masks should be created for all images (default: true).</description>
     </bool>
-    <size>
+    <size name="size">
         <description>The size of the images in the list (default: the size of the first bitmap).</description>
     </size>
 </class>

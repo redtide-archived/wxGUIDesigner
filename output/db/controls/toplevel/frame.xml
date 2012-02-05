@@ -20,7 +20,9 @@
         <class name="wxStatusBar" max="1"/>
         <class name="wxToolBar"   max="1"/>
     </children>
-    <name label="Name">m_frame</name>
+    <name>
+        <value>m_frame</value>
+    </name>
     <style label="Frame style">
         <flag name="wxDEFAULT_FRAME_STYLE">
             <description>Defined as wxMINIMIZE_BOX | wxMAXIMIZE_BOX | wxRESIZE_BORDER | wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN.</description>

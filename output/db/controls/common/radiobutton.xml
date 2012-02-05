@@ -12,7 +12,9 @@
     <inherits>
         <class>wxControl</class>
     </inherits>
-    <name>m_radioBtn</name>
+    <name>
+        <value>m_radioBtn</value>
+    </name>
     <style>
         <flag name="wxRB_GROUP">
             <description>Marks the beginning of a new group of radio buttons.</description>

@@ -17,7 +17,9 @@
             <class name="toolbookpage" max="-1"/>
             <class name="wxImageList"  max="1"/>
         </children>
-        <name>m_toolBook</name>
+        <name>
+            <value>m_toolBook</value>
+        </name>
         <style>
             <flag name="wxBK_DEFAULT">
                 <description>Native controller placement.</description>

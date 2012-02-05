@@ -16,7 +16,9 @@
         <children>
             <class name="checklistboxitem" max="-1"/>
         </children>
-        <name>m_chkLstBox</name>
+        <name>
+            <value>m_chkLstBox</value>
+        </name>
         <items name="content">
             <description>Content of the control; this property has any number of &gt;item&lt; XML elements as its children, with the items text as their text values (see below; default: empty).</description>
         </items>

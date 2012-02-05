@@ -12,7 +12,9 @@
     <inherits>
         <class>wxControl</class>
     </inherits>
-    <name>m_gauge</name>
+    <name>
+        <value>m_gauge</value>
+    </name>
     <style>
         <flag name="wxGA_HORIZONTAL">
             <description>Creates a horizontal gauge.</description>
@@ -25,7 +27,7 @@
         </flag>
     </style>
     <int name="range">
-        <value>100</value>
+            <value>100</value>
         <description>Maximum value of the gauge (default: 100).</description>
     </int>
     <int name="value">

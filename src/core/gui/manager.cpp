@@ -145,29 +145,6 @@ GUIManager *GUIManager::Get()
     return ms_instance;
 }
 
-wxDialog *GUIManager::GetAboutDialog( wxWindow *parent )
-{
-    wxDialog *dlg = wxXmlResource::Get()->LoadDialog( parent, "About" );
-
-    return dlg;
-}
-
-wxMenuBar *GUIManager::GetMainMenu( wxWindow *parent )
-{
-    if ( !m_menuBar )
-        m_menuBar  = wxXmlResource::Get()->LoadMenuBar( parent, "MainMenu" );
-
-    return m_menuBar;
-}
-
-wxToolBar *GUIManager::GetToolBar( wxWindow *parent )
-{
-    if ( !m_toolBar )
-        m_toolBar = wxXmlResource::Get()->LoadToolBar( parent, "ToolBar" );
-
-    return m_toolBar;
-}
-
 wxFrame *GUIManager::GetMainFrame( wxWindow *parent )
 {
     if ( !m_frame )
@@ -215,6 +192,21 @@ wxFrame *GUIManager::GetMainFrame( wxWindow *parent )
     }
 
     return m_frame;
+}
+
+wxMenuBar *GUIManager::GetMainMenu( wxWindow *parent )
+{
+    if ( !m_menuBar )
+        m_menuBar  = wxXmlResource::Get()->LoadMenuBar( parent, "MainMenu" );
+
+    return m_menuBar;
+}
+
+wxDialog *GUIManager::GetAboutDialog( wxWindow *parent )
+{
+    wxDialog *dlg = wxXmlResource::Get()->LoadDialog( parent, "About" );
+
+    return dlg;
 }
 
 wxNotebook *GUIManager::GetEditorBook( wxWindow *parent )
@@ -336,6 +328,48 @@ wxNotebook *GUIManager::GetPaletteBook( wxWindow *parent )
     return m_palette;
 }
 
+wxNotebook *GUIManager::GetPropertyBook( wxWindow *parent )
+{
+    if ( !m_propBook )
+    {
+        m_propBook = XRCCTRL( *parent, "PropertyBook", wxNotebook );
+        if ( m_propBook )
+        {
+            m_propBookHndlr = new PropBookHandler( m_propBook );
+
+            ObjectTree::Get()->AddHandler( m_propBookHndlr );
+
+            m_propBook->Bind( wxEVT_SIZE, &PropBookHandler::OnSize,
+                                m_propBookHndlr );
+
+            m_pgProps     = XRCCTRL( *m_propBook, "PropGrid", wxPropertyGrid );
+            m_pgEvents    = XRCCTRL( *m_propBook, "EventGrid", wxPropertyGrid );
+            m_ilsPropBook = m_propBook->GetImageList();
+
+            m_pgProps->Bind( wxEVT_PG_CHANGED,
+                            &PropBookHandler::OnPGChanged, m_propBookHndlr );
+            m_pgProps->Bind( wxEVT_PG_SELECTED,
+                            &PropBookHandler::OnPGSelected, m_propBookHndlr );
+            m_pgEvents->Bind( wxEVT_PG_CHANGED,
+                            &PropBookHandler::OnEGChanged, m_propBookHndlr );
+            m_pgEvents->Bind( wxEVT_PG_SELECTED,
+                            &PropBookHandler::OnEGSelected, m_propBookHndlr );
+            m_pgEvents->Bind( wxEVT_PG_DOUBLE_CLICK,
+                            &PropBookHandler::OnEGDblClick, m_propBookHndlr );
+        }
+    }
+
+    return m_propBook;
+}
+
+wxToolBar *GUIManager::GetToolBar( wxWindow *parent )
+{
+    if ( !m_toolBar )
+        m_toolBar = wxXmlResource::Get()->LoadToolBar( parent, "ToolBar" );
+
+    return m_toolBar;
+}
+
 wxTreeCtrl *GUIManager::GetTreeView( wxWindow *parent )
 {
     if ( !m_treeView )
@@ -386,39 +420,6 @@ wxTreeCtrl *GUIManager::GetTreeView( wxWindow *parent )
     return m_treeView;
 }
 
-wxNotebook *GUIManager::GetPropertyBook( wxWindow *parent )
-{
-    if ( !m_propBook )
-    {
-        m_propBook = XRCCTRL( *parent, "PropertyBook", wxNotebook );
-        if ( m_propBook )
-        {
-            m_propBookHndlr = new PropBookHandler( m_propBook );
-
-            ObjectTree::Get()->AddHandler( m_propBookHndlr );
-
-            m_propBook->Bind( wxEVT_SIZE, &PropBookHandler::OnSize,
-                                m_propBookHndlr );
-
-            m_pgProps     = XRCCTRL( *m_propBook, "PropGrid", wxPropertyGrid );
-            m_pgEvents    = XRCCTRL( *m_propBook, "EventGrid", wxPropertyGrid );
-            m_ilsPropBook = m_propBook->GetImageList();
-
-            m_pgProps->Bind( wxEVT_PG_CHANGED,
-                            &PropBookHandler::OnPGChanged, m_propBookHndlr );
-            m_pgProps->Bind( wxEVT_PG_SELECTED,
-                            &PropBookHandler::OnPGSelected, m_propBookHndlr );
-            m_pgEvents->Bind( wxEVT_PG_CHANGED,
-                            &PropBookHandler::OnEGChanged, m_propBookHndlr );
-            m_pgEvents->Bind( wxEVT_PG_SELECTED,
-                            &PropBookHandler::OnEGSelected, m_propBookHndlr );
-            m_pgEvents->Bind( wxEVT_PG_DOUBLE_CLICK,
-                            &PropBookHandler::OnEGDblClick, m_propBookHndlr );
-        }
-    }
-
-    return m_propBook;
-}
 
 wxStyledTextCtrl *GUIManager::GetEditor( wxWindow *parent, const wxString &name )
 {

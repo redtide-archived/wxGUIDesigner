@@ -19,7 +19,6 @@
 #include <wx/any.h>
 
 class wxBitmap;
-class wxColour;
 class wxFont;
 class wxPoint;
 class wxSize;
@@ -65,15 +64,17 @@ public:
     PropertyType    GetType()        const { return m_info->GetType(); }
     PropertyInfo    GetInfo()        const { return m_info; }
 
-    void            AddChild( Property prop ) { m_children.push_back( prop ); }
-    size_t          GetChildCount()           { return m_children.size(); }
+    void            AddChild( Property prop );
+    size_t          GetChildCount()        { return m_children.size(); }
     Property        GetChild( size_t index ) const;
+
+    void            SetValue( const wxAny &value ) { m_value = value; }
 
     wxArrayString   GetAsArrayString()  const;
     wxBitmap        GetAsBitmap()       const;
     bool            GetAsBool()         const;
-    wxColour        GetAsColour()       const;
-    double          GetAsDouble()        const;
+    Colour          GetAsColour()       const;
+    double          GetAsDouble()       const;
     wxFont          GetAsFont()         const;
     int             GetAsInt()          const;
     wxPoint         GetAsPoint()        const;
@@ -99,7 +100,6 @@ public:
                 bool expanded = true );
     ~ObjectNode();
 
-//  virtual wxString GetNameValue() const;
     virtual wxString GetClassName()   const { return m_info->GetName(); }
     virtual wxString GetDescription() const { return m_info->GetDescription(); }
 
@@ -120,6 +120,7 @@ public:
     void        AddProperty( Property prop );
     Property    GetProperty( size_t index );
     Property    GetProperty( const wxString &name );
+    Property    GetChildProperty( Property parent, const wxString &name );
     size_t      GetPropertyCount();
     bool        PropertyExists( const wxString &name );
 
@@ -136,8 +137,6 @@ public:
     size_t      GetChildCount()             { return m_children.size(); }
 
 private:
-    Property    GetChildProperty( Property parent, const wxString &name );
-
     Object      m_parent;
     Objects     m_children;
     ClassInfo   m_info;
@@ -170,7 +169,7 @@ private:
     ~ObjectTree();
 
     bool            CheckType( const wxString &parentType,
-                                const wxString &childType );
+                               const wxString &childType );
     void            SendEvent( Object object, ObjectEventType eventType );
 
     size_t          GetChildCountByType( Object parent, ClassType clsType );

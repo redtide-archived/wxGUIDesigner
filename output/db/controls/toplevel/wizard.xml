@@ -18,7 +18,9 @@
         <children>
             <class name="wxWizardPage" max="-1"/>
         </children>
-        <name>m_wizard</name>
+        <name>
+            <value>m_wizard</value>
+        </name>
         <exstyle>
             <flag name="wxWIZARD_EX_HELPBUTTON">
                 <description>Shows a Help button using wxID_HELP.</description>
@@ -53,7 +55,9 @@
         <inherits>
             <class>wxPanel</class>
         </inherits>
-        <name>m_wizPage</name>
+        <name>
+            <value>m_wizPage</value>
+        </name>
         <bitmap name="Bitmap">
             <description>Page-specific bitmap (default: none).</description>
         </bitmap>

@@ -16,7 +16,9 @@
         <children>
             <class name="button" max="-1"/>
         </children>
-        <name>sdbSizer</name>
+        <name>
+            <value>sdbSizer</value>
+        </name>
         <text name="label">
             <description>Label to be used for the static box around the sizer (required).</description>
         </text>

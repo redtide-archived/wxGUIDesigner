@@ -17,7 +17,9 @@
             <class name="notebookpage" max="-1"/>
             <class name="wxImageList"  max="1"/>
         </children>
-        <name>m_listBook</name>
+        <name>
+            <value>m_listBook</value>
+        </name>
         <style>
             <flag name="wxNB_TOP">
                 <description>Place labels on the top side.</description>

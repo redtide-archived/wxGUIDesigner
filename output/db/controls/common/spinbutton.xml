@@ -12,7 +12,9 @@
     <inherits>
         <class>wxControl</class>
     </inherits>
-    <name>m_spinBtn</name>
+    <name>
+        <value>m_spinBtn</value>
+    </name>
     <style>
         <flag name="wxSP_HORIZONTAL">
             <description>Specifies a horizontal spin button (note that this style is not supported in wxGTK).</description>
@@ -34,7 +36,7 @@
         <description>Minimum allowed value (default: 0).</description>
     </int>
     <int name="max">
-        <value>100</value>
+            <value>100</value>
         <description>Maximum allowed value (default: 100).</description>
     </int>
     <event name="wxSpinEvent">

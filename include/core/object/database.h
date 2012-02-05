@@ -70,7 +70,7 @@ public:
     size_t       GetChildCount()    { return m_children.size(); }
 
     PropertyInfo GetChild( size_t index );
-    void         AddChild( const wxString &name, PropertyInfo info );
+    void         AddChild( PropertyInfo info );
 
 private:
     friend class ClassInfoDB;

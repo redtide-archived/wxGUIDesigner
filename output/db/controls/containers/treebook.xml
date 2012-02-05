@@ -17,7 +17,9 @@
             <class name="treebookpage" max="-1"/>
             <class name="wxImageList"  max="1"/>
         </children>
-        <name>m_treeBook</name>
+        <name>
+            <value>m_treeBook</value>
+        </name>
         <style>
             <flag name="wxBK_DEFAULT">
                 <description>Native controller placement.</description>

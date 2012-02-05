@@ -16,7 +16,9 @@
         <children>
             <class name="gbsizeritem"  max="-1"/>
         </children>
-        <name>gbSizer</name>
+        <name>
+            <value>gbSizer</value>
+        </name>
     </class>
 
     <class name="gbsizeritem" type="item">

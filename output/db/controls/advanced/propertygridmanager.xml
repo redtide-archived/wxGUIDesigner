@@ -12,5 +12,7 @@
     <inherits>
         <class>wxPanel</class>
     </inherits>
-    <name>m_propGridMgr</name>
+    <name>
+        <value>m_propGridMgr</value>
+    </name>
 </class>

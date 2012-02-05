@@ -16,9 +16,11 @@
         <children>
             <class>ownerdrawnitem</class>
         </children>
-        <name>m_bmpCBox</name>
+        <name>
+            <value>m_bmpCBox</value>
+        </name>
         <int name="selection">
-            <value>-1</value>
+                <value>-1</value>
             <description>Index of the initially selected item or -1 for no selection (default: -1).</description>
         </int>
         <string name="value">

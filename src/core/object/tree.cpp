@@ -9,6 +9,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "core/object/tree.h"
+#include "core/utils.h"
 
 #include <wx/bitmap.h>
 #include <wx/gdicmn.h>
@@ -93,6 +94,11 @@ PropertyNode::~PropertyNode()
     m_children.clear();
 }
 
+void PropertyNode::AddChild( Property prop )
+{
+    m_children.push_back( prop );
+}
+
 wxArrayString PropertyNode::GetAsArrayString() const
 {
     if ( m_value.CheckType< wxArrayString >() )
@@ -117,12 +123,27 @@ bool PropertyNode::GetAsBool() const
     return false;
 }
 
-wxColour PropertyNode::GetAsColour() const
+Colour PropertyNode::GetAsColour() const
 {
-    if ( m_value.CheckType< wxColour >() )
-        return m_value.As< wxColour >();
+    if ( m_value.CheckType< wxString >() )
+    {
+        wxString strCol = m_value.As< wxString >();
+        if ( strCol.StartsWith("wxSYS_COLOUR_") )
+        {
+            int sysColIdx = wxGDConv::GetSystemColourIndex( strCol );
+            if ( sysColIdx != wxNOT_FOUND )
+            {
+                Colour sysCol = { wxGDConv::GetSystemColourIndex( strCol ) };
+                return sysCol;
+            }
+        }
+    }
+    else if ( m_value.CheckType< Colour >() )
+    {
+        return m_value.As< Colour >();
+    }
 
-    return wxColour();
+    return Colour();
 }
 
 double PropertyNode::GetAsDouble() const
@@ -135,9 +156,18 @@ double PropertyNode::GetAsDouble() const
 
 wxFont PropertyNode::GetAsFont() const
 {
-    if ( m_value.CheckType< wxFont >() )
+    if ( m_value.CheckType< wxString >() )
+    {
+        wxString strFont = m_value.As< wxString >();
+        if ( strFont.StartsWith("wxSYS_") && strFont.EndsWith("_FONT") )
+        {
+            return wxGDConv::GetSystemFont( strFont );
+        }
+    }
+    else if ( m_value.CheckType< wxFont >() )
+    {
         return m_value.As< wxFont >();
-
+    }
     return wxNullFont;
 }
 
@@ -250,7 +280,20 @@ Event ObjectNode::GetEvent( const wxString &name )
 
 void ObjectNode::AddProperty( Property prop )
 {
-    m_props.push_back( prop );
+    // TODO: need to be recursive?
+    if ( prop.get() )
+    {
+        m_props.push_back( prop );
+
+        for ( size_t i = 0; i < prop->GetInfo()->GetChildCount(); i++ )
+        {
+            PropertyInfo childInfo = prop->GetInfo()->GetChild( i );
+            Property     child( new PropertyNode( childInfo ) );
+
+            child->SetValue( childInfo->GetDefaultValue() );
+            prop->AddChild( child );
+        }
+    }
 }
 
 Property ObjectNode::GetProperty( size_t index )
@@ -263,13 +306,15 @@ Property ObjectNode::GetProperty( size_t index )
 
 Property ObjectNode::GetChildProperty( Property parent, const wxString &name )
 {
-    for ( size_t i = 0; i < parent->GetChildCount(); i++ )
+    if ( parent.get() )
     {
-        Property prop = parent->GetChild( i );
-        if ( prop.get() && prop->GetName() == name )
-            return prop;
+        for ( size_t i = 0; i < parent->GetChildCount(); i++ )
+        {
+            Property prop = parent->GetChild( i );
+            if ( prop.get() && prop->GetName() == name )
+                return prop;
+        }
     }
-
     return Property();
 }
 

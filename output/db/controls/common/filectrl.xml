@@ -12,7 +12,9 @@
     <inherits>
         <class>wxControl</class>
     </inherits>
-    <name></name>
+    <name>
+        <value>m_fileCtrl</value>
+    </name>
     <style>
         <flag name="wxFC_DEFAULT_STYLE">
             <description>The default style: wxFC_OPEN</description>

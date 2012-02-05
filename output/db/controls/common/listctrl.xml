@@ -18,7 +18,9 @@
             <class name="listitem"    max="-1"/>
             <class name="wxImageList" max="-1"/>
         </children>
-        <name>m_listCtrl</name>
+        <name>
+            <value>m_listCtrl</value>
+        </name>
         <style>
             <flag name="wxLC_LIST">
                 <description>Multicolumn list view, with optional small icons. Columns are computed automatically, i.e. you don't set columns as in wxLC_REPORT. In other words, the list wraps, unlike a wxListBox.</description>

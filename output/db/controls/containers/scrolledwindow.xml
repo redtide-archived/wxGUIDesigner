@@ -12,7 +12,9 @@
     <inherits>
         <class>wxPanel</class>
     </inherits>
-    <name>m_scrollWnd</name>
+    <name>
+        <value>m_scrollWnd</value>
+    </name>
     <style>
         <flag name="wxRETAINED">
             <description>Uses a backing pixmap to speed refreshes. Motif only.</description>

@@ -16,7 +16,9 @@
         <children>
             <class>wxAuiToolBarItem</class>
         </children>
-        <name>m_toolBar</name>
+        <name>
+            <value>m_toolBar</value>
+        </name>
         <style>
             <flag name="wxAUI_TB_TEXT">
                 <description></description>

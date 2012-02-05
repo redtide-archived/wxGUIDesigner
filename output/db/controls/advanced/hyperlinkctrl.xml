@@ -12,7 +12,9 @@
     <inherits>
         <class>wxControl</class>
     </inherits>
-    <name>m_hyperlink</name>
+    <name>
+        <value>m_hyperlink</value>
+    </name>
     <style>
         <flag name="wxHL_ALIGN_LEFT">
             <description>Align the text to the left.</description>

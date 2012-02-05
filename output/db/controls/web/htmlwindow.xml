@@ -12,7 +12,9 @@
     <inherits>
         <class>wxScrolledWindow</class>
     </inherits>
-    <name>m_htmlWnd</name>
+    <name>
+        <value>m_htmlWnd</value>
+    </name>
     <style>
         <flag name="wxHW_SCROLLBAR_NEVER">
             <description>Never display scrollbars, not even when the page is larger than the window.</description>

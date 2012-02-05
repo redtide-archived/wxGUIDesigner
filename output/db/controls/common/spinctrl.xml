@@ -12,7 +12,9 @@
     <inherits>
         <class>wxControl</class>
     </inherits>
-    <name>m_spinCtrl</name>
+    <name>
+        <value>m_spinCtrl</value>
+    </name>
     <style>
         <flag name="wxSP_ARROW_KEYS">
             <description>The user can use arrow keys to change the value.</description>
@@ -40,7 +42,7 @@
         <description>Minimum allowed value (default: 0).</description>
     </int>
     <int name="max">
-        <value>100</value>
+            <value>100</value>
         <description>Maximum allowed value (default: 100).</description>
     </int>
     <event name="wxSpinEvent">

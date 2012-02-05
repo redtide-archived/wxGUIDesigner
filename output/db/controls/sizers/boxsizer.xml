@@ -12,7 +12,9 @@
     <inherits>
         <class>wxSizer</class>
     </inherits>
-    <name>boxSizer</name>
+    <name>
+        <value>boxSizer</value>
+    </name>
     <style name="orient" label="Orientation">
         <description>Sizer orientation, "wxHORIZONTAL" or "wxVERTICAL" (default: wxHORIZONTAL).</description>
         <flag name="wxHORIZONTAL"/>

@@ -12,13 +12,11 @@
     <group name="toplevel" label="Top level">
         <item>wxFrame</item>
         <item>wxDialog</item>
+        <item>wxPropertySheetDialog</item>
         <separator/>
         <item>wxWizard</item>
         <item>wxWizardPage</item>
         <item>wxWizardPageSimple</item>
-        <separator/>
-        <item>wxPropertySheetDialog</item>
-        <item>propertysheetpage</item>
     </group>
     <group name="bars">
         <item>wxToolBar</item>

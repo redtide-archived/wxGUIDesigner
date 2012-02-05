@@ -12,7 +12,9 @@
     <inherits>
         <class>wxAnyButton</class>
     </inherits>
-    <name>m_button</name>
+    <name>
+        <value>m_button</value>
+    </name>
     <style name="bitmapposition" label="Bitmap position">
         <description>Position of the bitmap in the button, see wxButton::SetBitmapPosition().</description>
         <flag name="wxTOP"/>

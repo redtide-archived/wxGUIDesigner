@@ -16,7 +16,9 @@
         <children>
             <class name="wxMenu" max="-1"/>
         </children>
-        <name>m_menuBar</name>
+        <name>
+            <value>m_menuBar</value>
+        </name>
         <style name="Style">
             <flag name="wxMB_DOCKABLE">
                 <description>The menu bar can be detached (wxGTK only).</description>
@@ -34,7 +36,9 @@
             <class name="wxMenu"     max="-1"/>
             <class name="wxMenuItem" max="-1"/>
         </children>
-        <name>m_menu</name>
+        <name>
+            <value>m_menu</value>
+        </name>
         <text name="label">
             <description>Menu's label (default: empty, but required for menus other than popup menus).</description>
         </text>
@@ -42,7 +46,7 @@
             <description>Help shown in statusbar when the menu is selected (only for submenus of another wxMenu, default: none).</description>
         </text>
         <bool name="enabled">
-            <value>1</value>
+                <value>1</value>
             <description>Is the submenu item enabled (only for submenus of another wxMenu, default: 1)?</description>
         </bool>
     </class>
@@ -51,7 +55,9 @@
         <inherits>
             <class>wxObject</class>
         </inherits>
-        <name>m_menuItem</name>
+        <name>
+            <value>m_mnuItm</value>
+        </name>
         <bitmap name="bitmap">
             <description>Bitmap to show with the item (default: none).</description>
         </bitmap>

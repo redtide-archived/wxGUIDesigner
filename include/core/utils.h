@@ -31,11 +31,13 @@ inline wxString GetDataBasePath()
 
 namespace wxGDConv
 {
-    const int       StringToHex( const wxString &text );
-    const wxString  HexToString( int value );
-    const ClassType ClassTypeFromString( const wxString &value );
-    const int       IntFromString( const wxString &value );
-    const wxColour  GetSystemColour( const wxString &name );
+    const wxString  HexToString         ( int value );
+    const int       StringToHex         ( const wxString &text );
+    const ClassType ClassTypeFromString ( const wxString &value );
+    const int       IntFromString       ( const wxString &value );
+    const wxColour  GetSystemColour     ( const wxString &name );
+    const int       GetSystemColourIndex( const wxString &name );
+    const wxFont    GetSystemFont       ( const wxString &name );
 };
 
 #endif //__CORE_UTILS_H__

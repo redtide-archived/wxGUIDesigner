@@ -12,7 +12,9 @@
     <inherits>
         <class>wxControl</class>
     </inherits>
-    <name>m_statText</name>
+    <name>
+        <value>m_statText</value>
+    </name>
     <style>
         <flag name="wxALIGN_LEFT">
             <description>Align the text to the left.</description>

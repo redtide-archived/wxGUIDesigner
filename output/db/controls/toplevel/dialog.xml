@@ -17,7 +17,9 @@
         <child type="widget" max="1"/>
         <child type="layout" max="1"/>
     </children>
-    <name label="Name">m_dialog</name>
+    <name>
+        <value>m_dlg</value>
+    </name>
     <style label="Dialog style">
         <flag name="wxDEFAULT_DIALOG_STYLE">
             <description>Equivalent to a combination of wxCAPTION, wxCLOSE_BOX and wxSYSTEM_MENU (the last one is not used under Unix).</description>
@@ -49,6 +51,7 @@
         <flag name="wxDIALOG_NO_PARENT">
             <description>By default, a dialog created with a NULL parent window will be given the application's top level window as parent. Use this style to prevent this from happening and create an orphan dialog. This is not recommended for modal dialogs.</description>
         </flag>
+        <value>wxDEFAULT_DIALOG_STYLE</value>
     </style>
     <style label="Dialog extra style" xrc="exstyle">
         <flag name="wxDIALOG_EX_CONTEXTHELP">

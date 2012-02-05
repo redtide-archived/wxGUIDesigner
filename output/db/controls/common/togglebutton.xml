@@ -12,7 +12,9 @@
     <inherits>
         <class>wxAnyButton</class>
     </inherits>
-    <name>m_toggleBtn</name>
+    <name>
+        <value>m_toggleBtn</value>
+    </name>
     <bool name="checked">
         <description>Should the button be checked/pressed initially (default: 0)?</description>
     </bool>

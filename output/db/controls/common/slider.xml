@@ -12,7 +12,9 @@
     <inherits>
         <class>wxControl</class>
     </inherits>
-    <name>m_slider</name>
+    <name>
+        <value>m_slider</value>
+    </name>
     <style>
         <flag name="wxSL_HORIZONTAL">
             <description>Displays the slider horizontally (this is the default).</description>
@@ -58,7 +60,7 @@
         <description>Minimum allowed value (default: 0).</description>
     </int>
     <int name="max">
-        <value>100</value>
+            <value>100</value>
         <description>Maximum allowed value (default: 100).</description>
     </int>
     <int name="pagesize">

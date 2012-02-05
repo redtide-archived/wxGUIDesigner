@@ -12,5 +12,7 @@
     <inherits>
         <class>wxScrolledWindow</class>
     </inherits>
-    <name>m_grid</name>
+    <name>
+        <value>m_grid</value>
+    </name>
 </class>

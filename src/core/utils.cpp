@@ -100,6 +100,70 @@ const wxColour wxGDConv::GetSystemColour( const wxString &name )
         SYSCLR( wxSYS_COLOUR_MENUBAR )
         #undef SYSCLR
     }
-
     return wxNullColour;
+}
+
+const int wxGDConv::GetSystemColourIndex( const wxString &name )
+{
+    if ( !name.empty() )
+    {
+        #define SYSCLRIDX( clr ) \
+            if ( name == #clr ) return clr;
+        SYSCLRIDX( wxSYS_COLOUR_SCROLLBAR )
+        SYSCLRIDX( wxSYS_COLOUR_BACKGROUND )
+        SYSCLRIDX( wxSYS_COLOUR_DESKTOP )
+        SYSCLRIDX( wxSYS_COLOUR_ACTIVECAPTION )
+        SYSCLRIDX( wxSYS_COLOUR_INACTIVECAPTION )
+        SYSCLRIDX( wxSYS_COLOUR_MENU )
+        SYSCLRIDX( wxSYS_COLOUR_WINDOW )
+        SYSCLRIDX( wxSYS_COLOUR_WINDOWFRAME )
+        SYSCLRIDX( wxSYS_COLOUR_MENUTEXT )
+        SYSCLRIDX( wxSYS_COLOUR_WINDOWTEXT )
+        SYSCLRIDX( wxSYS_COLOUR_CAPTIONTEXT )
+        SYSCLRIDX( wxSYS_COLOUR_ACTIVEBORDER )
+        SYSCLRIDX( wxSYS_COLOUR_INACTIVEBORDER )
+        SYSCLRIDX( wxSYS_COLOUR_APPWORKSPACE )
+        SYSCLRIDX( wxSYS_COLOUR_HIGHLIGHT )
+        SYSCLRIDX( wxSYS_COLOUR_HIGHLIGHTTEXT )
+        SYSCLRIDX( wxSYS_COLOUR_BTNFACE )
+        SYSCLRIDX( wxSYS_COLOUR_3DFACE )
+        SYSCLRIDX( wxSYS_COLOUR_BTNSHADOW )
+        SYSCLRIDX( wxSYS_COLOUR_3DSHADOW )
+        SYSCLRIDX( wxSYS_COLOUR_GRAYTEXT )
+        SYSCLRIDX( wxSYS_COLOUR_BTNTEXT )
+        SYSCLRIDX( wxSYS_COLOUR_INACTIVECAPTIONTEXT )
+        SYSCLRIDX( wxSYS_COLOUR_BTNHIGHLIGHT )
+        SYSCLRIDX( wxSYS_COLOUR_BTNHILIGHT )
+        SYSCLRIDX( wxSYS_COLOUR_3DHIGHLIGHT )
+        SYSCLRIDX( wxSYS_COLOUR_3DHILIGHT )
+        SYSCLRIDX( wxSYS_COLOUR_3DDKSHADOW )
+        SYSCLRIDX( wxSYS_COLOUR_3DLIGHT )
+        SYSCLRIDX( wxSYS_COLOUR_INFOTEXT )
+        SYSCLRIDX( wxSYS_COLOUR_INFOBK )
+        SYSCLRIDX( wxSYS_COLOUR_LISTBOX )
+        SYSCLRIDX( wxSYS_COLOUR_HOTLIGHT )
+        SYSCLRIDX( wxSYS_COLOUR_GRADIENTACTIVECAPTION )
+        SYSCLRIDX( wxSYS_COLOUR_GRADIENTINACTIVECAPTION )
+        SYSCLRIDX( wxSYS_COLOUR_MENUHILIGHT )
+        SYSCLRIDX( wxSYS_COLOUR_MENUBAR )
+        #undef SYSCLRIDX
+    }
+    return 0;
+}
+
+const wxFont wxGDConv::GetSystemFont( const wxString &name )
+{
+    if ( !name.empty() )
+    {
+        #define SYSFONT(font) \
+            if ( name == #font ) return wxSystemSettings::GetFont( font );
+        SYSFONT( wxSYS_OEM_FIXED_FONT )
+        SYSFONT( wxSYS_ANSI_FIXED_FONT )
+        SYSFONT( wxSYS_ANSI_VAR_FONT )
+        SYSFONT( wxSYS_SYSTEM_FONT )
+        SYSFONT( wxSYS_DEVICE_DEFAULT_FONT )
+        SYSFONT( wxSYS_DEFAULT_GUI_FONT )
+        #undef SYSFONT
+    }
+    return wxNullFont;
 }

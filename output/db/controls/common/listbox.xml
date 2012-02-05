@@ -12,7 +12,9 @@
     <inherits>
         <class>wxControl</class>
     </inherits>
-    <name>m_listBox</name>
+    <name>
+        <value>m_listBox</value>
+    </name>
     <style>
         <description>Note that wxLB_SINGLE, wxLB_MULTIPLE and wxLB_EXTENDED styles are mutually exclusive and you can specify at most one of them (single selection is the default). See also Window Styles.</description>
         <flag name="wxLB_SINGLE">
@@ -41,7 +43,7 @@
         </flag>
     </style>
     <int name="selection">
-        <value>-1</value>
+            <value>-1</value>
         <description>Index of the initially selected item or -1 for no selection (default: -1).</description>
     </int>
     <arraystring name="content">

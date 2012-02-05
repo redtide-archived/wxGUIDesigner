@@ -16,7 +16,9 @@
         <children>
             <class name="radioboxitem" max="-1"/>
         </children>
-        <name>m_radioBtn</name>
+        <name>
+            <value>m_radioBtn</value>
+        </name>
         <style>
             <flag name="wxRA_SPECIFY_ROWS">
                 <description>The major dimension parameter refers to the maximum number of rows.</description>
@@ -29,7 +31,7 @@
             <description>Specifies the maximum number of rows (if style contains wxRA_SPECIFY_ROWS) or columns (if style contains wxRA_SPECIFY_COLS) for a two-dimensional radiobox (default: 1).</description>
         </int>
         <int name="selection">
-            <value>-1</value>
+                <value>-1</value>
             <description>Index of the initially selected item or -1 for no selection (default: -1).</description>
         </int>
         <items name="content">
@@ -50,7 +52,7 @@
             <description>Contextual help for this radio button (default: none).</description>
         </string>
         <bool name="enabled" xrcattribute="1">
-            <value>1</value>
+                <value>1</value>
             <description>Is the button enabled (default: 1)?</description>
         </bool>
         <bool name="hidden" xrcattribute="1">

@@ -21,67 +21,67 @@
     <class name="sizeritembase" type="item">
         <style label="Flag">
             <flag name="wxTOP">
-                <value>0x0040</value>
+                    <value>0x0040</value>
                 <description></description>
             </flag>
             <flag name="wxBOTTOM">
-                <value>0x0080</value>
+                    <value>0x0080</value>
                 <description></description>
             </flag>
             <flag name="wxLEFT">
-                <value>0x0010</value>
+                    <value>0x0010</value>
                 <description></description>
             </flag>
             <flag name="wxRIGHT">
-                <value>0x0020</value>
+                    <value>0x0020</value>
                 <description></description>
             </flag>
             <flag name="wxALL">
-                <value>0x00F0</value>
+                    <value>0x00F0</value>
                 <description></description>
             </flag>
             <flag name="wxEXPAND">
-                <value>0x2000</value>
+                    <value>0x2000</value>
                 <description>The item will be expanded to fill the space assigned to the item.</description>
             </flag>
             <flag name="wxSHAPED">
-                <value>0x4000</value>
+                    <value>0x4000</value>
                 <description>The item will be expanded as much as possible while also maintaining its aspect ratio.</description>
             </flag>
             <flag name="wxFIXED_MINSIZE">
-                <value>0x8000</value>
+                    <value>0x8000</value>
                 <description>Normally wxSizers will use GetAdjustedBestSize() to determine what the minimal size of window items should be, and will use that size to calculate the layout. This allows layouts to adjust when an item changes and its best size becomes different. If you would rather have a window item stay the size it started with then use wxFIXED_MINSIZE.</description>
             </flag>
             <flag name="wxRESERVE_SPACE_EVEN_IF_HIDDEN">
-                <value>0x0002</value>
+                    <value>0x0002</value>
                 <description>Normally wxSizers don't allocate space for hidden windows or other items. This flag overrides this behaviour so that sufficient space is allocated for the window even if it isn't visible. This makes it possible to dynamically show and hide controls without resizing parent dialog, for example. (Available since 2.8.8.)</description>
             </flag>
             <flag name="wxALIGN_CENTER">
-                <value>0x0900</value>
+                    <value>0x0900</value>
                 <description></description>
             </flag>
             <flag name="wxALIGN_LEFT">
-                <value>0x0000</value>
+                    <value>0x0000</value>
                 <description></description>
             </flag>
             <flag name="wxALIGN_RIGHT">
-                <value>0x0200</value>
+                    <value>0x0200</value>
                 <description></description>
             </flag>
             <flag name="wxALIGN_TOP">
-                <value>0x0000</value>
+                    <value>0x0000</value>
                 <description></description>
             </flag>
             <flag name="wxALIGN_BOTTOM">
-                <value>0x0400</value>
+                    <value>0x0400</value>
                 <description></description>
             </flag>
             <flag name="wxALIGN_CENTER_VERTICAL">
-                <value>0x0800</value>
+                    <value>0x0800</value>
                 <description></description>
             </flag>
             <flag name="wxALIGN_CENTER_HORIZONTAL">
-                <value>0x0100</value>
+                    <value>0x0100</value>
                 <description></description>
             </flag>
         </style>

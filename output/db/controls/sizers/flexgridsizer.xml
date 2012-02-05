@@ -12,7 +12,9 @@
     <inherits>
         <class>wxGridSizer</class>
     </inherits>
-    <name>fgSizer</name>
+    <name>
+        <value>fgSizer</value>
+    </name>
     <string name="growablerows" label="Growable rows">
         <description>Comma-separated list of indexes of rows that are growable (default: none).</description>
     </string>

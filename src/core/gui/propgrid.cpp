@@ -2,7 +2,7 @@
 // Name:        core/gui/propgrid.cpp
 // Purpose:     
 // Author:      Andrea Zanellato
-// Modified by:
+// Modified by: 
 // Created:     2011/12/10
 // Revision:    $Hash$
 // Licence:     wxWindows licence
@@ -46,12 +46,64 @@ void PropBookHandler::OnObjectSelected( Object object )
 
 void PropBookHandler::OnPGChanged( wxPropertyGridEvent &event )
 {
-    
+    wxPGProperty *pgProp  = event.GetProperty();
+    if ( pgProp )
+    {
+        wxString propName = pgProp->GetName();
+        Property prop =
+        ObjectTree::Get()->GetSelectObject()->GetProperty( pgProp->GetName() );
+
+        if ( prop.get() )
+        {
+            if ( prop->GetType() == PROPERTY_TYPE_COLOUR )
+            {
+                wxColourPropertyValue value = pgProp->GetValue().GetAny().
+                                                As< wxColourPropertyValue >();
+
+                Colour col = { value.m_type, value.m_colour };
+
+                prop->SetValue( col );
+            }
+            else
+            {
+                prop->SetValue( pgProp->GetValue() );
+            }
+        }
+    }
+    event.Skip();
 }
 
 void PropBookHandler::OnEGChanged( wxPropertyGridEvent &event )
 {
-    
+    // pgProp represents an event type
+    wxPGProperty *pgProp  = event.GetProperty();
+    if ( pgProp && pgProp->GetParent() )
+    {
+        // Get the event class name from the pgProp parent
+        wxPGProperty *pgCat = pgProp->GetParent();
+        if ( !pgCat )
+        {
+            event.Skip(); return; // Just to be sure, shouldn't happen
+        }
+
+        Event evt = // Get the Event
+        ObjectTree::Get()->GetSelectObject()->GetEvent( pgCat->GetName() );
+
+        if ( evt.get() )
+        {
+            // Iterate to find the right event type name
+            for ( size_t i = 0; i < evt->GetTypeCount(); i++ )
+            {
+                wxString evtTypeName = pgProp->GetLabel();
+                if ( evt->GetTypeName( i ) == evtTypeName )
+                {
+                    evt->SetHandlerName( i, pgProp->GetValueAsString() );
+                    break;
+                }
+            }
+        }
+    }
+    event.Skip();
 }
 
 void PropBookHandler::OnPGSelected( wxPropertyGridEvent &event )
@@ -62,32 +114,44 @@ void PropBookHandler::OnPGSelected( wxPropertyGridEvent &event )
 
     if ( htmDesc && pgProp )
     {
-        wxString propName = pgProp->GetName();
+        wxString propName    = pgProp->GetBaseName();
+        wxString description = "<h5>" + pgProp->GetLabel() + "</h5>";
+        Object   object      = ObjectTree::Get()->GetSelectObject();
+
         if ( pgProp->IsCategory() )
         {
+            // Can't get a baseclass description from the object
             ClassInfo info = ClassInfoDB::Get()->GetClassInfo( propName );
+
             if ( info.get() )
-            {
-                wxString s = "<h5>" + propName + "</h5>" +
-                             "<p>" + info->GetDescription() + "</p>";
-
-                htmDesc->SetPage( s );
-            }
-            return;
+                description += "<p>" + info->GetDescription() + "</p>";
         }
-
-        Property prop =
-        ObjectTree::Get()->GetSelectObject()->GetProperty( propName );
-
-        if ( prop )
+        else if ( pgProp->IsSubProperty() )
         {
-            wxString s = "<h5>" + prop->GetLabel() + "</h5>" +
-                         "<p>" + prop->GetDescription() + "</p>";
+            wxString parentName = pgProp->GetParent()->GetName();
+            Property parent     = object->GetProperty( parentName );
+            PropertyInfo info   = parent->GetInfo();
 
-            htmDesc->SetPage( s );
+            for ( size_t i = 0; i < info->GetChildCount(); i++ )
+            {
+                PropertyInfo child = info->GetChild( i );
+                if ( child->GetName() == propName )
+                {
+                    description += "<p>" + child->GetDescription() + "</p>";
+                    break;
+                }
+            }
         }
-    }
+        else
+        {
+            Property prop = object->GetProperty( propName );
 
+            if ( prop )
+                description += "<p>" + prop->GetDescription() + "</p>";
+        }
+
+        htmDesc->SetPage( description );
+    }
     event.Skip();
 }
 
@@ -133,6 +197,7 @@ void PropBookHandler::OnEGSelected( wxPropertyGridEvent &event )
 
         htmDesc->SetPage( desc );
     }
+    event.Skip();
 }
 
 void PropBookHandler::OnEGDblClick( wxPropertyGridEvent &event )
@@ -158,7 +223,7 @@ void PropBookHandler::OnEGDblClick( wxPropertyGridEvent &event )
         {
             Event evt = obj->GetEvent( evtCat->GetLabel() );
             if ( evt.get() )
-            evt->SetHandlerName( p->GetLabel(), evtFuncName );
+                evt->SetHandlerName( p->GetLabel(), evtFuncName );
         
             p->SetValueFromString( evtFuncName );
         }
@@ -179,7 +244,6 @@ void PropBookHandler::OnSize( wxSizeEvent &event )
         propSplit->SetSashPosition( height * 0.7 );
         evtSplit->SetSashPosition( height * 0.7 );
     }
-
     event.Skip();
 }
 
@@ -240,7 +304,6 @@ void PropBookHandler::LoadProperties( Object object )
                     if ( pgChild )
                         pgProp->AppendChild( pgChild );
                 }
-
                 ClassInfo info =
                     ClassInfoDB::Get()->GetClassInfo( prop->GetName() );
 
@@ -259,6 +322,8 @@ void PropBookHandler::LoadProperties( Object object )
             }
         }
     }
+    wxPGCell cell; cell.SetBgCol( wxColour( 255, 255, 225 ) );
+    pg->SetUnspecifiedValueAppearance( cell );
 }
 
 wxPGProperty *PropBookHandler::AddProperty( Property prop )
@@ -285,6 +350,7 @@ wxPGProperty *PropBookHandler::AddProperty( Property prop )
                                         prop->GetAsBool() );
 
             pgProp->SetAttribute( wxPG_BOOL_USE_CHECKBOX, true );
+
             return pgProp;
         }
         case PROPERTY_TYPE_CATEGORY:
@@ -293,8 +359,17 @@ wxPGProperty *PropBookHandler::AddProperty( Property prop )
         }
         case PROPERTY_TYPE_COLOUR:
         {
-            return new wxSystemColourProperty( prop->GetLabel(), prop->GetName(),
-                                               prop->GetAsColour() );
+            wxColourPropertyValue val( prop->GetAsColour().type,
+                                       prop->GetAsColour().colour );
+            wxPGProperty *pgProp =
+                    new wxSystemColourProperty( prop->GetLabel(),
+                                                prop->GetName(), val );
+            if // No system or custom colour
+            ( ( val.m_colour == wxNullColour ) && ( val.m_type == 0 ) )
+            {
+                pgProp->SetValueToUnspecified();
+            }
+            return pgProp;
         }/*
         case PROPERTY_TYPE_DIMENSION:
         {
@@ -320,14 +395,20 @@ wxPGProperty *PropBookHandler::AddProperty( Property prop )
                 flagNames.Add( name );
                 flagValues.Add( flag );
             }
-    
             return new wxEnumProperty( prop->GetLabel(), prop->GetName(),
                                     flagNames, flagValues, prop->GetAsInt() );
         }
         case PROPERTY_TYPE_FONT:
         {
-            return new wxFontProperty( prop->GetLabel(), prop->GetName(),
-                                       prop->GetAsFont() );
+            wxFont font = prop->GetAsFont();
+            wxPGProperty *pgProp =
+                new wxFontProperty( prop->GetLabel(), prop->GetName(), font );
+
+            if ( !font.IsOk() )
+            {
+                pgProp->SetValueToUnspecified();
+            }
+            return pgProp;
         }
         case PROPERTY_TYPE_INT:
         {

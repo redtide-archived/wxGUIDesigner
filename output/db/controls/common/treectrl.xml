@@ -15,7 +15,9 @@
     <children>
         <class name="wxImageList" max="1"/>
     </children>
-    <name>m_treeCtrl</name>
+    <name>
+        <value>m_treeCtrl</value>
+    </name>
     <style>
         <flag name="wxTR_EDIT_LABELS">
             <description>Use this style if you wish the user to be able to edit labels in the tree control.</description>

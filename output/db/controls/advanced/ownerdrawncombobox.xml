@@ -12,7 +12,9 @@
     <inherits>
         <class>wxComboBox</class>
     </inherits>
-    <name>m_ownCboBox</name>
+    <name>
+        <value>m_ownCboBox</value>
+    </name>
     <style>
         <flag name="wxODCB_DCLICK_CYCLES">
             <description>Double-clicking cycles item if wxCB_READONLY is also used. Synonymous with wxCC_SPECIAL_DCLICK.</description>

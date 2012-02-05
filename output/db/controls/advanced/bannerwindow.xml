@@ -12,7 +12,9 @@
     <inherits>
         <class>wxControl</class>
     </inherits>
-    <name>m_bannerWindow</name>
+    <name>
+        <value>m_bannerWindow</value>
+    </name>
     <style name="direction">
         <description>The side along which the banner will be positioned.</description>
         <flag name="wxTOP"/>

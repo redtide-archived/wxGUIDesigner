@@ -17,7 +17,9 @@
             <class name="choicebookpage" max="-1"/>
             <class name="wxImageList"    max="1"/>
         </children>
-        <name>m_choiceBook</name>
+        <name>
+            <value>m_choiceBook</value>
+        </name>
         <style>
             <flag name="wxCHB_DEFAULT">
                 <description>Choose the default location for the labels depending on the current platform (left everywhere except Mac where it is top).</description>

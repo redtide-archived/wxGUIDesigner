@@ -9,5 +9,41 @@
     Licence:     wxWindows licence
 -->
 <class name="wxWebView">
-    
+    <inherits>
+        <class>wxControl</class>
+    </inherits>
+    <name>
+        <value>m_webView</value>
+    </name>
+    <enum name="backend">
+        <flag name="wxWEB_VIEW_BACKEND_IE">
+            <description>The IE backend uses Microsoft's Trident rendering engine, specifically the version used by the locally installed copy of Internet Explorer. As such it is only available for the MSW port. By default recent versions of the &lt;a href="http://msdn.microsoft.com/en-us/library/aa752085%28v=VS.85%29.aspx"&gt;WebBrowser&lt;/a&gt; control, which this backend uses, emulate Internet Explorer 7. This can be changed with a registry setting, see &lt;a href="http://msdn.microsoft.com/en-us/library/ee330730%28v=vs.85%29.aspx#browser_emulation"&gt;this&lt;/a&gt; article for more information. This backend has full support for custom schemes and virtual file systems.</description>
+        </flag>
+        <flag name="wxWEB_VIEW_WEBKIT_GTK">
+            <description>Under GTK the WebKit backend uses &lt;a href="http://webkitgtk.org/"&gt;WebKitGTK+&lt;/a&gt;. The current minimum version required is 1.3.1 which ships by default with Ubuntu Natty and Debian Wheezy and has the package name libwebkitgtk-dev. Custom schemes and virtual files systems are supported under this backend, however embedded resources such as images and stylesheets are currently loaded using the data:// scheme.</description>
+        </flag>
+        <flag name="wxWEB_VIEW_WEBKIT_OSX">
+            <description>The OSX WebKit backend uses Apple's &lt;a href="http://developer.apple.com/library/mac/#documentation/Cocoa/Reference/WebKit/Classes/WebView_Class/Reference/Reference.html#//apple_ref/doc/uid/20001903"&gt;WebView&lt;/a&gt; class. This backend has full support for custom schemes and virtual file systems.</description>
+        </flag>
+    </enum>
+    <event name="wxWebViewEvent">
+        <type name="wxEVT_COMMAND_WEB_VIEW_NAVIGATING">
+            <description>Generated before trying to get a resource. This event may be vetoed to prevent navigating to this resource. Note that if the displayed HTML document has several frames, one such event will be generated per frame.</description>
+        </type>
+        <type name="wxEVT_COMMAND_WEB_VIEW_NAVIGATED">
+            <description>Generated after it was confirmed that a resource would be requested. This event may not be vetoed. Note that if the displayed HTML document has several frames, one such event will be generated per frame.</description>
+        </type>
+        <type name="wxEVT_COMMAND_WEB_VIEW_LOADED">
+            <description>Generated when the document is fully loaded and displayed. Note that if the displayed HTML document has several frames, one such event will be generated per frame.</description>
+        </type>
+        <type name="wxEVT_COMMAND_WEB_VIEW_ERROR">
+            <description>Generated when a navigation error occurs. The integer associated with this event will be a wxWebNavigationError item. The string associated with this event may contain a backend-specific more precise error message/code.</description>
+        </type>
+        <type name="wxEVT_COMMAND_WEB_VIEW_NEWWINDOW">
+            <description>Generated when a new window is created. You must handle this event if you want anything to happen, for example to load the page in a new window or tab.</description>
+        </type>
+        <type name="wxEVT_COMMAND_WEB_VIEW_TITLE_CHANGED">
+            <description>Generated when the page title changes. Use GetString to get the title.</description>
+        </type>
+    </event>
 </class>

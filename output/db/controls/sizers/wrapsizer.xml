@@ -12,7 +12,9 @@
     <inherits>
         <class>wxBoxSizer</class>
     </inherits>
-    <name>wrapSizer</name>
+    <name>
+        <value>wrapSizer</value>
+    </name>
     <style name="flag">
         <flag name="wxWRAPSIZER_DEFAULT_FLAGS">
             <description>Equivalent to a combination of wxEXTEND_LAST_ON_EACH_LINE and wxREMOVE_LEADING_SPACES.</description>

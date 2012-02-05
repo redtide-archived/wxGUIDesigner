@@ -88,23 +88,20 @@ int wxFlagsManager::GetFlag( const wxString &name )
 
 void wxFlagsManager::Init()
 {
-    // wxBorder
-    wxFLAG_ADD(wxBORDER);
-    wxFLAG_ADD(wxNO_BORDER);
-    wxFLAG_ADD(wxDOUBLE_BORDER);
-    wxFLAG_ADD(wxRAISED_BORDER);
-    wxFLAG_ADD(wxSIMPLE_BORDER);
-    wxFLAG_ADD(wxSTATIC_BORDER);
-    wxFLAG_ADD(wxSUNKEN_BORDER);
+    // TODO: seems that 0 is not a valid value for the wxIntProperty,
+    // so, if this isn't a bug or those flags with 0 as value (default values)
+    // aren't necessary, just comment them
 
-//  wxFLAG_ADD(wxBORDER_DEFAULT);
-    wxFLAG_ADD(wxBORDER_NONE);
-    wxFLAG_ADD(wxBORDER_DOUBLE); // deprecated
-    wxFLAG_ADD(wxBORDER_RAISED);
-    wxFLAG_ADD(wxBORDER_SIMPLE);
-    wxFLAG_ADD(wxBORDER_STATIC);
-    wxFLAG_ADD(wxBORDER_SUNKEN);
-    wxFLAG_ADD(wxBORDER_THEME);
+    // wxBorder                             Old styles
+//  wxFLAG_ADD(wxBORDER_DEFAULT);   // 0
+    wxFLAG_ADD(wxBORDER);           // same as wxBORDER_SIMPLE
+    wxFLAG_ADD(wxBORDER_NONE);      wxFLAG_ADD(wxNO_BORDER);
+//  wxFLAG_ADD(wxDOUBLE_BORDER);    wxFLAG_ADD(wxBORDER_DOUBLE); // deprecated
+    wxFLAG_ADD(wxBORDER_THEME);     // replace wxDOUBLE_BORDER
+    wxFLAG_ADD(wxBORDER_RAISED);    wxFLAG_ADD(wxRAISED_BORDER);
+    wxFLAG_ADD(wxBORDER_SIMPLE);    wxFLAG_ADD(wxSIMPLE_BORDER);
+    wxFLAG_ADD(wxBORDER_STATIC);    wxFLAG_ADD(wxSTATIC_BORDER);
+    wxFLAG_ADD(wxBORDER_SUNKEN);    wxFLAG_ADD(wxSUNKEN_BORDER);
 
     // wxDirection
     wxFLAG_ADD(wxTOP);
@@ -172,6 +169,7 @@ void wxFlagsManager::Init()
     wxFLAG_ADD(wxFRAME_EX_METAL);
 
     // wxDialog
+    wxFLAG_ADD(wxDEFAULT_DIALOG_STYLE); // wxCAPTION|wxSYSTEM_MENU|wxCLOSE_BOX
     wxFLAG_ADD(wxDIALOG_NO_PARENT);
 
     // wxDialog extra styles

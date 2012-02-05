@@ -12,7 +12,9 @@
     <inherits>
         <class>wxBoxSizer</class>
     </inherits>
-    <name>sbSizer</name>
+    <name>
+        <value>sbSizer</value>
+    </name>
     <text name="label">
         <description>Label to be used for the static box around the sizer (required).</description>
     </text>

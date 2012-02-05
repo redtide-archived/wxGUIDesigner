@@ -12,7 +12,9 @@
     <inherits>
         <class>wxControl</class>
     </inherits>
-    <name>m_animCtrl</name>
+    <name>
+        <value>m_animCtrl</value>
+    </name>
     <style>
         <flag name="wxAC_DEFAULT_STYLE">
             <description>The default style: wxBORDER_NONE.</description>

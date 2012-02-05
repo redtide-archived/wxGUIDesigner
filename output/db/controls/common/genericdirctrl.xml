@@ -12,7 +12,9 @@
     <inherits>
         <class>wxControl</class>
     </inherits>
-    <name>m_dirCtrl</name>
+    <name>
+        <value>m_dirCtrl</value>
+    </name>
     <style>
         <flag name="wxDIRCTRL_DIR_ONLY">
             <description>Only show directories, and not files.</description>

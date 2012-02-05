@@ -12,7 +12,9 @@
     <inherits>
         <class>wxControl</class>
     </inherits>
-    <name>m_clrPicker</name>
+    <name>
+        <value>m_clrPicker</value>
+    </name>
     <style>
         <flag name="wxCLRP_DEFAULT_STYLE">
             <description>The default style: 0.</description>

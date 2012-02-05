@@ -12,7 +12,9 @@
     <inherits>
         <class>wxControl</class>
     </inherits>
-    <name>m_stc</name>
+    <name>
+        <value>m_stc</value>
+    </name>
     <event name="wxStyledTextEvent">
         <type name="EVT_STC_CHANGE">
             <description></description>

@@ -12,7 +12,9 @@
     <inherits>
         <class>wxControl</class>
     </inherits>
-    <name>m_fontPicker</name>
+    <name>
+        <value>m_fontPicker</value>
+    </name>
     <style>
         <flag name="wxFNTP_DEFAULT_STYLE">
             <description>The default style: wxFNTP_FONTDESC_AS_LABEL | wxFNTP_USEFONT_FOR_LABEL.</description>

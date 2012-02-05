@@ -26,7 +26,7 @@ public:
     wxArrayString       GetAsArrayString()  const;
     wxBitmap            GetAsBitmap()       const;
     bool                GetAsBool()         const;
-    wxColour            GetAsColour()       const;
+    Colour              GetAsColour()       const;
     double              GetAsDouble()       const;
     wxFont              GetAsFont()         const;
     int                 GetAsInt()          const;

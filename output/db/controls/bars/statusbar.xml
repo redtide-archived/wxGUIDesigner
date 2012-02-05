@@ -13,7 +13,9 @@
         <class>wxControl</class>
         <class>wxWindow</class>
     </inherits>
-    <name>m_statusBar</name>
+    <name>
+        <value>m_statusBar</value>
+    </name>
     <style name="Flag">
         <flag name="wxSTB_SIZEGRIP">
             <description>Displays a gripper at the right-hand side of the status bar which can be used to resize the parent window.</description>
@@ -35,7 +37,7 @@
         </flag >
     </style>
     <int name="fields">
-        <value>1</value>
+            <value>1</value>
         <description>Number of status bar fields (default: 1).</description>
     </int>
     <string name="widths">

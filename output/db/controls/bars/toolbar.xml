@@ -20,7 +20,9 @@
             <class name="tool"      max="-1"/>
             <class name="wxControl" max="-1"/>
         </children>
-        <name>m_toolBar</name>
+    <name>
+        <value>m_toolBar</value>
+    </name>
         <style>
             <flag name="wxTB_FLAT">
                 <description>Gives the toolbar a flat look (Windows and GTK only).</description>
@@ -100,7 +102,7 @@
         <children>
             <class name="wxMenu" max="1"/>
         </children>
-        <name>m_tool</name>
+    <name>m_tool</name>
         <bitmap name="bitmap">
             <description>Tool's bitmap (required).</description>
         </bitmap>

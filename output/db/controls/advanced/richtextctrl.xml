@@ -12,7 +12,9 @@
     <inherits>
         <class>wxControl</class>
     </inherits>
-    <name>m_richText</name>
+    <name>
+        <value>m_richText</value>
+    </name>
     <style>
         <flag name="wxRE_CENTRE_CARET">
             <description>The control will try to keep the caret line centred vertically while editing. wxRE_CENTER_CARET is a synonym for this style.</description>

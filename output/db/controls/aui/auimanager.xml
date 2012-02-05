@@ -16,7 +16,9 @@
         <children>
             <class name="wxAuiPaneInfo" max="-1"/>
         </children>
-        <name>m_mgr</name>
+        <name>
+            <value>m_mgr</value>
+        </name>
         <style>
             <flag name="wxAUI_MGR_ALLOW_FLOATING">
                 <description>Allow a pane to be undocked to take the form of a wxMiniFrame.</description>

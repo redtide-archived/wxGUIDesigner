@@ -16,7 +16,9 @@
         <class name="widget"  max="-1"/>
         <class name="wxSizer" max="1"/>
     </children>
-    <name>m_panel</name>
+    <name>
+        <value>m_panel</value>
+    </name>
     <event name="wxNavigationKeyEvent">
         <type name="wxEVT_NAVIGATION_KEY">
             <description>Process a navigation key event.</description>

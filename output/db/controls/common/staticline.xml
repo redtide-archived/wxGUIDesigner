@@ -12,7 +12,9 @@
     <inherits>
         <class>wxControl</class>
     </inherits>
-    <name>m_statLine</name>
+    <name>
+        <value>m_statLine</value>
+    </name>
     <style>
         <flag name="wxLI_HORIZONTAL">
             <description>Creates a horizontal line.</description>

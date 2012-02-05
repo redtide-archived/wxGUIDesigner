@@ -12,7 +12,9 @@
     <inherits>
         <class>wxSizer</class>
     </inherits>
-    <name>gridSizer</name>
+    <name>
+        <value>gridSizer</value>
+    </name>
     <int name="rows ">
         <description>Number of rows in the grid (default: 0 - determine automatically).</description>
     </int>

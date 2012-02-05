@@ -12,5 +12,7 @@
     <inherits>
         <class>wxControl</class>
     </inherits>
-    <name>m_infoBar</name>
+    <name>
+        <value>m_infoBar</value>
+    </name>
 </class>

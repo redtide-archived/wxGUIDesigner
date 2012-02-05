@@ -12,7 +12,9 @@
     <inherits>
         <class>wxControl</class>
     </inherits>
-    <name>m_calendar</name>
+    <name>
+        <value>m_calendar</value>
+    </name>
     <style>
         <flag name="wxCAL_SUNDAY_FIRST">
             <description>Show Sunday as the first day in the week (not in wxGTK)</description>

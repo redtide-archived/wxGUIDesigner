@@ -12,7 +12,9 @@
     <inherits>
         <class>wxToggleButton</class>
     </inherits>
-    <name>m_toggleBtn</name>
+    <name>
+        <value>m_toggleBtn</value>
+    </name>
     <bitmap>
         <description>Bitmap to display (required).</description>
     </bitmap>

@@ -12,5 +12,7 @@
     <inherits>
         <class>wxControl</class>
     </inherits>
-    <name>m_custCtrl</name>
+    <name>
+        <value>m_custCtrl</value>
+    </name>
 </class>

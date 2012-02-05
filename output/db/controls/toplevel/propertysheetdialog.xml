@@ -18,7 +18,9 @@
         <children>
             <class name="propertysheetpage" max="-1"/>
         </children>
-        <name>m_propDlg</name>
+        <name>
+            <value>m_propDlg</value>
+        </name>
         <style name="buttons">
             <description>Buttons to show, combination of flags accepted by wxPropertySheetDialog::CreateButtons() (default: 0).</description>
             <flag name="wxOK"/>

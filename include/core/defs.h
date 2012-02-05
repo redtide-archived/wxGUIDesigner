@@ -19,6 +19,9 @@
 #include <utility>
 #include <vector>
 
+#include <wx/colour.h>
+#include <wx/defs.h>
+
 enum ClassType
 {
     CLASS_TYPE_UNKNOWN = 0,
@@ -75,8 +78,14 @@ class EventNode;
 class PropertyNode;
 class ObjectNode;
 
-class wxString;
 class wxArrayString;
+class wxString;
+
+struct Colour
+{
+    wxInt32  type;
+    wxColour colour;
+};
 
 typedef class std::tr1::shared_ptr< EventInfoNode >     EventInfo;
 typedef class std::tr1::shared_ptr< PropertyInfoNode >  PropertyInfo;

@@ -77,7 +77,7 @@ PropertyInfoNode::~PropertyInfoNode()
     m_children.clear();
 }
 
-void PropertyInfoNode::AddChild( const wxString &name, PropertyInfo info )
+void PropertyInfoNode::AddChild( PropertyInfo info )
 {
     m_children.push_back( info );
 }
@@ -383,8 +383,8 @@ void ClassInfoDB::Parse( wxXmlNode *classNode, bool recursively )
     bool isItem   = ( type == CLASS_TYPE_ITEM );
     bool isCustom = ( type == CLASS_TYPE_CUSTOM );
     bool isRoot   = ( type == CLASS_TYPE_ROOT );
-    // Can't check for:
-    // - Base   classes: wxRTTI doesn't support them.
+    // Check only real classes
+    // - Base   classes: not instantiable.
     // - Item   classes: pseudo classes, no need to check them here.
     // - Custom classes: CustomCtrl will be managed somewhere else.
     // - Root class is application specific.
@@ -528,13 +528,21 @@ PropertyInfo ClassInfoDB::DoGetPropertyInfo( wxXmlNode *propertyNode )
     {
         wxString name  = propertyNode->GetAttribute("name");
         wxString label = propertyNode->GetAttribute("label");
+        wxString description;
 
         // At least one attribute is mandatory
         if ( label.empty() && name.empty() )
         {
-            return propInfo;
+            if ( propertyNode->GetName() == "name" )
+            {
+                name        = "name";
+                description = _("The data member name for this control.");
+            }
+            else
+                return propInfo;
         }
-        else if ( label.empty() )
+
+        if ( label.empty() )
         {
             label = name.Capitalize();
         }
@@ -547,6 +555,11 @@ PropertyInfo ClassInfoDB::DoGetPropertyInfo( wxXmlNode *propertyNode )
         wxXmlNode *childNode = propertyNode->GetChildren();
 
         propInfo.reset( new PropertyInfoNode( type, name, label ) );
+
+        if ( !description.empty() )
+        {
+            propInfo->SetDescription( description );
+        }
 
         while ( childNode )
         {
@@ -562,7 +575,7 @@ PropertyInfo ClassInfoDB::DoGetPropertyInfo( wxXmlNode *propertyNode )
             {
                 PropertyInfo childInfo( DoGetPropertyInfo( childNode ) );
                 if ( childInfo.get() )
-                    propInfo->AddChild( childInfo->GetName(), childInfo );
+                    propInfo->AddChild( childInfo );
             }
 
             childNode = childNode->GetNext();

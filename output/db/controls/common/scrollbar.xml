@@ -12,7 +12,9 @@
     <inherits>
         <class>wxControl</class>
     </inherits>
-    <name>m_scrollBar</name>
+    <name>
+        <value>m_scrollBar</value>
+    </name>
     <style>
         <flag name="wxSB_HORIZONTAL">
             <description>Specifies a horizontal scrollbar.</description>
@@ -25,15 +27,15 @@
         <description>Initial position of the scrollbar (default: 0).</description>
     </int>
     <int name="range">
-        <value>10</value>
+            <value>10</value>
         <description>Maximum value of the gauge (default: 10).</description>
     </int>
     <int name="thumbsize">
-        <value>1</value>
+            <value>1</value>
         <description>Size of the thumb (default: 1).</description>
     </int>
     <int name="pagesize">
-        <value>1</value>
+            <value>1</value>
         <description>Page size (default: 1).</description>
     </int>
     <event name="wxScrollEvent">

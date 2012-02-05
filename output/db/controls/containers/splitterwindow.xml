@@ -15,7 +15,9 @@
     <children>
         <child type="widget" max="2"/>
     </children>
-    <name>m_splitter</name>
+    <name>
+        <value>m_splitter</value>
+    </name>
     <style>
         <flag name="wxSP_3D">
             <description>Draws a 3D effect border and sash.</description>
@@ -46,7 +48,7 @@
         </flag>
     </style>
     <string name="orientation">
-        <value>horizontal</value>
+            <value>horizontal</value>
         <description>Orientation of the splitter, either "vertical" or "horizontal" (default: horizontal).</description>
     </string>
     <int name="sashpos">

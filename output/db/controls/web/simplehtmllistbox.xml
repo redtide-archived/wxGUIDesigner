@@ -12,7 +12,9 @@
     <inherits>
         <class>wxListBox</class>
     </inherits>
-    <name>m_htmlListBox</name>
+    <name>
+        <value>m_htmlListBox</value>
+    </name>
     <style>
         <flag name="wxHLB_DEFAULT_STYLE">
             <description>The default style: wxBORDER_SUNKEN</description>

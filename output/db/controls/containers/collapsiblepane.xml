@@ -12,7 +12,9 @@
     <inherits>
         <class>wxControl</class>
     </inherits>
-    <name>m_collPane</name>
+    <name>
+        <value>m_collPane</value>
+    </name>
     <style>
         <flag name="wxCP_DEFAULT_STYLE">
             <description>The default style. It includes wxTAB_TRAVERSAL and wxBORDER_NONE.</description>

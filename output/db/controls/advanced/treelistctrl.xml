@@ -17,7 +17,9 @@
             <class>treelistcol</class>
             <class>treelistitem</class>
         </children>
-        <name>m_treeListCtrl</name>
+        <name>
+            <value>m_treeListCtrl</value>
+        </name>
         <style>
             <flag name="wxTL_SINGLE">
                 <description>Single selection, this is the default.</description>

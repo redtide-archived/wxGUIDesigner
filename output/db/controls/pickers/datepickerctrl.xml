@@ -12,7 +12,9 @@
     <inherits>
         <class>wxControl</class>
     </inherits>
-    <name>m_datePicker</name>
+    <name>
+        <value>m_datePicker</value>
+    </name>
     <style>
         <flag name="wxDP_SPIN">
             <description>Creates a control without a month calendar drop down but with spin-control-like arrows to change individual date components. This style is not supported by the generic version.</description>

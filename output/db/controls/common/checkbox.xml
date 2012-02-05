@@ -12,7 +12,9 @@
     <inherits>
         <class>wxControl</class>
     </inherits>
-    <name>m_chkBox</name>
+    <name>
+        <value>m_chkBox</value>
+    </name>
     <style>
         <flag name="wxCHK_2STATE">
             <description>Create a 2-state checkbox. This is the default.</description>

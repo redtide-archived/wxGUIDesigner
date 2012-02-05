@@ -12,7 +12,9 @@
     <inherits>
         <class>wxControl</class>
     </inherits>
-    <name>m_dirPicker</name>
+    <name>
+        <value>m_dirPicker</value>
+    </name>
     <style>
         <flag name="wxDIRP_DEFAULT_STYLE">
             <description>The default style: includes wxDIRP_DIR_MUST_EXIST and, under wxMSW only, wxDIRP_USE_TEXTCTRL.</description>

@@ -12,7 +12,9 @@
     <inherits>
         <class>wxControl</class>
     </inherits>
-    <name>m_mediaCtrl</name>
+    <name>
+        <value>m_mediaCtrl</value>
+    </name>
     <url name="File">
         <description>Path to the media file.</description>
     </url>

@@ -12,7 +12,9 @@
     <inherits>
         <class>wxControl</class>
     </inherits>
-    <name>m_cboBox</name>
+    <name>
+        <value>m_cboBox</value>
+    </name>
     <style>
         <flag name="wxCB_SIMPLE">
             <description>Creates a combobox with a permanently displayed list. Windows only.</description>
@@ -31,7 +33,7 @@
         </flag>
     </style>
     <int name="selection">
-        <value>-1</value>
+            <value>-1</value>
         <description>Index of the initially selected item or -1 for no selection (default: -1).</description>
     </int>
     <arraystring name="content">
