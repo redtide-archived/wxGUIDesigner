@@ -9,13 +9,19 @@
     Licence:     wxWindows licence
 -->
 <class name="wxRadioButton">
+    <description>
+        &lt;p&gt;A radio button item is a button which usually denotes one of several mutually exclusive options.&lt;/p&gt;
+        &lt;p&gt;It has a text label next to a (usually) round button.&lt;/p&gt;
+        &lt;p&gt;You can create a group of mutually-exclusive radio buttons by specifying &lt;code&gt;wxRB_GROUP&lt;/code&gt; for the first in the group. The group ends when another radio button group is created, or there are no more radio buttons.&lt;/p&gt;
+    </description>
     <inherits>
         <class>wxControl</class>
+        <class>wxWindow</class>
     </inherits>
-    <name>
+    <name label="Name">
         <value>m_radioBtn</value>
     </name>
-    <style>
+    <style label="Style">
         <flag name="wxRB_GROUP">
             <description>Marks the beginning of a new group of radio buttons.</description>
         </flag>
@@ -23,11 +29,13 @@
             <description>In some circumstances, radio buttons that are not consecutive siblings trigger a hang bug in Windows (only). If this happens, add this style to mark the button as not belonging to a group, and implement the mutually-exclusive group behaviour yourself.</description>
         </flag>
     </style>
-    <bool name="value">
+    <bool name="value" label="Value">
+        <value>0</value>
         <description>Initial value of the control (default: 0).</description>
     </bool>
     <event name="wxCommandEvent">
-        <type name="EVT_RADIOBUTTON">
+        <type name="wxEVT_COMMAND_RADIOBUTTON_SELECTED">
+            <macro>EVT_RADIOBUTTON</macro>
             <description>Process a wxEVT_COMMAND_RADIOBUTTON_SELECTED event, when the radiobutton is clicked.</description>
         </type>
     </event>

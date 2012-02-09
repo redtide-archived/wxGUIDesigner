@@ -1,29 +1,28 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        core/defs.h
-// Purpose:     interface of Object
+// Purpose:     application defines
 // Author:      Andrea Zanellato
 // Modified by:
 // Created:     2011/12/21
 // Revision:    $Hash$
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
-
 /**
-    Class type (default: widget type).
+    Class types.
 */
 enum ClassType
 {
     CLASS_TYPE_UNKNOWN = 0,
+    CLASS_TYPE_ROOT,
     CLASS_TYPE_WIDGET,
-    CLASS_TYPE_ABSTRACT,
     CLASS_TYPE_CONTAINER,
     CLASS_TYPE_CUSTOM,
-    CLASS_TYPE_ITEM,
+    CLASS_TYPE_WINDOW = (CLASS_TYPE_WIDGET|CLASS_TYPE_CONTAINER|CLASS_TYPE_CUSTOM),
     CLASS_TYPE_LAYOUT,
-    CLASS_TYPE_ROOT,
-    CLASS_TYPE_TOPLEVEL
+    CLASS_TYPE_TOPLEVEL,
+    CLASS_TYPE_ABSTRACT,
+    CLASS_TYPE_ITEM
 };
-
 /**
     ObjectTree event types.
 */
@@ -34,7 +33,6 @@ enum ObjectEventType
     EVT_OBJECT_EXPANDED,
     EVT_OBJECT_SELECTED
 };
-
 /**
     PropertyInfo types.
 */

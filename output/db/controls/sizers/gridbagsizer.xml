@@ -9,22 +9,27 @@
     Licence:     wxWindows licence
 -->
 <classes>
-    <class name="wxGridBagSizer" type="layout">
+    <class name="wxGridBagSizer" type="sizer">
         <inherits>
            <class>wxFlexGridSizer</class>
         </inherits>
         <children>
-            <class name="gbsizeritem"  max="-1"/>
+            <class name="gbsizeritem" max="-1"/>
+            <class name="spacer"      max="-1"/>
         </children>
-        <name>
+        <name label="Name">
             <value>gbSizer</value>
         </name>
     </class>
 
     <class name="gbsizeritem" type="item">
         <inherits>
-            <class>sizeritembase</class>
+            <class>sizeritem</class>
         </inherits>
+        <children>
+            <class type="sizer"  max="1" option="1"/>
+            <class type="window" max="1" option="1"/>
+        </children>
         <point name="cellpos" label="Cell position">
             <description>Position, see wxGBSizerItem::SetPos() (required).</description>
         </point>

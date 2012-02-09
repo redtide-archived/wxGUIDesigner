@@ -10,13 +10,14 @@
 -->
 <classes>
     <class name="wxAuiToolBar">
+        <description>wxAuiToolBar is a dockable toolbar, part of the wxAUI class framework.</description>
         <inherits>
-            <class>wxControl</class>
+            <class>wxWindow</class>
         </inherits>
         <children>
             <class>wxAuiToolBarItem</class>
         </children>
-        <name>
+        <name label="Name">
             <value>m_toolBar</value>
         </name>
         <style>
@@ -52,19 +53,24 @@
             </flag>
         </style>
         <event name="wxAuiToolBarEvent">
-            <type name="EVT_AUITOOLBAR_TOOL_DROPDOWN">
+            <type name="wxEVT_COMMAND_AUITOOLBAR_TOOL_DROPDOWN">
+                <macro_id>EVT_AUITOOLBAR_TOOL_DROPDOWN</macro_id>
                 <description>Process a wxEVT_COMMAND_AUITOOLBAR_TOOL_DROPDOWN event</description>
             </type>
-            <type name="EVT_AUITOOLBAR_OVERFLOW_CLICK">
+            <type name="wxEVT_COMMAND_AUITOOLBAR_OVERFLOW_CLICK">
+                <macro_id>EVT_AUITOOLBAR_OVERFLOW_CLICK</macro_id>
                 <description>Process a wxEVT_COMMAND_AUITOOLBAR_OVERFLOW_CLICK event</description>
             </type>
-            <type name="EVT_AUITOOLBAR_RIGHT_CLICK">
+            <type name="wxEVT_COMMAND_AUITOOLBAR_RIGHT_CLICK">
+                <macro_id>EVT_AUITOOLBAR_RIGHT_CLICK</macro_id>
                 <description>Process a wxEVT_COMMAND_AUITOOLBAR_RIGHT_CLICK event</description>
             </type>
-            <type name="EVT_AUITOOLBAR_MIDDLE_CLICK">
+            <type name="wxEVT_COMMAND_AUITOOLBAR_MIDDLE_CLICK">
+                <macro_id>EVT_AUITOOLBAR_MIDDLE_CLICK</macro_id>
                 <description>Process a wxEVT_COMMAND_AUITOOLBAR_MIDDLE_CLICK event</description>
             </type>
-            <type name="EVT_AUITOOLBAR_BEGIN_DRAG">
+            <type name="wxEVT_COMMAND_AUITOOLBAR_BEGIN_DRAG">
+                <macro_id>EVT_AUITOOLBAR_BEGIN_DRAG</macro_id>
                 <description>Process a wxEVT_COMMAND_AUITOOLBAR_BEGIN_DRAG event</description>
             </type>
         </event>

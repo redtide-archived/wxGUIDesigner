@@ -8,32 +8,50 @@
     Revision:    $Hash$
     Licence:     wxWindows licence
 -->
-<class name="wxCollapsiblePane">
-    <inherits>
-        <class>wxControl</class>
-    </inherits>
-    <name>
-        <value>m_collPane</value>
-    </name>
-    <style>
-        <flag name="wxCP_DEFAULT_STYLE">
-            <description>The default style. It includes wxTAB_TRAVERSAL and wxBORDER_NONE.</description>
-        </flag>
-        <flag name="wxCP_NO_TLW_RESIZE">
-            <description>By default wxCollapsiblePane resizes the top level window containing it when its own size changes. This allows to easily implement dialogs containing an optionally shown part, for example, and so is the default behaviour but can be inconvenient in some specific cases -- use this flag to disable this automatic parent resizing then.</description>
-        </flag>
-    </style>
-    <bool name="collapsed">
-        <description>Should the pane be collapsed initially (default: 0)?</description>
-    </bool>
-    <event name="wxCollapsiblePaneEvent">
-        <type name="wxEVT_COMMAND_COLLPANE_CHANGED">
-            <description>The user expanded or collapsed the collapsible pane.</description>
-        </type>
-    </event>
-    <event name="wxNavigationKeyEvent">
-        <type name="wxEVT_NAVIGATION_KEY">
-            <description>Process a navigation key event.</description>
-        </type>
-    </event>
-</class>
+<classes>
+    <class name="wxCollapsiblePane" type="container">
+        <description>A collapsible pane is a container with an embedded button-like control which can be used by the user to collapse or expand the pane's contents.</description>
+        <inherits>
+            <class>wxControl</class>
+            <class>wxWindow</class>
+        </inherits>
+        <children>
+            <class name="panewindow" max="1"/>
+        </children>
+        <name label="Name">
+            <value>m_collPane</value>
+        </name>
+        <style label="Style">
+            <flag name="wxCP_DEFAULT_STYLE">
+                <description>The default style. It includes wxTAB_TRAVERSAL and wxBORDER_NONE.</description>
+            </flag>
+            <flag name="wxCP_NO_TLW_RESIZE">
+                <description>By default wxCollapsiblePane resizes the top level window containing it when its own size changes. This allows to easily implement dialogs containing an optionally shown part, for example, and so is the default behaviour but can be inconvenient in some specific cases -- use this flag to disable this automatic parent resizing then.</description>
+            </flag>
+        </style>
+        <bool name="collapsed" label="Collapsed">
+            <value>0</value>
+            <description>Should the pane be collapsed initially (default: 0)?</description>
+        </bool>
+        <event name="wxCollapsiblePaneEvent">
+            <type name="wxEVT_COMMAND_COLLPANE_CHANGED">
+                <macro_id>EVT_COLLAPSIBLEPANE_CHANGED</macro_id>
+                <description>The user expanded or collapsed the collapsible pane.</description>
+            </type>
+        </event>
+        <event name="wxNavigationKeyEvent">
+            <type name="wxEVT_NAVIGATION_KEY">
+                <macro>EVT_NAVIGATION_KEY</macro>
+                <description>Process a navigation key event.</description>
+            </type>
+        </event>
+    </class>
+
+    <class name="panewindow" type="item">
+        <description>&lt;a title="A collapsible pane is a container with an embedded button-like control which can be used by the user ..." href="http://docs.wxwidgets.org/trunk/classwx_collapsible_pane.html" class="el"&gt;wxCollapsiblePane&lt;/a&gt; may contain single optional child object of the &lt;code&gt;panewindow&lt;/code&gt; pseudo-class type. &lt;code&gt;panewindow&lt;/code&gt; itself must contain exactly one child that is a &lt;a href="http://docs.wxwidgets.org/trunk/overview_xrcformat.html#overview_xrcformat_sizers" class="el"&gt;sizer&lt;/a&gt; or a non-toplevel window object.</description>
+        <children>
+            <child type="layout" max="1"/>
+            <child type="window" max="1"/>
+        </children>
+    </class>
+</classes>

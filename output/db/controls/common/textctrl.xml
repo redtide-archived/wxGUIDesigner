@@ -9,13 +9,14 @@
     Licence:     wxWindows licence
 -->
 <class name="wxTextCtrl">
+    <description>A text control allows text to be displayed and edited.</description>
     <inherits>
-        <class>wxControl</class>
+        <class>wxWindow</class>
     </inherits>
-    <name>
+    <name label="Name">
         <value>m_textCtrl</value>
     </name>
-    <style>
+    <style label="Style">
         <flag name="wxTE_PROCESS_ENTER">
             <description>The control will generate the event wxEVT_COMMAND_TEXT_ENTER (otherwise pressing Enter key is either processed internally by the control or used for navigation between dialog controls).</description>
         </flag>
@@ -81,16 +82,20 @@
         <description>Maximum length of the text which can be entered by user (default: unlimited).</description>
     </int>
     <event name="wxCommandEvent">
-        <type name="EVT_TEXT">
+        <type name="wxEVT_COMMAND_TEXT_UPDATED">
+            <macro>EVT_TEXT</macro>
             <description>Respond to a wxEVT_COMMAND_TEXT_UPDATED event, generated when the text changes. Notice that this event will be sent when the text controls contents changes -- whether this is due to user input or comes from the program itself (for example, if wxTextCtrl::SetValue() is called); see wxTextCtrl::ChangeValue() for a function which does not send this event. This event is however not sent during the control creation.</description>
         </type>
-        <type name="EVT_TEXT_ENTER">
+        <type name="wxEVT_COMMAND_TEXT_ENTER">
+            <macro>EVT_TEXT_ENTER</macro>
             <description>Respond to a wxEVT_COMMAND_TEXT_ENTER event, generated when enter is pressed in a text control which must have wxTE_PROCESS_ENTER style for this event to be generated.</description>
         </type>
-        <type name="EVT_TEXT_URL">
+        <type name="wxEVT_COMMAND_TEXT_URL">
+            <macro>EVT_TEXT_URL</macro>
             <description>A mouse event occurred over an URL in the text control (wxMSW and wxGTK2 only currently).</description>
         </type>
-        <type name="EVT_TEXT_MAXLEN">
+        <type name="wxEVT_COMMAND_TEXT_MAXLEN">
+            <macro>EVT_TEXT_MAXLEN</macro>
             <description>This event is generated when the user tries to enter more text into the control than the limit set by wxTextCtrl::SetMaxLength(), see its description.</description>
         </type>
     </event>

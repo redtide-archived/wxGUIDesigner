@@ -9,13 +9,35 @@
     Licence:     wxWindows licence
 -->
 <class name="wxBitmapToggleButton">
+    <description>wxBitmapToggleButton is a wxToggleButton that contains a bitmap instead of text.</description>
     <inherits>
         <class>wxToggleButton</class>
+        <class>wxWindow</class>
     </inherits>
-    <name>
+    <name label="Name">
         <value>m_toggleBtn</value>
     </name>
-    <bitmap>
+    <style label="Style">
+        <flag name="wxBU_LEFT">
+            <description>Left-justifies the label. Windows and GTK+ only.</description>
+        </flag>
+        <flag name="wxBU_TOP">
+            <description>Aligns the label to the top of the button. Windows and GTK+ only.</description>
+        </flag>
+        <flag name="wxBU_RIGHT">
+            <description>Right-justifies the bitmap label. Windows and GTK+ only.</description>
+        </flag>
+        <flag name="wxBU_BOTTOM">
+            <description>Aligns the label to the bottom of the button. Windows and GTK+ only.</description>
+        </flag>
+        <flag name="wxBU_EXACTFIT">
+            <description>Creates the button as small as possible instead of making it of the standard size (which is the default behaviour ).</description>
+        </flag>
+        <flag name="wxBU_NOTEXT">
+            <description>Disables the display of the text label in the button even if it has one or its id is one of the standard stock ids with an associated label: without using this style a button which is only supposed to show a bitmap but uses a standard id would display a label too.</description>
+        </flag>
+    </style>
+    <bitmap label="Bitmap">
         <description>Bitmap to display (required).</description>
     </bitmap>
 </class>

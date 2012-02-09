@@ -9,13 +9,16 @@
     Licence:     wxWindows licence
 -->
 <class name="wxScrollBar">
+    <description>
+        &lt;p&gt;A &lt;a title="A wxScrollBar is a control that represents a horizontal or vertical scrollbar." href="http://docs.wxwidgets.org/trunk/classwx_scroll_bar.html" class="el"&gt;wxScrollBar&lt;/a&gt; is a control that represents a horizontal or vertical scrollbar.&lt;/p&gt;
+    </description>
     <inherits>
-        <class>wxControl</class>
+        <class>wxWindow</class>
     </inherits>
-    <name>
+    <name label="Name">
         <value>m_scrollBar</value>
     </name>
-    <style>
+    <style label="Style">
         <flag name="wxSB_HORIZONTAL">
             <description>Specifies a horizontal scrollbar.</description>
         </flag>
@@ -23,80 +26,89 @@
             <description>Specifies a vertical scrollbar.</description>
         </flag>
     </style>
-    <int name="value">
+    <int name="value" label="Value">
+        <value>0</value>
         <description>Initial position of the scrollbar (default: 0).</description>
     </int>
-    <int name="range">
-            <value>10</value>
+    <int name="range" label="Range">
+        <value>10</value>
         <description>Maximum value of the gauge (default: 10).</description>
     </int>
-    <int name="thumbsize">
-            <value>1</value>
+    <int name="thumbsize" label="Thumb size">
+        <value>1</value>
         <description>Size of the thumb (default: 1).</description>
     </int>
-    <int name="pagesize">
-            <value>1</value>
+    <int name="pagesize" label="Page size">
+        <value>1</value>
         <description>Page size (default: 1).</description>
     </int>
     <event name="wxScrollEvent">
-        <type name="EVT_SCROLL">
+        <macros>
+            <macro>EVT_SCROLL</macro>
+            <macro>ID,EVT_COMMAND_SCROLL</macro>
             <description>Process all scroll events.</description>
-        </type>
-        <type name="EVT_SCROLL_TOP">
+        </macros>
+        <type name="wxEVT_SCROLL_TOP">
+            <macros>
+                <macro>EVT_SCROLL_TOP</macro>
+                <macro>ID,EVT_COMMAND_SCROLL_TOP</macro>
+            </macros>
             <description>Process wxEVT_SCROLL_TOP scroll-to-top events (minimum position).</description>
         </type>
-        <type name="EVT_SCROLL_BOTTOM">
+        <type name="wxEVT_SCROLL_BOTTOM">
+            <macros>
+                <macro>EVT_SCROLL_BOTTOM</macro>
+                <macro>ID,EVT_COMMAND_SCROLL_BOTTOM</macro>
+            </macros>
             <description>Process wxEVT_SCROLL_BOTTOM scroll-to-bottom events (maximum position).</description>
         </type>
-        <type name="EVT_SCROLL_LINEUP">
+        <type name="wxEVT_SCROLL_LINEUP">
+            <macros>
+                <macro>EVT_SCROLL_LINEUP</macro>
+                <macro>ID,EVT_COMMAND_SCROLL_LINEUP</macro>
+            </macros>
             <description>Process wxEVT_SCROLL_LINEUP line up events.</description>
         </type>
-        <type name="EVT_SCROLL_LINEDOWN">
+        <type name="wxEVT_SCROLL_LINEDOWN">
+            <macros>
+                <macro>EVT_SCROLL_LINEDOWN</macro>
+                <macro>ID,EVT_COMMAND_SCROLL_LINEDOWN</macro>
+            </macros>
             <description>Process wxEVT_SCROLL_LINEDOWN line down events.</description>
         </type>
-        <type name="EVT_SCROLL_PAGEUP">
+        <type name="wxEVT_SCROLL_PAGEUP">
+            <macros>
+                <macro>EVT_SCROLL_PAGEUP</macro>
+                <macro>ID,EVT_COMMAND_SCROLL_PAGEUP</macro>
+            </macros>
             <description>Process wxEVT_SCROLL_PAGEUP page up events.</description>
         </type>
-        <type name="EVT_SCROLL_PAGEDOWN">
+        <type name="wxEVT_SCROLL_PAGEDOWN">
+            <macros>
+                <macro>EVT_SCROLL_PAGEDOWN</macro>
+                <macro>ID,EVT_COMMAND_SCROLL_PAGEDOWN</macro>
+            </macros>
             <description>Process wxEVT_SCROLL_PAGEDOWN page down events.</description>
         </type>
-        <type name="EVT_SCROLL_THUMBTRACK">
+        <type name="wxEVT_SCROLL_THUMBTRACK">
+            <macros>
+                <macro>EVT_SCROLL_THUMBTRACK</macro>
+                <macro>ID,EVT_COMMAND_SCROLL_THUMBTRACK</macro>
+            </macros>
             <description>Process wxEVT_SCROLL_THUMBTRACK thumbtrack events (frequent events sent as the user drags the thumbtrack).</description>
         </type>
-        <type name="EVT_SCROLL_THUMBRELEASE">
+        <type name="wxEVT_SCROLL_THUMBRELEASE">
+            <macros>
+                <macro>EVT_SCROLL_THUMBRELEASE</macro>
+                <macro>ID,EVT_COMMAND_SCROLL_THUMBRELEASE</macro>
+            </macros>
             <description>Process wxEVT_SCROLL_THUMBRELEASE thumb release events.</description>
         </type>
-        <type name="EVT_SCROLL_CHANGED">
-            <description>Process wxEVT_SCROLL_CHANGED end of scrolling events (MSW only).</description>
-        </type>
-        <type name="EVT_COMMAND_SCROLL">
-            <description>Process all scroll events.</description>
-        </type>
-        <type name="EVT_COMMAND_SCROLL_TOP">
-            <description>Process wxEVT_SCROLL_TOP scroll-to-top events (minimum position).</description>
-        </type>
-        <type name="EVT_COMMAND_SCROLL_BOTTOM">
-            <description>Process wxEVT_SCROLL_BOTTOM scroll-to-bottom events (maximum position).</description>
-        </type>
-        <type name="EVT_COMMAND_SCROLL_LINEUP">
-            <description>Process wxEVT_SCROLL_LINEUP line up events.</description>
-        </type>
-        <type name="EVT_COMMAND_SCROLL_LINEDOWN">
-            <description>Process wxEVT_SCROLL_LINEDOWN line down events.</description>
-        </type>
-        <type name="EVT_COMMAND_SCROLL_PAGEUP">
-            <description>Process wxEVT_SCROLL_PAGEUP page up events.</description>
-        </type>
-        <type name="EVT_COMMAND_SCROLL_PAGEDOWN">
-            <description>Process wxEVT_SCROLL_PAGEDOWN page down events.</description>
-        </type>
-        <type name="EVT_COMMAND_SCROLL_THUMBTRACK">
-            <description>Process wxEVT_SCROLL_THUMBTRACK thumbtrack events (frequent events sent as the user drags the thumbtrack).</description>
-        </type>
-        <type name="EVT_COMMAND_SCROLL_THUMBRELEASE">
-            <description>Process wxEVT_SCROLL_THUMBRELEASE thumb release events.</description>
-        </type>
-        <type name="EVT_COMMAND_SCROLL_CHANGED">
+        <type name="wxEVT_SCROLL_CHANGED">
+            <macros>
+                <macro>EVT_SCROLL_CHANGED</macro>
+                <macro>ID,EVT_COMMAND_SCROLL_CHANGED</macro>
+            </macros>
             <description>Process wxEVT_SCROLL_CHANGED end of scrolling events (MSW only).</description>
         </type>
     </event>

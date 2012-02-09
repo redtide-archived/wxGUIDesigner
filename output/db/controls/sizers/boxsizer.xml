@@ -12,7 +12,11 @@
     <inherits>
         <class>wxSizer</class>
     </inherits>
-    <name>
+    <children>
+        <class name="sizeritem" max="-1"/>
+        <class name="spacer"    max="-1"/>
+    </children>
+    <name label="Name">
         <value>boxSizer</value>
     </name>
     <style name="orient" label="Orientation">

@@ -10,16 +10,14 @@
 -->
 <classes>
     <class name="wxAuiManager" type="layout">
-        <inherits>
-            <class>wxEvtHandler</class>
-        </inherits>
+        <description>wxAuiManager is the central class of the wxAUI class framework.</description>
         <children>
             <class name="wxAuiPaneInfo" max="-1"/>
         </children>
-        <name>
+        <name label="Name">
             <value>m_mgr</value>
         </name>
-        <style>
+        <style label="Style">
             <flag name="wxAUI_MGR_ALLOW_FLOATING">
                 <description>Allow a pane to be undocked to take the form of a wxMiniFrame.</description>
             </flag>
@@ -52,19 +50,24 @@
             </flag>
         </style>
         <event name="wxAuiManagerEvent">
-            <type name="EVT_AUI_PANE_BUTTON">
+            <type name="wxEVT_AUI_PANE_BUTTON">
+                <macro>EVT_AUI_PANE_BUTTON</macro>
                 <description>Triggered when any button is pressed for any docked panes.</description>
             </type>
-            <type name="EVT_AUI_PANE_CLOSE">
+            <type name="wxEVT_AUI_PANE_CLOSE">
+                <macro>EVT_AUI_PANE_CLOSE</macro>
                 <description>Triggered when a docked or floating pane is closed.</description>
             </type>
-            <type name="EVT_AUI_PANE_MAXIMIZE">
+            <type name="wxEVT_AUI_PANE_MAXIMIZE">
+                <macro>EVT_AUI_PANE_MAXIMIZE</macro>
                 <description>Triggered when a pane is maximized.</description>
             </type>
-            <type name="EVT_AUI_PANE_RESTORE">
+            <type name="wxEVT_AUI_PANE_RESTORE">
+                <macro>EVT_AUI_PANE_RESTORE</macro>
                 <description>Triggered when a pane is restored.</description>
             </type>
-            <type name="EVT_AUI_RENDER">
+            <type name="wxEVT_AUI_RENDER">
+                <macro>EVT_AUI_RENDER</macro>
                 <description>This event can be caught to override the default renderer in order to custom draw your wxAuiManager window (not recommended).</description>
             </type>
         </event>

@@ -10,29 +10,31 @@
 -->
 <classes>
     <class name="wxBitmapComboBox">
+        <description>A combobox that displays bitmap in front of the list items.</description>
         <inherits>
             <class>wxComboBox</class>
+            <class>wxWindow</class>
         </inherits>
         <children>
             <class>ownerdrawnitem</class>
         </children>
-        <name>
+        <name label="Name">
             <value>m_bmpCBox</value>
         </name>
-        <int name="selection">
-                <value>-1</value>
+        <int name="selection" label="Selection">
+            <value>-1</value>
             <description>Index of the initially selected item or -1 for no selection (default: -1).</description>
         </int>
-        <string name="value">
+        <string name="value" label="Value">
             <description>Initial value in the control (doesn't have to be one of content values; default: empty).</description>
         </string>
     </class>
 
     <class name="ownerdrawnitem" type="item">
-        <text>
+        <text label="Text">
             <description>Item's label (required).</description>
         </text>
-        <bitmap>
+        <bitmap label="Bitmap">
             <description>Item's bitmap (default: no bitmap).</description>
         </bitmap>
     </class>

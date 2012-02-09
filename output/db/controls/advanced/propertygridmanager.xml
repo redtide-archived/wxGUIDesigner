@@ -9,10 +9,11 @@
     Licence:     wxWindows licence
 -->
 <class name="wxPropertyGridManager">
+    <description>wxPropertyGridManager is an efficient multi-page version of wxPropertyGrid, which can optionally have toolbar for mode and page selection, a help text box, and a header.</description>
     <inherits>
-        <class>wxPanel</class>
+        <class>wxWindow</class>
     </inherits>
-    <name>
+    <name label="Name">
         <value>m_propGridMgr</value>
     </name>
 </class>

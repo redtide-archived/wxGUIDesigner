@@ -8,14 +8,18 @@
     Revision:    $Hash$
     Licence:     wxWindows licence
 -->
-<class name="wxGridSizer" type="layout">
+<class name="wxGridSizer" type="sizer">
     <inherits>
         <class>wxSizer</class>
     </inherits>
-    <name>
+    <children>
+        <class name="sizeritem" max="-1"/>
+        <class name="spacer"    max="-1"/>
+    </children>
+    <name label="Name">
         <value>gridSizer</value>
     </name>
-    <int name="rows ">
+    <int name="rows">
         <description>Number of rows in the grid (default: 0 - determine automatically).</description>
     </int>
     <int name="cols" label="Columns">

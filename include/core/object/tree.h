@@ -22,9 +22,9 @@ class wxBitmap;
 class wxFont;
 class wxPoint;
 class wxSize;
-//-----------------------------------------------------------------------------
+//*****************************************************************************
 // EventNode Class
-//-----------------------------------------------------------------------------
+//*****************************************************************************
 
 class EventNode
 {
@@ -32,43 +32,36 @@ public:
     EventNode( EventInfo eventInfo );
     ~EventNode();
 
-    wxString GetName()         { return m_info->GetName(); }
-    wxString GetDescription()  { return m_info->GetDescription(); }
+    wxString GetName();
+    wxString GetDescription();
 
-    wxString GetHandlerName     ( size_t evtTypeIndex ) const;
-    bool     SetHandlerName     ( size_t evtTypeIndex, const wxString &name );
-    bool     SetHandlerName     ( const wxString &type , const wxString &name );
+    wxString GetHandlerName( size_t typeIndex )     const;
+    bool     SetHandlerName( size_t typeIndex,      const wxString &name );
+    bool     SetHandlerName( const wxString &type , const wxString &name );
 
-    wxString GetTypeName        ( size_t evtTypeIndex  ) const;
-    wxString GetTypeDescription ( size_t evtTypeIndex  ) const;
-    size_t   GetTypeCount()     { return m_info->GetTypeCount(); }
+    wxString GetTypeName( size_t typeIndex  )        const;
+    wxString GetTypeDescription( size_t typeIndex  ) const;
+    size_t   GetTypeCount();
 
 private:
     EventInfo     m_info;
     wxArrayString m_handlers;
 };
-//-----------------------------------------------------------------------------
+//*****************************************************************************
 // PropertyNode Class
-//-----------------------------------------------------------------------------
+//*****************************************************************************
 
 class PropertyNode
 {
 public:
-    PropertyNode( PropertyInfo info ) : m_info( info ),
-                                        m_value( info->GetDefaultValue() ) {}
+    PropertyNode( PropertyInfo info );
     ~PropertyNode();
 
-    wxString        GetName()        const { return m_info->GetName(); }
-    wxString        GetLabel()       const { return m_info->GetLabel(); }
-    wxString        GetDescription() const { return m_info->GetDescription(); }
-    PropertyType    GetType()        const { return m_info->GetType(); }
-    PropertyInfo    GetInfo()        const { return m_info; }
-
-    void            AddChild( Property prop );
-    size_t          GetChildCount()        { return m_children.size(); }
-    Property        GetChild( size_t index ) const;
-
-    void            SetValue( const wxAny &value ) { m_value = value; }
+    wxString        GetName()           const;
+    wxString        GetLabel()          const;
+    wxString        GetDescription()    const;
+    PropertyType    GetType()           const;
+    PropertyInfo    GetInfo()           const;
 
     wxArrayString   GetAsArrayString()  const;
     wxBitmap        GetAsBitmap()       const;
@@ -84,71 +77,76 @@ public:
     wxString        GetAsText()         const;
     wxString        GetAsURL()          const;
 
+    size_t          GetChildCount();
+    Property        GetChild( size_t index ) const;
+    void            AddChild( Property prop );
+    void            SetValue( const wxAny &value );
+
 private:
     PropertyInfo    m_info;
     Properties      m_children;
     wxAny           m_value;
 };
-//-----------------------------------------------------------------------------
+//*****************************************************************************
 // ObjectNode Class
-//-----------------------------------------------------------------------------
+//*****************************************************************************
 
 class ObjectNode : public IObjectNode
 {
 public:
-    ObjectNode( Object parent, ClassInfo classInfo = ClassInfo(),
+    ObjectNode( ClassInfo classInfo,
+                Object parent, 
                 bool expanded = true );
     ~ObjectNode();
 
-    virtual wxString GetClassName()   const { return m_info->GetName(); }
-    virtual wxString GetDescription() const { return m_info->GetDescription(); }
+    virtual wxString GetClassName()   const;
+    virtual wxString GetDescription() const;
 
-    ClassInfo   GetClassInfo() const            { return m_info; }
+    ClassInfo   GetClassInfo() const;
 
-    bool        IsRoot()    { return m_info->GetType() == CLASS_TYPE_ROOT; }
-    bool        IsExpanded()                    { return m_expanded; }
-    void        Collapse()                      { m_expanded = false; }
-    void        Expand()                        { m_expanded = true; }
+    bool        IsRoot();
+    bool        IsExpanded();
+    void        Collapse();
+    void        Expand();
 
     // Events
-    void        AddEvent( Event event )         { m_events.push_back( event ); }
+    void        AddEvent( Event event );
     Event       GetEvent( size_t index );
     Event       GetEvent( const wxString &name );
-    size_t      GetEventCount()                 { return m_events.size(); }
+    size_t      GetEventCount();
 
     // Properties
     void        AddProperty( Property prop );
     Property    GetProperty( size_t index );
     Property    GetProperty( const wxString &name );
-    Property    GetChildProperty( Property parent, const wxString &name );
-    size_t      GetPropertyCount();
     bool        PropertyExists( const wxString &name );
+    size_t      GetPropertyCount();
+    Property    GetChildProperty( Property parent, const wxString &name );
 
     // Inherited classes
-    void        AddBaseInfo( ClassInfo info ) { m_baseinfos.push_back( info ); }
+    void        AddBaseInfo( ClassInfo info );
     ClassInfo   GetBaseInfo( size_t index );
     wxString    GetBaseName( size_t index );
-    size_t      GetBaseCount()              { return m_info->GetBaseCount(); }
+    size_t      GetBaseCount();
 
     // Parent / children objects
-    void        AddChild( Object child )    { m_children.push_back( child ); }
+    void        AddChild( Object child );
     Object      GetChild( size_t index );
-    Object      GetParent()                 { return m_parent; }
-    size_t      GetChildCount()             { return m_children.size(); }
+    Object      GetParent();
+    size_t      GetChildCount();
 
 private:
-    Object      m_parent;
-    Objects     m_children;
     ClassInfo   m_info;
     ClassInfos  m_baseinfos;
+    Object      m_parent;
+    Objects     m_children;
     bool        m_expanded;
     Events      m_events;
     Properties  m_props;
 };
-
-//-----------------------------------------------------------------------------
+//*****************************************************************************
 // ObjectTree Singleton Class
-//-----------------------------------------------------------------------------
+//*****************************************************************************
 
 class ObjectTree : public IObjectManager
 {
@@ -172,7 +170,7 @@ private:
                                const wxString &childType );
     void            SendEvent( Object object, ObjectEventType eventType );
 
-    size_t          GetChildCountByType( Object parent, ClassType clsType );
+    size_t          GetChildInfoCount( Object parent, ClassInfo info );
 
     typedef std::list< IObjectHandler * > ObjectHandlers;
 

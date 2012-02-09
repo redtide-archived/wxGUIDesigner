@@ -8,6 +8,51 @@
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 /**
+    @class ChildInfo
+
+    Stores metadata informations for a given class name or type as allowed
+    child for the current class.
+*/
+class ChildInfo
+{
+public:
+/**
+    Constructor
+    @param type Child ClassType.
+    @param name Child class name.
+    @param max Maximum amount of child class instances allowed.
+    @param option The child class is part of an option group.
+*/
+    ChildInfo( ClassType        type      = CLASS_TYPE_UNKNOWN,
+                const wxString &name      = wxEmptyString,
+                int             max       = 0,
+                bool            option    = false );
+/**
+    Destructor
+*/
+    ~ChildInfo();
+/**
+    Return the child class type.
+*/
+    ClassType GetType() const;
+/**
+    Return the child class name.
+*/
+    wxString GetName() const;
+/**
+    Return the maximum amount of instances allowed.
+*/
+    int GetMax() const;
+/**
+    Return if this child class is part of an option group.
+*/
+    bool IsOption() const;
+/**
+    Return if this child is defined by its type.
+*/
+    bool IsType() const;
+};
+/**
     @class EventInfo
 
     Stores metadata informations for a given Event.
@@ -27,31 +72,37 @@ public:
 */
     ~EventInfo();
 /**
-    Returns the event class name.
+    Return the event class name.
 */
-    wxString GetName();
+    wxString GetName() const;
 /**
-    Returns the event class description.
+    Return the event class description.
 */
-    wxString GetDescription();
+    wxString GetDescription() const;
 /**
-    Returns the event type name at the given index.
+    Return the event type name at the given index.
 */
-    wxString GetTypeName( size_t index );
+    wxString GetTypeName( size_t index ) const;
 /**
-    Returns the event type description at the given index.
+    Return the event type description at the given index.
 */
-    wxString GetTypeDescription( size_t index );
+    wxString GetTypeDescription( size_t index ) const;
 /**
-    Returns the event type count.
+    Return the event type count.
 */
-    size_t   GetTypeCount();
+    size_t GetTypeCount() const;
+
+private:
 /**
     Add an event type to this event class.
     @param name Event type name (e.g. "wxEVT_CLOSE")
     @param description A description about the event class
 */
     void AddType( const wxString &name, const wxString &description );
+/**
+    Sets the description.
+*/
+    void SetDescription( const wxString &description );
 };
 /**
     @class PropertyInfo
@@ -67,7 +118,7 @@ public:
     @param name Property name.
     @param label Translatable Property label.
 */
-    PropertyInfo( PropertyType type,
+    PropertyInfo( PropertyType    type,
                   const wxString &name,
                   const wxString &label );
 /**
@@ -75,29 +126,33 @@ public:
 */
     ~PropertyInfo();
 /**
-    Returns the property type.
+    Return the property type.
 */
-    PropertyType GetType()         const;
+    PropertyType GetType() const;
 /**
-    Returns the property name.
+    Return the property name.
 */
-    wxString     GetName()         const;
+    wxString GetName() const;
 /**
-    Returns the property label.
+    Return the property label.
 */
-    wxString     GetLabel()        const;
+    wxString GetLabel() const;
 /**
-    Returns the property default value if any.
+    Return the property default value if any.
 */
-    wxString     GetDefaultValue() const;
+    wxString GetDefaultValue() const;
 /**
-    Returns the property description (if any).
+    Return the property description (if any).
 */
-    wxString     GetDescription()  const;
+    wxString GetDescription() const;
 /**
-    Returns how many children are contained in this property info.
+    Return how many children are contained in this property info.
 */
-    size_t       GetChildCount();
+    size_t GetChildCount() const;
+/**
+    Get a child from specified index.
+*/
+    PropertyInfo GetChild( size_t index );
 /**
     Add a property child to this property.
     Used for PROPERTY_TYPE_CATEGORY.
@@ -105,6 +160,10 @@ public:
     @param info child property to add
 */
     void AddChild( const wxString &name, PropertyInfo info );
+
+private:
+    void SetDefaultValue( const wxString &value );
+    void SetDescription( const wxString &description );
 };
 /**
     @class ClassInfo
@@ -123,64 +182,81 @@ public:
 */
     ~ClassInfo();
 /**
-    Returns the class name.
+    Return the class name.
 */
-    wxString        GetName() const;
+    wxString GetName() const;
 /**
-    Returns if this class is a possible child of the specified class name.
-    E.g. a wxButton can be a child of a toplevel (wxTopLevelWindow)
-         or layout (wxSizer or sizeritem) class type
+    Return the class description.
 */
-    bool            GetMaxAllowedBy( const wxString &className );
+    wxString GetDescription() const;
 /**
-    Returns if this class inherits the specified class name.
+    Return the class type.
+*/
+    wxString GetType() const;
+/**
+    Return if this class inherits the specified class name.
     E.g. wxDialog inherits from wxTopLevelWindow and so wxWindow
 */
-    bool            IsKindOf( const wxString &className );
+    bool IsKindOf( const wxString &className );
 /**
-    Returns if this class equals the specified class type.
+    Return if this class equals the specified class type.
     E.g. wxFrame is a CLASS_TYPE_TOPLEVEL
 */
-    bool            IsTypeOf( ClassType type );
+    bool IsTypeOf( ClassType type );
 /**
-    Returns how many classes are inherited from this class.
+    Return how many classes are inherited from this class.
 */
-    size_t          GetBaseCount();
+    size_t GetBaseCount();
 /**
-    Returns how many class types are granted to be children
+    Return how many class types are granted to be children
     of an instance of this class.
 */
-    size_t          GetChildTypeCount();
+    size_t GetChildInfoCount();
 /**
-    Returns how many events are emitted from this class.
+    Return how many events are emitted from this class.
 */
-    size_t          GetEventInfoCount();
+    size_t GetEventInfoCount();
 /**
-    Returns how many properties are defined in this class.
+    Return how many properties are defined in this class.
 */
-    size_t          GetPropertyInfoCount();
+    size_t GetPropertyInfoCount();
 /**
-    Returns the name of the inherited class name at specified index.
+    Return the name of the inherited class name at specified index.
 */
-    wxString        GetBaseName( size_t index );
+    wxString GetBaseName( size_t index );
 /**
-    Returns the child type information stored at the specified index.
+    Return the class information about an allowed child for the current class.
 */
-    AllowedChildType       GetAllowedChildType( size_t index ) const;
+    ChildInfo GetChildInfo( size_t index );
 /**
-    Returns the event info object stored at the specified index.
+    Return the event info object stored at the specified index.
 */
-    EventInfo       GetEventInfo( size_t index );
+    EventInfo GetEventInfo( size_t index );
 /**
-    Returns the property info object stored at the specified index.
+    Return the property info object stored at the specified index.
 */
-    PropertyInfo    GetPropertyInfo( size_t index );
+    PropertyInfo GetPropertyInfo( size_t index );
 /**
-    Returns if a property with the given name exists in the property list.
+    Return if the specified class name is allowed as child of the current class,
+    specifying the current amount of children of the same type.
 */
-    bool            PropertyInfoExists ( const wxString &name );
-};
+    bool IsChildInfoOk( const wxString &name, size_t count );
+/**
+    Return if a property with the given name exists in the property list.
+*/
+    bool PropertyInfoExists( const wxString &name );
 
+private:
+    void AddBaseName( const wxString &name );
+    void AddChildInfo( ChildInfo info );
+    void AddEventInfo( EventInfo info );
+    void AddPropertyInfo( PropertyInfo info );
+};
+/**
+    @class ClassInfoDB
+
+    ClassInfo Database.
+*/
 class ClassInfoDB
 {
 public:

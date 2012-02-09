@@ -23,6 +23,22 @@
 #include <wx/tokenzr.h>
 #include <wx/xrc/xmlres.h>
 
+PropBookHandler::PropBookHandler( wxWindow *owner ) : m_propBook( owner )
+{
+    
+    wxHtmlWindow *propDesc = XRCCTRL( *owner, "PropDescHtml", wxHtmlWindow );
+    wxHtmlWindow *evtDesc  = XRCCTRL( *owner, "EventDescHtml", wxHtmlWindow );
+
+    if ( propDesc && evtDesc )
+    {
+        propDesc->Bind( wxEVT_COMMAND_HTML_LINK_CLICKED,
+                        &PropBookHandler::OnLinkClick, this );
+
+        evtDesc->Bind( wxEVT_COMMAND_HTML_LINK_CLICKED,
+                        &PropBookHandler::OnLinkClick, this );
+    }
+}
+
 void PropBookHandler::OnObjectCreated( Object object )
 {
     // Do nothing.
@@ -228,6 +244,11 @@ void PropBookHandler::OnEGDblClick( wxPropertyGridEvent &event )
             p->SetValueFromString( evtFuncName );
         }
     }
+}
+
+void PropBookHandler::OnLinkClick( wxHtmlLinkEvent &event )
+{
+    wxLaunchDefaultBrowser( event.GetLinkInfo().GetHref() );
 }
 
 void PropBookHandler::OnSize( wxSizeEvent &event )

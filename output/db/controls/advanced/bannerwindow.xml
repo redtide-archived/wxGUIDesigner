@@ -9,32 +9,33 @@
     Licence:     wxWindows licence
 -->
 <class name="wxBannerWindow">
+    <description>A simple banner window showing either a bitmap or text.</description>
     <inherits>
-        <class>wxControl</class>
+        <class>wxWindow</class>
     </inherits>
-    <name>
+    <name label="Name">
         <value>m_bannerWindow</value>
     </name>
-    <style name="direction">
+    <style name="direction" label="Direction">
         <description>The side along which the banner will be positioned.</description>
         <flag name="wxTOP"/>
         <flag name="wxBOTTOM"/>
         <flag name="wxLEFT"/>
         <flag name="wxRIGHT"/>
     </style>
-    <bitmap>
+    <bitmap label="Bitmap">
         <description>Bitmap to use as the banner background.</description>
     </bitmap>
-    <text name="title">
+    <text name="title" label="Title">
         <description>Banner title, should be single line.</description>
     </text>
-    <text name="message">
+    <text name="message" label="Message">
         <description>Possibly multi-line banner message.</description>
     </text>
-    <colour name="gradient-start">
+    <colour name="gradient-start" label="Gradient start">
         <description>Starting colour of the gradient used as banner background. Can't be used if a valid bitmap is specified.</description>
     </colour>
-    <colour name="gradient-end">
+    <colour name="gradient-end" label="Gradient end">
         <description>End colour of the gradient used as banner background. Can't be used if a valid bitmap is specified.</description>
     </colour>
 </class>

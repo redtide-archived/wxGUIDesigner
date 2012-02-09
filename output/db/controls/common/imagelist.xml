@@ -9,17 +9,18 @@
     Licence:     wxWindows licence
 -->
 <class name="wxImageList" xrc="imagelist">
-    <bitmap>
+    <description>A wxImageList contains a list of images, which are stored in an unspecified form.</description>
+    <bitmap label="Bitmap">
         <description>Adds a new image by keeping its optional mask bitmap.</description>
     </bitmap>
-    <name>
+    <name label="Name">
         <value>m_imgList</value>
     </name>
-    <bool name="mask">
+    <bool name="mask" label="Mask">
         <value>1</value>
         <description>If masks should be created for all images (default: true).</description>
     </bool>
-    <size name="size">
+    <size label="Size">
         <description>The size of the images in the list (default: the size of the first bitmap).</description>
     </size>
 </class>

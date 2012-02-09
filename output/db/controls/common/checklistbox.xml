@@ -10,26 +10,29 @@
 -->
 <classes>
     <class name="wxCheckListBox">
+        <description>A wxCheckListBox is like a wxListBox, but allows items to be checked or unchecked.</description>
         <inherits>
             <class>wxListBox</class>
+            <class>wxWindow</class>
         </inherits>
         <children>
             <class name="checklistboxitem" max="-1"/>
         </children>
-        <name>
+        <name label="Name">
             <value>m_chkLstBox</value>
         </name>
-        <items name="content">
+        <items name="content" label="Content">
             <description>Content of the control; this property has any number of &gt;item&lt; XML elements as its children, with the items text as their text values (see below; default: empty).</description>
         </items>
         <event name="wxCommandEvent">
-            <type name="EVT_CHECKLISTBOX">
+            <type name="wxEVT_COMMAND_CHECKLISTBOX_TOGGLED">
+                <macro>EVT_CHECKLISTBOX</macro>
                 <description>Process a wxEVT_COMMAND_CHECKLISTBOX_TOGGLED event, when an item in the check list box is checked or unchecked. wxCommandEvent::GetInt() will contain the index of the item that was checked or unchecked. wxCommandEvent::IsChecked() is not valid! Use wxCheckListBox::IsChecked() instead.</description>
             </type>
         </event>
     </class>
 
     <class name="checklistboxitem" type="item">
-        <bool name="checked" xrcattribute="1"/>
+        <bool name="checked" label="Checked" xrcattribute="1"/>
     </class>
 </classes>

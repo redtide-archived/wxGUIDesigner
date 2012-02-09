@@ -10,17 +10,17 @@
 -->
 <classes>
     <class name="wxToolBar">
+        <description>A toolbar is a bar of buttons and/or other controls usually placed below the menu bar in a wxFrame.</description>
         <inherits>
-            <class>wxControl</class>
             <class>wxWindow</class>
         </inherits>
         <children>
+            <class type="control"   max="-1"/>
             <class name="separator" max="-1"/>
             <class name="space"     max="-1"/>
             <class name="tool"      max="-1"/>
-            <class name="wxControl" max="-1"/>
         </children>
-    <name>
+    <name label="Name">
         <value>m_toolBar</value>
     </name>
         <style>
@@ -102,7 +102,9 @@
         <children>
             <class name="wxMenu" max="1"/>
         </children>
-    <name>m_tool</name>
+        <name label="Name">
+            <value>m_tool</value>
+        </name>
         <bitmap name="bitmap">
             <description>Tool's bitmap (required).</description>
         </bitmap>

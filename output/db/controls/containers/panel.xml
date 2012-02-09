@@ -8,19 +8,21 @@
     Revision:    $Hash$
     Licence:     wxWindows licence
 -->
-<class name="wxPanel">
+<class name="wxPanel" type="container">
+    <description>A panel is a window on which controls are placed.</description>
     <inherits>
         <class>wxWindow</class>
     </inherits>
     <children>
-        <class name="widget"  max="-1"/>
-        <class name="wxSizer" max="1"/>
+        <class name="control" max="-1"/>
+        <class type="sizer"   max="1"/>
     </children>
-    <name>
+    <name label="Name">
         <value>m_panel</value>
     </name>
     <event name="wxNavigationKeyEvent">
         <type name="wxEVT_NAVIGATION_KEY">
+            <macro>EVT_NAVIGATION_KEY</macro>
             <description>Process a navigation key event.</description>
         </type>
     </event>

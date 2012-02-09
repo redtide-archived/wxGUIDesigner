@@ -9,17 +9,18 @@
     Licence:     wxWindows licence
 -->
 <class name="wxWindow" type="abstract">
+    <description>wxWindow is the base class for all windows and represents any visible object on screen.</description>
     <!--id>
         <value>wxID_ANY</value>
         <description>The type of unique identifiers (ID) used for wxWindow-derived classes.</description>
     </id-->
-    <point name="Position">
+    <point name="pos" label="Position">
         <description>Initial position of the window (default: wxDefaultPosition).</description>
     </point>
-    <size name="Size">
+    <size label="Size">
         <description>Initial size of the window (default: wxDefaultSize).</description>
     </size>
-    <style label="Window style">
+    <style name="style_window" label="Style">
         <description>Window style for this control. The allowed values depend on what window is being created, consult respective class' constructor documentation for details (default: window-dependent default, usually wxFOO_DEFAULT_STYLE if defined for class wxFoo, 0 if not).</description>
         <flag name="wxBORDER_NONE">
             <description>Displays no border, overriding the default border style for the window. wxNO_BORDER is the old name for this style.</description>
@@ -64,7 +65,7 @@
             <description>Use this style to force a complete redraw of the window whenever it is resized instead of redrawing just the part of the window affected by resizing. Note that this was the behaviour by default before 2.5.1 release and that if you experience redraw problems with code which previously used to work you may want to try this. Currently this style applies on GTK+ 2 and Windows only, and full repainting is always done on other platforms.</description>
         </flag>
     </style>
-    <style label="Window extra style" xrc="exstyle">
+    <style name="exstyle_window" label="Extra style">
         <description>Extra style for the window, if any. See wxWindow::SetExtraStyle() (default: not set).</description>
         <flag name="wxWS_EX_VALIDATE_RECURSIVELY">
             <description>By default, wxWindow::Validate(), wxWindow::TransferDataTo() and wxWindow::TransferDataFromWindow() only work on direct children of the window (compatible behaviour). Set this flag to make them recursively descend into all subwindows.</description>
@@ -85,240 +86,336 @@
             <description>This window should always process UI update events, even if the mode set by wxUpdateUIEvent::SetMode is wxUPDATE_UI_PROCESS_SPECIFIED.</description>
         </flag>
     </style>
-    <colour name="Foreground colour">
-        <description>Foreground colour of the window (default: window's default).</description>
+    <colour name="fg" label="Foreground colour">
         <value>wxSYS_COLOUR_WINDOW</value>
+        <description>Foreground colour of the window (default: window's default).</description>
     </colour>
-    <colour name="Own foreground colour">
+    <colour name="ownfg" label="Own foreground colour">
         <description>Non-inheritable foreground colour of the window, see wxWindow::SetOwnForegroundColour() (default: none).</description>
     </colour>
-    <colour name="Background colour">
-        <description>Background colour of the window (default: window's default).</description>
+    <colour name="bg" label="Background colour">
         <value>wxSYS_COLOUR_WINDOW</value>
+        <description>Background colour of the window (default: window's default).</description>
     </colour>
-    <colour name="Own background colour">
+    <colour name="ownbg" label="Own background colour">
         <description>Non-inheritable background colour of the window, see wxWindow::SetOwnBackgroundColour() (default: none).</description>
     </colour>
-    <font name="Font">
-        <description>Font to use for the control (default: window's default).</description>
+    <font label="Font">
         <value>wxSYS_DEFAULT_GUI_FONT</value>
+        <description>Font to use for the control (default: window's default).</description>
     </font>
-    <font name="Own font">
+    <font name="ownfont" label="Own font">
         <description>Non-inheritable font to use for the control, see wxWindow::SetOwnFont() (default: none).</description>
     </font>
-    <bool name="Enabled">
-        <description>If set to 0, the control is disabled (default: 1).</description>
+    <bool name="enabled" label="Enabled">
         <value>1</value>
+        <description>If set to 0, the control is disabled (default: 1).</description>
     </bool>
-    <bool name="Hidden">
+    <bool name="hidden" label="Hidden">
+        <value>0</value>
         <description>If set to 1, the control is created hidden (default: 0).</description>
     </bool>
-    <text name="Tooltip">
+    <text name="tooltip" label="Tooltip">
         <description>Tooltip to use for the control (default: not set).</description>
     </text>
-    <text name="Help">
+    <text name="help" label="Help">
         <description>Context-sensitive help for the control, used by wxHelpProvider (default: not set).</description>
     </text>
     <event name="wxFocusEvent">
+        <description>
+            &lt;p&gt;A focus event is sent when a window's focus changes. &lt;/p&gt;
+            &lt;p&gt;The window losing focus receives a "kill focus" event while the window gaining it gets a "set focus" one.&lt;/p&gt;
+            &lt;p&gt;Notice that the set focus event happens both when the user gives focus to the window (whether using the mouse or keyboard) and when it is done from the program itself using &lt;a title="This sets the window to receive keyboard input." href="http://docs.wxwidgets.org/trunk/classwx_window.html#a697f9f8d3ff389790f1c74b59bcb1d75" class="el"&gt;wxWindow::SetFocus&lt;/a&gt;.&lt;/p&gt;
+        </description>
         <type name="wxEVT_SET_FOCUS">
+            <macro>EVT_SET_FOCUS</macro>
             <description>Process a wxEVT_SET_FOCUS event.</description>
         </type>
         <type name="wxEVT_KILL_FOCUS">
+            <macro>EVT_KILL_FOCUS</macro>
             <description>Process a wxEVT_KILL_FOCUS event.</description>
         </type>
     </event>
     <event name="wxHelpEvent">
+        <description>A help event is sent when the user has requested context-sensitive help.</description>
         <type name="wxEVT_HELP">
+            <macro_id>EVT_HELP</macro_id>
+            <macro_id_range>EVT_HELP_RANGE</macro_id_range>
             <description>Process a wxEVT_HELP event.</description>
-        </type>
-        <type name="wxEVT_HELP_RANGE">
-            <description>Process a wxEVT_HELP event for a range of ids.</description>
         </type>
     </event>
     <event name="wxJoystickEvent">
+        <description>This event class contains information about joystick events, particularly events received by windows.</description>
+        <macros>
+            <macro>EVT_JOYSTICK_EVENTS</macro>
+            <description>Process all joystick events.</description>
+        </macros>
         <type name="wxEVT_JOY_BUTTON_DOWN">
+            <macro>EVT_JOY_BUTTON_DOWN</macro>
             <description>Process a wxEVT_JOY_BUTTON_DOWN event.</description>
         </type>
         <type name="wxEVT_JOY_BUTTON_UP">
+            <macro>EVT_JOY_BUTTON_UP</macro>
             <description>Process a wxEVT_JOY_BUTTON_UP event.</description>
         </type>
-        <type name="wxEVT_JOY_BUTTON_MOVE">
-            <description>Process a wxEVT_JOY_BUTTON_MOVE event.</description>
+        <type name="wxEVT_JOY_MOVE">
+            <macro>EVT_JOY_MOVE</macro>
+            <description>Process a wxEVT_JOY_MOVE event.</description>
         </type>
-        <type name="wxEVT_JOY_BUTTON_ZMOVE">
-            <description>Process a wxEVT_JOY_BUTTON_ZMOVE event.</description>
+        <type name="wxEVT_JOY_ZMOVE">
+            <macro>EVT_JOY_ZMOVE</macro>
+            <description>Process a wxEVT_JOY_ZMOVE event.</description>
         </type>
     </event>
     <event name="wxKeyEvent">
+        <description>This event class contains information about key press and release events.</description>
         <type name="wxEVT_KEY_DOWN">
+            <macro>EVT_KEY_DOWN</macro>
             <description>Process a wxEVT_KEY_DOWN event (any key has been pressed).</description>
         </type>
         <type name="wxEVT_KEY_UP">
+            <macro>EVT_KEY_UP</macro>
             <description>Process a wxEVT_KEY_UP event (any key has been released).</description>
         </type>
         <type name="wxEVT_CHAR">
+            <macro>EVT_CHAR</macro>
             <description>Process a wxEVT_CHAR event.</description>
         </type>
         <type name="wxEVT_CHAR_HOOK">
+            <macro>EVT_CHAR_HOOK</macro>
             <description>Process a wxEVT_CHAR_HOOK event.</description>
         </type>
     </event>
     <event name="wxMouseEvent">
+        <description>This event class contains information about the events generated by the mouse: they include mouse buttons press and release events and mouse move events.</description>
+        <macros>
+            <macro>EVT_MOUSE_EVENTS</macro>
+            <description>Process all mouse events.</description>
+        </macros>
         <type name="wxEVT_ENTER_WINDOW">
+            <macro>EVT_ENTER_WINDOW"</macro>
             <description>Process a wxEVT_ENTER_WINDOW event.</description>
         </type>
         <type name="wxEVT_LEAVE_WINDOW">
+            <macro>EVT_LEAVE_WINDOW</macro>
             <description>Process a wxEVT_LEAVE_WINDOW event.</description>
         </type>
         <type name="wxEVT_LEFT_DOWN">
+            <macro>EVT_LEFT_DOWN</macro>
             <description>Process a wxEVT_LEFT_DOWN event. The handler of this event should normally call event.Skip() to allow the default processing to take place as otherwise the window under mouse wouldn't get the focus.</description>
         </type>
         <type name="wxEVT_LEFT_UP">
+            <macro>EVT_LEFT_UP</macro>
             <description>Process a wxEVT_LEFT_UP event.</description>
         </type>
         <type name="wxEVT_LEFT_DCLICK">
+            <macro>EVT_LEFT_DCLICK</macro>
             <description>Process a wxEVT_LEFT_DCLICK event.</description>
         </type>
         <type name="wxEVT_MIDDLE_DOWN">
+            <macro>EVT_MIDDLE_DOWN</macro>
             <description>Process a wxEVT_MIDDLE_DOWN event.</description>
         </type>
         <type name="wxEVT_MIDDLE_UP">
+            <macro>EVT_MIDDLE_UP</macro>
             <description>Process a wxEVT_MIDDLE_UP event.</description>
         </type>
         <type name="wxEVT_MIDDLE_DCLICK">
+            <macro>EVT_MIDDLE_DCLICK</macro>
             <description>Process a wxEVT_MIDDLE_DCLICK event.</description>
         </type>
         <type name="wxEVT_RIGHT_DOWN">
+            <macro>EVT_RIGHT_DOWN</macro>
             <description>Process a wxEVT_RIGHT_DOWN event.</description>
         </type>
         <type name="wxEVT_RIGHT_UP">
+            <macro>EVT_RIGHT_UP</macro>
             <description>Process a wxEVT_RIGHT_UP event.</description>
         </type>
         <type name="wxEVT_RIGHT_DCLICK">
+            <macro>EVT_RIGHT_DCLICK</macro>
             <description>Process a wxEVT_RIGHT_DCLICK event.</description>
         </type>
         <type name="wxEVT_MOUSE_AUX1_DOWN">
+            <macro>EVT_MOUSE_AUX1_DOWN</macro>
             <description>Process a wxEVT_AUX1_DOWN event.</description>
         </type>
         <type name="wxEVT_MOUSE_AUX1_UP">
+            <macro>EVT_MOUSE_AUX1_UP</macro>
             <description>Process a wxEVT_AUX1_UP event.</description>
         </type>
         <type name="wxEVT_MOUSE_AUX1_DCLICK">
+            <macro>EVT_MOUSE_AUX1_DCLICK</macro>
             <description>Process a wxEVT_AUX1_DCLICK event.</description>
         </type>
         <type name="wxEVT_MOUSE_AUX2_DOWN">
+            <macro>EVT_MOUSE_AUX2_DOWN</macro>
             <description>Process a wxEVT_AUX2_DOWN event.</description>
         </type>
         <type name="wxEVT_MOUSE_AUX2_UP">
+            <macro>EVT_MOUSE_AUX2_UP</macro>
             <description>Process a wxEVT_AUX2_UP event.</description>
         </type>
         <type name="wxEVT_MOUSE_AUX2_DCLICK">
+            <macro>EVT_MOUSE_AUX2_DCLICK</macro>
             <description>Process a wxEVT_AUX2_DCLICK event.</description>
         </type>
         <type name="wxEVT_MOTION">
+            <macro>EVT_MOTION</macro>
             <description>Process a wxEVT_MOTION event.</description>
         </type>
         <type name="wxEVT_MOUSEWHEEL">
+            <macro>EVT_MOUSEWHEEL</macro>
             <description>Process a wxEVT_MOUSEWHEEL event.</description>
         </type>
     </event>
     <!--event name="wxPowerEvent">
+        <description>
+            &lt;p&gt;The power events are generated when the system power state changes, e.g.&lt;/p&gt;
+            &lt;p&gt;the system is suspended, hibernated, plugged into or unplugged from the wall socket and so on. wxPowerEvents are emitted by wxWindows.&lt;/p&gt;
+            &lt;p&gt;Notice that currently only suspend and resume events are generated and only under MS Windows platform. To avoid the need to change the code using this event later when these events are implemented on the other platforms please use the test &lt;code&gt;ifdef wxHAS_POWER_EVENTS&lt;/code&gt; instead of directly testing for the platform in your code: this symbol will be defined for all platforms supporting the power events.&lt;/p&gt;
+        </description>
         <type name="wxEVT_POWER_SUSPENDING">
+            <macro>EVT_POWER_SUSPENDING</macro>
             <description>System is about to be suspended, this event can be vetoed to prevent suspend from taking place.</description>
         </type>
         <type name="wxEVT_POWER_SUSPENDED">
+            <macro>EVT_POWER_SUSPENDED</macro>
             <description>System is about to suspend: normally the application should quickly (i.e. without user intervention) close all the open files and network connections here, possibly remembering them to reopen them later when the system is resumed.</description>
         </type>
         <type name="wxEVT_POWER_SUSPEND_CANCEL">
+            <macro>EVT_POWER_SUSPEND_CANCEL</macro>
             <description>System suspension was cancelled because some application vetoed it.</description>
         </type>
         <type name="wxEVT_POWER_RESUME">
+            <macro>EVT_POWER_RESUME</macro>
             <description>System resumed from suspend: normally the application should restore the state in which it had been before the suspension.</description>
         </type>
     </event-->
     <event name="wxScrollWinEvent">
+        <description>A scroll event holds information about events sent from scrolling windows.</description>
+        <macros>
+            <macro>EVT_SCROLLWIN</macro>
+            <description>Process all joystick events.</description>
+        </macros>
         <type name="wxEVT_SCROLLWIN_TOP">
+            <macro>EVT_SCROLLWIN_TOP</macro>
             <description>Process wxEVT_SCROLLWIN_TOP scroll-to-top events.</description>
         </type>
         <type name="wxEVT_SCROLLWIN_BOTTOM">
+            <macro>EVT_SCROLLWIN_BOTTOM</macro>
             <description>Process wxEVT_SCROLLWIN_BOTTOM scroll-to-bottom events.</description>
         </type>
         <type name="wxEVT_SCROLLWIN_LINEUP">
+            <macro>EVT_SCROLLWIN_LINEUP</macro>
             <description>Process wxEVT_SCROLLWIN_LINEUP line up events.</description>
         </type>
         <type name="wxEVT_SCROLLWIN_LINEDOWN">
+            <macro>EVT_SCROLLWIN_LINEDOWN</macro>
             <description>Process wxEVT_SCROLLWIN_LINEDOWN line down events.</description>
         </type>
         <type name="wxEVT_SCROLLWIN_PAGEUP">
+            <macro>EVT_SCROLLWIN_PAGEUP</macro>
             <description>Process wxEVT_SCROLLWIN_PAGEUP page up events.</description>
         </type>
         <type name="wxEVT_SCROLLWIN_PAGEDOWN">
+            <macro>EVT_SCROLLWIN_PAGEDOWN</macro>
             <description>Process wxEVT_SCROLLWIN_PAGEDOWN page down events.</description>
         </type>
         <type name="wxEVT_SCROLLWIN_THUMBTRACK">
+            <macro>EVT_SCROLLWIN_THUMBTRACK</macro>
             <description>Process wxEVT_SCROLLWIN_THUMBTRACK thumbtrack events (frequent events sent as the user drags the thumbtrack).</description>
         </type>
         <type name="wxEVT_SCROLLWIN_THUMBRELEASE">
+            <macro>EVT_SCROLLWIN_THUMBRELEASE</macro>
             <description>Process wxEVT_SCROLLWIN_THUMBRELEASE thumb release events.</description>
         </type>
     </event>
     <event name="wxActivateEvent">
+        <description>An activate event is sent when a window or application is being activated or deactivated.</description>
         <type name="wxEVT_ACTIVATE">
+            <macro>EVT_ACTIVATE</macro>
             <description>Process a wxEVT_ACTIVATE event.</description>
         </type>
     </event>
     <event name="wxChildFocusEvent">
+        <description>A child focus event is sent to a (parent-)window when one of its child windows gains focus, so that the window could restore the focus back to its corresponding child if it loses it now and regains later.</description>
         <type name="wxEVT_CHILD_FOCUS">
+            <macro>EVT_CHILD_FOCUS</macro>
             <description>Process a wxEVT_CHILD_FOCUS event.</description>
         </type>
     </event>
     <event name="wxContextMenuEvent">
+        <description>This class is used for context menu events, sent to give the application a chance to show a context (popup) menu for a wxWindow.</description>
         <type name="wxEVT_CONTEXT_MENU">
+            <macro>EVT_CONTEXT_MENU</macro>
             <description>A right click (or other context menu command depending on platform) has been detected.</description>
         </type>
     </event>
     <event name="wxDropFilesEvent">
+        <description>This class is used for drop files events, that is, when files have been dropped onto the window.</description>
         <type name="wxEVT_DROP_FILES">
+            <macro>EVT_DROP_FILES</macro>
             <description>Process a wxEVT_DROP_FILES event.</description>
         </type>
     </event>
     <event name="wxEraseEvent">
+        <description>An erase event is sent when a window's background needs to be repainted.</description>
         <type name="wxEVT_ERASE_BACKGROUND">
+            <macro>EVT_ERASE_BACKGROUND</macro>
             <description>Process a wxEVT_ERASE_BACKGROUND event.</description>
         </type>
     </event>
     <event name="wxIdleEvent">
+        <description>This class is used for idle events, which are generated when the system becomes idle.</description>
         <type name="wxEVT_IDLE">
+            <macro>EVT_IDLE</macro>
             <description>Process a wxEVT_IDLE event.</description>
         </type>
     </event>
     <event name="wxMouseCaptureLostEvent">
+        <description>A mouse capture lost event is sent to a window that had obtained mouse capture, which was subsequently lost due to an "external" event (for example, when a dialog box is shown or if another application captures the mouse).</description>
         <type name="wxEVT_MOUSE_CAPTURE_LOST">
+            <macro></macro>
             <description>Process a wxEVT_MOUSE_CAPTURE_LOST event.</description>
         </type>
     </event>
     <event name="wxMouseCaptureChangedEvent">
+        <description>
+            &lt;p&gt;An mouse capture changed event is sent to a window that loses its mouse capture. &lt;/p&gt;
+            &lt;p&gt;This is called even if &lt;a title="Releases mouse input captured with CaptureMouse()." href="http://docs.wxwidgets.org/trunk/classwx_window.html#adcc538819c11ecb3bd3e4e5d13c5ba7a" class="el"&gt;wxWindow::ReleaseMouse&lt;/a&gt; was called by the application code. Handling this event allows an application to cater for unexpected capture releases which might otherwise confuse mouse handling code.&lt;/p&gt;
+            &lt;div&gt;&lt;span class="avail"&gt;Availability:&lt;/span&gt;  only available for the &lt;a href="http://docs.wxwidgets.org/trunk/page_port.html#page_port_wxmsw" class="el"&gt;wxMSW&lt;/a&gt; port.&lt;/div&gt;
+        </description>
         <type name="wxEVT_MOUSE_CAPTURE_CHANGED">
+            <macro>EVT_MOUSE_CAPTURE_CHANGED</macro>
             <description>Process a wxEVT_MOUSE_CAPTURE_CHANGED event.</description>
         </type>
     </event>
     <event name="wxPaintEvent">
+        <description>A paint event is sent when a window's contents needs to be repainted.</description>
         <type name="wxEVT_PAINT">
+            <macro>EVT_PAINT</macro>
             <description>Process a wxEVT_PAINT event.</description>
         </type>
     </event>
     <event name="wxSetCursorEvent">
+        <description>A wxSetCursorEvent is generated from wxWindow when the mouse cursor is about to be set as a result of mouse motion.</description>
         <type name="wxEVT_SET_CURSOR">
+            <macro>EVT_SET_CURSOR</macro>
             <description>Process a wxEVT_SET_CURSOR event.</description>
         </type>
     </event>
     <event name="wxSizeEvent">
+        <description>A size event holds information about size change events of wxWindow.</description>
         <type name="wxEVT_SIZE">
+            <macro>EVT_SIZE</macro>
             <description>Process a wxEVT_SIZE event.</description>
         </type>
     </event>
     <event name="wxSysColourChangedEvent">
+        <description>This class is used for system colour change events, which are generated when the user changes the colour settings using the control panel.</description>
         <type name="wxEVT_SYS_COLOUR_CHANGED">
+            <macro>EVT_SYS_COLOUR_CHANGED</macro>
             <description>Process a wxEVT_SYS_COLOUR_CHANGED event.</description>
         </type>
     </event>

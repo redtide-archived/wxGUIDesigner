@@ -34,6 +34,16 @@ EventNode::~EventNode()
 {
 }
 
+wxString EventNode::GetName()
+{
+    return m_info->GetName();
+}
+
+wxString EventNode::GetDescription()
+{
+    return m_info->GetDescription();
+}
+
 wxString EventNode::GetHandlerName( size_t index ) const
 {
     if ( index < m_handlers.GetCount() )
@@ -49,7 +59,6 @@ bool EventNode::SetHandlerName( size_t index, const wxString &name )
         m_handlers[ index ] = name;
         return true;
     }
-
     return false;
 }
 
@@ -63,7 +72,6 @@ bool EventNode::SetHandlerName( const wxString &type, const wxString &name )
             return true;
         }
     }
-
     return false;
 }
 
@@ -82,9 +90,19 @@ wxString EventNode::GetTypeDescription( size_t index  ) const
 
     return wxEmptyString;
 }
+
+size_t EventNode::GetTypeCount()
+{
+    return m_info->GetTypeCount();
+}
 //*****************************************************************************
 // PropertyNode Class
 //*****************************************************************************
+
+PropertyNode::PropertyNode( PropertyInfo info )
+            : m_info( info ), m_value( info->GetDefaultValue() )
+{
+}
 
 PropertyNode::~PropertyNode()
 {
@@ -92,6 +110,36 @@ PropertyNode::~PropertyNode()
         m_value.MakeNull();
 
     m_children.clear();
+}
+
+wxString PropertyNode::GetName() const
+{
+    return m_info->GetName();
+}
+
+wxString PropertyNode::GetLabel() const
+{
+    return m_info->GetLabel();
+}
+
+wxString PropertyNode::GetDescription() const
+{
+    return m_info->GetDescription();
+}
+
+PropertyType PropertyNode::GetType() const
+{
+    return m_info->GetType();
+}
+
+PropertyInfo PropertyNode::GetInfo() const
+{
+    return m_info;
+}
+
+size_t PropertyNode::GetChildCount()
+{
+    return m_children.size();
 }
 
 void PropertyNode::AddChild( Property prop )
@@ -173,9 +221,14 @@ wxFont PropertyNode::GetAsFont() const
 
 int PropertyNode::GetAsInt() const
 {
-    if ( m_value.CheckType< int >() )
+    if ( m_value.CheckType< wxString >() )
+    {
+        return wxGDConv::IntFromString( m_value.As< wxString >() );
+    }
+    else if ( m_value.CheckType< int >() )
+    {
         return m_value.As< int >();
-
+    }
     return 0;
 }
 
@@ -228,12 +281,17 @@ Property PropertyNode::GetChild( size_t index  ) const
 
     return Property();
 }
+
+void PropertyNode::SetValue( const wxAny &value )
+{
+    m_value = value;
+}
 //*****************************************************************************
 // ObjectNode Class
 //*****************************************************************************
 
-ObjectNode::ObjectNode( Object parent, ClassInfo classInfo, bool expanded )
-            : m_parent( parent ), m_info( classInfo ), m_expanded( expanded )
+ObjectNode::ObjectNode( ClassInfo classInfo, Object parent, bool expanded )
+            : m_info( classInfo ), m_parent( parent ), m_expanded( expanded )
 {
 }
 
@@ -244,12 +302,72 @@ ObjectNode::~ObjectNode()
     m_children.clear();
 }
 
+wxString ObjectNode::GetClassName() const
+{
+    return m_info->GetName();
+}
+
+wxString ObjectNode::GetDescription() const
+{
+    return m_info->GetDescription();
+}
+
+ClassInfo ObjectNode::GetClassInfo() const
+{
+    return m_info;
+}
+
+bool ObjectNode::IsRoot()
+{
+    return m_info->GetType() == CLASS_TYPE_ROOT;
+}
+
+bool ObjectNode::IsExpanded()
+{
+    return m_expanded;
+}
+
+void ObjectNode::Collapse()
+{
+    m_expanded = false;
+}
+
+void ObjectNode::Expand()
+{
+    m_expanded = true;
+}
+
+void ObjectNode::AddEvent( Event event )
+{
+    m_events.push_back( event );
+}
+
+size_t ObjectNode::GetEventCount()
+{
+    return m_events.size();
+}
+
 Object ObjectNode::GetChild( size_t index )
 {
     if ( index < m_children.size() )
         return m_children.at( index );
 
     return Object();
+}
+
+void ObjectNode::AddChild( Object child )
+{
+    m_children.push_back( child );
+}
+
+Object ObjectNode::GetParent()
+{
+    return m_parent;
+}
+
+size_t ObjectNode::GetChildCount()
+{
+    return m_children.size();
 }
 //-----------------------------------------------------------------------------
 // Events
@@ -346,6 +464,11 @@ bool ObjectNode::PropertyExists( const wxString &name )
 // Inherited classes
 //-----------------------------------------------------------------------------
 
+void ObjectNode::AddBaseInfo( ClassInfo info )
+{
+    m_baseinfos.push_back( info );
+}
+
 wxString ObjectNode::GetBaseName( size_t index )
 {
     if ( m_info.get() )
@@ -358,6 +481,11 @@ ClassInfo ObjectNode::GetBaseInfo( size_t index )
 {
     return ClassInfoDB::Get()->GetClassInfo( GetBaseName( index ) );
 }
+
+size_t ObjectNode::GetBaseCount()
+{
+    return m_info->GetBaseCount();
+}
 //*****************************************************************************
 // ObjectTree Singleton Class
 //*****************************************************************************
@@ -366,8 +494,11 @@ ObjectTree::ObjectTree()
 :
 m_sel
 (
-    new ObjectNode( Object(),
-                    ClassInfo( new ClassNode( "Project", CLASS_TYPE_ROOT ) ) )
+    new ObjectNode
+    (
+        ClassInfoDB::Get()->GetClassInfo("Project"),
+        Object()
+    )
 )
 {
 }
@@ -398,16 +529,15 @@ void ObjectTree::Free()
     }
 }
 
-size_t ObjectTree::GetChildCountByType( Object object, ClassType clsType )
+size_t ObjectTree::GetChildInfoCount( Object parent, ClassInfo info )
 {
     size_t count = 0;
 
-    for ( size_t i = 0; i < object->GetChildCount(); i++ )
+    for ( size_t i = 0; i < parent->GetChildCount(); i++ )
     {
-        if ( clsType == object->GetChild( i )->GetClassInfo()->GetType() )
+        if ( parent->GetChild( i )->GetClassInfo() == info )
             count++;
     }
-
     return count;
 }
 
@@ -419,46 +549,40 @@ bool ObjectTree::CreateObject( const wxString &className )
 
 //  This function is not called for the special root object.
 
-    ClassInfo   clsInfo = ClassInfoDB::Get()->GetClassInfo( className );
-    int         count   = GetChildCountByType( m_sel, clsInfo->GetType() );
-    int         max     = clsInfo->GetMaxAllowedBy( m_sel->GetClassName() );
-    bool        denied  = true;
+    ClassInfo info = ClassInfoDB::Get()->GetClassInfo( className );
 
-    if ( max != 0 ) // Allowed child type of the selected object
-    {
-        denied = false;
+    if ( !info.get() )
+        return false;
 
-        if ( (max > 0) && (count >= max) )
-            denied = true;
-    }
-    else
+    bool   allow    = false;
+    size_t selCount = GetChildInfoCount( m_sel, info );;
+
+    // Try all parents
+    Object parent = m_sel;
+
+    while ( parent.get() )
     {
-        // Try parent
-        Object parent = m_sel->GetParent();
-        while ( parent.get() )
+        size_t count = GetChildInfoCount( parent, info );
+        allow = parent->GetClassInfo()->IsChildInfoOk( className, count );
+
+        if ( allow )
         {
-            int max   = clsInfo->GetMaxAllowedBy( parent->GetClassName() );
-            int count = GetChildCountByType( parent, clsInfo->GetType() );
-
-            if ( max && max < count )
-            {
-                denied = false;
-                m_sel = parent;
-                break;
-            }
-
-            parent = parent->GetParent();
+            allow = true;
+            m_sel = parent;
+            break;
         }
+
+        parent = parent->GetParent();
     }
 
-    if ( denied )
+    if ( !allow )
     {
-        if ( max != 0 )
+        if ( selCount > 0 )
         {
             wxLogError
             (
                 "%s allows only %i %s instances as its child(ren)",
-                m_sel->GetClassName(), max, className
+                m_sel->GetClassName(), selCount, className
             );
         }
         else
@@ -469,32 +593,31 @@ bool ObjectTree::CreateObject( const wxString &className )
                 className, m_sel->GetClassName()
             );
         }
-
         return false;
     }
 
     // Create the object
-    Object object( new ObjectNode( m_sel, clsInfo ) );
+    Object object( new ObjectNode( info, m_sel ) );
     m_sel->AddChild( object );
 
     // Add properties
-    for ( size_t i = 0; i < clsInfo->GetPropertyInfoCount(); i++ )
+    for ( size_t i = 0; i < info->GetPropertyInfoCount(); i++ )
     {
-        Property prop( new PropertyNode( clsInfo->GetPropertyInfo( i ) ) );
+        Property prop( new PropertyNode( info->GetPropertyInfo( i ) ) );
         object->AddProperty( prop );
     }
 
     // Add events
-    for ( size_t i = 0; i < clsInfo->GetEventInfoCount(); i++ )
+    for ( size_t i = 0; i < info->GetEventInfoCount(); i++ )
     {
-        Event evt( new EventNode( clsInfo->GetEventInfo( i ) ) );
+        Event evt( new EventNode( info->GetEventInfo( i ) ) );
         object->AddEvent( evt );
     }
 
     // Add inherited class informations
-    for ( size_t i = 0; i < clsInfo->GetBaseCount(); i++ )
+    for ( size_t i = 0; i < info->GetBaseCount(); i++ )
     {
-        wxString     baseName = clsInfo->GetBaseName( i );
+        wxString     baseName = info->GetBaseName( i );
         ClassInfo    baseInfo = ClassInfoDB::Get()->GetClassInfo( baseName );
 
         if ( baseInfo.get() )

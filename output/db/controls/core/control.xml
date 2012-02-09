@@ -9,20 +9,24 @@
     Licence:     wxWindows licence
 -->
 <class name="wxControl" type="abstract">
-    <inherits>
-        <class>wxWindow</class>
-    </inherits>
+    <description>
+        &lt;p&gt;This is the base class for a control or "widget".&lt;/p&gt;
+        &lt;p&gt;A control is generally a small window which processes user input and/or displays one or more item of data.&lt;/p&gt;
+    </description>
     <text name="Label">
         <description>Label to display on the control.</description>
     </text>
     <event name="wxClipboardTextEvent">
-        <type name="EVT_TEXT_COPY">
+        <type name="wxEVT_COMMAND_TEXT_COPY">
+            <macro_id>EVT_TEXT_COPY</macro_id>
             <description>Some or all of the controls content was copied to the clipboard.</description>
         </type>
-        <type name="EVT_TEXT_CUT">
+        <type name="wxEVT_COMMAND_TEXT_CUT">
+            <macro_id>EVT_TEXT_CUT</macro_id>
             <description>Some or all of the controls content was cut (i.e. copied and deleted).</description>
         </type>
-        <type name="EVT_TEXT_PASTE">
+        <type name="wxEVT_COMMAND_TEXT_PASTE">
+            <macro_id>EVT_TEXT_PASTE</macro_id>
             <description>Clipboard content was pasted into the control.</description>
         </type>
     </event>

@@ -9,10 +9,11 @@
     Licence:     wxWindows licence
 -->
 <class name="wxComboBox">
+    <description>A combobox is like a combination of an edit control and a listbox.</description>
     <inherits>
-        <class>wxControl</class>
+        <class>wxWindow</class>
     </inherits>
-    <name>
+    <name label="Name">
         <value>m_cboBox</value>
     </name>
     <style>
@@ -32,30 +33,35 @@
             <description>The control will generate the event wxEVT_COMMAND_TEXT_ENTER (otherwise pressing Enter key is either processed internally by the control or used for navigation between dialog controls). Windows only.</description>
         </flag>
     </style>
-    <int name="selection">
-            <value>-1</value>
+    <int name="selection" label="Selection">
+        <value>-1</value>
         <description>Index of the initially selected item or -1 for no selection (default: -1).</description>
     </int>
-    <arraystring name="content">
+    <arraystring name="content" label="Content">
         <description>Content of the control; this property has any number of &lt;item&gt; XML elements as its children, with the items text as their text values (default: empty).</description>
     </arraystring>
-    <string name="value">
+    <string name="value" label="Value">
         <description>Initial value in the control (doesn't have to be one of content values; default: empty).</description>
     </string>
     <event name="wxCommandEvent">
-        <type name="EVT_COMBOBOX">
+        <type name="wxEVT_COMMAND_COMBOBOX_SELECTED">
+            <macro>EVT_COMBOBOX</macro>
             <description>Process a wxEVT_COMMAND_COMBOBOX_SELECTED event, when an item on the list is selected. Note that calling GetValue() returns the new value of selection.</description>
         </type>
-        <type name="EVT_TEXT">
+        <type name="wxEVT_COMMAND_TEXT_UPDATED">
+            <macro>EVT_TEXT</macro>
             <description>Process a wxEVT_COMMAND_TEXT_UPDATED event, when the combobox text changes.</description>
         </type>
-        <type name="EVT_TEXT_ENTER">
+        <type name="wxEVT_COMMAND_TEXT_ENTER">
+            <macro>EVT_TEXT_ENTER</macro>
             <description>Process a wxEVT_COMMAND_TEXT_ENTER event, when RETURN is pressed in the combobox (notice that the combobox must have been created with wxTE_PROCESS_ENTER style to receive this event).</description>
         </type>
-        <type name="EVT_COMBOBOX_DROPDOWN">
+        <type name="wxEVT_COMMAND_COMBOBOX_DROPDOWN">
+            <macro>EVT_COMBOBOX_DROPDOWN</macro>
             <description>Process a wxEVT_COMMAND_COMBOBOX_DROPDOWN event, which is generated when the list box part of the combo box is shown (drops down). Notice that this event is currently only supported by wxMSW and wxGTK with GTK+ 2.10 or later.</description>
         </type>
-        <type name="EVT_COMBOBOX_CLOSEUP">
+        <type name="wxEVT_COMMAND_COMBOBOX_CLOSEUP">
+            <macro>EVT_COMBOBOX_CLOSEUP</macro>
             <description>Process a wxEVT_COMMAND_COMBOBOX_CLOSEUP event, which is generated when the list box of the combo box disappears (closes up). This event is only generated for the same platforms as wxEVT_COMMAND_COMBOBOX_DROPDOWN above. Also note that only wxMSW supports adding or deleting items in this event.</description>
         </type>
     </event>

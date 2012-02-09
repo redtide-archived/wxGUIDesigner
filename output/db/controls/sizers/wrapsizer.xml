@@ -8,11 +8,15 @@
     Revision:    $Hash$
     Licence:     wxWindows licence
 -->
-<class name="wxWrapSizer" type="layout">
+<class name="wxWrapSizer" type="sizer">
     <inherits>
         <class>wxBoxSizer</class>
     </inherits>
-    <name>
+    <children>
+        <class name="sizeritem" max="-1"/>
+        <class name="spacer"    max="-1"/>
+    </children>
+    <name label="Name">
         <value>wrapSizer</value>
     </name>
     <style name="flag">

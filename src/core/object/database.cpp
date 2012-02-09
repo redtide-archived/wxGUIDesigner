@@ -20,9 +20,10 @@
 #include <wx/xml/xml.h>
 
 #include <wx/log.h>
-//-----------------------------------------------------------------------------
+//*****************************************************************************
 //  EventInfoNode
-//-----------------------------------------------------------------------------
+//*****************************************************************************
+
 EventInfoNode::EventInfoNode( const wxString &name, const wxString &description )
                             : m_name( name ),
                               m_desc( description )
@@ -34,7 +35,7 @@ EventInfoNode::~EventInfoNode()
     m_types.clear();
 }
 
-wxString EventInfoNode::GetTypeName( size_t index )
+wxString EventInfoNode::GetTypeName( size_t index ) const
 {
     if ( index < m_types.size() )
     {
@@ -44,7 +45,7 @@ wxString EventInfoNode::GetTypeName( size_t index )
     return wxEmptyString;
 }
 
-wxString EventInfoNode::GetTypeDescription( size_t index )
+wxString EventInfoNode::GetTypeDescription( size_t index ) const
 {
     if ( index < m_types.size() )
         return m_types.at( index ).second;
@@ -57,9 +58,9 @@ void EventInfoNode::AddType( const wxString &name, const wxString &description )
     EventType info = std::make_pair( name, description );
     m_types.push_back( info );
 }
-//-----------------------------------------------------------------------------
+//*****************************************************************************
 //  PropertyInfoNode
-//-----------------------------------------------------------------------------
+//*****************************************************************************
 
 PropertyInfoNode::PropertyInfoNode( PropertyType type,
                                     const wxString &name,
@@ -89,9 +90,9 @@ PropertyInfo PropertyInfoNode::GetChild( size_t index )
 
     return PropertyInfo();
 }
-//-----------------------------------------------------------------------------
+//*****************************************************************************
 //  ClassNode
-//-----------------------------------------------------------------------------
+//*****************************************************************************
 
 ClassNode::ClassNode( const wxString &className, ClassType type )
                             : m_name( className ), m_type( type )
@@ -102,33 +103,7 @@ ClassNode::~ClassNode()
 {
     m_events.clear();
     m_props.clear();
-    m_childTypes.clear();
-}
-
-int ClassNode::GetMaxAllowedBy( const wxString &parentClsName ) const
-{
-    ClassInfo parentInfo = ClassInfoDB::Get()->GetClassInfo( parentClsName );
-    if ( parentInfo.get() )
-    {
-        // Check by type
-        for ( size_t i = 0; i < parentInfo->GetChildTypeCount(); i++ )
-        {
-            if ( m_type == parentInfo->GetAllowedChildType( i ).first )
-            {
-                return parentInfo->GetAllowedChildType( i ).second;
-            }
-        }
-        // Check by name
-        for ( size_t i = 0; i < parentInfo->GetChildNameCount(); i++ )
-        {
-            if ( m_name == parentInfo->GetAllowedChildName( i ).first )
-            {
-                return parentInfo->GetAllowedChildName( i ).second;
-            }
-        }
-    }
-
-    return 0;
+    m_children.clear();
 }
 
 bool ClassNode::IsKindOf( const wxString &name )
@@ -149,20 +124,38 @@ wxString ClassNode::GetBaseName( size_t index )
     return wxEmptyString;
 }
 
-AllowedChildType ClassNode::GetAllowedChildType( size_t index ) const
+ChildInfo ClassNode::GetChildInfo( size_t index )
 {
-    if ( index < m_childTypes.size() )
-        return m_childTypes.at( index );
+    if ( index < m_children.size() )
+        return m_children.at( index );
 
-    return std::make_pair( CLASS_TYPE_UNKNOWN, 0 );
+    return ChildInfo();
 }
 
-AllowedChildName ClassNode::GetAllowedChildName( size_t index ) const
+bool ClassNode::IsChildInfoOk( const wxString &name, size_t count )
 {
-    if ( index < m_childNames.size() )
-        return m_childNames.at( index );
+    // Child class validation check
+    ClassInfo childClsInfo = ClassInfoDB::Get()->GetClassInfo( name );
+    if ( !childClsInfo.get() )
+        return false;
 
-    return std::make_pair( wxEmptyString, 0 );
+    for ( size_t i = 0; i < m_children.size(); i++ )
+    {
+        // Check type / name
+        ChildInfo childInfo = m_children.at( i );
+        if ( ( childInfo->GetType() == childClsInfo->GetType() ) ||
+             ( childInfo->GetName() == childClsInfo->GetName() ) )
+        {
+            // Check maximum allowed instances
+            if ( ( childInfo->GetMax() == -1 ) ||
+                 ( childInfo->GetMax() > ( int )count ) )
+            {
+                // TODO: Check option
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 EventInfo ClassNode::GetEventInfo( size_t index )
@@ -191,9 +184,10 @@ bool ClassNode::PropertyInfoExists( const wxString &name )
 
     return false;
 }
-//-----------------------------------------------------------------------------
+//*****************************************************************************
 //  ClassInfoDB
-//-----------------------------------------------------------------------------
+//*****************************************************************************
+
 ClassInfoDB::ClassInfoDB()
 {
     Init();
@@ -371,7 +365,7 @@ void ClassInfoDB::Parse( wxXmlNode *classNode, bool recursively )
     wxString name = classNode->GetAttribute("name");
     if ( name.empty() )
     {
-        wxLogError( "Unnamed class was found." );
+        wxLogError("Unnamed class was found.");
         return;
     }
 
@@ -432,41 +426,27 @@ void ClassInfoDB::Parse( wxXmlNode *classNode, bool recursively )
             wxXmlNode *childNode = node->GetChildren();
             while ( childNode )
             {
-                if ( childNode->GetName() == "child" )
-                {
-                    ClassType childType = wxGDConv::ClassTypeFromString
-                                            ( childNode->GetAttribute("type") );
-                    int max = wxGDConv::IntFromString
-                                            ( childNode->GetAttribute("max") );
-                    clsInfo->AddAllowedChildType
-                                            ( std::make_pair( childType, max ) );
-                }
-                else if ( childNode->GetName() == "class" )
-                {
-                    wxString childName = childNode->GetAttribute("name");
+                ChildInfo info = DoGetChildInfo( childNode );
 
-                    int max = wxGDConv::IntFromString
-                                            ( childNode->GetAttribute("max") );
-                    clsInfo->AddAllowedChildName
-                                            ( std::make_pair( childName, max ) );
-                }
+                if ( info.get() )
+                    clsInfo->AddChildInfo( info );
 
                 childNode = childNode->GetNext();
             }
         }
         else if ( node->GetName() == "event" )
         {
-            EventInfo evtInfo( DoGetEventInfo( node ) );
+            EventInfo info = DoGetEventInfo( node );
 
-            if ( evtInfo.get() )
-                clsInfo->AddEventInfo( evtInfo );
+            if ( info.get() )
+                clsInfo->AddEventInfo( info );
         }
         else if ( node->GetType() != wxXML_COMMENT_NODE )
         {
-            PropertyInfo propInfo( DoGetPropertyInfo( node ) );
+            PropertyInfo info = DoGetPropertyInfo( node );
 
-            if ( propInfo.get() )
-                clsInfo->AddPropertyInfo( propInfo );
+            if ( info.get() )
+                clsInfo->AddPropertyInfo( info );
         }
 
         node = node->GetNext();
@@ -479,6 +459,33 @@ void ClassInfoDB::Parse( wxXmlNode *classNode, bool recursively )
         if ( classNode )
             Parse( classNode, true );
     }
+}
+
+ChildInfo ClassInfoDB::DoGetChildInfo( wxXmlNode *node )
+{
+    ClassType type = CLASS_TYPE_UNKNOWN;
+    wxString  name = wxEmptyString;
+    int       max  = 0;
+
+    if ( node->GetName() == "child" )
+    {
+        type = wxGDConv::ClassTypeFromString( node->GetAttribute("type") );
+    }
+    else if ( node->GetName() == "class" )
+    {
+        name = node->GetAttribute("name");
+    }
+
+    if ( !node->GetAttribute("max").empty() )
+    {
+        max = wxGDConv::IntFromString( node->GetAttribute("max") );
+    }
+
+    bool opt  = node->HasAttribute("option");
+
+    ChildInfo info( new ChildInfoNode( type, name, max, opt ) );
+
+    return info;
 }
 
 EventInfo ClassInfoDB::DoGetEventInfo( wxXmlNode *eventNode )
@@ -498,24 +505,26 @@ EventInfo ClassInfoDB::DoGetEventInfo( wxXmlNode *eventNode )
     {
         if ( node->GetName() == "description" )
         {
-            evtInfo->AddDescription( node->GetNodeContent() );
+            evtInfo->SetDescription( node->GetNodeContent() );
         }
         else if ( node->GetName() == "type" )
         {
             wxString evtTypeDesc = wxEmptyString;
 
-            wxXmlNode *descNode = node->GetChildren();
-            if ( descNode && descNode->GetName() == "description" )
+            wxXmlNode *childNode = node->GetChildren();
+            while ( childNode )
             {
-                evtTypeDesc = descNode->GetNodeContent();
+                if ( childNode->GetName() == "description" )
+                {
+                    evtTypeDesc = childNode->GetNodeContent();
+                }
+                childNode = childNode->GetNext();
             }
-
+            // TODO: Add macros
             evtInfo->AddType( node->GetAttribute("name"), evtTypeDesc );
         }
-
         node = node->GetNext();
     }
-
     return evtInfo;
 }
 
@@ -530,36 +539,15 @@ PropertyInfo ClassInfoDB::DoGetPropertyInfo( wxXmlNode *propertyNode )
         wxString label = propertyNode->GetAttribute("label");
         wxString description;
 
-        // At least one attribute is mandatory
-        if ( label.empty() && name.empty() )
-        {
-            if ( propertyNode->GetName() == "name" )
-            {
-                name        = "name";
-                description = _("The data member name for this control.");
-            }
-            else
-                return propInfo;
-        }
+        if ( name.empty() )
+            name = propertyNode->GetName();
 
         if ( label.empty() )
-        {
             label = name.Capitalize();
-        }
-        else // name.empty()
-        {
-            name = label.Lower();
-            name.Replace( " ", "_" );
-        }
 
         wxXmlNode *childNode = propertyNode->GetChildren();
 
         propInfo.reset( new PropertyInfoNode( type, name, label ) );
-
-        if ( !description.empty() )
-        {
-            propInfo->SetDescription( description );
-        }
 
         while ( childNode )
         {
@@ -577,7 +565,6 @@ PropertyInfo ClassInfoDB::DoGetPropertyInfo( wxXmlNode *propertyNode )
                 if ( childInfo.get() )
                     propInfo->AddChild( childInfo );
             }
-
             childNode = childNode->GetNext();
         }
     }
@@ -585,12 +572,11 @@ PropertyInfo ClassInfoDB::DoGetPropertyInfo( wxXmlNode *propertyNode )
     {
         wxLogError( "Unknown property '%s'", propertyNode->GetName() );
     }
-
     return propInfo;
 }
-//-----------------------------------------------------------------------------
+//*****************************************************************************
 //  ClassInfoDB public functions
-//-----------------------------------------------------------------------------
+//*****************************************************************************
 
 ClassInfo ClassInfoDB::GetClassInfo( const wxString &className ) const
 {

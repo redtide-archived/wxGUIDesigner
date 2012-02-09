@@ -10,17 +10,19 @@
 -->
 <classes>
     <class name="wxTreebook">
+        <description>This class is an extension of the wxNotebook class that allows a tree structured set of pages to be shown in a control.</description>
         <inherits>
             <class>wxBookCtrlBase</class>
+            <class>wxWindow</class>
         </inherits>
         <children>
             <class name="treebookpage" max="-1"/>
             <class name="wxImageList"  max="1"/>
         </children>
-        <name>
+        <name label="Name">
             <value>m_treeBook</value>
         </name>
-        <style>
+        <style label="Style">
             <flag name="wxBK_DEFAULT">
                 <description>Native controller placement.</description>
             </flag>
@@ -39,38 +41,42 @@
         </style>
         <event name="wxBookCtrlEvent">
             <type name="wxEVT_COMMAND_TOOLBOOK_PAGE_CHANGED">
+                <macro_id>EVT_TREEBOOK_PAGE_CHANGED</macro_id>
                 <description>The page selection was changed.</description>
             </type>
             <type name="wxEVT_COMMAND_TOOLBOOK_PAGE_CHANGING">
+                <macro_id>EVT_TREEBOOK_PAGE_CHANGING</macro_id>
                 <description>The page selection is about to be changed. This event can be vetoed (using wxNotifyEvent::Veto()).</description>
             </type>
             <type name="wxEVT_COMMAND_TREEBOOK_NODE_COLLAPSED">
+                <macro_id>EVT_TREEBOOK_NODE_COLLAPSED</macro_id>
                 <description>The page node is going to be collapsed.</description>
             </type>
             <type name="wxEVT_COMMAND_TREEBOOK_NODE_EXPANDED">
+                <macro_id>EVT_TREEBOOK_NODE_EXPANDED</macro_id>
                 <description>The page node is going to be expanded.</description>
             </type>
         </event>
     </class>
 
     <class name="treebookpage" type="item">
-        <int name="depth">
-            <description>Page's depth in the labels tree.</description>
-        </int>
-        <text name="label">
+        <text name="label" label="Label">
             <description>Sheet page's title (required).</description>
         </text>
-        <bitmap>
+        <bitmap label="Bitmap">
             <description>Bitmap shown alongside the label (default: none).</description>
         </bitmap>
-        <int name="image">
+        <int name="image" label="Image index">
             <description>The zero-based index of the image associated with the item into the image list.</description>
         </int>
-        <bool name="selected">
+        <bool name="selected" label="Selected">
             <description>Is the page selected initially (only one page can be selected; default: 0)?</description>
         </bool>
-        <bool name="expanded">
+        <bool name="expanded" label="Expanded">
             <description>If set to 1, the page is initially expanded. By default all pages are initially collapsed.</description>
         </bool>
+        <int name="depth" label="Depth">
+            <description>Page's depth in the labels tree.</description>
+        </int>
     </class>
 </classes>

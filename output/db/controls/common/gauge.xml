@@ -9,10 +9,11 @@
     Licence:     wxWindows licence
 -->
 <class name="wxGauge">
+    <description>A gauge is a horizontal or vertical bar which shows a quantity (often time).</description>
     <inherits>
         <class>wxControl</class>
     </inherits>
-    <name>
+    <name label="Name">
         <value>m_gauge</value>
     </name>
     <style>

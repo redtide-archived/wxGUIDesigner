@@ -10,17 +10,19 @@
 -->
 <classes>
     <class name="wxToolbook">
+        <description>wxToolbook is a class similar to wxNotebook but which uses a wxToolBar to show the labels instead of the tabs.</description>
         <inherits>
             <class>wxBookCtrlBase</class>
+            <class>wxWindow</class>
         </inherits>
         <children>
             <class name="toolbookpage" max="-1"/>
             <class name="wxImageList"  max="1"/>
         </children>
-        <name>
+        <name label="Name">
             <value>m_toolBook</value>
         </name>
-        <style>
+        <style label="Style">
             <flag name="wxBK_DEFAULT">
                 <description>Native controller placement.</description>
             </flag>
@@ -45,25 +47,27 @@
         </style>
         <event name="wxBookCtrlEvent">
             <type name="wxEVT_COMMAND_TOOLBOOK_PAGE_CHANGED">
+                <macro_id>EVT_TOOLBOOK_PAGE_CHANGED</macro_id>
                 <description>The page selection was changed.</description>
             </type>
             <type name="wxEVT_COMMAND_TOOLBOOK_PAGE_CHANGING">
+                <macro_id>EVT_TOOLBOOK_PAGE_CHANGING</macro_id>
                 <description>The page selection is about to be changed. This event can be vetoed (using wxNotifyEvent::Veto()).</description>
             </type>
         </event>
     </class>
 
     <class name="toolbookpage" type="item">
-        <text name="label">
+        <text name="label" label="Label">
             <description>Sheet page's title (required).</description>
         </text>
-        <bitmap>
+        <bitmap label="Bitmap">
             <description>Bitmap shown alongside the label (default: none).</description>
         </bitmap>
-        <int name="image">
+        <int name="image" label="Image index">
             <description>The zero-based index of the image associated with the item into the image list.</description>
         </int>
-        <bool name="selected">
+        <bool name="selected" label="Selected">
             <description>Is the page selected initially (only one page can be selected; default: 0)?</description>
         </bool>
     </class>

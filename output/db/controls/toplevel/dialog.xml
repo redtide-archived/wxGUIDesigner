@@ -14,13 +14,14 @@
         <class>wxWindow</class>
     </inherits>
     <children>
-        <child type="widget" max="1"/>
-        <child type="layout" max="1"/>
+        <child type="layout" max="1"  option="1"/>
+        <child type="window" max="-1" option="1"/>
     </children>
-    <name>
+    <name label="Name">
         <value>m_dlg</value>
     </name>
-    <style label="Dialog style">
+    <style label="Style">
+        <value>wxDEFAULT_DIALOG_STYLE</value>
         <flag name="wxDEFAULT_DIALOG_STYLE">
             <description>Equivalent to a combination of wxCAPTION, wxCLOSE_BOX and wxSYSTEM_MENU (the last one is not used under Unix).</description>
         </flag>
@@ -51,9 +52,8 @@
         <flag name="wxDIALOG_NO_PARENT">
             <description>By default, a dialog created with a NULL parent window will be given the application's top level window as parent. Use this style to prevent this from happening and create an orphan dialog. This is not recommended for modal dialogs.</description>
         </flag>
-        <value>wxDEFAULT_DIALOG_STYLE</value>
     </style>
-    <style label="Dialog extra style" xrc="exstyle">
+    <style name="exstyle" label="Extra style">
         <flag name="wxDIALOG_EX_CONTEXTHELP">
             <description>Under Windows, puts a query button on the caption. When pressed, Windows will go into a context-sensitive help mode and wxWidgets will send a wxEVT_HELP event if the user clicked on an application window. Note that this is an extended style and must be set by calling SetExtraStyle() before Create is called (two-step construction).</description>
         </flag>
@@ -62,12 +62,20 @@
         </flag>
     </style>
     <event name="wxCloseEvent">
+        <description>This event class contains information about window and session close events.</description>
         <type name="wxEVT_CLOSE">
-            <description>The dialog is being closed by the user or programmatically (see wxWindow::Close). The user may generate this event clicking the close button (typically the 'X' on the top-right of the title bar) if it's present (see the wxCLOSE_BOX style) or by clicking a button with the wxID_CANCEL or wxID_OK ids.</description>
+            <macro>EVT_CLOSE</macro>
+            <description>The frame is being closed by the user or programmatically (see wxWindow::Close). The user may generate this event clicking the close button (typically the 'X' on the top-right of the title bar) if it's present (see the wxCLOSE_BOX style).</description>
         </type>
     </event>
     <event name="wxInitDialogEvent">
+        <description>
+            A &lt;a title="A wxInitDialogEvent is sent as a dialog or panel is being initialised." href="http://docs.wxwidgets.org/trunk/classwx_init_dialog_event.html" class="el"&gt;wxInitDialogEvent&lt;/a&gt; is sent as a dialog or panel is being initialised. &lt;/p&gt;
+            &lt;p&gt;Handlers for this event can transfer data to the window.&lt;/p&gt;
+            &lt;p&gt;The default handler calls &lt;a title="Transfers values to child controls from data areas specified by their validators." href="http://docs.wxwidgets.org/trunk/classwx_window.html#a88cc65e424a129d9b0057756cdb67ec9" class="el"&gt;wxWindow::TransferDataToWindow&lt;/a&gt;.&lt;/p&gt;
+        </description>
         <type name="wxEVT_INIT_DIALOG">
+            <macro>EVT_INIT_DIALOG</macro>
             <description>Process a wxEVT_INIT_DIALOG event.</description>
         </type>
     </event>

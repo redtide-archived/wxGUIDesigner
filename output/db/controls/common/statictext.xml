@@ -9,13 +9,15 @@
     Licence:     wxWindows licence
 -->
 <class name="wxStaticText">
+    <description>A static text control displays one or more lines of read-only text.</description>
     <inherits>
         <class>wxControl</class>
+        <class>wxWindow</class>
     </inherits>
-    <name>
+    <name label="Name">
         <value>m_statText</value>
     </name>
-    <style>
+    <style label="Style">
         <flag name="wxALIGN_LEFT">
             <description>Align the text to the left.</description>
         </flag>
@@ -38,7 +40,7 @@
             <description>If the label text width exceeds the control width, replace the end of the label with an ellipsis; uses wxControl::Ellipsize.</description>
         </flag>
     </style>
-    <int name="wrap">
+    <int name="wrap" label="Wrap">
         <description>Wrap the text so that each line is at most the given number of pixels, see wxStaticText::Wrap() (default: no wrap).</description>
     </int>
 </class>

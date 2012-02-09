@@ -9,16 +9,17 @@
     Licence:     wxWindows licence
 -->
 <class name="wxSplitterWindow" type="container">
+    <description>This class manages up to two subwindows.</description>
     <inherits>
         <class>wxWindow</class>
     </inherits>
     <children>
-        <child type="widget" max="2"/>
+        <child type="control" max="2"/>
     </children>
-    <name>
+    <name label="Name">
         <value>m_splitter</value>
     </name>
-    <style>
+    <style label="Style">
         <flag name="wxSP_3D">
             <description>Draws a 3D effect border and sash.</description>
         </flag>
@@ -47,30 +48,35 @@
             <description>Don't draw XOR line but resize the child windows immediately.</description>
         </flag>
     </style>
-    <string name="orientation">
-            <value>horizontal</value>
+    <string name="orientation" label="Orientation">
+        <value>horizontal</value>
         <description>Orientation of the splitter, either "vertical" or "horizontal" (default: horizontal).</description>
     </string>
-    <int name="sashpos">
+    <int name="sashpos" label="Sash position">
+        <value>0</value>
         <description>Initial position of the sash (default: 0).</description>
     </int>
-    <int name="minsize">
+    <int name="minsize" label="Minimum size">
         <description>Minimum child size (default: not set).</description>
     </int>
-    <float name="gravity">
+    <float name="gravity" label="Sash gravity">
         <description>Sash gravity, see wxSplitterWindow::SetSashGravity() (default: not set).</description>
     </float>
     <event name="wxSplitterEvent">
         <type name="wxEVT_COMMAND_SPLITTER_SASH_POS_CHANGING">
+            <macro_id>EVT_SPLITTER_SASH_POS_CHANGING</macro_id>
             <description>The sash position is in the process of being changed. May be used to modify the position of the tracking bar to properly reflect the position that would be set if the drag were to be completed at this point.</description>
         </type>
         <type name="wxEVT_COMMAND_SPLITTER_SASH_POS_CHANGED">
+            <macro_id>EVT_SPLITTER_SASH_POS_CHANGED</macro_id>
             <description>The sash position was changed. May be used to modify the sash position before it is set, or to prevent the change from taking place</description>
         </type>
         <type name="wxEVT_COMMAND_SPLITTER_UNSPLIT">
+            <macro_id>EVT_SPLITTER_UNSPLIT</macro_id>
             <description>The splitter has been just unsplit. Processes a wxEVT_COMMAND_SPLITTER_UNSPLIT event.</description>
         </type>
         <type name="wxEVT_COMMAND_SPLITTER_DOUBLECLICKED">
+            <macro_id>EVT_SPLITTER_DCLICK</macro_id>
             <description>The sash was double clicked. The default behaviour is to unsplit the window when this happens (unless the minimum pane size has been set to a value greater than zero).</description>
         </type>
     </event>

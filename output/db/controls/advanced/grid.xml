@@ -9,10 +9,12 @@
     Licence:     wxWindows licence
 -->
 <class name="wxGrid">
+    <description>wxGrid and its related classes are used for displaying and editing tabular data.</description>
     <inherits>
         <class>wxScrolledWindow</class>
+        <class>wxWindow</class>
     </inherits>
-    <name>
+    <name label="Name">
         <value>m_grid</value>
     </name>
 </class>

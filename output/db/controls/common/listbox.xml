@@ -9,10 +9,12 @@
     Licence:     wxWindows licence
 -->
 <class name="wxListBox">
+    <description>A listbox is used to select one or more of a list of strings.</description>
     <inherits>
         <class>wxControl</class>
+        <class>wxWindow</class>
     </inherits>
-    <name>
+    <name label="Name">
         <value>m_listBox</value>
     </name>
     <style>
@@ -42,18 +44,18 @@
             <description>The listbox contents are sorted in alphabetical order.</description>
         </flag>
     </style>
-    <int name="selection">
-            <value>-1</value>
+    <int name="selection" label="Selection">
+        <value>-1</value>
         <description>Index of the initially selected item or -1 for no selection (default: -1).</description>
     </int>
-    <arraystring name="content">
+    <arraystring name="content" label="Content">
         <description>Content of the control; this property has any number of &lt;item&gt; XML elements as its children, with the items text as their text values (default: empty).</description>
     </arraystring>
     <event name="wxCommandEvent">
-        <type name="EVT_LISTBOX">
+        <type name="wxEVT_COMMAND_LISTBOX_SELECTED">
             <description>Process a wxEVT_COMMAND_LISTBOX_SELECTED event, when an item on the list is selected or the selection changes.</description>
         </type>
-        <type name="EVT_LISTBOX_DCLICK">
+        <type name="wxEVT_COMMAND_LISTBOX_DOUBLECLICKED">
             <description>Process a wxEVT_COMMAND_LISTBOX_DOUBLECLICKED event, when the listbox is double-clicked.</description>
         </type>
     </event>

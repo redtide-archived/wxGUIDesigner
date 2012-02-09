@@ -18,7 +18,7 @@
         <children>
             <class name="propertysheetpage" max="-1"/>
         </children>
-        <name>
+        <name label="Name">
             <value>m_propDlg</value>
         </name>
         <style name="buttons">

@@ -9,18 +9,20 @@
     Licence:     wxWindows licence
 -->
 <classes>
-    <class name="wxChoicebook">
+    <class name="wxChoicebook" type="container">
+        <description>wxChoicebook is a class similar to wxNotebook, but uses a wxChoice control to show the labels instead of the tabs.</description>
         <inherits>
             <class>wxBookCtrlBase</class>
+            <class>wxWindow</class>
         </inherits>
         <children>
             <class name="choicebookpage" max="-1"/>
             <class name="wxImageList"    max="1"/>
         </children>
-        <name>
+        <name label="Name">
             <value>m_choiceBook</value>
         </name>
-        <style>
+        <style label="Style">
             <flag name="wxCHB_DEFAULT">
                 <description>Choose the default location for the labels depending on the current platform (left everywhere except Mac where it is top).</description>
             </flag>
@@ -39,9 +41,11 @@
         </style>
         <event name="wxBookCtrlEvent">
             <type name="wxEVT_COMMAND_CHOICEBOOK_PAGE_CHANGED">
+                <macro_id>EVT_CHOICEBOOK_PAGE_CHANGED</macro_id>
                 <description>The page selection was changed. Processes a wxEVT_COMMAND_CHOICEBOOK_PAGE_CHANGED event.</description>
             </type>
             <type name="wxEVT_COMMAND_CHOICEBOOK_PAGE_CHANGING">
+                <macro_id>EVT_CHOICEBOOK_PAGE_CHANGING</macro_id>
                 <description>The page selection is about to be changed. Processes a wxEVT_COMMAND_CHOICEBOOK_PAGE_CHANGING event. This event can be vetoed (using wxNotifyEvent::Veto()).</description>
             </type>
         </event>
@@ -52,16 +56,16 @@
             <class name="container" max="1"/>
             <class name="widget"    max="1"/>
         </children>
-        <text name="label">
+        <text name="label" label="Label">
             <description>Sheet page's title (required).</description>
         </text>
-        <bitmap>
+        <bitmap label="Bitmap">
             <description>Bitmap shown alongside the label (default: none).</description>
         </bitmap>
-        <int name="image">
+        <int name="image" label="Image index">
             <description>The zero-based index of the image associated with the item into the image list.</description>
         </int>
-        <bool name="selected">
+        <bool name="selected" label="Selected">
             <description>Is the page selected initially (only one page can be selected; default: 0)?</description>
         </bool>
     </class>

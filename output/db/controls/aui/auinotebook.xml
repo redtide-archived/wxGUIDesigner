@@ -10,16 +10,18 @@
 -->
 <classes>
     <class name="wxAuiNotebook" type="container">
+        <description>wxAuiNotebook is a notebook control which implements many features common in applications with dockable panes. Specifically, wxAuiNotebook implements functionality which allows the user to rearrange tab order via drag-and-drop, split the tab window into many different splitter configurations, and toggle through different themes to customize the control's look and feel.</description>
         <inherits>
             <class>wxBookCtrlBase</class>
+            <class>wxWindow</class>
         </inherits>
         <children>
             <class>auinotebookpage</class>
         </children>
-        <name>
+        <name label="Name">
             <value>m_auiBook</value>
         </name>
-        <style>
+        <style label="Style">
             <flag name="wxAUI_NB_DEFAULT_STYLE">
                 <description>Defined as wxAUI_NB_TOP | wxAUI_NB_TAB_SPLIT | wxAUI_NB_TAB_MOVE | wxAUI_NB_SCROLL_BUTTONS | wxAUI_NB_CLOSE_ON_ACTIVE_TAB.</description>
             </flag>
@@ -58,41 +60,49 @@
             </flag>
         </style>
         <event name="wxAuiNotebookEvent">
-            <type name="EVT_AUINOTEBOOK_PAGE_CLOSE">
+            <type name="wxEVT_COMMAND_AUINOTEBOOK_PAGE_CLOSE">
+                <macro_id>EVT_AUINOTEBOOK_PAGE_CLOSE</macro_id>
                 <description>A page is about to be closed. Processes a wxEVT_COMMAND_AUINOTEBOOK_PAGE_CLOSE event.</description>
             </type>
-            <type name="EVT_AUINOTEBOOK_PAGE_CHANGED">
+            <type name="wxEVT_COMMAND_AUINOTEBOOK_PAGE_CHANGED">
+                <macro_id>EVT_AUINOTEBOOK_PAGE_CHANGED</macro_id>
                 <description>The page selection was changed. Processes a wxEVT_COMMAND_AUINOTEBOOK_PAGE_CHANGED event.</description>
             </type>
-            <type name="EVT_AUINOTEBOOK_PAGE_CHANGING">
+            <type name="wxEVT_COMMAND_AUINOTEBOOK_PAGE_CHANGING">
+                <macro_id>EVT_AUINOTEBOOK_PAGE_CHANGING</macro_id>
                 <description>The page selection is about to be changed. Processes a wxEVT_COMMAND_AUINOTEBOOK_PAGE_CHANGING event. This event can be vetoed.</description>
             </type>
-            <type name="EVT_AUINOTEBOOK_BUTTON">
+            <type name="wxEVT_COMMAND_AUINOTEBOOK_BUTTON">
+                <macro_id>EVT_AUINOTEBOOK_BUTTON</macro_id>
                 <description>The window list button has been pressed. Processes a wxEVT_COMMAND_AUINOTEBOOK_BUTTON event.</description>
             </type>
-            <type name="EVT_AUINOTEBOOK_BEGIN_DRAG">
+            <type name="wxEVT_COMMAND_AUINOTEBOOK_BEGIN_DRAG">
+                <macro_id>EVT_AUINOTEBOOK_BEGIN_DRAG</macro_id>
                 <description>Dragging is about to begin. Processes a wxEVT_COMMAND_AUINOTEBOOK_BEGIN_DRAG event.</description>
             </type>
-            <type name="EVT_AUINOTEBOOK_END_DRAG">
+            <type name="wxEVT_COMMAND_AUINOTEBOOK_END_DRAG">
+                <macro_id>EVT_AUINOTEBOOK_END_DRAG</macro_id>
                 <description>Dragging has ended. Processes a wxEVT_COMMAND_AUINOTEBOOK_END_DRAG event.</description>
             </type>
-            <type name="EVT_AUINOTEBOOK_DRAG_MOTION">
+            <type name="wxEVT_COMMAND_AUINOTEBOOK_DRAG_MOTION">
+                <macro_id>EVT_AUINOTEBOOK_DRAG_MOTION</macro_id>
                 <description>Emitted during a drag and drop operation. Processes a wxEVT_COMMAND_AUINOTEBOOK_DRAG_MOTION event.</description>
             </type>
-            <type name="EVT_AUINOTEBOOK_ALLOW_DND">
+            <type name="wxEVT_COMMAND_AUINOTEBOOK_ALLOW_DND">
+                <macro_id>EVT_AUINOTEBOOK_ALLOW_DND</macro_id>
                 <description>Whether to allow a tab to be dropped. Processes a wxEVT_COMMAND_AUINOTEBOOK_ALLOW_DND event. This event must be specially allowed.</description>
             </type>
         </event>
     </class>
 
     <class name="auinotebookpage" type="item">
-        <text name="label">
+        <text name="label" label="Label">
             <description>Sheet page's title (required).</description>
         </text>
-        <bitmap>
+        <bitmap label="Bitmap">
             <description>Bitmap shown alongside the label (default: none).</description>
         </bitmap>
-        <bool name="selected">
+        <bool name="selected" label="Selected">
             <description>Is the page selected initially (only one page can be selected; default: 0)?</description>
         </bool>
     </class>

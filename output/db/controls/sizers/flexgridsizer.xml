@@ -8,11 +8,15 @@
     Revision:    $Hash$
     Licence:     wxWindows licence
 -->
-<class name="wxFlexGridSizer" type="layout">
+<class name="wxFlexGridSizer" type="sizer">
     <inherits>
         <class>wxGridSizer</class>
     </inherits>
-    <name>
+    <children>
+        <class name="sizeritem" max="-1"/>
+        <class name="spacer"    max="-1"/>
+    </children>
+    <name label="Name">
         <value>fgSizer</value>
     </name>
     <string name="growablerows" label="Growable rows">

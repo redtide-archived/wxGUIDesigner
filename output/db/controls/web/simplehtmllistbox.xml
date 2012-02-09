@@ -11,8 +11,9 @@
 <class name="wxSimpleHtmlListBox">
     <inherits>
         <class>wxListBox</class>
+        <class>wxWindow</class>
     </inherits>
-    <name>
+    <name label="Name">
         <value>m_htmlListBox</value>
     </name>
     <style>

@@ -39,7 +39,9 @@ const ClassType wxGDConv::ClassTypeFromString( const wxString &value )
     else if ( value == "item"      ) return CLASS_TYPE_ITEM;
     else if ( value == "layout"    ) return CLASS_TYPE_LAYOUT;
     else if ( value == "root"      ) return CLASS_TYPE_ROOT;
+    else if ( value == "sizer"     ) return CLASS_TYPE_SIZER;
     else if ( value == "toplevel"  ) return CLASS_TYPE_TOPLEVEL;
+    else if ( value == "window"    ) return CLASS_TYPE_WINDOW;
     else if ( value == "widget"    ) return CLASS_TYPE_WIDGET;
 
     return CLASS_TYPE_UNKNOWN;

@@ -9,13 +9,14 @@
     Licence:     wxWindows licence
 -->
 <class name="wxSpinButton">
+    <description>A wxSpinButton has two small up and down (or left and right) arrow buttons.</description>
     <inherits>
-        <class>wxControl</class>
+        <class>wxWindow</class>
     </inherits>
-    <name>
+    <name label="Name">
         <value>m_spinBtn</value>
     </name>
-    <style>
+    <style label="Style">
         <flag name="wxSP_HORIZONTAL">
             <description>Specifies a horizontal spin button (note that this style is not supported in wxGTK).</description>
         </flag>
@@ -30,13 +31,15 @@
         </flag>
     </style>
     <int name="value">
+        <value>0</value>
         <description>Initial value of the control (default: 0).</description>
     </int>
     <int name="min">
+        <value>0</value>
         <description>Minimum allowed value (default: 0).</description>
     </int>
     <int name="max">
-            <value>100</value>
+        <value>100</value>
         <description>Maximum allowed value (default: 100).</description>
     </int>
     <event name="wxSpinEvent">

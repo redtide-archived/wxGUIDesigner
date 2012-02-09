@@ -9,14 +9,14 @@
     Licence:     wxWindows licence
 -->
 <classes>
-    <class name="wxStdDialogButtonSizer" type="layout">
+    <class name="wxStdDialogButtonSizer" type="sizer">
         <inherits>
             <class>wxSizer</class>
         </inherits>
         <children>
             <class name="button" max="-1"/>
         </children>
-        <name>
+        <name label="Name">
             <value>sdbSizer</value>
         </name>
         <text name="label">

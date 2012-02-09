@@ -10,13 +10,14 @@
 -->
 <classes>
     <class name="wxMenuBar">
+        <description>A menu bar is a series of menus accessible from the top of a frame.</description>
         <inherits>
             <class>wxWindow</class>
         </inherits>
         <children>
             <class name="wxMenu" max="-1"/>
         </children>
-        <name>
+        <name label="Name">
             <value>m_menuBar</value>
         </name>
         <style name="Style">
@@ -27,16 +28,14 @@
     </class>
 
     <class name="wxMenu">
-        <inherits>
-            <class>wxEvtHandler</class>
-        </inherits>
+        <description>A menu is a popup (or pull down) list of items, one of which may be selected before the menu goes away (clicking elsewhere dismisses the menu).</description>
         <children>
             <class name="break"      max="-1"/>
             <class name="separator"  max="-1"/>
             <class name="wxMenu"     max="-1"/>
             <class name="wxMenuItem" max="-1"/>
         </children>
-        <name>
+        <name label="Name">
             <value>m_menu</value>
         </name>
         <text name="label">
@@ -52,10 +51,8 @@
     </class>
 
     <class name="wxMenuItem">
-        <inherits>
-            <class>wxObject</class>
-        </inherits>
-        <name>
+        <description>A menu item represents an item in a menu.</description>
+        <name label="Name">
             <value>m_mnuItm</value>
         </name>
         <bitmap name="bitmap">

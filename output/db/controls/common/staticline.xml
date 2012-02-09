@@ -9,13 +9,14 @@
     Licence:     wxWindows licence
 -->
 <class name="wxStaticLine">
+    <description>A static line is just a line which may be used in a dialog to separate the groups of controls.</description>
     <inherits>
-        <class>wxControl</class>
+        <class>wxWindow</class>
     </inherits>
-    <name>
+    <name label="Name">
         <value>m_statLine</value>
     </name>
-    <style>
+    <style label="Style">
         <flag name="wxLI_HORIZONTAL">
             <description>Creates a horizontal line.</description>
         </flag>

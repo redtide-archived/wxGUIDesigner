@@ -14,8 +14,9 @@
 #include "interfaces/iobject.h"
 #include "core/defs.h"
 
-class wxNotebook;
+class wxWindow;
 class wxPGProperty;
+class wxHtmlLinkEvent;
 class wxPropertyGridEvent;
 class wxSizeEvent;
 
@@ -23,7 +24,7 @@ class PropBookHandler : public IObjectHandler
 {
     friend class GUIManager;
 
-    PropBookHandler( wxNotebook *owner ) : m_propBook( owner ) {}
+    PropBookHandler( wxWindow *owner );
 
     virtual void OnObjectCreated ( Object object );
     virtual void OnObjectDeleted ( Object object );
@@ -36,6 +37,8 @@ class PropBookHandler : public IObjectHandler
     void OnEGSelected( wxPropertyGridEvent &event );
     void OnEGDblClick( wxPropertyGridEvent &event );
 
+    void OnLinkClick( wxHtmlLinkEvent &event );
+
     void OnSize( wxSizeEvent &event );
 
     void LoadEvents( Object object );
@@ -43,7 +46,7 @@ class PropBookHandler : public IObjectHandler
 
     wxPGProperty *AddProperty( Property prop );
 
-    wxNotebook *m_propBook;
+    wxWindow *m_propBook;
 };
 
 #endif //__CORE_PROPGRID_H__

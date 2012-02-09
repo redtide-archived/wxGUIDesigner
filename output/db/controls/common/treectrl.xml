@@ -9,16 +9,17 @@
     Licence:     wxWindows licence
 -->
 <class name="wxTreeCtrl">
+    <description>A tree control presents information as a hierarchy, with items that may be expanded to show further items.</description>
     <inherits>
-        <class>wxControl</class>
+        <class>wxWindow</class>
     </inherits>
     <children>
         <class name="wxImageList" max="1"/>
     </children>
-    <name>
+    <name label="Name">
         <value>m_treeCtrl</value>
     </name>
-    <style>
+    <style label="Style">
         <flag name="wxTR_EDIT_LABELS">
             <description>Use this style if you wish the user to be able to edit labels in the tree control.</description>
         </flag>
@@ -61,66 +62,87 @@
     </style>
     <event name="wxTreeEvent">
         <type name="wxEVT_COMMAND_TREE_BEGIN_DRAG">
+            <macro_id>EVT_TREE_BEGIN_DRAG</macro_id>
             <description>Begin dragging with the left mouse button. If you want to enable left-dragging you need to intercept this event and explicitly call wxTreeEvent::Allow(), as it's vetoed by default. Processes a wxEVT_COMMAND_TREE_BEGIN_DRAG event type.</description>
         </type>
         <type name="wxEVT_COMMAND_TREE_BEGIN_RDRAG">
+            <macro_id>EVT_TREE_BEGIN_RDRAG</macro_id>
             <description>Begin dragging with the right mouse button. If you want to enable right-dragging you need to intercept this event and explicitly call wxTreeEvent::Allow(), as it's vetoed by default. Processes a wxEVT_COMMAND_TREE_BEGIN_RDRAG event type.</description>
         </type>
         <type name="wxEVT_COMMAND_TREE_END_DRAG">
+            <macro_id>EVT_TREE_END_DRAG</macro_id>
             <description>End dragging with the left or right mouse button. Processes a wxEVT_COMMAND_TREE_END_DRAG event type.</description>
         </type>
         <type name="wxEVT_COMMAND_TREE_BEGIN_LABEL_EDIT">
+            <macro_id>EVT_TREE_BEGIN_LABEL_EDIT</macro_id>
             <description>Begin editing a label. This can be prevented by calling Veto(). Processes a wxEVT_COMMAND_TREE_BEGIN_LABEL_EDIT event type.</description>
         </type>
         <type name="wxEVT_COMMAND_TREE_END_LABEL_EDIT">
+            <macro_id>EVT_TREE_END_LABEL_EDIT</macro_id>
             <description>Finish editing a label. This can be prevented by calling Veto(). Processes a wxEVT_COMMAND_TREE_END_LABEL_EDIT event type.</description>
         </type>
         <type name="wxEVT_COMMAND_TREE_DELETE_ITEM">
+            <macro_id>EVT_TREE_DELETE_ITEM</macro_id>
             <description>An item was deleted. Processes a wxEVT_COMMAND_TREE_DELETE_ITEM event type.</description>
         </type>
         <type name="wxEVT_COMMAND_TREE_GET_INFO">
+            <macro_id>EVT_TREE_GET_INFO</macro_id>
             <description>Request information from the application. Processes a wxEVT_COMMAND_TREE_GET_INFO event type.</description>
         </type>
         <type name="wxEVT_COMMAND_TREE_SET_INFO">
+            <macro_id>EVT_TREE_SET_INFO</macro_id>
             <description>Information is being supplied. Processes a wxEVT_COMMAND_TREE_SET_INFO event type.</description>
         </type>
         <type name="wxEVT_COMMAND_TREE_ITEM_ACTIVATED">
+            <macro_id>EVT_TREE_ITEM_ACTIVATED</macro_id>
             <description>The item has been activated, i.e. chosen by double clicking it with mouse or from keyboard. Processes a wxEVT_COMMAND_TREE_ITEM_ACTIVATED event type.</description>
         </type>
         <type name="wxEVT_COMMAND_TREE_ITEM_COLLAPSED">
+            <macro_id>EVT_TREE_ITEM_COLLAPSED</macro_id>
             <description>The item has been collapsed. Processes a wxEVT_COMMAND_TREE_ITEM_COLLAPSED event type.</description>
         </type>
         <type name="wxEVT_COMMAND_TREE_ITEM_COLLAPSING">
+            <macro_id>EVT_TREE_ITEM_COLLAPSING</macro_id>
             <description>The item is being collapsed. This can be prevented by calling Veto(). Processes a wxEVT_COMMAND_TREE_ITEM_COLLAPSING event type.</description>
         </type>
         <type name="wxEVT_COMMAND_TREE_ITEM_EXPANDED">
+            <macro_id>EVT_TREE_ITEM_EXPANDED</macro_id>
             <description>The item has been expanded. Processes a wxEVT_COMMAND_TREE_ITEM_EXPANDED event type.</description>
         </type>
         <type name="wxEVT_COMMAND_TREE_ITEM_EXPANDING">
+            <macro_id>EVT_TREE_ITEM_EXPANDING</macro_id>
             <description>The item is being expanded. This can be prevented by calling Veto(). Processes a wxEVT_COMMAND_TREE_ITEM_EXPANDING event type.</description>
         </type>
         <type name="wxEVT_COMMAND_TREE_ITEM_RIGHT_CLICK">
+            <macro_id>EVT_TREE_ITEM_RIGHT_CLICK</macro_id>
             <description>The user has clicked the item with the right mouse button. Processes a wxEVT_COMMAND_TREE_ITEM_RIGHT_CLICK event type.</description>
         </type>
         <type name="wxEVT_COMMAND_TREE_ITEM_MIDDLE_CLICK">
+            <macro_id>EVT_TREE_ITEM_MIDDLE_CLICK</macro_id>
             <description>The user has clicked the item with the middle mouse button. This is only supported by the generic control. Processes a wxEVT_COMMAND_TREE_ITEM_MIDDLE_CLICK event type.</description>
         </type>
         <type name="wxEVT_COMMAND_TREE_SEL_CHANGED">
+            <macro_id>EVT_TREE_SEL_CHANGED</macro_id>
             <description>Selection has changed. Processes a wxEVT_COMMAND_TREE_SEL_CHANGED event type.</description>
         </type>
         <type name="wxEVT_COMMAND_TREE_SEL_CHANGING">
+            <macro_id>EVT_TREE_SEL_CHANGING</macro_id>
             <description>Selection is changing. This can be prevented by calling Veto(). Processes a wxEVT_COMMAND_TREE_SEL_CHANGING event type.</description>
         </type>
         <type name="wxEVT_COMMAND_TREE_KEY_DOWN">
+            <macro_id>EVT_TREE_KEY_DOWN</macro_id>
             <description>A key has been pressed. Processes a wxEVT_COMMAND_TREE_KEY_DOWN event type.</description>
         </type>
         <type name="wxEVT_COMMAND_TREE_ITEM_GETTOOLTIP">
+            <macro_id>EVT_TREE_ITEM_GETTOOLTIP</macro_id>
             <description>The opportunity to set the item tooltip is being given to the application (call wxTreeEvent::SetToolTip). Windows only. Processes a wxEVT_COMMAND_TREE_ITEM_GETTOOLTIP event type.</description>
         </type>
         <type name="wxEVT_COMMAND_TREE_ITEM_MENU">
+            <macro_id>EVT_TREE_ITEM_MENU</macro_id>
             <description>The context menu for the selected item has been requested, either by a right click or by using the menu key. Processes a wxEVT_COMMAND_TREE_ITEM_MENU event type.</description>
         </type>
         <type name="wxEVT_COMMAND_TREE_STATE_IMAGE_CLICK">
+            <macro_id>EVT_TREE_STATE_IMAGE_CLICK</macro_id>
             <description>The state image has been clicked. Windows only. Processes a wxEVT_COMMAND_TREE_STATE_IMAGE_CLICK event type.</description>
         </type>
     </event>

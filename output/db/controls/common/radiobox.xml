@@ -10,16 +10,21 @@
 -->
 <classes>
     <class name="wxRadioBox">
+        <description>
+            &lt;p&gt;A radio box item is used to select one of number of mutually exclusive choices.&lt;/p&gt;
+            &lt;p&gt;It is displayed as a vertical column or horizontal row of labelled buttons.&lt;/p&gt;
+        </description>
         <inherits>
             <class>wxControl</class>
+            <class>wxWindow</class>
         </inherits>
         <children>
             <class name="radioboxitem" max="-1"/>
         </children>
-        <name>
+        <name label="Name">
             <value>m_radioBtn</value>
         </name>
-        <style>
+        <style label="Style">
             <flag name="wxRA_SPECIFY_ROWS">
                 <description>The major dimension parameter refers to the maximum number of rows.</description>
             </flag>
@@ -27,35 +32,38 @@
                 <description>The major dimension parameter refers to the maximum number of columns.</description>
             </flag>
         </style>
-        <int name="dimension">
+        <int name="dimension" label="Dimension">
+            <value>1</value>
             <description>Specifies the maximum number of rows (if style contains wxRA_SPECIFY_ROWS) or columns (if style contains wxRA_SPECIFY_COLS) for a two-dimensional radiobox (default: 1).</description>
         </int>
-        <int name="selection">
-                <value>-1</value>
+        <int name="selection" label="Selection">
+            <value>-1</value>
             <description>Index of the initially selected item or -1 for no selection (default: -1).</description>
         </int>
-        <items name="content">
-            <description>Content of the control; this property has any number of &gt;item&lt; XML elements as its children, with the items text as their text values (see below; default: empty).</description>
+        <items name="content" label="Content">
+            <description>Content of the control; this property has any number of &lt;item&gt; XML elements as its children, with the items text as their text values (see below; default: empty).</description>
         </items>
         <event name="wxCommandEvent">
-            <type name="EVT_RADIOBOX">
+            <type name="wxEVT_COMMAND_RADIOBOX_SELECTED">
+                <macro>EVT_RADIOBOX</macro>
                 <description>Process a wxEVT_COMMAND_RADIOBOX_SELECTED event, when a radiobutton is clicked.</description>
             </type>
         </event>
     </class>
 
     <class name="radioboxitem" type="item">
-        <string name="tooltip" xrcattribute="1">
+        <string name="tooltip" label="Tooltip" xrcattribute="1">
             <description>Tooltip to show over this ratio button (default: none).</description>
         </string>
         <string name="helptext" label="Help text" xrcattribute="1">
             <description>Contextual help for this radio button (default: none).</description>
         </string>
-        <bool name="enabled" xrcattribute="1">
-                <value>1</value>
+        <bool name="enabled" label="Enabled" xrcattribute="1">
+            <value>1</value>
             <description>Is the button enabled (default: 1)?</description>
         </bool>
-        <bool name="hidden" xrcattribute="1">
+        <bool name="hidden" label="Hidden" xrcattribute="1">
+            <value>0</value>
             <description>Is the button hidden initially (default: 0)?</description>
         </bool>
     </class>

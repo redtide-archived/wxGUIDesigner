@@ -8,11 +8,15 @@
     Revision:    $Hash$
     Licence:     wxWindows licence
 -->
-<class name="wxStaticBoxSizer" type="layout">
+<class name="wxStaticBoxSizer" type="sizer">
     <inherits>
         <class>wxBoxSizer</class>
     </inherits>
-    <name>
+    <children>
+        <class name="sizeritem" max="-1"/>
+        <class name="spacer"    max="-1"/>
+    </children>
+    <name label="Name">
         <value>sbSizer</value>
     </name>
     <text name="label">

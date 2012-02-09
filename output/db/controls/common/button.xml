@@ -8,13 +8,35 @@
     Revision:    $Hash$
     Licence:     wxWindows licence
 -->
-<class name="wxButton" type="widget">
+<class name="wxButton">
+    <description>A button is a control that contains a text string, and is one of the most common elements of a GUI.</description>
     <inherits>
-        <class>wxAnyButton</class>
+        <class>wxControl</class>
+        <class>wxWindow</class>
     </inherits>
-    <name>
+    <name label="Name">
         <value>m_button</value>
     </name>
+    <style label="Style">
+        <flag name="wxBU_LEFT">
+            <description>Left-justifies the label. Windows and GTK+ only.</description>
+        </flag>
+        <flag name="wxBU_TOP">
+            <description>Aligns the label to the top of the button. Windows and GTK+ only.</description>
+        </flag>
+        <flag name="wxBU_RIGHT">
+            <description>Right-justifies the bitmap label. Windows and GTK+ only.</description>
+        </flag>
+        <flag name="wxBU_BOTTOM">
+            <description>Aligns the label to the bottom of the button. Windows and GTK+ only.</description>
+        </flag>
+        <flag name="wxBU_EXACTFIT">
+            <description>Creates the button as small as possible instead of making it of the standard size (which is the default behaviour ).</description>
+        </flag>
+        <flag name="wxBU_NOTEXT">
+            <description>Disables the display of the text label in the button even if it has one or its id is one of the standard stock ids with an associated label: without using this style a button which is only supposed to show a bitmap but uses a standard id would display a label too.</description>
+        </flag>
+    </style>
     <style name="bitmapposition" label="Bitmap position">
         <description>Position of the bitmap in the button, see wxButton::SetBitmapPosition().</description>
         <flag name="wxTOP"/>
@@ -22,7 +44,7 @@
         <flag name="wxLEFT"/>
         <flag name="wxRIGHT"/>
     </style>
-    <bool name="default">
+    <bool name="default" label="Default">
         <description>Should this button be the default button in dialog (default: 0)?</description>
     </bool>
     <bitmap>

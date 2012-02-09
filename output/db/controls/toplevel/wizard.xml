@@ -18,7 +18,7 @@
         <children>
             <class name="wxWizardPage" max="-1"/>
         </children>
-        <name>
+        <name label="Name">
             <value>m_wizard</value>
         </name>
         <exstyle>
@@ -55,7 +55,7 @@
         <inherits>
             <class>wxPanel</class>
         </inherits>
-        <name>
+        <name label="Name">
             <value>m_wizPage</value>
         </name>
         <bitmap name="Bitmap">

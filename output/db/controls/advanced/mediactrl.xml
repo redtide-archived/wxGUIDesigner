@@ -9,22 +9,23 @@
     Licence:     wxWindows licence
 -->
 <class name="wxMediaCtrl">
+    <description>wxMediaCtrl is a class for displaying types of media, such as videos, audio files, natively through native codecs.</description>
     <inherits>
-        <class>wxControl</class>
+        <class>wxWindow</class>
     </inherits>
-    <name>
+    <name label="Name">
         <value>m_mediaCtrl</value>
     </name>
-    <url name="File">
+    <url name="file">
         <description>Path to the media file.</description>
     </url>
-    <bool name="Play">
+    <bool name="play">
         <description>Resumes playback of the movie.</description>
     </bool>
-    <double name="Playback rate">
+    <double name="playback_rate">
         <description>Sets the playback rate, or speed of the media, to that referred by dRate. 1.0 represents normal speed, while 2.0 represents twice the normal speed of the media, for example. Not supported on the GStreamer (Unix) backend.</description>
     </double>
-    <double name="Volume">
+    <double name="volume">
         <description>Sets the volume of the media from a 0.0 to 1.0 range to that referred by dVolume. 1.0 represents full volume, while 0.5 represents half (50 percent) volume, for example. Note: The volume may not be exact due to conversion and rounding errors, although setting the volume to full or none is always exact.</description>
     </double>
     <enum name="wxMediaCtrlPlayerControls">

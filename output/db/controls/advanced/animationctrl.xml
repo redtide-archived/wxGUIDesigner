@@ -9,13 +9,14 @@
     Licence:     wxWindows licence
 -->
 <class name="wxAnimationCtrl">
+    <description>This is a static control which displays an animation.</description>
     <inherits>
-        <class>wxControl</class>
+        <class>wxWindow</class>
     </inherits>
-    <name>
+    <name label="Name">
         <value>m_animCtrl</value>
     </name>
-    <style>
+    <style label="Style">
         <flag name="wxAC_DEFAULT_STYLE">
             <description>The default style: wxBORDER_NONE.</description>
         </flag>
@@ -23,13 +24,13 @@
             <description>By default, the control will adjust its size to exactly fit to the size of the animation when SetAnimation is called. If this style flag is given, the control will not change its size.</description>
         </flag>
     </style>
-    <url name="Animation">
+    <url name="animation" label="Animation">
         <description>Sets the animation to play in this control.</description>
     </url>
-    <bitmap name="Inactive bitmap">
+    <bitmap label="Inactive bitmap">
         <description>Sets the bitmap to show on the control when it's not playing an animation.</description>
     </bitmap>
-    <bool name="Play">
+    <bool name="play" label="Play">
         <description>Starts playing the animation.</description>
     </bool>
 </class>

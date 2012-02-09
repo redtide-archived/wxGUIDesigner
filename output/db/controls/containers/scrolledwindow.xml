@@ -8,14 +8,20 @@
     Revision:    $Hash$
     Licence:     wxWindows licence
 -->
-<class name="wxScrolledWindow">
+<class name="wxScrolledWindow" type="container">
+    <description>Scrolled window derived from wxPanel.</description>
     <inherits>
         <class>wxPanel</class>
+        <class>wxWindow</class>
     </inherits>
-    <name>
+    <children>
+        <class name="control" max="-1"/>
+        <class type="sizer"   max="1"/>
+    </children>
+    <name label="Name">
         <value>m_scrollWnd</value>
     </name>
-    <style>
+    <style label="Style">
         <flag name="wxRETAINED">
             <description>Uses a backing pixmap to speed refreshes. Motif only.</description>
         </flag>
@@ -23,33 +29,7 @@
             <description>Specifies a vertical scrollbar.</description>
         </flag>
     </style>
-    <size name="scrollrate">
+    <size name="scrollrate" label="Scroll rate">
         <description>Scroll rate in x and y directions (default: not set; required if the window has a sizer child).</description>
     </size>
-    <event name="wxScrollWinEvent">
-        <type name="wxEVT_SCROLLWIN_TOP">
-            <description>Process wxEVT_SCROLLWIN_TOP scroll-to-top events.</description>
-        </type>
-        <type name="wxEVT_SCROLLWIN_BOTTOM">
-            <description>Process wxEVT_SCROLLWIN_BOTTOM scroll-to-bottom events.</description>
-        </type>
-        <type name="wxEVT_SCROLLWIN_LINEUP">
-            <description>Process wxEVT_SCROLLWIN_LINEUP line up events.</description>
-        </type>
-        <type name="wxEVT_SCROLLWIN_LINEDOWN">
-            <description>Process wxEVT_SCROLLWIN_LINEDOWN line down events.</description>
-        </type>
-        <type name="wxEVT_SCROLLWIN_PAGEUP">
-            <description>Process wxEVT_SCROLLWIN_PAGEUP page up events.</description>
-        </type>
-        <type name="wxEVT_SCROLLWIN_PAGEDOWN">
-            <description>Process wxEVT_SCROLLWIN_PAGEDOWN page down events.</description>
-        </type>
-        <type name="wxEVT_SCROLLWIN_THUMBTRACK">
-            <description>Process wxEVT_SCROLLWIN_THUMBTRACK thumbtrack events (frequent events sent as the user drags the thumbtrack).</description>
-        </type>
-        <type name="wxEVT_SCROLLWIN_THUMBRELEASE">
-            <description>Process wxEVT_SCROLLWIN_THUMBRELEASE thumb release events.</description>
-        </type>
-    </event>
 </class>

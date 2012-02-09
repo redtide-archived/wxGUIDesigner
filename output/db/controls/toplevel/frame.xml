@@ -9,21 +9,28 @@
     Licence:     wxWindows licence
 -->
 <class name="wxFrame" type="toplevel">
+    <description>
+        &lt;p&gt;A frame is a window whose size and position can (usually) be changed by the user. &lt;/p&gt;
+        &lt;p&gt;It usually has thick borders and a title bar, and can optionally contain a menu bar, toolbar and status bar. A frame can contain any window that is not a frame or dialog.&lt;/p&gt;
+        &lt;p&gt;A frame that has a status bar and toolbar, created via the &lt;a title="Creates a status bar at the bottom of the frame." href="http://docs.wxwidgets.org/trunk/classwx_frame.html#aaa5134dcecc1ec77386465a327dd0a21" class="el"&gt;CreateStatusBar()&lt;/a&gt; and &lt;a title="Creates a toolbar at the top or left of the frame." href="http://docs.wxwidgets.org/trunk/classwx_frame.html#a529698edc2fd2037ac8578dadafad0e2" class="el"&gt;CreateToolBar()&lt;/a&gt; functions, manages these windows and adjusts the value returned by &lt;a title="Returns the size of the window 'client area' in pixels." href="http://docs.wxwidgets.org/trunk/classwx_window.html#ae56fc53268b815b58570f66bfc33838f" class="el"&gt;GetClientSize()&lt;/a&gt; to reflect the remaining size available to application windows.&lt;/p&gt;
+        &lt;dl class="remark"&gt;&lt;dt&gt;&lt;b&gt;Remarks:&lt;/b&gt;&lt;/dt&gt;&lt;dd&gt;An application should normally define an &lt;a title="This event class contains information about window and session close events." href="http://docs.wxwidgets.org/trunk/classwx_close_event.html" class="el"&gt;wxCloseEvent&lt;/a&gt; handler for the frame to respond to system close events, for example so that related data and subwindows can be cleaned up.&lt;/dd&gt;
+    </description>
     <inherits>
         <class>wxTopLevelWindow</class>
         <class>wxWindow</class>
     </inherits>
     <children>
-        <child type="widget"      max="1"/>
-        <child type="layout"      max="1"/>
-        <class name="wxMenuBar"   max="1"/>
-        <class name="wxStatusBar" max="1"/>
-        <class name="wxToolBar"   max="1"/>
+        <child type="layout"      max="1"  option="1"/>
+        <child type="sizer"       max="1"  option="1"/>
+        <child type="window"      max="-1" option="1"/>
+        <child name="wxMenuBar"   max="1"/>
+        <child name="wxStatusBar" max="1"/>
+        <child name="wxToolBar"   max="1"/>
     </children>
-    <name>
+    <name label="Name">
         <value>m_frame</value>
     </name>
-    <style label="Frame style">
+    <style label="Style">
         <flag name="wxDEFAULT_FRAME_STYLE">
             <description>Defined as wxMINIMIZE_BOX | wxMAXIMIZE_BOX | wxRESIZE_BORDER | wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN.</description>
         </flag>
@@ -70,7 +77,7 @@
             <description>Windows with this style are allowed to have their shape changed with the SetShape() method.</description>
         </flag>
     </style>
-    <style label="Frame extra style" xrc="exstyle">
+    <style name="exstyle" label="Extra style">
         <flag name="wxFRAME_EX_CONTEXTHELP">
             <description>Under Windows, puts a query button on the caption. When pressed, Windows will go into a context-sensitive help mode and wxWidgets will send a wxEVT_HELP event if the user clicked on an application window. Note that this is an extended style and must be set by calling SetExtraStyle before Create is called (two-step construction). You cannot use this style together with wxMAXIMIZE_BOX or wxMINIMIZE_BOX, so you should use wxDEFAULT_FRAME_STYLE ~ (wxMINIMIZE_BOX | wxMAXIMIZE_BOX) for the frames having this style (the dialogs don't have a minimize or a maximize box by default)</description>
         </flag>
@@ -79,25 +86,36 @@
         </flag>
     </style>
     <event name="wxCloseEvent">
+        <description>This event class contains information about window and session close events.</description>
         <type name="wxEVT_CLOSE">
+            <macro>EVT_CLOSE</macro>
             <description>The frame is being closed by the user or programmatically (see wxWindow::Close). The user may generate this event clicking the close button (typically the 'X' on the top-right of the title bar) if it's present (see the wxCLOSE_BOX style).</description>
         </type>
     </event>
     <event name="wxIconizeEvent">
         <description>&lt;p&gt;An event being sent when the frame is iconized (minimized) or restored.&lt;/p&gt;&lt;p&gt;Currently only wxMSW and wxGTK generate such events.&lt;/p&gt;</description>
         <type name="wxEVT_ICONIZE">
+            <macro>EVT_ICONIZE</macro>
             <description>Process a wxEVT_ICONIZE event.</description>
         </type>
     </event>
     <event name="wxMenuEvent">
-        <description>&lt;p&gt;This class is used for a variety of menu-related events.&lt;/p&gt;&lt;p&gt;Note that these do not include menu command events, which are handled using wxCommandEvent objects.&lt;/p&gt;&lt;p&gt;The default handler for wxEVT_MENU_HIGHLIGHT displays help text in the first field of the status bar.&lt;/p&gt;</description>
+        <description>
+            &lt;p&gt;This class is used for a variety of menu-related events.&lt;/p&gt;
+            &lt;p&gt;Note that these do not include menu command events, which are handled using
+            &lt;a href="http://docs.wxwidgets.org/trunk/classwx_command_event.html"&gt;wxCommandEvent&lt;/a&gt; objects.&lt;/p&gt;
+            &lt;p&gt;The default handler for wxEVT_MENU_HIGHLIGHT displays help text in the first field of the status bar.&lt;/p&gt;
+        </description>
         <type name="wxEVT_MENU_OPEN">
+            <macro>EVT_MENU_OPEN</macro>
             <description>A menu is about to be opened.</description>
         </type>
         <type name="wxEVT_MENU_CLOSE">
+            <macro>EVT_MENU_CLOSE</macro>
             <description>A menu has been just closed.</description>
         </type>
         <type name="wxEVT_MENU_HIGHLIGHT">
+            <macro>EVT_MENU_HIGHLIGHT</macro>
             <description>The menu item with the specified id has been highlighted: used to show help prompts in the status bar by wxFrame.</description>
         </type>
     </event>
