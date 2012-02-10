@@ -90,7 +90,7 @@ GOTO Loop
 build\premake\windows\premake4.exe --file=build/premake/solution.lua --wx-root=%wxroot% --wx-version=%wxver% --compiler=%compiler% %unicode% %mediactrl% codelite
 ECHO.
 
-build\premake\windows\premake4.exe --file=build/premake/solution.lua --wx_root=%wxroot% --wx-version=%wxver% --compiler=%compiler% %unicode% %mediactrl% vs2008
+build\premake\windows\premake4.exe --file=build/premake/solution.lua --wx-root=%wxroot% --wx-version=%wxver% --compiler=%compiler% %unicode% %mediactrl% vs2008
 ECHO.
 
 :End
