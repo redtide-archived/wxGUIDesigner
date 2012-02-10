@@ -9,6 +9,7 @@
     Licence:     wxWindows licence
 -->
 <class name="wxDialog" type="toplevel">
+    <description>A dialog box is a window with a title bar and sometimes a system menu, which can be moved around the screen.</description>
     <inherits>
         <class>wxTopLevelWindow</class>
         <class>wxWindow</class>

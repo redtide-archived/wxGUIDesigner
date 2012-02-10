@@ -10,6 +10,11 @@
 -->
 <classes>
     <class name="wxPropertySheetDialog" type="toplevel">
+        <description>
+            &lt;p&gt;This class represents a property sheet dialog: a tabbed dialog for showing settings.&lt;/p&gt;
+            &lt;p&gt;It is optimized to show flat tabs on PocketPC devices, and can be customized to use different controllers instead of the default notebook style.&lt;/p&gt;
+            &lt;p&gt;To use this class, call &lt;a title="Call this from your own Create function, before adding buttons and pages." href="http://docs.wxwidgets.org/trunk/classwx_property_sheet_dialog.html#ad96015ab13fc1e2c364660fafd4121e0" class="el"&gt;Create()&lt;/a&gt; from your own Create function. Then call &lt;a title="Call this to create the buttons for the dialog." href="http://docs.wxwidgets.org/trunk/classwx_property_sheet_dialog.html#a74a83482c1a6aa508bcd8240e0461ac9" class="el"&gt;CreateButtons()&lt;/a&gt;, and create pages, adding them to the book control. Finally call &lt;a title="Call this to lay out the dialog." href="http://docs.wxwidgets.org/trunk/classwx_property_sheet_dialog.html#a9a15ba6b238d9ef84eb1882108ae72c6" class="el"&gt;LayoutDialog()&lt;/a&gt;.&lt;/p&gt;
+        </description>
         <inherits>
             <class>wxDialog</class>
             <class>wxTopLevelWindow</class>
@@ -21,7 +26,7 @@
         <name label="Name">
             <value>m_propDlg</value>
         </name>
-        <style name="buttons">
+        <style name="buttons" label="Buttons">
             <description>Buttons to show, combination of flags accepted by wxPropertySheetDialog::CreateButtons() (default: 0).</description>
             <flag name="wxOK"/>
             <flag name="wxCANCEL"/>
@@ -29,14 +34,15 @@
     </class>
 
     <class name="propertysheetpage" type="item">
-        <text name="label">
+        <text name="label" label="Label">
             <value>page</value>
             <description>Sheet page's title (required).</description>
         </text>
-        <bitmap>
+        <bitmap label="Bitmap">
             <description>Bitmap shown alongside the label (default: none).</description>
         </bitmap>
-        <bool name="selected">
+        <bool name="selected" label="Selected">
+            <value>0</value>
             <description>Is the page selected initially (only one page can be selected; default: 0)?</description>
         </bool>
     </class>
