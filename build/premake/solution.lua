@@ -19,7 +19,7 @@ solution "wxGUIDesigner"
     local wxver         = string.gsub( wxVersion, '%.', '' )
     location            ( "../../build/" .. _ACTION )
     BuildDir            = solution().location
-    CustomPrefix        = wxTarget .. wxUnicodeSign
+    CustomPrefix        = wxToolkit .. wxUnicodeSign
 
 if wxVersion < "2.9" then
     DebugSuffix         = "d-" .. wxver

@@ -38,8 +38,10 @@ project "LibCore"
         defines         {"_CRT_SECURE_NO_DEPRECATE"}
 
     configuration "Debug"
-        wx_config       { Libs="all", Debug="yes" }
+        wx_config       { Libs="xrc,stc,propgrid,aui,html,adv,core,xml", Debug="yes" }
 
     configuration "Release"
+    if wxCompiler == "gcc" then
         buildoptions    {"-fno-strict-aliasing"}
-        wx_config       { Libs="all" }
+    end
+        wx_config       { Libs="xrc,stc,propgrid,aui,html,adv,core,xml" }

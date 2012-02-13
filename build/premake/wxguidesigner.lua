@@ -9,8 +9,8 @@
 -----------------------------------------------------------------------------
 project "wxGUIDesigner"
     kind                    "WindowedApp"
-    files                   {"../../src/main.h", "../../src/main.cpp"}
-    includedirs             { "../../include" }
+    files                   {"../../src/main.*", "../../src/debug/stack_trace/stack.*"}
+    includedirs             { "../../include", "../../src/debug/stack_trace"}
     defines                 {"NO_GCC_PRAGMA"}
     flags                   {"ExtraWarnings"}
     libdirs                 {"../../sdk/lib"}
@@ -48,14 +48,14 @@ project "wxGUIDesigner"
         end
 
     configuration "Debug"
-        wx_config           { Debug="yes" }
+        wx_config           { Libs="xrc,stc,propgrid,aui,html,adv,core,xml", Debug="yes" }
 
     configuration "Release"
 
         if wxCompiler == "gcc" then
             buildoptions    {"-fno-strict-aliasing"}
         end
-        wx_config           {}
+        wx_config           { Libs="xrc,stc,propgrid,aui,html,adv,core,xml" }
 
         if os.is("windows") then
             flags               {"Symbols"}
