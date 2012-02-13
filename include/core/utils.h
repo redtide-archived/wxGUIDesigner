@@ -29,6 +29,16 @@ inline wxString GetDataBasePath()
     return wxStandardPaths::Get().GetResourcesDir() + wxFILE_SEP_PATH + "db";
 }
 
+inline wxString GetResourcePath()
+{
+#ifdef __WXMSW__
+    return wxStandardPaths::Get().GetDataDir() + wxFILE_SEP_PATH;
+#else
+    return wxStandardPaths::Get().GetResourcesDir().BeforeLast( wxFILE_SEP_PATH ) +
+                            wxFILE_SEP_PATH + "wxguidesigner" + wxFILE_SEP_PATH;
+#endif
+}
+
 namespace wxGDConv
 {
     const wxString  HexToString         ( int value );

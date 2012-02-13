@@ -34,9 +34,9 @@
 #include <wx/stdpaths.h>
 #include <wx/treectrl.h>
 #include <wx/xml/xml.h>
+#include <wx/xrc/xmlres.h>
 
 #include <wx/log.h>
-#include <wx/xrc/xmlres.h>
 
 GUIManager::GUIManager() :  m_frame( NULL ),
                             m_menuBar( NULL ),
@@ -63,9 +63,7 @@ GUIManager::GUIManager() :  m_frame( NULL ),
 
     wxFileSystem::AddHandler( new wxArchiveFSHandler );
 
-    wxString wxGDXRCDir = wxStandardPaths::Get().GetResourcesDir().BeforeLast('/') +
-                            wxFILE_SEP_PATH + "wxguidesigner" + wxFILE_SEP_PATH;
-
+    wxString wxGDXRCDir        = GetResourcePath();
     wxString wxGDXRCArchive    = wxGDXRCDir     + "wxguidesigner.xrs";
     wxString wxGDAboutDialog   = wxGDXRCArchive + "#zip:about.xrc";
     wxString wxGDDesignerPanel = wxGDXRCArchive + "#zip:designer.xrc";
@@ -152,10 +150,8 @@ wxFrame *GUIManager::GetMainFrame( wxWindow *parent )
         wxAuiXmlHandler *auiXmlHandler = new wxAuiXmlHandler();
         wxXmlResource::Get()->AddHandler( auiXmlHandler );
 
-        wxString wxGDXRCDir = wxStandardPaths::Get().GetResourcesDir().BeforeLast('/') +
-                                wxFILE_SEP_PATH + "wxguidesigner" + wxFILE_SEP_PATH;
-        wxString wxGDXRCArchive = wxGDXRCDir    + "wxguidesigner.xrs";
-        wxString wxGDAUIFrame   = wxGDXRCArchive + "#zip:mainframe.xrc";
+        wxString wxGDAUIFrame = GetResourcePath() +
+                                "wxguidesigner.xrs#zip:mainframe.xrc";
 
         if ( !wxXmlResource::Get()->Load( wxGDAUIFrame ) )
             return NULL;
