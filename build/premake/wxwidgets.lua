@@ -67,6 +67,7 @@ newoption  {
 wxDebugSuffix   = "d"
 wxPrefix        = "wx_"
 wxUnicodeSign   = "u"
+
 wxCompiler      = _OPTIONS.wxcompiler
 wxMonolithic    = _OPTIONS.wxmonolithic
 wxRoot          = _OPTIONS.wxroot
@@ -79,25 +80,22 @@ wxVersion       = _OPTIONS.wxversion
 -- Version : one of '2.4', '2.5', '2.6', '2.7', '2.8', '2.9'.
 -- Default to '2.9'
 -----------------------------------------------------------------------------
-print("wxVersion="..wxVersion)
 -----------------------------------------------------------------------------
 -- wxCompiler : compiler used to compile windows libraries ( "vc" or "gcc" )
 -----------------------------------------------------------------------------
 if not os.is("windows") then
     wxCompiler = "gcc"
+    wxMonolithic = "no"
 elseif wxCompiler ~= "gcc" and wxCompiler ~= "vc" then
     error( wxCompiler .. ": invalid compiler.")
 end
-print("wxCompiler="..wxCompiler)
 -----------------------------------------------------------------------------
 -- wxMedia/wxUseMediaCtrl
 -----------------------------------------------------------------------------
 if wxUseMediaCtrl == "yes" then
     wxUseMediaCtrl = true
-    print("wxUseMediaCtrl=true")
 elseif wxUseMediaCtrl == "no" then
     wxUseMediaCtrl = false
-    print("wxUseMediaCtrl=false")
 else
     error( wxUseMediaCtrl .. ": wrong parameter, use only yes or no." )
 end
@@ -108,10 +106,8 @@ if wxMonolithic ~= "yes" and wxMonolithic ~= "no" then
     error( wxMonolithic .. ": wrong parameter, use only yes or no." )
 elseif wxMonolithic == "no" then
     wxMonolithic = false
-    print("wxMonolithic=false")
 else
     wxMonolithic = true
-    print("wxMonolithic=true")
 end
 -----------------------------------------------------------------------------
 -- wxRoot : Path to wxWidgets root folder.
@@ -124,7 +120,6 @@ if os.getenv('WXWIN') and not wxRoot then
 elseif not os.isdir(wxRoot) then
     error(wxRoot..": not a valid directory.")
 end
-print("wxRoot="..wxRoot)
 -----------------------------------------------------------------------------
 -- wxStatic : indicates how wx is to be linked. Values are either
 --              "yes" for static linking or "no" for shared linking.
@@ -133,7 +128,6 @@ print("wxRoot="..wxRoot)
 if wxStatic ~= "yes" and wxStatic ~= "no" then
     error( wxStatic .. ": wrong parameter, use only yes or no." )
 end
-print("wxStatic="..wxStatic)
 -----------------------------------------------------------------------------
 -- wxUnicode : use "yes" for Unicode or "no" for ANSI version.
 --              ANSI version only available up to 2.8
@@ -144,14 +138,11 @@ if wxUnicode ~= "yes" and wxUnicode ~= "no" then
 elseif wxUnicode == "no" and wxVersion < "2.9" then
     wxUseUnicode    = false
     wxUnicodeSign   = ""
-    print("wxUseUnicode=false")
 elseif not os.is("windows") and wxVersion > "2.8" then
     wxDebugSuffix   = ""
     wxUseUnicode    = true
-    print("wxUseUnicode=true")
 else
     wxUseUnicode    = true
-    print("wxUseUnicode=true")
 end
 
 if os.is("windows") then
