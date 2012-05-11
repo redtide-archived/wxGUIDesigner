@@ -20,24 +20,15 @@ class MainFrame;
 class wxGUIDesignerApp : public wxApp
 {
 public:
-      bool OnInit();
-
-#if wxUSE_ON_FATAL_EXCEPTION && wxUSE_STACKWALKER
-      void OnFatalException();
-#endif
-      int OnRun();
-      int OnExit();
+      bool  OnInit();
+      int   OnRun();
+      int   OnExit();
       ~wxGUIDesignerApp();
-/*
-#ifdef __WXMAC__
-      wxString m_mac_file_name;
-      void MacOpenFile(const wxString &fileName);
-#endif
-*/
+
 private:
       wxFrame *m_frame;
 };
 
-DECLARE_APP( wxGUIDesignerApp )
+wxDECLARE_APP( wxGUIDesignerApp );
 
 #endif //__WXGD_APP_H__
