@@ -17,6 +17,7 @@
 #include <wx/colour.h>
 #include <wx/settings.h>
 #include <wx/string.h>
+#include <wx/tokenzr.h>
 
 const int wxGDConv::StringToHex( const wxString &text )
 {
@@ -105,7 +106,7 @@ const wxColour wxGDConv::GetSystemColour( const wxString &name )
     return wxNullColour;
 }
 
-const int wxGDConv::GetSystemColourIndex( const wxString &name )
+const wxInt32 wxGDConv::GetSystemColourIndex( const wxString &name )
 {
     if ( !name.empty() )
     {
@@ -168,4 +169,38 @@ const wxFont wxGDConv::GetSystemFont( const wxString &name )
         #undef SYSFONT
     }
     return wxNullFont;
+}
+
+const Colour wxGDConv::StringToColourInfo( const wxString &value )
+{
+    // System colour
+    if( value.StartsWith("wxSYS_COLOUR_") )
+    {
+        wxInt32 colType = GetSystemColourIndex( value );
+        Colour col = { colType, wxColour() };
+        return col;
+    }
+
+    // Custom colour
+    wxStringTokenizer tokenizer( value, "," );
+    bool ok; unsigned long r = 0, g = 0, b = 0;
+
+    ok = tokenizer.GetNextToken().ToULong( &r );
+    ok = ok && tokenizer.GetNextToken().ToULong( &g );
+    ok = ok && tokenizer.GetNextToken().ToULong( &b );
+
+    wxColour colour = wxNullColour;
+
+    if ( ok )
+        colour = wxColour( r, g, b );
+
+    Colour col = { ColourCustom, colour };
+    return col;
+}
+
+const Bitmap wxGDConv::StringToBitmapInfo( const wxString &value )
+{
+    // TODO
+    Bitmap bmp = Bitmap();
+    return bmp;
 }

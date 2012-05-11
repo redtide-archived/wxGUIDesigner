@@ -15,6 +15,8 @@
 #include "core/object/database.h"
 #include "core/object/flags.h"
 
+#include <wx/frame.h>
+
 wxGUIDesigner::wxGUIDesigner()
 {
     wxFlagsManager::Get();

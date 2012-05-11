@@ -35,10 +35,7 @@ public:
                         m_name( name ),
                         m_max( max ),
                         m_option( option ) {}
-    ~ChildInfoNode()
-    {
-        
-    }
+    ~ChildInfoNode() {}
 
     ClassType GetType()     const { return m_type; }
     wxString  GetName()     const { return m_name; }

@@ -46,8 +46,10 @@ namespace wxGDConv
     const ClassType ClassTypeFromString ( const wxString &value );
     const int       IntFromString       ( const wxString &value );
     const wxColour  GetSystemColour     ( const wxString &name );
-    const int       GetSystemColourIndex( const wxString &name );
+    const wxInt32   GetSystemColourIndex( const wxString &name );
     const wxFont    GetSystemFont       ( const wxString &name );
+    const Colour    StringToColourInfo  ( const wxString &value );
+    const Bitmap    StringToBitmapInfo  ( const wxString &value );
 };
 
 #endif //__CORE_UTILS_H__

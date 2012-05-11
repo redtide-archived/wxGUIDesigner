@@ -147,6 +147,23 @@ void PropertyNode::AddChild( Property prop )
     m_children.push_back( prop );
 }
 
+void PropertyNode::AddAttribute( const wxString &name, const wxString &value )
+{
+    Attribute attr = std::make_pair( name, value );
+
+    m_attributes.push_back( attr );
+}
+
+Attribute PropertyNode::GetAttribute( size_t index ) const
+{
+    if ( index < m_attributes.size() )
+        return m_attributes.at( index );
+
+    return Attribute();
+}
+// ----------------------------------------------------------------------------
+// Getters
+// ----------------------------------------------------------------------------
 wxArrayString PropertyNode::GetAsArrayString() const
 {
     if ( m_value.CheckType< wxArrayString >() )
@@ -155,12 +172,12 @@ wxArrayString PropertyNode::GetAsArrayString() const
     return wxArrayString();
 }
 
-wxBitmap PropertyNode::GetAsBitmap() const
+Bitmap PropertyNode::GetAsBitmap() const
 {
-    if ( m_value.CheckType< wxBitmap >() )
-        return m_value.As< wxBitmap >();
+    if ( m_value.CheckType< Bitmap >() )
+        return m_value.As< Bitmap >();
 
-    return wxNullBitmap;
+    return Bitmap();
 }
 
 bool PropertyNode::GetAsBool() const
@@ -383,8 +400,7 @@ Event ObjectNode::GetEvent( size_t index )
 
 Event ObjectNode::GetEvent( const wxString &name )
 {
-    for ( Events::iterator it = m_events.begin();
-                                it != m_events.end(); ++it )
+    for ( Events::iterator it = m_events.begin(); it != m_events.end(); ++it )
     {
         if ( (*it)->GetName() == name )
             return *it;

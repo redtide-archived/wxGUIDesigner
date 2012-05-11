@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name:        core/gui/properties.cpp
+// Name:        core/gui/propgrid/props.cpp
 // Purpose:     
 // Author:      Andrea Zanellato
 // Modified by:
@@ -8,11 +8,11 @@
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "core/gui/properties.h"
-
+#include "core/gui/propgrid/props.h"
 // -----------------------------------------------------------------------
 // wxSizeProperty
 // -----------------------------------------------------------------------
+
 WX_PG_IMPLEMENT_PROPERTY_CLASS( wxSizeProperty, wxPGProperty,
                                 wxSize, const wxSize&, TextCtrl )
 
@@ -59,7 +59,6 @@ wxVariant wxSizeProperty::ChildChanged( wxVariant& thisValue,
     newVariant << size;
     return newVariant;
 }
-
 // -----------------------------------------------------------------------
 // wxPointProperty
 // -----------------------------------------------------------------------

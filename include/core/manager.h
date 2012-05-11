@@ -13,8 +13,8 @@
 
 #include "core/dllimpexp.h"
 
-class wxWindow;
 class wxFrame;
+class wxWindow;
 
 class DLLIMPEXP_CORE wxGUIDesigner
 {

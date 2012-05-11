@@ -14,7 +14,7 @@
 #include "core/gui/frame.h"
 #include "core/gui/editor.h"
 #include "core/gui/palette.h"
-#include "core/gui/propgrid.h"
+#include "core/gui/propgrid/propgrid.h"
 #include "core/gui/treeview.h"
 
 #include "core/object/tree.h"

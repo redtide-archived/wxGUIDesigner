@@ -20,6 +20,8 @@
 #include <wx/xml/xml.h>
 
 #include <wx/log.h>
+
+using namespace std;
 //*****************************************************************************
 //  EventInfoNode
 //*****************************************************************************
@@ -55,7 +57,7 @@ wxString EventInfoNode::GetTypeDescription( size_t index ) const
 
 void EventInfoNode::AddType( const wxString &name, const wxString &description )
 {
-    EventType info = std::make_pair( name, description );
+    EventType info = make_pair( name, description );
     m_types.push_back( info );
 }
 //*****************************************************************************

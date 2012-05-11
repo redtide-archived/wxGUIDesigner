@@ -64,7 +64,7 @@ public:
     PropertyInfo    GetInfo()           const;
 
     wxArrayString   GetAsArrayString()  const;
-    wxBitmap        GetAsBitmap()       const;
+    Bitmap          GetAsBitmap()       const;
     bool            GetAsBool()         const;
     Colour          GetAsColour()       const;
     double          GetAsDouble()       const;
@@ -80,9 +80,14 @@ public:
     size_t          GetChildCount();
     Property        GetChild( size_t index ) const;
     void            AddChild( Property prop );
+
+    void            AddAttribute( const wxString &name, const wxString &value );
+    Attribute       GetAttribute( size_t index ) const;
+
     void            SetValue( const wxAny &value );
 
 private:
+    Attributes      m_attributes;
     PropertyInfo    m_info;
     Properties      m_children;
     wxAny           m_value;

@@ -19,8 +19,12 @@
 #include <utility>
 #include <vector>
 
+#include <wx/bitmap.h>
 #include <wx/colour.h>
 #include <wx/defs.h>
+
+using namespace std;
+using namespace tr1;
 
 enum ClassType
 {
@@ -87,36 +91,48 @@ class wxString;
 // ClassInfoDB
 //*****************************************************************************
 
-typedef class std::tr1::shared_ptr< ChildInfoNode >     ChildInfo;
-typedef class std::tr1::shared_ptr< EventInfoNode >     EventInfo;
-typedef class std::tr1::shared_ptr< PropertyInfoNode >  PropertyInfo;
-typedef class std::tr1::shared_ptr< ClassNode >         ClassInfo;
+typedef shared_ptr< ChildInfoNode >     ChildInfo;
+typedef shared_ptr< EventInfoNode >     EventInfo;
+typedef shared_ptr< PropertyInfoNode >  PropertyInfo;
+typedef shared_ptr< ClassNode >         ClassInfo;
 
 // Event type name + event type description
-typedef std::pair< wxString, wxString >                 EventType;
+typedef pair< wxString, wxString >      EventType;
 
-typedef std::vector< ChildInfo >                        ChildInfos;
-typedef std::vector< EventType >                        EventTypes;
-typedef std::vector< EventInfo >                        EventInfos;
-typedef std::vector< PropertyInfo >                     PropertyInfos;
-typedef std::vector< ClassInfo >                        ClassInfos;
+typedef vector< ChildInfo >             ChildInfos;
+typedef vector< EventType >             EventTypes;
+typedef vector< EventInfo >             EventInfos;
+typedef vector< PropertyInfo >          PropertyInfos;
+typedef vector< ClassInfo >             ClassInfos;
 
-typedef std::map< wxString, PropertyType >              PropertyTypeMap;
-typedef std::map< wxString, ClassInfo >                 ClassInfoMap;
+typedef map< wxString, PropertyType >   PropertyTypeMap;
+typedef map< wxString, ClassInfo >      ClassInfoMap;
 //*****************************************************************************
 // ObjectTree
 //*****************************************************************************
+
+const wxInt32 ColourCustom = 0xFFFFFF;
+
 struct Colour
 {
     wxInt32  type;
     wxColour colour;
 };
-typedef class std::tr1::shared_ptr< EventNode >         Event;
-typedef class std::tr1::shared_ptr< PropertyNode >      Property;
-typedef class std::tr1::shared_ptr< ObjectNode >        Object;
+struct Bitmap
+{
+    int           source;
+    wxBitmap      bitmap;
+    wxArrayString values;
+};
+typedef pair< wxString, wxString >      Attribute;
+typedef vector< Attribute >             Attributes;
 
-typedef std::vector< Event >                            Events;
-typedef std::vector< Property >                         Properties;
-typedef std::vector< Object >                           Objects;
+typedef shared_ptr< EventNode >         Event;
+typedef shared_ptr< PropertyNode >      Property;
+typedef shared_ptr< ObjectNode >        Object;
+
+typedef vector< Event >                 Events;
+typedef vector< Property >              Properties;
+typedef vector< Object >                Objects;
 
 #endif //__CORE_DEFS_H__

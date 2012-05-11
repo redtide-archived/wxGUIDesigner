@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name:        core/gui/propgrid.h
+// Name:        core/gui/propgrid/propgrid.h
 // Purpose:     
 // Author:      Andrea Zanellato
 // Modified by:

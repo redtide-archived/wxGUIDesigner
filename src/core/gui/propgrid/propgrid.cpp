@@ -8,8 +8,9 @@
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "core/gui/propgrid.h"
-#include "core/gui/properties.h"
+#include "core/gui/propgrid/propgrid.h"
+#include "core/gui/propgrid/propbmp.h"
+#include "core/gui/propgrid/props.h"
 #include "core/gui/manager.h"
 #include "core/object/database.h"
 #include "core/object/flags.h"
@@ -71,14 +72,28 @@ void PropBookHandler::OnPGChanged( wxPropertyGridEvent &event )
 
         if ( prop.get() )
         {
-            if ( prop->GetType() == PROPERTY_TYPE_COLOUR )
+            PropertyType propType = prop->GetType();
+
+            if ( propType == PROPERTY_TYPE_COLOUR )
             {
-                wxColourPropertyValue value = pgProp->GetValue().GetAny().
-                                                As< wxColourPropertyValue >();
+                wxColourPropertyValue value =
+                pgProp->GetValue().GetAny().As< wxColourPropertyValue >();
 
                 Colour col = { value.m_type, value.m_colour };
 
                 prop->SetValue( col );
+            }
+            else if ( propType == PROPERTY_TYPE_BITMAP )
+            {
+//              if ( pgProp->GetValueType() == "wxBitmapPropertyValue" )
+//              {
+                    wxBitmapPropertyValue value = 
+                    pgProp->GetValue().GetAny().As< wxBitmapPropertyValue >();
+
+                    Bitmap bmp = { value.m_source, value.m_bitmap, value.m_vals };
+
+                    prop->SetValue( bmp );
+//              }
             }
             else
             {
@@ -349,26 +364,30 @@ void PropBookHandler::LoadProperties( Object object )
 
 wxPGProperty *PropBookHandler::AddProperty( Property prop )
 {
-    if ( !prop.get() )
-        return NULL;
+    if ( !prop.get() ) return NULL;
+
+    wxString label = prop->GetLabel();
+    wxString name  = prop->GetName();
 
     switch ( prop->GetType() )
     {
         case PROPERTY_TYPE_ARRAYSTRING:
         {
-            return new wxArrayStringProperty( prop->GetLabel(), prop->GetName(),
+            return new wxArrayStringProperty( label, name,
                                               prop->GetAsArrayString() );
-        }/*
+        }
         case PROPERTY_TYPE_BITMAP:
         {
-            return new wxBitmapProperty( prop->GetLabel(), prop->GetName(),
-                                         prop->GetAsBitmap() );
-        }*/
+            Bitmap bmp = prop->GetAsBitmap();
+
+            wxBitmapPropertyValue bmpVal( bmp.source, bmp.bitmap, bmp.values );
+
+            return new wxBitmapProperty( label, name, bmpVal );
+        }
         case PROPERTY_TYPE_BOOL:
         {
-            wxPGProperty *pgProp =
-                    new wxBoolProperty( prop->GetLabel(), prop->GetName(),
-                                        prop->GetAsBool() );
+            wxPGProperty *pgProp = new wxBoolProperty( label, name,
+                                                        prop->GetAsBool() );
 
             pgProp->SetAttribute( wxPG_BOOL_USE_CHECKBOX, true );
 
@@ -376,32 +395,64 @@ wxPGProperty *PropBookHandler::AddProperty( Property prop )
         }
         case PROPERTY_TYPE_CATEGORY:
         {
-            return new wxPropertyCategory( prop->GetLabel(), prop->GetName() );
+            return new wxPropertyCategory( label, name );
         }
         case PROPERTY_TYPE_COLOUR:
         {
-            wxColourPropertyValue val( prop->GetAsColour().type,
-                                       prop->GetAsColour().colour );
-            wxPGProperty *pgProp =
-                    new wxSystemColourProperty( prop->GetLabel(),
-                                                prop->GetName(), val );
+            Colour col = prop->GetAsColour();
+
+            wxColourPropertyValue colVal( col.type, col.colour );
+
+            wxPGProperty
+            *pgProp = new wxSystemColourProperty( label, name, colVal );
+
             if // No system or custom colour
-            ( ( val.m_colour == wxNullColour ) && ( val.m_type == 0 ) )
+            ( ( colVal.m_colour == wxNullColour ) && ( colVal.m_type == 0 ) )
             {
                 pgProp->SetValueToUnspecified();
             }
+/*
+            wxString strCol = prop->GetAsString();
+            Colour   col    = wxGDConv::StringToColourInfo( strCol );
+
+            // System colour
+            wxInt32 colType = col.type;
+            wxColour colour = col.colour;
+            wxColourPropertyValue colVal;
+            wxSystemColourProperty *pgProp = NULL;
+
+            bool isOk        = colour.IsOk();
+            bool isSysColour = ( colType > 0 ) && ( colType < ColourCustom );
+            bool isCustomCol = ( ( colType == ColourCustom ) && isOk );
+
+            if( isSysColour )
+            {
+                colVal = wxColourPropertyValue( colType );
+            }
+            else if( isCustomCol )
+            {
+                colVal = wxColourPropertyValue( colour );
+            }
+            else
+            {
+                pgProp = new wxSystemColourProperty( label, name );
+                pgProp->SetValueToUnspecified();
+                return pgProp;
+            }
+
+            pgProp = new wxSystemColourProperty( label, name, colVal );
+*/
             return pgProp;
         }/*
         case PROPERTY_TYPE_DIMENSION:
         {
-            return new wxDimensionProperty( prop->GetLabel(), prop->GetName(),
+            return new wxDimensionProperty( label, name,
                                             prop->GetAsDimension() );
         }*/
         case PROPERTY_TYPE_FLOAT:
         case PROPERTY_TYPE_DOUBLE:
         {
-            return new wxFloatProperty( prop->GetLabel(), prop->GetName(),
-                                        prop->GetAsDouble() );
+            return new wxFloatProperty( label, name, prop->GetAsDouble() );
         }
         case PROPERTY_TYPE_ENUM:
         {
@@ -410,53 +461,48 @@ wxPGProperty *PropBookHandler::AddProperty( Property prop )
 
             for ( size_t i = 0; i < prop->GetInfo()->GetChildCount(); i++ )
             {
-                wxString name = prop->GetInfo()->GetChild( i )->GetName();
-                int      flag = wxFlagsManager::Get()->GetFlag( name );
+                wxString flagName = prop->GetInfo()->GetChild( i )->GetName();
+                int      flagVal  = wxFlagsManager::Get()->GetFlag( flagName );
 
-                flagNames.Add( name );
-                flagValues.Add( flag );
+                flagNames.Add( flagName );
+                flagValues.Add( flagVal );
             }
-            return new wxEnumProperty( prop->GetLabel(), prop->GetName(),
-                                    flagNames, flagValues, prop->GetAsInt() );
+
+            return new wxEnumProperty( label, name, flagNames, flagValues,
+                                                    prop->GetAsInt() );
         }
         case PROPERTY_TYPE_FONT:
         {
             wxFont font = prop->GetAsFont();
-            wxPGProperty *pgProp =
-                new wxFontProperty( prop->GetLabel(), prop->GetName(), font );
+
+            wxPGProperty *pgProp = new wxFontProperty( label, name, font );
 
             if ( !font.IsOk() )
-            {
                 pgProp->SetValueToUnspecified();
-            }
+
             return pgProp;
         }
         case PROPERTY_TYPE_INT:
         {
-            return new wxIntProperty( prop->GetLabel(), prop->GetName(),
-                                      prop->GetAsInt() );
+            return new wxIntProperty( label, name, prop->GetAsInt() );
         }
         case PROPERTY_TYPE_NAME:
         case PROPERTY_TYPE_STRING:
         case PROPERTY_TYPE_TEXT:
         {
-            return new wxStringProperty( prop->GetLabel(), prop->GetName(),
-                                         prop->GetAsString() );
+            return new wxStringProperty( label, name, prop->GetAsString() );
         }
         case PROPERTY_TYPE_POINT:
         {
-            return new wxSizeProperty( prop->GetLabel(), prop->GetName(),
-                                       prop->GetAsSize() );
+            return new wxSizeProperty( label, name, prop->GetAsSize() );
         }
         case PROPERTY_TYPE_SIZE:
         {
-            return new wxPointProperty( prop->GetLabel(), prop->GetName(),
-                                        prop->GetAsPoint() );
+            return new wxPointProperty( label, name, prop->GetAsPoint() );
         }
         case PROPERTY_TYPE_URL:
         {
-            return new wxFileProperty( prop->GetLabel(), prop->GetName(),
-                                       prop->GetAsURL() );
+            return new wxFileProperty( label, name, prop->GetAsURL() );
         }
         case PROPERTY_TYPE_FLAG:
         case PROPERTY_TYPE_STYLE:
@@ -466,16 +512,16 @@ wxPGProperty *PropBookHandler::AddProperty( Property prop )
 
             for ( size_t i = 0; i < prop->GetInfo()->GetChildCount(); i++ )
             {
-                wxString name = prop->GetInfo()->GetChild( i )->GetName();
-                int     style = wxFlagsManager::Get()->GetFlag( name );
+                wxString styleName = prop->GetInfo()->GetChild( i )->GetName();
+                int      styleVal  = wxFlagsManager::Get()->GetFlag( styleName );
 
-                styleNames.Add( name );
-                styleValues.Add( style );
+                styleNames.Add( styleName );
+                styleValues.Add( styleVal );
             }
 
-            wxPGProperty *pgProp =
-                new wxFlagsProperty( prop->GetLabel(), prop->GetName(),
-                                    styleNames, styleValues, prop->GetAsInt() );
+            wxPGProperty *pgProp = new wxFlagsProperty( label, name,
+                                                        styleNames, styleValues,
+                                                        prop->GetAsInt() );
 
             pgProp->SetAttribute( wxPG_BOOL_USE_CHECKBOX, true );
             return pgProp;

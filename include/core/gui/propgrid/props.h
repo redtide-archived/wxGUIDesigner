@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name:        core/gui/properties.h
+// Name:        core/gui/propgrid/props.h
 // Purpose:     
 // Author:      Andrea Zanellato
 // Modified by:
@@ -14,7 +14,6 @@
 
 #include <wx/propgrid/propgrid.h>
 #include <wx/propgrid/advprops.h>
-
 // -----------------------------------------------------------------------
 // wxSizeProperty
 // -----------------------------------------------------------------------
@@ -26,6 +25,7 @@ public:
     wxSizeProperty( const wxString& label = wxPG_LABEL,
                       const wxString& name  = wxPG_LABEL,
                       const wxSize&   value = wxSize() );
+
     virtual ~wxSizeProperty();
 
     virtual wxVariant ChildChanged( wxVariant& thisValue,
@@ -36,7 +36,6 @@ public:
 protected:
     void DoSetValue( const wxSize& value ) { m_value = WXVARIANT( value ); }
 };
-
 // -----------------------------------------------------------------------
 // wxPointProperty
 // -----------------------------------------------------------------------
@@ -48,6 +47,7 @@ public:
     wxPointProperty( const wxString& label = wxPG_LABEL,
                        const wxString& name  = wxPG_LABEL,
                        const wxPoint&  value = wxPoint() );
+
     virtual ~wxPointProperty();
 
     virtual wxVariant ChildChanged( wxVariant& thisValue,

@@ -24,7 +24,7 @@ public:
     const PropertyType  GetType()           const;
 
     wxArrayString       GetAsArrayString()  const;
-    wxBitmap            GetAsBitmap()       const;
+    Bitmap              GetAsBitmap()       const;
     bool                GetAsBool()         const;
     Colour              GetAsColour()       const;
     double              GetAsDouble()       const;
