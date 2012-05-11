@@ -29,6 +29,16 @@ wxAuiXmlHandler::wxAuiXmlHandler()
                   m_window(NULL),
                   m_isInside(false)
 {
+    XRC_ADD_STYLE( wxAUI_MGR_ALLOW_ACTIVE_PANE );
+    XRC_ADD_STYLE( wxAUI_MGR_ALLOW_FLOATING );
+    XRC_ADD_STYLE( wxAUI_MGR_DEFAULT );
+    XRC_ADD_STYLE( wxAUI_MGR_HINT_FADE );
+    XRC_ADD_STYLE( wxAUI_MGR_LIVE_RESIZE );
+    XRC_ADD_STYLE( wxAUI_MGR_NO_VENETIAN_BLINDS_FADE );
+    XRC_ADD_STYLE( wxAUI_MGR_RECTANGLE_HINT );
+    XRC_ADD_STYLE( wxAUI_MGR_TRANSPARENT_DRAG );
+    XRC_ADD_STYLE( wxAUI_MGR_TRANSPARENT_HINT );
+    XRC_ADD_STYLE( wxAUI_MGR_VENETIAN_BLINDS_HINT );
 }
 
 wxAuiManager *wxAuiXmlHandler::GetAuiManager( wxWindow *managed )
@@ -67,7 +77,8 @@ wxObject *wxAuiXmlHandler::DoCreateResource()
         wxXmlNode *windowNode = m_node->GetParent();
         while ( windowNode )
         {
-            if ( ( windowNode->GetName() == "object" || windowNode->GetName() == "object_ref") )
+            if ( ( windowNode->GetName() == "object" ||
+                    windowNode->GetName() == "object_ref") )
             {
                 wxString className = "class";
                 wxString name      = "name";
@@ -92,14 +103,17 @@ wxObject *wxAuiXmlHandler::DoCreateResource()
                             wxAuiManager *old_mgr = m_manager;
                             wxWindow     *old_win = m_window;
 
-                            manager    = new wxAuiManager();
+                            manager    = new wxAuiManager( window,
+                                                        GetStyle( "style",
+                                                           wxAUI_MGR_DEFAULT ) );
                             m_window   = window;
                             m_manager  = manager;
                             m_isInside = true;
 
                             m_managers.Add( manager );
-                            manager->SetManagedWindow( window );
-                            window->Bind( wxEVT_DESTROY, &wxAuiXmlHandler::OnManagedWindowClose, this );
+//                          manager->SetManagedWindow( window );
+                            window->Bind( wxEVT_DESTROY,
+                                &wxAuiXmlHandler::OnManagedWindowClose, this );
 
                             CreateChildren( manager );
 
