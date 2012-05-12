@@ -103,6 +103,9 @@ public:
                       const wxString&               name  = wxPG_LABEL,
                       const wxBitmapPropertyValue&  value =
                                                     wxBitmapPropertyValue() );
+
+
+
     virtual ~wxBitmapProperty();
 
     virtual bool IntToValue( wxVariant& variant,
@@ -131,8 +134,8 @@ protected:
     void DoSetThumbNail( const wxString& path );
     void DoSetThumbNail( const wxArtID& id, const wxArtClient& client );
 
-    wxBitmap*   m_pBitmap; // final thumbnail area
-    wxImage*    m_pImage;  // intermediate thumbnail area
+    wxBitmap m_bmpThumb; // final thumbnail area
+    wxImage  m_pImage;   // intermediate thumbnail area
 
     static int      ms_indFilter; // index to the selected filter
     static wxString ms_lastDir;   // last used path

@@ -34,7 +34,7 @@ bool operator == ( const wxBitmapPropertyValue& a, const wxBitmapPropertyValue& 
 // ----------------------------------------------------------------------------
 
 bool wxPGBitmapDialogAdapter::DoShowDialog( wxPropertyGrid* propGrid,
-                                            wxPGProperty* property )
+                                            wxPGProperty*   property )
 {
     wxBitmapProperty *bmpProp = wxDynamicCast( property, wxBitmapProperty );
 
@@ -51,7 +51,6 @@ bool wxPGBitmapDialogAdapter::DoShowDialog( wxPropertyGrid* propGrid,
                 wxVariant var;
                 var << val;
                 SetValue( var );
-
                 return false;
             }
             case wxPG_BMP_SRC_ART:
@@ -74,12 +73,13 @@ bool wxPGBitmapDialogAdapter::DoShowDialog( wxPropertyGrid* propGrid,
                                                   wxDefaultSize ),
                         arr
                     );
+
                     wxVariant var;
                     var << val;
                     SetValue( var );
-
                     return true;
                 }
+
                 return false;
             }
             case wxPG_BMP_SRC_FILE:
@@ -121,6 +121,7 @@ bool wxPGBitmapDialogAdapter::DoShowDialog( wxPropertyGrid* propGrid,
                     bmpProp->ms_indFilter = dlg.GetFilterIndex();
                     bmpProp->ms_lastDir   = dlg.GetDirectory();
                     bmpProp->DoSetThumbNail( dlg.GetPath() );
+
                     wxArrayString arr;
                     arr.Add( dlg.GetPath() );
 
@@ -134,7 +135,6 @@ bool wxPGBitmapDialogAdapter::DoShowDialog( wxPropertyGrid* propGrid,
                     wxVariant var;
                     var << val;
                     SetValue( var );
-
                     return true;
                 }
 
@@ -150,7 +150,7 @@ bool wxPGBitmapDialogAdapter::DoShowDialog( wxPropertyGrid* propGrid,
 // ----------------------------------------------------------------------------
 
 static const wxChar* const gs_bp_style_labels[] = {
-    _("None"),
+    _("Default"),
     _("wxArtProvider"),
     _("File"),
     (const wxChar*) NULL
@@ -211,8 +211,8 @@ wxBitmapProperty::wxBitmapProperty( const wxString& label,
                                     const wxBitmapPropertyValue& value )
 :
 wxEnumProperty( label, name, gs_bp_style_labels, gs_bp_style_values ),
-m_pBitmap( NULL ),
-m_pImage( NULL )
+m_bmpThumb( wxNullBitmap ),
+m_imgThumb( wxNullImage )
 {
     if ( &value )
         Init( value.m_source, value.m_bitmap, value.m_vals );
@@ -222,10 +222,6 @@ m_pImage( NULL )
 
 wxBitmapProperty::~wxBitmapProperty()
 {
-    if ( m_pBitmap )
-        delete m_pBitmap;
-    if ( m_pImage )
-        delete m_pImage;
 }
 
 bool wxBitmapProperty::IntToValue( wxVariant& variant,
@@ -256,7 +252,7 @@ wxString wxBitmapProperty::ValueToString( wxVariant& WXUNUSED( value ),
         }
         default:
         {
-            return _("None");
+            return _("Default");
         }
     }
 
@@ -308,16 +304,15 @@ wxSize wxBitmapProperty::OnMeasureImage( int ) const
 
 void wxBitmapProperty::OnCustomPaint( wxDC& dc, const wxRect& rect, wxPGPaintData& )
 {
-    if ( m_pBitmap || (m_pImage && m_pImage->IsOk() ) )
+    if ( !m_bmpThumb.IsNull() || m_imgThumb.IsOk() )
     {
-        if ( !m_pBitmap )
+        if ( m_bmpThumb.IsNull() )
         {
-            m_pImage->Rescale( rect.width, rect.height );
-            m_pBitmap = new wxBitmap( *m_pImage );
-            wxDELETE(m_pImage);
+            m_imgThumb.Rescale( rect.width, rect.height );
+            m_bmpThumb = wxBitmap( m_imgThumb );
         }
 
-        dc.DrawBitmap( *m_pBitmap, rect.x, rect.y, false );
+        dc.DrawBitmap( m_bmpThumb, rect.x, rect.y, false );
     }
     else
     {
@@ -334,22 +329,13 @@ void wxBitmapProperty::DoSetThumbNail( const wxString& path )
     // Create the image thumbnail
     if ( filename.FileExists() )
     {
-        // Delete old image
-        wxDELETE( m_pImage );
-        wxDELETE( m_pBitmap );
-
-        m_pImage = new wxImage( filename.GetFullPath() );
+        m_imgThumb = wxImage( filename.GetFullPath() );
     }
 }
 
 void wxBitmapProperty::DoSetThumbNail( const wxArtID& id,
                                        const wxArtClient& client )
 {
-    // Delete old image
-    wxDELETE( m_pImage );
-    wxDELETE( m_pBitmap );
-
     wxBitmap bmp = wxArtProvider::GetBitmap( id, client, wxDefaultSize );
-
-    m_pImage = new wxImage( bmp.ConvertToImage() );
+    m_imgThumb   = wxImage( bmp.ConvertToImage() );
 }
