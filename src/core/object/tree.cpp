@@ -161,6 +161,11 @@ Attribute PropertyNode::GetAttribute( size_t index ) const
 
     return Attribute();
 }
+
+size_t PropertyNode::GetAttributeCount()
+{
+    return m_attributes.size();
+}
 // ----------------------------------------------------------------------------
 // Getters
 // ----------------------------------------------------------------------------
@@ -267,7 +272,7 @@ wxSize PropertyNode::GetAsSize() const
 
 wxString PropertyNode::GetAsString() const
 {
-    if ( m_value.CheckType< wxString >() )
+    if( m_value.CheckType< wxString >() )
         return m_value.As< wxString >();
 
     return wxEmptyString;

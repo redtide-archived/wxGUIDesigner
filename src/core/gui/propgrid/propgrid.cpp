@@ -85,15 +85,67 @@ void PropBookHandler::OnPGChanged( wxPropertyGridEvent &event )
             }
             else if ( propType == PROPERTY_TYPE_BITMAP )
             {
-//              if ( pgProp->GetValueType() == "wxBitmapPropertyValue" )
-//              {
-                    wxBitmapPropertyValue value = 
-                    pgProp->GetValue().GetAny().As< wxBitmapPropertyValue >();
+                wxArrayString params  = pgProp->GetValue().GetArrayString();
+                wxString      strType = pgProp->GetValueAsString();
+                int           bmpType = pgProp->GetChoices().Index( strType );
+                size_t        count   = params.GetCount();
 
-                    Bitmap bmp = { value.m_source, value.m_bitmap, value.m_vals };
+                wxLogDebug("strType:%s", strType);
+                wxLogDebug("bmpType:%i", bmpType);
 
-                    prop->SetValue( bmp );
-//              }
+                if( count )
+                {
+                    wxString debug  = "params:";
+                    wxString artId  = wxEmptyString;
+
+                    for ( size_t i = 0; i < count; i++ )
+                    {
+                        wxString param = params.Item(i);
+                        wxString sep = i == 0 ? "" : " ";
+                        debug += sep + param;
+
+                        switch( bmpType )
+                        {
+                            case wxPG_BMP_SRC_ART:
+                            {
+                                if( i == 0 )
+                                {
+                                    artId = param;
+                                    wxLogDebug("Saving stock_id:%s", param );
+                                    prop->AddAttribute( "stock_id", param );
+                                }
+                                else if( (i == 1) && !(artId.empty()) )
+                                {
+                                    // Remove the last '_C' in wxArtClient
+                                    param = param.Truncate( param.length() - 2 );
+                                    wxLogDebug("Saving stock_client:%s", param );
+                                    prop->AddAttribute( "stock_client", param );
+                                }
+                                else
+                                {
+                                    wxLogDebug("invalid param %s", param);
+                                }
+
+                                break;
+                            }
+                            case wxPG_BMP_SRC_FILE:
+                            {
+                                if( i == 0 )
+                                {
+                                    wxLogDebug("Saving path:%s", param );
+                                    prop->SetValue( param );
+                                }
+                                else
+                                {
+                                    wxLogDebug("File value is empty");
+                                }
+                                break;
+                            }
+                        }
+                    }
+
+                    wxLogDebug( debug );
+                }
             }
             else
             {
@@ -101,6 +153,7 @@ void PropBookHandler::OnPGChanged( wxPropertyGridEvent &event )
             }
         }
     }
+
     event.Skip();
 }
 
@@ -378,11 +431,64 @@ wxPGProperty *PropBookHandler::AddProperty( Property prop )
         }
         case PROPERTY_TYPE_BITMAP:
         {
-            Bitmap bmp = prop->GetAsBitmap();
+            int           bmpType     = wxPG_BMP_SRC_NONE;
+            size_t        attribCount = prop->GetAttributeCount();
+            wxArrayString params;
 
-            wxBitmapPropertyValue bmpVal( bmp.source, bmp.bitmap, bmp.values );
+            if( attribCount ) // wxArtProvider
+            {
+                wxString artId  = wxEmptyString;
+                wxString client = wxEmptyString;
 
-            return new wxBitmapProperty( label, name, bmpVal );
+                for( size_t i = 0; i < attribCount; i++ )
+                {
+                    wxString attrName = prop->GetAttribute(i).first;
+                    wxString attrVal  = prop->GetAttribute(i).second;
+
+                    if( attrName == "stock_id" )
+                    {
+                        artId  = attrVal;
+                    }
+                    else if( attrName == "stock_client" )
+                    {
+                        client = attrVal + "_C";
+                    }
+                }
+
+                if( !artId.empty() )
+                {
+                    bmpType = wxPG_BMP_SRC_ART;
+
+                    params.Add( artId );
+
+                    if( !client.empty() )
+                    {
+                        params.Add( client );
+                    }
+                }
+
+                wxLogDebug( "Loading bmpType:%i ID:%s Client:%s", bmpType, artId, client );
+
+                return new wxBitmapProperty( bmpType, params, label, name );
+            }
+
+            wxString value = prop->GetAsString(); // File
+
+            if( !value.empty() )
+            {
+                bmpType = wxPG_BMP_SRC_FILE;
+
+                params.Add( value );
+
+                wxLogDebug( "Loading bmpType:%i File:%s", bmpType, value );
+            }
+
+            if( bmpType == wxPG_BMP_SRC_NONE )
+            {
+                wxLogDebug("Loading empty bitmap");
+            }
+
+            return new wxBitmapProperty( bmpType, params, label, name );
         }
         case PROPERTY_TYPE_BOOL:
         {
@@ -403,8 +509,8 @@ wxPGProperty *PropBookHandler::AddProperty( Property prop )
 
             wxColourPropertyValue colVal( col.type, col.colour );
 
-            wxPGProperty
-            *pgProp = new wxSystemColourProperty( label, name, colVal );
+            wxGDColourProperty
+            *pgProp = new wxGDColourProperty( label, name, colVal );
 
             if // No system or custom colour
             ( ( colVal.m_colour == wxNullColour ) && ( colVal.m_type == 0 ) )

@@ -9,6 +9,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "core/gui/propgrid/props.h"
+
+#include <wx/settings.h>
 // -----------------------------------------------------------------------
 // wxSizeProperty
 // -----------------------------------------------------------------------
@@ -109,3 +111,90 @@ wxVariant wxPointProperty::ChildChanged(wxVariant& thisValue,
     newVariant << point;
     return newVariant;
 }
+// -----------------------------------------------------------------------
+// wxGDColourProperty
+// -----------------------------------------------------------------------
+
+static const wxChar* const gs_cp_labels[] = {
+    wxT("Default"),
+    wxT("AppWorkspace"),
+    wxT("ActiveBorder"),
+    wxT("ActiveCaption"),
+    wxT("ButtonFace"),
+    wxT("ButtonHighlight"),
+    wxT("ButtonShadow"),
+    wxT("ButtonText"),
+    wxT("CaptionText"),
+    wxT("ControlDark"),
+    wxT("ControlLight"),
+    wxT("Desktop"),
+    wxT("GrayText"),
+    wxT("Highlight"),
+    wxT("HighlightText"),
+    wxT("InactiveBorder"),
+    wxT("InactiveCaption"),
+    wxT("InactiveCaptionText"),
+    wxT("Menu"),
+    wxT("Scrollbar"),
+    wxT("Tooltip"),
+    wxT("TooltipText"),
+    wxT("Window"),
+    wxT("WindowFrame"),
+    wxT("WindowText"),
+    wxT("Custom"),
+    (const wxChar*) NULL
+};
+
+static const long gs_cp_values[] = {
+    wxPG_COLOUR_DEFAULT,
+    wxSYS_COLOUR_APPWORKSPACE,
+    wxSYS_COLOUR_ACTIVEBORDER,
+    wxSYS_COLOUR_ACTIVECAPTION,
+    wxSYS_COLOUR_BTNFACE,
+    wxSYS_COLOUR_BTNHIGHLIGHT,
+    wxSYS_COLOUR_BTNSHADOW,
+    wxSYS_COLOUR_BTNTEXT ,
+    wxSYS_COLOUR_CAPTIONTEXT,
+    wxSYS_COLOUR_3DDKSHADOW,
+    wxSYS_COLOUR_3DLIGHT,
+    wxSYS_COLOUR_BACKGROUND,
+    wxSYS_COLOUR_GRAYTEXT,
+    wxSYS_COLOUR_HIGHLIGHT,
+    wxSYS_COLOUR_HIGHLIGHTTEXT,
+    wxSYS_COLOUR_INACTIVEBORDER,
+    wxSYS_COLOUR_INACTIVECAPTION,
+    wxSYS_COLOUR_INACTIVECAPTIONTEXT,
+    wxSYS_COLOUR_MENU,
+    wxSYS_COLOUR_SCROLLBAR,
+    wxSYS_COLOUR_INFOBK,
+    wxSYS_COLOUR_INFOTEXT,
+    wxSYS_COLOUR_WINDOW,
+    wxSYS_COLOUR_WINDOWFRAME,
+    wxSYS_COLOUR_WINDOWTEXT,
+    wxPG_COLOUR_CUSTOM
+};
+
+WX_PG_IMPLEMENT_PROPERTY_CLASS( wxGDColourProperty, wxSystemColourProperty,
+                               wxColourPropertyValue,
+                               const wxColourPropertyValue&,Choice)
+
+static wxPGChoices gs_wxGDColourProperty_choicesCache;
+
+wxGDColourProperty::wxGDColourProperty( const wxString& label,
+                                        const wxString& name,
+                                        const wxColourPropertyValue& value )
+: wxSystemColourProperty( label, name,
+                            gs_cp_labels, gs_cp_values,
+                            &gs_wxGDColourProperty_choicesCache, value )
+{
+    if ( &value )
+        Init( value.m_type, value.m_colour );
+    else
+        Init( wxPG_COLOUR_CUSTOM, wxNullColour );
+}
+
+wxGDColourProperty::~wxGDColourProperty()
+{
+}
+
+

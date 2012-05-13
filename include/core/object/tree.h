@@ -81,8 +81,9 @@ public:
     Property        GetChild( size_t index ) const;
     void            AddChild( Property prop );
 
-    void            AddAttribute( const wxString &name, const wxString &value );
+    size_t          GetAttributeCount();
     Attribute       GetAttribute( size_t index ) const;
+    void            AddAttribute( const wxString &name, const wxString &value );
 
     void            SetValue( const wxAny &value );
 

@@ -12,23 +12,10 @@
 #include "core/gui/propgrid/propbmp.h"
 #include "core/gui/propgrid/artdialog.h"
 
+#include <wx/propgrid/propgrid.h>
 #include <wx/filedlg.h>
+#include <wx/filefn.h>
 #include <wx/log.h>
-#include <wx/tokenzr.h>
-
-// -----------------------------------------------------------------------
-// wxBitmapPropertyValue
-// -----------------------------------------------------------------------
-
-// Implement dynamic class for type value.
-IMPLEMENT_DYNAMIC_CLASS( wxBitmapPropertyValue, wxObject )
-
-bool operator == ( const wxBitmapPropertyValue& a, const wxBitmapPropertyValue& b )
-{
-    return ( ( a.m_source == b.m_source ) &&
-             ( a.m_bitmap.IsSameAs( b.m_bitmap ) ) &&
-             ( a.m_vals   == b.m_vals) );
-}
 // ----------------------------------------------------------------------------
 // wxPGBitmapDialogAdapter
 // ----------------------------------------------------------------------------
@@ -44,42 +31,28 @@ bool wxPGBitmapDialogAdapter::DoShowDialog( wxPropertyGrid* propGrid,
 
         switch( index )
         {
-            case wxPG_BMP_SRC_NONE:
-            {
-                wxBitmapPropertyValue val = wxBitmapPropertyValue();
-
-                wxVariant var;
-                var << val;
-                SetValue( var );
-                return false;
-            }
             case wxPG_BMP_SRC_ART:
             {
                 ArtProviderDialog dlg( propGrid->GetPanel() );
 
                 if ( dlg.ShowModal() == wxID_OK )
                 {
-                    wxArrayString arr;
-                    arr.Add( dlg.GetArtId() );
-                    arr.Add( dlg.GetArtClient() );
-
-                    bmpProp->DoSetThumbNail( dlg.GetArtId(),
-                                             dlg.GetArtClient() );
-                    wxBitmapPropertyValue val
+                    wxString artId  = dlg.GetArtId();
+                    wxString client = dlg.GetArtClient();
+                    wxBitmap bmp    = wxBitmap
                     (
-                        wxPG_BMP_SRC_ART,
-                        wxArtProvider::GetBitmap( dlg.GetArtId(),
-                                                  dlg.GetArtClient(),
-                                                  wxDefaultSize ),
-                        arr
+                        wxArtProvider::GetBitmap( artId, client, wxDefaultSize )
                     );
 
-                    wxVariant var;
-                    var << val;
-                    SetValue( var );
+                    bmpProp->m_imgThumb = wxImage( bmp.ConvertToImage() );
+
+                    wxArrayString params;
+                    params.Add( artId );
+                    params.Add( client );
+
+                    SetValue( WXVARIANT(params) );
                     return true;
                 }
-
                 return false;
             }
             case wxPG_BMP_SRC_FILE:
@@ -108,8 +81,8 @@ bool wxPGBitmapDialogAdapter::DoShowDialog( wxPropertyGrid* propGrid,
                 }
 
                 wxFileDialog dlg( propGrid->GetPanel(), _("Open an image file"),
-                                    bmpProp->ms_lastDir, wxEmptyString, wildCard,
-                                    wxFD_OPEN | wxFD_FILE_MUST_EXIST );
+                                  bmpProp->ms_lastDir, wxEmptyString, wildCard,
+                                  wxFD_OPEN | wxFD_FILE_MUST_EXIST );
 
                 int indFilter = bmpProp->ms_indFilter;
 
@@ -118,31 +91,33 @@ bool wxPGBitmapDialogAdapter::DoShowDialog( wxPropertyGrid* propGrid,
 
                 if ( dlg.ShowModal() == wxID_OK )
                 {
+                    wxString    filePath  = dlg.GetPath();
+                    wxFileName  fileName  = filePath;
+
                     bmpProp->ms_indFilter = dlg.GetFilterIndex();
                     bmpProp->ms_lastDir   = dlg.GetDirectory();
-                    bmpProp->DoSetThumbNail( dlg.GetPath() );
 
-                    wxArrayString arr;
-                    arr.Add( dlg.GetPath() );
+                    if ( fileName.FileExists() )
+                    {
+                        wxBitmap bmp =
+                        wxBitmap( fileName.GetFullPath(), wxBITMAP_TYPE_ANY );
 
-                    wxBitmapPropertyValue val
-                    (
-                        wxPG_BMP_SRC_FILE,
-                        wxBitmap( dlg.GetPath() ),
-                        arr
-                    );
+                        if ( bmp.IsOk() )
+                        {
+                            bmpProp->m_imgThumb = wxImage( bmp.ConvertToImage() );
 
-                    wxVariant var;
-                    var << val;
-                    SetValue( var );
-                    return true;
+                            wxArrayString params;
+                            params.Add( filePath );
+
+                            SetValue( WXVARIANT(params) );
+                            return true;
+                        }
+                    }
                 }
-
                 return false;
             }
         }
     }
-
     return false;
 }
 // ----------------------------------------------------------------------------
@@ -162,62 +137,98 @@ static const long gs_bp_style_values[] = {
     wxPG_BMP_SRC_FILE
 };
 
-IMPLEMENT_VARIANT_OBJECT_SHALLOWCMP( wxBitmapPropertyValue )
-
-WX_PG_IMPLEMENT_PROPERTY_CLASS( wxBitmapProperty, wxEnumProperty,
-                                wxBitmapPropertyValue,
-                                const wxBitmapPropertyValue&,
-                                ChoiceAndButton )
+WX_PG_IMPLEMENT_PROPERTY_CLASS( wxBitmapProperty, wxEnumProperty, wxArrayString,
+                                const wxArrayString&, ChoiceAndButton )
 
 wxString wxBitmapProperty::ms_lastDir   = wxEmptyString;
 int      wxBitmapProperty::ms_indFilter = 0;
 
-void wxBitmapProperty::Init( int source,
-                            const wxBitmap& bitmap,
-                            const wxArrayString& values )
+void wxBitmapProperty::Init( int source, const wxArrayString& params )
 {
-    wxBitmapPropertyValue cpv;
+    wxArrayString newParams;
+    int           bmpType = wxPG_BMP_SRC_NONE;
+    size_t        count   = params.GetCount();
 
-    if ( bitmap.IsOk() )
+    if( count )
     {
-        cpv.Init( source, bitmap, values );
-
         switch( source )
         {
             case wxPG_BMP_SRC_ART:
             {
-                DoSetThumbNail( values.Item( 0 ), values.Item( 1 ) );
+                wxString artId  = params.Item(0);
+                wxString client = wxART_OTHER;
+
+                if( count > 1 )
+                    client = params.Item(1);
+
+                wxBitmap bmp = wxArtProvider::GetBitmap( artId, client );
+
+                if( bmp.IsOk() )
+                {
+                    wxLogDebug("Loading stock_id:%s", artId );
+                    newParams.Add( artId );
+
+                    if( count > 1 )
+                    {
+                        wxLogDebug("Loading stock_client:%s", client );
+                        newParams.Add( client );
+                    }
+
+                    bmpType = source;
+                    m_imgThumb = wxImage( bmp.ConvertToImage() );
+                }
+                else
+                {
+                    wxLogDebug("Invalid art:%s %s", artId, client);
+                }
+
                 break;
             }
             case wxPG_BMP_SRC_FILE:
             {
-                DoSetThumbNail( values.Item( 0 ) );
+                wxFileName fn = params.Item( 0 );
+
+                if( fn.Exists() )
+                {
+                    wxString path = fn.GetFullPath();
+                    wxBitmap bmp  = wxBitmap( path, wxBITMAP_TYPE_ANY );
+
+                    if( bmp.IsOk() )
+                    {
+                        newParams.Add( path );
+                        bmpType    = source;
+                        m_imgThumb = wxImage( bmp.ConvertToImage() );
+                    }
+                }
+
                 break;
+            }
+            default:
+            {
+                wxLogDebug("Invalid index:%i", source);
             }
         }
     }
     else
-        cpv.Init( wxPG_BMP_SRC_NONE, wxNullBitmap, wxArrayString() );
+    {
+        wxLogDebug("Nothing to load");
+    }
 
-//  m_flags |= wxPG_PROP_STATIC_CHOICES;
+    wxEnumProperty::SetIndex( bmpType );
 
-    wxEnumProperty::SetIndex( source );
-
-    m_value << cpv;
+    m_value = WXVARIANT( newParams );
 }
 
-wxBitmapProperty::wxBitmapProperty( const wxString& label,
-                                    const wxString& name,
-                                    const wxBitmapPropertyValue& value )
+wxBitmapProperty::wxBitmapProperty( int                  source,
+                                    const wxArrayString& params,
+                                    const wxString&      label,
+                                    const wxString&      name )
 :
 wxEnumProperty( label, name, gs_bp_style_labels, gs_bp_style_values ),
 m_bmpThumb( wxNullBitmap ),
 m_imgThumb( wxNullImage )
 {
-    if ( &value )
-        Init( value.m_source, value.m_bitmap, value.m_vals );
-    else
-        Init( wxPG_BMP_SRC_NONE, wxNullBitmap, wxArrayString() );
+    Init( source, params );
 }
 
 wxBitmapProperty::~wxBitmapProperty()
@@ -228,7 +239,7 @@ bool wxBitmapProperty::IntToValue( wxVariant& variant,
                                      int intVal,
                                      int argFlags ) const
 {
-    if( variant.GetType() == "wxBitmapPropertyValue" )
+    if( variant.GetType() == "wxArrayString" )
     {
         wxVariant v = WXVARIANT( intVal );
         return wxEnumProperty::IntToValue( v, intVal, argFlags );
@@ -237,31 +248,16 @@ bool wxBitmapProperty::IntToValue( wxVariant& variant,
     return wxEnumProperty::IntToValue( variant, intVal, argFlags );
 }
 
-wxString wxBitmapProperty::ValueToString( wxVariant& WXUNUSED( value ),
-                                            int argFlags ) const
+wxString wxBitmapProperty::ValueToString( wxVariant& value, int argFlags ) const
 {
-    switch( GetIndex() )
-    {
-        case wxPG_BMP_SRC_ART:
-        {
-            return _("wxArtProvider");
-        }
-        case wxPG_BMP_SRC_FILE:
-        {
-            return _("File");
-        }
-        default:
-        {
-            return _("Default");
-        }
-    }
-
-    return wxEmptyString;
+wxLogDebug( "ValueToString variant=%s", value.GetType(), text );
+    return m_choices.GetLabel( GetIndex() );
 }
 
-bool wxBitmapProperty::StringToValue( wxVariant&, const wxString&,
-                                        int argFlags ) const
+bool wxBitmapProperty::StringToValue( wxVariant& variant, const wxString& text,
+                                      int argFlags ) const
 {
+wxLogDebug( "StringToValue variant=%s text=%s", variant.GetType(), text );
     return false;
 }
 
@@ -270,29 +266,10 @@ void wxBitmapProperty::OnSetValue()
     // Avoid to set the long value in wxEnumProperty::OnSetValue()
 }
 
-wxBitmapPropertyValue wxBitmapProperty::GetVal( const wxVariant* pVariant ) const
-{
-    if( !pVariant )
-        pVariant = &m_value;
-
-    if( pVariant->IsNull() )
-        return wxBitmapPropertyValue();
-
-    if( pVariant->GetType() == wxS("wxBitmapPropertyValue") )
-    {
-        wxBitmapPropertyValue v;
-        v << *pVariant;
-        return v;
-    }
-
-    return wxBitmapPropertyValue();
-}
-
 wxPGEditorDialogAdapter *wxBitmapProperty::GetEditorDialog() const
 {
     return new wxPGBitmapDialogAdapter();
 }
-
 // ----------------------------------------------------------------------------
 // Thumbnail drawing
 // ----------------------------------------------------------------------------
@@ -320,22 +297,4 @@ void wxBitmapProperty::OnCustomPaint( wxDC& dc, const wxRect& rect, wxPGPaintDat
         dc.SetBrush( *wxWHITE_BRUSH );
         dc.DrawRectangle ( rect );
     }
-}
-
-void wxBitmapProperty::DoSetThumbNail( const wxString& path )
-{
-    wxFileName filename = path;
-
-    // Create the image thumbnail
-    if ( filename.FileExists() )
-    {
-        m_imgThumb = wxImage( filename.GetFullPath() );
-    }
-}
-
-void wxBitmapProperty::DoSetThumbNail( const wxArtID& id,
-                                       const wxArtClient& client )
-{
-    wxBitmap bmp = wxArtProvider::GetBitmap( id, client, wxDefaultSize );
-    m_imgThumb   = wxImage( bmp.ConvertToImage() );
 }

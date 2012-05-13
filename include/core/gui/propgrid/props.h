@@ -58,5 +58,24 @@ public:
 protected:
     void DoSetValue( const wxPoint& value ) { m_value = WXVARIANT( value ); }
 };
+// -----------------------------------------------------------------------
+// wxGDColourProperty
+// -----------------------------------------------------------------------
+enum
+{
+    wxPG_COLOUR_DEFAULT = 0
+};
+
+class wxGDColourProperty : public wxSystemColourProperty
+{
+    WX_PG_DECLARE_PROPERTY_CLASS( wxGDColourProperty )
+public:
+
+    wxGDColourProperty( const wxString& label = wxPG_LABEL,
+                        const wxString& name = wxPG_LABEL,
+                        const wxColourPropertyValue& value =
+                                    wxColourPropertyValue() );
+    virtual ~wxGDColourProperty();
+};
 
 #endif //__CORE_PROPERTIES_H__
