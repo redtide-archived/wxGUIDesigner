@@ -239,7 +239,7 @@ bool wxBitmapProperty::IntToValue( wxVariant& variant,
                                      int intVal,
                                      int argFlags ) const
 {
-    if( variant.GetType() == "wxArrayString" )
+    if( variant.GetType() == "arrstring" )
     {
         wxVariant v = WXVARIANT( intVal );
         return wxEnumProperty::IntToValue( v, intVal, argFlags );
@@ -250,7 +250,7 @@ bool wxBitmapProperty::IntToValue( wxVariant& variant,
 
 wxString wxBitmapProperty::ValueToString( wxVariant& value, int argFlags ) const
 {
-wxLogDebug( "ValueToString variant=%s", value.GetType(), text );
+wxLogDebug( "ValueToString variant=%s", value.GetType() );
     return m_choices.GetLabel( GetIndex() );
 }
 

@@ -197,10 +197,3 @@ const Colour wxGDConv::StringToColourInfo( const wxString &value )
     Colour col = { ColourCustom, colour };
     return col;
 }
-
-const Bitmap wxGDConv::StringToBitmapInfo( const wxString &value )
-{
-    // TODO
-    Bitmap bmp = Bitmap();
-    return bmp;
-}

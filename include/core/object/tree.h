@@ -64,7 +64,7 @@ public:
     PropertyInfo    GetInfo()           const;
 
     wxArrayString   GetAsArrayString()  const;
-    Bitmap          GetAsBitmap()       const;
+    wxBitmap        GetAsBitmap()       const;
     bool            GetAsBool()         const;
     Colour          GetAsColour()       const;
     double          GetAsDouble()       const;

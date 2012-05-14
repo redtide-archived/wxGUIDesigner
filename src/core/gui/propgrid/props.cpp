@@ -24,8 +24,8 @@ wxSizeProperty::wxSizeProperty( const wxString& label,
                 : wxPGProperty( label, name )
 {
     DoSetValue( value );
-    AddPrivateChild( new wxIntProperty( "Width",  wxPG_LABEL, value.x ) );
-    AddPrivateChild( new wxIntProperty( "Height", wxPG_LABEL, value.y ) );
+    AddPrivateChild( new wxIntProperty( _("Width"),  wxPG_LABEL, value.x ) );
+    AddPrivateChild( new wxIntProperty( _("Height"), wxPG_LABEL, value.y ) );
 }
 
 wxSizeProperty::~wxSizeProperty() {}
@@ -74,8 +74,8 @@ wxPointProperty::wxPointProperty(const wxString& label,
                 : wxPGProperty( label, name )
 {
     DoSetValue( value );
-    AddPrivateChild( new wxIntProperty( wxT("X"), wxPG_LABEL, value.x ) );
-    AddPrivateChild( new wxIntProperty( wxT("Y"), wxPG_LABEL, value.y ) );
+    AddPrivateChild( new wxIntProperty( "X", wxPG_LABEL, value.x ) );
+    AddPrivateChild( new wxIntProperty( "Y", wxPG_LABEL, value.y ) );
 }
 
 wxPointProperty::~wxPointProperty() { }
@@ -116,32 +116,32 @@ wxVariant wxPointProperty::ChildChanged(wxVariant& thisValue,
 // -----------------------------------------------------------------------
 
 static const wxChar* const gs_cp_labels[] = {
-    wxT("Default"),
-    wxT("AppWorkspace"),
-    wxT("ActiveBorder"),
-    wxT("ActiveCaption"),
-    wxT("ButtonFace"),
-    wxT("ButtonHighlight"),
-    wxT("ButtonShadow"),
-    wxT("ButtonText"),
-    wxT("CaptionText"),
-    wxT("ControlDark"),
-    wxT("ControlLight"),
-    wxT("Desktop"),
-    wxT("GrayText"),
-    wxT("Highlight"),
-    wxT("HighlightText"),
-    wxT("InactiveBorder"),
-    wxT("InactiveCaption"),
-    wxT("InactiveCaptionText"),
-    wxT("Menu"),
-    wxT("Scrollbar"),
-    wxT("Tooltip"),
-    wxT("TooltipText"),
-    wxT("Window"),
-    wxT("WindowFrame"),
-    wxT("WindowText"),
-    wxT("Custom"),
+    _("Default"),
+    _("AppWorkspace"),
+    _("ActiveBorder"),
+    _("ActiveCaption"),
+    _("ButtonFace"),
+    _("ButtonHighlight"),
+    _("ButtonShadow"),
+    _("ButtonText"),
+    _("CaptionText"),
+    _("ControlDark"),
+    _("ControlLight"),
+    _("Desktop"),
+    _("GrayText"),
+    _("Highlight"),
+    _("HighlightText"),
+    _("InactiveBorder"),
+    _("InactiveCaption"),
+    _("InactiveCaptionText"),
+    _("Menu"),
+    _("Scrollbar"),
+    _("Tooltip"),
+    _("TooltipText"),
+    _("Window"),
+    _("WindowFrame"),
+    _("WindowText"),
+    _("Custom"),
     (const wxChar*) NULL
 };
 
@@ -190,7 +190,7 @@ wxGDColourProperty::wxGDColourProperty( const wxString& label,
     if ( &value )
         Init( value.m_type, value.m_colour );
     else
-        Init( wxPG_COLOUR_CUSTOM, wxNullColour );
+        SetValueToUnspecified();
 }
 
 wxGDColourProperty::~wxGDColourProperty()

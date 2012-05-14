@@ -118,12 +118,7 @@ struct Colour
     wxInt32  type;
     wxColour colour;
 };
-struct Bitmap
-{
-    int           source;
-    wxBitmap      bitmap;
-    wxArrayString values;
-};
+
 typedef pair< wxString, wxString >      Attribute;
 typedef vector< Attribute >             Attributes;
 

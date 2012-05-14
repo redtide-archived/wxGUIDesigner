@@ -512,42 +512,6 @@ wxPGProperty *PropBookHandler::AddProperty( Property prop )
             wxGDColourProperty
             *pgProp = new wxGDColourProperty( label, name, colVal );
 
-            if // No system or custom colour
-            ( ( colVal.m_colour == wxNullColour ) && ( colVal.m_type == 0 ) )
-            {
-                pgProp->SetValueToUnspecified();
-            }
-/*
-            wxString strCol = prop->GetAsString();
-            Colour   col    = wxGDConv::StringToColourInfo( strCol );
-
-            // System colour
-            wxInt32 colType = col.type;
-            wxColour colour = col.colour;
-            wxColourPropertyValue colVal;
-            wxSystemColourProperty *pgProp = NULL;
-
-            bool isOk        = colour.IsOk();
-            bool isSysColour = ( colType > 0 ) && ( colType < ColourCustom );
-            bool isCustomCol = ( ( colType == ColourCustom ) && isOk );
-
-            if( isSysColour )
-            {
-                colVal = wxColourPropertyValue( colType );
-            }
-            else if( isCustomCol )
-            {
-                colVal = wxColourPropertyValue( colour );
-            }
-            else
-            {
-                pgProp = new wxSystemColourProperty( label, name );
-                pgProp->SetValueToUnspecified();
-                return pgProp;
-            }
-
-            pgProp = new wxSystemColourProperty( label, name, colVal );
-*/
             return pgProp;
         }/*
         case PROPERTY_TYPE_DIMENSION:

@@ -177,12 +177,12 @@ wxArrayString PropertyNode::GetAsArrayString() const
     return wxArrayString();
 }
 
-Bitmap PropertyNode::GetAsBitmap() const
+wxBitmap PropertyNode::GetAsBitmap() const
 {
-    if ( m_value.CheckType< Bitmap >() )
-        return m_value.As< Bitmap >();
+    if ( m_value.CheckType< wxBitmap >() )
+        return m_value.As< wxBitmap >();
 
-    return Bitmap();
+    return wxBitmap();
 }
 
 bool PropertyNode::GetAsBool() const

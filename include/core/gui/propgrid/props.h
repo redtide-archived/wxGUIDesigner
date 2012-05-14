@@ -69,13 +69,16 @@ enum
 class wxGDColourProperty : public wxSystemColourProperty
 {
     WX_PG_DECLARE_PROPERTY_CLASS( wxGDColourProperty )
-public:
 
+public:
     wxGDColourProperty( const wxString& label = wxPG_LABEL,
                         const wxString& name = wxPG_LABEL,
                         const wxColourPropertyValue& value =
                                     wxColourPropertyValue() );
     virtual ~wxGDColourProperty();
+
+private:
+    
 };
 
 #endif //__CORE_PROPERTIES_H__
