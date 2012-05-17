@@ -11,11 +11,6 @@
 #ifndef __CORE_XRC_PARSER_H__
 #define __CORE_XRC_PARSER_H__
 
-#include "core/dllimpexp.h"
 
-namespace XRCParser
-{
-
-};
 
 #endif //__CORE_XRC_PARSER_H__

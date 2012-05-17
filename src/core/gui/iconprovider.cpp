@@ -151,7 +151,7 @@ bool IconProvider::LoadXML( const wxString &path )
                     wasOk = ClassInfoDB::Get()->ClassInfoExists( itemName );
                     if ( !wasOk )
                     {
-                        wxLogDebug("Discarding %s", itemName);
+                        //wxLogDebug("Discarding %s", itemName);
                     }
                 }
                 else

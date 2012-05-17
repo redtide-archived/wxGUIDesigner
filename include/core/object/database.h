@@ -49,34 +49,93 @@ private:
     int       m_max;
     bool      m_option;
 };
+//*****************************************************************************
+// EventTypeInfoNode
+//
+// Stores informations about a single wxEventType.
+//
+// type name        = "wxEVT_CLOSE_WINDOW"
+//      macro       = "EVT_CLOSE"
+//      description = ...
+//*****************************************************************************
 
+class EventTypeInfoNode
+{
+public:
+    EventTypeInfoNode( const wxString &name,
+                        const wxString &description = wxEmptyString/*,
+                        const wxString &macro       = wxEmptyString*/ )
+                                                    :
+                                                    m_name( name ),
+                                                    m_desc( description )/*,
+                                                    m_macro( macro )*/ {}
+    wxString GetName()          const { return m_name; }
+    wxString GetDescription()   const { return m_desc; }
+//  wxString GetMacroName()     const { return m_macro; }
+
+private:
+    wxString m_name;
+    wxString m_desc;
+//  wxString m_macro;
+};
 //*****************************************************************************
 // EventInfoNode
+//
+// Stores informations about a wxEvent class and its own wxEventType(s).
+//
+// class name        = "wxCloseEvent"
+//       description = ...
 //*****************************************************************************
 
 class EventInfoNode
 {
 public:
     EventInfoNode( const wxString &name,
-                   const wxString &description = wxEmptyString );
-    ~EventInfoNode();
+                   const wxString &description = wxEmptyString )
+                                : m_name( name ),
+                                  m_desc( description ) {}
+    ~EventInfoNode()
+    {
+        m_evtTypes.clear();
+    }
 
     wxString GetName()          const { return m_name; }
     wxString GetDescription()   const { return m_desc; }
 
-    wxString GetTypeName        ( size_t index ) const;
-    wxString GetTypeDescription ( size_t index ) const;
-    size_t   GetTypeCount()     const { return m_types.size(); }
+    // EventTypeInfos
+
+    wxString GetTypeName( size_t index ) const
+    {
+        if ( index < m_evtTypes.size() )
+            return m_evtTypes.at( index )->GetName();
+
+        return wxEmptyString;
+    }
+
+    wxString GetTypeDescription( size_t index ) const
+    {
+        if ( index < m_evtTypes.size() )
+            return m_evtTypes.at( index )->GetDescription();
+
+        return wxEmptyString;
+    }
+
+    size_t GetTypeCount() const { return m_evtTypes.size(); }
 
 private:
     friend class ClassInfoDB;
 
     void SetDescription( const wxString &description ) { m_desc = description; }
-    void AddType( const wxString &name, const wxString &description );
 
-    wxString    m_name;
-    wxString    m_desc;
-    EventTypes  m_types;
+    void AddType( const wxString &name, const wxString &description )
+    {
+        EventTypeInfo info( new EventTypeInfoNode( name, description ) );
+        m_evtTypes.push_back( info );
+    }
+
+    wxString        m_name;
+    wxString        m_desc;
+    EventTypeInfos  m_evtTypes;
 };
 //*****************************************************************************
 // PropertyInfoNode
@@ -193,7 +252,7 @@ private:
     PropertyInfo    DoGetPropertyInfo  ( wxXmlNode *propertyNode );
 
     ClassInfoMap    m_classes;
-    PropertyTypeMap m_types;
+    PropertyTypeMap m_propTypes;
     wxArrayString   m_classList;
 
     static ClassInfoDB *ms_instance;

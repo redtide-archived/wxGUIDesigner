@@ -165,12 +165,12 @@ void wxBitmapProperty::Init( int source, const wxArrayString& params )
 
                 if( bmp.IsOk() )
                 {
-                    wxLogDebug("Loading stock_id:%s", artId );
+                    //wxLogDebug("Loading stock_id:%s", artId );
                     newParams.Add( artId );
 
                     if( count > 1 )
                     {
-                        wxLogDebug("Loading stock_client:%s", client );
+                        //wxLogDebug("Loading stock_client:%s", client );
                         newParams.Add( client );
                     }
 
@@ -179,7 +179,7 @@ void wxBitmapProperty::Init( int source, const wxArrayString& params )
                 }
                 else
                 {
-                    wxLogDebug("Invalid art:%s %s", artId, client);
+                    //wxLogDebug("Invalid art:%s %s", artId, client);
                 }
 
                 break;
@@ -205,13 +205,13 @@ void wxBitmapProperty::Init( int source, const wxArrayString& params )
             }
             default:
             {
-                wxLogDebug("Invalid index:%i", source);
+                //wxLogDebug("Invalid index:%i", source);
             }
         }
     }
     else
     {
-        wxLogDebug("Nothing to load");
+        //wxLogDebug("Nothing to load");
     }
 
     wxEnumProperty::SetIndex( bmpType );
@@ -250,14 +250,14 @@ bool wxBitmapProperty::IntToValue( wxVariant& variant,
 
 wxString wxBitmapProperty::ValueToString( wxVariant& value, int argFlags ) const
 {
-wxLogDebug( "ValueToString variant=%s", value.GetType() );
+    //wxLogDebug( "ValueToString variant=%s", value.GetType() ); TODO
     return m_choices.GetLabel( GetIndex() );
 }
 
 bool wxBitmapProperty::StringToValue( wxVariant& variant, const wxString& text,
                                       int argFlags ) const
 {
-wxLogDebug( "StringToValue variant=%s text=%s", variant.GetType(), text );
+    //wxLogDebug( "StringToValue variant=%s text=%s", variant.GetType(), text ); TODO
     return false;
 }
 

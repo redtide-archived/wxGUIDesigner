@@ -15,14 +15,14 @@
 
 class wxString;
 //-----------------------------------------------------------------------------
-// IObjectNode Class Interface
+// IObject Class Interface
 //-----------------------------------------------------------------------------
 
-class IObjectNode
+class IObject
 {
 public:
-    IObjectNode() {}
-    virtual ~IObjectNode() {}
+    IObject() {}
+    virtual ~IObject() {}
 
     virtual wxString GetClassName()   const = 0;
     virtual wxString GetDescription() const = 0;
@@ -52,13 +52,16 @@ protected:
 class IObjectManager
 {
 public:
-    virtual bool CreateObject   ( const wxString & ) = 0;
-    virtual void SelectObject   ( Object, bool ) = 0;
+    virtual void    AddHandler     ( IObjectHandler * ) = 0;
+    virtual void    RemoveHandler  ( IObjectHandler * ) = 0;
 
-    virtual void AddHandler     ( IObjectHandler * ) = 0;
-    virtual void RemoveHandler  ( IObjectHandler * ) = 0;
+    virtual Object  CreateObject   ( const wxString &, Object ) = 0;
+    virtual Object  GetSelectObject() const = 0;
 
-    virtual Object GetSelectObject() const = 0;
+    virtual void    SelectObject   ( Object, bool ) = 0;
+
+    virtual bool    Load           ( const wxString & ) = 0;
+    virtual bool    Serialize      ( const wxString & ) = 0;
 
 protected:
     IObjectManager() {}

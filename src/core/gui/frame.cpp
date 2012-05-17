@@ -8,27 +8,41 @@
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "core/gui/frame.h"
-#include "core/gui/manager.h"
-#include "core/manager.h"
-
 #include <wx/aui/framemanager.h>
 #include <wx/config.h>
 #include <wx/dialog.h>
+#include <wx/filedlg.h>
+#include <wx/menu.h>
+#include <wx/msgdlg.h>
 #include <wx/xrc/xmlres.h>
+
+#include "core/manager.h"
+#include "core/gui/frame.h"
+#include "core/gui/manager.h"
+#include "core/xrc/object.h"
 
 MainFrame::MainFrame( wxWindow *parent )
 {
     wxXmlResource::Get()->LoadFrame( this, parent, "MainFrame" );
 
+    wxMenu *menuFile = GetMenuBar()->GetMenu(0);
+    if( menuFile )
+        m_history.UseMenu( menuFile );
+
     Bind( wxEVT_COMMAND_TOOL_CLICKED, &MainFrame::OnAbout,
                                 this, XRCID("wxID_ABOUT") );
+
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &MainFrame::OnExit,
+                                this, XRCID("wxID_EXIT") );
 
     Bind( wxEVT_COMMAND_TOOL_CLICKED, &MainFrame::OnNewProject,
                                 this, XRCID("wxID_NEW") );
 
-    Bind( wxEVT_COMMAND_TOOL_CLICKED, &MainFrame::OnExit,
-                                this, XRCID("wxID_EXIT") );
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &MainFrame::OnOpenProject,
+                                this, XRCID("wxID_OPEN") );
+
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &MainFrame::OnSaveProject,
+                                this, XRCID("wxID_SAVE") );
 
     Bind( wxEVT_CLOSE_WINDOW, &MainFrame::OnClose, this );
 }
@@ -47,11 +61,67 @@ void MainFrame::OnExit( wxCommandEvent & )
 
 void MainFrame::OnClose( wxCloseEvent &event )
 {
-    if ( !SaveWarning() ) return;
+    if ( !SaveWarning() )
+        return;
 
     SaveLayout();
 
     event.Skip();
+}
+
+void MainFrame::OnOpenProject( wxCommandEvent & )
+{
+    if ( !SaveWarning() )
+        return;
+
+    wxString wildCard = _("XRC Files");
+    wildCard.append(" (*.xrc)|*.xrc|");
+    wildCard.append(_("All files") );
+    wildCard.append(" (*.*)|*.*");
+
+    wxFileDialog dlg( this, _("Open Project"), m_lastDir, wxEmptyString,
+                        wildCard, wxFD_OPEN );
+
+    if( dlg.ShowModal() == wxID_OK )
+    {
+        m_lastDir = dlg.GetDirectory();
+        wxString filePath = dlg.GetPath();
+
+        if( wxGUIDesigner::Get()->LoadProject( filePath ) )
+            m_history.AddFileToHistory( filePath );
+    };
+}
+
+void MainFrame::OnSaveProject( wxCommandEvent & )
+{
+    wxFileDialog dlg( this, _("Save Project"), m_lastDir, wxEmptyString,
+                      _("XRC Files (*.xrc)|*.xrc"), wxFD_SAVE );
+
+    if ( dlg.ShowModal() == wxID_OK )
+    {
+        m_lastDir = dlg.GetDirectory();
+
+        wxString    filePath    = dlg.GetPath();
+        wxFileName  fileName    = filePath;
+
+        if ( !fileName.HasExt() )
+        {
+            fileName.SetExt("xrc");
+            filePath = fileName.GetFullPath();
+        }
+
+        if ( fileName.FileExists() == true )
+        {
+            wxMessageDialog md( this,
+            _("A file with same name already exists. Do you want to overwrite it?"),
+            _("Overwrite"), wxYES_NO | wxICON_INFORMATION | wxNO_DEFAULT );
+
+            if( md.ShowModal() == wxID_NO )
+                return;
+        }
+
+        wxGUIDesigner::Get()->SaveProject( filePath );
+    }
 }
 
 void MainFrame::OnNewProject( wxCommandEvent & )
@@ -98,6 +168,10 @@ void MainFrame::LoadLayout()
             SetSize( x, y, w, h );
         }
     }
+
+    config->Read( "last_dir", &m_lastDir );
+
+    m_history.Load( *config );
 }
 
 void MainFrame::SaveLayout()
@@ -123,6 +197,10 @@ void MainFrame::SaveLayout()
         wxString perspective = m_mgr->SavePerspective();
         config->Write( "/mainframe/perspective", perspective );
     }
+
+    config->Write( "last_dir", m_lastDir );
+
+    m_history.Save( *config );
 }
 
 bool MainFrame::SaveWarning()

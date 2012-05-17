@@ -90,8 +90,8 @@ void PropBookHandler::OnPGChanged( wxPropertyGridEvent &event )
                 int           bmpType = pgProp->GetChoices().Index( strType );
                 size_t        count   = params.GetCount();
 
-                wxLogDebug("strType:%s", strType);
-                wxLogDebug("bmpType:%i", bmpType);
+                //wxLogDebug("strType:%s", strType);
+                //wxLogDebug("bmpType:%i", bmpType);
 
                 if( count )
                 {
@@ -111,14 +111,14 @@ void PropBookHandler::OnPGChanged( wxPropertyGridEvent &event )
                                 if( i == 0 )
                                 {
                                     artId = param;
-                                    wxLogDebug("Saving stock_id:%s", param );
+                                    //wxLogDebug("Saving stock_id:%s", param );
                                     prop->AddAttribute( "stock_id", param );
                                 }
                                 else if( (i == 1) && !(artId.empty()) )
                                 {
                                     // Remove the last '_C' in wxArtClient
                                     param = param.Truncate( param.length() - 2 );
-                                    wxLogDebug("Saving stock_client:%s", param );
+                                    //wxLogDebug("Saving stock_client:%s", param );
                                     prop->AddAttribute( "stock_client", param );
                                 }
                                 else
@@ -132,19 +132,19 @@ void PropBookHandler::OnPGChanged( wxPropertyGridEvent &event )
                             {
                                 if( i == 0 )
                                 {
-                                    wxLogDebug("Saving path:%s", param );
+                                    //wxLogDebug("Saving path:%s", param );
                                     prop->SetValue( param );
                                 }
                                 else
                                 {
-                                    wxLogDebug("File value is empty");
+                                    //wxLogDebug("File value is empty");
                                 }
                                 break;
                             }
                         }
                     }
 
-                    wxLogDebug( debug );
+                    //wxLogDebug( debug );
                 }
             }
             else
@@ -181,7 +181,7 @@ void PropBookHandler::OnEGChanged( wxPropertyGridEvent &event )
                 wxString evtTypeName = pgProp->GetLabel();
                 if ( evt->GetTypeName( i ) == evtTypeName )
                 {
-                    evt->SetHandlerName( i, pgProp->GetValueAsString() );
+                    evt->SetFunctionName( i, pgProp->GetValueAsString() );
                     break;
                 }
             }
@@ -307,7 +307,7 @@ void PropBookHandler::OnEGDblClick( wxPropertyGridEvent &event )
         {
             Event evt = obj->GetEvent( evtCat->GetLabel() );
             if ( evt.get() )
-                evt->SetHandlerName( p->GetLabel(), evtFuncName );
+                evt->SetFunctionName( p->GetLabel(), evtFuncName );
         
             p->SetValueFromString( evtFuncName );
         }
@@ -357,7 +357,7 @@ void PropBookHandler::LoadEvents( Object object )
                 wxPGProperty *p = cat->AppendChild( new wxStringProperty
                                         ( evt->GetTypeName( n ), wxPG_LABEL ) );
 
-                p->SetValueFromString( evt->GetHandlerName( n ) );
+                p->SetValueFromString( evt->GetFunctionName( n ) );
             }
         }
     }
@@ -467,7 +467,7 @@ wxPGProperty *PropBookHandler::AddProperty( Property prop )
                     }
                 }
 
-                wxLogDebug( "Loading bmpType:%i ID:%s Client:%s", bmpType, artId, client );
+                //wxLogDebug( "Loading bmpType:%i ID:%s Client:%s", bmpType, artId, client );
 
                 return new wxBitmapProperty( bmpType, params, label, name );
             }
@@ -480,12 +480,12 @@ wxPGProperty *PropBookHandler::AddProperty( Property prop )
 
                 params.Add( value );
 
-                wxLogDebug( "Loading bmpType:%i File:%s", bmpType, value );
+                //wxLogDebug( "Loading bmpType:%i File:%s", bmpType, value );
             }
 
             if( bmpType == wxPG_BMP_SRC_NONE )
             {
-                wxLogDebug("Loading empty bitmap");
+                //wxLogDebug("Loading empty bitmap");
             }
 
             return new wxBitmapProperty( bmpType, params, label, name );

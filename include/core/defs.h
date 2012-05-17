@@ -77,6 +77,7 @@ enum PropertyType
 };
 
 class EventInfoNode;
+class EventTypeInfoNode;
 class PropertyInfoNode;
 class ChildInfoNode;
 class ClassNode;
@@ -89,18 +90,19 @@ class wxArrayString;
 class wxString;
 //*****************************************************************************
 // ClassInfoDB
+//
+// Note: unique_ptr not available and scoped_ptr can't be used
+//       inside STL containers
 //*****************************************************************************
 
 typedef shared_ptr< ChildInfoNode >     ChildInfo;
 typedef shared_ptr< EventInfoNode >     EventInfo;
+typedef shared_ptr< EventTypeInfoNode > EventTypeInfo;
 typedef shared_ptr< PropertyInfoNode >  PropertyInfo;
 typedef shared_ptr< ClassNode >         ClassInfo;
 
-// Event type name + event type description
-typedef pair< wxString, wxString >      EventType;
-
 typedef vector< ChildInfo >             ChildInfos;
-typedef vector< EventType >             EventTypes;
+typedef vector< EventTypeInfo >         EventTypeInfos;
 typedef vector< EventInfo >             EventInfos;
 typedef vector< PropertyInfo >          PropertyInfos;
 typedef vector< ClassInfo >             ClassInfos;
@@ -111,6 +113,9 @@ typedef map< wxString, ClassInfo >      ClassInfoMap;
 // ObjectTree
 //*****************************************************************************
 
+// TODO: Remove these using wxColour GetAsColour() and int GetAsInt()
+//       for the default/system/custom colour and index?
+
 const wxInt32 ColourCustom = 0xFFFFFF;
 
 struct Colour
@@ -120,13 +125,13 @@ struct Colour
 };
 
 typedef pair< wxString, wxString >      Attribute;
-typedef vector< Attribute >             Attributes;
 
 typedef shared_ptr< EventNode >         Event;
 typedef shared_ptr< PropertyNode >      Property;
 typedef shared_ptr< ObjectNode >        Object;
 
 typedef vector< Event >                 Events;
+typedef vector< Attribute >             Attributes;
 typedef vector< Property >              Properties;
 typedef vector< Object >                Objects;
 

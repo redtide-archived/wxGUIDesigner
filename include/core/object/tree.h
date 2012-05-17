@@ -29,23 +29,72 @@ class wxSize;
 class EventNode
 {
 public:
-    EventNode( EventInfo eventInfo );
-    ~EventNode();
+    EventNode( EventInfo eventInfo ) : m_info( eventInfo ), m_hasFunc( false )
+    {
+        for ( size_t i = 0; i < m_info->GetTypeCount(); i++ )
+            m_funcs.Add( wxEmptyString );
+    }
 
-    wxString GetName();
-    wxString GetDescription();
+    ~EventNode() {}
 
-    wxString GetHandlerName( size_t typeIndex )     const;
-    bool     SetHandlerName( size_t typeIndex,      const wxString &name );
-    bool     SetHandlerName( const wxString &type , const wxString &name );
+    wxString GetName()        const { return m_info->GetName(); }
+    wxString GetDescription() const { return m_info->GetDescription(); }
 
-    wxString GetTypeName( size_t typeIndex  )        const;
-    wxString GetTypeDescription( size_t typeIndex  ) const;
-    size_t   GetTypeCount();
+    void SetFunctionName( size_t typeIndex, const wxString &funcName )
+    {
+        if( typeIndex < m_info->GetTypeCount() )
+        {
+            m_funcs.RemoveAt( typeIndex );
+            m_funcs.Insert( funcName, typeIndex );
+            m_hasFunc = funcName.empty() ? false : true;
+        }
+    }
+
+    void SetFunctionName( const wxString &typeName, const wxString &funcName )
+    {
+        for( size_t i = 0; i < m_info->GetTypeCount(); i++ )
+        {
+            if( m_info->GetTypeName(i) == typeName )
+            {
+                m_funcs.RemoveAt(i);
+                m_funcs.Insert( funcName, i );
+                m_hasFunc = funcName.empty() ? false : true;
+            }
+        }
+    }
+
+    bool HasFunctions() { return m_hasFunc; }
+
+    wxString GetFunctionName( size_t typeIndex ) const
+    {
+        if( typeIndex < m_funcs.GetCount() )
+            return m_funcs.Item( typeIndex );
+
+        return wxEmptyString;
+    }
+
+    wxString GetTypeName( size_t typeIndex  ) const
+    {
+        if ( typeIndex < m_info->GetTypeCount() )
+            return m_info->GetTypeName( typeIndex );
+
+        return wxEmptyString;
+    }
+
+    wxString GetTypeDescription( size_t typeIndex  ) const
+    {
+        if ( typeIndex < m_info->GetTypeCount() )
+            return m_info->GetTypeDescription( typeIndex );
+
+        return wxEmptyString;
+    }
+
+    size_t GetTypeCount() { return m_info->GetTypeCount(); }
 
 private:
-    EventInfo     m_info;
-    wxArrayString m_handlers;
+    EventInfo       m_info;
+    wxArrayString   m_funcs;
+    bool            m_hasFunc;
 };
 //*****************************************************************************
 // PropertyNode Class
@@ -77,12 +126,17 @@ public:
     wxString        GetAsText()         const;
     wxString        GetAsURL()          const;
 
+    bool            IsCategory()        { return m_info->GetType() ==
+                                            PROPERTY_TYPE_CATEGORY; }
     size_t          GetChildCount();
+    Properties      GetChildren()       const { return m_children; }
     Property        GetChild( size_t index ) const;
     void            AddChild( Property prop );
 
     size_t          GetAttributeCount();
-    Attribute       GetAttribute( size_t index ) const;
+    Attribute       GetAttribute( size_t index )      const;
+    wxString        GetAttributeName( size_t index )  const;
+    wxString        GetAttributeValue( size_t index ) const;
     void            AddAttribute( const wxString &name, const wxString &value );
 
     void            SetValue( const wxAny &value );
@@ -97,21 +151,26 @@ private:
 // ObjectNode Class
 //*****************************************************************************
 
-class ObjectNode : public IObjectNode
+class ObjectNode : public IObject
 {
 public:
     ObjectNode( ClassInfo classInfo,
                 Object parent, 
-                bool expanded = true );
+                bool expanded = true,
+                bool isReference = false );
     ~ObjectNode();
 
     virtual wxString GetClassName()   const;
     virtual wxString GetDescription() const;
 
+    wxString    GetName();
+
     ClassInfo   GetClassInfo() const;
 
+    bool        IsReference() const { return m_isRef; }
     bool        IsRoot();
     bool        IsExpanded();
+
     void        Collapse();
     void        Expand();
 
@@ -125,6 +184,7 @@ public:
     void        AddProperty( Property prop );
     Property    GetProperty( size_t index );
     Property    GetProperty( const wxString &name );
+    Properties  GetProperties() const                   { return m_props; }
     bool        PropertyExists( const wxString &name );
     size_t      GetPropertyCount();
     Property    GetChildProperty( Property parent, const wxString &name );
@@ -139,14 +199,22 @@ public:
     void        AddChild( Object child );
     Object      GetChild( size_t index );
     Object      GetParent();
+    Objects     GetChildren() const { return m_children; }
     size_t      GetChildCount();
 
 private:
+    friend class ObjectTree;
+
+    wxXmlNode  *Serialize( wxXmlNode *parent );
+    wxXmlNode  *SerializeChildren( Objects children, wxXmlNode *parent );
+    wxXmlNode  *SerializeProperties( Properties props, wxXmlNode *parent );
+
     ClassInfo   m_info;
     ClassInfos  m_baseinfos;
     Object      m_parent;
     Objects     m_children;
     bool        m_expanded;
+    bool        m_isRef;
     Events      m_events;
     Properties  m_props;
 };
@@ -158,15 +226,20 @@ class ObjectTree : public IObjectManager
 {
 public:
     static ObjectTree *Get();
-    static void Free();
+    static void     Free();
 
-    virtual bool    CreateObject   ( const wxString &className );
-    virtual void    SelectObject   ( Object object, bool withEvent = true );
+    virtual void    AddHandler      ( IObjectHandler *handler );
+    virtual void    RemoveHandler   ( IObjectHandler *handler );
 
-    virtual void    AddHandler     ( IObjectHandler *handler );
-    virtual void    RemoveHandler  ( IObjectHandler *handler );
+    virtual Object  CreateObject    ( const wxString &className,
+                                        Object parent = Object() );
+
+    virtual void    SelectObject    ( Object object, bool withEvent = true );
 
     virtual Object  GetSelectObject() const { return m_sel; }
+
+    virtual bool    Load            ( const wxString &fileName );
+    virtual bool    Serialize       ( const wxString &fileName );
 
 private:
     ObjectTree();
@@ -178,8 +251,12 @@ private:
 
     size_t          GetChildInfoCount( Object parent, ClassInfo info );
 
+    Object          DoCreateObject( Object parentObject, wxXmlNode *parentNode,
+                                    bool isReference = false );
+
     typedef std::list< IObjectHandler * > ObjectHandlers;
 
+    Object          m_root;
     Object          m_sel;
     ObjectHandlers  m_handlers;
 
