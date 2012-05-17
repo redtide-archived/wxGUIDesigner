@@ -33,11 +33,9 @@
             </flag>
         </style>
         <int name="dimension" label="Dimension">
-            <value>1</value>
             <description>Specifies the maximum number of rows (if style contains wxRA_SPECIFY_ROWS) or columns (if style contains wxRA_SPECIFY_COLS) for a two-dimensional radiobox (default: 1).</description>
         </int>
         <int name="selection" label="Selection">
-            <value>-1</value>
             <description>Index of the initially selected item or -1 for no selection (default: -1).</description>
         </int>
         <items name="content" label="Content">
@@ -59,7 +57,6 @@
             <description>Contextual help for this radio button (default: none).</description>
         </string>
         <bool name="enabled" label="Enabled" xrcattribute="1">
-            <value>1</value>
             <description>Is the button enabled (default: 1)?</description>
         </bool>
         <bool name="hidden" label="Hidden" xrcattribute="1">

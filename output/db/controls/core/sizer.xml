@@ -142,7 +142,6 @@
             <description>The "option" value for sizers. Used by wxBoxSizer to set proportion of the item in the growable direction (default: 0).</description>
         </int>
         <dimension name="border" label="Border">
-            <value>0</value>
             <description>Size of the border around the item (directions are specified in flags) (default: 0).</description>
         </dimension>
         <size name="minsize" label="Minimal size">

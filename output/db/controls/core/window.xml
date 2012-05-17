@@ -87,32 +87,27 @@
         </flag>
     </style>
     <colour name="fg" label="Foreground colour">
-        <value>wxSYS_COLOUR_WINDOW</value>
         <description>Foreground colour of the window (default: window's default).</description>
     </colour>
     <colour name="ownfg" label="Own foreground colour">
         <description>Non-inheritable foreground colour of the window, see wxWindow::SetOwnForegroundColour() (default: none).</description>
     </colour>
     <colour name="bg" label="Background colour">
-        <value>wxSYS_COLOUR_WINDOW</value>
         <description>Background colour of the window (default: window's default).</description>
     </colour>
     <colour name="ownbg" label="Own background colour">
         <description>Non-inheritable background colour of the window, see wxWindow::SetOwnBackgroundColour() (default: none).</description>
     </colour>
     <font label="Font">
-        <value>wxSYS_DEFAULT_GUI_FONT</value>
         <description>Font to use for the control (default: window's default).</description>
     </font>
     <font name="ownfont" label="Own font">
         <description>Non-inheritable font to use for the control, see wxWindow::SetOwnFont() (default: none).</description>
     </font>
     <bool name="enabled" label="Enabled">
-        <value>1</value>
         <description>If set to 0, the control is disabled (default: 1).</description>
     </bool>
     <bool name="hidden" label="Hidden">
-        <value>0</value>
         <description>If set to 1, the control is created hidden (default: 0).</description>
     </bool>
     <text name="tooltip" label="Tooltip">

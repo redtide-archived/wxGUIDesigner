@@ -34,7 +34,6 @@
         </flag>
     </style>
     <int name="selection" label="Selection">
-        <value>-1</value>
         <description>Index of the initially selected item or -1 for no selection (default: -1).</description>
     </int>
     <arraystring name="content" label="Content">
