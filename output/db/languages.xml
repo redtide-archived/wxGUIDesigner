@@ -14,5 +14,6 @@
         <item>cpp</item>
         <item>h</item>
     </group>
+    <group name="php"/>
     <group name="python"/>
 </category>

@@ -21,8 +21,17 @@ project "LibCore"
     }
     defines             {"MAKINGDLL_CORE"}
     flags               {"ExtraWarnings"}
---  links               {"LibPlugin"}
+    links               {"LibCodeGen"}
     targetname          ( CustomPrefix .. "core" )
+
+    configuration {"codelite", "not windows"}
+        linkoptions         {"-Wl,-rpath,$$``ORIGIN/../output/lib/wxguidesigner"}
+
+    configuration {"codeblocks", "not windows"}
+        linkoptions         {"-Wl,-rpath,$``ORIGIN/../output/lib/wxguidesigner"}
+
+    configuration "macosx"
+        linkoptions         {"-L../../output/lib/wxguidesigner"}
 
     configuration "not windows"
         libdirs         {"../../output/lib/wxguidesigner"}

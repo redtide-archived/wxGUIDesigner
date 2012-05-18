@@ -13,6 +13,7 @@
 #include <wx/frame.h>
 #include <wx/msgdlg.h>
 
+#include "codegenerator/codegenerator.h"
 #include "core/manager.h"
 #include "core/ipc.h"
 #include "core/gui/iconprovider.h"
@@ -25,6 +26,7 @@ wxGUIDesigner::wxGUIDesigner() : m_ipcFile( new IPCFile ), m_currPrj(), m_currDi
 {
     wxFlagsManager::Get();
     ClassInfoDB::Get();
+    CodeGenerator::Get();
 }
 
 wxGUIDesigner::~wxGUIDesigner()

@@ -23,6 +23,7 @@ CustomPrefix = "wxgd"
 --  dofile( scriptDir .. "/doxygen.lua" )
     dofile( scriptDir .. "/interfaces.lua" )
 --  dofile( scriptDir .. "/plugin.lua" )
+    dofile( scriptDir .. "/lua.lua" )
     dofile( scriptDir .. "/codegenerator.lua" )
     dofile( scriptDir .. "/core.lua" )
     dofile( scriptDir .. "/wxguidesigner.lua" )

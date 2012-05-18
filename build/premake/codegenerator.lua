@@ -15,10 +15,12 @@ project "LibCodeGen"
         "../../output/db/languages.xml", "../../output/db/languages/**.xrc",
         "../../output/db/languages/**.lua"
     }
-    includedirs         {"../../include/codegenerator"}
+    includedirs         {"../../src/lua/include","../../include/codegenerator"}
+    excludes            {"../../src/lua/src/lua.c", "../../src/lua/src/luac.c"}
     defines             {"MAKINGDLL_CODEGEN"}
     flags               {"ExtraWarnings"}
-    targetname          ( CustomPrefix .. "codegenerator" )
+    targetname          ( CustomPrefix .. "codegen" )
+    links               {"LuaLib"}
 
     configuration "not windows"
         libdirs             {"../../output/lib/wxguidesigner"}
