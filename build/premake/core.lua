@@ -2,19 +2,18 @@
 --  Name:        core.lua
 --  Purpose:     Core library project script.
 --  Author:      Andrea Zanellato
---  Modified by:
+--  Modified by: 
 --  Created:     2011/11/19
 --  Revision:    $Hash$
 --  Licence:     GNU General Public License Version 2
 -----------------------------------------------------------------------------
 project "LibCore"
-    kind                "SharedLib"
+    kind        "SharedLib"
     files
     {
         "../../include/core/**.h", "../../src/core/**.cpp",
         "../../include/wx/**.h", "../../src/wx/**.cpp",
-        "../../output/xrc/*.xrc", "../../output/xrc/classes/*.xrc",
-        "../../output/db/**.xml"
+        "../../output/db/controls.xml", "../../output/db/controls/**.xml"
     }
     includedirs
     {

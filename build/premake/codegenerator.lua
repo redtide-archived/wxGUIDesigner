@@ -8,10 +8,12 @@
 --  Licence:     GNU General Public License Version 2
 -----------------------------------------------------------------------------
 project "LibCodeGen"
-    kind                "SharedLib"
+    kind        "SharedLib"
     files
     {
-        "../../include/codegenerator/**.h", "../../src/codegenerator/**.cpp"
+        "../../include/codegenerator/**.h", "../../src/codegenerator/**.cpp",
+        "../../output/db/languages.xml", "../../output/db/languages/**.xrc",
+        "../../output/db/languages/**.lua"
     }
     includedirs         {"../../include/codegenerator"}
     defines             {"MAKINGDLL_CODEGEN"}

@@ -2,7 +2,7 @@
 // Name:        main.cpp
 // Purpose:     
 // Author:      Andrea Zanellato
-// Modified by:
+// Modified by: 
 // Created:     2011/11/20
 // Revision:    $Hash$
 // Licence:     wxWindows licence

@@ -9,8 +9,8 @@
 -----------------------------------------------------------------------------
 project "wxGUIDesigner"
     kind                    "WindowedApp"
-    files                   {"../../src/main.*", "../../src/debug/stack_trace/stack.*"}
-    includedirs             { "../../include", "../../src/debug/stack_trace"}
+    files                   {"../../src/main.*"}
+    includedirs             { "../../include"}
     defines                 {"NO_GCC_PRAGMA"}
     flags                   {"ExtraWarnings"}
     libdirs                 {"../../sdk/lib"}
