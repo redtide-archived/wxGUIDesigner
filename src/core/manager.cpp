@@ -22,11 +22,15 @@
 #include "core/object/flags.h"
 #include "core/object/tree.h"
 
-wxGUIDesigner::wxGUIDesigner() : m_ipcFile( new IPCFile ), m_currPrj(), m_currDir()
+wxGUIDesigner::wxGUIDesigner()
+:
+m_ipcFile( new IPCFile ),
+m_currPrj(),
+m_currDir(),
+m_isChanged( false )
 {
     wxFlagsManager::Get();
     ClassInfoDB::Get();
-    CodeGenerator::Get();
 }
 
 wxGUIDesigner::~wxGUIDesigner()
@@ -66,7 +70,6 @@ bool wxGUIDesigner::LoadProject( const wxString &filePath, bool checkInstance )
 {
     if ( !wxFileName::FileExists( filePath ) )
     {
-        wxLogError(_( "The file '%s' doesn't exists" ), filePath );
         return false;
     }
 
@@ -117,4 +120,9 @@ wxFrame *wxGUIDesigner::GetMainFrame( wxWindow *parent )
 bool wxGUIDesigner::CheckSingleInstance( const wxString &filePath, bool switchTo )
 {
     return m_ipcFile->CheckSingleInstance( filePath, switchTo );
+}
+
+void wxGUIDesigner::GenerateCode()
+{
+    // CodeGenerator::Get()->Generate();
 }

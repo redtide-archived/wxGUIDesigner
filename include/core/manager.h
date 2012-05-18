@@ -37,11 +37,13 @@ public:
     void        NewProject();
     bool        LoadProject( const wxString &filePath, bool check = true );
     bool        SaveProject( const wxString &filePath );
-    wxString    GetProjectFileName() const { return m_currPrj; }
-    wxString    GetProjectFilePath() const { return m_currDir; }
-
+    wxString    GetProjectFileName() const  { return m_currPrj; }
+    wxString    GetProjectFilePath() const  { return m_currDir; }
+    bool        IsProjectModified()         { return m_isChanged; }
     bool        CheckSingleInstance( const wxString &filePath,
                                         bool switchTo = true );
+    void        GenerateCode();
+
 private:
     wxGUIDesigner();
     ~wxGUIDesigner();
@@ -51,6 +53,7 @@ private:
     shared_ptr< IPCFile >   m_ipcFile;
     wxString                m_currPrj;
     wxString                m_currDir;
+    bool                    m_isChanged;
 };
 
 #endif //__CORE_MANAGER_H__

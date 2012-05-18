@@ -28,24 +28,54 @@ public:
     MainFrame( wxWindow *parent = NULL );
     ~MainFrame() {}
 
-    // Events
-    void OnClose( wxCloseEvent &event );
-
     void LoadLayout();
     void SaveLayout();
     bool SaveWarning();
 
-    // MainMenu and ToolBar
-    void OnAbout( wxCommandEvent &event );
-    void OnExit( wxCommandEvent & );
+    void OnClose        ( wxCloseEvent   &event );
+    void OnAbout        ( wxCommandEvent &event );
+    void OnExit         ( wxCommandEvent &event );
 
     // Project
-    void OnNewProject( wxCommandEvent &event );
-    void OnOpenProject( wxCommandEvent &event );
-    void OnSaveProject( wxCommandEvent &event );
+    void OnNewProject   ( wxCommandEvent &event );
+    void OnOpenProject  ( wxCommandEvent &event );
+    void OnOpenRecent   ( wxCommandEvent &event );
+    void OnSaveAsProject( wxCommandEvent &event );
+    void OnSaveProject  ( wxCommandEvent &event );
+
+    // Undo/Redo
+    void OnUndo         ( wxCommandEvent &event );
+    void OnRedo         ( wxCommandEvent &event );
+
+    // Clipboard
+    void OnCut          ( wxCommandEvent &event );
+    void OnCopy         ( wxCommandEvent &event );
+    void OnPaste        ( wxCommandEvent &event );
+    void OnDelete       ( wxCommandEvent &event );
+
+    // CodeGenerator
+    void OnGenerateCode ( wxCommandEvent &event );
+
+    // Widget's alignment
+    void OnAlignLeft    ( wxCommandEvent &event );
+    void OnAlignCenterH ( wxCommandEvent &event );
+    void OnAlignRight   ( wxCommandEvent &event );
+    void OnAlignTop     ( wxCommandEvent &event );
+    void OnAlignCenterV ( wxCommandEvent &event );
+    void OnAlignBottom  ( wxCommandEvent &event );
+
+    void OnExpand       ( wxCommandEvent &event );
+    void OnStretch      ( wxCommandEvent &event );
+
+    // Widget's borders
+    void OnBorderLeft   ( wxCommandEvent &event );
+    void OnBorderRight  ( wxCommandEvent &event );
+    void OnBorderTop    ( wxCommandEvent &event );
+    void OnBorderBottom ( wxCommandEvent &event );
 
 private:
     friend class GUIManager;
+
     wxAuiManager    *m_mgr;
     wxFileHistory   m_history;
     wxString        m_lastDir;

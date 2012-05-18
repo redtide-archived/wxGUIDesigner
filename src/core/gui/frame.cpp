@@ -21,6 +21,9 @@
 #include "core/gui/manager.h"
 #include "core/xrc/object.h"
 
+// ----------------------------------------------------------------------------
+// MainFrame
+// ----------------------------------------------------------------------------
 MainFrame::MainFrame( wxWindow *parent )
 {
     wxXmlResource::Get()->LoadFrame( this, parent, "MainFrame" );
@@ -29,104 +32,97 @@ MainFrame::MainFrame( wxWindow *parent )
     if( menuFile )
         m_history.UseMenu( menuFile );
 
+    Bind( wxEVT_CLOSE_WINDOW, &MainFrame::OnClose, this );
+
     Bind( wxEVT_COMMAND_TOOL_CLICKED, &MainFrame::OnAbout,
                                 this, XRCID("wxID_ABOUT") );
 
     Bind( wxEVT_COMMAND_TOOL_CLICKED, &MainFrame::OnExit,
                                 this, XRCID("wxID_EXIT") );
-
+// ----------------------------------------------------------------------------
+// Project
+// ----------------------------------------------------------------------------
     Bind( wxEVT_COMMAND_TOOL_CLICKED, &MainFrame::OnNewProject,
                                 this, XRCID("wxID_NEW") );
 
     Bind( wxEVT_COMMAND_TOOL_CLICKED, &MainFrame::OnOpenProject,
                                 this, XRCID("wxID_OPEN") );
 
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &MainFrame::OnOpenRecent,
+                                this, XRCID("wxID_FILE1"), XRCID("wxID_FILE9") );
+
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &MainFrame::OnSaveAsProject,
+                                this, XRCID("wxID_SAVEAS") );
+
     Bind( wxEVT_COMMAND_TOOL_CLICKED, &MainFrame::OnSaveProject,
                                 this, XRCID("wxID_SAVE") );
+// ----------------------------------------------------------------------------
+// Undo/Redo
+// ----------------------------------------------------------------------------
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &MainFrame::OnUndo,
+                                this, XRCID("wxID_UNDO") );
 
-    Bind( wxEVT_CLOSE_WINDOW, &MainFrame::OnClose, this );
-}
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &MainFrame::OnRedo,
+                                this, XRCID("wxID_REDO") );
+// ----------------------------------------------------------------------------
+// Clipboard
+// ----------------------------------------------------------------------------
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &MainFrame::OnCut,
+                                this, XRCID("wxID_CUT") );
 
-void MainFrame::OnAbout( wxCommandEvent &event )
-{
-    wxDialog *dlg = GUIManager::Get()->GetAboutDialog( this );
-    dlg->ShowModal();
-    dlg->Destroy();
-}
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &MainFrame::OnCopy,
+                                this, XRCID("wxID_COPY") );
 
-void MainFrame::OnExit( wxCommandEvent & )
-{
-    Close();
-}
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &MainFrame::OnPaste,
+                                this, XRCID("wxID_PASTE") );
 
-void MainFrame::OnClose( wxCloseEvent &event )
-{
-    if ( !SaveWarning() )
-        return;
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &MainFrame::OnDelete,
+                                this, XRCID("wxID_DELETE") );
+// ----------------------------------------------------------------------------
+// CodeGenerator
+// ----------------------------------------------------------------------------
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &MainFrame::OnGenerateCode,
+                                this, XRCID("wxID_EXECUTE") );
+// ----------------------------------------------------------------------------
+// Widget's alignment
+// ----------------------------------------------------------------------------
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &MainFrame::OnAlignLeft,
+                                this, XRCID("ID_ALIGN_LEFT") );
 
-    SaveLayout();
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &MainFrame::OnAlignCenterH,
+                                this, XRCID("ID_ALIGN_CENTER_H") );
 
-    event.Skip();
-}
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &MainFrame::OnAlignRight,
+                                this, XRCID("ID_ALIGN_RIGHT") );
 
-void MainFrame::OnOpenProject( wxCommandEvent & )
-{
-    if ( !SaveWarning() )
-        return;
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &MainFrame::OnAlignTop,
+                                this, XRCID("ID_ALIGN_TOP") );
 
-    wxString wildCard = _("XRC Files");
-    wildCard.append(" (*.xrc)|*.xrc|");
-    wildCard.append(_("All files") );
-    wildCard.append(" (*.*)|*.*");
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &MainFrame::OnAlignCenterV,
+                                this, XRCID("ID_ALIGN_CENTER_V") );
 
-    wxFileDialog dlg( this, _("Open Project"), m_lastDir, wxEmptyString,
-                        wildCard, wxFD_OPEN );
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &MainFrame::OnAlignBottom,
+                                this, XRCID("ID_ALIGN_BOTTOM") );
 
-    if( dlg.ShowModal() == wxID_OK )
-    {
-        m_lastDir = dlg.GetDirectory();
-        wxString filePath = dlg.GetPath();
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &MainFrame::OnExpand,
+                                this, XRCID("ID_EXPAND") );
 
-        if( wxGUIDesigner::Get()->LoadProject( filePath ) )
-            m_history.AddFileToHistory( filePath );
-    };
-}
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &MainFrame::OnStretch,
+                                this, XRCID("ID_STRETCH") );
+// ----------------------------------------------------------------------------
+// Widget's borders
+// ----------------------------------------------------------------------------
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &MainFrame::OnBorderLeft,
+                                this, XRCID("ID_BORDER_LEFT") );
 
-void MainFrame::OnSaveProject( wxCommandEvent & )
-{
-    wxFileDialog dlg( this, _("Save Project"), m_lastDir, wxEmptyString,
-                      _("XRC Files (*.xrc)|*.xrc"), wxFD_SAVE );
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &MainFrame::OnBorderRight,
+                                this, XRCID("ID_BORDER_RIGHT") );
 
-    if ( dlg.ShowModal() == wxID_OK )
-    {
-        m_lastDir = dlg.GetDirectory();
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &MainFrame::OnBorderTop,
+                                this, XRCID("ID_BORDER_TOP") );
 
-        wxString    filePath    = dlg.GetPath();
-        wxFileName  fileName    = filePath;
-
-        if ( !fileName.HasExt() )
-        {
-            fileName.SetExt("xrc");
-            filePath = fileName.GetFullPath();
-        }
-
-        if ( fileName.FileExists() == true )
-        {
-            wxMessageDialog md( this,
-            _("A file with same name already exists. Do you want to overwrite it?"),
-            _("Overwrite"), wxYES_NO | wxICON_INFORMATION | wxNO_DEFAULT );
-
-            if( md.ShowModal() == wxID_NO )
-                return;
-        }
-
-        wxGUIDesigner::Get()->SaveProject( filePath );
-    }
-}
-
-void MainFrame::OnNewProject( wxCommandEvent & )
-{
-    wxGUIDesigner::Get()->NewProject();
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &MainFrame::OnBorderBottom,
+                                this, XRCID("ID_BORDER_BOTTOM") );
 }
 
 void MainFrame::LoadLayout()
@@ -207,7 +203,270 @@ bool MainFrame::SaveWarning()
 {
     int result = wxYES;
 
-    // TODO: Check for modified project
+    if( wxGUIDesigner::Get()->IsProjectModified() )
+    {
+        result = wxMessageBox(_("Current project file has been modified.\n" ) +
+                                _("Do you want to save the changes?"),
+                                _("Save project"), wxYES | wxNO | wxCANCEL, this );
+        if ( result == wxYES )
+        {
+            wxCommandEvent event;
+            OnSaveProject( event );
+        }
+    }
 
     return ( result != wxCANCEL );
+}
+
+void MainFrame::OnAbout( wxCommandEvent & )
+{
+    wxDialog *dlg = GUIManager::Get()->GetAboutDialog( this );
+    dlg->ShowModal();
+    dlg->Destroy();
+}
+
+void MainFrame::OnExit( wxCommandEvent & )
+{
+    Close();
+}
+
+void MainFrame::OnClose( wxCloseEvent &event )
+{
+    if ( !SaveWarning() )
+        return;
+
+    SaveLayout();
+
+    event.Skip();
+}
+// ----------------------------------------------------------------------------
+// Project
+// ----------------------------------------------------------------------------
+void MainFrame::OnNewProject( wxCommandEvent & )
+{
+    if ( !SaveWarning() )
+        return;
+
+    wxGUIDesigner::Get()->NewProject();
+}
+
+void MainFrame::OnOpenProject( wxCommandEvent & )
+{
+    if( !SaveWarning() )
+        return;
+
+    wxString wildCard = _("XRC Files");
+    wildCard.append(" (*.xrc)|*.xrc|");
+    wildCard.append(_("All files") );
+    wildCard.append(" (*.*)|*.*");
+
+    wxFileDialog dlg( this, _("Open Project"), m_lastDir, wxEmptyString,
+                        wildCard, wxFD_OPEN );
+
+    if( dlg.ShowModal() == wxID_OK )
+    {
+        m_lastDir = dlg.GetDirectory();
+        wxString filePath = dlg.GetPath();
+
+        if( wxGUIDesigner::Get()->LoadProject( filePath ) )
+            m_history.AddFileToHistory( filePath );
+    };
+}
+
+void MainFrame::OnOpenRecent( wxCommandEvent &event )
+{
+    if( !SaveWarning() )
+        return;
+
+    wxMenuItem *menuItm = NULL;
+    wxMenuBar  *menuBar = GetMenuBar();
+
+    if( menuBar )
+        menuItm = menuBar->FindItem( event.GetId() );
+
+    if( !menuItm )
+        return;
+    
+    wxString    filePath( menuItm->GetItemLabelText().AfterLast(' ') );
+    wxFileName  fileName( filePath );
+
+    if( fileName.FileExists() )
+    {
+        if ( wxGUIDesigner::Get()->LoadProject( fileName.GetFullPath() ) )
+            m_lastDir = fileName.GetPath();
+    }
+    else
+    {
+        wxString message =
+            _("The project file") + " " + fileName.GetName() + " " +
+            _("doesn't exist.") +
+            _("Would you like to remove it from the recent files list?");
+
+        int answer =
+            wxMessageBox( message, _("Open recent project"),
+                                wxICON_WARNING | wxYES_NO );
+        if( answer == wxYES )
+        {
+            for( size_t i = 0; i < m_history.GetCount(); i++ )
+            {
+                if( filePath == m_history.GetHistoryFile(i) )
+                {
+                    m_history.RemoveFileFromHistory(i);
+                    break;
+                }
+            }
+        }
+    }
+}
+
+void MainFrame::OnSaveAsProject( wxCommandEvent & )
+{
+    wxFileDialog dlg( this, _("Save Project"), m_lastDir, wxEmptyString,
+                      _("XRC Files (*.xrc)|*.xrc"), wxFD_SAVE );
+
+    if ( dlg.ShowModal() == wxID_OK )
+    {
+        m_lastDir = dlg.GetDirectory();
+
+        wxString    filePath    = dlg.GetPath();
+        wxFileName  fileName    = filePath;
+
+        if( !fileName.HasExt() )
+        {
+            fileName.SetExt("xrc");
+            filePath = fileName.GetFullPath();
+        }
+
+        if( fileName.FileExists() == true )
+        {
+            wxMessageDialog md( this,
+            _("A file with same name already exists. Do you want to overwrite it?"),
+            _("Overwrite"), wxYES_NO | wxICON_INFORMATION | wxNO_DEFAULT );
+
+            if( md.ShowModal() == wxID_NO )
+                return;
+        }
+
+        wxGUIDesigner::Get()->SaveProject( filePath );
+    }
+}
+
+void MainFrame::OnSaveProject( wxCommandEvent &event )
+{
+    wxString currPrj = wxGUIDesigner::Get()->GetProjectFileName();
+
+    if( currPrj.empty() )
+    {
+        OnSaveAsProject( event );
+    }
+    else
+    {
+        wxGUIDesigner::Get()->SaveProject( currPrj );
+        m_history.AddFileToHistory( currPrj );
+    }
+}
+// ----------------------------------------------------------------------------
+// Undo/Redo
+// ----------------------------------------------------------------------------
+void MainFrame::OnUndo( wxCommandEvent &event )
+{
+    
+}
+
+void MainFrame::OnRedo( wxCommandEvent &event )
+{
+    
+}
+// ----------------------------------------------------------------------------
+// Clipboard
+// ----------------------------------------------------------------------------
+void MainFrame::OnCut( wxCommandEvent &event )
+{
+    
+}
+
+void MainFrame::OnCopy( wxCommandEvent &event )
+{
+    
+}
+
+void MainFrame::OnPaste( wxCommandEvent &event )
+{
+    
+}
+
+void MainFrame::OnDelete( wxCommandEvent &event )
+{
+    
+}
+// ----------------------------------------------------------------------------
+// CodeGenerator
+// ----------------------------------------------------------------------------
+void MainFrame::OnGenerateCode( wxCommandEvent & )
+{
+    wxGUIDesigner::Get()->GenerateCode();
+}
+// ----------------------------------------------------------------------------
+// Widget's alignment
+// ----------------------------------------------------------------------------
+void MainFrame::OnAlignLeft( wxCommandEvent &event )
+{
+    
+}
+
+void MainFrame::OnAlignCenterH( wxCommandEvent &event )
+{
+    
+}
+
+void MainFrame::OnAlignRight( wxCommandEvent &event )
+{
+    
+}
+
+void MainFrame::OnAlignTop( wxCommandEvent &event )
+{
+    
+}
+
+void MainFrame::OnAlignCenterV( wxCommandEvent &event )
+{
+    
+}
+
+void MainFrame::OnAlignBottom( wxCommandEvent &event )
+{
+    
+}
+
+void MainFrame::OnExpand( wxCommandEvent &event )
+{
+    
+}
+
+void MainFrame::OnStretch( wxCommandEvent &event )
+{
+    
+}
+// ----------------------------------------------------------------------------
+// Widget's borders
+// ----------------------------------------------------------------------------
+void MainFrame::OnBorderLeft( wxCommandEvent &event )
+{
+    
+}
+
+void MainFrame::OnBorderRight( wxCommandEvent &event )
+{
+    
+}
+
+void MainFrame::OnBorderTop( wxCommandEvent &event )
+{
+    
+}
+
+void MainFrame::OnBorderBottom( wxCommandEvent &event )
+{
+    
 }
