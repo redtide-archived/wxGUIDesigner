@@ -13,7 +13,7 @@ project "wxGUIDesigner"
     includedirs             { "../../include"}
     defines                 {"NO_GCC_PRAGMA"}
     flags                   {"ExtraWarnings"}
-    libdirs                 {"../../sdk/lib"}
+    libdirs                 {"../../output/lib/wxguidesigner"}
     links                   {"LibCore", "LibCodeGen"}
 
     configuration {"codelite", "not windows"}

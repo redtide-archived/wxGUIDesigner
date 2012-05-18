@@ -21,6 +21,7 @@ project "LibCore"
     }
     defines             {"MAKINGDLL_CORE"}
     flags               {"ExtraWarnings"}
+    libdirs             {"../../output/lib/wxguidesigner"}
     links               {"LibCodeGen"}
     targetname          ( CustomPrefix .. "core" )
 

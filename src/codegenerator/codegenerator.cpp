@@ -13,6 +13,8 @@
 #include "codegenerator.h"
 #include "luawrapper.h"
 
+#include <wx/msgdlg.h>
+
 using namespace std;
 
 CodeGenerator::CodeGenerator()
@@ -22,16 +24,18 @@ CodeGenerator::CodeGenerator()
 
     arguments.Add(std::string("MyFile"));
 
-    cout << "Value of LANGUAGE_NAME: " << luaEngine.GetVar("LANGUAGE_NAME") << "\n\n";
-    cout << "Call to SourceHeader(file): " << luaEngine.CallFunction("SourceHeader", arguments) << "\n";
+    wxString str = "Value of LANGUAGE_NAME: " + luaEngine.GetVar("LANGUAGE_NAME") + "\n\n";
+    str += "Call to SourceHeader(file): " + luaEngine.CallFunction("SourceHeader", arguments) + "\n";
 
     LuaFunctionArguments classStart;
     classStart.Add(std::string("MyFrame"));
     classStart.Add(std::string("wxFrame"));
     
-    cout << "Call to ClassStart(class, parent): \n" << luaEngine.CallFunction("ClassStart", classStart) << "\n";
+    str += "Call to ClassStart(class, parent): \n" + luaEngine.CallFunction("ClassStart", classStart) + "\n";
 
-    cout << "Call to ClassEnd(class, parent): \n" << luaEngine.CallFunction("ClassEnd", classStart) << "\n";
+    str += "Call to ClassEnd(class, parent): \n" + luaEngine.CallFunction("ClassEnd", classStart) + "\n";
+
+    wxMessageBox( str, "test" );
 }
 
 CodeGenerator::~CodeGenerator()
