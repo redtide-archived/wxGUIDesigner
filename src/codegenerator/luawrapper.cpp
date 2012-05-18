@@ -1,11 +1,11 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name: codegenerator/luawrapper.cpp
-// Purpose:
-// Author: Jefferson González
-// Modified by:
-// Created: 2012/05/17
-// Revision: $Hash$
-// Licence: wxWindows licence
+// Name:        codegenerator/codegenerator.cpp
+// Purpose:     Lua wrapper for code generator library
+// Author:      Jefferson González
+// Modified by: 
+// Created:     2012/05/17
+// Revision:    $Hash$
+// Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "luawrapper.h"

@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name:        codegenerator.h
+// Name:        codegenerator/codegenerator.h
 // Purpose:     Code generator library
 // Author:      Jefferson González
 // Modified by: 

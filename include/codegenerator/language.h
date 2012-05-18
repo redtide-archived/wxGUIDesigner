@@ -1,11 +1,11 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name: codegenerator/language.h
-// Purpose:
-// Author: Jefferson González
-// Modified by:
-// Created: 2012/05/17
-// Revision: $Hash$
-// Licence: wxWindows licence
+// Name:        codegenerator/codegenerator.h
+// Purpose:     Code generator library
+// Author:      Jefferson González
+// Modified by: 
+// Created:     2012/05/17
+// Revision:    $Hash$
+// Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
 #ifndef WXGD_LANGUAGE_H
