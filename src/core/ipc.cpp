@@ -16,15 +16,15 @@
 bool IPCFile::CheckSingleInstance( const wxString &filePath, bool switchTo )
 {
     wxFileName fileName( filePath );
-    if ( !fileName.IsOk() )
+    if( !fileName.IsOk() )
     {
         wxLogError( "IPCFile: Invalid path: %s", filePath );
         return false;
     }
 
-    if ( !fileName.IsAbsolute() )
+    if( !fileName.IsAbsolute() )
     {
-        if ( !fileName.MakeAbsolute() )
+        if( !fileName.MakeAbsolute() )
         {
             wxLogError( "IPCFile: Invalid absolute path: %s", filePath );
             return false;
@@ -39,7 +39,7 @@ bool IPCFile::CheckSingleInstance( const wxString &filePath, bool switchTo )
     wxString forbidden = wxFileName::GetForbiddenChars();
 
     // Replace forbidded characters
-    for ( size_t c = 0; c < forbidden.Length(); ++c )
+    for( size_t c = 0; c < forbidden.Length(); ++c )
     {
         wxString bad( forbidden.GetChar( c ) );
         lockFileName.Replace( bad, "_" );
@@ -56,9 +56,9 @@ bool IPCFile::CheckSingleInstance( const wxString &filePath, bool switchTo )
 #endif
     // Check to see if I already have a server with this name
     // if so, no need to make another.
-    if ( m_server.get() )
+    if( m_server.get() )
     {
-        if ( m_server->GetFilePath() == lockFileName )
+        if( m_server->GetFilePath() == lockFileName )
             return true;
     }
 
@@ -67,11 +67,11 @@ bool IPCFile::CheckSingleInstance( const wxString &filePath, bool switchTo )
         checker.reset( new wxSingleInstanceChecker( lockFileName ) );
     }
 
-    if ( !checker->IsAnotherRunning() )
+    if( !checker->IsAnotherRunning() )
     {
         // This is the first instance of this project,
         // so setup a server and save the single instance checker
-        if ( CreateServer( lockFileName ) )
+        if( CreateServer( lockFileName ) )
         {
             m_checker.swap( checker );
             return true;
@@ -90,7 +90,7 @@ bool IPCFile::CheckSingleInstance( const wxString &filePath, bool switchTo )
         // so temporarily drop the server if there is one
         bool hadServer = false;
         wxString oldName;
-        if ( m_server.get() )
+        if( m_server.get() )
         {
             oldName = m_server->GetFilePath();
             m_server.reset();
@@ -107,24 +107,24 @@ bool IPCFile::CheckSingleInstance( const wxString &filePath, bool switchTo )
         connection.reset( client->MakeConnection( "localhost", lockFileName, lockFileName ) );
 #else
         bool connected = false;
-        for ( int i = m_port; i < m_port + 20; ++i )
+        for( int i = m_port; i < m_port + 20; ++i )
         {
             wxString sPort = wxString::Format( "%i", i );
 
             connection.reset( client->MakeConnection( "localhost", sPort, lockFileName ) );
 
-            if ( connection.get() )
+            if( connection.get() )
             {
                 connected = true;
                 wxChar* pid = (wxChar*)connection->Request( "PID", NULL );
-                if ( pid )
+                if( pid )
                 {
                     wxLogStatus( "%s already open in process %s", lockFileName, pid );
                 }
                 break;
             }
         }
-        if ( !connected )
+        if( !connected )
         {
             wxLogError( "There is a lockfile named '%s', but unable to make a connection to that instance.", lockFileName );
         }
@@ -134,7 +134,7 @@ bool IPCFile::CheckSingleInstance( const wxString &filePath, bool switchTo )
         client.reset();
 
         // Create the server again, if necessary
-        if ( hadServer )
+        if( hadServer )
             CreateServer( oldName );
     }
 
@@ -146,7 +146,7 @@ bool IPCFile::CreateServer( const wxString &serverName )
     wxScopedPtr< IPCFileServer > server( new IPCFileServer( serverName ) );
 
 #ifdef __WXMSW__
-    if ( server->Create( serverName ) )
+    if( server->Create( serverName ) )
     {
         m_server.swap( server );
 
@@ -159,7 +159,7 @@ bool IPCFile::CreateServer( const wxString &serverName )
         return true;
     }
 #else
-    for ( int i = m_port; i < m_port + 20; ++i )
+    for( int i = m_port; i < m_port + 20; ++i )
     {
         wxString nameWithPort = wxString::Format( "%i%s", i, serverName );
         if( server->Create( nameWithPort ) )
@@ -182,15 +182,15 @@ void IPCFile::Reset()
 
 wxConnectionBase* IPCFileServer::OnAcceptConnection( const wxString &topic )
 {
-    if ( topic == m_filePath )
+    if( topic == m_filePath )
     {
         wxFrame *frame = wxDynamicCast( wxTheApp->GetTopWindow(), wxFrame );
-        if ( !frame )
+        if( !frame )
             return NULL;
 
         frame->Enable();
 
-        if ( frame->IsIconized() )
+        if( frame->IsIconized() )
             frame->Iconize( false );
 
         frame->Raise();

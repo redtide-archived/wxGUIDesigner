@@ -7,12 +7,7 @@
 // Revision:    $Hash$
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
-
-#include "main.h"
-
-#include <core/manager.h>
-
-#include <wx/config.h>
+#include <wx/app.h>
 #include <wx/stdpaths.h>
 #include <wx/frame.h>
 
@@ -20,13 +15,23 @@
     #include <wx/sysopt.h>
 #endif
 
-wxIMPLEMENT_APP( wxGUIDesignerApp );
+#include <core/manager.h>
+
+class wxGUIDesignerApp : public wxApp
+{
+public:
+      bool  OnInit();
+      int   OnRun();
+      int   OnExit();
+      ~wxGUIDesignerApp();
+};
+
+wxDECLARE_APP   ( wxGUIDesignerApp );
+wxIMPLEMENT_APP ( wxGUIDesignerApp );
 
 int wxGUIDesignerApp::OnRun()
 {
     wxApp::SetAppDisplayName("wxGUIDesigner");
-
-    delete wxConfigBase::Set( new wxConfig("wxGUIDesigner") );
 
 #ifdef __WXMSW__
     wxSystemOptions::SetOption( "msw.remap", 0 );
@@ -35,9 +40,9 @@ int wxGUIDesignerApp::OnRun()
 
     wxYield();
 
-    m_frame = wxGUIDesigner::Get()->GetMainFrame( NULL );
+    wxFrame *frame = wxGUIDesigner::Get()->GetMainFrame();
 
-    if ( !m_frame )
+    if( !frame )
     {
         wxLogError(_("Error while loading the main frame.") );
         return 1;
@@ -45,8 +50,8 @@ int wxGUIDesignerApp::OnRun()
 
     wxSetWorkingDirectory( wxStandardPaths::Get().GetDataDir() );
 
-    m_frame->Show( true );
-    SetTopWindow( m_frame );
+    frame->Show( true );
+    SetTopWindow( frame );
 
     wxGUIDesigner::Get()->NewProject();
 
@@ -60,6 +65,7 @@ bool wxGUIDesignerApp::OnInit()
 
 int wxGUIDesignerApp::OnExit()
 {
+    wxGUIDesigner::Free();
     return wxApp::OnExit();
 }
 

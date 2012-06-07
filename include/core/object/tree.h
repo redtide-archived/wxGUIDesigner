@@ -31,7 +31,7 @@ class EventNode
 public:
     EventNode( EventInfo eventInfo ) : m_info( eventInfo ), m_hasFunc( false )
     {
-        for ( size_t i = 0; i < m_info->GetTypeCount(); i++ )
+        for( size_t i = 0; i < m_info->GetTypeCount(); i++ )
             m_funcs.Add( wxEmptyString );
     }
 
@@ -75,7 +75,7 @@ public:
 
     wxString GetTypeName( size_t typeIndex  ) const
     {
-        if ( typeIndex < m_info->GetTypeCount() )
+        if( typeIndex < m_info->GetTypeCount() )
             return m_info->GetTypeName( typeIndex );
 
         return wxEmptyString;
@@ -83,7 +83,7 @@ public:
 
     wxString GetTypeDescription( size_t typeIndex  ) const
     {
-        if ( typeIndex < m_info->GetTypeCount() )
+        if( typeIndex < m_info->GetTypeCount() )
             return m_info->GetTypeDescription( typeIndex );
 
         return wxEmptyString;
@@ -170,6 +170,7 @@ public:
     bool        IsReference() const { return m_isRef; }
     bool        IsRoot();
     bool        IsExpanded();
+    bool        IsTopLevel() { return m_info->IsTypeOf( CLASS_TYPE_TOPLEVEL ); }
 
     void        Collapse();
     void        Expand();
@@ -202,10 +203,10 @@ public:
     Objects     GetChildren() const { return m_children; }
     size_t      GetChildCount();
 
+    wxXmlNode  *Serialize( wxXmlNode *parent );
 private:
     friend class ObjectTree;
 
-    wxXmlNode  *Serialize( wxXmlNode *parent );
     wxXmlNode  *SerializeChildren( Objects children, wxXmlNode *parent );
     wxXmlNode  *SerializeProperties( Properties props, wxXmlNode *parent );
 
@@ -225,11 +226,8 @@ private:
 class ObjectTree : public IObjectManager
 {
 public:
-    static ObjectTree *Get();
-    static void     Free();
-
-    virtual void    AddHandler      ( IObjectHandler *handler );
-    virtual void    RemoveHandler   ( IObjectHandler *handler );
+    ObjectTree();
+    ~ObjectTree();
 
     virtual Object  CreateObject    ( const wxString &className,
                                         Object parent = Object() );
@@ -242,25 +240,15 @@ public:
     virtual bool    Serialize       ( const wxString &fileName );
 
 private:
-    ObjectTree();
-    ~ObjectTree();
-
-    bool            CheckType( const wxString &parentType,
+   bool            CheckType( const wxString &parentType,
                                const wxString &childType );
-    void            SendEvent( Object object, ObjectEventType eventType );
 
     size_t          GetChildInfoCount( Object parent, ClassInfo info );
 
     Object          DoCreateObject( Object parentObject, wxXmlNode *parentNode,
                                     bool isReference = false );
-
-    typedef std::list< IObjectHandler * > ObjectHandlers;
-
     Object          m_root;
     Object          m_sel;
-    ObjectHandlers  m_handlers;
-
-    static ObjectTree *ms_instance;
 };
 
 #endif //__CORE_OBJECT_H__

@@ -10,27 +10,27 @@
 /////////////////////////////////////////////////////////////////////////////
 
 // For compilers that support precompilation, includes "wx.h".
-#include "wx/wxprec.h"
+#include <wx/wxprec.h>
 
 #ifdef __BORLANDC__
     #pragma hdrstop
 #endif
 
 #ifndef WX_PRECOMP
-    #include "wx/wx.h"
+    #include <wx/wx.h>
 #endif
 
 #if wxUSE_XRC && wxUSE_PROPGRID
 
-#include "wx/xrc/xh_propgrid.h"
+#include <wx/xrc/xh_propgrid.h>
 
 #ifndef WX_PRECOMP
     #include "wx/intl.h"
 #endif
 
-#include "wx/propgrid/propgrid.h"
-#include "wx/propgrid/propgridpagestate.h"
-#include "wx/propgrid/manager.h"
+#include <wx/propgrid/propgrid.h>
+#include <wx/propgrid/propgridpagestate.h>
+#include <wx/propgrid/manager.h>
 
 wxIMPLEMENT_DYNAMIC_CLASS(wxPropertyGridXmlHandler, wxXmlResourceHandler)
 
@@ -100,7 +100,7 @@ void wxPropertyGridXmlHandler::InitPopulator()
 void wxPropertyGridXmlHandler::PopulatePage( wxPropertyGridPageState* state )
 {
     wxString sColumns(wxS("columns"));
-    if ( HasParam(sColumns) )
+    if( HasParam(sColumns) )
         state->SetColumnCount( GetLong(sColumns) );
 
     m_populator->SetState( state );
@@ -115,7 +115,7 @@ void wxPropertyGridXmlHandler::DonePopulator()
 void wxPropertyGridXmlHandler::HandlePropertyGridParams()
 {
     wxString sVW(wxS("virtualwidth"));
-    if ( HasParam(sVW) )
+    if( HasParam(sVW) )
     {
         int vw = GetLong(sVW);
         m_pg->SetVirtualWidth(vw);
@@ -128,18 +128,18 @@ wxObject *wxPropertyGridXmlHandler::DoCreateResource()
     wxString nodeName = node->GetName();
     wxString emptyString;
 
-    if ( nodeName == wxS("property") )
+    if( nodeName == wxS("property") )
     {
         wxString clas = node->GetAttribute(wxS("class"), emptyString);
 
         wxString label;
         wxString sLabel(wxS("label"));
-        if ( HasParam(sLabel) )
+        if( HasParam(sLabel) )
             label = GetText(sLabel);
 
         wxString name;
         wxString sName(wxS("name"));
-        if ( HasParam(sName) )
+        if( HasParam(sName) )
             name = GetText(sName);
         else
             name = label;
@@ -147,7 +147,7 @@ wxObject *wxPropertyGridXmlHandler::DoCreateResource()
         wxString sValue(wxS("value"));
         wxString value;
         wxString* pValue = NULL;
-        if ( HasParam(sValue) )
+        if( HasParam(sValue) )
         {
             value = GetText(sValue);
             pValue = &value;
@@ -155,7 +155,7 @@ wxObject *wxPropertyGridXmlHandler::DoCreateResource()
 
         wxXmlNode* choicesNode = GetParamNode(wxS("choices"));
         wxPGChoices choices;
-        if ( choicesNode )
+        if( choicesNode )
         {
             choices = m_populator->ParseChoices(choicesNode->GetNodeContent(),
                                                 choicesNode->GetAttribute(wxS("id"), emptyString) );
@@ -163,25 +163,25 @@ wxObject *wxPropertyGridXmlHandler::DoCreateResource()
 
         wxPGProperty* property = m_populator->Add( clas, label, name, pValue, &choices );
 
-        if ( !property )
+        if( !property )
             return NULL;
 
         wxString sFlags(wxS("flags"));
         wxString flags;
-        if ( HasParam(sFlags) )
+        if( HasParam(sFlags) )
             property->SetFlagsFromString( GetText(sFlags) );
 
         wxString sTip(wxS("tip"));
-        if ( HasParam(sTip) )
+        if( HasParam(sTip) )
             property->SetHelpString(GetText(sTip));
 
-        if ( property->GetChildCount() )
+        if( property->GetChildCount() )
         {
             wxPGProperty* pwc = property;
 
             // FIXME
             wxString sExpanded(wxS("expanded"));
-            if ( HasParam(sExpanded) )
+            if( HasParam(sExpanded) )
                 pwc->SetExpanded(GetBool(sExpanded));
         }
 
@@ -190,24 +190,24 @@ wxObject *wxPropertyGridXmlHandler::DoCreateResource()
 
         wxXmlNode *parentNode = node->GetParent();
 
-        if (m_class == wxS("wxPropertyGridPage")    ||
+        if(m_class == wxS("wxPropertyGridPage")    ||
             parentNode->GetName() == wxS("property") )
         {
             wxASSERT( m_manager );
 
             wxString sDesc( wxS("description") );
-            if ( HasParam( sDesc ) )
+            if( HasParam( sDesc ) )
             {
                 wxString text = GetText( sDesc );
                 property->SetHelpString( text );
             }
         }
     }
-    else if ( nodeName == wxS("attribute") )
+    else if( nodeName == wxS("attribute") )
     {
         // attribute
         wxString s1 = node->GetAttribute(wxS("name"), emptyString);
-        if ( s1.length() )
+        if( s1.length() )
         {
             m_populator->AddAttribute( s1, node->GetAttribute(wxS("type"), emptyString),
                                        node->GetNodeContent() );
@@ -234,39 +234,39 @@ wxObject *wxPropertyGridXmlHandler::DoCreateResource()
 
         return control;
     }
-    else if ( nodeName == wxS("choices") )
+    else if( nodeName == wxS("choices") )
     {
         // Add choices list outside of a property
         m_populator->ParseChoices( node->GetNodeContent(),
                                    node->GetAttribute(wxS("id"), emptyString));
     }
-    else if ( nodeName == wxS("splitterpos") )
+    else if( nodeName == wxS("splitterpos") )
     {
         // splitterpos
         wxASSERT(m_populator);
         wxString sIndex = node->GetAttribute(wxS("index"), emptyString);
 
         long index;
-        if ( !sIndex.ToLong(&index, 10) )
+        if( !sIndex.ToLong(&index, 10) )
             index = 0;
 
         wxString s = node->GetNodeContent();
         long pos;
-        if ( wxPropertyGridPopulator::ToLongPCT(s, &pos, m_pg->GetClientSize().x) )
+        if( wxPropertyGridPopulator::ToLongPCT(s, &pos, m_pg->GetClientSize().x) )
             m_populator->GetState()->DoSetSplitterPosition( pos, index, false );
     }
-    else if ( m_class == wxS("wxPropertyGridPage") )
+    else if( m_class == wxS("wxPropertyGridPage") )
     {
         wxPropertyGridManager *manager = wxDynamicCast( m_parentAsWindow, wxPropertyGridManager );
             
-        if ( manager )
+        if( manager )
         {
             wxPropertyGridManager* oldManager = m_manager;
             m_manager = manager;
 
             wxString label;
             wxString sLabel(wxS("label"));
-            if ( HasParam(sLabel) )
+            if( HasParam(sLabel) )
                 label = GetText(sLabel);
             else
                 label = wxString::Format(_("Page %i"),(int)(m_manager->GetPageCount()+1));

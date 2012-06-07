@@ -10,13 +10,13 @@
 -->
 <category name="controls">
     <group name="toplevel" label="Top level">
-        <item>wxFrame</item>
-        <item>wxDialog</item>
-        <item>wxPropertySheetDialog</item>
+        <item>Frame</item>
+        <item>Dialog</item>
+        <item>PropertySheetDialog</item>
         <separator/>
-        <item>wxWizard</item>
-        <item>wxWizardPage</item>
-        <item>wxWizardPageSimple</item>
+        <item>Wizard</item>
+        <item>WizardPage</item>
+        <item>WizardPageSimple</item>
     </group>
     <group name="bars">
         <item>wxToolBar</item>

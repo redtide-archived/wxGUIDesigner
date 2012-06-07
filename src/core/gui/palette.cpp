@@ -7,42 +7,47 @@
 // Revision:    $Hash$
 // Licence:     wxWindows licence
 ////////////////////////////////////////////////////////////////////////////////
-
-#include "core/gui/palette.h"
-#include "core/object/tree.h"
-
-#include "interfaces/iobject.h"
-
 #include <wx/notebook.h>
 
-PaletteHandler::PaletteHandler( wxNotebook *owner ) : m_palette( owner )
+#include "core/gui/handler.h"
+#include "core/gui/palette.h"
+
+wxGDToolPalette::wxGDToolPalette( wxGDHandler *handler, wxWindow* parent )
+:
+wxNotebook( parent, wxID_ANY ),
+m_handler( handler )
 {
-    m_palette->SetImageList( new wxImageList( 16, 16 ) );
+    SetImageList( new wxImageList(16,16) );
+
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDToolPalette::OnToolClicked, this );
 }
 
-void PaletteHandler::OnToolClicked( wxCommandEvent &event )
+wxGDToolPalette::~wxGDToolPalette()
+{
+}
+
+void wxGDToolPalette::OnToolClicked( wxCommandEvent &event )
 {
     wxToolGroup *tg = wxDynamicCast( event.GetEventObject(), wxToolGroup );
-
-    if ( tg )
+    if( tg )
     {
         wxWindowID toolId = event.GetId();
         wxString   clsNme = tg->GetToolShortHelp( toolId );
-        int        selPge = m_palette->GetSelection();
-        wxString   pgeNme = m_palette->GetPageText( selPge );
-        ObjectTree::Get()->CreateObject( clsNme );
+        int        selPge = GetSelection();
+        wxString   pgeNme = GetPageText( selPge );
+        m_handler->CreateObject( clsNme, GetId() ); // TODO: Assign winid
     }
 }
 
-wxToolGroup *PaletteHandler::AddGroup( const wxString &label,
-                                       const wxBitmap &bitmap )
+wxToolGroup *wxGDToolPalette::AddGroup( const wxString &label,
+                                        const wxBitmap &bitmap )
 {
-    wxToolGroup *tg = new wxToolGroup( m_palette, wxID_ANY );
+    wxToolGroup *tg = new wxToolGroup( this, wxID_ANY );
 
-    m_palette->GetImageList()->Add( bitmap );
+    GetImageList()->Add( bitmap );
 
     m_toolGroups.push_back( tg );
-    m_palette->AddPage( tg, label, false, m_palette->GetPageCount() );
+    AddPage( tg, label, false, GetPageCount() );
 
     return tg;
 }

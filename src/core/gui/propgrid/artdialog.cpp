@@ -25,7 +25,7 @@
     { \
         int ind; \
         wxIcon icon = wxArtProvider::GetIcon( id, client, size ); \
-        if ( icon.IsOk() ) \
+        if( icon.IsOk() ) \
             ind = images->Add( icon ); \
         else \
             ind = 0; \
@@ -214,7 +214,8 @@ void ArtProviderDialog::SetArtClient( const wxArtClient& client )
     int index = 0;
 
     long sel = m_lvwArt->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_FOCUSED);
-    if (sel < 0) sel = 0;
+    if( sel < 0 )
+        sel = 0;
 
     m_lvwArt->DeleteAllItems();
     FillBitmaps( ils, m_lvwArt, index, client, wxSize( 16, 16 ) );

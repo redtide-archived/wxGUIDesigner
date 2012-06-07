@@ -17,16 +17,19 @@
 class wxTreeCtrl;
 class wxTreeEvent;
 
-class TreeViewHandler : public IObjectHandler
+class wxGDHandler;
+class wxGDObjectEvent;
+
+class wxGDTreeView : public wxTreeCtrl
 {
-    friend class GUIManager;
+public:
+    wxGDTreeView( wxGDHandler *handler, wxWindow* parent );
+    ~wxGDTreeView();
 
-    TreeViewHandler( wxTreeCtrl *owner ) : m_treeView( owner ) {}
-
-    virtual void OnObjectCreated ( Object object );
-    virtual void OnObjectDeleted ( Object object );
-    virtual void OnObjectExpanded( Object object );
-    virtual void OnObjectSelected( Object object );
+    virtual void OnObjectCreated ( wxGDObjectEvent &event );
+    virtual void OnObjectDeleted ( wxGDObjectEvent &event );
+    virtual void OnObjectExpanded( wxGDObjectEvent &event );
+    virtual void OnObjectSelected( wxGDObjectEvent &event );
 
     void OnBeginDrag        ( wxTreeEvent &event );
     void OnEndDrag          ( wxTreeEvent &event );
@@ -35,7 +38,8 @@ class TreeViewHandler : public IObjectHandler
     void OnItemExpanded     ( wxTreeEvent &event );
     void OnItemRightClick   ( wxTreeEvent &event );
 
-    wxTreeCtrl *m_treeView;
+private:
+    wxGDHandler *m_handler;
 };
 
 #endif //__CORE_TREEVIEW_H__

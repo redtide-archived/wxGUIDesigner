@@ -7,149 +7,188 @@
 // Revision:    $Hash$
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
+#include <wx/imaglist.h>
+#include <wx/treectrl.h>
+#include <wx/xrc/xmlres.h>
 
 #include "core/gui/treeview.h"
 #include "core/gui/iconprovider.h"
-#include "core/gui/manager.h"
+#include "core/gui/handler.h"
+#include "core/events.h"
 #include "core/object/tree.h"
-
-#include <wx/imaglist.h>
-#include <wx/treectrl.h>
-
-class TreeViewItemData : public wxTreeItemData
+//============================================================================
+// wxGDTreeItemData
+//============================================================================
+class wxGDTreeItemData : public wxTreeItemData
 {
 public:
-    TreeViewItemData( Object object ) : m_object( object ) {}
-    ~TreeViewItemData() {}
+    wxGDTreeItemData( Object object ) : m_object( object ) {}
+    ~wxGDTreeItemData() {}
 
     Object GetObject() { return m_object; }
 
 private:
     Object m_object;
 };
-
-void TreeViewHandler::OnObjectCreated( Object object )
+//============================================================================
+// wxGDTreeView
+//============================================================================
+wxGDTreeView::wxGDTreeView( wxGDHandler *handler, wxWindow *parent )
+:
+wxTreeCtrl( parent, wxID_ANY, wxDefaultPosition, wxDefaultSize,
+                    wxTR_DEFAULT_STYLE | wxTR_HIDE_ROOT ),
+m_handler( handler )
 {
+    wxImageList *imageList = new wxImageList(22,22);
+    AssignImageList( imageList );
+
+    wxBitmap bmp = wxXmlResource::Get()->LoadBitmap("project");
+    int imgIndex = -1;
+
+    if( bmp.IsOk() )
+        imgIndex = imageList->Add( bmp );
+
+    AddRoot( "Project", imgIndex );
+
+    Bind( wxEVT_COMMAND_TREE_BEGIN_DRAG,        &wxGDTreeView::OnBeginDrag,     this );
+    Bind( wxEVT_COMMAND_TREE_END_DRAG,          &wxGDTreeView::OnEndDrag,       this );
+    Bind( wxEVT_COMMAND_TREE_ITEM_COLLAPSED,    &wxGDTreeView::OnItemCollapsed, this );
+    Bind( wxEVT_COMMAND_TREE_ITEM_EXPANDED,     &wxGDTreeView::OnItemExpanded,  this );
+    Bind( wxEVT_COMMAND_TREE_ITEM_RIGHT_CLICK,  &wxGDTreeView::OnItemRightClick,this );
+    Bind( wxEVT_COMMAND_TREE_SEL_CHANGED,       &wxGDTreeView::OnSelChanged,    this );
+
+    Bind( wxGD_EVT_OBJECT_CREATED, &wxGDTreeView::OnObjectCreated, this );
+}
+
+wxGDTreeView::~wxGDTreeView()
+{
+}
+
+void wxGDTreeView::OnObjectCreated( wxGDObjectEvent &event )
+{
+    Object object = event.GetObject();
+    if( !object )
+        return;
+
     wxString name   = object->GetClassName();
-    int      imgIdx = GUIManager::Get()->GetImageIndex( name );
+    int      imgIdx = m_handler->GetImageIndex( name );
 
     wxTreeItemId item;
-    if ( object->IsRoot() )
+    if( object->IsRoot() )
     {
-        item = m_treeView->AddRoot( name, imgIdx );
+        item = AddRoot( name, imgIdx );
     }
     else
     {
         wxTreeItemId parent;
-        if ( object->GetParent()->IsRoot() )
+        if( object->GetParent()->IsRoot() )
         {
-            parent = m_treeView->GetRootItem();
+            parent = GetRootItem();
         }
         else
         {
-            parent = m_treeView->GetSelection();
-            while ( parent.IsOk() )
+            parent = GetSelection();
+            while( parent.IsOk() )
             {
-                TreeViewItemData *data =
-                            dynamic_cast< TreeViewItemData * >
-                                        ( m_treeView->GetItemData( parent ) );
-                if ( !data )
+                wxGDTreeItemData *data =
+                            dynamic_cast< wxGDTreeItemData * >
+                                        ( GetItemData( parent ) );
+                if( !data )
                     return;
 
-                if ( object->GetParent() == data->GetObject() )
+                if( object->GetParent() == data->GetObject() )
                     break;
 
-                parent = m_treeView->GetItemParent( parent );
+                parent = GetItemParent( parent );
             }
 
-            if ( !parent.IsOk() )
+            if( !parent.IsOk() )
                 return;
         }
 
-        item = m_treeView->AppendItem( parent, name, imgIdx );
+        item = AppendItem( parent, name, imgIdx );
     }
 
-    m_treeView->SetItemData( item, new TreeViewItemData( object ) );
-    m_treeView->SelectItem( item );
+    SetItemData( item, new wxGDTreeItemData( object ) );
+    SelectItem( item );
 }
 
-void TreeViewHandler::OnObjectDeleted( Object object )
+void wxGDTreeView::OnObjectDeleted( wxGDObjectEvent &event )
 {
-    wxLogDebug( "Deleted %s", object->GetClassName() );
+//  wxLogDebug( "Deleted %s", object->GetClassName() );
 }
 
-void TreeViewHandler::OnObjectExpanded( Object object )
+void wxGDTreeView::OnObjectExpanded( wxGDObjectEvent &event )
 {
-    wxLogDebug( "Expanded %s", object->GetClassName() );
+//  wxLogDebug( "Expanded %s", object->GetClassName() );
 }
 
-void TreeViewHandler::OnObjectSelected( Object object )
+void wxGDTreeView::OnObjectSelected( wxGDObjectEvent &event )
 {
-    wxLogDebug( "Selected %s", object->GetClassName() );
+//  wxLogDebug( "Selected %s", object->GetClassName() );
 }
 
-void TreeViewHandler::OnBeginDrag( wxTreeEvent &event )
+void wxGDTreeView::OnBeginDrag( wxTreeEvent &event )
 {
     event.Allow();
 }
 
-void TreeViewHandler::OnEndDrag( wxTreeEvent &event )
+void wxGDTreeView::OnEndDrag( wxTreeEvent &event )
 {
     
 }
 
-void TreeViewHandler::OnSelChanged( wxTreeEvent &event )
+void wxGDTreeView::OnSelChanged( wxTreeEvent &event )
 {
     wxTreeItemId item = event.GetItem();
-    TreeViewItemData *data =
-    dynamic_cast< TreeViewItemData * >( m_treeView->GetItemData( item ) );
+    wxGDTreeItemData *data =
+    dynamic_cast< wxGDTreeItemData * >( GetItemData( item ) );
 
-    if ( data )
+    if( data )
     {
         Object object( data->GetObject() );
-
-        if ( object.get() )
-            ObjectTree::Get()->SelectObject( object );
+        if( object )
+            m_handler->SelectObject( object, GetId() ); // TODO: Assign winid
     }
 
     event.Skip();
 }
 
-void TreeViewHandler::OnItemCollapsed( wxTreeEvent &event )
+void wxGDTreeView::OnItemCollapsed( wxTreeEvent &event )
 {
     wxTreeItemId      item = event.GetItem();
-    TreeViewItemData *data =
-    dynamic_cast< TreeViewItemData * >( m_treeView->GetItemData( item ) );
+    wxGDTreeItemData *data =
+    dynamic_cast< wxGDTreeItemData * >( GetItemData( item ) );
 
-    if ( data )
+    if( data )
     {
         Object object( data->GetObject() );
 
-        if ( object.get() )
+        if( object )
             object->Collapse();
     }
 
     event.Skip();
 }
 
-void TreeViewHandler::OnItemExpanded( wxTreeEvent &event )
+void wxGDTreeView::OnItemExpanded( wxTreeEvent &event )
 {
     wxTreeItemId      item = event.GetItem();
-    TreeViewItemData *data =
-    dynamic_cast< TreeViewItemData * >( m_treeView->GetItemData( item ) );
+    wxGDTreeItemData *data =
+    dynamic_cast< wxGDTreeItemData * >( GetItemData( item ) );
 
-    if ( data )
+    if( data )
     {
         Object object( data->GetObject() );
 
-        if ( object.get() )
+        if( object )
             object->Expand();
     }
 
     event.Skip();
 }
 
-void TreeViewHandler::OnItemRightClick( wxTreeEvent &event )
+void wxGDTreeView::OnItemRightClick( wxTreeEvent &event )
 {
     
 }

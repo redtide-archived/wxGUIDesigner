@@ -34,16 +34,16 @@ const wxString wxGDConv::HexToString( int value )
 
 const ClassType wxGDConv::ClassTypeFromString( const wxString &value )
 {
-    if      ( value == "abstract"  ) return CLASS_TYPE_ABSTRACT;
-    else if ( value == "container" ) return CLASS_TYPE_CONTAINER;
-    else if ( value == "custom"    ) return CLASS_TYPE_CUSTOM;
-    else if ( value == "item"      ) return CLASS_TYPE_ITEM;
-    else if ( value == "layout"    ) return CLASS_TYPE_LAYOUT;
-    else if ( value == "root"      ) return CLASS_TYPE_ROOT;
-    else if ( value == "sizer"     ) return CLASS_TYPE_SIZER;
-    else if ( value == "toplevel"  ) return CLASS_TYPE_TOPLEVEL;
-    else if ( value == "window"    ) return CLASS_TYPE_WINDOW;
-    else if ( value == "widget"    ) return CLASS_TYPE_WIDGET;
+    if     ( value == "abstract"  ) return CLASS_TYPE_ABSTRACT;
+    else if( value == "container" ) return CLASS_TYPE_CONTAINER;
+    else if( value == "custom"    ) return CLASS_TYPE_CUSTOM;
+    else if( value == "item"      ) return CLASS_TYPE_ITEM;
+    else if( value == "layout"    ) return CLASS_TYPE_LAYOUT;
+    else if( value == "root"      ) return CLASS_TYPE_ROOT;
+    else if( value == "sizer"     ) return CLASS_TYPE_SIZER;
+    else if( value == "toplevel"  ) return CLASS_TYPE_TOPLEVEL;
+    else if( value == "window"    ) return CLASS_TYPE_WINDOW;
+    else if( value == "widget"    ) return CLASS_TYPE_WIDGET;
 
     return CLASS_TYPE_UNKNOWN;
 }
@@ -52,7 +52,7 @@ const int wxGDConv::IntFromString( const wxString &value )
 {
     int ret = 0;
 
-    if ( !value.empty() )
+    if( !value.empty() )
         ret = wxAtoi( value );
 
     return ret;
@@ -60,10 +60,10 @@ const int wxGDConv::IntFromString( const wxString &value )
 
 const wxColour wxGDConv::GetSystemColour( const wxString &name )
 {
-    if ( !name.empty() )
+    if( !name.empty() )
     {
         #define SYSCLR(clr) \
-            if ( name == #clr ) return wxSystemSettings::GetColour( clr );
+            if( name == #clr ) return wxSystemSettings::GetColour( clr );
         SYSCLR( wxSYS_COLOUR_SCROLLBAR )
         SYSCLR( wxSYS_COLOUR_BACKGROUND )
         SYSCLR( wxSYS_COLOUR_DESKTOP )
@@ -106,12 +106,21 @@ const wxColour wxGDConv::GetSystemColour( const wxString &name )
     return wxNullColour;
 }
 
+const bool wxGDConv::IsDark( const wxColour &colour )
+{
+    int average = ( colour.Red() + colour.Green() + colour.Blue() ) / 3;
+    if ( average < 127 )
+        return true;
+
+    return false;
+}
+
 const wxInt32 wxGDConv::GetSystemColourIndex( const wxString &name )
 {
-    if ( !name.empty() )
+    if( !name.empty() )
     {
         #define SYSCLRIDX( clr ) \
-            if ( name == #clr ) return clr;
+            if( name == #clr ) return clr;
         SYSCLRIDX( wxSYS_COLOUR_SCROLLBAR )
         SYSCLRIDX( wxSYS_COLOUR_BACKGROUND )
         SYSCLRIDX( wxSYS_COLOUR_DESKTOP )
@@ -156,10 +165,10 @@ const wxInt32 wxGDConv::GetSystemColourIndex( const wxString &name )
 
 const wxFont wxGDConv::GetSystemFont( const wxString &name )
 {
-    if ( !name.empty() )
+    if( !name.empty() )
     {
         #define SYSFONT(font) \
-            if ( name == #font ) return wxSystemSettings::GetFont( font );
+            if( name == #font ) return wxSystemSettings::GetFont( font );
         SYSFONT( wxSYS_OEM_FIXED_FONT )
         SYSFONT( wxSYS_ANSI_FIXED_FONT )
         SYSFONT( wxSYS_ANSI_VAR_FONT )
@@ -191,7 +200,7 @@ const Colour wxGDConv::StringToColourInfo( const wxString &value )
 
     wxColour colour = wxNullColour;
 
-    if ( ok )
+    if( ok )
         colour = wxColour( r, g, b );
 
     Colour col = { ColourCustom, colour };

@@ -32,7 +32,7 @@ wxSizeProperty::~wxSizeProperty() {}
 
 void wxSizeProperty::RefreshChildren()
 {
-    if ( !GetChildCount() ) return;
+    if( !GetChildCount() ) return;
 
     const wxSize& size = wxSizeRefFromVariant( m_value );
 
@@ -47,7 +47,7 @@ wxVariant wxSizeProperty::ChildChanged( wxVariant& thisValue,
     wxSize& size = wxSizeRefFromVariant( thisValue );
 
     int val = childValue.GetLong();
-    switch ( childIndex )
+    switch( childIndex )
     {
     case 0:
         size.x = val;
@@ -82,7 +82,8 @@ wxPointProperty::~wxPointProperty() { }
 
 void wxPointProperty::RefreshChildren()
 {
-    if ( !GetChildCount() ) return;
+    if( !GetChildCount() )
+        return;
 
     const wxPoint& point = wxPointRefFromVariant( m_value );
 
@@ -97,7 +98,7 @@ wxVariant wxPointProperty::ChildChanged(wxVariant& thisValue,
     wxPoint& point = wxPointRefFromVariant( thisValue );
 
     int val = childValue.GetLong();
-    switch ( childIndex )
+    switch( childIndex )
     {
     case 0:
         point.x = val;
@@ -187,7 +188,7 @@ wxGDColourProperty::wxGDColourProperty( const wxString& label,
                             gs_cp_labels, gs_cp_values,
                             &gs_wxGDColourProperty_choicesCache, value )
 {
-    if ( &value )
+    if( &value )
         Init( value.m_type, value.m_colour );
     else
         SetValueToUnspecified();
@@ -196,5 +197,3 @@ wxGDColourProperty::wxGDColourProperty( const wxString& label,
 wxGDColourProperty::~wxGDColourProperty()
 {
 }
-
-

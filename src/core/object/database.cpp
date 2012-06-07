@@ -334,14 +334,6 @@ void ClassInfoDB::Parse( wxXmlNode *classNode, bool recursively )
         return;
     }
 
-    bool listed = m_classList.Index( name ) != wxNOT_FOUND;
-    ClassType type = wxGDConv::ClassTypeFromString
-                    ( classNode->GetAttribute("type") );
-
-    bool isBase   = ( type == CLASS_TYPE_ABSTRACT );
-    bool isItem   = ( type == CLASS_TYPE_ITEM );
-    bool isCustom = ( type == CLASS_TYPE_CUSTOM );
-    bool isRoot   = ( type == CLASS_TYPE_ROOT );
     // Check only real classes
     // - Base   classes: not instantiable.
     // - Item   classes: pseudo classes, no need to check them here.
@@ -349,10 +341,16 @@ void ClassInfoDB::Parse( wxXmlNode *classNode, bool recursively )
     // - Root class is application specific.
     //
     // Disabled classes in XML (wxXML_COMMENT_NODEs) will be skipped.
-
-    if( !isBase && !isItem && !isCustom && !isRoot )
+    ClassType type =
+            wxGDConv::ClassTypeFromString( classNode->GetAttribute("type") );
+    if
+    (
+        (type != CLASS_TYPE_ABSTRACT) && (type != CLASS_TYPE_ITEM) &&
+        (type != CLASS_TYPE_CUSTOM)   && (type != CLASS_TYPE_ROOT) &&
+        (type != CLASS_TYPE_TOPLEVEL) && (!name.Contains("Wizard"))
+    )
     {
-        if( !listed )
+        if( m_classList.Index( name ) == wxNOT_FOUND )
         {
             wxLogError( "Class '%s' was not found in registered list.", name );
             return;
@@ -363,6 +361,7 @@ void ClassInfoDB::Parse( wxXmlNode *classNode, bool recursively )
             return;
         }
     }
+
 
     //wxLogDebug( "Loading class %s", name );
 

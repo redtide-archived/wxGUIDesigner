@@ -47,7 +47,7 @@ CodeGenerator *CodeGenerator::ms_instance = NULL;
 
 CodeGenerator *CodeGenerator::Get()
 {
-    if ( !ms_instance )
+    if( !ms_instance )
         ms_instance = new CodeGenerator;
 
     return ms_instance;

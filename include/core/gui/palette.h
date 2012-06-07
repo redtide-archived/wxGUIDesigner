@@ -25,20 +25,19 @@
 class wxEvent;
 class wxNotebook;
 
-class PaletteHandler
+class wxGDToolPalette : public wxNotebook
 {
 public:
-    PaletteHandler( wxNotebook *owner );
+    wxGDToolPalette( wxGDHandler *handler, wxWindow* parent );
+    ~wxGDToolPalette();
 
     wxToolGroup *AddGroup( const wxString &label, const wxBitmap &bitmap );
 
 private:
     void OnToolClicked( wxCommandEvent &event );
 
-    wxVector< wxToolGroup * >  m_toolGroups;
-    wxNotebook                  *m_palette;
-
-    friend class GUIManager;
+    wxGDHandler              *m_handler;
+    wxVector< wxToolGroup * > m_toolGroups;
 };
 
 #endif //__CORE_PALETTE_H__

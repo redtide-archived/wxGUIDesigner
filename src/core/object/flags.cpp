@@ -54,7 +54,7 @@ wxFlagsManager *wxFlagsManager::ms_instance = NULL;
 
 wxFlagsManager *wxFlagsManager::Get()
 {
-    if ( !ms_instance )
+    if( !ms_instance )
         ms_instance = new wxFlagsManager;
 
     return ms_instance;
@@ -62,7 +62,7 @@ wxFlagsManager *wxFlagsManager::Get()
 
 void wxFlagsManager::Free()
 {
-    if ( ms_instance )
+    if( ms_instance )
     {
         delete ms_instance;
         ms_instance = NULL;
@@ -77,9 +77,9 @@ void wxFlagsManager::AddFlag( const wxString& name, int value )
 
 int wxFlagsManager::GetFlag( const wxString &name )
 {
-    for ( size_t i = 0; i < m_flagValues.GetCount(); i++ )
+    for( size_t i = 0; i < m_flagValues.GetCount(); i++ )
     {
-        if ( m_flagNames.Item( i ) == name )
+        if( m_flagNames.Item( i ) == name )
             return m_flagValues.Item( i );
     }
 

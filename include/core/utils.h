@@ -7,7 +7,6 @@
 // Revision:    $Hash$
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
-
 #ifndef __CORE_UTILS_H__
 #define __CORE_UTILS_H__
 
@@ -26,7 +25,13 @@ inline wxWindow *wxFindWindowById( long winid, const wxWindow *parent = NULL )
 
 inline wxString GetDataBasePath()
 {
-    return wxStandardPaths::Get().GetResourcesDir() + wxFILE_SEP_PATH + "db";
+#ifdef __WXMSW__
+    return wxStandardPaths::Get().GetDataDir() + wxFILE_SEP_PATH + "db";
+#else
+    return wxStandardPaths::Get().GetResourcesDir().BeforeLast( wxFILE_SEP_PATH ) +
+                                                wxFILE_SEP_PATH + "wxguidesigner" +
+                                                wxFILE_SEP_PATH + "db";
+#endif
 }
 
 inline wxString GetResourcePath()
@@ -45,6 +50,7 @@ namespace wxGDConv
     const int       StringToHex         ( const wxString &text );
     const ClassType ClassTypeFromString ( const wxString &value );
     const int       IntFromString       ( const wxString &value );
+    const bool      IsDark              ( const wxColour &colour );
     const wxColour  GetSystemColour     ( const wxString &name );
     const wxInt32   GetSystemColourIndex( const wxString &name );
     const wxFont    GetSystemFont       ( const wxString &name );

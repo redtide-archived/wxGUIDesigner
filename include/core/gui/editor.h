@@ -7,27 +7,50 @@
 // Revision:    $Hash$
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
-
-#ifndef __CORE_GUI_EDITOR_H__
-#define __CORE_GUI_EDITOR_H__
+#ifndef __WXGD_GUI_EDITOR_H__
+#define __WXGD_GUI_EDITOR_H__
 
 #include "interfaces/iobject.h"
 #include "core/defs.h"
 
 class wxNotebook;
+class wxPanel;
+class wxScrolledWindow;
+class wxStaticBitmap;
+class wxStaticText;
+class wxWindow;
 
-class EditorHandler : public IObjectHandler
+class wxGDHandler;
+class wxGDObjectEvent;
+class wxGDTitleBarPanel;
+class wxGDResizingPanel;
+class wxGlossyButton;
+
+class wxGDEditorBook : public wxNotebook
 {
-    friend class GUIManager;
+public:
+    wxGDEditorBook( wxGDHandler *handler, wxWindow* parent );
+    ~wxGDEditorBook();
 
-    EditorHandler( wxNotebook *owner ) : m_editBook( owner ) {}
+    virtual void OnObjectCreated ( wxGDObjectEvent &event );
+    virtual void OnObjectDeleted ( wxGDObjectEvent &event );
+    virtual void OnObjectExpanded( wxGDObjectEvent &event );
+    virtual void OnObjectSelected( wxGDObjectEvent &event );
 
-    virtual void OnObjectCreated ( Object object );
-    virtual void OnObjectDeleted ( Object object );
-    virtual void OnObjectExpanded( Object object );
-    virtual void OnObjectSelected( Object object );
+private:
+    wxGDHandler         *m_handler;
+    wxScrolledWindow    *m_scrolled;
+    wxGDResizingPanel   *m_resizer;
+    wxPanel             *m_border;
+    wxPanel             *m_designer;
+    wxGDTitleBarPanel   *m_title;
+    wxPanel             *m_client;
 
-    wxNotebook *m_editBook;
+    wxStaticText        *m_titleLbl;
+    wxStaticBitmap      *m_titleBmp;
+    wxGlossyButton      *m_titleBmpMin;
+    wxGlossyButton      *m_titleBmpMax;
+    wxGlossyButton      *m_titleBmpClose;
 };
 
-#endif //__CORE_GUI_EDITOR_H__
+#endif //__WXGD_GUI_EDITOR_H__

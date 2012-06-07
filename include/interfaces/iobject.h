@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name:        interfaces/iwidget.h
+// Name:        interfaces/iobject.h
 // Purpose:     
 // Author:      Andrea Zanellato
 // Modified by: 
@@ -14,6 +14,29 @@
 #include "core/defs.h"
 
 class wxString;
+
+class wxWindow;
+class wxDialog;
+class wxMenuBar;
+class wxNotebook;
+class wxFrame;
+class wxPanel;
+class wxTreeCtrl;
+
+using namespace std::tr1;
+
+class IGUIDesigner
+{
+public:
+    IGUIDesigner() {}
+    virtual ~IGUIDesigner() {}
+    virtual wxDialog        *GetAboutDialog      ( wxWindow * ) = 0;
+    virtual wxPanel         *GetDesignPanel()                   = 0;
+    virtual wxNotebook      *GetEditorBook       ( wxWindow * ) = 0;
+    virtual wxNotebook      *GetPropertyBook     ( wxWindow * ) = 0;
+    virtual wxNotebook      *GetPaletteBook      ( wxWindow * ) = 0;
+    virtual wxTreeCtrl      *GetTreeView         ( wxWindow * ) = 0;
+};
 //-----------------------------------------------------------------------------
 // IObject Class Interface
 //-----------------------------------------------------------------------------
@@ -29,32 +52,12 @@ public:
 //  virtual wxString GetName()        const = 0;
 };
 //-----------------------------------------------------------------------------
-// IObjectHandler Class Interface
-//-----------------------------------------------------------------------------
-
-class IObjectHandler
-{
-public:
-    virtual ~IObjectHandler() {}
-
-    virtual void OnObjectCreated ( Object ) = 0;
-    virtual void OnObjectDeleted ( Object ) = 0;
-    virtual void OnObjectExpanded( Object ) = 0;
-    virtual void OnObjectSelected( Object ) = 0;
-
-protected:
-    IObjectHandler() {}
-};
-//-----------------------------------------------------------------------------
 // IObjectManager Class Interface
 //-----------------------------------------------------------------------------
 
 class IObjectManager
 {
 public:
-    virtual void    AddHandler     ( IObjectHandler * ) = 0;
-    virtual void    RemoveHandler  ( IObjectHandler * ) = 0;
-
     virtual Object  CreateObject   ( const wxString &, Object ) = 0;
     virtual Object  GetSelectObject() const = 0;
 

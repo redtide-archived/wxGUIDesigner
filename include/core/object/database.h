@@ -106,7 +106,7 @@ public:
 
     wxString GetTypeName( size_t index ) const
     {
-        if ( index < m_evtTypes.size() )
+        if( index < m_evtTypes.size() )
             return m_evtTypes.at( index )->GetName();
 
         return wxEmptyString;
@@ -114,7 +114,7 @@ public:
 
     wxString GetTypeDescription( size_t index ) const
     {
-        if ( index < m_evtTypes.size() )
+        if( index < m_evtTypes.size() )
             return m_evtTypes.at( index )->GetDescription();
 
         return wxEmptyString;

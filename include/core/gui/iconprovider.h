@@ -9,8 +9,8 @@
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef __CORE_GUI_ARTPROVIDER_H__
-#define __CORE_GUI_ARTPROVIDER_H__
+#ifndef __WXGD_GUI_ARTPROVIDER_H__
+#define __WXGD_GUI_ARTPROVIDER_H__
 
 #include "core/dllimpexp.h"
 
@@ -59,32 +59,29 @@ private:
     Items    m_items;
 };
 //-----------------------------------------------------------------------------
-//  IconProvider
+//  wxGDArtProvider
 //-----------------------------------------------------------------------------
 
-class DLLIMPEXP_CORE IconProvider
+class DLLIMPEXP_CORE wxGDArtProvider
 {
 public:
-    static IconProvider *Get();
-    static void Free();
+    wxGDArtProvider();
+    ~wxGDArtProvider();
 
     bool SelectCategory( const wxString &category );
 
-    size_t   GetGroupCount() { return m_cts.at(m_sel).size(); }
-    wxString GetGroupName( size_t index ) const;
-    wxString GetGroupLabel( size_t index ) const;
-    wxBitmap GetGroupBitmap( size_t index ) const;
+    size_t   GetGroupCount();
+    wxString GetGroupName   ( size_t index );
+    wxString GetGroupLabel  ( size_t index );
+    wxBitmap GetGroupBitmap ( size_t index );
 
-    size_t   GetItemCount( size_t groupIndex );
-    wxString GetItemLabel( size_t groupIndex, size_t itemIndex ) const;
-    wxBitmap GetItemBitmap( size_t groupIndex, size_t itemIndex ) const;
+    size_t   GetItemCount   ( size_t groupIndex );
+    wxString GetItemLabel   ( size_t groupIndex, size_t itemIndex );
+    wxBitmap GetItemBitmap  ( size_t groupIndex, size_t itemIndex );
 
 private:
-    IconProvider() : m_sel( wxEmptyString ) { Init(); }
-    ~IconProvider() { m_cts.erase( m_cts.begin(), m_cts.end() ); }
-
-    IconProvider( const IconProvider& );
-    IconProvider& operator=( IconProvider const& );
+    wxGDArtProvider( const wxGDArtProvider& );
+    wxGDArtProvider& operator=( wxGDArtProvider const& );
 
     void     Init();
     bool     CheckIconDB();
@@ -98,8 +95,6 @@ private:
 
     wxString       m_sel;
     IconCategories m_cts;
-
-    static IconProvider *ms_instance;
 };
 
-#endif //__CORE_GUI_ARTPROVIDER_H__
+#endif //__WXGD_GUI_ARTPROVIDER_H__

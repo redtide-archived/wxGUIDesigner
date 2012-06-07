@@ -7,6 +7,11 @@
 // Revision:    $Hash$
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
+#include <wx/html/htmlwin.h>
+#include <wx/propgrid/propgrid.h>
+#include <wx/splitter.h>
+#include <wx/tokenzr.h>
+#include <wx/xrc/xmlres.h>
 
 #include "core/gui/propgrid/propgrid.h"
 #include "core/gui/propgrid/propbmp.h"
@@ -17,12 +22,6 @@
 #include "core/object/tree.h"
 #include "core/utils.h"
 #include "core/defs.h"
-
-#include <wx/html/htmlwin.h>
-#include <wx/propgrid/propgrid.h>
-#include <wx/splitter.h>
-#include <wx/tokenzr.h>
-#include <wx/xrc/xmlres.h>
 
 PropBookHandler::PropBookHandler( wxWindow *owner ) : m_propBook( owner )
 {
@@ -236,6 +235,7 @@ void PropBookHandler::OnPGSelected( wxPropertyGridEvent &event )
 
         htmDesc->SetPage( description );
     }
+
     event.Skip();
 }
 

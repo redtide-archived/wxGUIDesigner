@@ -39,14 +39,14 @@ wxObject *wxStyledTextCtrlXmlHandler::DoCreateResource()
 
     SetupWindow( stc );
 
-    if ( HasParam("font") )
+    if( HasParam("font") )
     {
         wxFont font = GetFont("font");
         stc->StyleSetFont( wxSTC_STYLE_DEFAULT, font );
     }
 
     // Line Numbers
-    if ( GetBool("line_numbers") )
+    if( GetBool("line_numbers") )
     {
         stc->SetMarginType( 0, wxSTC_MARGIN_NUMBER );
         stc->SetMarginWidth( 0, stc->TextWidth( wxSTC_STYLE_LINENUMBER, "_99999" ) );
@@ -74,7 +74,7 @@ wxObject *wxStyledTextCtrlXmlHandler::DoCreateResource()
     stc->MarkerSetForeground( wxSTC_MARKNUM_FOLDEREND,      wxColour("WHITE") );
 
     // Folding
-    if ( GetBool("fold") )
+    if( GetBool("fold") )
     {
         stc->SetMarginType ( 1, wxSTC_MARGIN_SYMBOL );
         stc->SetMarginMask ( 1, wxSTC_MASK_FOLDERS );
@@ -88,19 +88,19 @@ wxObject *wxStyledTextCtrlXmlHandler::DoCreateResource()
         stc->SetMarginWidth( 1, 0 );
 
     // Indentation Guides
-    if ( HasParam("indentation_guides") )
+    if( HasParam("indentation_guides") )
         stc->SetIndentationGuides( GetBool("indentation_guides") );
 
     stc->SetMarginWidth( 2, 0 );
 
     // Lexers
-    if ( HasParam("lexer") )
+    if( HasParam("lexer") )
     {
         int lexer = ( int )GetLong("lexer");
 
         stc->SetLexer( lexer );
 
-        if ( HasParam("keywords") )
+        if( HasParam("keywords") )
         {
             wxString keywords = GetParamValue("keywords");
             stc->SetKeyWords( 0, keywords );
@@ -110,7 +110,7 @@ wxObject *wxStyledTextCtrlXmlHandler::DoCreateResource()
         stc->StyleClearAll();
 
         // Provide predefined lexer settings
-        switch ( lexer )
+        switch( lexer )
         {
             case wxSTC_LEX_CPP:
             {
@@ -151,14 +151,14 @@ wxObject *wxStyledTextCtrlXmlHandler::DoCreateResource()
     }
 
     // Tabs
-    if ( HasParam("use_tabs") )
+    if( HasParam("use_tabs") )
     {
         stc->SetUseTabs( GetBool("use_tabs") );
 
-        if ( HasParam("tab_indents") )
+        if( HasParam("tab_indents") )
             stc->SetTabIndents( GetBool("tab_indents") );
 
-        if ( HasParam("tab_width") )
+        if( HasParam("tab_width") )
         {
             int tw = ( int )GetLong("tab_width");
 
@@ -167,19 +167,19 @@ wxObject *wxStyledTextCtrlXmlHandler::DoCreateResource()
         }
     }
 
-    if ( HasParam("backspace_unindents") )
+    if( HasParam("backspace_unindents") )
         stc->SetBackSpaceUnIndents( GetBool("backspace_unindents") );
 
-    if ( HasParam("view_eol") )
+    if( HasParam("view_eol") )
         stc->SetViewEOL( GetBool("view_eol") );
 
-    if ( HasParam("view_whitespace") )
+    if( HasParam("view_whitespace") )
         stc->SetViewWhiteSpace( ( GetBool("view_whitespace") ) );
 
-    if ( HasParam("caret_width") )
+    if( HasParam("caret_width") )
         stc->SetCaretWidth( ( int )GetLong("caret_width") );
 
-    if ( HasParam("text") )
+    if( HasParam("text") )
     {
         wxString text = GetText("text");
         stc->SetText( text );

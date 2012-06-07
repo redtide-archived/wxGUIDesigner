@@ -17,21 +17,40 @@
 #include <boost/tr1/memory.hpp>
 
 #include "core/ipc.h"
+#include "interfaces/iobject.h"
 
+class wxDialog;
+class wxMenuBar;
+class wxNotebook;
 class wxFrame;
-class wxString;
-class wxWindow;
+class wxPanel;
+class wxPropertyGrid;
+class wxStyledTextCtrl;
+class wxToolBar;
+class wxTreeCtrl;
+class wxGDHandler;
+//class IGUIDesigner;
 
 using namespace std::tr1;
 
-class DLLIMPEXP_CORE wxGUIDesigner
+class DLLIMPEXP_CORE wxGUIDesigner : public IGUIDesigner
 {
 public:
     static wxGUIDesigner *Get();
     static void Free();
 
-    // GUIManager
-    wxFrame     *GetMainFrame( wxWindow *parent );
+    // wxGDHandler
+    wxFrame         *GetMainFrame        ( wxWindow *parent = NULL );
+    wxDialog        *GetAboutDialog      ( wxWindow *parent );
+    wxPanel         *GetDesignPanel();
+    wxNotebook      *GetEditorBook       ( wxWindow *parent );
+    wxNotebook      *GetPropertyBook     ( wxWindow *parent );
+    wxNotebook      *GetPaletteBook      ( wxWindow *parent );
+    wxTreeCtrl      *GetTreeView         ( wxWindow *parent );
+    wxToolBar       *GetToolBar          ( wxWindow *parent );
+    wxPropertyGrid  *GetPropertiesGrid();
+    wxPropertyGrid  *GetEventsGrid();
+    wxStyledTextCtrl *GetEditor( wxWindow *parent, const wxString &name );
 
     // Project
     void        NewProject();
@@ -50,6 +69,7 @@ private:
 
     static wxGUIDesigner    *ms_instance;
 
+    wxGDHandler             *m_handler;
     shared_ptr< IPCFile >   m_ipcFile;
     wxString                m_currPrj;
     wxString                m_currDir;

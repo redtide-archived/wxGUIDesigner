@@ -16,14 +16,12 @@
         <line_numbers>1</line_numbers>
         <fold>1</fold>
         <indentation_guides>1</indentation_guides>
-        <use_tabs>1</use_tabs>
+        <use_tabs>0</use_tabs>
         <tab_indents>1</tab_indents>
         <tab_width>4</tab_width>
         <backspace_unindents>1</backspace_unindents>
-        <view_eol>0</view_eol>
         <view_whitespace>1</view_whitespace>
         <caret_width>2</caret_width>
         <lexer>5</lexer>
-        <keywords>asm auto bool break case catch char class const const__cast continue default delete do double dynamic__cast else enum explicit export extern false float for friend goto if inline int long mutable namespace new operator private protected public register reinterpret__cast return short signed sizeof static static__cast struct switch template this throw true try typedef typeid typename union unsigned using virtual void volatile wchar__t while</keywords>
     </object>
 </resource>

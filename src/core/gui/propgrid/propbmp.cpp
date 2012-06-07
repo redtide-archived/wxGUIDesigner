@@ -25,7 +25,7 @@ bool wxPGBitmapDialogAdapter::DoShowDialog( wxPropertyGrid* propGrid,
 {
     wxBitmapProperty *bmpProp = wxDynamicCast( property, wxBitmapProperty );
 
-    if ( bmpProp )
+    if( bmpProp )
     {
         int index = bmpProp->GetIndex();
 
@@ -35,7 +35,7 @@ bool wxPGBitmapDialogAdapter::DoShowDialog( wxPropertyGrid* propGrid,
             {
                 ArtProviderDialog dlg( propGrid->GetPanel() );
 
-                if ( dlg.ShowModal() == wxID_OK )
+                if( dlg.ShowModal() == wxID_OK )
                 {
                     wxString artId  = dlg.GetArtId();
                     wxString client = dlg.GetArtClient();
@@ -63,7 +63,7 @@ bool wxPGBitmapDialogAdapter::DoShowDialog( wxPropertyGrid* propGrid,
                 wxList& handlers = wxImage::GetHandlers();
                 wxList::iterator node;
 
-                for ( node = handlers.begin(); node != handlers.end(); ++node )
+                for( node = handlers.begin(); node != handlers.end(); ++node )
                 {
                     wxImageHandler *handler = (wxImageHandler*)*node;
 
@@ -86,10 +86,10 @@ bool wxPGBitmapDialogAdapter::DoShowDialog( wxPropertyGrid* propGrid,
 
                 int indFilter = bmpProp->ms_indFilter;
 
-                if ( indFilter >= 0 )
+                if( indFilter >= 0 )
                     dlg.SetFilterIndex( indFilter );
 
-                if ( dlg.ShowModal() == wxID_OK )
+                if( dlg.ShowModal() == wxID_OK )
                 {
                     wxString    filePath  = dlg.GetPath();
                     wxFileName  fileName  = filePath;
@@ -97,12 +97,12 @@ bool wxPGBitmapDialogAdapter::DoShowDialog( wxPropertyGrid* propGrid,
                     bmpProp->ms_indFilter = dlg.GetFilterIndex();
                     bmpProp->ms_lastDir   = dlg.GetDirectory();
 
-                    if ( fileName.FileExists() )
+                    if( fileName.FileExists() )
                     {
                         wxBitmap bmp =
                         wxBitmap( fileName.GetFullPath(), wxBITMAP_TYPE_ANY );
 
-                        if ( bmp.IsOk() )
+                        if( bmp.IsOk() )
                         {
                             bmpProp->m_imgThumb = wxImage( bmp.ConvertToImage() );
 
@@ -281,9 +281,9 @@ wxSize wxBitmapProperty::OnMeasureImage( int ) const
 
 void wxBitmapProperty::OnCustomPaint( wxDC& dc, const wxRect& rect, wxPGPaintData& )
 {
-    if ( !m_bmpThumb.IsNull() || m_imgThumb.IsOk() )
+    if( !m_bmpThumb.IsNull() || m_imgThumb.IsOk() )
     {
-        if ( m_bmpThumb.IsNull() )
+        if( m_bmpThumb.IsNull() )
         {
             m_imgThumb.Rescale( rect.width, rect.height );
             m_bmpThumb = wxBitmap( m_imgThumb );

@@ -588,35 +588,15 @@ m_root
         ClassInfoDB::Get()->GetClassInfo("Project"),
         Object()
     )
-),
-m_sel( m_root.get() )
+)
 {
+    m_sel = m_root;
 }
 
 ObjectTree::~ObjectTree()
 {
-    m_handlers.clear();
-}
-
-ObjectTree *ObjectTree::ms_instance = NULL;
-
-ObjectTree *ObjectTree::Get()
-{
-    if( !ms_instance )
-    {
-        ms_instance = new ObjectTree;
-    }
-
-    return ms_instance;
-}
-
-void ObjectTree::Free()
-{
-    if( ms_instance )
-    {
-        delete ms_instance;
-        ms_instance = NULL;
-    }
+    m_sel  = Object();
+    m_root = Object();
 }
 
 size_t ObjectTree::GetChildInfoCount( Object parent, ClassInfo info )
@@ -740,8 +720,6 @@ Object ObjectTree::CreateObject( const wxString &className, Object parent )
         }
     }
 
-    SendEvent( object, EVT_OBJECT_CREATED );
-
     return object;
 }
 
@@ -752,8 +730,8 @@ void ObjectTree::SelectObject( Object object, bool withEvent )
     m_sel = object;
 
     // Forward the event to other handlers if needed.
-    if( withEvent )
-        SendEvent( object, EVT_OBJECT_SELECTED );
+//  if( withEvent )
+//      SendEvent( object, EVT_OBJECT_SELECTED );
 }
 
 bool ObjectTree::Load( const wxString &filePath )
@@ -941,40 +919,4 @@ bool ObjectTree::Serialize( const wxString &filePath )
     doc.SetRoot( root );
 
     return doc.Save( filePath, 4 );
-}
-
-void ObjectTree::AddHandler( IObjectHandler *handler )
-{
-    m_handlers.push_back( handler );
-}
-
-void ObjectTree::RemoveHandler( IObjectHandler *handler )
-{
-    m_handlers.remove( handler );
-}
-
-void ObjectTree::SendEvent( Object object, ObjectEventType eventType )
-{
-    for( ObjectHandlers::iterator it  = m_handlers.begin();
-                                   it != m_handlers.end(); ++it )
-    {
-        switch( eventType )
-        {
-        case EVT_OBJECT_CREATED:
-            (*it)->OnObjectCreated( object );
-            break;
-
-        case EVT_OBJECT_DELETED:
-            (*it)->OnObjectDeleted( object );
-            break;
-
-        case EVT_OBJECT_EXPANDED:
-            (*it)->OnObjectExpanded( object );
-            break;
-
-        case EVT_OBJECT_SELECTED:
-            (*it)->OnObjectSelected( object );
-            break;
-        }
-    }
 }

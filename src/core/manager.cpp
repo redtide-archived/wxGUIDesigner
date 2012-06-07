@@ -9,21 +9,32 @@
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
+#include <wx/dialog.h>
 #include <wx/filefn.h>
 #include <wx/frame.h>
+#include <wx/menu.h>
 #include <wx/msgdlg.h>
+#include <wx/notebook.h>
+#include <wx/panel.h>
+#include <wx/propgrid/propgrid.h>
+#include <wx/stc/stc.h>
+#include <wx/toolbar.h>
+#include <wx/treectrl.h>
 
+#include "interfaces/iobject.h"
 #include "codegenerator/codegenerator.h"
-#include "core/manager.h"
 #include "core/ipc.h"
 #include "core/gui/iconprovider.h"
-#include "core/gui/manager.h"
+#include "core/gui/handler.h"
 #include "core/object/database.h"
 #include "core/object/flags.h"
 #include "core/object/tree.h"
+#include "core/manager.h"
 
 wxGUIDesigner::wxGUIDesigner()
 :
+IGUIDesigner(),
+m_handler( new wxGDHandler ),
 m_ipcFile( new IPCFile ),
 m_currPrj(),
 m_currDir(),
@@ -35,7 +46,7 @@ m_isChanged( false )
 
 wxGUIDesigner::~wxGUIDesigner()
 {
-    GUIManager::Free();
+    delete m_handler;
     ClassInfoDB::Free();
     wxFlagsManager::Free();
 }
@@ -44,7 +55,7 @@ wxGUIDesigner *wxGUIDesigner::ms_instance = NULL;
 
 wxGUIDesigner *wxGUIDesigner::Get()
 {
-    if ( !ms_instance )
+    if( !ms_instance )
         ms_instance = new wxGUIDesigner;
 
     return ms_instance;
@@ -68,15 +79,15 @@ void wxGUIDesigner::NewProject()
 
 bool wxGUIDesigner::LoadProject( const wxString &filePath, bool checkInstance )
 {
-    if ( !wxFileName::FileExists( filePath ) )
+    if( !wxFileName::FileExists( filePath ) )
     {
         return false;
     }
 
-    if ( checkInstance && !CheckSingleInstance( filePath ) )
+    if( checkInstance && !CheckSingleInstance( filePath ) )
         return false;
 
-    if( ObjectTree::Get()->Load( filePath ) )
+    if( m_handler->GetTree()->Load( filePath ) )
     {
         m_currDir = wxPathOnly( filePath );
         m_currPrj = filePath;
@@ -88,7 +99,7 @@ bool wxGUIDesigner::LoadProject( const wxString &filePath, bool checkInstance )
 
 bool wxGUIDesigner::SaveProject( const wxString &filePath )
 {
-    if ( !m_ipcFile->CheckSingleInstance( filePath, false ) )
+    if( !m_ipcFile->CheckSingleInstance( filePath, false ) )
     {
         wxString msg =  _("You cannot save over a file that is currently open in another instance.\n") +
                         _("Would you like to switch to that instance?");
@@ -96,13 +107,13 @@ bool wxGUIDesigner::SaveProject( const wxString &filePath )
         int answer = wxMessageBox( msg, _("Open in Another Instance"),
                                     wxICON_QUESTION | wxYES_NO,
                                     wxTheApp->GetTopWindow() );
-        if ( answer == wxYES )
+        if( answer == wxYES )
             m_ipcFile->CheckSingleInstance( filePath, true );
 
         return false;
     }
 
-    if( ObjectTree::Get()->Serialize( filePath ) )
+    if( m_handler->GetTree()->Serialize( filePath ) )
     {
         m_currDir = wxPathOnly( filePath );
         m_currPrj = filePath;
@@ -114,7 +125,40 @@ bool wxGUIDesigner::SaveProject( const wxString &filePath )
 
 wxFrame *wxGUIDesigner::GetMainFrame( wxWindow *parent )
 {
-    return GUIManager::Get()->GetMainFrame( parent );
+    return m_handler->GetMainFrame( parent );
+}
+
+wxDialog *wxGUIDesigner::GetAboutDialog( wxWindow *parent )
+{
+    return m_handler->GetAboutDialog( parent );
+}
+wxPanel *wxGUIDesigner::GetDesignPanel()
+{
+    return m_handler->GetDesignPanel();
+}
+wxNotebook *wxGUIDesigner::GetEditorBook( wxWindow *parent )
+{
+    return m_handler->GetEditorBook( parent );
+}
+wxNotebook *wxGUIDesigner::GetPropertyBook( wxWindow *parent )
+{
+    return m_handler->GetPropertyBook( parent );
+}
+wxNotebook *wxGUIDesigner::GetPaletteBook( wxWindow *parent )
+{
+    return m_handler->GetPaletteBook( parent );
+}
+wxTreeCtrl *wxGUIDesigner::GetTreeView( wxWindow *parent )
+{
+    return m_handler->GetTreeView( parent );
+}
+wxToolBar *wxGUIDesigner::GetToolBar( wxWindow *parent )
+{
+    return m_handler->GetToolBar( parent );
+}
+wxStyledTextCtrl *wxGUIDesigner::GetEditor( wxWindow *parent, const wxString &name )
+{
+    return m_handler->GetEditor( parent, name );
 }
 
 bool wxGUIDesigner::CheckSingleInstance( const wxString &filePath, bool switchTo )

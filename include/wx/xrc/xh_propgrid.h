@@ -12,16 +12,16 @@
 #ifndef _WX_XH_PROPGRID_H_
 #define _WX_XH_PROPGRID_H_
 
-#include "wx/xrc/xmlres.h"
+#include <wx/xrc/xmlres.h>
 
 #if wxUSE_XRC && wxUSE_PROPGRID
 
-class WXDLLIMPEXP_FWD_PROPGRID wxPropertyGrid;
-class WXDLLIMPEXP_FWD_PROPGRID wxPropertyGridPopulator;
-class WXDLLIMPEXP_FWD_PROPGRID wxPropertyGridManager;
-class WXDLLIMPEXP_FWD_PROPGRID wxPropertyGridPageState;
+class wxPropertyGrid;
+class wxPropertyGridPopulator;
+class wxPropertyGridManager;
+class wxPropertyGridPageState;
 
-class WXDLLIMPEXP_PROPGRID wxPropertyGridXmlHandler : public wxXmlResourceHandler
+class wxPropertyGridXmlHandler : public wxXmlResourceHandler
 {
 public:
     wxPropertyGridXmlHandler();
