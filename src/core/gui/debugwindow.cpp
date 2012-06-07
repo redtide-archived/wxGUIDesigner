@@ -7,49 +7,46 @@
 // Revision:    $Hash$
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
-#include "textlogctrl.h"
+#include <wx/textctrl.h>
 
-//
-// Default Constructor and Destructor
-//
-TextLogCtrl::TextLogCtrl(wxWindow* parent)
-:wxTextCtrl(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY|wxTE_LEFT)
+#include "core/gui/handler.h"
+#include "core/gui/debugwindow.h"
+
+wxGDDebugWindow::wxGDDebugWindow( wxGDHandler *handler, wxWindow *parent )
+:
+wxTextCtrl( parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize,
+                    wxTE_MULTILINE | wxTE_READONLY | wxTE_LEFT ),
+m_handler( handler )
 {
-    //ctor
 }
 
-TextLogCtrl::~TextLogCtrl()
+wxGDDebugWindow::~wxGDDebugWindow()
 {
-    //dtor
 }
 
-//
-// Public methods
-//
-
-void TextLogCtrl::AddMessage(const wxString& message)
+void wxGDDebugWindow::AddMessage(const wxString& message)
 {
-    SetDefaultStyle(wxTextAttr(wxColour(88, 184, 53)));
+    SetDefaultStyle( wxTextAttr( wxColour( 88,184,53 ) ) );
     AppendText(_("Ok: "));
 
-    SetDefaultStyle(wxTextAttr(wxColour(*wxBLACK)));
-    AppendText(message + "\n");
+    SetDefaultStyle( wxTextAttr( wxColour( *wxBLACK ) ) );
+    AppendText( message + "\n" );
 }
 
-void TextLogCtrl::AddWarning(const wxString& message)
+void wxGDDebugWindow::AddWarning(const wxString& message)
 {
-    SetDefaultStyle(wxTextAttr(wxColour(223, 212, 29)));
+    SetDefaultStyle( wxTextAttr( wxColour( 223,212,29 ) ) );
     AppendText(_("Warning: "));
 
-    SetDefaultStyle(wxTextAttr(wxColour(*wxBLACK)));
-    AppendText(message + "\n");
+    SetDefaultStyle( wxTextAttr( wxColour( *wxBLACK ) ) );
+    AppendText( message + "\n" );
 }
 
-void TextLogCtrl::AddError(const wxString& message)
+void wxGDDebugWindow::AddError(const wxString& message)
 {
-    SetDefaultStyle(wxTextAttr(*wxRED));
+    SetDefaultStyle( wxTextAttr( *wxRED ) );
     AppendText(_("Error: "));
 
-    SetDefaultStyle(wxTextAttr(wxColour(*wxBLACK)));
-    AppendText(message + "\n");
+    SetDefaultStyle( wxTextAttr( wxColour( *wxBLACK ) ) );
+    AppendText( message + "\n" );
 }

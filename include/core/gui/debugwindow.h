@@ -10,17 +10,21 @@
 #ifndef __WXGD_GUI_DEBUGWINDOW_H__
 #define __WXGD_GUI_DEBUGWINDOW_H__
 
-#include <wx/textctrl.h>
+class wxTextCtrl;
+class wxGDHandler;
 
-class TextLogCtrl : public wxTextCtrl
+class wxGDDebugWindow : public wxTextCtrl
 {
 public:
-    TextLogCtrl(wxWindow* parent);
-    virtual ~TextLogCtrl();
+    wxGDDebugWindow( wxGDHandler *handler, wxWindow *parent );
+    virtual ~wxGDDebugWindow();
 
-    void AddMessage(const wxString& message);
-    void AddWarning(const wxString& message);
-    void AddError(const wxString& message);
+    void AddMessage ( const wxString &message );
+    void AddWarning ( const wxString &message );
+    void AddError   ( const wxString &message );
+
+private:
+    wxGDHandler *m_handler;
 };
 
 #endif //__WXGD_GUI_DEBUGWINDOW_H__

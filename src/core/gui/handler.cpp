@@ -40,6 +40,12 @@
 #include "core/gui/palette.h"
 #include "core/gui/propgrid/propbook.h"
 #include "core/gui/treeview.h"
+
+#ifdef __WXDEBUG__
+    #include <wx/textctrl.h>
+    #include "core/gui/debugwindow.h"
+#endif
+
 #include "core/gui/dialog/prefs.h"
 #include "core/gui/handler.h"
 #include "core/gui/frame.h"
@@ -127,7 +133,12 @@ wxFrame *wxGDHandler::GetMainFrame( wxWindow *parent )
                     Name("PropertyBookPane").Caption(_("Properties") ).
                     CloseButton(false).MinSize(180,-1).FloatingSize(150,300).
                     TopDockable(false).BottomDockable( false ) );
-
+#ifdef __WXDEBUG__
+        mgr->AddPane( GetDebugWindow(pnl), wxAuiPaneInfo().Bottom().
+                    Name("DebugWindowPane").Caption(_("Debugger") ).
+                    CloseButton(false).MinSize(-1,120).FloatingSize(300,120).
+                    LeftDockable(false).RightDockable(false) );
+#endif
         m_frame->LoadLayout();
 
         mgr->Update();
@@ -135,7 +146,15 @@ wxFrame *wxGDHandler::GetMainFrame( wxWindow *parent )
 
     return m_frame;
 }
+#ifdef __WXDEBUG__
+wxTextCtrl *wxGDHandler::GetDebugWindow( wxWindow *parent )
+{
+    if( !m_debug )
+        m_debug = new wxGDDebugWindow( this, parent );
 
+    return m_debug;
+}
+#endif
 wxDialog *wxGDHandler::GetAboutDialog( wxWindow *parent )
 {
     return wxXmlResource::Get()->LoadDialog( parent, "About" );

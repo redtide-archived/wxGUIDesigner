@@ -33,6 +33,11 @@ class wxTreeCtrl;
 class wxWindow;
 class wxXmlResource;
 
+#ifdef __WXDEBUG__
+    class wxTextCtrl;
+    class wxGDDebugWindow;
+#endif
+
 class wxGDArtProvider;
 class wxGDEditorBook;
 class wxGDPropertyBook;
@@ -63,6 +68,9 @@ public:
     wxNotebook      *GetPaletteBook     ( wxWindow *parent );
     wxTreeCtrl      *GetTreeView        ( wxWindow *parent );
     wxToolBar       *GetToolBar         ( wxWindow *parent );
+#ifdef __WXDEBUG__
+    wxTextCtrl      *GetDebugWindow     ( wxWindow *parent );
+#endif
     wxStyledTextCtrl *GetEditor( wxWindow *parent, const wxString &name );
 
     wxGDSettings GetSettings() const;
@@ -104,6 +112,10 @@ private:
     shared_ptr< wxGDArtProvider >   m_icons;
     shared_ptr< ObjectTree >        m_tree;
     wxGDSettings                    m_settings;
+
+#ifdef __WXDEBUG__
+    wxGDDebugWindow *m_debug;
+#endif
 };
 
 #endif //__CORE_GUI_MANAGER_H__
