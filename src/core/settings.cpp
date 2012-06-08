@@ -218,36 +218,12 @@ void Settings::LoadEntry( const wxString &key )
     if( !wxConfigBase::Get()->HasEntry( key ) )
         return;
 
-    wxString path   = wxConfigBase::Get()->GetPath() + "/" + key;
-    wxAny    value  = wxConfigBase::Get()->Read( path );
-    wxString logMsg = "Loading key:" + path + " value:";
-
-    switch( wxConfigBase::Get()->GetEntryType( key ) )
-    {
-        case wxConfigBase::Type_Boolean:
-        {
-            logMsg += value.As< bool >() ? "true" : "false";
-            break;
-        }
-        case wxConfigBase::Type_Float:
-            logMsg += wxString::Format( "%d", value.As< float >() );
-            break;
-
-        case wxConfigBase::Type_Integer:
-            logMsg += wxString::Format( "%lu", value.As< long >() );
-            break;
-
-        case wxConfigBase::Type_String:
-            logMsg += value.As< wxString >();
-            break;
-
-        default:
-            break; // TODO: Type_Unknown handling
-    }
+    wxString path  = wxConfigBase::Get()->GetPath() + "/" + key;
+    wxString value = wxConfigBase::Get()->Read( path );
 
     // Store the key as full path, the caller will specify it
     m_values.insert( SettingsMap::value_type( path, value ) );
-//  wxLogDebug(logMsg);
+//  wxLogDebug( "Loading key:" + path + " value:" + value );
 }
 
 void Settings::SaveEntry( const wxString &key, const wxAny &value )

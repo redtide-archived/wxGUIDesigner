@@ -65,6 +65,7 @@ m_editBook      ( NULL ),
 m_palette       ( NULL ),
 m_propBook      ( NULL ),
 m_treeView      ( NULL ),
+m_prefs         ( NULL ),
 m_ilsPropBook   ( NULL ),
 #ifdef __WXDEBUG__
 m_debug         ( NULL ),
@@ -160,6 +161,7 @@ wxTextCtrl *wxGDHandler::GetDebugWindow( wxWindow *parent )
         m_logOld = wxLog::SetActiveTarget(new wxLogTextCtrl(m_debug));
         wxLogMessage("Started");
     }
+
     return m_debug;
 }
 #endif
