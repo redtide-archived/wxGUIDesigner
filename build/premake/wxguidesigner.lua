@@ -45,7 +45,8 @@ project "wxGUIDesigner"
 
     if wxCompiler == "gcc" then
         buildoptions    {"-gstabs"}
-        links           {"bfd", "intl", "iberty", "psapi", "imagehlp"}
+--      links           {"bfd", "intl", "iberty", "psapi", "imagehlp"}
+        links           {"bfd", "iberty", "psapi", "imagehlp"}
     end
 
     configuration "Debug"
