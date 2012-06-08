@@ -8,7 +8,9 @@
 // Copyright:   (c) Andrea Zanellato
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
+#include <wx/app.h>
 #include <wx/dir.h>
+#include <wx/config.h>
 #include <wx/event.h>
 #include <wx/filefn.h>
 #include <wx/frame.h>
@@ -65,16 +67,18 @@ m_editBook      ( NULL ),
 m_palette       ( NULL ),
 m_propBook      ( NULL ),
 m_treeView      ( NULL ),
-m_prefs         ( NULL ),
 m_ilsPropBook   ( NULL ),
 #ifdef __WXDEBUG__
 m_debug         ( NULL ),
 m_logOld        ( NULL ),
 #endif
 m_icons         ( new wxGDArtProvider() ),
-m_tree          ( new ObjectTree() ),
-m_settings      ( new Settings() )
+m_tree          ( new ObjectTree() )//,
+//m_settings      ( new Settings() )
 {
+    // TODO: Remove this when using m_settings
+    delete wxConfigBase::Set( new wxConfig( wxTheApp->GetAppDisplayName() ) );
+
     wxXmlResource::Get()->InitAllHandlers();
     wxXmlResource::Get()->AddHandler( new wxStyledTextCtrlXmlHandler );
     wxXmlResource::Get()->AddHandler( new FrameXmlHandler );
@@ -172,10 +176,7 @@ wxDialog *wxGDHandler::GetAboutDialog( wxWindow *parent )
 
 wxDialog *wxGDHandler::GetSettingsDialog( wxWindow *parent )
 {
-    if( !m_prefs )
-        m_prefs = new wxGDDialogPrefs( this, parent );
-
-    return m_prefs;
+    return new wxGDDialogPrefs( this, parent );
 }
 
 wxNotebook *wxGDHandler::GetEditorBook( wxWindow *parent )

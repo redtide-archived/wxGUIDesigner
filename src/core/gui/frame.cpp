@@ -17,7 +17,7 @@
 #include <wx/xrc/xmlres.h>
 
 #include "interfaces/iobject.h"
-#include "core/settings.h"
+//#include "core/settings.h"
 #include "core/manager.h"
 #include "core/gui/auidockart.h"
 #include "core/gui/handler.h"
@@ -172,7 +172,7 @@ wxGDFrame::~wxGDFrame()
 {
     m_mgr->UnInit();
 }
-
+/*
 void wxGDFrame::LoadLayout()
 {
     wxGDSettings settings = m_handler->GetSettings();
@@ -210,6 +210,49 @@ void wxGDFrame::LoadLayout()
 
     m_lastDir = settings->GetString("last_dir");
 
+    m_history.Load( *wxConfigBase::Get() );
+}
+*/
+void wxGDFrame::LoadLayout()
+{
+    wxString perspective;
+    bool     maximized, iconized;
+
+    wxConfigBase::Get()->Read( "/mainframe/perspective", &perspective );
+    wxConfigBase::Get()->Read( "/mainframe/maximized",   &maximized, true );
+    wxConfigBase::Get()->Read( "/mainframe/iconized",    &iconized, false );
+
+    if( !perspective.empty() )
+    {
+        m_mgr->LoadPerspective( perspective );
+        m_mgr->Update();
+    }
+
+    if( maximized )
+    {
+        Maximize( maximized );
+    }
+    else if( iconized )
+    {
+        Iconize( iconized );
+    }
+    else
+    {
+        int x, y, w, h;
+        x = y = w = h = -1;
+
+        wxConfigBase::Get()->Read( "/mainframe/left",   &x );
+        wxConfigBase::Get()->Read( "/mainframe/top",    &y );
+        wxConfigBase::Get()->Read( "/mainframe/width",  &w );
+        wxConfigBase::Get()->Read( "/mainframe/height", &h );
+
+        if( x > -1 && y > -1 && w >= 630 && h >= 480 )
+        {
+            SetSize( x, y, w, h );
+        }
+    }
+
+    wxConfigBase::Get()->Read( "last_dir", &m_lastDir );
     m_history.Load( *wxConfigBase::Get() );
 }
 

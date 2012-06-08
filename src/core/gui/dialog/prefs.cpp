@@ -87,7 +87,18 @@ wxGDDialogPrefs::~wxGDDialogPrefs()
 
 void wxGDDialogPrefs::OnUpdateUI( wxUpdateUIEvent &event )
 {
-    
+
+    for( size_t n = 0; n < m_tbkPrefs->GetPageCount(); n++ )
+    {
+        if( event.GetEventObject() == m_tbkPrefs->GetPage(n) )
+        {
+            m_apply->Enable( event.GetInt() );
+            m_ok->Enable( event.GetInt() );
+            break;
+        }
+    }
+
+    event.Skip();
 }
 //=============================================================================
 // wxGDPageLocale

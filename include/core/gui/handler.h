@@ -105,7 +105,6 @@ private:
     wxGDToolPalette     *m_palette;
     wxGDPropertyBook    *m_propBook;
     wxGDTreeView        *m_treeView;
-    wxGDDialogPrefs     *m_prefs;
     wxImageList         *m_ilsPropBook;
     wxXmlDocument       m_xrcDoc;
 
