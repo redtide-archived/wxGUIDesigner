@@ -21,11 +21,6 @@ solution "wxGUIDesigner"
     BuildDir            = solution().location
     CustomPrefix        = wxToolkit .. wxUnicodeSign
 
-if wxVersion < "2.9" then
-    DebugSuffix         = "d-" .. wxver
-else
-    DebugSuffix         = "-" .. wxver
-end
     os.chdir( BuildDir )
 
 --if wxCompiler == "gcc" and os.is("windows") then
@@ -46,6 +41,9 @@ end
 
     if wxCompiler == "gcc" then
         buildoptions    {"-O0"}
+    end
+    if wxVersion < "2.9" or os.is("windows") then
+        targetsuffix    "d"
     end
 
     configuration "Release"
