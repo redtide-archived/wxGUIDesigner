@@ -357,13 +357,13 @@ void ClassInfoDB::Parse( wxXmlNode *classNode, bool recursively )
         }
         else if( !CheckClass( name ) )
         {
-            wxLogError( "Can't register class '%s'.", name );
+//          wxLogError( "Can't register class '%s'.", name );
             return;
         }
     }
 
 
-    //wxLogDebug( "Loading class %s", name );
+//  wxLogDebug( "Loading class %s", name );
 
     ClassInfo clsInfo( new ClassNode( name, type ) );
     m_classes.insert( ClassInfoMap::value_type( name, clsInfo ) );

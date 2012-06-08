@@ -247,7 +247,7 @@ void Settings::LoadEntry( const wxString &key )
 
     // Store the key as full path, the caller will specify it
     m_values.insert( SettingsMap::value_type( path, value ) );
-    wxLogDebug(logMsg);
+//  wxLogDebug(logMsg);
 }
 
 void Settings::SaveEntry( const wxString &key, const wxAny &value )

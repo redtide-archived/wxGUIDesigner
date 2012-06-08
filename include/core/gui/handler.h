@@ -34,6 +34,7 @@ class wxWindow;
 class wxXmlResource;
 
 #ifdef __WXDEBUG__
+    class wxLog;
     class wxTextCtrl;
     class wxGDDebugWindow;
 #endif
@@ -109,13 +110,13 @@ private:
     wxXmlDocument       m_xrcDoc;
 
     vector< wxEvtHandler * >        m_handlers;
+#ifdef __WXDEBUG__
+    wxGDDebugWindow     *m_debug;
+    wxLog               *m_logOld;
+#endif
     shared_ptr< wxGDArtProvider >   m_icons;
     shared_ptr< ObjectTree >        m_tree;
     wxGDSettings                    m_settings;
-
-#ifdef __WXDEBUG__
-    wxGDDebugWindow *m_debug;
-#endif
 };
 
 #endif //__CORE_GUI_MANAGER_H__

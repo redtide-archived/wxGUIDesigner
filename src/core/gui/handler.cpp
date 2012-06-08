@@ -66,6 +66,10 @@ m_palette       ( NULL ),
 m_propBook      ( NULL ),
 m_treeView      ( NULL ),
 m_ilsPropBook   ( NULL ),
+#ifdef __WXDEBUG__
+m_debug         ( NULL ),
+m_logOld        ( NULL ),
+#endif
 m_icons         ( new wxGDArtProvider() ),
 m_tree          ( new ObjectTree() ),
 m_settings      ( new Settings() )
@@ -99,6 +103,7 @@ m_settings      ( new Settings() )
 
 wxGDHandler::~wxGDHandler()
 {
+    delete wxLog::SetActiveTarget( m_logOld );
     m_editors.clear();
     m_handlers.clear();
 //  m_tree = shared_ptr< ObjectTree >();
@@ -150,8 +155,11 @@ wxFrame *wxGDHandler::GetMainFrame( wxWindow *parent )
 wxTextCtrl *wxGDHandler::GetDebugWindow( wxWindow *parent )
 {
     if( !m_debug )
+    {
         m_debug = new wxGDDebugWindow( this, parent );
-
+        m_logOld = wxLog::SetActiveTarget(new wxLogTextCtrl(m_debug));
+        wxLogMessage("Started");
+    }
     return m_debug;
 }
 #endif
@@ -398,6 +406,7 @@ void wxGDHandler::CreateObject( const wxString &className, int senderId )
         m_xrcDoc.GetRoot()->AddChild( objNode );
     }
 
+    wxLogMessage("%s created", className);
 /*
 #include <wx/sstream.h>
 #include <wx/fs_mem.h>
