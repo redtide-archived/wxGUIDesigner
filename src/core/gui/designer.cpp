@@ -183,7 +183,8 @@ void wxGDResizingPanel::OnMouseMotion( wxMouseEvent &event )
 //      m_titleBar->SetCursor( *wxSTANDARD_CURSOR );
 //      m_frameContent->SetCursor( *wxSTANDARD_CURSOR );
     }
-            SetSize( m_curX, m_curY );
+
+    SetSize( m_curX, m_curY );
 }
 
 void wxGDResizingPanel::OnLeftDown( wxMouseEvent &event )

@@ -47,13 +47,8 @@ m_handler( handler )
     m_resizer = new wxGDResizingPanel( m_scrolled );
     m_resizer->SetBackgroundColour( wxColour( 192, 192, 192 ) );
 
-    wxBoxSizer* reSizer = new wxBoxSizer( wxVERTICAL );
-    reSizer->SetMinSize( wxSize(-1,90) ); 
-
     m_designer = new wxPanel( m_resizer, wxID_ANY, wxDefaultPosition,
                                         wxDefaultSize, wxBORDER_NONE );
-
-    wxBoxSizer* designerSizer = new wxBoxSizer( wxVERTICAL );
 
     m_title = new wxGDTitleBarPanel( m_designer );
 
@@ -80,8 +75,7 @@ m_handler( handler )
 
     titleSizer->Add( m_titleLbl, 1, wxALIGN_CENTER_VERTICAL | wxALL, 3 );
 
-    wxBoxSizer* titleBtnSizer;
-    titleBtnSizer = new wxBoxSizer( wxHORIZONTAL );
+    wxBoxSizer* titleBtnSizer = new wxBoxSizer( wxHORIZONTAL );
 
     bmp = wxXmlResource::Get()->LoadBitmap("minimize");
 
@@ -106,23 +100,29 @@ m_handler( handler )
     m_title->SetSizer( titleSizer );
     m_title->Layout();
     titleSizer->Fit( m_title );
-    designerSizer->Add( m_title, 0, wxEXPAND, 0 );
+
+    wxBoxSizer* designerSizer = new wxBoxSizer( wxVERTICAL );
+
+    designerSizer->Add( m_title, 0, wxEXPAND );
 
     // The client area, this is our 'GetClientSize()' except when has scrollbars
     m_client = new wxPanel( m_designer );
 
-    designerSizer->Add( m_client, 1, wxEXPAND, 0 );
+    designerSizer->Add( m_client, 1, wxEXPAND );
 
     m_designer->SetSizer( designerSizer );
     m_designer->Layout();
     designerSizer->Fit( m_designer );
+
+    wxBoxSizer* reSizer = new wxBoxSizer( wxVERTICAL );
     reSizer->Add( m_designer, 1, wxBOTTOM | wxRIGHT | wxEXPAND, 3 );
 
+    m_resizer->SetMinSize( wxSize( 90,60 ) );
     m_resizer->SetSizer( reSizer );
     m_resizer->Layout();
     reSizer->Fit( m_resizer );
 
-    wxImageList *imageList = new wxImageList(16,16);
+    wxImageList *imageList = new wxImageList( 16,16 );
     AssignImageList( imageList );
 
     bmp = wxXmlResource::Get()->LoadBitmap("designer");
@@ -131,6 +131,8 @@ m_handler( handler )
         imgIndex = imageList->Add( bmp );
 
     AddPage( m_scrolled, _("Designer"), true, imgIndex );
+
+    m_designer->Bind( wxEVT_SIZE, &wxGDEditorBook::OnDesignerResize, this );
 
     Bind( wxGD_EVT_OBJECT_CREATED,  &wxGDEditorBook::OnObjectCreated,  this );
     Bind( wxGD_EVT_OBJECT_SELECTED, &wxGDEditorBook::OnObjectSelected, this );
@@ -141,10 +143,16 @@ wxGDEditorBook::~wxGDEditorBook()
     
 }
 
+void wxGDEditorBook::OnDesignerResize( wxSizeEvent &event )
+{
+    wxSize size = m_resizer->GetSize();
+    m_scrolled->SetVirtualSize( size.GetX() + 15, size.GetY() + 15 );
+    event.Skip();
+}
+
 void wxGDEditorBook::OnObjectCreated( wxGDObjectEvent &event )
 {
     // TODO: Update the text
-
 }
 
 void wxGDEditorBook::OnObjectDeleted( wxGDObjectEvent &event )
@@ -159,5 +167,5 @@ void wxGDEditorBook::OnObjectExpanded( wxGDObjectEvent &event )
 
 void wxGDEditorBook::OnObjectSelected( wxGDObjectEvent &event )
 {
-    // 
+    
 }

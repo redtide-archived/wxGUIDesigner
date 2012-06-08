@@ -38,6 +38,8 @@ public:
     virtual void OnObjectSelected( wxGDObjectEvent &event );
 
 private:
+    void OnDesignerResize( wxSizeEvent &event );
+
     wxGDHandler         *m_handler;
     wxScrolledWindow    *m_scrolled;
     wxGDResizingPanel   *m_resizer;
