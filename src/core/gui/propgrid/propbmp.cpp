@@ -188,7 +188,7 @@ void wxBitmapProperty::Init( int source, const wxArrayString& params )
             {
                 wxFileName fn = params.Item( 0 );
 
-                if( fn.Exists() )
+                if( fn.FileExists() )
                 {
                     wxString path = fn.GetFullPath();
                     wxBitmap bmp  = wxBitmap( path, wxBITMAP_TYPE_ANY );
