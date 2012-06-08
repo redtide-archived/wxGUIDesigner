@@ -14,7 +14,8 @@ project "wxGUIDesigner"
     defines                 {"NO_GCC_PRAGMA"}
     flags                   {"ExtraWarnings"}
     libdirs                 {"../../output/lib/wxguidesigner"}
-    links                   {"LibCodeGen", "LibCore"}
+--  links                   {"LibCodeGen", "LibCore"}
+    links                   {"LibCore"}
 
     configuration {"codelite", "not windows"}
         linkoptions         {"-Wl,-rpath,$$``ORIGIN/../lib/wxguidesigner"}

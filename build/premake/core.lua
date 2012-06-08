@@ -21,7 +21,7 @@ project "LibCore"
     }
     defines             {"MAKINGDLL_CORE"}
     flags               {"ExtraWarnings"}
-    links               {"LibCodeGen"}
+--  links               {"LibCodeGen"}
     targetname          ( CustomPrefix .. "core" )
 
     configuration "not windows"
