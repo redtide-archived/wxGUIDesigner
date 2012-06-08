@@ -108,6 +108,7 @@ GOTO Loop
 
 :Premake
 build\premake\windows\premake4.exe --file=build/premake/solution.lua --wxcompiler=%wxcompiler% --wxmedia=%wxmedia% --wxmonolithic=%wxmonolithic% --wxroot=%wxroot% --wxstatic=%wxstatic% --wxunicode=%wxunicode% --wxversion=%wxversion% codelite
+build\premake\windows\premake4.exe --file=build/premake/solution.lua --wxcompiler=%wxcompiler% --wxmedia=%wxmedia% --wxmonolithic=%wxmonolithic% --wxroot=%wxroot% --wxstatic=%wxstatic% --wxunicode=%wxunicode% --wxversion=%wxversion% codeblocks
 ECHO.
 
 REM build\premake\windows\premake4.exe --file=build/premake/solution.lua --wxcompiler=%wxcompiler% --wxmedia=%wxmedia% --wxmonolithic=%wxmonolithic% --wxroot=%wxroot% --wxstatic=%wxstatic% --wxunicode=%wxunicode% --wxversion=%wxversion% vs2008

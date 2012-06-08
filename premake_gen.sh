@@ -125,9 +125,9 @@ fi
 cd build
 make CONFIG=Release -C./premake/$platform
 
-#./premake/$platform/bin/release/premake4 --file=./premake/solution.lua --wxmedia=$wxmedia --wxroot=$wxroot --wxstatic=$wxstatic --wxunicode=$wxunicode --wxversion=$wxversion codeblocks
 ./premake/$platform/bin/release/premake4 --file=./premake/solution.lua --wxmedia=$wxmedia --wxroot=$wxroot --wxstatic=$wxstatic --wxunicode=$wxunicode --wxversion=$wxversion codelite
-#./premake/$platform/bin/release/premake4 --file=./premake/solution.lua --wxmedia=$wxmedia --wxroot=$wxroot --wxstatic=$wxstatic --wxunicode=$wxunicode --wxversion=$wxversion gmake
+./premake/$platform/bin/release/premake4 --file=./premake/solution.lua --wxmedia=$wxmedia --wxroot=$wxroot --wxstatic=$wxstatic --wxunicode=$wxunicode --wxversion=$wxversion codeblocks
+./premake/$platform/bin/release/premake4 --file=./premake/solution.lua --wxmedia=$wxmedia --wxroot=$wxroot --wxstatic=$wxstatic --wxunicode=$wxunicode --wxversion=$wxversion gmake
 
 #if [ "$platform" = "macosx" ]; then
 #   ./premake4/macosx/bin/release/premake4 --file=./premake4/solution.lua xcode3
