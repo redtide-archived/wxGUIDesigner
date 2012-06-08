@@ -24,17 +24,23 @@ class wxCommandEvent;
 class wxUpdateUIEvent;
 
 class wxGDHandler;
+
+wxDECLARE_EVENT( wxGD_EVT_GUI_OPTION_CHANGED, wxCommandEvent );
+wxDECLARE_EVENT( wxGD_EVT_GUI_CONFIG_UPDATE, wxCommandEvent );
+wxDECLARE_EVENT( wxGD_EVT_GUI_CONFIG_SAVE,   wxCommandEvent );
 //=============================================================================
 // wxGDDialogPrefs
 //=============================================================================
 class wxGDDialogPrefs : public wxDialog 
 {
 public:
-    wxGDDialogPrefs( wxGDHandler *handler, wxWindow* parent ); 
+    wxGDDialogPrefs( wxGDHandler *handler, wxWindow *parent ); 
     ~wxGDDialogPrefs();
 
 private:
-    void OnUpdateUI( wxUpdateUIEvent &event );
+    void OnPrefsChanged ( wxCommandEvent &event );
+    void OnUpdatePrefs  ( wxCommandEvent &event );
+    void OnSavePrefs    ( wxCommandEvent &event );
 
     wxGDHandler             *m_handler;
     wxButton                *m_apply;
@@ -49,18 +55,22 @@ private:
 class wxGDPageLocale : public wxPanel 
 {
 public:
-    wxGDPageLocale( wxGDHandler *handler, wxGDDialogPrefs* parent ); 
+    wxGDPageLocale( wxGDHandler *handler, wxGDDialogPrefs *parent ); 
     ~wxGDPageLocale();
 
 private:
-    void OnUpdateUI( wxUpdateUIEvent& event );
-    void OnToggleLocale( wxCommandEvent& event );
+    void OnPrefsChanged ( wxCommandEvent &event );
+    void OnUpdatePrefs  ( wxCommandEvent &event );
+    void OnSavePrefs    ( wxCommandEvent &event );
 
     wxGDHandler      *m_handler;
     wxBitmapComboBox *m_bcbLang;
     wxCheckBox       *m_chkLang;
     wxPanel          *m_pnlLocale;
     wxStaticText     *m_lblLang;
+
+    bool m_enabled;
+    int  m_selected;
 };
 
 #endif //__WXGD_GUI_DIALOG_PREFS_H__

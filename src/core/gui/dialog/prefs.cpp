@@ -10,6 +10,7 @@
 #include <wx/bmpcbox.h>
 #include <wx/button.h>
 #include <wx/checkbox.h>
+#include <wx/config.h>
 #include <wx/dialog.h>
 #include <wx/imaglist.h>
 #include <wx/panel.h>
@@ -22,6 +23,10 @@
 #include "core/gui/dialog/prefs.h"
 #include "core/settings.h"
 #include "core/gui/handler.h"
+
+wxDEFINE_EVENT( wxGD_EVT_GUI_OPTION_CHANGED, wxCommandEvent );
+wxDEFINE_EVENT( wxGD_EVT_GUI_CONFIG_UPDATE, wxCommandEvent );
+wxDEFINE_EVENT( wxGD_EVT_GUI_CONFIG_SAVE,   wxCommandEvent );
 //=============================================================================
 // wxGDDialogPrefs
 //=============================================================================
@@ -61,8 +66,8 @@ m_tbkPrefs  ( NULL )
 
     mainSizer->Add( m_tbkPrefs, 1, wxALL|wxEXPAND, 5 );
 
-    m_apply  = new wxButton( this, wxID_APPLY );
-    m_ok     = new wxButton( this, wxID_OK );
+    m_apply  = new wxButton( this, wxID_APPLY ); m_apply->Enable( false );
+    m_ok     = new wxButton( this, wxID_OK );    m_ok->Enable( false );
     m_cancel = new wxButton( this, wxID_CANCEL );
 
     m_btnSizer = new wxStdDialogButtonSizer();
@@ -77,29 +82,48 @@ m_tbkPrefs  ( NULL )
     mainSizer->Fit( this );
     Centre( wxBOTH );
 
-    Bind( wxEVT_UPDATE_UI, &wxGDDialogPrefs::OnUpdateUI, this );
+    Bind( wxGD_EVT_GUI_OPTION_CHANGED, &wxGDDialogPrefs::OnPrefsChanged, this );
+    m_ok->Bind( wxEVT_COMMAND_BUTTON_CLICKED,
+                                        &wxGDDialogPrefs::OnUpdatePrefs, this );
+    m_apply->Bind( wxEVT_COMMAND_BUTTON_CLICKED,
+                                        &wxGDDialogPrefs::OnSavePrefs,   this );
 }
 
 wxGDDialogPrefs::~wxGDDialogPrefs()
 {
-    Unbind( wxEVT_UPDATE_UI, &wxGDDialogPrefs::OnUpdateUI, this );
+    Unbind( wxGD_EVT_GUI_OPTION_CHANGED, &wxGDDialogPrefs::OnPrefsChanged, this );
 }
 
-void wxGDDialogPrefs::OnUpdateUI( wxUpdateUIEvent &event )
+void wxGDDialogPrefs::OnPrefsChanged( wxCommandEvent &event )
 {
+    m_apply->Enable ( event.GetInt() );
+    m_ok->Enable    ( event.GetInt() );
+}
 
-    for( size_t n = 0; n < m_tbkPrefs->GetPageCount(); n++ )
+void wxGDDialogPrefs::OnUpdatePrefs( wxCommandEvent & )
+{
+    wxCommandEvent evt( wxGD_EVT_GUI_CONFIG_UPDATE );
+    for( size_t i = 0; i < m_tbkPrefs->GetPageCount(); i++ )
     {
-        if( event.GetEventObject() == m_tbkPrefs->GetPage(n) )
-        {
-            m_apply->Enable( event.GetInt() );
-            m_ok->Enable( event.GetInt() );
-            break;
-        }
+        wxWindow *page = m_tbkPrefs->GetPage(i);
+        page->GetEventHandler()->ProcessEvent( evt );
     }
 
-    event.Skip();
+    Destroy();
 }
+
+void wxGDDialogPrefs::OnSavePrefs( wxCommandEvent & )
+{
+    wxCommandEvent evt( wxGD_EVT_GUI_CONFIG_SAVE );
+    for( size_t i = 0; i < m_tbkPrefs->GetPageCount(); i++ )
+    {
+        wxWindow *page = m_tbkPrefs->GetPage(i);
+        page->GetEventHandler()->ProcessEvent( evt );
+    }
+
+    Destroy();
+}
+
 //=============================================================================
 // wxGDPageLocale
 //=============================================================================
@@ -110,7 +134,9 @@ m_handler   ( handler ),
 m_bcbLang   ( NULL ),
 m_chkLang   ( NULL ),
 m_pnlLocale ( NULL ),
-m_lblLang   ( NULL )
+m_lblLang   ( NULL ),
+m_enabled   ( false ),
+m_selected  ( 0 )
 {
     wxBoxSizer       *localeSizer = new wxBoxSizer( wxVERTICAL );
     wxStaticBoxSizer *sbsLocale   = new wxStaticBoxSizer(
@@ -121,16 +147,11 @@ m_lblLang   ( NULL )
                                             wxDefaultSize, wxTAB_TRAVERSAL );
     m_lblLang   = new wxStaticText( m_pnlLocale, wxID_ANY, _("Locale to use:") );
 
-    m_chkLang   = new wxCheckBox( m_pnlLocale, wxID_ANY, _("Enable Localization"),
-                                        wxDefaultPosition, wxDefaultSize, 0 );
-    m_bcbLang   = new wxBitmapComboBox( m_pnlLocale, wxID_ANY, wxEmptyString,
-                                      wxDefaultPosition, wxDefaultSize,
-                                                    0, NULL, wxCB_READONLY );
-    wxGDSettings settings = m_handler->GetSettings();
-    m_bcbLang->SetSelection( settings->GetInt("language",         0) );
-    m_chkLang->SetValue    ( settings->GetInt("language/enabled", 0) );
-    m_bcbLang->Enable      ( settings->GetInt("language/enabled", 0) );
+    m_chkLang   = new wxCheckBox( m_pnlLocale, wxID_ANY, _("Enable Localization") );
 
+    m_bcbLang   = new wxBitmapComboBox( m_pnlLocale, wxID_ANY, wxEmptyString,
+                                        wxDefaultPosition, wxDefaultSize,
+                                                    0, NULL, wxCB_READONLY );
     wxBitmap bmp        = wxNullBitmap;
     wxBitmap bmpDefault = wxXmlResource::Get()->LoadBitmap("default");
 
@@ -138,6 +159,18 @@ m_lblLang   ( NULL )
         bmp = bmpDefault;
 
     m_bcbLang->Append( _("System Default"), bmp );
+/*
+    wxGDSettings settings = m_handler->GetSettings();
+    m_selected = settings->GetInt("locale/selected", 0);
+    m_enabled  = settings->GetBool("locale/enabled", false);
+*/
+    // Load locale config
+    wxConfigBase::Get()->Read( "locale/enabled",  &m_enabled,  false );
+    wxConfigBase::Get()->Read( "locale/selected", &m_selected, 0    );
+
+    m_bcbLang->SetSelection( m_selected );
+    m_bcbLang->Enable      ( m_enabled );
+    m_chkLang->SetValue    ( m_enabled );
 
     sbsLocale->Add( m_pnlLocale, 1, wxEXPAND, 5 );
     localeSizer->Add( sbsLocale, 0, wxEXPAND|wxLEFT|wxRIGHT, 5 );
@@ -162,24 +195,46 @@ m_lblLang   ( NULL )
     Layout();
     localeSizer->Fit( this );
 
-    Bind( wxEVT_UPDATE_UI, &wxGDPageLocale::OnUpdateUI, this );
     m_chkLang->Bind( wxEVT_COMMAND_CHECKBOX_CLICKED,
-                        &wxGDPageLocale::OnToggleLocale, this );
+                        &wxGDPageLocale::OnPrefsChanged, this );
+
+    m_bcbLang->Bind( wxEVT_COMMAND_COMBOBOX_SELECTED,
+                        &wxGDPageLocale::OnPrefsChanged, this );
+
+    Bind( wxGD_EVT_GUI_CONFIG_UPDATE, &wxGDPageLocale::OnUpdatePrefs, this );
+    Bind( wxGD_EVT_GUI_CONFIG_SAVE,   &wxGDPageLocale::OnSavePrefs,   this );
 }
 
 wxGDPageLocale::~wxGDPageLocale()
 {
-    Unbind( wxEVT_UPDATE_UI, &wxGDPageLocale::OnUpdateUI, this );
-    m_chkLang->Unbind( wxEVT_COMMAND_CHECKBOX_CLICKED,
-                            &wxGDPageLocale::OnToggleLocale, this );
+    m_chkLang->Bind( wxEVT_COMMAND_CHECKBOX_CLICKED,
+                        &wxGDPageLocale::OnPrefsChanged, this );
+
+    m_bcbLang->Bind( wxEVT_COMMAND_COMBOBOX_SELECTED,
+                        &wxGDPageLocale::OnPrefsChanged, this );
 }
 
-void wxGDPageLocale::OnUpdateUI( wxUpdateUIEvent& event )
+void wxGDPageLocale::OnPrefsChanged( wxCommandEvent & )
 {
-    
+    bool isDirty = (m_enabled  != m_chkLang->IsChecked())   ||
+                   (m_selected != m_bcbLang->GetSelection());
+
+    m_bcbLang->Enable( m_chkLang->IsChecked() );
+
+    wxCommandEvent evt( wxGD_EVT_GUI_OPTION_CHANGED );
+    evt.SetInt( isDirty ? 1 : 0 );
+    GetParent()->GetEventHandler()->ProcessEvent( evt );
 }
 
-void wxGDPageLocale::OnToggleLocale( wxCommandEvent& event )
+void wxGDPageLocale::OnUpdatePrefs( wxCommandEvent & )
 {
-    
+    m_enabled  = m_chkLang->IsChecked();
+    m_selected = m_bcbLang->GetSelection();
+}
+
+void wxGDPageLocale::OnSavePrefs( wxCommandEvent & )
+{
+    wxConfigBase::Get()->Write( "locale/enabled",  m_chkLang->IsChecked() );
+    wxConfigBase::Get()->Write( "locale/selected", m_bcbLang->GetSelection() );
+    wxConfigBase::Get()->Flush();
 }
