@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name:        wxguidesigner/gui/frame.cpp
+// Name:        wxguidesigner/gui/mainframe.cpp
 // Purpose:     
 // Author:      Andrea Zanellato
 // Modified by:
@@ -22,7 +22,7 @@
 #include "wxguidesigner/manager.h"
 #include "wxguidesigner/gui/auidockart.h"
 #include "wxguidesigner/gui/handler.h"
-#include "wxguidesigner/gui/frame.h"
+#include "wxguidesigner/gui/mainframe.h"
 //=============================================================================
 // wxGDFrame
 //=============================================================================

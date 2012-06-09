@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name:        wxguidesigner/gui/frame.h
+// Name:        wxguidesigner/gui/mainframe.h
 // Purpose:     
 // Author:      Andrea Zanellato
 // Modified by: 

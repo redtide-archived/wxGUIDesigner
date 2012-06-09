@@ -50,7 +50,7 @@
 
 #include "wxguidesigner/gui/dialog/prefs.h"
 #include "wxguidesigner/gui/handler.h"
-#include "wxguidesigner/gui/frame.h"
+#include "wxguidesigner/gui/mainframe.h"
 
 #include "wxguidesigner/events.h"
 #include "wxguidesigner/utils.h"
