@@ -50,7 +50,7 @@ m_tbkPrefs  ( NULL )
     wxSize minSize = wxSize( 510,360 );
     SetSizeHints( minSize, wxDefaultSize );
 
-    wxBoxSizer* mainSizer = new wxBoxSizer( wxVERTICAL );
+    wxBoxSizer *mainSizer = new wxBoxSizer( wxVERTICAL );
     mainSizer->SetMinSize( minSize );
  
     wxImageList *imageList = new wxImageList( 16, 16 );
@@ -154,16 +154,16 @@ m_choPrjEnc ( NULL ),
 m_choWxVer  ( NULL ),
 m_clbCodeGen( NULL )
 {
-    wxBoxSizer* projectSizer = new wxBoxSizer( wxVERTICAL );
+    wxBoxSizer *projectSizer = new wxBoxSizer( wxVERTICAL );
 
-    wxStaticBoxSizer* sbsProject = new wxStaticBoxSizer( new wxStaticBox(
+    wxStaticBoxSizer *sbsProject = new wxStaticBoxSizer( new wxStaticBox(
                                     this, wxID_ANY, _("XRC") ), wxVERTICAL );
 
-    wxPanel* pnlProject     = new wxPanel( this, wxID_ANY, wxDefaultPosition,
+    wxPanel *pnlProject     = new wxPanel( this, wxID_ANY, wxDefaultPosition,
                                         wxDefaultSize, wxTAB_TRAVERSAL );
-    wxBoxSizer* prjSizer    = new wxBoxSizer( wxVERTICAL );
-    wxBoxSizer* prjVerSizer = new wxBoxSizer( wxHORIZONTAL );
-    wxStaticText* lblPrjVer = new wxStaticText( pnlProject, wxID_ANY,
+    wxBoxSizer *prjSizer    = new wxBoxSizer( wxVERTICAL );
+    wxBoxSizer *prjVerSizer = new wxBoxSizer( wxHORIZONTAL );
+    wxStaticText *lblPrjVer = new wxStaticText( pnlProject, wxID_ANY,
                             _("Version:"), wxDefaultPosition, wxDefaultSize, 0 );
     lblPrjVer->Wrap( -1 );
     prjVerSizer->Add( lblPrjVer, 0, wxALIGN_CENTER_VERTICAL, 0 );
@@ -185,7 +185,7 @@ m_clbCodeGen( NULL )
 
     prjVerSizer->Add( m_choPrjVer, 0, wxEXPAND, 0 );
 
-    wxStaticText* lblPrjEnc = new wxStaticText( pnlProject, wxID_ANY,
+    wxStaticText *lblPrjEnc = new wxStaticText( pnlProject, wxID_ANY,
                                                 _("Encoding:"),
                                                 wxDefaultPosition,
                                                 wxDefaultSize, 0 );
@@ -233,16 +233,16 @@ m_clbCodeGen( NULL )
 
     projectSizer->Add( sbsProject, 0, wxEXPAND|wxLEFT|wxRIGHT, 5 );
 
-    wxStaticBoxSizer* sbSizer6;
+    wxStaticBoxSizer *sbSizer6;
     sbSizer6 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY,
                                     _("wxWidgets") ), wxVERTICAL );
-    wxPanel* pnlProject1;
+    wxPanel *pnlProject1;
     pnlProject1 = new wxPanel( this, wxID_ANY, wxDefaultPosition,
                                 wxDefaultSize, wxTAB_TRAVERSAL );
 
-    wxBoxSizer* sizerwx    = new wxBoxSizer( wxVERTICAL );
-    wxBoxSizer* wxVerSizer = new wxBoxSizer( wxHORIZONTAL );
-    wxStaticText* lblWxer  = new wxStaticText( pnlProject1, wxID_ANY,
+    wxBoxSizer *sizerwx    = new wxBoxSizer( wxVERTICAL );
+    wxBoxSizer *wxVerSizer = new wxBoxSizer( wxHORIZONTAL );
+    wxStaticText *lblWxer  = new wxStaticText( pnlProject1, wxID_ANY,
                                                 _("Version:"),
                                                 wxDefaultPosition,
                                                 wxDefaultSize, 0 );
@@ -370,10 +370,10 @@ m_selected  ( 0 )
     m_bcbLang->SetToolTip( _("Select language to use") );
     m_chkLang->SetToolTip( _("Enable / Disable wxGUIDesigner localization") );
 
-    wxBoxSizer* sizerLang = new wxBoxSizer( wxVERTICAL );
+    wxBoxSizer *sizerLang = new wxBoxSizer( wxVERTICAL );
     sizerLang->Add( m_bcbLang, 1, wxALIGN_RIGHT | wxALL | wxEXPAND, 5 );
 
-    wxBoxSizer* pnlSizer = new wxBoxSizer( wxVERTICAL );
+    wxBoxSizer *pnlSizer = new wxBoxSizer( wxVERTICAL );
     pnlSizer->Add( m_chkLang,   0, wxEXPAND | wxLEFT | wxTOP, 5 );
     pnlSizer->Add( sizerLang, 0, wxEXPAND, 5 );
 
@@ -449,126 +449,155 @@ m_chkTabsIndent ( NULL ),
 m_choTabsWidth  ( NULL ),
 m_spnCaretW     ( NULL )
 {
-    wxBoxSizer* mainSizer = new wxBoxSizer( wxVERTICAL );
+    wxBoxSizer   *mainSizer = new wxBoxSizer( wxVERTICAL );
+    wxStaticText *lblEditor = new wxStaticText( this, wxID_ANY, _("Editor:") );
+    lblEditor->Wrap( -1 );
 
-    wxFlexGridSizer* editSizer = new wxFlexGridSizer( 0, 2, 0, 0 );
+    m_bcbEditor = new wxBitmapComboBox( this, wxID_ANY, wxEmptyString,
+                                wxDefaultPosition, wxDefaultSize, 0, NULL, 0 ); 
+
+    wxFlexGridSizer *editSizer = new wxFlexGridSizer( 0,2,0,0 );
     editSizer->AddGrowableCol( 1 );
     editSizer->SetFlexibleDirection( wxBOTH );
     editSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-
-    wxStaticText* lblEditor;
-    lblEditor = new wxStaticText( this, wxID_ANY, _("Editor:"), wxDefaultPosition, wxDefaultSize, 0 );
-    lblEditor->Wrap( -1 );
-    editSizer->Add( lblEditor, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP, 5 );
-
-    m_bcbEditor = new wxBitmapComboBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, 0 ); 
-    editSizer->Add( m_bcbEditor, 0, wxEXPAND|wxRIGHT|wxTOP, 5 );
-
+    editSizer->Add( lblEditor, 0, wxALIGN_CENTER_VERTICAL | wxLEFT | wxTOP, 5 );
+    editSizer->Add( m_bcbEditor, 0, wxEXPAND | wxRIGHT | wxTOP, 5 );
     mainSizer->Add( editSizer, 0, wxEXPAND, 5 );
 
-    wxStaticBoxSizer* sbsGuides;
-    sbsGuides = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Guides") ), wxVERTICAL );
-
-    wxPanel* pnlGuides;
-    pnlGuides = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-    wxFlexGridSizer* fgsGuides;
-    fgsGuides = new wxFlexGridSizer( 0, 2, 0, 0 );
+    wxFlexGridSizer *fgsGuides = new wxFlexGridSizer( 0,2,0,0 );
     fgsGuides->AddGrowableCol( 1 );
     fgsGuides->SetFlexibleDirection( wxBOTH );
     fgsGuides->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 
-    m_chkLineNums = new wxCheckBox( pnlGuides, wxID_ANY, _("Show Line Numbers"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxPanel *pnlGuides = new wxPanel( this, wxID_ANY, wxDefaultPosition,
+                                        wxDefaultSize, wxTAB_TRAVERSAL );
+
+    m_chkLineNums =  new wxCheckBox( pnlGuides, wxID_ANY, _("Show Line Numbers") );
+    m_chkGuides =    new wxCheckBox( pnlGuides, wxID_ANY, _("Show Indentation Guides") );
+    m_chkWSpace =    new wxCheckBox( pnlGuides, wxID_ANY, _("View Whitespace") );
+    m_chkEOL =       new wxCheckBox( pnlGuides, wxID_ANY, _("View EOL") );
+    m_chkBackspace = new wxCheckBox( pnlGuides, wxID_ANY, _("Backspace Unindents") );
+
+    wxConfigBase::Get()->Read( "editors/ShowLineNumbers", &m_showLines, true );
+    wxConfigBase::Get()->Read( "editors/ShowIndentationGuides", &m_showGuides, true );
+    wxConfigBase::Get()->Read( "editors/ViewWhitespace", &m_viewWSpace, true );
+    wxConfigBase::Get()->Read( "editors/ViewEOL", &m_viewEOL, false );
+    wxConfigBase::Get()->Read( "editors/BackspaceUnindents", &m_useBSIndent, true );
+    wxConfigBase::Get()->Read( "editors/UseTabs", &m_useTabs, false );
+    wxConfigBase::Get()->Read( "editors/UseTabsIndent", &m_useTabsIndent, true );
+    wxConfigBase::Get()->Read( "editors/TabsWidth", &m_selTabsW, 4 );
+    wxConfigBase::Get()->Read( "editors/CaretWidth", &m_caretW, 1 );
+
+    if( (m_selTabsW < 1) || (m_selTabsW > 8 ) ) m_selTabsW = 4;
+    if( (m_caretW   < 0) || (m_caretW   > 10) ) m_caretW   = 1;
+
+    m_chkLineNums->SetValue( m_showLines );
+    m_chkGuides->SetValue( m_showGuides );
+    m_chkWSpace->SetValue( m_viewWSpace );
+    m_chkEOL->SetValue( m_viewEOL );
+    m_chkBackspace->SetValue( m_useBSIndent );
+
     fgsGuides->Add( m_chkLineNums, 0, 0, 5 );
-
-    m_chkGuides = new wxCheckBox( pnlGuides, wxID_ANY, _("Show Indentation Guides"), wxDefaultPosition, wxDefaultSize, 0 );
     fgsGuides->Add( m_chkGuides, 0, 0, 5 );
-
-    m_chkWSpace = new wxCheckBox( pnlGuides, wxID_ANY, _("View Whitespace"), wxDefaultPosition, wxDefaultSize, 0 );
     fgsGuides->Add( m_chkWSpace, 0, 0, 5 );
-
-    m_chkEOL = new wxCheckBox( pnlGuides, wxID_ANY, _("View EOL"), wxDefaultPosition, wxDefaultSize, 0 );
     fgsGuides->Add( m_chkEOL, 0, 0, 5 );
-
-    m_chkBackspace = new wxCheckBox( pnlGuides, wxID_ANY, _("Backspace Unindents"), wxDefaultPosition, wxDefaultSize, 0 );
-    fgsGuides->Add( m_chkBackspace, 0, 0, 0 );
+    fgsGuides->Add( m_chkBackspace );
 
     pnlGuides->SetSizer( fgsGuides );
     pnlGuides->Layout();
     fgsGuides->Fit( pnlGuides );
+
+    wxStaticBoxSizer *sbsGuides = new wxStaticBoxSizer( new wxStaticBox(
+                                    this, wxID_ANY, _("Guides") ), wxVERTICAL );
+
     sbsGuides->Add( pnlGuides, 0, wxEXPAND, 5 );
+    mainSizer->Add( sbsGuides, 0, wxEXPAND | wxLEFT | wxRIGHT, 5 );
 
-    mainSizer->Add( sbsGuides, 0, wxEXPAND|wxLEFT|wxRIGHT, 5 );
+    wxPanel *pnlTabs = new wxPanel( this, wxID_ANY, wxDefaultPosition,
+                                    wxDefaultSize, wxTAB_TRAVERSAL );
 
-    wxStaticBoxSizer* sbsTabs;
-    sbsTabs = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Tabs") ), wxVERTICAL );
+    m_chkUseTabs = new wxCheckBox( pnlTabs, wxID_ANY, _("Use Tabs") );
+    m_chkTabsIndent = new wxCheckBox( pnlTabs, wxID_ANY, _("Tabs Indent") );
 
-    wxPanel* pnlTabs;
-    pnlTabs = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-    wxFlexGridSizer* fgsTabs;
-    fgsTabs = new wxFlexGridSizer( 0, 2, 0, 0 );
+    m_chkUseTabs->SetValue( m_useTabs );
+    m_chkTabsIndent->SetValue( m_useTabsIndent );
+
+    wxStaticText *lblTabsWidth = new wxStaticText( pnlTabs, wxID_ANY,
+                                                        _("Tabs Width:") );
+    lblTabsWidth->Wrap( -1 );
+    wxString tabsWidthChoices[] = {"1","2","3","4","5","6","7","8"};
+    int tabsWidthNChoices = sizeof( tabsWidthChoices ) / sizeof( wxString );
+    m_choTabsWidth = new wxChoice( pnlTabs, wxID_ANY, wxDefaultPosition,
+                        wxDefaultSize, tabsWidthNChoices, tabsWidthChoices, 0 );
+    m_choTabsWidth->SetSelection( m_selTabsW -1 );
+
+    wxFlexGridSizer *fgsTabs = new wxFlexGridSizer( 0,2,0,0 );
     fgsTabs->AddGrowableCol( 1 );
     fgsTabs->SetFlexibleDirection( wxBOTH );
     fgsTabs->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-
-    m_chkUseTabs = new wxCheckBox( pnlTabs, wxID_ANY, _("Use Tabs"), wxDefaultPosition, wxDefaultSize, 0 );
     fgsTabs->Add( m_chkUseTabs, 0, 0, 5 );
-
-    m_chkTabsIndent = new wxCheckBox( pnlTabs, wxID_ANY, _("Tabs Indent"), wxDefaultPosition, wxDefaultSize, 0 );
     fgsTabs->Add( m_chkTabsIndent, 0, wxLEFT, 5 );
-
-    wxStaticText* lblTabsWidth;
-    lblTabsWidth = new wxStaticText( pnlTabs, wxID_ANY, _("Tabs Width:"), wxDefaultPosition, wxDefaultSize, 0 );
-    lblTabsWidth->Wrap( -1 );
     fgsTabs->Add( lblTabsWidth, 0, wxALIGN_CENTER_VERTICAL, 5 );
-
-    wxString m_choTabsWidthChoices[] = { _("1"), _("2"), _("4"), _("8") };
-    int m_choTabsWidthNChoices = sizeof( m_choTabsWidthChoices ) / sizeof( wxString );
-    m_choTabsWidth = new wxChoice( pnlTabs, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choTabsWidthNChoices, m_choTabsWidthChoices, 0 );
-    m_choTabsWidth->SetSelection( 2 );
     fgsTabs->Add( m_choTabsWidth, 0, wxEXPAND, 5 );
 
     pnlTabs->SetSizer( fgsTabs );
     pnlTabs->Layout();
     fgsTabs->Fit( pnlTabs );
-    sbsTabs->Add( pnlTabs, 0, wxEXPAND, 0 );
 
+    wxStaticBoxSizer *sbsTabs = new wxStaticBoxSizer( new wxStaticBox(
+                                    this, wxID_ANY, _("Tabs") ),  wxVERTICAL );
+    sbsTabs->Add( pnlTabs, 0, wxEXPAND, 0 );
     mainSizer->Add( sbsTabs, 0, wxEXPAND|wxLEFT|wxRIGHT, 5 );
 
-    wxStaticBoxSizer* sbsMisc;
-    sbsMisc = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Misc") ), wxVERTICAL );
-
-    wxPanel* pnlMisc;
-    pnlMisc = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-    wxBoxSizer* sizerMisc;
-    sizerMisc = new wxBoxSizer( wxVERTICAL );
-
-    wxFlexGridSizer* fgsMisc;
-    fgsMisc = new wxFlexGridSizer( 0, 2, 0, 0 );
+    wxFlexGridSizer *fgsMisc = new wxFlexGridSizer( 0,2,0,0 );
     fgsMisc->AddGrowableCol( 1 );
     fgsMisc->SetFlexibleDirection( wxBOTH );
     fgsMisc->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 
-    wxStaticText* lblCaretW;
-    lblCaretW = new wxStaticText( pnlMisc, wxID_ANY, _("Caret Width:"), wxDefaultPosition, wxDefaultSize, 0 );
-    lblCaretW->Wrap( -1 );
-    fgsMisc->Add( lblCaretW, 0, wxALL, 5 );
+    wxPanel *pnlMisc = new wxPanel( this, wxID_ANY, wxDefaultPosition,
+                                    wxDefaultSize, wxTAB_TRAVERSAL );
 
-    m_spnCaretW = new wxSpinCtrl( pnlMisc, wxID_ANY, wxT("1"), wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 1, 10, 1 );
+    wxStaticText *lblCaretW = new wxStaticText( pnlMisc, wxID_ANY,
+                                                        _("Caret Width:") );
+    lblCaretW->Wrap( -1 );
+
+    m_spnCaretW = new wxSpinCtrl( pnlMisc, wxID_ANY, wxT("1"), wxDefaultPosition,
+                                wxDefaultSize, wxSP_ARROW_KEYS, 1, 10, m_caretW );
+    fgsMisc->Add( lblCaretW, 0, wxALL, 5 );
     fgsMisc->Add( m_spnCaretW, 1, wxEXPAND, 5 );
 
+    wxBoxSizer *sizerMisc = new wxBoxSizer( wxVERTICAL );
     sizerMisc->Add( fgsMisc, 0, wxEXPAND, 5 );
-
     pnlMisc->SetSizer( sizerMisc );
     pnlMisc->Layout();
     sizerMisc->Fit( pnlMisc );
-    sbsMisc->Add( pnlMisc, 1, wxEXPAND, 0 );
 
-    mainSizer->Add( sbsMisc, 1, wxBOTTOM|wxEXPAND|wxLEFT|wxRIGHT, 5 );
+    wxStaticBoxSizer *sbsMisc = new wxStaticBoxSizer( new wxStaticBox( this,
+                                            wxID_ANY, _("Misc") ), wxVERTICAL );
+    sbsMisc->Add( pnlMisc, 1, wxEXPAND, 0 );
+    mainSizer->Add( sbsMisc, 1, wxBOTTOM | wxEXPAND | wxLEFT | wxRIGHT, 5 );
 
     SetSizer( mainSizer );
     Layout();
 
-
+    m_chkLineNums->Bind( wxEVT_COMMAND_CHECKBOX_CLICKED,
+                                    &wxGDPageEditors::OnPrefsChanged, this );
+    m_chkGuides->Bind( wxEVT_COMMAND_CHECKBOX_CLICKED,
+                                    &wxGDPageEditors::OnPrefsChanged, this );
+    m_chkWSpace->Bind( wxEVT_COMMAND_CHECKBOX_CLICKED,
+                                    &wxGDPageEditors::OnPrefsChanged, this );
+    m_chkEOL->Bind( wxEVT_COMMAND_CHECKBOX_CLICKED,
+                                    &wxGDPageEditors::OnPrefsChanged, this );
+    m_chkBackspace->Bind( wxEVT_COMMAND_CHECKBOX_CLICKED,
+                                    &wxGDPageEditors::OnPrefsChanged, this );
+    m_chkUseTabs->Bind( wxEVT_COMMAND_CHECKBOX_CLICKED,
+                                    &wxGDPageEditors::OnPrefsChanged, this );
+    m_chkTabsIndent->Bind( wxEVT_COMMAND_CHECKBOX_CLICKED,
+                                    &wxGDPageEditors::OnPrefsChanged, this );
+    m_choTabsWidth->Bind( wxEVT_COMMAND_CHOICE_SELECTED,
+                                    &wxGDPageEditors::OnPrefsChanged, this );
+    m_spnCaretW->Bind( wxEVT_COMMAND_SPINCTRL_UPDATED,
+                                    &wxGDPageEditors::OnPrefsChanged, this );
 
     Bind( wxGD_EVT_GUI_CONFIG_UPDATE, &wxGDPageEditors::OnUpdatePrefs, this );
     Bind( wxGD_EVT_GUI_CONFIG_SAVE,   &wxGDPageEditors::OnSavePrefs,   this );
@@ -576,7 +605,24 @@ m_spnCaretW     ( NULL )
 
 wxGDPageEditors::~wxGDPageEditors()
 {
-
+    m_chkLineNums->Unbind( wxEVT_COMMAND_CHECKBOX_CLICKED,
+                                    &wxGDPageEditors::OnPrefsChanged, this );
+    m_chkGuides->Unbind( wxEVT_COMMAND_CHECKBOX_CLICKED,
+                                    &wxGDPageEditors::OnPrefsChanged, this );
+    m_chkWSpace->Unbind( wxEVT_COMMAND_CHECKBOX_CLICKED,
+                                    &wxGDPageEditors::OnPrefsChanged, this );
+    m_chkEOL->Unbind( wxEVT_COMMAND_CHECKBOX_CLICKED,
+                                    &wxGDPageEditors::OnPrefsChanged, this );
+    m_chkBackspace->Unbind( wxEVT_COMMAND_CHECKBOX_CLICKED,
+                                    &wxGDPageEditors::OnPrefsChanged, this );
+    m_chkUseTabs->Unbind( wxEVT_COMMAND_CHECKBOX_CLICKED,
+                                    &wxGDPageEditors::OnPrefsChanged, this );
+    m_chkTabsIndent->Unbind( wxEVT_COMMAND_CHECKBOX_CLICKED,
+                                    &wxGDPageEditors::OnPrefsChanged, this );
+    m_choTabsWidth->Unbind( wxEVT_COMMAND_CHOICE_SELECTED,
+                                    &wxGDPageEditors::OnPrefsChanged, this );
+    m_spnCaretW->Unbind( wxEVT_COMMAND_SPINCTRL_UPDATED,
+                                    &wxGDPageEditors::OnPrefsChanged, this );
 
     Unbind( wxGD_EVT_GUI_CONFIG_UPDATE, &wxGDPageEditors::OnUpdatePrefs, this );
     Unbind( wxGD_EVT_GUI_CONFIG_SAVE,   &wxGDPageEditors::OnSavePrefs,   this );
@@ -584,7 +630,15 @@ wxGDPageEditors::~wxGDPageEditors()
 
 void wxGDPageEditors::OnPrefsChanged( wxCommandEvent & )
 {
-    bool isDirty = false;
+    bool isDirty =  (m_showLines     != m_chkLineNums->IsChecked())         ||
+                    (m_showGuides    != m_chkGuides->IsChecked())           ||
+                    (m_viewWSpace    != m_chkWSpace->IsChecked())           ||
+                    (m_viewEOL       != m_chkEOL->IsChecked())              ||
+                    (m_useBSIndent   != m_chkBackspace->IsChecked())        ||
+                    (m_useTabs       != m_chkUseTabs->IsChecked())          ||
+                    (m_useTabsIndent != m_chkTabsIndent->IsChecked())       ||
+                    (m_selTabsW      != m_choTabsWidth->GetSelection() +1 ) ||
+                    (m_caretW        != m_spnCaretW->GetValue());
 
     wxCommandEvent evt( wxGD_EVT_GUI_OPTION_CHANGED );
     evt.SetInt( isDirty ? 1 : 0 );
@@ -593,10 +647,28 @@ void wxGDPageEditors::OnPrefsChanged( wxCommandEvent & )
 
 void wxGDPageEditors::OnUpdatePrefs( wxCommandEvent & )
 {
-
+//  m_selEditor     = m_bcbEditor->GetSelection();
+    m_showLines     = m_chkLineNums->IsChecked();
+    m_showGuides    = m_chkGuides->IsChecked();
+    m_viewWSpace    = m_chkWSpace->IsChecked();
+    m_viewEOL       = m_chkEOL->IsChecked();
+    m_useBSIndent   = m_chkBackspace->IsChecked();
+    m_useTabs       = m_chkUseTabs->IsChecked();
+    m_useTabsIndent = m_chkTabsIndent->IsChecked();
+    m_selTabsW      = m_choTabsWidth->GetSelection() +1;
+    m_caretW        = m_spnCaretW->GetValue();
 }
 
 void wxGDPageEditors::OnSavePrefs( wxCommandEvent & )
 {
-    
+    wxConfigBase::Get()->Write( "editors/ShowLineNumbers",       m_chkLineNums->IsChecked() );
+    wxConfigBase::Get()->Write( "editors/ShowIndentationGuides", m_chkGuides->IsChecked() );
+    wxConfigBase::Get()->Write( "editors/ViewWhitespace",        m_chkWSpace->IsChecked() );
+    wxConfigBase::Get()->Write( "editors/ViewEOL",               m_chkEOL->IsChecked() );
+    wxConfigBase::Get()->Write( "editors/BackspaceUnindents",    m_chkBackspace->IsChecked() );
+    wxConfigBase::Get()->Write( "editors/UseTabs",               m_chkUseTabs->IsChecked() );
+    wxConfigBase::Get()->Write( "editors/UseTabsIndent",         m_chkTabsIndent->IsChecked() );
+    wxConfigBase::Get()->Write( "editors/TabsWidth",             m_choTabsWidth->GetSelection() +1 );
+    wxConfigBase::Get()->Write( "editors/CaretWidth",            m_spnCaretW->GetValue() );
+    wxConfigBase::Get()->Flush();
 }

@@ -71,7 +71,7 @@ private:
     wxChoice        *m_choPrjVer;
     wxChoice        *m_choPrjEnc;
     wxChoice        *m_choWxVer;
-    wxCheckListBox  *m_clbCodeGen;
+    wxCheckListBox  *m_clbCodeGen; // TODO: Load/Save code generator languages
 
     int m_selEnc;
     int m_selXrcVer;
@@ -123,6 +123,17 @@ private:
     wxCheckBox       *m_chkTabsIndent;
     wxChoice         *m_choTabsWidth;
     wxSpinCtrl       *m_spnCaretW;
+
+    bool m_showLines;
+    bool m_showGuides;
+    bool m_viewWSpace;
+    bool m_viewEOL;
+    bool m_useBSIndent;
+    bool m_useTabs;
+    bool m_useTabsIndent;
+//  int  m_selEditor;
+    int  m_selTabsW;
+    int  m_caretW;
 };
 
 #endif //__WXGUIDESIGNER_GUI_DIALOG_PREFS_H__
