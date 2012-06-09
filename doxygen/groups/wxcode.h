@@ -5,9 +5,9 @@
 // Modified by:
 // Created:     2011/12/25
 // Revision:    $Hash$
+// Copyright:   (c) Andrea Zanellato
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
-
 /**
 
 @defgroup group_wxcode wxCode components supported list

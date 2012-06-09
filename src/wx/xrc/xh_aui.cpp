@@ -5,7 +5,7 @@
 // Modified by: 
 // Created:     2011-09-18
 // Revision:    $Hash$
-// Copyright:   (c) 2011 wxWidgets Team
+// Copyright:   (c) wxWidgets Team
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 

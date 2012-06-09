@@ -1,12 +1,13 @@
 #!/bin/bash
 ############################################################################
-##  Name:        premake_gen.sh
-##  Purpose:     Premake 4 build script.
-##  Author:      Andrea Zanellato
-##  Modified by: 
-##  Created:     2011/10/22
-##  Copyright:   (c) Andrea Zanellato
-##  Licence:     GNU General Public License Version 2
+## Name:        premake_gen.sh
+## Purpose:     Premake 4 build script.
+## Author:      Andrea Zanellato
+## Modified by: 
+## Created:     2011/10/22
+## Revision:    $Hash$
+## Copyright:   (c) Andrea Zanellato
+## Licence:     GNU General Public License Version 2
 ############################################################################
 
 # These works only on wxWidgets 2.8.10+

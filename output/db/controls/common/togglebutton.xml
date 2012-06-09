@@ -6,6 +6,7 @@
     Modified by: 
     Created:     2012/01/14
     Revision:    $Hash$
+    Copyright:   (c) Andrea Zanellato
     Licence:     wxWindows licence
 -->
 <class name="wxToggleButton">

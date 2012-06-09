@@ -1,12 +1,13 @@
 -----------------------------------------------------------------------------
---  Name:        solution.lua
---  Purpose:     Generic Premake 4 solution defining common configurations
---               for all projects it contains.
---  Author:      Andrea Zanellato
---  Modified by: 
---  Created:     19/10/2011
---  Revision:    $Hash$
---  Licence:     GNU General Public License Version 2
+-- Name:        solution.lua
+-- Purpose:     Generic Premake 4 solution defining common configurations
+--              for all projects it contains.
+-- Author:      Andrea Zanellato
+-- Modified by: 
+-- Created:     19/10/2011
+-- Revision:    $Hash$
+-- Copyright:   (c) Andrea Zanellato
+-- Licence:     GNU General Public License Version 2
 -----------------------------------------------------------------------------
 solution "wxGUIDesigner"
     language "C++"
@@ -24,7 +25,7 @@ solution "wxGUIDesigner"
     os.chdir( BuildDir )
 
 --if wxCompiler == "gcc" and os.is("windows") then
---  flags               {"NoImportLib"}
+-- flags               {"NoImportLib"}
 --end
 
 if wxUseUnicode then

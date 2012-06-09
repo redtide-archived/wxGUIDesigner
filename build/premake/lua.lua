@@ -1,11 +1,12 @@
 -----------------------------------------------------------------------------
---  Name:        lua.lua
---  Purpose:     Lua library project script.
---  Author:      Andrea Zanellato
---  Modified by: 
---  Created:     2012/05/18
---  Revision:    $Hash$
---  Licence:     GNU General Public License Version 2
+-- Name:        lua.lua
+-- Purpose:     Lua library project script.
+-- Author:      Andrea Zanellato
+-- Modified by: 
+-- Created:     2012/05/18
+-- Revision:    $Hash$
+-- Copyright:   (c) Andrea Zanellato
+-- Licence:     GNU General Public License Version 2
 -----------------------------------------------------------------------------
 project "LuaLib"
     kind                "StaticLib"

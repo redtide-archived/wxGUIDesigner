@@ -1,11 +1,12 @@
 -----------------------------------------------------------------------------
---  Name:        plugin.lua
---  Purpose:     Plugin library project script.
---  Author:      Andrea Zanellato
---  Modified by:
---  Created:     2011/11/19
---  Revision:    $Hash$
---  Licence:     GNU General Public License Version 2
+-- Name:        plugin.lua
+-- Purpose:     Plugin library project script.
+-- Author:      Andrea Zanellato
+-- Modified by:
+-- Created:     2011/11/19
+-- Revision:    $Hash$
+-- Copyright:   (c) Andrea Zanellato
+-- Licence:     GNU General Public License Version 2
 -----------------------------------------------------------------------------
 project "LibPlugin"
     kind                "SharedLib"
@@ -19,7 +20,7 @@ project "LibPlugin"
     targetname          ( CustomPrefix .. "plugin" )
 
 configuration "not windows"
---  buildoptions {"-fPIC"}
+-- buildoptions {"-fPIC"}
     libdirs             {"../../output/lib/wxguidesigner"}
     targetdir           "../../output/lib/wxguidesigner"
 

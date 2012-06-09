@@ -6,6 +6,7 @@
 // Modified by: 
 // Created:     2012/06/05
 // Revision:    $Hash$
+// Copyright:   (c) Andrea Zanellato
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
 
@@ -25,7 +26,7 @@
 #endif
 
 #include <wx/wizard.h>
-#include "core/gui/toplevel/wizard.h"
+#include "wxguidesigner/gui/toplevel/wizard.h"
 
 IMPLEMENT_DYNAMIC_CLASS(WizardXmlHandler, wxXmlResourceHandler)
 

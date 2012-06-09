@@ -1,9 +1,9 @@
 -----------------------------------------------------------------------------
---  Name:        wxwidgets.lua
---  Purpose:     wxWidgets configuration file for Premake4
---  Author:      laurent.humbertclaude@gmail.com, v.krishnakumar@gmail.com
---  Modified by: Andrea Zanellato zanellato.andrea@gmail.com
---  Revision:    $Hash$
+-- Name:        wxwidgets.lua
+-- Purpose:     wxWidgets configuration file for Premake4
+-- Author:      laurent.humbertclaude@gmail.com, v.krishnakumar@gmail.com
+-- Modified by: Andrea Zanellato zanellato.andrea@gmail.com
+-- Revision:    $Hash$
 -----------------------------------------------------------------------------
 newoption  {
     trigger     = "wxcompiler",
@@ -111,9 +111,9 @@ else
 end
 -----------------------------------------------------------------------------
 -- wxRoot : Path to wxWidgets root folder.
---          Can be left empty if WXWIN is defined or if wx-config is accessible.
---          Useful in case more than a configuration is present in the system
---          e.g. wx 2.8 installed and a self built 2.9 one is used.
+--         Can be left empty if WXWIN is defined or if wx-config is accessible.
+--         Useful in case more than a configuration is present in the system
+--         e.g. wx 2.8 installed and a self built 2.9 one is used.
 -----------------------------------------------------------------------------
 if os.getenv('WXWIN') and not wxRoot then
     wxRoot = os.getenv('WXWIN')
@@ -122,16 +122,16 @@ elseif not os.isdir(wxRoot) then
 end
 -----------------------------------------------------------------------------
 -- wxStatic : indicates how wx is to be linked. Values are either
---              "yes" for static linking or "no" for shared linking.
---              Default to "no"
+--             "yes" for static linking or "no" for shared linking.
+--             Default to "no"
 -----------------------------------------------------------------------------
 if wxStatic ~= "yes" and wxStatic ~= "no" then
     error( wxStatic .. ": wrong parameter, use only yes or no." )
 end
 -----------------------------------------------------------------------------
 -- wxUnicode : use "yes" for Unicode or "no" for ANSI version.
---              ANSI version only available up to 2.8
---              Default to "yes"
+--             ANSI version only available up to 2.8
+--             Default to "yes"
 -----------------------------------------------------------------------------
 if wxUnicode ~= "yes" and wxUnicode ~= "no" then
     error( wxUnicode .. ": wrong parameter, use only yes or no." )
@@ -155,12 +155,12 @@ else -- linux or bsd
 end
 -----------------------------------------------------------------------------
 -- The wx_config the parameters are.
---          Debug   : "yes" use debug version of wxwidgets. Default to "no"
---          Host    : 
---          Universal : use universal configuration. Default to "no"
---          Libs    : a list of wx libraries that you want to link with.
---                      eg: "aui,media,html"
---                      Default to ""; base is implicit
+--         Debug   : "yes" use debug version of wxwidgets. Default to "no"
+--         Host    : 
+--         Universal : use universal configuration. Default to "no"
+--         Libs    : a list of wx libraries that you want to link with.
+--                     eg: "aui,media,html"
+--                     Default to ""; base is implicit
 -----------------------------------------------------------------------------
 function wx_config( options )
 
@@ -264,7 +264,7 @@ function wx_config_Private( wxDebug, wxHost, wxUniversal, wxLibs )
         configCmd = configCmd .. checkYesNo(wxUniversal, "universal")
 
         if wxHost ~= "" then configCmd = configCmd .. " --host=" .. wxHost end
---      if wxVersion ~= "" then configCmd = configCmd .. " --version=" .. wxVersion end
+--     if wxVersion ~= "" then configCmd = configCmd .. " --version=" .. wxVersion end
 
         -- set the parameters to the current configuration
         buildoptions {"`" .. configCmd .." --cxxflags`"}

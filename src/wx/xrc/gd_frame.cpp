@@ -6,6 +6,7 @@
 // Modified by: 
 // Created:     2012/06/05
 // Revision:    $Hash$
+// Copyright:   (c) Andrea Zanellato
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
 
@@ -27,7 +28,7 @@
     #include <wx/dialog.h> // to get wxDEFAULT_DIALOG_STYLE
 #endif
 
-#include "core/gui/toplevel/frame.h"
+#include "wxguidesigner/gui/toplevel/frame.h"
 
 IMPLEMENT_DYNAMIC_CLASS(FrameXmlHandler, wxXmlResourceHandler)
 

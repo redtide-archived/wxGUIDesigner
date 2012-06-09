@@ -5,9 +5,9 @@
 // Modified by: 
 // Created:     2011/12/13
 // Revision:    $Hash$
+// Copyright:   (c) Andrea Zanellato
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
-
 /**
 @defgroup group_plugins Plugins
 

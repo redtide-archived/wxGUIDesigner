@@ -1,17 +1,18 @@
 -----------------------------------------------------------------------------
---  Name:        core.lua
---  Purpose:     Core library project script.
---  Author:      Andrea Zanellato
---  Modified by: 
---  Created:     2011/11/19
---  Revision:    $Hash$
---  Licence:     GNU General Public License Version 2
+-- Name:        core.lua
+-- Purpose:     Core library project script.
+-- Author:      Andrea Zanellato
+-- Modified by: 
+-- Created:     2011/11/19
+-- Revision:    $Hash$
+-- Copyright:   (c) Andrea Zanellato
+-- Licence:     GNU General Public License Version 2
 -----------------------------------------------------------------------------
 project "LibCore"
     kind        "SharedLib"
     files
     {
-        "../../include/core/**.h", "../../src/core/**.cpp",
+        "../../include/wxguidesigner/**.h", "../../src/wxguidesigner/**.cpp",
         "../../include/wx/**.h", "../../src/wx/**.cpp",
         "../../output/db/controls.xml", "../../output/db/controls/**.xml"
     }
@@ -19,9 +20,14 @@ project "LibCore"
     {
         "../../include"
     }
-    defines             {"MAKINGDLL_CORE"}
+    excludes
+    {
+        "../../src/wxguidesigner/codegenerator/**.*",
+        "../../include/wxguidesigner/codegenerator/**.*"
+    }
+    defines             {"MAKINGDLL_WXGUIDESIGNER"}
     flags               {"ExtraWarnings"}
---  links               {"LibCodeGen"}
+-- links               {"LibCodeGen"}
     targetname          ( CustomPrefix .. "core" )
 
     configuration "not windows"

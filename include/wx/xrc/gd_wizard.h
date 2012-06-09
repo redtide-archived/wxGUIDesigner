@@ -6,6 +6,7 @@
 // Modified by: 
 // Created:     2012/06/05
 // Revision:    $Hash$
+// Copyright:   (c) Andrea Zanellato
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
 #ifndef __WX_XRC_GD_WIZARD_H__
