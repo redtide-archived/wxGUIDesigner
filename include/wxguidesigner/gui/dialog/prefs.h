@@ -14,6 +14,7 @@
 class wxBitmapComboBox;
 class wxButton;
 class wxCheckBox;
+class wxCheckListBox;
 class wxChoice;
 class wxDialog;
 class wxPanel;
@@ -53,6 +54,26 @@ private:
     wxTreebook              *m_tbkPrefs;
 };
 //=============================================================================
+// wxGDPageProject
+//=============================================================================
+class wxGDPageProject : public wxPanel 
+{
+public:
+    wxGDPageProject( wxGDHandler *handler, wxGDDialogPrefs *parent ); 
+    ~wxGDPageProject();
+
+private:
+    void OnPrefsChanged ( wxCommandEvent &event );
+    void OnUpdatePrefs  ( wxCommandEvent &event );
+    void OnSavePrefs    ( wxCommandEvent &event );
+
+    wxGDHandler     *m_handler;
+    wxChoice        *m_choPrjVer;
+    wxChoice        *m_choPrjEnc;
+    wxChoice        *m_choWxVer;
+    wxCheckListBox  *m_clbCodeGen;
+};
+//=============================================================================
 // wxGDPageLocale
 //=============================================================================
 class wxGDPageLocale : public wxPanel 
@@ -69,8 +90,6 @@ private:
     wxGDHandler      *m_handler;
     wxBitmapComboBox *m_bcbLang;
     wxCheckBox       *m_chkLang;
-    wxPanel          *m_pnlLocale;
-    wxStaticText     *m_lblLang;
 
     bool m_enabled;
     int  m_selected;
@@ -100,7 +119,6 @@ private:
     wxCheckBox       *m_chkTabsIndent;
     wxChoice         *m_choTabsWidth;
     wxSpinCtrl       *m_spnCaretW;
-
 };
 
 #endif //__WXGUIDESIGNER_GUI_DIALOG_PREFS_H__
