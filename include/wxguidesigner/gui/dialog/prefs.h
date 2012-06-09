@@ -72,6 +72,10 @@ private:
     wxChoice        *m_choPrjEnc;
     wxChoice        *m_choWxVer;
     wxCheckListBox  *m_clbCodeGen;
+
+    int m_selEnc;
+    int m_selXrcVer;
+    int m_selWxVer;
 };
 //=============================================================================
 // wxGDPageLocale

@@ -15,6 +15,8 @@
 #include <wx/choice.h>
 #include <wx/config.h>
 #include <wx/dialog.h>
+#include <wx/fontenum.h>
+#include <wx/fontmap.h>
 #include <wx/imaglist.h>
 #include <wx/panel.h>
 #include <wx/sizer.h>
@@ -166,12 +168,19 @@ m_clbCodeGen( NULL )
     lblPrjVer->Wrap( -1 );
     prjVerSizer->Add( lblPrjVer, 0, wxALIGN_CENTER_VERTICAL, 0 );
 
-    wxString m_choPrjVerChoices[] = { _("2.3.0.1"), _("2.5.3.0"), _("Custom") };
+    wxConfigBase::Get()->Read( "xrc/encoding",  &m_selEnc,    0 );
+    wxConfigBase::Get()->Read( "xrc/version",   &m_selXrcVer, 1 );
+    wxConfigBase::Get()->Read( "xrc/wxversion", &m_selWxVer,  2 );
+
+    if( (m_selXrcVer < 0) || (m_selXrcVer > 2)  ) m_selXrcVer = 1;
+    if( (m_selWxVer  < 0) || (m_selWxVer  > 2)  ) m_selWxVer  = 2;
+
+    wxString m_choPrjVerChoices[] = { "2.3.0.1", "2.5.3.0", _("Custom") };
     int m_choPrjVerNChoices = sizeof( m_choPrjVerChoices ) / sizeof( wxString );
     m_choPrjVer = new wxChoice( pnlProject, wxID_ANY, wxDefaultPosition,
                                 wxDefaultSize, m_choPrjVerNChoices,
                                 m_choPrjVerChoices, 0 );
-    m_choPrjVer->SetSelection( 1 );
+    m_choPrjVer->SetSelection( m_selXrcVer );
     m_choPrjVer->SetToolTip( _("Choose the XRC version to use") );
 
     prjVerSizer->Add( m_choPrjVer, 0, wxEXPAND, 0 );
@@ -181,19 +190,34 @@ m_clbCodeGen( NULL )
                                                 wxDefaultPosition,
                                                 wxDefaultSize, 0 );
     lblPrjEnc->Wrap( -1 );
-    prjVerSizer->Add( lblPrjEnc, 0, wxALIGN_CENTER_VERTICAL|wxLEFT, 5 );
+    prjVerSizer->Add( lblPrjEnc, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, 5 );
 
-    wxArrayString m_choPrjEncChoices;
+    wxArrayString   fontEncodings;
+    wxFontEncoding  fontEncoding;
+    size_t          encCount = wxFontMapper::GetSupportedEncodingsCount();
+
+    if( (m_selEnc < 0) || (m_selEnc > (int)encCount)  ) m_selXrcVer = 0;
+
+    for( size_t i = 0; i < encCount; i++ )
+    {
+        fontEncoding = wxFontMapper::GetEncoding(i);
+        if( (fontEncoding == wxFONTENCODING_SYSTEM) ||
+            (fontEncoding == wxFONTENCODING_DEFAULT) )
+            continue;
+
+        fontEncodings.Add( wxFontMapper::GetEncodingName(fontEncoding) );
+    }
+
     m_choPrjEnc = new wxChoice( pnlProject, wxID_ANY, wxDefaultPosition,
-                                wxDefaultSize, m_choPrjEncChoices, 0 );
-    m_choPrjEnc->SetSelection( 0 );
+                                wxDefaultSize, fontEncodings, 0 );
+    m_choPrjEnc->SetSelection( m_selEnc );
     prjVerSizer->Add( m_choPrjEnc, 1, 0, 5 );
 
     prjSizer->Add( prjVerSizer, 0, wxEXPAND, 0 );
 
-    wxArrayString m_clbCodeGenChoices;
+    wxArrayString codeGenChoices;
     m_clbCodeGen = new wxCheckListBox( pnlProject, wxID_ANY, wxDefaultPosition,
-                                        wxDefaultSize, m_clbCodeGenChoices,
+                                        wxDefaultSize, codeGenChoices,
                                         wxLB_EXTENDED | wxLB_HSCROLL | wxLB_SORT |
                                         wxLB_MULTIPLE | wxLB_NEEDED_SB );
     m_clbCodeGen->Enable( false );
@@ -225,12 +249,11 @@ m_clbCodeGen( NULL )
     lblWxer->Wrap( -1 );
     wxVerSizer->Add( lblWxer, 0, wxALIGN_CENTER_VERTICAL, 0 );
 
-    wxString m_choWxVerChoices[] = {"2.8", "2.9"};
-    int m_choWxVerNChoices = sizeof( m_choWxVerChoices ) / sizeof( wxString );
+    wxString wxVerChoices[] = {"2.8", "2.9", _("All")};
+    int wxVerNChoices = sizeof( wxVerChoices ) / sizeof( wxString );
     m_choWxVer = new wxChoice( pnlProject1, wxID_ANY, wxDefaultPosition,
-                                wxDefaultSize, m_choWxVerNChoices,
-                                                m_choWxVerChoices, 0 );
-    m_choWxVer->SetSelection( 1 );
+                                wxDefaultSize, wxVerNChoices, wxVerChoices, 0 );
+    m_choWxVer->SetSelection( m_selWxVer );
     m_choWxVer->SetToolTip( _("Choose the XRC version to use") );
 
     wxVerSizer->Add( m_choWxVer, 0, wxEXPAND, 0 );
@@ -246,25 +269,55 @@ m_clbCodeGen( NULL )
     SetSizer( projectSizer );
     Layout();
     projectSizer->Fit( this );
+
+    m_choPrjEnc->Bind( wxEVT_COMMAND_CHOICE_SELECTED,
+                                    &wxGDPageProject::OnPrefsChanged, this );
+    m_choPrjVer->Bind( wxEVT_COMMAND_CHOICE_SELECTED,
+                                    &wxGDPageProject::OnPrefsChanged, this );
+    m_choWxVer->Bind( wxEVT_COMMAND_CHOICE_SELECTED,
+                                    &wxGDPageProject::OnPrefsChanged, this );
+
+    Bind( wxGD_EVT_GUI_CONFIG_UPDATE, &wxGDPageProject::OnUpdatePrefs, this );
+    Bind( wxGD_EVT_GUI_CONFIG_SAVE,   &wxGDPageProject::OnSavePrefs,   this );
 }
 
 wxGDPageProject::~wxGDPageProject()
 {
+    m_choPrjEnc->Unbind( wxEVT_COMMAND_CHOICE_SELECTED,
+                                    &wxGDPageProject::OnPrefsChanged, this );
+    m_choPrjVer->Unbind( wxEVT_COMMAND_CHOICE_SELECTED,
+                                    &wxGDPageProject::OnPrefsChanged, this );
+    m_choWxVer->Unbind( wxEVT_COMMAND_CHOICE_SELECTED,
+                                    &wxGDPageProject::OnPrefsChanged, this );
+
+    Unbind( wxGD_EVT_GUI_CONFIG_UPDATE, &wxGDPageProject::OnUpdatePrefs, this );
+    Unbind( wxGD_EVT_GUI_CONFIG_SAVE,   &wxGDPageProject::OnSavePrefs,   this );
 }
 
 void wxGDPageProject::OnPrefsChanged( wxCommandEvent &event )
 {
-    
+    bool isDirty = (m_selEnc    != m_choPrjEnc->GetSelection()) ||
+                   (m_selXrcVer != m_choPrjVer->GetSelection()) ||
+                   (m_selWxVer  != m_choWxVer->GetSelection());
+
+    wxCommandEvent evt( wxGD_EVT_GUI_OPTION_CHANGED );
+    evt.SetInt( isDirty ? 1 : 0 );
+    GetParent()->GetEventHandler()->ProcessEvent( evt );
 }
 
 void wxGDPageProject::OnUpdatePrefs( wxCommandEvent &event )
 {
-    
+    m_selEnc    = m_choPrjEnc->GetSelection();
+    m_selXrcVer = m_choPrjVer->GetSelection();
+    m_selWxVer  = m_choWxVer->GetSelection();
 }
 
 void wxGDPageProject::OnSavePrefs( wxCommandEvent &event )
 {
-    
+    wxConfigBase::Get()->Write( "xrc/encoding",  m_choPrjEnc->GetSelection() );
+    wxConfigBase::Get()->Write( "xrc/version",   m_choPrjVer->GetSelection() );
+    wxConfigBase::Get()->Write( "xrc/wxversion", m_choWxVer->GetSelection() );
+    wxConfigBase::Get()->Flush();
 }
 //=============================================================================
 // wxGDPageLocale
@@ -333,10 +386,10 @@ m_selected  ( 0 )
     localeSizer->Fit( this );
 
     m_chkLang->Bind( wxEVT_COMMAND_CHECKBOX_CLICKED,
-                        &wxGDPageLocale::OnPrefsChanged, this );
+                                    &wxGDPageLocale::OnPrefsChanged, this );
 
     m_bcbLang->Bind( wxEVT_COMMAND_COMBOBOX_SELECTED,
-                        &wxGDPageLocale::OnPrefsChanged, this );
+                                    &wxGDPageLocale::OnPrefsChanged, this );
 
     Bind( wxGD_EVT_GUI_CONFIG_UPDATE, &wxGDPageLocale::OnUpdatePrefs, this );
     Bind( wxGD_EVT_GUI_CONFIG_SAVE,   &wxGDPageLocale::OnSavePrefs,   this );
@@ -344,11 +397,14 @@ m_selected  ( 0 )
 
 wxGDPageLocale::~wxGDPageLocale()
 {
-    m_chkLang->Bind( wxEVT_COMMAND_CHECKBOX_CLICKED,
+    m_chkLang->Unbind( wxEVT_COMMAND_CHECKBOX_CLICKED,
                         &wxGDPageLocale::OnPrefsChanged, this );
 
-    m_bcbLang->Bind( wxEVT_COMMAND_COMBOBOX_SELECTED,
+    m_bcbLang->Unbind( wxEVT_COMMAND_COMBOBOX_SELECTED,
                         &wxGDPageLocale::OnPrefsChanged, this );
+
+    Unbind( wxGD_EVT_GUI_CONFIG_UPDATE, &wxGDPageLocale::OnUpdatePrefs, this );
+    Unbind( wxGD_EVT_GUI_CONFIG_SAVE,   &wxGDPageLocale::OnSavePrefs,   this );
 }
 
 void wxGDPageLocale::OnPrefsChanged( wxCommandEvent & )
@@ -511,10 +567,19 @@ m_spnCaretW     ( NULL )
 
     SetSizer( mainSizer );
     Layout();
+
+
+
+    Bind( wxGD_EVT_GUI_CONFIG_UPDATE, &wxGDPageEditors::OnUpdatePrefs, this );
+    Bind( wxGD_EVT_GUI_CONFIG_SAVE,   &wxGDPageEditors::OnSavePrefs,   this );
 }
 
 wxGDPageEditors::~wxGDPageEditors()
 {
+
+
+    Unbind( wxGD_EVT_GUI_CONFIG_UPDATE, &wxGDPageEditors::OnUpdatePrefs, this );
+    Unbind( wxGD_EVT_GUI_CONFIG_SAVE,   &wxGDPageEditors::OnSavePrefs,   this );
 }
 
 void wxGDPageEditors::OnPrefsChanged( wxCommandEvent & )
