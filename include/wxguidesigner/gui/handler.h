@@ -12,7 +12,6 @@
 #define __WXGUIDESIGNER_GUI_HANDLER_H__
 
 #include <wx/xml/xml.h>
-
 #include "wxguidesigner/dllimpexp.h"
 #include "wxguidesigner/defs.h"
 #include <map>
@@ -22,6 +21,7 @@ class wxEvtHandler;
 class wxDialog;
 class wxFrame;
 class wxImageList;
+class wxLocale;
 class wxMenuBar;
 class wxNotebook;
 class wxPaintEvent;
@@ -90,6 +90,8 @@ public:
     shared_ptr< ObjectTree > GetTree() const { return m_tree; }
 
 private:
+    void  SelectLanguage( int language );
+
     void SendEvent( wxEvent &event, bool delayed = false );
 
     void OnWindowPaint( wxPaintEvent &event );
@@ -117,6 +119,7 @@ private:
     shared_ptr< wxGDArtProvider >   m_icons;
     shared_ptr< ObjectTree >        m_tree;
     wxGDSettings                    m_settings;
+    wxLocale m_locale;
 };
 
 #endif //__WXGUIDESIGNER_GUI_HANDLER_H__

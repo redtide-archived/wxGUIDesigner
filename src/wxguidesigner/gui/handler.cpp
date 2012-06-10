@@ -16,6 +16,7 @@
 #include <wx/frame.h>
 #include <wx/fs_arc.h>
 #include <wx/fs_mem.h>
+#include <wx/intl.h>
 #include <wx/notebook.h>
 #include <wx/propgrid/propgrid.h>
 #include <wx/stc/stc.h>
@@ -77,7 +78,7 @@ m_tree          ( new ObjectTree() )//,
 //m_settings      ( new Settings() )
 {
     // TODO: Remove this when using m_settings
-    delete wxConfigBase::Set( new wxConfig( wxTheApp->GetAppDisplayName() ) );
+//  delete wxConfigBase::Set( new wxConfig( wxTheApp->GetAppDisplayName() ) );
 
     wxXmlResource::Get()->InitAllHandlers();
     wxXmlResource::Get()->AddHandler( new wxStyledTextCtrlXmlHandler );
@@ -98,6 +99,27 @@ m_tree          ( new ObjectTree() )//,
     wxXmlResource::Get()->Load( wxGDMainMenu );
     wxXmlResource::Get()->Load( wxGDToolbar );
     wxXmlResource::Get()->Load( wxGDAboutDialog );
+
+    bool enabled = false; int selected = 0; int language = 0;
+    delete wxConfigBase::Set( new wxConfig( wxTheApp->GetAppDisplayName() ) );
+
+    wxConfigBase::Get()->Read( "locale/enabled",  &enabled,  false );
+    wxConfigBase::Get()->Read( "locale/selected", &selected, 0 );
+
+    if( enabled )
+    {
+        switch( selected )
+        {
+            case 0:
+                language = wxLANGUAGE_DEFAULT; break;
+            case 1:
+                language = wxLANGUAGE_ENGLISH; break;
+            case 2:
+                language = wxLANGUAGE_ITALIAN; break;
+        }
+
+        SelectLanguage( language );
+    }
 
     // TODO: Retrieve the XRC version from config
     wxXmlNode *root = new wxXmlNode( NULL, wxXML_ELEMENT_NODE, "resource" );
@@ -163,7 +185,7 @@ wxTextCtrl *wxGDHandler::GetDebugWindow( wxWindow *parent )
     {
         m_debug = new wxGDDebugWindow( this, parent );
         m_logOld = wxLog::SetActiveTarget(new wxLogTextCtrl(m_debug));
-        wxLogMessage("Started");
+        wxLogMessage(_("Started") );
     }
 
     return m_debug;
@@ -472,4 +494,32 @@ void wxGDHandler::SendEvent( wxEvent &event, bool delayed )
         else
             (*handler)->ProcessEvent( event );
     }
+}
+
+void wxGDHandler::SelectLanguage( int language )
+{
+    if ( !m_locale.Init( language ) )
+    {
+        wxLogDebug("This language is not supported by the system.");
+        return;
+    } 
+
+#ifdef __WXGTK__
+
+    wxLocale::AddCatalogLookupPathPrefix("/usr/share/locale");
+    wxLocale::AddCatalogLookupPathPrefix("/usr/local/share/locale");
+
+#elif defined(__WXMSW__)
+
+    wxLocale::AddCatalogLookupPathPrefix( wxStandardPaths::Get().GetDataDir() +
+                                        "\\locale" );
+#endif
+    wxLocale::AddCatalogLookupPathPrefix("locale");
+
+    m_locale.AddCatalog("wxguidesigner");
+
+#ifdef __LINUX__
+    wxLogNull noLog;
+    m_locale.AddCatalog("fileutils");
+#endif
 }

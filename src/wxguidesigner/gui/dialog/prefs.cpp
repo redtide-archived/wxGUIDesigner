@@ -26,6 +26,10 @@
 #include <wx/treebook.h>
 #include <wx/xrc/xmlres.h>
 
+#include "wxguidesigner/gui/flags/en_GB.xpm"
+#include "wxguidesigner/gui/flags/it.xpm"
+#include "wxguidesigner/gui/flags/default.xpm"
+
 #include "wxguidesigner/gui/dialog/prefs.h"
 #include "wxguidesigner/settings.h"
 #include "wxguidesigner/gui/handler.h"
@@ -294,7 +298,7 @@ wxGDPageProject::~wxGDPageProject()
     Unbind( wxGD_EVT_GUI_CONFIG_SAVE,   &wxGDPageProject::OnSavePrefs,   this );
 }
 
-void wxGDPageProject::OnPrefsChanged( wxCommandEvent &event )
+void wxGDPageProject::OnPrefsChanged( wxCommandEvent & )
 {
     bool isDirty = (m_selEnc    != m_choPrjEnc->GetSelection()) ||
                    (m_selXrcVer != m_choPrjVer->GetSelection()) ||
@@ -305,14 +309,14 @@ void wxGDPageProject::OnPrefsChanged( wxCommandEvent &event )
     GetParent()->GetEventHandler()->ProcessEvent( evt );
 }
 
-void wxGDPageProject::OnUpdatePrefs( wxCommandEvent &event )
+void wxGDPageProject::OnUpdatePrefs( wxCommandEvent & )
 {
     m_selEnc    = m_choPrjEnc->GetSelection();
     m_selXrcVer = m_choPrjVer->GetSelection();
     m_selWxVer  = m_choWxVer->GetSelection();
 }
 
-void wxGDPageProject::OnSavePrefs( wxCommandEvent &event )
+void wxGDPageProject::OnSavePrefs( wxCommandEvent & )
 {
     wxConfigBase::Get()->Write( "xrc/encoding",  m_choPrjEnc->GetSelection() );
     wxConfigBase::Get()->Write( "xrc/version",   m_choPrjVer->GetSelection() );
@@ -344,13 +348,10 @@ m_selected  ( 0 )
     m_bcbLang   = new wxBitmapComboBox( pnlLocale, wxID_ANY, wxEmptyString,
                                         wxDefaultPosition, wxDefaultSize,
                                                     0, NULL, wxCB_READONLY );
-    wxBitmap bmp        = wxNullBitmap;
-    wxBitmap bmpDefault = wxXmlResource::Get()->LoadBitmap("default");
 
-    if( bmpDefault.IsOk() )
-        bmp = bmpDefault;
-
-    m_bcbLang->Append( _("System Default"), bmp );
+    m_bcbLang->Append( _("System Default"), wxBitmap( default_xpm ) );
+    m_bcbLang->Append( _("English"),        wxBitmap( en_GB_xpm ) );
+    m_bcbLang->Append( _("Italian"),        wxBitmap( it_xpm )  );
 /*
     wxGDSettings settings = m_handler->GetSettings();
     m_selected = settings->GetInt("locale/selected", 0);
@@ -365,7 +366,7 @@ m_selected  ( 0 )
     m_chkLang->SetValue    ( m_enabled );
 
     sbsLocale->Add( pnlLocale, 1, wxEXPAND, 5 );
-    localeSizer->Add( sbsLocale, 0, wxEXPAND|wxLEFT|wxRIGHT, 5 );
+    localeSizer->Add( sbsLocale, 0, wxEXPAND | wxLEFT | wxRIGHT, 5 );
 
     m_bcbLang->SetToolTip( _("Select language to use") );
     m_chkLang->SetToolTip( _("Enable / Disable wxGUIDesigner localization") );

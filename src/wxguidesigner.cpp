@@ -9,6 +9,7 @@
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 #include <wx/app.h>
+#include <wx/config.h>
 #include <wx/stdpaths.h>
 #include <wx/frame.h>
 
@@ -21,10 +22,13 @@
 class wxGUIDesignerApp : public wxApp
 {
 public:
-      bool  OnInit();
-      int   OnRun();
-      int   OnExit();
-      ~wxGUIDesignerApp();
+    wxGUIDesignerApp() {}
+    ~wxGUIDesignerApp() {}
+
+private:
+    bool  OnInit();
+    int   OnRun();
+    int   OnExit();
 };
 
 wxDECLARE_APP   ( wxGUIDesignerApp );
@@ -41,6 +45,8 @@ int wxGUIDesignerApp::OnRun()
 
     wxYield();
 
+    wxSetWorkingDirectory( wxStandardPaths::Get().GetDataDir() );
+
     wxFrame *frame = wxGUIDesigner::Get()->GetMainFrame();
 
     if( !frame )
@@ -48,8 +54,6 @@ int wxGUIDesignerApp::OnRun()
         wxLogError(_("Error while loading the main frame.") );
         return 1;
     }
-
-    wxSetWorkingDirectory( wxStandardPaths::Get().GetDataDir() );
 
     frame->Show( true );
     SetTopWindow( frame );
@@ -68,8 +72,4 @@ int wxGUIDesignerApp::OnExit()
 {
     wxGUIDesigner::Free();
     return wxApp::OnExit();
-}
-
-wxGUIDesignerApp::~wxGUIDesignerApp()
-{
 }
