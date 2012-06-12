@@ -1,0 +1,4260 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: wxGUIDesigner-0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-06-10 17:36+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Andrea Zanellato <zanellato.andrea@gmail.com>\n"
+"Language-Team: wxGUIDesigner\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: _;help;longhelp;description\n"
+"X-Poedit-SearchPath-0: include/wxguidesigner\n"
+"X-Poedit-SearchPath-1: src/wxguidesigner\n"
+"X-Poedit-SearchPath-2: output/db/controls\n"
+
+#: src/wxguidesigner/manager.cpp:103
+msgid "You cannot save over a file that is currently open in another instance.\n"
+msgstr ""
+
+#: src/wxguidesigner/manager.cpp:104
+msgid "Would you like to switch to that instance?"
+msgstr ""
+
+#: src/wxguidesigner/manager.cpp:106
+msgid "Open in Another Instance"
+msgstr ""
+
+#: src/wxguidesigner/gui/handler.cpp:130
+msgid "Controls"
+msgstr ""
+
+#: src/wxguidesigner/gui/handler.cpp:135
+msgid "Project"
+msgstr ""
+
+#: src/wxguidesigner/gui/handler.cpp:140
+msgid "Editor"
+msgstr ""
+
+#: src/wxguidesigner/gui/handler.cpp:144
+#: src/wxguidesigner/gui/propgrid/propbook.cpp:102
+msgid "Properties"
+msgstr ""
+
+#: src/wxguidesigner/gui/handler.cpp:149
+msgid "Debugger"
+msgstr ""
+
+#: src/wxguidesigner/gui/handler.cpp:167
+msgid "Started"
+msgstr ""
+
+#: src/wxguidesigner/gui/debugwindow.cpp:31
+msgid "Ok: "
+msgstr ""
+
+#: src/wxguidesigner/gui/debugwindow.cpp:40
+msgid "Warning: "
+msgstr ""
+
+#: src/wxguidesigner/gui/debugwindow.cpp:49
+msgid "Error: "
+msgstr ""
+
+#: src/wxguidesigner/gui/mainframe.cpp:296
+msgid "Current project file has been modified.\n"
+msgstr ""
+
+#: src/wxguidesigner/gui/mainframe.cpp:297
+msgid "Do you want to save the changes?"
+msgstr ""
+
+#: src/wxguidesigner/gui/mainframe.cpp:298
+msgid "Save project"
+msgstr ""
+
+#: src/wxguidesigner/gui/mainframe.cpp:365
+msgid "XRC Files"
+msgstr ""
+
+#: src/wxguidesigner/gui/mainframe.cpp:367
+msgid "All files"
+msgstr ""
+
+#: src/wxguidesigner/gui/mainframe.cpp:370
+msgid "Open Project"
+msgstr ""
+
+#: src/wxguidesigner/gui/mainframe.cpp:408
+msgid "The project file"
+msgstr ""
+
+#: src/wxguidesigner/gui/mainframe.cpp:409
+msgid "doesn't exist."
+msgstr ""
+
+#: src/wxguidesigner/gui/mainframe.cpp:410
+msgid "Would you like to remove it from the recent files list?"
+msgstr ""
+
+#: src/wxguidesigner/gui/mainframe.cpp:413
+msgid "Open recent project"
+msgstr ""
+
+#: src/wxguidesigner/gui/mainframe.cpp:431
+msgid "Save Project"
+msgstr ""
+
+#: src/wxguidesigner/gui/mainframe.cpp:432
+msgid "XRC Files (*.xrc)|*.xrc"
+msgstr ""
+
+#: src/wxguidesigner/gui/mainframe.cpp:450
+msgid "A file with same name already exists. Do you want to overwrite it?"
+msgstr ""
+
+#: src/wxguidesigner/gui/mainframe.cpp:451
+msgid "Overwrite"
+msgstr ""
+
+#: src/wxguidesigner/gui/editor.cpp:140
+msgid "Designer"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/propbook.cpp:103
+msgid "Events"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/propbmp.cpp:75
+msgid "files"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/propbmp.cpp:82
+msgid "Open an image file"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/propbmp.cpp:127
+#: src/wxguidesigner/gui/propgrid/props.cpp:117
+msgid "Default"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/propbmp.cpp:128
+msgid "wxArtProvider"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/propbmp.cpp:129
+msgid "File"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/artdialog.cpp:124
+msgid "Preview"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/artdialog.cpp:137
+msgid "Size:"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/props.cpp:26
+msgid "Width"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/props.cpp:27
+msgid "Height"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/props.cpp:118
+msgid "AppWorkspace"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/props.cpp:119
+msgid "ActiveBorder"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/props.cpp:120
+msgid "ActiveCaption"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/props.cpp:121
+msgid "ButtonFace"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/props.cpp:122
+msgid "ButtonHighlight"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/props.cpp:123
+msgid "ButtonShadow"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/props.cpp:124
+msgid "ButtonText"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/props.cpp:125
+msgid "CaptionText"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/props.cpp:126
+msgid "ControlDark"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/props.cpp:127
+msgid "ControlLight"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/props.cpp:128
+msgid "Desktop"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/props.cpp:129
+msgid "GrayText"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/props.cpp:130
+msgid "Highlight"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/props.cpp:131
+msgid "HighlightText"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/props.cpp:132
+msgid "InactiveBorder"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/props.cpp:133
+msgid "InactiveCaption"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/props.cpp:134
+msgid "InactiveCaptionText"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/props.cpp:135
+msgid "Menu"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/props.cpp:136
+msgid "Scrollbar"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/props.cpp:137
+msgid "Tooltip"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/props.cpp:138
+msgid "TooltipText"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/props.cpp:139
+msgid "Window"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/props.cpp:140
+msgid "WindowFrame"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/props.cpp:141
+msgid "WindowText"
+msgstr ""
+
+#: src/wxguidesigner/gui/propgrid/props.cpp:142
+#: src/wxguidesigner/gui/dialog/prefs.cpp:182
+msgid "Custom"
+msgstr ""
+
+#: src/wxguidesigner/gui/dialog/prefs.cpp:45
+msgid "Preferences"
+msgstr ""
+
+#: src/wxguidesigner/gui/dialog/prefs.cpp:77
+#: src/wxguidesigner/gui/dialog/prefs.cpp:341
+msgid "Locale"
+msgstr ""
+
+#: src/wxguidesigner/gui/dialog/prefs.cpp:88
+msgid "Editors"
+msgstr ""
+
+#: src/wxguidesigner/gui/dialog/prefs.cpp:164
+msgid "XRC"
+msgstr ""
+
+#: src/wxguidesigner/gui/dialog/prefs.cpp:171
+#: src/wxguidesigner/gui/dialog/prefs.cpp:250
+msgid "Version:"
+msgstr ""
+
+#: src/wxguidesigner/gui/dialog/prefs.cpp:188
+#: src/wxguidesigner/gui/dialog/prefs.cpp:261
+msgid "Choose the XRC version to use"
+msgstr ""
+
+#: src/wxguidesigner/gui/dialog/prefs.cpp:193
+msgid "Encoding:"
+msgstr ""
+
+#: src/wxguidesigner/gui/dialog/prefs.cpp:229
+msgid "Choose the code language to generate"
+msgstr ""
+
+#: src/wxguidesigner/gui/dialog/prefs.cpp:242
+msgid "wxWidgets"
+msgstr ""
+
+#: src/wxguidesigner/gui/dialog/prefs.cpp:256
+msgid "All"
+msgstr ""
+
+#: src/wxguidesigner/gui/dialog/prefs.cpp:346
+msgid "Enable Localization"
+msgstr ""
+
+#: src/wxguidesigner/gui/dialog/prefs.cpp:352
+msgid "System Default"
+msgstr ""
+
+#: src/wxguidesigner/gui/dialog/prefs.cpp:353
+msgid "English"
+msgstr ""
+
+#: src/wxguidesigner/gui/dialog/prefs.cpp:354
+msgid "Italian"
+msgstr ""
+
+#: src/wxguidesigner/gui/dialog/prefs.cpp:371
+msgid "Select language to use"
+msgstr ""
+
+#: src/wxguidesigner/gui/dialog/prefs.cpp:372
+msgid "Enable / Disable wxGUIDesigner localization"
+msgstr ""
+
+#: src/wxguidesigner/gui/dialog/prefs.cpp:454
+msgid "Editor:"
+msgstr ""
+
+#: src/wxguidesigner/gui/dialog/prefs.cpp:476
+msgid "Show Line Numbers"
+msgstr ""
+
+#: src/wxguidesigner/gui/dialog/prefs.cpp:477
+msgid "Show Indentation Guides"
+msgstr ""
+
+#: src/wxguidesigner/gui/dialog/prefs.cpp:478
+msgid "View Whitespace"
+msgstr ""
+
+#: src/wxguidesigner/gui/dialog/prefs.cpp:479
+msgid "View EOL"
+msgstr ""
+
+#: src/wxguidesigner/gui/dialog/prefs.cpp:480
+msgid "Backspace Unindents"
+msgstr ""
+
+#: src/wxguidesigner/gui/dialog/prefs.cpp:512
+msgid "Guides"
+msgstr ""
+
+#: src/wxguidesigner/gui/dialog/prefs.cpp:520
+msgid "Use Tabs"
+msgstr ""
+
+#: src/wxguidesigner/gui/dialog/prefs.cpp:521
+msgid "Tabs Indent"
+msgstr ""
+
+#: src/wxguidesigner/gui/dialog/prefs.cpp:527
+msgid "Tabs Width:"
+msgstr ""
+
+#: src/wxguidesigner/gui/dialog/prefs.cpp:549
+msgid "Tabs"
+msgstr ""
+
+#: src/wxguidesigner/gui/dialog/prefs.cpp:562
+msgid "Caret Width:"
+msgstr ""
+
+#: src/wxguidesigner/gui/dialog/prefs.cpp:577
+msgid "Misc"
+msgstr ""
+
+#: src/wxguidesigner/gui/toplevel/wizard.cpp:204
+#: src/wxguidesigner/gui/toplevel/wizard.cpp:275
+msgid "&Finish"
+msgstr ""
+
+#: src/wxguidesigner/rtti/tree.cpp:619
+msgid "Unknown object type"
+msgstr ""
+
+#: include/wxguidesigner/gui/propgrid/artdialog.h:31
+msgid "Load From wxArtProvider"
+msgstr ""
+
+#: output/db/controls/core/window.xml:13
+msgid "wxWindow is the base class for all windows and represents any visible object on screen."
+msgstr ""
+
+#: output/db/controls/core/window.xml:19
+msgid "Initial position of the window (default: wxDefaultPosition)."
+msgstr ""
+
+#: output/db/controls/core/window.xml:22
+msgid "Initial size of the window (default: wxDefaultSize)."
+msgstr ""
+
+#: output/db/controls/core/window.xml:25
+msgid "Window style for this control. The allowed values depend on what window is being created, consult respective class' constructor documentation for details (default: window-dependent default, usually wxFOO_DEFAULT_STYLE if defined for class wxFoo, 0 if not)."
+msgstr ""
+
+#: output/db/controls/core/window.xml:27
+msgid "Displays no border, overriding the default border style for the window. wxNO_BORDER is the old name for this style."
+msgstr ""
+
+#: output/db/controls/core/window.xml:30
+msgid "Displays a border suitable for a static control. wxSTATIC_BORDER is the old name for this style. Windows only."
+msgstr ""
+
+#: output/db/controls/core/window.xml:33
+msgid "Displays a thin border around the window. wxSIMPLE_BORDER is the old name for this style."
+msgstr ""
+
+#: output/db/controls/core/window.xml:36
+msgid "Displays a raised border. wxRAISED_BORDER is the old name for this style."
+msgstr ""
+
+#: output/db/controls/core/window.xml:39
+msgid "Displays a sunken border. wxSUNKEN_BORDER is the old name for this style."
+msgstr ""
+
+#: output/db/controls/core/window.xml:42
+msgid "Displays a native border suitable for a control, on the current platform. On Windows XP or Vista, this will be a themed border; on most other platforms a sunken border will be used. For more information for themed borders on Windows, please see Themed borders on Windows."
+msgstr ""
+
+#: output/db/controls/core/window.xml:45
+msgid "The window is transparent, that is, it will not receive paint events. Windows only."
+msgstr ""
+
+#: output/db/controls/core/window.xml:48
+msgid "Use this to enable tab traversal for non-dialog windows."
+msgstr ""
+
+#: output/db/controls/core/window.xml:51
+msgid "Use this to indicate that the window wants to get all char/key events for all keys - even for keys like TAB or ENTER which are usually used for dialog navigation and which wouldn't be generated without this style. If you need to use this style in order to get the arrows or etc., but would still like to have normal keyboard navigation take place, you should call Navigate in response to the key events for Tab and Shift-Tab."
+msgstr ""
+
+#: output/db/controls/core/window.xml:54
+msgid "Use this style to enable a vertical scrollbar. Notice that this style cannot be used with native controls which don't support scrollbars nor with top-level windows in most ports."
+msgstr ""
+
+#: output/db/controls/core/window.xml:57
+msgid "Use this style to enable a horizontal scrollbar. The same limitations as for wxVSCROLL apply to this style."
+msgstr ""
+
+#: output/db/controls/core/window.xml:60
+msgid "If a window has scrollbars, disable them instead of hiding them when they are not needed (i.e. when the size of the window is big enough to not require the scrollbars to navigate it). This style is currently implemented for wxMSW, wxGTK and wxUniversal and does nothing on the other platforms."
+msgstr ""
+
+#: output/db/controls/core/window.xml:63
+msgid "Use this style to eliminate flicker caused by the background being repainted, then children being painted over them. Windows only."
+msgstr ""
+
+#: output/db/controls/core/window.xml:66
+msgid "Use this style to force a complete redraw of the window whenever it is resized instead of redrawing just the part of the window affected by resizing. Note that this was the behaviour by default before 2.5.1 release and that if you experience redraw problems with code which previously used to work you may want to try this. Currently this style applies on GTK+ 2 and Windows only, and full repainting is always done on other platforms."
+msgstr ""
+
+#: output/db/controls/core/window.xml:70
+msgid "Extra style for the window, if any. See wxWindow::SetExtraStyle() (default: not set)."
+msgstr ""
+
+#: output/db/controls/core/window.xml:72
+msgid "By default, wxWindow::Validate(), wxWindow::TransferDataTo() and wxWindow::TransferDataFromWindow() only work on direct children of the window (compatible behaviour). Set this flag to make them recursively descend into all subwindows."
+msgstr ""
+
+#: output/db/controls/core/window.xml:75
+msgid "wxCommandEvents and the objects of the derived classes are forwarded to the parent window and so on recursively by default. Using this flag for the given window allows to block this propagation at this window, i.e. prevent the events from being propagated further upwards. Dialogs have this flag on by default for the reasons explained in the Events and Event Handling."
+msgstr ""
+
+#: output/db/controls/core/window.xml:78
+msgid "Don't use this window as an implicit parent for the other windows: this must be used with transient windows as otherwise there is the risk of creating a dialog/frame with this window as a parent, which would lead to a crash if the parent were destroyed before the child."
+msgstr ""
+
+#: output/db/controls/core/window.xml:81
+msgid "Under Windows, puts a query button on the caption. When pressed, Windows will go into a context-sensitive help mode and wxWidgets will send a wxEVT_HELP event if the user clicked on an application window. This style cannot be used (because of the underlying native behaviour) together with wxMAXIMIZE_BOX or wxMINIMIZE_BOX, so these two styles are automatically turned off if this one is used."
+msgstr ""
+
+#: output/db/controls/core/window.xml:84
+msgid "This window should always process idle events, even if the mode set by wxIdleEvent::SetMode is wxIDLE_PROCESS_SPECIFIED."
+msgstr ""
+
+#: output/db/controls/core/window.xml:87
+msgid "This window should always process UI update events, even if the mode set by wxUpdateUIEvent::SetMode is wxUPDATE_UI_PROCESS_SPECIFIED."
+msgstr ""
+
+#: output/db/controls/core/window.xml:91
+msgid "Foreground colour of the window (default: window's default)."
+msgstr ""
+
+#: output/db/controls/core/window.xml:94
+msgid "Non-inheritable foreground colour of the window, see wxWindow::SetOwnForegroundColour() (default: none)."
+msgstr ""
+
+#: output/db/controls/core/window.xml:97
+msgid "Background colour of the window (default: window's default)."
+msgstr ""
+
+#: output/db/controls/core/window.xml:100
+msgid "Non-inheritable background colour of the window, see wxWindow::SetOwnBackgroundColour() (default: none)."
+msgstr ""
+
+#: output/db/controls/core/window.xml:103
+msgid "Font to use for the control (default: window's default)."
+msgstr ""
+
+#: output/db/controls/core/window.xml:106
+msgid "Non-inheritable font to use for the control, see wxWindow::SetOwnFont() (default: none)."
+msgstr ""
+
+#: output/db/controls/core/window.xml:109
+msgid "If set to 0, the control is disabled (default: 1)."
+msgstr ""
+
+#: output/db/controls/core/window.xml:112
+msgid "If set to 1, the control is created hidden (default: 0)."
+msgstr ""
+
+#: output/db/controls/core/window.xml:115
+msgid "Tooltip to use for the control (default: not set)."
+msgstr ""
+
+#: output/db/controls/core/window.xml:118
+msgid "Context-sensitive help for the control, used by wxHelpProvider (default: not set)."
+msgstr ""
+
+#: output/db/controls/core/window.xml:121
+msgid ""
+"\n"
+"            <p>A focus event is sent when a window's focus changes. </p>\n"
+"            <p>The window losing focus receives a \"kill focus\" event while the window gaining it gets a \"set focus\" one.</p>\n"
+"            <p>Notice that the set focus event happens both when the user gives focus to the window (whether using the mouse or keyboard) and when it is done from the program itself using <a title=\"This sets the window to receive keyboard input.\" href=\"http://docs.wxwidgets.org/trunk/classwx_window.html#a697f9f8d3ff389790f1c74b59bcb1d75\" class=\"el\">wxWindow::SetFocus</a>.</p>\n"
+"        "
+msgstr ""
+
+#: output/db/controls/core/window.xml:128
+msgid "Process a wxEVT_SET_FOCUS event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:132
+msgid "Process a wxEVT_KILL_FOCUS event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:136
+msgid "A help event is sent when the user has requested context-sensitive help."
+msgstr ""
+
+#: output/db/controls/core/window.xml:140
+msgid "Process a wxEVT_HELP event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:144
+msgid "This event class contains information about joystick events, particularly events received by windows."
+msgstr ""
+
+#: output/db/controls/core/window.xml:147
+#: output/db/controls/core/window.xml:295
+msgid "Process all joystick events."
+msgstr ""
+
+#: output/db/controls/core/window.xml:151
+msgid "Process a wxEVT_JOY_BUTTON_DOWN event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:155
+msgid "Process a wxEVT_JOY_BUTTON_UP event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:159
+msgid "Process a wxEVT_JOY_MOVE event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:163
+msgid "Process a wxEVT_JOY_ZMOVE event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:167
+msgid "This event class contains information about key press and release events."
+msgstr ""
+
+#: output/db/controls/core/window.xml:170
+msgid "Process a wxEVT_KEY_DOWN event (any key has been pressed)."
+msgstr ""
+
+#: output/db/controls/core/window.xml:174
+msgid "Process a wxEVT_KEY_UP event (any key has been released)."
+msgstr ""
+
+#: output/db/controls/core/window.xml:178
+msgid "Process a wxEVT_CHAR event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:182
+msgid "Process a wxEVT_CHAR_HOOK event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:186
+msgid "This event class contains information about the events generated by the mouse: they include mouse buttons press and release events and mouse move events."
+msgstr ""
+
+#: output/db/controls/core/window.xml:189
+msgid "Process all mouse events."
+msgstr ""
+
+#: output/db/controls/core/window.xml:193
+msgid "Process a wxEVT_ENTER_WINDOW event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:197
+msgid "Process a wxEVT_LEAVE_WINDOW event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:201
+msgid "Process a wxEVT_LEFT_DOWN event. The handler of this event should normally call event.Skip() to allow the default processing to take place as otherwise the window under mouse wouldn't get the focus."
+msgstr ""
+
+#: output/db/controls/core/window.xml:205
+msgid "Process a wxEVT_LEFT_UP event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:209
+msgid "Process a wxEVT_LEFT_DCLICK event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:213
+msgid "Process a wxEVT_MIDDLE_DOWN event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:217
+msgid "Process a wxEVT_MIDDLE_UP event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:221
+msgid "Process a wxEVT_MIDDLE_DCLICK event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:225
+msgid "Process a wxEVT_RIGHT_DOWN event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:229
+msgid "Process a wxEVT_RIGHT_UP event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:233
+msgid "Process a wxEVT_RIGHT_DCLICK event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:237
+msgid "Process a wxEVT_AUX1_DOWN event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:241
+msgid "Process a wxEVT_AUX1_UP event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:245
+msgid "Process a wxEVT_AUX1_DCLICK event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:249
+msgid "Process a wxEVT_AUX2_DOWN event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:253
+msgid "Process a wxEVT_AUX2_UP event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:257
+msgid "Process a wxEVT_AUX2_DCLICK event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:261
+msgid "Process a wxEVT_MOTION event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:265
+msgid "Process a wxEVT_MOUSEWHEEL event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:292
+msgid "A scroll event holds information about events sent from scrolling windows."
+msgstr ""
+
+#: output/db/controls/core/window.xml:299
+msgid "Process wxEVT_SCROLLWIN_TOP scroll-to-top events."
+msgstr ""
+
+#: output/db/controls/core/window.xml:303
+msgid "Process wxEVT_SCROLLWIN_BOTTOM scroll-to-bottom events."
+msgstr ""
+
+#: output/db/controls/core/window.xml:307
+msgid "Process wxEVT_SCROLLWIN_LINEUP line up events."
+msgstr ""
+
+#: output/db/controls/core/window.xml:311
+msgid "Process wxEVT_SCROLLWIN_LINEDOWN line down events."
+msgstr ""
+
+#: output/db/controls/core/window.xml:315
+msgid "Process wxEVT_SCROLLWIN_PAGEUP page up events."
+msgstr ""
+
+#: output/db/controls/core/window.xml:319
+msgid "Process wxEVT_SCROLLWIN_PAGEDOWN page down events."
+msgstr ""
+
+#: output/db/controls/core/window.xml:323
+msgid "Process wxEVT_SCROLLWIN_THUMBTRACK thumbtrack events (frequent events sent as the user drags the thumbtrack)."
+msgstr ""
+
+#: output/db/controls/core/window.xml:327
+msgid "Process wxEVT_SCROLLWIN_THUMBRELEASE thumb release events."
+msgstr ""
+
+#: output/db/controls/core/window.xml:331
+msgid "An activate event is sent when a window or application is being activated or deactivated."
+msgstr ""
+
+#: output/db/controls/core/window.xml:334
+msgid "Process a wxEVT_ACTIVATE event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:338
+msgid "A child focus event is sent to a (parent-)window when one of its child windows gains focus, so that the window could restore the focus back to its corresponding child if it loses it now and regains later."
+msgstr ""
+
+#: output/db/controls/core/window.xml:341
+msgid "Process a wxEVT_CHILD_FOCUS event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:345
+msgid "This class is used for context menu events, sent to give the application a chance to show a context (popup) menu for a wxWindow."
+msgstr ""
+
+#: output/db/controls/core/window.xml:348
+msgid "A right click (or other context menu command depending on platform) has been detected."
+msgstr ""
+
+#: output/db/controls/core/window.xml:352
+msgid "This class is used for drop files events, that is, when files have been dropped onto the window."
+msgstr ""
+
+#: output/db/controls/core/window.xml:355
+msgid "Process a wxEVT_DROP_FILES event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:359
+msgid "An erase event is sent when a window's background needs to be repainted."
+msgstr ""
+
+#: output/db/controls/core/window.xml:362
+msgid "Process a wxEVT_ERASE_BACKGROUND event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:366
+msgid "This class is used for idle events, which are generated when the system becomes idle."
+msgstr ""
+
+#: output/db/controls/core/window.xml:369
+msgid "Process a wxEVT_IDLE event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:373
+msgid "A mouse capture lost event is sent to a window that had obtained mouse capture, which was subsequently lost due to an \"external\" event (for example, when a dialog box is shown or if another application captures the mouse)."
+msgstr ""
+
+#: output/db/controls/core/window.xml:376
+msgid "Process a wxEVT_MOUSE_CAPTURE_LOST event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:380
+msgid ""
+"\n"
+"            <p>An mouse capture changed event is sent to a window that loses its mouse capture. </p>\n"
+"            <p>This is called even if <a title=\"Releases mouse input captured with CaptureMouse().\" href=\"http://docs.wxwidgets.org/trunk/classwx_window.html#adcc538819c11ecb3bd3e4e5d13c5ba7a\" class=\"el\">wxWindow::ReleaseMouse</a> was called by the application code. Handling this event allows an application to cater for unexpected capture releases which might otherwise confuse mouse handling code.</p>\n"
+"            <div><span class=\"avail\">Availability:</span>  only available for the <a href=\"http://docs.wxwidgets.org/trunk/page_port.html#page_port_wxmsw\" class=\"el\">wxMSW</a> port.</div>\n"
+"        "
+msgstr ""
+
+#: output/db/controls/core/window.xml:387
+msgid "Process a wxEVT_MOUSE_CAPTURE_CHANGED event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:391
+msgid "A paint event is sent when a window's contents needs to be repainted."
+msgstr ""
+
+#: output/db/controls/core/window.xml:394
+msgid "Process a wxEVT_PAINT event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:398
+msgid "A wxSetCursorEvent is generated from wxWindow when the mouse cursor is about to be set as a result of mouse motion."
+msgstr ""
+
+#: output/db/controls/core/window.xml:401
+msgid "Process a wxEVT_SET_CURSOR event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:405
+msgid "A size event holds information about size change events of wxWindow."
+msgstr ""
+
+#: output/db/controls/core/window.xml:408
+msgid "Process a wxEVT_SIZE event."
+msgstr ""
+
+#: output/db/controls/core/window.xml:412
+msgid "This class is used for system colour change events, which are generated when the user changes the colour settings using the control panel."
+msgstr ""
+
+#: output/db/controls/core/window.xml:415
+msgid "Process a wxEVT_SYS_COLOUR_CHANGED event."
+msgstr ""
+
+#: output/db/controls/core/project.xml:13
+msgid "Main root class"
+msgstr ""
+
+#: output/db/controls/core/control.xml:13
+msgid ""
+"\n"
+"        <p>This is the base class for a control or \"widget\".</p>\n"
+"        <p>A control is generally a small window which processes user input and/or displays one or more item of data.</p>\n"
+"    "
+msgstr ""
+
+#: output/db/controls/core/control.xml:18
+msgid "Label to display on the control."
+msgstr ""
+
+#: output/db/controls/core/control.xml:23
+msgid "Some or all of the controls content was copied to the clipboard."
+msgstr ""
+
+#: output/db/controls/core/control.xml:27
+msgid "Some or all of the controls content was cut (i.e. copied and deleted)."
+msgstr ""
+
+#: output/db/controls/core/control.xml:31
+msgid "Clipboard content was pasted into the control."
+msgstr ""
+
+#: output/db/controls/core/sizer.xml:15
+msgid "Minimal size that this sizer will have, see wxSizer::SetMinSize() (default: no min size)."
+msgstr ""
+
+#: output/db/controls/core/sizer.xml:25
+#: output/db/controls/core/sizer.xml:143
+msgid "The \"option\" value for sizers. Used by wxBoxSizer to set proportion of the item in the growable direction (default: 0)."
+msgstr ""
+
+#: output/db/controls/core/sizer.xml:44
+#: output/db/controls/core/sizer.xml:106
+msgid "The item will be expanded to fill the space assigned to the item."
+msgstr ""
+
+#: output/db/controls/core/sizer.xml:47
+#: output/db/controls/core/sizer.xml:109
+msgid "The item will be expanded as much as possible while also maintaining its aspect ratio."
+msgstr ""
+
+#: output/db/controls/core/sizer.xml:50
+#: output/db/controls/core/sizer.xml:112
+msgid "Normally wxSizers will use GetAdjustedBestSize() to determine what the minimal size of window items should be, and will use that size to calculate the layout. This allows layouts to adjust when an item changes and its best size becomes different. If you would rather have a window item stay the size it started with then use wxFIXED_MINSIZE."
+msgstr ""
+
+#: output/db/controls/core/sizer.xml:53
+#: output/db/controls/core/sizer.xml:115
+msgid "Normally wxSizers don't allocate space for hidden windows or other items. This flag overrides this behaviour so that sufficient space is allocated for the window even if it isn't visible. This makes it possible to dynamically show and hide controls without resizing parent dialog, for example. (Available since 2.8.8.)"
+msgstr ""
+
+#: output/db/controls/core/sizer.xml:78
+#: output/db/controls/core/sizer.xml:146
+msgid "Size of the border around the item (directions are specified in flags) (default: 0)."
+msgstr ""
+
+#: output/db/controls/core/sizer.xml:81
+#: output/db/controls/core/sizer.xml:149
+msgid "Minimal size of this item (default: no min size)."
+msgstr ""
+
+#: output/db/controls/core/sizer.xml:84
+#: output/db/controls/core/sizer.xml:152
+msgid "Item ratio, see wxSizer::SetRatio() (default: no ratio)."
+msgstr ""
+
+#: output/db/controls/core/sizer.xml:140
+msgid "Size of the empty space (required)."
+msgstr ""
+
+#: output/db/controls/core/toplevel.xml:13
+msgid "wxTopLevelWindow is a common base class for wxDialog and wxFrame.<p>It is an abstract base class meaning that you never work with objects of this class directly, but all of its methods are also applicable for the two classes above.</p><p>Note that the instances of wxTopLevelWindow are managed by wxWidgets in the internal top level window list.</p>"
+msgstr ""
+
+#: output/db/controls/core/toplevel.xml:18
+msgid "Window's title (default: empty)."
+msgstr ""
+
+#: output/db/controls/core/toplevel.xml:21
+msgid "Window's icon (default: not used)."
+msgstr ""
+
+#: output/db/controls/core/toplevel.xml:24
+msgid "Whether the dialog should be centered on the screen (default: 0)."
+msgstr ""
+
+#: output/db/controls/core/toplevel.xml:27
+msgid ""
+"\n"
+"            A move event holds information about <a title=\"wxTopLevelWindow is a common base class for wxDialog and wxFrame.\" href=\"http://docs.wxwidgets.org/trunk/classwx_top_level_window.html\" class=\"el\">wxTopLevelWindow</a> move change events. </p>\n"
+"            <p>These events are currently only generated by wxMSW port.</p>\n"
+"        "
+msgstr ""
+
+#: output/db/controls/core/toplevel.xml:33
+msgid "Process a wxEVT_MOVE event, which is generated when a window is moved."
+msgstr ""
+
+#: output/db/controls/core/toplevel.xml:37
+msgid "Process a wxEVT_MOVING event, which is generated while the user is moving the window. wxMSW only."
+msgstr ""
+
+#: output/db/controls/core/toplevel.xml:41
+msgid "Process a wxEVT_MOVE_START event, which is generated when the user starts to move or size a window. wxMSW only."
+msgstr ""
+
+#: output/db/controls/core/toplevel.xml:45
+msgid "Process a wxEVT_MOVE_END event, which is generated when the user stops moving or sizing a window. wxMSW only."
+msgstr ""
+
+#: output/db/controls/core/toplevel.xml:49
+msgid ""
+"\n"
+"            <p>An event being sent when a top level window is maximized.</p>\n"
+"            <p>Notice that it is not sent when the window is restored to its original size after it had been maximized, only a normal <a title=\"A size event holds information about size change events of wxWindow.\" href=\"http://docs.wxwidgets.org/trunk/classwx_size_event.html\" class=\"el\">wxSizeEvent</a> is generated in this case.</p>\n"
+"            <p>Currently this event is only generated in wxMSW, wxGTK, wxOSX/Cocoa and wxOS2 ports so portable programs should only rely on receiving <code>wxEVT_SIZE</code> and not necessarily this event when the window is maximized.</p>\n"
+"        "
+msgstr ""
+
+#: output/db/controls/core/toplevel.xml:56
+msgid "Process a wxEVT_MAXIMIZE event."
+msgstr ""
+
+#: output/db/controls/core/toplevel.xml:60
+msgid ""
+"\n"
+"            <p>An event being sent when the window is shown or hidden. </p>\n"
+"            <p>The event is triggered by calls to <a title=\"Shows or hides the window.\" href=\"http://docs.wxwidgets.org/trunk/classwx_window.html#a7fbc92ce240a8d4f6956b6e0276ef07f\" class=\"el\">wxWindow::Show()</a>, and any user action showing a previously hidden window or vice versa (if allowed by the current platform and/or window manager). Notice that the event is not triggered when the application is iconized (minimized) or restored under wxMSW.</p>\n"
+"        "
+msgstr ""
+
+#: output/db/controls/core/toplevel.xml:66
+msgid "Process a wxEVT_SHOW event."
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:14
+msgid "A toolbar is a bar of buttons and/or other controls usually placed below the menu bar in a wxFrame."
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:29
+msgid "Gives the toolbar a flat look (Windows and GTK only)."
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:32
+msgid "Makes the toolbar floatable and dockable (GTK only)."
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:35
+msgid "Specifies horizontal layout (default)."
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:38
+msgid "Specifies vertical layout."
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:41
+msgid "Shows the text in the toolbar buttons; by default only icons are shown."
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:44
+msgid "Specifies no icons in the toolbar buttons; by default they are shown."
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:47
+msgid "Specifies no divider (border) above the toolbar (Windows only)"
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:50
+msgid "Specifies no alignment with the parent window (Windows only, not very useful)."
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:53
+msgid "Shows the text and the icons alongside, not vertically stacked (Windows and GTK 2 only). This style must be used with wxTB_TEXT."
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:56
+msgid "Combination of wxTB_HORZ_LAYOUT and wxTB_TEXT."
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:59
+msgid "Don't show the short help tooltips for the tools when the mouse hovers over them."
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:62
+msgid "Align the toolbar at the bottom of parent window."
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:65
+msgid "Align the toolbar at the right side of parent window."
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:69
+msgid "Size of toolbar bitmaps (default: not set)."
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:72
+msgid "Margins (default: platform default)."
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:75
+msgid "Packing, see wxToolBar::SetToolPacking() (default: not set)."
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:78
+msgid "Default separator size, see wxToolBar::SetToolSeparation() (default: not set)."
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:81
+msgid "If set to 0 and the toolbar object is child of a wxFrame, wxFrame::SetToolBar() is called; otherwise, you have to add it to a frame manually. The toolbar is attached by default, you have to set this property to 1 to disable this behaviour (default: 0)."
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:85
+msgid "Process a wxEVT_COMMAND_TOOL_CLICKED event (a synonym for wxEVT_COMMAND_MENU_SELECTED). Pass the id of the tool."
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:88
+msgid "The same as wxEVT_COMMAND_TOOL_CLICKED."
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:91
+msgid "Process a wxEVT_COMMAND_TOOL_RCLICKED event. Pass the id of the tool. (Not available on wxOSX.)"
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:94
+msgid "Process a wxEVT_COMMAND_TOOL_ENTER event. Pass the id of the toolbar itself. The value of wxCommandEvent::GetSelection() is the tool id, or -1 if the mouse cursor has moved off a tool. (Not available on wxOSX.)"
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:97
+msgid "Process a wxEVT_COMMAND_TOOL_DROPDOWN_CLICKED event. If unhandled, displays the default dropdown menu set using wxToolBar::SetDropdownMenu()."
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:110
+msgid "Tool's bitmap (required)."
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:113
+msgid "Bitmap for disabled tool (default: derived from bitmap)."
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:116
+msgid "Label to display on the tool (default: no label)."
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:120
+msgid "A normal button (default)"
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:123
+msgid "A checkable tool which makes part of a radio group of tools each of which is automatically unchecked whenever another button in the group is checked."
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:126
+msgid "A checkable tool (such tool stays pressed after it had been toggled)"
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:129
+msgid "Specifies that a drop-down menu button will appear next to the tool button (only GTK+ and MSW) (only available since wxWidgets 2.9.0)."
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:133
+msgid "Tooltip to use for the tool (default: none)."
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:136
+msgid "Help text shown in statusbar when the mouse is on the tool (default: none)."
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:139
+msgid "Is the tool initially disabled (default: 0)?"
+msgstr ""
+
+#: output/db/controls/bars/toolbar.xml:142
+msgid "Is the tool initially checked (default: 0)? (only available since wxWidgets 2.9.3)"
+msgstr ""
+
+#: output/db/controls/bars/menubar.xml:14
+msgid "A menu bar is a series of menus accessible from the top of a frame."
+msgstr ""
+
+#: output/db/controls/bars/menubar.xml:26
+msgid "The menu bar can be detached (wxGTK only)."
+msgstr ""
+
+#: output/db/controls/bars/menubar.xml:32
+msgid "A menu is a popup (or pull down) list of items, one of which may be selected before the menu goes away (clicking elsewhere dismisses the menu)."
+msgstr ""
+
+#: output/db/controls/bars/menubar.xml:43
+msgid "Menu's label (default: empty, but required for menus other than popup menus)."
+msgstr ""
+
+#: output/db/controls/bars/menubar.xml:46
+msgid "Help shown in statusbar when the menu is selected (only for submenus of another wxMenu, default: none)."
+msgstr ""
+
+#: output/db/controls/bars/menubar.xml:50
+msgid "Is the submenu item enabled (only for submenus of another wxMenu, default: 1)?"
+msgstr ""
+
+#: output/db/controls/bars/menubar.xml:55
+msgid "A menu item represents an item in a menu."
+msgstr ""
+
+#: output/db/controls/bars/menubar.xml:60
+msgid "Bitmap to show with the item (default: none)."
+msgstr ""
+
+#: output/db/controls/bars/menubar.xml:63
+msgid "Bitmap for the checked state (wxMSW, if checkable; default: none)."
+msgstr ""
+
+#: output/db/controls/bars/menubar.xml:66
+msgid "Item's label (required)."
+msgstr ""
+
+#: output/db/controls/bars/menubar.xml:69
+#: output/db/controls/bars/statusbar.xml:51
+msgid "Item's accelerator (default: none)."
+msgstr ""
+
+#: output/db/controls/bars/menubar.xml:73
+msgid "A normal menu item (default)"
+msgstr ""
+
+#: output/db/controls/bars/menubar.xml:76
+msgid "A checkable menu item which makes part of a radio group of menu items each of which is automatically unchecked whenever another menu item in the group is checked."
+msgstr ""
+
+#: output/db/controls/bars/menubar.xml:79
+msgid "A checkable menu item (such menu item stays pressed after it had been toggled)"
+msgstr ""
+
+#: output/db/controls/bars/menubar.xml:83
+msgid "Help shown in statusbar when the item is selected (default: none)."
+msgstr ""
+
+#: output/db/controls/bars/menubar.xml:86
+msgid "Is the item enabled (default: 1)?"
+msgstr ""
+
+#: output/db/controls/bars/menubar.xml:89
+msgid "Is the item checked initially (default: 0)?"
+msgstr ""
+
+#: output/db/controls/bars/menubar.xml:93
+msgid "Process a wxEVT_COMMAND_MENU_SELECTED command, which is generated by a menu item."
+msgstr ""
+
+#: output/db/controls/bars/menubar.xml:96
+msgid "Process a wxEVT_COMMAND_MENU_RANGE command, which is generated by a range of menu items."
+msgstr ""
+
+#: output/db/controls/bars/menubar.xml:101
+msgid "A menu is about to be opened. On Windows, this is only sent once for each navigation of the menubar (up until all menus have closed)."
+msgstr ""
+
+#: output/db/controls/bars/menubar.xml:104
+msgid "A menu has been just closed."
+msgstr ""
+
+#: output/db/controls/bars/menubar.xml:107
+msgid "The menu item with the specified id has been highlighted: used to show help prompts in the status bar by wxFrame."
+msgstr ""
+
+#: output/db/controls/bars/statusbar.xml:13
+msgid "A status bar is a narrow window that can be placed along the bottom of a frame to give small amounts of status information."
+msgstr ""
+
+#: output/db/controls/bars/statusbar.xml:22
+msgid "Displays a gripper at the right-hand side of the status bar which can be used to resize the parent window."
+msgstr ""
+
+#: output/db/controls/bars/statusbar.xml:25
+msgid "Displays tooltips for those panes whose status text has been ellipsized/truncated because the status text doesn't fit the pane width. Note that this flag has effect only on wxGTK (with GTK+ >= 2.12) currently."
+msgstr ""
+
+#: output/db/controls/bars/statusbar.xml:28
+msgid "Replace the beginning of the status texts with an ellipsis when the status text widths exceed the status bar pane's widths (uses wxControl::Ellipsize)."
+msgstr ""
+
+#: output/db/controls/bars/statusbar.xml:31
+msgid "Replace the middle of the status texts with an ellipsis when the status text widths exceed the status bar pane's widths (uses wxControl::Ellipsize)."
+msgstr ""
+
+#: output/db/controls/bars/statusbar.xml:34
+msgid "Replace the end of the status texts with an ellipsis when the status text widths exceed the status bar pane's widths (uses wxControl::Ellipsize)."
+msgstr ""
+
+#: output/db/controls/bars/statusbar.xml:37
+msgid "The default style: includes wxSTB_SIZEGRIP|wxSTB_SHOW_TIPS|wxSTB_ELLIPSIZE_END|wxFULL_REPAINT_ON_RESIZE."
+msgstr ""
+
+#: output/db/controls/bars/statusbar.xml:42
+msgid "Number of status bar fields (default: 1)."
+msgstr ""
+
+#: output/db/controls/bars/statusbar.xml:45
+msgid "Comma-separated list of fields integers. Each value specifies width of one field; the values are interpreted using the same convention used by wxStatusBar::SetStatusWidths()."
+msgstr ""
+
+#: output/db/controls/bars/statusbar.xml:48
+msgid "Comma-separated list of fields flags. Each value specifies status bar field flag and can be one of wxSB_NORMAL, wxSB_FLAT or wxSB_RAISED. See wxStatusBar::SetStatusStyles() for their description."
+msgstr ""
+
+#: output/db/controls/web/simplehtmllistbox.xml:13
+msgid "wxSimpleHtmlListBox is an implementation of wxHtmlListBox which shows HTML content in the listbox rows."
+msgstr ""
+
+#: output/db/controls/web/simplehtmllistbox.xml:23
+msgid "The default style: wxBORDER_SUNKEN"
+msgstr ""
+
+#: output/db/controls/web/simplehtmllistbox.xml:26
+msgid "Multiple-selection list: the user can toggle multiple items on and off."
+msgstr ""
+
+#: output/db/controls/web/simplehtmllistbox.xml:30
+#: output/db/controls/web/simplehtmllistbox.xml:41
+#: output/db/controls/web/htmlwindow.xml:43
+#: output/db/controls/web/htmlwindow.xml:54
+msgid "This event class is used for the events generated by wxHtmlWindow."
+msgstr ""
+
+#: output/db/controls/web/simplehtmllistbox.xml:33
+#: output/db/controls/web/htmlwindow.xml:46
+msgid "A wxHtmlCell was clicked."
+msgstr ""
+
+#: output/db/controls/web/simplehtmllistbox.xml:37
+#: output/db/controls/web/htmlwindow.xml:50
+msgid "The mouse passed over a wxHtmlCell."
+msgstr ""
+
+#: output/db/controls/web/simplehtmllistbox.xml:44
+#: output/db/controls/web/htmlwindow.xml:57
+msgid "A wxHtmlCell which contains an hyperlink was clicked."
+msgstr ""
+
+#: output/db/controls/web/htmlwindow.xml:13
+msgid "wxHtmlWindow is probably the only class you will directly use unless you want to do something special (like adding new tag handlers or MIME filters)."
+msgstr ""
+
+#: output/db/controls/web/htmlwindow.xml:23
+msgid "Never display scrollbars, not even when the page is larger than the window."
+msgstr ""
+
+#: output/db/controls/web/htmlwindow.xml:26
+msgid "Display scrollbars only if page's size exceeds window's size."
+msgstr ""
+
+#: output/db/controls/web/htmlwindow.xml:29
+msgid "Don't allow the user to select text."
+msgstr ""
+
+#: output/db/controls/web/htmlwindow.xml:33
+msgid "Page to display in the window."
+msgstr ""
+
+#: output/db/controls/web/htmlwindow.xml:36
+msgid "HTML markup to display in the window."
+msgstr ""
+
+#: output/db/controls/web/htmlwindow.xml:40
+msgid "Border around HTML content (default: 0)."
+msgstr ""
+
+#: output/db/controls/web/webview.xml:13
+msgid "This control may be used to render web (HTML / CSS / javascript) documents."
+msgstr ""
+
+#: output/db/controls/web/webview.xml:22
+msgid "The IE backend uses Microsoft's Trident rendering engine, specifically the version used by the locally installed copy of Internet Explorer. As such it is only available for the MSW port. By default recent versions of the <a href=\"http://msdn.microsoft.com/en-us/library/aa752085%28v=VS.85%29.aspx\">WebBrowser</a> control, which this backend uses, emulate Internet Explorer 7. This can be changed with a registry setting, see <a href=\"http://msdn.microsoft.com/en-us/library/ee330730%28v=vs.85%29.aspx#browser_emulation\">this</a> article for more information. This backend has full support for custom schemes and virtual file systems."
+msgstr ""
+
+#: output/db/controls/web/webview.xml:25
+msgid "Under GTK the WebKit backend uses <a href=\"http://webkitgtk.org/\">WebKitGTK+</a>. The current minimum version required is 1.3.1 which ships by default with Ubuntu Natty and Debian Wheezy and has the package name libwebkitgtk-dev. Custom schemes and virtual files systems are supported under this backend, however embedded resources such as images and stylesheets are currently loaded using the data:// scheme."
+msgstr ""
+
+#: output/db/controls/web/webview.xml:28
+msgid "The OSX WebKit backend uses Apple's <a href=\"http://developer.apple.com/library/mac/#documentation/Cocoa/Reference/WebKit/Classes/WebView_Class/Reference/Reference.html#//apple_ref/doc/uid/20001903\">WebView</a> class. This backend has full support for custom schemes and virtual file systems."
+msgstr ""
+
+#: output/db/controls/web/webview.xml:32
+msgid "A navigation event holds information about events associated with wxWebView objects."
+msgstr ""
+
+#: output/db/controls/web/webview.xml:35
+msgid "Generated before trying to get a resource. This event may be vetoed to prevent navigating to this resource. Note that if the displayed HTML document has several frames, one such event will be generated per frame."
+msgstr ""
+
+#: output/db/controls/web/webview.xml:39
+msgid "Generated after it was confirmed that a resource would be requested. This event may not be vetoed. Note that if the displayed HTML document has several frames, one such event will be generated per frame."
+msgstr ""
+
+#: output/db/controls/web/webview.xml:43
+msgid "Generated when the document is fully loaded and displayed. Note that if the displayed HTML document has several frames, one such event will be generated per frame."
+msgstr ""
+
+#: output/db/controls/web/webview.xml:47
+msgid "Generated when a navigation error occurs. The integer associated with this event will be a wxWebNavigationError item. The string associated with this event may contain a backend-specific more precise error message/code."
+msgstr ""
+
+#: output/db/controls/web/webview.xml:51
+msgid "Generated when a new window is created. You must handle this event if you want anything to happen, for example to load the page in a new window or tab."
+msgstr ""
+
+#: output/db/controls/web/webview.xml:55
+msgid "Generated when the page title changes. Use GetString to get the title."
+msgstr ""
+
+#: output/db/controls/common/gauge.xml:13
+msgid "A gauge is a horizontal or vertical bar which shows a quantity (often time)."
+msgstr ""
+
+#: output/db/controls/common/gauge.xml:22
+msgid "Creates a horizontal gauge."
+msgstr ""
+
+#: output/db/controls/common/gauge.xml:25
+msgid "Creates a vertical gauge."
+msgstr ""
+
+#: output/db/controls/common/gauge.xml:28
+msgid "Creates smooth progress bar with one pixel wide update step (not supported by all platforms)."
+msgstr ""
+
+#: output/db/controls/common/gauge.xml:33
+msgid "Maximum value of the gauge (default: 100)."
+msgstr ""
+
+#: output/db/controls/common/gauge.xml:36
+#: output/db/controls/common/slider.xml:64
+#: output/db/controls/common/spinctrl.xml:42
+#: output/db/controls/common/spinbutton.xml:36
+msgid "Initial value of the control (default: 0)."
+msgstr ""
+
+#: output/db/controls/common/gauge.xml:39
+msgid "Rendered shadow size (default: none; ignored by most platforms)."
+msgstr ""
+
+#: output/db/controls/common/gauge.xml:42
+msgid "Rendered bezel size (default: none; ignored by most platforms)."
+msgstr ""
+
+#: output/db/controls/common/slider.xml:13
+msgid ""
+"\n"
+"        <p>A slider is a control with a handle which can be pulled back and forth to change the value. </p>\n"
+"        <p>On Windows, the track bar control is used.</p>\n"
+"        <p>Slider events are handled in the same way as a scrollbar.</p>\n"
+"    "
+msgstr ""
+
+#: output/db/controls/common/slider.xml:26
+msgid "Displays the slider horizontally (this is the default)."
+msgstr ""
+
+#: output/db/controls/common/slider.xml:29
+msgid "Displays the slider vertically."
+msgstr ""
+
+#: output/db/controls/common/slider.xml:32
+msgid "Displays tick marks. Windows only."
+msgstr ""
+
+#: output/db/controls/common/slider.xml:35
+msgid "Displays minimum, maximum labels (new since wxWidgets 2.9.1)."
+msgstr ""
+
+#: output/db/controls/common/slider.xml:38
+msgid "Displays value label (new since wxWidgets 2.9.1)."
+msgstr ""
+
+#: output/db/controls/common/slider.xml:41
+msgid "Displays minimum, maximum and value labels (same as wxSL_VALUE_LABEL and wxSL_MIN_MAX_LABELS together)."
+msgstr ""
+
+#: output/db/controls/common/slider.xml:44
+msgid "Displays ticks on the left and forces the slider to be vertical."
+msgstr ""
+
+#: output/db/controls/common/slider.xml:47
+msgid "Displays ticks on the right and forces the slider to be vertical."
+msgstr ""
+
+#: output/db/controls/common/slider.xml:50
+msgid "Displays ticks on the top."
+msgstr ""
+
+#: output/db/controls/common/slider.xml:53
+msgid "Displays ticks on the bottom (this is the default)."
+msgstr ""
+
+#: output/db/controls/common/slider.xml:56
+msgid "Allows the user to select a range on the slider. Windows only."
+msgstr ""
+
+#: output/db/controls/common/slider.xml:59
+msgid "Inverses the minimum and maximum endpoints on the slider. Not compatible with wxSL_SELRANGE."
+msgstr ""
+
+#: output/db/controls/common/slider.xml:68
+#: output/db/controls/common/spinctrl.xml:46
+#: output/db/controls/common/spinbutton.xml:40
+msgid "Minimum allowed value (default: 0)."
+msgstr ""
+
+#: output/db/controls/common/slider.xml:72
+#: output/db/controls/common/spinctrl.xml:50
+#: output/db/controls/common/spinbutton.xml:44
+msgid "Maximum allowed value (default: 100)."
+msgstr ""
+
+#: output/db/controls/common/slider.xml:75
+msgid "Page size; number of steps the slider moves when the user moves pages up or down (default: unset)."
+msgstr ""
+
+#: output/db/controls/common/slider.xml:78
+msgid "Line size; number of steps the slider moves when the user moves it up or down a line (default: unset)."
+msgstr ""
+
+#: output/db/controls/common/slider.xml:81
+msgid "Tick marks frequency (Windows only; default: unset)."
+msgstr ""
+
+#: output/db/controls/common/slider.xml:84
+msgid "Tick position (Windows only; default: unset)."
+msgstr ""
+
+#: output/db/controls/common/slider.xml:87
+msgid "Thumb length (Windows only; default: unset)."
+msgstr ""
+
+#: output/db/controls/common/slider.xml:90
+msgid "Selection start position (Windows only; default: unset)."
+msgstr ""
+
+#: output/db/controls/common/slider.xml:93
+msgid "Selection end position (Windows only; default: unset)."
+msgstr ""
+
+#: output/db/controls/common/slider.xml:99
+msgid "Process all scroll events."
+msgstr ""
+
+#: output/db/controls/common/slider.xml:106
+msgid "Process wxEVT_SCROLL_TOP scroll-to-top events (minimum position)."
+msgstr ""
+
+#: output/db/controls/common/slider.xml:113
+msgid "Process wxEVT_SCROLL_BOTTOM scroll-to-bottom events (maximum position)."
+msgstr ""
+
+#: output/db/controls/common/slider.xml:120
+msgid "Process wxEVT_SCROLL_LINEUP line up events."
+msgstr ""
+
+#: output/db/controls/common/slider.xml:127
+msgid "Process wxEVT_SCROLL_LINEDOWN line down events."
+msgstr ""
+
+#: output/db/controls/common/slider.xml:134
+msgid "Process wxEVT_SCROLL_PAGEUP page up events."
+msgstr ""
+
+#: output/db/controls/common/slider.xml:141
+msgid "Process wxEVT_SCROLL_PAGEDOWN page down events."
+msgstr ""
+
+#: output/db/controls/common/slider.xml:148
+msgid "Process wxEVT_SCROLL_THUMBTRACK thumbtrack events (frequent events sent as the user drags the thumbtrack)."
+msgstr ""
+
+#: output/db/controls/common/slider.xml:155
+msgid "Process wxEVT_SCROLL_THUMBRELEASE thumb release events."
+msgstr ""
+
+#: output/db/controls/common/slider.xml:162
+msgid "Process wxEVT_SCROLL_CHANGED end of scrolling events (MSW only)."
+msgstr ""
+
+#: output/db/controls/common/slider.xml:168
+msgid "Process wxEVT_COMMAND_SLIDER_UPDATED which is generated after any change of wxSlider position in addition to one of the events above."
+msgstr ""
+
+#: output/db/controls/common/checklistbox.xml:14
+msgid "A wxCheckListBox is like a wxListBox, but allows items to be checked or unchecked."
+msgstr ""
+
+#: output/db/controls/common/checklistbox.xml:26
+msgid "Content of the control; this property has any number of >item< XML elements as its children, with the items text as their text values (see below; default: empty)."
+msgstr ""
+
+#: output/db/controls/common/checklistbox.xml:31
+msgid "Process a wxEVT_COMMAND_CHECKLISTBOX_TOGGLED event, when an item in the check list box is checked or unchecked. wxCommandEvent::GetInt() will contain the index of the item that was checked or unchecked. wxCommandEvent::IsChecked() is not valid! Use wxCheckListBox::IsChecked() instead."
+msgstr ""
+
+#: output/db/controls/common/spinctrl.xml:13
+msgid "wxSpinCtrl combines wxTextCtrl and wxSpinButton in one control."
+msgstr ""
+
+#: output/db/controls/common/spinctrl.xml:22
+#: output/db/controls/common/spinbutton.xml:28
+msgid "The user can use arrow keys to change the value."
+msgstr ""
+
+#: output/db/controls/common/spinctrl.xml:25
+#: output/db/controls/common/spinbutton.xml:31
+msgid "The value wraps at the minimum and maximum."
+msgstr ""
+
+#: output/db/controls/common/spinctrl.xml:28
+msgid "Indicates that the control should generate wxEVT_COMMAND_TEXT_ENTER events. Using this style will prevent the user from using the Enter key for dialog navigation (e.g. activating the default button in the dialog) under MSW."
+msgstr ""
+
+#: output/db/controls/common/spinctrl.xml:31
+msgid "Same as wxTE_LEFT for wxTextCtrl: the text is left aligned."
+msgstr ""
+
+#: output/db/controls/common/spinctrl.xml:34
+msgid "Same as wxTE_CENTRE for wxTextCtrl: the text is centered."
+msgstr ""
+
+#: output/db/controls/common/spinctrl.xml:37
+msgid "Same as wxTE_RIGHT for wxTextCtrl: the text is right aligned (this is the default)."
+msgstr ""
+
+#: output/db/controls/common/spinctrl.xml:54
+msgid "Process a wxEVT_COMMAND_SPINCTRL_UPDATED event, which is generated whenever the numeric value of the spin control is updated."
+msgstr ""
+
+#: output/db/controls/common/spinbutton.xml:13
+msgid "A wxSpinButton has two small up and down (or left and right) arrow buttons."
+msgstr ""
+
+#: output/db/controls/common/spinbutton.xml:22
+msgid "Specifies a horizontal spin button (note that this style is not supported in wxGTK)."
+msgstr ""
+
+#: output/db/controls/common/spinbutton.xml:25
+msgid "Specifies a vertical spin button."
+msgstr ""
+
+#: output/db/controls/common/spinbutton.xml:48
+msgid "Generated whenever an arrow is pressed."
+msgstr ""
+
+#: output/db/controls/common/spinbutton.xml:51
+msgid "Generated when left/up arrow is pressed."
+msgstr ""
+
+#: output/db/controls/common/spinbutton.xml:54
+msgid "Generated when right/down arrow is pressed."
+msgstr ""
+
+#: output/db/controls/common/scrollbar.xml:13
+msgid ""
+"\n"
+"        <p>A <a title=\"A wxScrollBar is a control that represents a horizontal or vertical scrollbar.\" href=\"http://docs.wxwidgets.org/trunk/classwx_scroll_bar.html\" class=\"el\">wxScrollBar</a> is a control that represents a horizontal or vertical scrollbar.</p>\n"
+"    "
+msgstr ""
+
+#: output/db/controls/common/scrollbar.xml:24
+msgid "Specifies a horizontal scrollbar."
+msgstr ""
+
+#: output/db/controls/common/scrollbar.xml:27
+msgid "Specifies a vertical scrollbar."
+msgstr ""
+
+#: output/db/controls/common/scrollbar.xml:32
+msgid "Initial position of the scrollbar (default: 0)."
+msgstr ""
+
+#: output/db/controls/common/scrollbar.xml:36
+msgid "Maximum value of the gauge (default: 10)."
+msgstr ""
+
+#: output/db/controls/common/scrollbar.xml:40
+msgid "Size of the thumb (default: 1)."
+msgstr ""
+
+#: output/db/controls/common/scrollbar.xml:44
+msgid "Page size (default: 1)."
+msgstr ""
+
+#: output/db/controls/common/textctrl.xml:13
+msgid "A text control allows text to be displayed and edited."
+msgstr ""
+
+#: output/db/controls/common/textctrl.xml:22
+msgid "The control will generate the event wxEVT_COMMAND_TEXT_ENTER (otherwise pressing Enter key is either processed internally by the control or used for navigation between dialog controls)."
+msgstr ""
+
+#: output/db/controls/common/textctrl.xml:25
+msgid "The control will receive wxEVT_CHAR events for TAB pressed - normally, TAB is used for passing to the next control in a dialog instead. For the control created with this style, you can still use Ctrl-Enter to pass to the next control from the keyboard."
+msgstr ""
+
+#: output/db/controls/common/textctrl.xml:28
+msgid "The text control allows multiple lines. If this style is not specified, line break characters should not be used in the controls value."
+msgstr ""
+
+#: output/db/controls/common/textctrl.xml:31
+msgid "The text will be echoed as asterisks."
+msgstr ""
+
+#: output/db/controls/common/textctrl.xml:34
+msgid "The text will not be user-editable."
+msgstr ""
+
+#: output/db/controls/common/textctrl.xml:37
+msgid "Use rich text control under Win32, this allows to have more than 64KB of text in the control even under Win9x. This style is ignored under other platforms."
+msgstr ""
+
+#: output/db/controls/common/textctrl.xml:40
+msgid "Use rich text control version 2.0 or 3.0 under Win32, this style is ignored under other platforms"
+msgstr ""
+
+#: output/db/controls/common/textctrl.xml:43
+msgid "Highlight the URLs and generate the wxTextUrlEvents when mouse events occur over them. This style is only supported for wxTE_RICH Win32 and multi-line wxGTK2 text controls."
+msgstr ""
+
+#: output/db/controls/common/textctrl.xml:46
+msgid "By default, the Windows text control doesn't show the selection when it doesn't have focus - use this style to force it to always show it. It doesn't do anything under other platforms."
+msgstr ""
+
+#: output/db/controls/common/textctrl.xml:49
+msgid "A horizontal scrollbar will be created and used, so that text won't be wrapped. No effect under wxGTK1."
+msgstr ""
+
+#: output/db/controls/common/textctrl.xml:52
+msgid "For multiline controls only: vertical scrollbar will never be created. This limits the amount of text which can be entered into the control to what can be displayed in it under MSW but not under GTK2. Currently not implemented for the other platforms."
+msgstr ""
+
+#: output/db/controls/common/textctrl.xml:55
+msgid "The text in the control will be left-justified (default)."
+msgstr ""
+
+#: output/db/controls/common/textctrl.xml:58
+msgid "The text in the control will be centered (currently wxMSW and wxGTK2 only)."
+msgstr ""
+
+#: output/db/controls/common/textctrl.xml:61
+msgid "The text in the control will be right-justified (currently wxMSW and wxGTK2 only)."
+msgstr ""
+
+#: output/db/controls/common/textctrl.xml:64
+msgid "Same as wxHSCROLL style: don't wrap at all, show horizontal scrollbar instead."
+msgstr ""
+
+#: output/db/controls/common/textctrl.xml:67
+msgid "Wrap the lines too long to be shown entirely at any position (wxUniv and wxGTK2 only)."
+msgstr ""
+
+#: output/db/controls/common/textctrl.xml:70
+msgid "Wrap the lines too long to be shown entirely at word boundaries (wxUniv and wxGTK2 only)."
+msgstr ""
+
+#: output/db/controls/common/textctrl.xml:73
+msgid "Wrap the lines at word boundaries or at any other character if there are words longer than the window width (this is the default)."
+msgstr ""
+
+#: output/db/controls/common/textctrl.xml:76
+msgid "On PocketPC and Smartphone, causes the first letter to be capitalized."
+msgstr ""
+
+#: output/db/controls/common/textctrl.xml:80
+msgid "Initial value of the control (default: empty)."
+msgstr ""
+
+#: output/db/controls/common/textctrl.xml:83
+msgid "Maximum length of the text which can be entered by user (default: unlimited)."
+msgstr ""
+
+#: output/db/controls/common/textctrl.xml:88
+msgid "Respond to a wxEVT_COMMAND_TEXT_UPDATED event, generated when the text changes. Notice that this event will be sent when the text controls contents changes -- whether this is due to user input or comes from the program itself (for example, if wxTextCtrl::SetValue() is called); see wxTextCtrl::ChangeValue() for a function which does not send this event. This event is however not sent during the control creation."
+msgstr ""
+
+#: output/db/controls/common/textctrl.xml:92
+msgid "Respond to a wxEVT_COMMAND_TEXT_ENTER event, generated when enter is pressed in a text control which must have wxTE_PROCESS_ENTER style for this event to be generated."
+msgstr ""
+
+#: output/db/controls/common/textctrl.xml:96
+msgid "A mouse event occurred over an URL in the text control (wxMSW and wxGTK2 only currently)."
+msgstr ""
+
+#: output/db/controls/common/textctrl.xml:100
+msgid "This event is generated when the user tries to enter more text into the control than the limit set by wxTextCtrl::SetMaxLength(), see its description."
+msgstr ""
+
+#: output/db/controls/common/togglebutton.xml:13
+msgid "<p>wxToggleButton is a button that stays pressed when clicked by the user.</p><p>In other words, it is similar to wxCheckBox in functionality but looks like a wxButton.</p><p>Since wxWidgets version 2.9.0 this control emits an update UI event.</p>"
+msgstr ""
+
+#: output/db/controls/common/togglebutton.xml:23
+#: output/db/controls/common/bitmaptogglebutton.xml:23
+msgid "Left-justifies the label. Windows and GTK+ only."
+msgstr ""
+
+#: output/db/controls/common/togglebutton.xml:26
+#: output/db/controls/common/bitmaptogglebutton.xml:26
+msgid "Aligns the label to the top of the button. Windows and GTK+ only."
+msgstr ""
+
+#: output/db/controls/common/togglebutton.xml:29
+#: output/db/controls/common/bitmaptogglebutton.xml:29
+msgid "Right-justifies the bitmap label. Windows and GTK+ only."
+msgstr ""
+
+#: output/db/controls/common/togglebutton.xml:32
+#: output/db/controls/common/bitmaptogglebutton.xml:32
+msgid "Aligns the label to the bottom of the button. Windows and GTK+ only."
+msgstr ""
+
+#: output/db/controls/common/togglebutton.xml:35
+#: output/db/controls/common/bitmaptogglebutton.xml:35
+msgid "Creates the button as small as possible instead of making it of the standard size (which is the default behaviour )."
+msgstr ""
+
+#: output/db/controls/common/togglebutton.xml:38
+#: output/db/controls/common/bitmaptogglebutton.xml:38
+msgid "Disables the display of the text label in the button even if it has one or its id is one of the standard stock ids with an associated label: without using this style a button which is only supposed to show a bitmap but uses a standard id would display a label too."
+msgstr ""
+
+#: output/db/controls/common/togglebutton.xml:42
+msgid "Should the button be checked/pressed initially (default: 0)?"
+msgstr ""
+
+#: output/db/controls/common/togglebutton.xml:47
+msgid "Handles a wxEVT_COMMAND_TOGGLEBUTTON_CLICKED event."
+msgstr ""
+
+#: output/db/controls/common/filectrl.xml:13
+msgid "This control allows the user to select a file."
+msgstr ""
+
+#: output/db/controls/common/filectrl.xml:22
+msgid "The default style: wxFC_OPEN"
+msgstr ""
+
+#: output/db/controls/common/filectrl.xml:25
+msgid "Creates an file control suitable for opening files. Cannot be combined with wxFC_SAVE."
+msgstr ""
+
+#: output/db/controls/common/filectrl.xml:28
+msgid "Creates an file control suitable for saving files. Cannot be combined with wxFC_OPEN."
+msgstr ""
+
+#: output/db/controls/common/filectrl.xml:31
+msgid "For open control only, Allows selecting multiple files. Cannot be combined with wxFC_SAVE"
+msgstr ""
+
+#: output/db/controls/common/filectrl.xml:34
+msgid "Hides the \"Show Hidden Files\" checkbox (Generic only)"
+msgstr ""
+
+#: output/db/controls/common/filectrl.xml:38
+msgid "Sets the current directory displayed in the control."
+msgstr ""
+
+#: output/db/controls/common/filectrl.xml:41
+msgid "Selects a certain file."
+msgstr ""
+
+#: output/db/controls/common/filectrl.xml:44
+msgid "Sets the wildcard, which can contain multiple file types, for example: \"BMP files (*.bmp)|*.bmp|GIF files (*.gif)|*.gif\"."
+msgstr ""
+
+#: output/db/controls/common/filectrl.xml:49
+msgid "The user activated a file(by double-clicking or pressing Enter)"
+msgstr ""
+
+#: output/db/controls/common/filectrl.xml:53
+msgid "The user changed the current selection(by selecting or deselecting a file)"
+msgstr ""
+
+#: output/db/controls/common/filectrl.xml:57
+msgid "The current folder of the file control has been changed"
+msgstr ""
+
+#: output/db/controls/common/filectrl.xml:61
+msgid "The current file filter of the file control has been changed. (Since: 2.9.1)"
+msgstr ""
+
+#: output/db/controls/common/radiobox.xml:14
+msgid ""
+"\n"
+"            <p>A radio box item is used to select one of number of mutually exclusive choices.</p>\n"
+"            <p>It is displayed as a vertical column or horizontal row of labelled buttons.</p>\n"
+"        "
+msgstr ""
+
+#: output/db/controls/common/radiobox.xml:30
+msgid "The major dimension parameter refers to the maximum number of rows."
+msgstr ""
+
+#: output/db/controls/common/radiobox.xml:33
+msgid "The major dimension parameter refers to the maximum number of columns."
+msgstr ""
+
+#: output/db/controls/common/radiobox.xml:37
+msgid "Specifies the maximum number of rows (if style contains wxRA_SPECIFY_ROWS) or columns (if style contains wxRA_SPECIFY_COLS) for a two-dimensional radiobox (default: 1)."
+msgstr ""
+
+#: output/db/controls/common/radiobox.xml:40
+#: output/db/controls/common/choice.xml:26
+#: output/db/controls/common/listbox.xml:49
+#: output/db/controls/common/combobox.xml:38
+msgid "Index of the initially selected item or -1 for no selection (default: -1)."
+msgstr ""
+
+#: output/db/controls/common/radiobox.xml:43
+msgid "Content of the control; this property has any number of <item> XML elements as its children, with the items text as their text values (see below; default: empty)."
+msgstr ""
+
+#: output/db/controls/common/radiobox.xml:48
+msgid "Process a wxEVT_COMMAND_RADIOBOX_SELECTED event, when a radiobutton is clicked."
+msgstr ""
+
+#: output/db/controls/common/radiobox.xml:55
+msgid "Tooltip to show over this ratio button (default: none)."
+msgstr ""
+
+#: output/db/controls/common/radiobox.xml:58
+msgid "Contextual help for this radio button (default: none)."
+msgstr ""
+
+#: output/db/controls/common/radiobox.xml:61
+msgid "Is the button enabled (default: 1)?"
+msgstr ""
+
+#: output/db/controls/common/radiobox.xml:65
+msgid "Is the button hidden initially (default: 0)?"
+msgstr ""
+
+#: output/db/controls/common/infobar.xml:13
+msgid "An info bar is a transient window shown at top or bottom of its parent window to display non-critical information to the user."
+msgstr ""
+
+#: output/db/controls/common/genericdirctrl.xml:13
+msgid "<p>This control can be used to place a directory listing (with optional files) on an arbitrary window.</p><p>The control contains a wxTreeCtrl window representing the directory hierarchy, and optionally, a wxChoice window containing a list of filters.</p>"
+msgstr ""
+
+#: output/db/controls/common/genericdirctrl.xml:22
+msgid "Only show directories, and not files."
+msgstr ""
+
+#: output/db/controls/common/genericdirctrl.xml:25
+msgid "Use 3D borders for internal controls."
+msgstr ""
+
+#: output/db/controls/common/genericdirctrl.xml:28
+msgid "When setting the default path, select the first file in the directory."
+msgstr ""
+
+#: output/db/controls/common/genericdirctrl.xml:31
+msgid "Allow the folder and file labels to be editable."
+msgstr ""
+
+#: output/db/controls/common/genericdirctrl.xml:34
+msgid "Allows multiple files and folders to be selected."
+msgstr ""
+
+#: output/db/controls/common/genericdirctrl.xml:38
+msgid "Initial folder (default: empty)."
+msgstr ""
+
+#: output/db/controls/common/genericdirctrl.xml:41
+msgid "Filter string, using the same syntax as used by wxFileDialog, e.g. \"All files (*.*)|*.*|JPEG files (*.jpg)|*.jpg\" (default: empty)."
+msgstr ""
+
+#: output/db/controls/common/genericdirctrl.xml:44
+msgid "Zero-based index of default filter (default: 0)."
+msgstr ""
+
+#: output/db/controls/common/genericdirctrl.xml:47
+msgid "If true, hidden folders and files will be displayed by the control. If false, they will not be displayed."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:13
+msgid "A tree control presents information as a hierarchy, with items that may be expanded to show further items."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:25
+msgid "Use this style if you wish the user to be able to edit labels in the tree control."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:28
+msgid "For convenience to document that no buttons are to be drawn."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:31
+msgid "Use this style to show + and - buttons to the left of parent items."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:34
+msgid "Selects alternative style of +/- buttons and shows rotating (\"twisting\") arrows instead. Currently this style is only implemented under Microsoft Windows Vista and later Windows versions and is ignored under the other platforms. Notice that under Vista this style results in the same appearance as used by the tree control in Explorer and other built-in programs and so using it may be preferable to the default style."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:37
+msgid "Use this style to hide vertical level connectors."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:40
+msgid "Use this style to have the background colour and the selection highlight extend over the entire horizontal row of the tree control window. (This flag is ignored under Windows unless you specify wxTR_NO_LINES as well.)"
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:43
+msgid "Use this style to show lines between root nodes. Only applicable if wxTR_HIDE_ROOT is set and wxTR_NO_LINES is not set."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:46
+msgid "Use this style to suppress the display of the root node, effectively causing the first-level nodes to appear as a series of root nodes."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:49
+msgid "Use this style to draw a contrasting border between displayed rows."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:52
+msgid "Use this style to cause row heights to be just big enough to fit the content. If not set, all rows use the largest row height. The default is that this flag is unset. Generic only."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:55
+msgid "For convenience to document that only one item may be selected at a time. Selecting another item causes the current selection, if any, to be deselected. This is the default."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:58
+msgid "Use this style to allow a range of items to be selected. If a second range is selected, the current range, if any, is deselected."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:61
+msgid "The set of flags that are closest to the defaults for the native control for a particular toolkit."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:67
+msgid "Begin dragging with the left mouse button. If you want to enable left-dragging you need to intercept this event and explicitly call wxTreeEvent::Allow(), as it's vetoed by default. Processes a wxEVT_COMMAND_TREE_BEGIN_DRAG event type."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:71
+msgid "Begin dragging with the right mouse button. If you want to enable right-dragging you need to intercept this event and explicitly call wxTreeEvent::Allow(), as it's vetoed by default. Processes a wxEVT_COMMAND_TREE_BEGIN_RDRAG event type."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:75
+msgid "End dragging with the left or right mouse button. Processes a wxEVT_COMMAND_TREE_END_DRAG event type."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:79
+msgid "Begin editing a label. This can be prevented by calling Veto(). Processes a wxEVT_COMMAND_TREE_BEGIN_LABEL_EDIT event type."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:83
+msgid "Finish editing a label. This can be prevented by calling Veto(). Processes a wxEVT_COMMAND_TREE_END_LABEL_EDIT event type."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:87
+msgid "An item was deleted. Processes a wxEVT_COMMAND_TREE_DELETE_ITEM event type."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:91
+msgid "Request information from the application. Processes a wxEVT_COMMAND_TREE_GET_INFO event type."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:95
+msgid "Information is being supplied. Processes a wxEVT_COMMAND_TREE_SET_INFO event type."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:99
+msgid "The item has been activated, i.e. chosen by double clicking it with mouse or from keyboard. Processes a wxEVT_COMMAND_TREE_ITEM_ACTIVATED event type."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:103
+msgid "The item has been collapsed. Processes a wxEVT_COMMAND_TREE_ITEM_COLLAPSED event type."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:107
+msgid "The item is being collapsed. This can be prevented by calling Veto(). Processes a wxEVT_COMMAND_TREE_ITEM_COLLAPSING event type."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:111
+msgid "The item has been expanded. Processes a wxEVT_COMMAND_TREE_ITEM_EXPANDED event type."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:115
+msgid "The item is being expanded. This can be prevented by calling Veto(). Processes a wxEVT_COMMAND_TREE_ITEM_EXPANDING event type."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:119
+msgid "The user has clicked the item with the right mouse button. Processes a wxEVT_COMMAND_TREE_ITEM_RIGHT_CLICK event type."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:123
+msgid "The user has clicked the item with the middle mouse button. This is only supported by the generic control. Processes a wxEVT_COMMAND_TREE_ITEM_MIDDLE_CLICK event type."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:127
+msgid "Selection has changed. Processes a wxEVT_COMMAND_TREE_SEL_CHANGED event type."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:131
+msgid "Selection is changing. This can be prevented by calling Veto(). Processes a wxEVT_COMMAND_TREE_SEL_CHANGING event type."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:135
+msgid "A key has been pressed. Processes a wxEVT_COMMAND_TREE_KEY_DOWN event type."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:139
+msgid "The opportunity to set the item tooltip is being given to the application (call wxTreeEvent::SetToolTip). Windows only. Processes a wxEVT_COMMAND_TREE_ITEM_GETTOOLTIP event type."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:143
+msgid "The context menu for the selected item has been requested, either by a right click or by using the menu key. Processes a wxEVT_COMMAND_TREE_ITEM_MENU event type."
+msgstr ""
+
+#: output/db/controls/common/treectrl.xml:147
+msgid "The state image has been clicked. Windows only. Processes a wxEVT_COMMAND_TREE_STATE_IMAGE_CLICK event type."
+msgstr ""
+
+#: output/db/controls/common/choice.xml:13
+msgid "<p>A choice item is used to select one of a list of strings.</p><p>Unlike a wxListBox, only the selection is visible until the user pulls down the menu of choices.</p>"
+msgstr ""
+
+#: output/db/controls/common/choice.xml:22
+msgid "Sorts the entries alphabetically."
+msgstr ""
+
+#: output/db/controls/common/choice.xml:29
+#: output/db/controls/common/listbox.xml:52
+#: output/db/controls/common/combobox.xml:41
+msgid "Content of the control; this property has any number of <item> XML elements as its children, with the items text as their text values (default: empty)."
+msgstr ""
+
+#: output/db/controls/common/choice.xml:34
+msgid "Process a wxEVT_COMMAND_CHOICE_SELECTED event, when an item on the list is selected."
+msgstr ""
+
+#: output/db/controls/common/checkbox.xml:13
+msgid "A checkbox is a labelled box which by default is either on (checkmark is visible) or off (no checkmark)."
+msgstr ""
+
+#: output/db/controls/common/checkbox.xml:23
+msgid "Create a 2-state checkbox. This is the default."
+msgstr ""
+
+#: output/db/controls/common/checkbox.xml:26
+msgid "Create a 3-state checkbox. Not implemented in wxMGL, wxOS2 and wxGTK built against GTK+ 1.2."
+msgstr ""
+
+#: output/db/controls/common/checkbox.xml:29
+msgid "By default a user can't set a 3-state checkbox to the third state. It can only be done from code. Using this flags allows the user to set the checkbox to the third state by clicking."
+msgstr ""
+
+#: output/db/controls/common/checkbox.xml:32
+msgid "Makes the text appear on the left of the checkbox."
+msgstr ""
+
+#: output/db/controls/common/checkbox.xml:36
+msgid "Should the checkbox be checked initially (default: 0)?"
+msgstr ""
+
+#: output/db/controls/common/checkbox.xml:40
+msgid "Process a wxEVT_COMMAND_CHECKBOX_CLICKED event, when the checkbox is clicked."
+msgstr ""
+
+#: output/db/controls/common/staticline.xml:13
+msgid "A static line is just a line which may be used in a dialog to separate the groups of controls."
+msgstr ""
+
+#: output/db/controls/common/staticline.xml:22
+msgid "Creates a horizontal line."
+msgstr ""
+
+#: output/db/controls/common/staticline.xml:25
+msgid "Creates a vertical line."
+msgstr ""
+
+#: output/db/controls/common/listbox.xml:13
+msgid "A listbox is used to select one or more of a list of strings."
+msgstr ""
+
+#: output/db/controls/common/listbox.xml:22
+msgid "Note that wxLB_SINGLE, wxLB_MULTIPLE and wxLB_EXTENDED styles are mutually exclusive and you can specify at most one of them (single selection is the default). See also Window Styles."
+msgstr ""
+
+#: output/db/controls/common/listbox.xml:24
+msgid "Single-selection list."
+msgstr ""
+
+#: output/db/controls/common/listbox.xml:27
+msgid "Multiple-selection list: the user can toggle multiple items on and off. This is the same as wxLB_EXTENDED in wxGTK2 port."
+msgstr ""
+
+#: output/db/controls/common/listbox.xml:30
+msgid "Extended-selection list: the user can extend the selection by using SHIFT or CTRL keys together with the cursor movement keys or the mouse."
+msgstr ""
+
+#: output/db/controls/common/listbox.xml:33
+msgid "Create horizontal scrollbar if contents are too wide (Windows only)."
+msgstr ""
+
+#: output/db/controls/common/listbox.xml:36
+msgid "Always show a vertical scrollbar."
+msgstr ""
+
+#: output/db/controls/common/listbox.xml:39
+msgid "Only create a vertical scrollbar if needed."
+msgstr ""
+
+#: output/db/controls/common/listbox.xml:42
+msgid "Don't create vertical scrollbar (wxMSW only)."
+msgstr ""
+
+#: output/db/controls/common/listbox.xml:45
+msgid "The listbox contents are sorted in alphabetical order."
+msgstr ""
+
+#: output/db/controls/common/listbox.xml:56
+msgid "Process a wxEVT_COMMAND_LISTBOX_SELECTED event, when an item on the list is selected or the selection changes."
+msgstr ""
+
+#: output/db/controls/common/listbox.xml:59
+msgid "Process a wxEVT_COMMAND_LISTBOX_DOUBLECLICKED event, when the listbox is double-clicked."
+msgstr ""
+
+#: output/db/controls/common/bitmaptogglebutton.xml:13
+msgid "wxBitmapToggleButton is a wxToggleButton that contains a bitmap instead of text."
+msgstr ""
+
+#: output/db/controls/common/bitmaptogglebutton.xml:42
+#: output/db/controls/common/staticbitmap.xml:21
+msgid "Bitmap to display (required)."
+msgstr ""
+
+#: output/db/controls/common/combobox.xml:13
+msgid "A combobox is like a combination of an edit control and a listbox."
+msgstr ""
+
+#: output/db/controls/common/combobox.xml:22
+msgid "Creates a combobox with a permanently displayed list. Windows only."
+msgstr ""
+
+#: output/db/controls/common/combobox.xml:25
+msgid "Creates a combobox with a drop-down list. MSW and Motif only."
+msgstr ""
+
+#: output/db/controls/common/combobox.xml:28
+msgid "A combobox with this style behaves like a wxChoice (and may look in the same way as well, although this is platform-dependent), i.e. it allows the user to choose from the list of options but doesn't allow to enter a value not present in the list."
+msgstr ""
+
+#: output/db/controls/common/combobox.xml:31
+msgid "Sorts the entries in the list alphabetically."
+msgstr ""
+
+#: output/db/controls/common/combobox.xml:34
+msgid "The control will generate the event wxEVT_COMMAND_TEXT_ENTER (otherwise pressing Enter key is either processed internally by the control or used for navigation between dialog controls). Windows only."
+msgstr ""
+
+#: output/db/controls/common/combobox.xml:44
+msgid "Initial value in the control (doesn't have to be one of content values; default: empty)."
+msgstr ""
+
+#: output/db/controls/common/combobox.xml:49
+msgid "Process a wxEVT_COMMAND_COMBOBOX_SELECTED event, when an item on the list is selected. Note that calling GetValue() returns the new value of selection."
+msgstr ""
+
+#: output/db/controls/common/combobox.xml:53
+msgid "Process a wxEVT_COMMAND_TEXT_UPDATED event, when the combobox text changes."
+msgstr ""
+
+#: output/db/controls/common/combobox.xml:57
+msgid "Process a wxEVT_COMMAND_TEXT_ENTER event, when RETURN is pressed in the combobox (notice that the combobox must have been created with wxTE_PROCESS_ENTER style to receive this event)."
+msgstr ""
+
+#: output/db/controls/common/combobox.xml:61
+msgid "Process a wxEVT_COMMAND_COMBOBOX_DROPDOWN event, which is generated when the list box part of the combo box is shown (drops down). Notice that this event is currently only supported by wxMSW and wxGTK with GTK+ 2.10 or later."
+msgstr ""
+
+#: output/db/controls/common/combobox.xml:65
+msgid "Process a wxEVT_COMMAND_COMBOBOX_CLOSEUP event, which is generated when the list box of the combo box disappears (closes up). This event is only generated for the same platforms as wxEVT_COMMAND_COMBOBOX_DROPDOWN above. Also note that only wxMSW supports adding or deleting items in this event."
+msgstr ""
+
+#: output/db/controls/common/staticbitmap.xml:13
+msgid "A static bitmap control displays a bitmap."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:14
+msgid "A list control presents lists in a number of formats: list view, report view, icon view and small icon view."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:28
+msgid "Multicolumn list view, with optional small icons. Columns are computed automatically, i.e. you don't set columns as in wxLC_REPORT. In other words, the list wraps, unlike a wxListBox."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:31
+msgid "Single or multicolumn report view, with optional header."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:34
+msgid "The application provides items text on demand. May only be used with wxLC_REPORT."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:37
+msgid "Large icon view, with optional labels."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:40
+msgid "Small icon view, with optional labels."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:43
+msgid "Icons align to the top. Win32 default, Win32 only."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:46
+msgid "Icons align to the left."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:49
+msgid "Icons arrange themselves. Win32 only."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:52
+msgid "Labels are editable: the application will be notified when editing starts."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:55
+msgid "No header in report mode."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:58
+msgid "Single selection (default is multiple)."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:61
+msgid "Sort in ascending order. (You must still supply a comparison callback in wxListCtrl::SortItems.)"
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:64
+msgid "Sort in descending order. (You must still supply a comparison callback in wxListCtrl::SortItems.)"
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:67
+msgid "Draws light horizontal rules between rows in report mode."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:70
+msgid "Draws light vertical rules between columns in report mode."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:76
+msgid "Begin dragging with the left mouse button. Processes a wxEVT_COMMAND_LIST_BEGIN_DRAG event type."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:80
+msgid "Begin dragging with the right mouse button. Processes a wxEVT_COMMAND_LIST_BEGIN_RDRAG event type."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:84
+msgid "Begin editing a label. This can be prevented by calling Veto(). Processes a wxEVT_COMMAND_LIST_BEGIN_LABEL_EDIT event type."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:88
+msgid "Finish editing a label. This can be prevented by calling Veto(). Processes a wxEVT_COMMAND_LIST_END_LABEL_EDIT event type."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:92
+msgid "An item was deleted. Processes a wxEVT_COMMAND_LIST_DELETE_ITEM event type."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:96
+msgid "All items were deleted. Processes a wxEVT_COMMAND_LIST_DELETE_ALL_ITEMS event type."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:100
+msgid "The item has been selected. Processes a wxEVT_COMMAND_LIST_ITEM_SELECTED event type."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:104
+msgid "The item has been deselected. Processes a wxEVT_COMMAND_LIST_ITEM_DESELECTED event type."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:108
+msgid "The item has been activated (ENTER or double click). Processes a wxEVT_COMMAND_LIST_ITEM_ACTIVATED event type."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:112
+msgid "The currently focused item has changed. Processes a wxEVT_COMMAND_LIST_ITEM_FOCUSED event type."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:116
+msgid "The middle mouse button has been clicked on an item. This is only supported by the generic control. Processes a wxEVT_COMMAND_LIST_ITEM_MIDDLE_CLICK event type."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:120
+msgid "The right mouse button has been clicked on an item. Processes a wxEVT_COMMAND_LIST_ITEM_RIGHT_CLICK event type."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:124
+msgid "A key has been pressed. Processes a wxEVT_COMMAND_LIST_KEY_DOWN event type."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:128
+msgid "An item has been inserted. Processes a wxEVT_COMMAND_LIST_INSERT_ITEM event type."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:132
+msgid "A column (m_col) has been left-clicked. Processes a wxEVT_COMMAND_LIST_COL_CLICK event type."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:136
+msgid "A column (m_col) has been right-clicked. Processes a wxEVT_COMMAND_LIST_COL_RIGHT_CLICK event type."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:140
+msgid "The user started resizing a column - can be vetoed. Processes a wxEVT_COMMAND_LIST_COL_BEGIN_DRAG event type."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:144
+msgid "The divider between columns is being dragged. Processes a wxEVT_COMMAND_LIST_COL_DRAGGING event type."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:148
+msgid "A column has been resized by the user. Processes a wxEVT_COMMAND_LIST_COL_END_DRAG event type."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:152
+msgid "Prepare cache for a virtual list control. Processes a wxEVT_COMMAND_LIST_CACHE_HINT event type."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:160
+#: output/db/controls/common/listctrl.xml:191
+msgid "The alignment for the item. Can be one of wxLIST_FORMAT_LEFT, wxLIST_FORMAT_RIGHT or wxLIST_FORMAT_CENTRE."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:163
+msgid "The title of the column."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:166
+msgid "The column width."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:169
+#: output/db/controls/common/listctrl.xml:209
+msgid "The zero-based index of the image associated with the item in the 'small' image list."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:176
+msgid "The text label for the item."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:179
+msgid "The item state. Can be any combination of the following values:"
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:181
+msgid "The item has the focus."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:184
+msgid "The item is selected."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:188
+msgid "The font for the item."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:194
+msgid "The background color for the item."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:197
+msgid "The text colour for the item."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:200
+msgid "Add a bitmap to the (normal) wxImageList associated with the wxListCtrl parent and associate it with this item. If the imagelist is not defined it will be created implicitly."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:203
+msgid "Add a bitmap in the 'small' wxImageList associated with the wxListCtrl parent and associate it with this item. If the 'small' imagelist is not defined it will be created implicitly."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:206
+msgid "The zero-based index of the image associated with the item in the (normal) image list."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:212
+msgid "The zero-based column index."
+msgstr ""
+
+#: output/db/controls/common/listctrl.xml:215
+msgid "The client data for the item."
+msgstr ""
+
+#: output/db/controls/common/bitmapbutton.xml:13
+msgid "A bitmap button is a control that contains a bitmap."
+msgstr ""
+
+#: output/db/controls/common/bitmapbutton.xml:22
+msgid "Bitmap to show when the button is selected (default: none, same as bitmap)."
+msgstr ""
+
+#: output/db/controls/common/bitmapbutton.xml:25
+msgid "Bitmap to show when the button has focus (default: none, same as bitmap)."
+msgstr ""
+
+#: output/db/controls/common/bitmapbutton.xml:28
+msgid "Bitmap to show when the button is disabled (default: none, same as bitmap)."
+msgstr ""
+
+#: output/db/controls/common/bitmapbutton.xml:31
+msgid "Bitmap to show when mouse cursor hovers above the bitmap (default: none, same as bitmap)."
+msgstr ""
+
+#: output/db/controls/common/imagelist.xml:13
+msgid "A wxImageList contains a list of images, which are stored in an unspecified form."
+msgstr ""
+
+#: output/db/controls/common/imagelist.xml:15
+msgid "Adds a new image by keeping its optional mask bitmap."
+msgstr ""
+
+#: output/db/controls/common/imagelist.xml:22
+msgid "If masks should be created for all images (default: true)."
+msgstr ""
+
+#: output/db/controls/common/imagelist.xml:25
+msgid "The size of the images in the list (default: the size of the first bitmap)."
+msgstr ""
+
+#: output/db/controls/common/button.xml:13
+msgid "A button is a control that contains a text string, and is one of the most common elements of a GUI."
+msgstr ""
+
+#: output/db/controls/common/button.xml:42
+msgid "Position of the bitmap in the button, see wxButton::SetBitmapPosition()."
+msgstr ""
+
+#: output/db/controls/common/button.xml:49
+msgid "Should this button be the default button in dialog (default: 0)?"
+msgstr ""
+
+#: output/db/controls/common/button.xml:52
+msgid "Bitmap to show on the button (required)."
+msgstr ""
+
+#: output/db/controls/common/button.xml:56
+msgid "Process a wxEVT_COMMAND_BUTTON_CLICKED event, when the button is clicked."
+msgstr ""
+
+#: output/db/controls/common/radiobutton.xml:13
+msgid ""
+"\n"
+"        <p>A radio button item is a button which usually denotes one of several mutually exclusive options.</p>\n"
+"        <p>It has a text label next to a (usually) round button.</p>\n"
+"        <p>You can create a group of mutually-exclusive radio buttons by specifying <code>wxRB_GROUP</code> for the first in the group. The group ends when another radio button group is created, or there are no more radio buttons.</p>\n"
+"    "
+msgstr ""
+
+#: output/db/controls/common/radiobutton.xml:27
+msgid "Marks the beginning of a new group of radio buttons."
+msgstr ""
+
+#: output/db/controls/common/radiobutton.xml:30
+msgid "In some circumstances, radio buttons that are not consecutive siblings trigger a hang bug in Windows (only). If this happens, add this style to mark the button as not belonging to a group, and implement the mutually-exclusive group behaviour yourself."
+msgstr ""
+
+#: output/db/controls/common/radiobutton.xml:40
+msgid "Process a wxEVT_COMMAND_RADIOBUTTON_SELECTED event, when the radiobutton is clicked."
+msgstr ""
+
+#: output/db/controls/common/staticbox.xml:13
+msgid "A static box is a rectangle drawn around other windows to denote a logical grouping of items."
+msgstr ""
+
+#: output/db/controls/common/statictext.xml:13
+msgid "A static text control displays one or more lines of read-only text."
+msgstr ""
+
+#: output/db/controls/common/statictext.xml:23
+msgid "Align the text to the left."
+msgstr ""
+
+#: output/db/controls/common/statictext.xml:26
+msgid "Align the text to the right."
+msgstr ""
+
+#: output/db/controls/common/statictext.xml:29
+msgid "Center the text (horizontally)."
+msgstr ""
+
+#: output/db/controls/common/statictext.xml:32
+msgid "By default, the control will adjust its size to exactly fit to the size of the text when SetLabel() is called. If this style flag is given, the control will not change its size (this style is especially useful with controls which also have the wxALIGN_RIGHT or the wxALIGN_CENTRE style because otherwise they won't make sense any longer after a call to SetLabel())."
+msgstr ""
+
+#: output/db/controls/common/statictext.xml:35
+msgid "If the labeltext width exceeds the control width, replace the beginning of the label with an ellipsis; uses wxControl::Ellipsize."
+msgstr ""
+
+#: output/db/controls/common/statictext.xml:38
+msgid "If the label text width exceeds the control width, replace the middle of the label with an ellipsis; uses wxControl::Ellipsize."
+msgstr ""
+
+#: output/db/controls/common/statictext.xml:41
+msgid "If the label text width exceeds the control width, replace the end of the label with an ellipsis; uses wxControl::Ellipsize."
+msgstr ""
+
+#: output/db/controls/common/statictext.xml:45
+msgid "Wrap the text so that each line is at most the given number of pixels, see wxStaticText::Wrap() (default: no wrap)."
+msgstr ""
+
+#: output/db/controls/sizers/stddialogbuttonsizer.xml:24
+#: output/db/controls/sizers/staticboxsizer.xml:24
+msgid "Label to be used for the static box around the sizer (required)."
+msgstr ""
+
+#: output/db/controls/sizers/gridsizer.xml:24
+msgid "Number of rows in the grid (default: 0 - determine automatically)."
+msgstr ""
+
+#: output/db/controls/sizers/gridsizer.xml:27
+msgid "Number of columns in the grid (default: 0 - determine automatically)."
+msgstr ""
+
+#: output/db/controls/sizers/gridsizer.xml:30
+msgid "Vertical gap between children (default: 0)."
+msgstr ""
+
+#: output/db/controls/sizers/gridsizer.xml:33
+msgid "Horizontal gap between children (default: 0)."
+msgstr ""
+
+#: output/db/controls/sizers/wrapsizer.xml:25
+msgid "Equivalent to a combination of wxEXTEND_LAST_ON_EACH_LINE and wxREMOVE_LEADING_SPACES."
+msgstr ""
+
+#: output/db/controls/sizers/wrapsizer.xml:28
+msgid "Will cause the last item on each line to use any remaining space on that line."
+msgstr ""
+
+#: output/db/controls/sizers/wrapsizer.xml:31
+msgid "Removes any spacer elements from the beginning of a row."
+msgstr ""
+
+#: output/db/controls/sizers/gridbagsizer.xml:35
+msgid "Position, see wxGBSizerItem::SetPos() (required)."
+msgstr ""
+
+#: output/db/controls/sizers/gridbagsizer.xml:38
+msgid "Span, see wxGBSizerItem::SetSpan() (required)."
+msgstr ""
+
+#: output/db/controls/sizers/flexgridsizer.xml:24
+msgid "Comma-separated list of indexes of rows that are growable (default: none)."
+msgstr ""
+
+#: output/db/controls/sizers/flexgridsizer.xml:27
+msgid "Comma-separated list of indexes of columns that are growable (default: none)."
+msgstr ""
+
+#: output/db/controls/sizers/boxsizer.xml:24
+msgid "Sizer orientation, \"wxHORIZONTAL\" or \"wxVERTICAL\" (default: wxHORIZONTAL)."
+msgstr ""
+
+#: output/db/controls/advanced/commandlinkbutton.xml:13
+msgid "Objects of this class are similar in appearance to the normal wxButtons but to the links in a web page in functionality."
+msgstr ""
+
+#: output/db/controls/advanced/commandlinkbutton.xml:23
+msgid "Second line of text describing the action performed when the button is pressed."
+msgstr ""
+
+#: output/db/controls/advanced/richtextctrl.xml:13
+msgid "wxRichTextCtrl provides a generic, ground-up implementation of a text control capable of showing multiple styles and images."
+msgstr ""
+
+#: output/db/controls/advanced/richtextctrl.xml:22
+msgid "The control will try to keep the caret line centred vertically while editing. wxRE_CENTER_CARET is a synonym for this style."
+msgstr ""
+
+#: output/db/controls/advanced/richtextctrl.xml:25
+msgid "The control will be multiline (mandatory)."
+msgstr ""
+
+#: output/db/controls/advanced/richtextctrl.xml:28
+msgid "The control will not be editable."
+msgstr ""
+
+#: output/db/controls/advanced/richtextctrl.xml:35
+msgid "Maximum length of the text entered (default: unlimited)."
+msgstr ""
+
+#: output/db/controls/advanced/propertygrid.xml:13
+msgid "wxPropertyGrid is a specialized grid for editing properties."
+msgstr ""
+
+#: output/db/controls/advanced/propertygrid.xml:22
+msgid "Respond to wxEVT_PG_SELECTED event, generated when a property selection has been changed, either by user action or by indirect program function. For instance, collapsing a parent property programmatically causes any selected child property to become unselected, and may therefore cause this event to be generated."
+msgstr ""
+
+#: output/db/controls/advanced/propertygrid.xml:25
+msgid "Respond to wxEVT_PG_CHANGED event, generated when property value has been changed by the user."
+msgstr ""
+
+#: output/db/controls/advanced/propertygrid.xml:28
+msgid "Respond to wxEVT_PG_CHANGING event, generated when property value is about to be changed by user. Use wxPropertyGridEvent::GetValue() to take a peek at the pending value, and wxPropertyGridEvent::Veto() to prevent change from taking place, if necessary."
+msgstr ""
+
+#: output/db/controls/advanced/propertygrid.xml:31
+msgid "Respond to wxEVT_PG_HIGHLIGHTED event, which occurs when mouse moves over a property. Event's property is NULL if hovered area does not belong to any property."
+msgstr ""
+
+#: output/db/controls/advanced/propertygrid.xml:34
+msgid "Respond to wxEVT_PG_RIGHT_CLICK event, which occurs when property is clicked on with right mouse button."
+msgstr ""
+
+#: output/db/controls/advanced/propertygrid.xml:37
+msgid "Respond to wxEVT_PG_DOUBLE_CLICK event, which occurs when property is double-clicked on with left mouse button."
+msgstr ""
+
+#: output/db/controls/advanced/propertygrid.xml:40
+msgid "Respond to wxEVT_PG_ITEM_COLLAPSED event, generated when user collapses a property or category."
+msgstr ""
+
+#: output/db/controls/advanced/propertygrid.xml:43
+msgid "Respond to wxEVT_PG_ITEM_EXPANDED event, generated when user expands a property or category."
+msgstr ""
+
+#: output/db/controls/advanced/propertygrid.xml:46
+msgid "Respond to wxEVT_PG_LABEL_EDIT_BEGIN event, generated when user is about to begin editing a property label. You can veto this event to prevent the action."
+msgstr ""
+
+#: output/db/controls/advanced/propertygrid.xml:49
+msgid "Respond to wxEVT_PG_LABEL_EDIT_ENDING event, generated when user is about to end editing of a property label. You can veto this event to prevent the action."
+msgstr ""
+
+#: output/db/controls/advanced/propertygrid.xml:52
+msgid "Respond to wxEVT_PG_COL_BEGIN_DRAG event, generated when user starts resizing a column - can be vetoed."
+msgstr ""
+
+#: output/db/controls/advanced/propertygrid.xml:55
+msgid "Respond to wxEVT_PG_COL_DRAGGING, event, generated when a column resize by user is in progress. This event is also generated when user double-clicks the splitter in order to recenter it."
+msgstr ""
+
+#: output/db/controls/advanced/propertygrid.xml:58
+msgid "Respond to wxEVT_PG_COL_END_DRAG event, generated after column resize by user has finished."
+msgstr ""
+
+#: output/db/controls/advanced/bannerwindow.xml:13
+msgid "A simple banner window showing either a bitmap or text."
+msgstr ""
+
+#: output/db/controls/advanced/bannerwindow.xml:21
+msgid "The side along which the banner will be positioned."
+msgstr ""
+
+#: output/db/controls/advanced/bannerwindow.xml:28
+msgid "Bitmap to use as the banner background."
+msgstr ""
+
+#: output/db/controls/advanced/bannerwindow.xml:31
+msgid "Banner title, should be single line."
+msgstr ""
+
+#: output/db/controls/advanced/bannerwindow.xml:34
+msgid "Possibly multi-line banner message."
+msgstr ""
+
+#: output/db/controls/advanced/bannerwindow.xml:37
+msgid "Starting colour of the gradient used as banner background. Can't be used if a valid bitmap is specified."
+msgstr ""
+
+#: output/db/controls/advanced/bannerwindow.xml:40
+msgid "End colour of the gradient used as banner background. Can't be used if a valid bitmap is specified."
+msgstr ""
+
+#: output/db/controls/advanced/animationctrl.xml:13
+msgid "This is a static control which displays an animation."
+msgstr ""
+
+#: output/db/controls/advanced/animationctrl.xml:22
+msgid "The default style: wxBORDER_NONE."
+msgstr ""
+
+#: output/db/controls/advanced/animationctrl.xml:25
+msgid "By default, the control will adjust its size to exactly fit to the size of the animation when SetAnimation is called. If this style flag is given, the control will not change its size."
+msgstr ""
+
+#: output/db/controls/advanced/animationctrl.xml:29
+msgid "Sets the animation to play in this control."
+msgstr ""
+
+#: output/db/controls/advanced/animationctrl.xml:32
+msgid "Sets the bitmap to show on the control when it's not playing an animation."
+msgstr ""
+
+#: output/db/controls/advanced/animationctrl.xml:35
+msgid "Starts playing the animation."
+msgstr ""
+
+#: output/db/controls/advanced/calendarctrl.xml:13
+msgid "The calendar control allows the user to pick a date."
+msgstr ""
+
+#: output/db/controls/advanced/calendarctrl.xml:22
+msgid "Show Sunday as the first day in the week (not in wxGTK)"
+msgstr ""
+
+#: output/db/controls/advanced/calendarctrl.xml:25
+msgid "Show Monday as the first day in the week (not in wxGTK)"
+msgstr ""
+
+#: output/db/controls/advanced/calendarctrl.xml:28
+msgid "Highlight holidays in the calendar (only generic)"
+msgstr ""
+
+#: output/db/controls/advanced/calendarctrl.xml:31
+msgid "Disable the month (and, implicitly, the year) changing"
+msgstr ""
+
+#: output/db/controls/advanced/calendarctrl.xml:34
+msgid "Show the neighbouring weeks in the previous and next months (only generic, always on for the native controls)"
+msgstr ""
+
+#: output/db/controls/advanced/calendarctrl.xml:37
+msgid "Use alternative, more compact, style for the month and year selection controls. (only generic)"
+msgstr ""
+
+#: output/db/controls/advanced/calendarctrl.xml:40
+msgid "Show week numbers on the left side of the calendar. (not in generic)"
+msgstr ""
+
+#: output/db/controls/advanced/calendarctrl.xml:45
+msgid "A day was double clicked in the calendar."
+msgstr ""
+
+#: output/db/controls/advanced/calendarctrl.xml:48
+msgid "The selected date changed."
+msgstr ""
+
+#: output/db/controls/advanced/calendarctrl.xml:51
+msgid "The selected month (and/or year) changed."
+msgstr ""
+
+#: output/db/controls/advanced/calendarctrl.xml:54
+msgid "User clicked on the week day header (only generic)."
+msgstr ""
+
+#: output/db/controls/advanced/calendarctrl.xml:57
+msgid "User clicked on the week of the year number (only generic)."
+msgstr ""
+
+#: output/db/controls/advanced/propertygridmanager.xml:13
+msgid "wxPropertyGridManager is an efficient multi-page version of wxPropertyGrid, which can optionally have toolbar for mode and page selection, a help text box, and a header."
+msgstr ""
+
+#: output/db/controls/advanced/styledtextctrl.xml:13
+msgid "A wxWidgets implementation of the Scintilla source code editing component."
+msgstr ""
+
+#: output/db/controls/advanced/grid.xml:13
+msgid "wxGrid and its related classes are used for displaying and editing tabular data."
+msgstr ""
+
+#: output/db/controls/advanced/searchctrl.xml:13
+msgid "A search control is a composite control with a search button, a text control, and a cancel button."
+msgstr ""
+
+#: output/db/controls/advanced/searchctrl.xml:23
+msgid "Respond to a wxEVT_SEARCHCTRL_SEARCH_BTN event, generated when the search button is clicked. Note that this does not initiate a search on its own, you need to perform the appropriate action in your event handler. You may use event.GetString() to retrieve the string to search for in the event handler code."
+msgstr ""
+
+#: output/db/controls/advanced/searchctrl.xml:26
+msgid "Respond to a wxEVT_SEARCHCTRL_CANCEL_BTN event, generated when the cancel button is clicked."
+msgstr ""
+
+#: output/db/controls/advanced/mediactrl.xml:13
+msgid "wxMediaCtrl is a class for displaying types of media, such as videos, audio files, natively through native codecs."
+msgstr ""
+
+#: output/db/controls/advanced/mediactrl.xml:21
+msgid "Path to the media file."
+msgstr ""
+
+#: output/db/controls/advanced/mediactrl.xml:24
+msgid "Resumes playback of the movie."
+msgstr ""
+
+#: output/db/controls/advanced/mediactrl.xml:27
+msgid "Sets the playback rate, or speed of the media, to that referred by dRate. 1.0 represents normal speed, while 2.0 represents twice the normal speed of the media, for example. Not supported on the GStreamer (Unix) backend."
+msgstr ""
+
+#: output/db/controls/advanced/mediactrl.xml:30
+msgid "Sets the volume of the media from a 0.0 to 1.0 range to that referred by dVolume. 1.0 represents full volume, while 0.5 represents half (50 percent) volume, for example. Note: The volume may not be exact due to conversion and rounding errors, although setting the volume to full or none is always exact."
+msgstr ""
+
+#: output/db/controls/advanced/mediactrl.xml:34
+msgid "No controls. Return wxMediaCtrl to its default state."
+msgstr ""
+
+#: output/db/controls/advanced/mediactrl.xml:37
+msgid "Step controls like fastforward, step one frame etc."
+msgstr ""
+
+#: output/db/controls/advanced/mediactrl.xml:40
+msgid "Volume controls like the speaker icon, volume slider, etc."
+msgstr ""
+
+#: output/db/controls/advanced/mediactrl.xml:43
+msgid "Default controls for the toolkit. Currently a combination for wxMEDIACTRLPLAYERCONTROLS_STEP and wxMEDIACTRLPLAYERCONTROLS_VOLUME."
+msgstr ""
+
+#: output/db/controls/advanced/bitmapcombobox.xml:14
+msgid "A combobox that displays bitmap in front of the list items."
+msgstr ""
+
+#: output/db/controls/advanced/bitmapcombobox.xml:38
+msgid "Item's bitmap (default: no bitmap)."
+msgstr ""
+
+#: output/db/controls/advanced/treelistctrl.xml:14
+msgid "A control combining wxTreeCtrl and wxListCtrl features."
+msgstr ""
+
+#: output/db/controls/advanced/treelistctrl.xml:26
+msgid "Style used by the control by default, just wxTL_SINGLE currently."
+msgstr ""
+
+#: output/db/controls/advanced/treelistctrl.xml:29
+msgid "Single selection, this is the default."
+msgstr ""
+
+#: output/db/controls/advanced/treelistctrl.xml:32
+msgid "Allow multiple selection, see GetSelections()."
+msgstr ""
+
+#: output/db/controls/advanced/treelistctrl.xml:35
+msgid "Show the usual, 2 state, checkboxes for the items in the first column."
+msgstr ""
+
+#: output/db/controls/advanced/treelistctrl.xml:38
+msgid "Show the checkboxes that can possibly be set by the program, but not the user, to a third, undetermined, state, for the items in the first column. Implies wxTL_CHECKBOX."
+msgstr ""
+
+#: output/db/controls/advanced/treelistctrl.xml:41
+msgid "Same as wxTL_3STATE but the user can also set the checkboxes to the undetermined state. Implies wxTL_3STATE."
+msgstr ""
+
+#: output/db/controls/advanced/treelistctrl.xml:46
+msgid "Notifies about the selection change in the control. In the single selection case the item indicated by the event has been selected and previously selected item, if any, was deselected. In multiple selection case, the selection of this item has just changed (it may have been either selected or deselected) but notice that the selection of other items could have changed as well, use wxTreeListCtrl::GetSelections() to retrieve the new selection if necessary."
+msgstr ""
+
+#: output/db/controls/advanced/treelistctrl.xml:50
+msgid "Notifies about the given branch being expanded. This event is sent before the expansion occurs and can be vetoed to prevent it from happening."
+msgstr ""
+
+#: output/db/controls/advanced/treelistctrl.xml:54
+msgid "Process wxEVT_COMMAND_TREELIST_ITEM_EXPANDED event notifying about the expansion of the given branch. This event is sent after the expansion occurs and can't be vetoed."
+msgstr ""
+
+#: output/db/controls/advanced/treelistctrl.xml:58
+msgid "The user checking or unchecking the item. You can use wxTreeListCtrl::GetCheckedState() to retrieve the new item state and wxTreeListEvent::GetOldCheckedState() to get the previous one."
+msgstr ""
+
+#: output/db/controls/advanced/treelistctrl.xml:62
+msgid "The user double clicking the item or activating it from keyboard."
+msgstr ""
+
+#: output/db/controls/advanced/treelistctrl.xml:66
+msgid "The popup menu for the given item should be displayed."
+msgstr ""
+
+#: output/db/controls/advanced/treelistctrl.xml:70
+msgid "The control contents has just been resorted using the specified column. The event doesn't carry the sort direction, use GetSortColumn() method if you need to know it."
+msgstr ""
+
+#: output/db/controls/advanced/hyperlinkctrl.xml:13
+msgid "This class shows a static text element which links to an URL."
+msgstr ""
+
+#: output/db/controls/advanced/hyperlinkctrl.xml:26
+msgid "Align the text to the right. This style is not supported under Windows XP but is supported under all the other Windows versions."
+msgstr ""
+
+#: output/db/controls/advanced/hyperlinkctrl.xml:29
+msgid "Center the text (horizontally). This style is not supported by the native MSW implementation used under Windows XP and later."
+msgstr ""
+
+#: output/db/controls/advanced/hyperlinkctrl.xml:32
+msgid "Pop up a context menu when the hyperlink is right-clicked. The context menu contains a \"Copy URL\" menu item which is automatically handled by the hyperlink and which just copies in the clipboard the URL (not the label) of the control."
+msgstr ""
+
+#: output/db/controls/advanced/hyperlinkctrl.xml:35
+msgid "The default style for wxHyperlinkCtrl: wxBORDER_NONE|wxHL_CONTEXTMENU|wxHL_ALIGN_CENTRE."
+msgstr ""
+
+#: output/db/controls/advanced/hyperlinkctrl.xml:39
+msgid "URL to open when the link is clicked (required)."
+msgstr ""
+
+#: output/db/controls/advanced/hyperlinkctrl.xml:43
+msgid "The hyperlink was (left) clicked. If this event is not handled in user's code (or it's skipped; see wxEvent::Skip), then a call to wxLaunchDefaultBrowser is done with the hyperlink's URL."
+msgstr ""
+
+#: output/db/controls/advanced/ownerdrawncombobox.xml:13
+msgid "wxOwnerDrawnComboBox is a combobox with owner-drawn list items."
+msgstr ""
+
+#: output/db/controls/advanced/ownerdrawncombobox.xml:23
+msgid "Double-clicking cycles item if wxCB_READONLY is also used. Synonymous with wxCC_SPECIAL_DCLICK."
+msgstr ""
+
+#: output/db/controls/advanced/ownerdrawncombobox.xml:26
+#: output/db/controls/containers/notebook.xml:31
+msgid "Place labels on the left side."
+msgstr ""
+
+#: output/db/controls/advanced/ownerdrawncombobox.xml:30
+msgid "Control itself is not custom painted using OnDrawItem. Even if this style is not used, writable wxOwnerDrawnComboBox is never custom painted unless SetCustomPaintWidth() is called."
+msgstr ""
+
+#: output/db/controls/containers/notebook.xml:14
+msgid "This class represents a notebook control, which manages multiple windows with associated tabs."
+msgstr ""
+
+#: output/db/controls/containers/notebook.xml:28
+msgid "Place labels on the top side."
+msgstr ""
+
+#: output/db/controls/containers/notebook.xml:34
+msgid "Place labels on the right side."
+msgstr ""
+
+#: output/db/controls/containers/notebook.xml:37
+msgid "Place tabs under instead of above the notebook pages."
+msgstr ""
+
+#: output/db/controls/containers/notebook.xml:40
+msgid "(Windows only) All tabs will have same width."
+msgstr ""
+
+#: output/db/controls/containers/notebook.xml:43
+msgid "(Windows only) There can be several rows of tabs."
+msgstr ""
+
+#: output/db/controls/containers/notebook.xml:46
+msgid "(Windows only) Display a solid colour on notebook pages, and not a gradient, which can reduce performance."
+msgstr ""
+
+#: output/db/controls/containers/notebook.xml:49
+msgid "(Windows CE only) Show tabs in a flat style."
+msgstr ""
+
+#: output/db/controls/containers/notebook.xml:55
+msgid "The page selection was changed. Processes a wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED event."
+msgstr ""
+
+#: output/db/controls/containers/notebook.xml:59
+msgid "The page selection is about to be changed. Processes a wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGING event. This event can be vetoed."
+msgstr ""
+
+#: output/db/controls/containers/notebook.xml:66
+msgid "Page's title (required)."
+msgstr ""
+
+#: output/db/controls/containers/notebook.xml:69
+#: output/db/controls/containers/toolbook.xml:66
+msgid "Bitmap shown alongside the label (default: none)."
+msgstr ""
+
+#: output/db/controls/containers/notebook.xml:72
+#: output/db/controls/containers/toolbook.xml:69
+msgid "The zero-based index of the image associated with the item into the image list."
+msgstr ""
+
+#: output/db/controls/containers/notebook.xml:75
+#: output/db/controls/containers/toolbook.xml:72
+msgid "Is the page selected initially (only one page can be selected; default: 0)?"
+msgstr ""
+
+#: output/db/controls/containers/toolbook.xml:14
+msgid "wxToolbook is a class similar to wxNotebook but which uses a wxToolBar to show the labels instead of the tabs."
+msgstr ""
+
+#: output/db/controls/containers/toolbook.xml:28
+msgid "Native controller placement."
+msgstr ""
+
+#: output/db/controls/containers/toolbook.xml:31
+msgid "Controller above pages."
+msgstr ""
+
+#: output/db/controls/containers/toolbook.xml:34
+msgid "Controller below pages."
+msgstr ""
+
+#: output/db/controls/containers/toolbook.xml:37
+msgid "Controller on the left."
+msgstr ""
+
+#: output/db/controls/containers/toolbook.xml:40
+msgid "Controller on the right."
+msgstr ""
+
+#: output/db/controls/containers/toolbook.xml:43
+msgid "Use wxButtonToolBar-based implementation under Mac OS (ignored under other platforms)."
+msgstr ""
+
+#: output/db/controls/containers/toolbook.xml:46
+msgid "Shows the text and the icons alongside, not vertically stacked (only implement under Windows and GTK 2 platforms as it relies on wxTB_HORZ_LAYOUT flag support)."
+msgstr ""
+
+#: output/db/controls/containers/toolbook.xml:52
+msgid "The page selection was changed."
+msgstr ""
+
+#: output/db/controls/containers/toolbook.xml:56
+msgid "The page selection is about to be changed. This event can be vetoed (using wxNotifyEvent::Veto())."
+msgstr ""
+
+#: output/db/controls/containers/toolbook.xml:63
+msgid "Sheet page's title (required)."
+msgstr ""
+
+#: output/db/controls/containers/splitterwindow.xml:13
+msgid "This class manages up to two subwindows."
+msgstr ""
+
+#: output/db/controls/containers/splitterwindow.xml:25
+msgid "Draws a 3D effect border and sash."
+msgstr ""
+
+#: output/db/controls/containers/splitterwindow.xml:28
+msgid "Draws a thin sash."
+msgstr ""
+
+#: output/db/controls/containers/splitterwindow.xml:31
+msgid "Draws a 3D effect sash (part of default style)."
+msgstr ""
+
+#: output/db/controls/containers/splitterwindow.xml:34
+msgid "Synonym for wxSP_BORDER."
+msgstr ""
+
+#: output/db/controls/containers/splitterwindow.xml:37
+msgid "Draws a standard border."
+msgstr ""
+
+#: output/db/controls/containers/splitterwindow.xml:40
+msgid "No border (default)."
+msgstr ""
+
+#: output/db/controls/containers/splitterwindow.xml:43
+msgid "Under Windows XP, switches off the attempt to draw the splitter using Windows XP theming, so the borders and sash will take on the pre-XP look."
+msgstr ""
+
+#: output/db/controls/containers/splitterwindow.xml:46
+msgid "Always allow to unsplit, even with the minimum pane size other than zero."
+msgstr ""
+
+#: output/db/controls/containers/splitterwindow.xml:49
+msgid "Don't draw XOR line but resize the child windows immediately."
+msgstr ""
+
+#: output/db/controls/containers/splitterwindow.xml:54
+msgid "Orientation of the splitter, either \"vertical\" or \"horizontal\" (default: horizontal)."
+msgstr ""
+
+#: output/db/controls/containers/splitterwindow.xml:58
+msgid "Initial position of the sash (default: 0)."
+msgstr ""
+
+#: output/db/controls/containers/splitterwindow.xml:61
+msgid "Minimum child size (default: not set)."
+msgstr ""
+
+#: output/db/controls/containers/splitterwindow.xml:64
+msgid "Sash gravity, see wxSplitterWindow::SetSashGravity() (default: not set)."
+msgstr ""
+
+#: output/db/controls/containers/splitterwindow.xml:69
+msgid "The sash position is in the process of being changed. May be used to modify the position of the tracking bar to properly reflect the position that would be set if the drag were to be completed at this point."
+msgstr ""
+
+#: output/db/controls/containers/splitterwindow.xml:73
+msgid "The sash position was changed. May be used to modify the sash position before it is set, or to prevent the change from taking place"
+msgstr ""
+
+#: output/db/controls/containers/splitterwindow.xml:77
+msgid "The splitter has been just unsplit. Processes a wxEVT_COMMAND_SPLITTER_UNSPLIT event."
+msgstr ""
+
+#: output/db/controls/containers/splitterwindow.xml:81
+msgid "The sash was double clicked. The default behaviour is to unsplit the window when this happens (unless the minimum pane size has been set to a value greater than zero)."
+msgstr ""
+
+#: output/db/controls/containers/treebook.xml:14
+msgid "This class is an extension of the wxNotebook class that allows a tree structured set of pages to be shown in a control."
+msgstr ""
+
+#: output/db/controls/containers/treebook.xml:54
+msgid "The page node is going to be collapsed."
+msgstr ""
+
+#: output/db/controls/containers/treebook.xml:58
+msgid "The page node is going to be expanded."
+msgstr ""
+
+#: output/db/controls/containers/treebook.xml:77
+msgid "If set to 1, the page is initially expanded. By default all pages are initially collapsed."
+msgstr ""
+
+#: output/db/controls/containers/treebook.xml:80
+msgid "Page's depth in the labels tree."
+msgstr ""
+
+#: output/db/controls/containers/choicebook.xml:14
+msgid "wxChoicebook is a class similar to wxNotebook, but uses a wxChoice control to show the labels instead of the tabs."
+msgstr ""
+
+#: output/db/controls/containers/choicebook.xml:28
+#: output/db/controls/containers/listbook.xml:28
+msgid "Choose the default location for the labels depending on the current platform (left everywhere except Mac where it is top)."
+msgstr ""
+
+#: output/db/controls/containers/choicebook.xml:31
+#: output/db/controls/containers/listbook.xml:31
+msgid "Place labels above the page area."
+msgstr ""
+
+#: output/db/controls/containers/choicebook.xml:40
+#: output/db/controls/containers/listbook.xml:40
+msgid "Place labels below the page area."
+msgstr ""
+
+#: output/db/controls/containers/choicebook.xml:46
+msgid "The page selection was changed. Processes a wxEVT_COMMAND_CHOICEBOOK_PAGE_CHANGED event."
+msgstr ""
+
+#: output/db/controls/containers/choicebook.xml:50
+msgid "The page selection is about to be changed. Processes a wxEVT_COMMAND_CHOICEBOOK_PAGE_CHANGING event. This event can be vetoed (using wxNotifyEvent::Veto())."
+msgstr ""
+
+#: output/db/controls/containers/scrolledwindow.xml:13
+msgid "Scrolled window derived from wxPanel."
+msgstr ""
+
+#: output/db/controls/containers/scrolledwindow.xml:27
+msgid "Uses a backing pixmap to speed refreshes. Motif only."
+msgstr ""
+
+#: output/db/controls/containers/scrolledwindow.xml:34
+msgid "Scroll rate in x and y directions (default: not set; required if the window has a sizer child)."
+msgstr ""
+
+#: output/db/controls/containers/collapsiblepane.xml:14
+msgid "A collapsible pane is a container with an embedded button-like control which can be used by the user to collapse or expand the pane's contents."
+msgstr ""
+
+#: output/db/controls/containers/collapsiblepane.xml:27
+msgid "The default style. It includes wxTAB_TRAVERSAL and wxBORDER_NONE."
+msgstr ""
+
+#: output/db/controls/containers/collapsiblepane.xml:30
+msgid "By default wxCollapsiblePane resizes the top level window containing it when its own size changes. This allows to easily implement dialogs containing an optionally shown part, for example, and so is the default behaviour but can be inconvenient in some specific cases -- use this flag to disable this automatic parent resizing then."
+msgstr ""
+
+#: output/db/controls/containers/collapsiblepane.xml:35
+msgid "Should the pane be collapsed initially (default: 0)?"
+msgstr ""
+
+#: output/db/controls/containers/collapsiblepane.xml:40
+msgid "The user expanded or collapsed the collapsible pane."
+msgstr ""
+
+#: output/db/controls/containers/collapsiblepane.xml:46
+#: output/db/controls/containers/panel.xml:27
+msgid "Process a navigation key event."
+msgstr ""
+
+#: output/db/controls/containers/collapsiblepane.xml:52
+msgid "<a title=\"A collapsible pane is a container with an embedded button-like control which can be used by the user ...\" href=\"http://docs.wxwidgets.org/trunk/classwx_collapsible_pane.html\" class=\"el\">wxCollapsiblePane</a> may contain single optional child object of the <code>panewindow</code> pseudo-class type. <code>panewindow</code> itself must contain exactly one child that is a <a href=\"http://docs.wxwidgets.org/trunk/overview_xrcformat.html#overview_xrcformat_sizers\" class=\"el\">sizer</a> or a non-toplevel window object."
+msgstr ""
+
+#: output/db/controls/containers/listbook.xml:14
+msgid "wxListbook is a class similar to wxNotebook but which uses a wxListCtrl to show the labels instead of the tabs."
+msgstr ""
+
+#: output/db/controls/containers/listbook.xml:46
+msgid "The page selection was changed. Processes a wxEVT_COMMAND_LISTBOOK_PAGE_CHANGED event."
+msgstr ""
+
+#: output/db/controls/containers/listbook.xml:50
+msgid "The page selection is about to be changed. Processes a wxEVT_COMMAND_LISTBOOK_PAGE_CHANGING event. This event can be vetoed."
+msgstr ""
+
+#: output/db/controls/containers/panel.xml:13
+msgid "A panel is a window on which controls are placed."
+msgstr ""
+
+#: output/db/controls/aui/auimanager.xml:14
+msgid "wxAuiManager is the central class of the wxAUI class framework."
+msgstr ""
+
+#: output/db/controls/aui/auimanager.xml:23
+msgid "Allow a pane to be undocked to take the form of a wxMiniFrame."
+msgstr ""
+
+#: output/db/controls/aui/auimanager.xml:26
+msgid "Change the color of the title bar of the pane when it is activated."
+msgstr ""
+
+#: output/db/controls/aui/auimanager.xml:29
+msgid "Make the pane transparent during its movement."
+msgstr ""
+
+#: output/db/controls/aui/auimanager.xml:32
+msgid "The possible location for docking is indicated by a translucent area."
+msgstr ""
+
+#: output/db/controls/aui/auimanager.xml:35
+msgid "The possible location for docking is indicated by gradually appearing partially transparent hint."
+msgstr ""
+
+#: output/db/controls/aui/auimanager.xml:38
+msgid "The possible location for docking is indicated by a rectangular outline."
+msgstr ""
+
+#: output/db/controls/aui/auimanager.xml:41
+msgid "The translucent area where the pane could be docked appears gradually."
+msgstr ""
+
+#: output/db/controls/aui/auimanager.xml:44
+msgid "Used in complement of wxAUI_MGR_VENETIAN_BLINDS_HINT to show the docking hint immediately."
+msgstr ""
+
+#: output/db/controls/aui/auimanager.xml:47
+msgid "When a docked pane is resized, its content is refreshed in live (instead of moving the border alone and refreshing the content at the end)."
+msgstr ""
+
+#: output/db/controls/aui/auimanager.xml:50
+msgid "Default behavior, combines: wxAUI_MGR_ALLOW_FLOATING | wxAUI_MGR_TRANSPARENT_HINT | wxAUI_MGR_HINT_FADE | wxAUI_MGR_NO_VENETIAN_BLINDS_FADE."
+msgstr ""
+
+#: output/db/controls/aui/auimanager.xml:56
+msgid "Triggered when any button is pressed for any docked panes."
+msgstr ""
+
+#: output/db/controls/aui/auimanager.xml:60
+msgid "Triggered when a docked or floating pane is closed."
+msgstr ""
+
+#: output/db/controls/aui/auimanager.xml:64
+msgid "Triggered when a pane is maximized."
+msgstr ""
+
+#: output/db/controls/aui/auimanager.xml:68
+msgid "Triggered when a pane is restored."
+msgstr ""
+
+#: output/db/controls/aui/auimanager.xml:72
+msgid "This event can be caught to override the default renderer in order to custom draw your wxAuiManager window (not recommended)."
+msgstr ""
+
+#: output/db/controls/aui/auinotebook.xml:14
+msgid "wxAuiNotebook is a notebook control which implements many features common in applications with dockable panes. Specifically, wxAuiNotebook implements functionality which allows the user to rearrange tab order via drag-and-drop, split the tab window into many different splitter configurations, and toggle through different themes to customize the control's look and feel."
+msgstr ""
+
+#: output/db/controls/aui/auinotebook.xml:27
+msgid "Defined as wxAUI_NB_TOP | wxAUI_NB_TAB_SPLIT | wxAUI_NB_TAB_MOVE | wxAUI_NB_SCROLL_BUTTONS | wxAUI_NB_CLOSE_ON_ACTIVE_TAB."
+msgstr ""
+
+#: output/db/controls/aui/auinotebook.xml:30
+msgid "Allows the tab control to be split by dragging a tab."
+msgstr ""
+
+#: output/db/controls/aui/auinotebook.xml:33
+msgid "Allows a tab to be moved horizontally by dragging."
+msgstr ""
+
+#: output/db/controls/aui/auinotebook.xml:36
+msgid "Allows a tab to be moved to another tab control."
+msgstr ""
+
+#: output/db/controls/aui/auinotebook.xml:39
+msgid "With this style, all tabs have the same width."
+msgstr ""
+
+#: output/db/controls/aui/auinotebook.xml:42
+msgid "With this style, left and right scroll buttons are displayed."
+msgstr ""
+
+#: output/db/controls/aui/auinotebook.xml:45
+msgid "With this style, a drop-down list of windows is available."
+msgstr ""
+
+#: output/db/controls/aui/auinotebook.xml:48
+msgid "With this style, a close button is available on the tab bar."
+msgstr ""
+
+#: output/db/controls/aui/auinotebook.xml:51
+msgid "With this style, the close button is visible on the active tab."
+msgstr ""
+
+#: output/db/controls/aui/auinotebook.xml:54
+msgid "With this style, the close button is visible on all tabs."
+msgstr ""
+
+#: output/db/controls/aui/auinotebook.xml:57
+msgid "With this style, tabs are drawn along the top of the notebook."
+msgstr ""
+
+#: output/db/controls/aui/auinotebook.xml:60
+msgid "With this style, tabs are drawn along the bottom of the notebook."
+msgstr ""
+
+#: output/db/controls/aui/auinotebook.xml:66
+msgid "A page is about to be closed. Processes a wxEVT_COMMAND_AUINOTEBOOK_PAGE_CLOSE event."
+msgstr ""
+
+#: output/db/controls/aui/auinotebook.xml:70
+msgid "The page selection was changed. Processes a wxEVT_COMMAND_AUINOTEBOOK_PAGE_CHANGED event."
+msgstr ""
+
+#: output/db/controls/aui/auinotebook.xml:74
+msgid "The page selection is about to be changed. Processes a wxEVT_COMMAND_AUINOTEBOOK_PAGE_CHANGING event. This event can be vetoed."
+msgstr ""
+
+#: output/db/controls/aui/auinotebook.xml:78
+msgid "The window list button has been pressed. Processes a wxEVT_COMMAND_AUINOTEBOOK_BUTTON event."
+msgstr ""
+
+#: output/db/controls/aui/auinotebook.xml:82
+msgid "Dragging is about to begin. Processes a wxEVT_COMMAND_AUINOTEBOOK_BEGIN_DRAG event."
+msgstr ""
+
+#: output/db/controls/aui/auinotebook.xml:86
+msgid "Dragging has ended. Processes a wxEVT_COMMAND_AUINOTEBOOK_END_DRAG event."
+msgstr ""
+
+#: output/db/controls/aui/auinotebook.xml:90
+msgid "Emitted during a drag and drop operation. Processes a wxEVT_COMMAND_AUINOTEBOOK_DRAG_MOTION event."
+msgstr ""
+
+#: output/db/controls/aui/auinotebook.xml:94
+msgid "Whether to allow a tab to be dropped. Processes a wxEVT_COMMAND_AUINOTEBOOK_ALLOW_DND event. This event must be specially allowed."
+msgstr ""
+
+#: output/db/controls/aui/auitoolbar.xml:14
+msgid "wxAuiToolBar is a dockable toolbar, part of the wxAUI class framework."
+msgstr ""
+
+#: output/db/controls/aui/auitoolbar.xml:41
+msgid "using this style forces the toolbar to be vertical and be only dockable to the left or right sides of the window whereas by default it can be horizontal or vertical and be docked anywhere"
+msgstr ""
+
+#: output/db/controls/aui/auitoolbar.xml:47
+msgid "analogous to wxAUI_TB_VERTICAL, but forces the toolbar to be horizontal"
+msgstr ""
+
+#: output/db/controls/aui/auitoolbar.xml:50
+msgid "Equivalent to wxAUI_TB_HORZ_LAYOUT | wxAUI_TB_TEXT"
+msgstr ""
+
+#: output/db/controls/aui/auitoolbar.xml:53
+msgid "The default is to have no styles"
+msgstr ""
+
+#: output/db/controls/aui/auitoolbar.xml:59
+msgid "Process a wxEVT_COMMAND_AUITOOLBAR_TOOL_DROPDOWN event"
+msgstr ""
+
+#: output/db/controls/aui/auitoolbar.xml:63
+msgid "Process a wxEVT_COMMAND_AUITOOLBAR_OVERFLOW_CLICK event"
+msgstr ""
+
+#: output/db/controls/aui/auitoolbar.xml:67
+msgid "Process a wxEVT_COMMAND_AUITOOLBAR_RIGHT_CLICK event"
+msgstr ""
+
+#: output/db/controls/aui/auitoolbar.xml:71
+msgid "Process a wxEVT_COMMAND_AUITOOLBAR_MIDDLE_CLICK event"
+msgstr ""
+
+#: output/db/controls/aui/auitoolbar.xml:75
+msgid "Process a wxEVT_COMMAND_AUITOOLBAR_BEGIN_DRAG event"
+msgstr ""
+
+#: output/db/controls/pickers/timepickerctrl.xml:21
+#: output/db/controls/pickers/datepickerctrl.xml:38
+msgid "This event fires when the user changes the current selection in the control."
+msgstr ""
+
+#: output/db/controls/pickers/colourpickerctrl.xml:21
+msgid "The default style: 0."
+msgstr ""
+
+#: output/db/controls/pickers/colourpickerctrl.xml:24
+msgid "Creates a text control to the left of the picker button which is completely managed by the wxColourPickerCtrl and which can be used by the user to specify a colour (see SetColour). The text control is automatically synchronized with button's value. Use functions defined in wxPickerBase to modify the text control."
+msgstr ""
+
+#: output/db/controls/pickers/colourpickerctrl.xml:27
+msgid "Shows the colour in HTML form (AABBCC) as colour button label (instead of no label at all)."
+msgstr ""
+
+#: output/db/controls/pickers/colourpickerctrl.xml:31
+msgid "Initial value of the control (default: wxBLACK)."
+msgstr ""
+
+#: output/db/controls/pickers/colourpickerctrl.xml:35
+msgid "The user changed the colour selected in the control either using the button or using text control (see wxCLRP_USE_TEXTCTRL; note that in this case the event is fired only if the user’s input is valid, i.e. recognizable)."
+msgstr ""
+
+#: output/db/controls/pickers/datepickerctrl.xml:21
+msgid "Creates a control without a month calendar drop down but with spin-control-like arrows to change individual date components. This style is not supported by the generic version."
+msgstr ""
+
+#: output/db/controls/pickers/datepickerctrl.xml:24
+msgid "Creates a control with a month calendar drop-down part from which the user can select a date. This style is not supported in OSX/Cocoa native version."
+msgstr ""
+
+#: output/db/controls/pickers/datepickerctrl.xml:27
+msgid "Creates a control with the style that is best supported for the current platform (currently wxDP_SPIN under Windows and OSX/Cocoa and wxDP_DROPDOWN elsewhere)."
+msgstr ""
+
+#: output/db/controls/pickers/datepickerctrl.xml:30
+msgid "With this style, the control allows the user to not enter any valid date at all. Without it - the default - the control always has some valid date. This style is not supported in OSX/Cocoa native version."
+msgstr ""
+
+#: output/db/controls/pickers/datepickerctrl.xml:33
+msgid "Forces display of the century in the default date format. Without this style the century could be displayed, or not, depending on the default date representation in the system. This style is not supported in OSX/Cocoa native version currently."
+msgstr ""
+
+#: output/db/controls/pickers/fontpickerctrl.xml:21
+msgid "The default style: wxFNTP_FONTDESC_AS_LABEL | wxFNTP_USEFONT_FOR_LABEL."
+msgstr ""
+
+#: output/db/controls/pickers/fontpickerctrl.xml:24
+msgid "Creates a text control to the left of the picker button which is completely managed by the wxFontPickerCtrl and which can be used by the user to specify a font (see SetSelectedFont). The text control is automatically synchronized with button's value. Use functions defined in wxPickerBase to modify the text control."
+msgstr ""
+
+#: output/db/controls/pickers/fontpickerctrl.xml:27
+msgid "Keeps the label of the button updated with the fontface name and the font size. E.g. choosing \"Times New Roman bold, italic with size 10\" from the fontdialog, will update the label (overwriting any previous label) with the \"Times New Roman, 10\" text."
+msgstr ""
+
+#: output/db/controls/pickers/fontpickerctrl.xml:30
+msgid "Uses the currently selected font to draw the label of the button."
+msgstr ""
+
+#: output/db/controls/pickers/fontpickerctrl.xml:38
+msgid "The user changed the font selected in the control either using the button or using text control (see wxFNTP_USE_TEXTCTRL; note that in this case the event is fired only if the user's input is valid, i.e. recognizable)."
+msgstr ""
+
+#: output/db/controls/pickers/filepickerctrl.xml:21
+msgid "The default style: includes wxFLP_OPEN | wxFLP_FILE_MUST_EXIST and, under wxMSW only, wxFLP_USE_TEXTCTRL."
+msgstr ""
+
+#: output/db/controls/pickers/filepickerctrl.xml:24
+msgid "Creates a text control to the left of the picker button which is completely managed by the wxFilePickerCtrl and which can be used by the user to specify a path (see SetPath). The text control is automatically synchronized with button's value. Use functions defined in wxPickerBase to modify the text control."
+msgstr ""
+
+#: output/db/controls/pickers/filepickerctrl.xml:27
+msgid "Creates a picker which allows the user to select a file to open."
+msgstr ""
+
+#: output/db/controls/pickers/filepickerctrl.xml:30
+msgid "Creates a picker which allows the user to select a file to save."
+msgstr ""
+
+#: output/db/controls/pickers/filepickerctrl.xml:33
+msgid "Can be combined with wxFLP_SAVE only: ask confirmation to the user before selecting a file."
+msgstr ""
+
+#: output/db/controls/pickers/filepickerctrl.xml:36
+msgid "Can be combined with wxFLP_OPEN only: the selected file must be an existing file."
+msgstr ""
+
+#: output/db/controls/pickers/filepickerctrl.xml:39
+msgid "Change current working directory on each user file selection change."
+msgstr ""
+
+#: output/db/controls/pickers/filepickerctrl.xml:42
+#: output/db/controls/pickers/dirpickerctrl.xml:33
+msgid "Use smaller version of the control with a small \"...\" button instead of the normal \"Browse\" one. This flag is new since wxWidgets 2.9.3."
+msgstr ""
+
+#: output/db/controls/pickers/filepickerctrl.xml:49
+#: output/db/controls/pickers/dirpickerctrl.xml:40
+msgid "Message shown to the user in wxDirDialog shown by the control (required)."
+msgstr ""
+
+#: output/db/controls/pickers/filepickerctrl.xml:56
+msgid "The user changed the file selected in the control either using the button or using text control (see wxFLP_USE_TEXTCTRL; note that in this case the event is fired only if the user's input is valid, e.g. an existing file path if wxFLP_FILE_MUST_EXIST was given)."
+msgstr ""
+
+#: output/db/controls/pickers/dirpickerctrl.xml:21
+msgid "The default style: includes wxDIRP_DIR_MUST_EXIST and, under wxMSW only, wxDIRP_USE_TEXTCTRL."
+msgstr ""
+
+#: output/db/controls/pickers/dirpickerctrl.xml:24
+msgid "Creates a text control to the left of the picker button which is completely managed by the wxDirPickerCtrl and which can be used by the user to specify a path (see SetPath). The text control is automatically synchronized with button's value. Use functions defined in wxPickerBase to modify the text control."
+msgstr ""
+
+#: output/db/controls/pickers/dirpickerctrl.xml:27
+msgid "Creates a picker which allows to select only existing directories. wxGTK control always adds this flag internally as it does not support its absence."
+msgstr ""
+
+#: output/db/controls/pickers/dirpickerctrl.xml:30
+msgid "Change current working directory on each user directory selection change."
+msgstr ""
+
+#: output/db/controls/pickers/dirpickerctrl.xml:44
+msgid "The user changed the directory selected in the control either using the button or using text control (see wxDIRP_USE_TEXTCTRL; note that in this case the event is fired only if the user's input is valid, e.g. an existing directory path)."
+msgstr ""
+
+#: output/db/controls/toplevel/dialog.xml:13
+msgid "A dialog box is a window with a title bar and sometimes a system menu, which can be moved around the screen."
+msgstr ""
+
+#: output/db/controls/toplevel/dialog.xml:28
+msgid "Equivalent to a combination of wxCAPTION, wxCLOSE_BOX and wxSYSTEM_MENU (the last one is not used under Unix)."
+msgstr ""
+
+#: output/db/controls/toplevel/dialog.xml:31
+msgid "Puts a caption on the dialog box."
+msgstr ""
+
+#: output/db/controls/toplevel/dialog.xml:34
+msgid "Displays a minimize box on the dialog."
+msgstr ""
+
+#: output/db/controls/toplevel/dialog.xml:37
+msgid "Displays a maximize box on the dialog."
+msgstr ""
+
+#: output/db/controls/toplevel/dialog.xml:40
+msgid "Displays a close box on the dialog."
+msgstr ""
+
+#: output/db/controls/toplevel/dialog.xml:43
+msgid "The dialog stays on top of all other windows."
+msgstr ""
+
+#: output/db/controls/toplevel/dialog.xml:46
+msgid "Displays a system menu."
+msgstr ""
+
+#: output/db/controls/toplevel/dialog.xml:49
+msgid "Display a resizable frame around the window."
+msgstr ""
+
+#: output/db/controls/toplevel/dialog.xml:52
+msgid "Under Windows, specifies that the child controls should not have 3D borders unless specified in the control."
+msgstr ""
+
+#: output/db/controls/toplevel/dialog.xml:55
+msgid "By default, a dialog created with a NULL parent window will be given the application's top level window as parent. Use this style to prevent this from happening and create an orphan dialog. This is not recommended for modal dialogs."
+msgstr ""
+
+#: output/db/controls/toplevel/dialog.xml:60
+msgid "Under Windows, puts a query button on the caption. When pressed, Windows will go into a context-sensitive help mode and wxWidgets will send a wxEVT_HELP event if the user clicked on an application window. Note that this is an extended style and must be set by calling SetExtraStyle() before Create is called (two-step construction)."
+msgstr ""
+
+#: output/db/controls/toplevel/dialog.xml:63
+msgid "On Mac OS X, frames with this style will be shown with a metallic look. This is an extra style."
+msgstr ""
+
+#: output/db/controls/toplevel/dialog.xml:67
+msgid "This event class contains information about window and session close events."
+msgstr ""
+
+#: output/db/controls/toplevel/dialog.xml:70
+msgid "The frame is being closed by the user or programmatically (see wxWindow::Close). The user may generate this event clicking the close button (typically the 'X' on the top-right of the title bar) if it's present (see the wxCLOSE_BOX style)."
+msgstr ""
+
+#: output/db/controls/toplevel/dialog.xml:74
+msgid ""
+"\n"
+"            A <a title=\"A wxInitDialogEvent is sent as a dialog or panel is being initialised.\" href=\"http://docs.wxwidgets.org/trunk/classwx_init_dialog_event.html\" class=\"el\">wxInitDialogEvent</a> is sent as a dialog or panel is being initialised. </p>\n"
+"            <p>Handlers for this event can transfer data to the window.</p>\n"
+"            <p>The default handler calls <a title=\"Transfers values to child controls from data areas specified by their validators.\" href=\"http://docs.wxwidgets.org/trunk/classwx_window.html#a88cc65e424a129d9b0057756cdb67ec9\" class=\"el\">wxWindow::TransferDataToWindow</a>.</p>\n"
+"        "
+msgstr ""
+
+#: output/db/controls/toplevel/dialog.xml:81
+msgid "Process a wxEVT_INIT_DIALOG event."
+msgstr ""
+
+#: output/db/controls/toplevel/propertysheetdialog.xml:14
+msgid ""
+"\n"
+"            <p>This class represents a property sheet dialog: a tabbed dialog for showing settings.</p>\n"
+"            <p>It is optimized to show flat tabs on PocketPC devices, and can be customized to use different controllers instead of the default notebook style.</p>\n"
+"            <p>To use this class, call <a title=\"Call this from your own Create function, before adding buttons and pages.\" href=\"http://docs.wxwidgets.org/trunk/classwx_property_sheet_dialog.html#ad96015ab13fc1e2c364660fafd4121e0\" class=\"el\">Create()</a> from your own Create function. Then call <a title=\"Call this to create the buttons for the dialog.\" href=\"http://docs.wxwidgets.org/trunk/classwx_property_sheet_dialog.html#a74a83482c1a6aa508bcd8240e0461ac9\" class=\"el\">CreateButtons()</a>, and create pages, adding them to the book control. Finally call <a title=\"Call this to lay out the dialog.\" href=\"http://docs.wxwidgets.org/trunk/classwx_property_sheet_dialog.html#a9a15ba6b238d9ef84eb1882108ae72c6\" class=\"el\">LayoutDialog()</a>.</p>\n"
+"        "
+msgstr ""
+
+#: output/db/controls/toplevel/propertysheetdialog.xml:31
+msgid "Buttons to show, combination of flags accepted by wxPropertySheetDialog::CreateButtons() (default: 0)."
+msgstr ""
+
+#: output/db/controls/toplevel/frame.xml:13
+msgid ""
+"\n"
+"        <p>A frame is a window whose size and position can (usually) be changed by the user. </p>\n"
+"        <p>It usually has thick borders and a title bar, and can optionally contain a menu bar, toolbar and status bar. A frame can contain any window that is not a frame or dialog.</p>\n"
+"        <p>A frame that has a status bar and toolbar, created via the <a title=\"Creates a status bar at the bottom of the frame.\" href=\"http://docs.wxwidgets.org/trunk/classwx_frame.html#aaa5134dcecc1ec77386465a327dd0a21\" class=\"el\">CreateStatusBar()</a> and <a title=\"Creates a toolbar at the top or left of the frame.\" href=\"http://docs.wxwidgets.org/trunk/classwx_frame.html#a529698edc2fd2037ac8578dadafad0e2\" class=\"el\">CreateToolBar()</a> functions, manages these windows and adjusts the value returned by <a title=\"Returns the size of the window 'client area' in pixels.\" href=\"http://docs.wxwidgets.org/trunk/classwx_window.html#ae56fc53268b815b58570f66bfc33838f\" class=\"el\">GetClientSize()</a> to reflect the remaining size available to application windows.</p>\n"
+"        <dl class=\"remark\"><dt><b>Remarks:</b></dt><dd>An application should normally define an <a title=\"This event class contains information about window and session close events.\" href=\"http://docs.wxwidgets.org/trunk/classwx_close_event.html\" class=\"el\">wxCloseEvent</a> handler for the frame to respond to system close events, for example so that related data and subwindows can be cleaned up.</dd>\n"
+"    "
+msgstr ""
+
+#: output/db/controls/toplevel/frame.xml:36
+msgid "Defined as wxMINIMIZE_BOX | wxMAXIMIZE_BOX | wxRESIZE_BORDER | wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN."
+msgstr ""
+
+#: output/db/controls/toplevel/frame.xml:39
+msgid "Display the frame iconized (minimized). Windows only."
+msgstr ""
+
+#: output/db/controls/toplevel/frame.xml:42
+msgid "Puts a caption on the frame. Notice that this flag is required by wxMINIMIZE_BOX, wxMAXIMIZE_BOX and wxCLOSE_BOX on most systems as the corresponding buttons cannot be shown if the window has no title bar at all. I.e. if wxCAPTION is not specified those styles would be simply ignored."
+msgstr ""
+
+#: output/db/controls/toplevel/frame.xml:45
+msgid "Identical to wxICONIZE. Windows only."
+msgstr ""
+
+#: output/db/controls/toplevel/frame.xml:48
+msgid "Displays a minimize box on the frame."
+msgstr ""
+
+#: output/db/controls/toplevel/frame.xml:51
+msgid "Displays the frame maximized. Windows and GTK+ only."
+msgstr ""
+
+#: output/db/controls/toplevel/frame.xml:54
+msgid "Displays a maximize box on the frame. Notice that under wxGTK wxRESIZE_BORDER must be used as well or this style is ignored."
+msgstr ""
+
+#: output/db/controls/toplevel/frame.xml:57
+msgid "Displays a close box on the frame."
+msgstr ""
+
+#: output/db/controls/toplevel/frame.xml:60
+msgid "Stay on top of all other windows, see also wxFRAME_FLOAT_ON_PARENT."
+msgstr ""
+
+#: output/db/controls/toplevel/frame.xml:63
+msgid "Displays a system menu containing the list of various windows commands in the window title bar. Unlike wxMINIMIZE_BOX, wxMAXIMIZE_BOX and wxCLOSE_BOX styles this style can be used without wxCAPTION, at least under Windows, and makes the system menu available without showing it on screen in this case. However it is recommended to only use it together with wxCAPTION for consistent behaviour under all platforms."
+msgstr ""
+
+#: output/db/controls/toplevel/frame.xml:66
+msgid "Displays a resizable border around the window."
+msgstr ""
+
+#: output/db/controls/toplevel/frame.xml:69
+msgid "Causes a frame with a small title bar to be created; the frame does not appear in the taskbar under Windows or GTK+."
+msgstr ""
+
+#: output/db/controls/toplevel/frame.xml:72
+msgid "Creates an otherwise normal frame but it does not appear in the taskbar under Windows or GTK+ (note that it will minimize to the desktop window under Windows which may seem strange to the users and thus it might be better to use this style only without wxMINIMIZE_BOX style). In wxGTK, the flag is respected only if the window manager supports _NET_WM_STATE_SKIP_TASKBAR hint."
+msgstr ""
+
+#: output/db/controls/toplevel/frame.xml:75
+msgid "The frame will always be on top of its parent (unlike wxSTAY_ON_TOP). A frame created with this style must have a non-NULL parent."
+msgstr ""
+
+#: output/db/controls/toplevel/frame.xml:78
+msgid "Windows with this style are allowed to have their shape changed with the SetShape() method."
+msgstr ""
+
+#: output/db/controls/toplevel/frame.xml:83
+msgid "Under Windows, puts a query button on the caption. When pressed, Windows will go into a context-sensitive help mode and wxWidgets will send a wxEVT_HELP event if the user clicked on an application window. Note that this is an extended style and must be set by calling SetExtraStyle before Create is called (two-step construction). You cannot use this style together with wxMAXIMIZE_BOX or wxMINIMIZE_BOX, so you should use wxDEFAULT_FRAME_STYLE ~ (wxMINIMIZE_BOX | wxMAXIMIZE_BOX) for the frames having this style (the dialogs don't have a minimize or a maximize box by default)"
+msgstr ""
+
+#: output/db/controls/toplevel/frame.xml:97
+msgid "<p>An event being sent when the frame is iconized (minimized) or restored.</p><p>Currently only wxMSW and wxGTK generate such events.</p>"
+msgstr ""
+
+#: output/db/controls/toplevel/frame.xml:100
+msgid "Process a wxEVT_ICONIZE event."
+msgstr ""
+
+#: output/db/controls/toplevel/frame.xml:104
+msgid ""
+"\n"
+"            <p>This class is used for a variety of menu-related events.</p>\n"
+"            <p>Note that these do not include menu command events, which are handled using\n"
+"            <a href=\"http://docs.wxwidgets.org/trunk/classwx_command_event.html\">wxCommandEvent</a> objects.</p>\n"
+"            <p>The default handler for wxEVT_MENU_HIGHLIGHT displays help text in the first field of the status bar.</p>\n"
+"        "
+msgstr ""
+
+#: output/db/controls/toplevel/frame.xml:112
+msgid "A menu is about to be opened."
+msgstr ""
+
+#: output/db/controls/toplevel/wizard.xml:14
+msgid "wxWizard is the central class for implementing 'wizard-like' dialogs."
+msgstr ""
+
+#: output/db/controls/toplevel/wizard.xml:29
+msgid "Shows a Help button using wxID_HELP."
+msgstr ""
+
+#: output/db/controls/toplevel/wizard.xml:33
+msgid "Bitmap to display on the left side of the wizard (default: none)."
+msgstr ""
+
+#: output/db/controls/toplevel/wizard.xml:36
+msgid "wxWizardEvent class represents an event generated by the wxWizard: this event is first sent to the page itself and, if not processed there, goes up the window hierarchy as usual."
+msgstr ""
+
+#: output/db/controls/toplevel/wizard.xml:39
+msgid "The user attempted to cancel the wizard (this event may also be vetoed)."
+msgstr ""
+
+#: output/db/controls/toplevel/wizard.xml:43
+msgid "The wizard finished button was pressed."
+msgstr ""
+
+#: output/db/controls/toplevel/wizard.xml:47
+msgid "The wizard help button was pressed."
+msgstr ""
+
+#: output/db/controls/toplevel/wizard.xml:51
+msgid "The page has just been changed (this event cannot be vetoed)."
+msgstr ""
+
+#: output/db/controls/toplevel/wizard.xml:55
+msgid "The page is being changed (this event can be vetoed)."
+msgstr ""
+
+#: output/db/controls/toplevel/wizard.xml:59
+msgid "The page was shown and laid out (this event cannot be vetoed)."
+msgstr ""
+
+#: output/db/controls/toplevel/wizard.xml:72
+msgid "Page-specific bitmap (default: none)."
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:8
+#: output/wxguidesigner.xrs/toolbar.xrc:9
+msgid "New Project (Ctrl+N)"
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:10
+msgid "Start a new project."
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:14
+#: output/wxguidesigner.xrs/toolbar.xrc:15
+msgid "Open Project (Ctrl+O)"
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:16
+msgid "Open an existing project."
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:20
+#: output/wxguidesigner.xrs/toolbar.xrc:21
+msgid "Save Project (Ctrl+S)"
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:22
+msgid "Save the current project."
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:27
+msgid "Undo"
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:28
+msgid "Undo (Ctrl+Z)"
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:29
+msgid "Undo the last action."
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:33
+#: output/wxguidesigner.xrs/toolbar.xrc:34
+msgid "Redo (Ctrl+Y)"
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:35
+msgid "Redo the last action that was undone."
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:40
+#: output/wxguidesigner.xrs/toolbar.xrc:41
+msgid "Cut (Ctrl+X)"
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:42
+msgid "Remove the selected object and place it on the clipboard."
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:46
+#: output/wxguidesigner.xrs/toolbar.xrc:47
+msgid "Copy (Ctrl+C)"
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:48
+msgid "Copy the selected object to the clipboard."
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:52
+#: output/wxguidesigner.xrs/toolbar.xrc:53
+msgid "Paste (Ctrl+V)"
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:54
+msgid "Insert an object from the clipboard."
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:58
+#: output/wxguidesigner.xrs/toolbar.xrc:59
+msgid "Delete (Ctrl+D)"
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:60
+msgid "Remove the selected object."
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:65
+#: output/wxguidesigner.xrs/toolbar.xrc:66
+msgid "Generate Code (F8)"
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:67
+msgid "Create code from the current project."
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:72
+#: output/wxguidesigner.xrs/toolbar.xrc:73
+msgid "Align Left"
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:74
+msgid "The item will be aligned to the left of the space alotted to it by the sizer."
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:79
+#: output/wxguidesigner.xrs/toolbar.xrc:80
+msgid "Align Center Horizontally"
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:81
+msgid "The item will be centered horizontally in the space alotted to it by the sizer."
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:86
+#: output/wxguidesigner.xrs/toolbar.xrc:87
+msgid "Align Right"
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:88
+msgid "The item will be aligned to the right of the space alotted to it by the sizer."
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:94
+#: output/wxguidesigner.xrs/toolbar.xrc:95
+msgid "Align Top"
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:96
+msgid "The item will be aligned to the top of the space alotted to it by the sizer."
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:101
+#: output/wxguidesigner.xrs/toolbar.xrc:102
+msgid "Align Center Vertically"
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:103
+msgid "The item will be centered vertically within space alotted to it by the sizer."
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:108
+#: output/wxguidesigner.xrs/toolbar.xrc:109
+msgid "Align Bottom"
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:110
+msgid "The item will be aligned to the bottom of the space alotted to it by the sizer."
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:116
+#: output/wxguidesigner.xrs/toolbar.xrc:117
+msgid "Expand (Alt+W)"
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:123
+#: output/wxguidesigner.xrs/toolbar.xrc:124
+msgid "Stretch (Alt+S)"
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:125
+msgid "The item will grow and shrink with the sizer."
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:131
+#: output/wxguidesigner.xrs/toolbar.xrc:132
+msgid "Left Border"
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:133
+msgid "A border will be added on the left side of the item."
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:138
+#: output/wxguidesigner.xrs/toolbar.xrc:139
+msgid "Right Border"
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:140
+msgid "A border will be  added on the right side of the item."
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:145
+#: output/wxguidesigner.xrs/toolbar.xrc:146
+msgid "Top Border"
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:147
+msgid "A border will be  added on the top of the item."
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:152
+#: output/wxguidesigner.xrs/toolbar.xrc:153
+msgid "Bottom Border"
+msgstr ""
+
+#: output/wxguidesigner.xrs/toolbar.xrc:154
+msgid "A border will be  added on the bottom of the item."
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:6
+msgid "&File"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:8
+msgid "&New Project"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:9
+msgid "Create a new project"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:13
+msgid "&Open"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:14
+msgid "Open a project"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:18
+msgid "&Save"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:19
+msgid "Save current project"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:23
+msgid "Save &As...\tShift+Ctrl+S"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:24
+msgid "Save current project as..."
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:29
+msgid "&Quit"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:30
+msgid "Quit wxGUIDesigner"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:34
+msgid "&Edit"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:36
+msgid "&Undo\tCtrl+Z"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:37
+msgid "Undo changes"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:40
+msgid "&Redo\tCtrl+Y"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:41
+msgid "Redo changes"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:45
+msgid "Co&py"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:46
+msgid "Copy selected object"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:49
+msgid "&Cut"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:50
+msgid "Cut selected object"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:53
+msgid "&Paste"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:54
+msgid "Paste on selected object"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:57
+msgid "&Delete\tCtrl+D"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:58
+msgid "Delete selected object"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:63
+msgid "Copy Object To Clipboard\tCtrl+Shift+C"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:64
+msgid "Copy selected object to clipboard"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:68
+msgid "Paste Object To Clipboard\tCtrl+Shift+V"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:69
+msgid "Paste selected object to clipboard"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:74
+msgid "Toggle &Expand\tAlt+W"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:75
+msgid "Toggle wxEXPAND flag of sizeritem properties"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:79
+msgid "Toggle &Stretch\tAlt+S"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:80
+msgid "Toggle option property of sizeritem properties"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:84
+msgid "Move &Up\tAlt+Up"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:85
+msgid "Move up selected object"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:88
+msgid "Move &Down\tAlt+Down"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:89
+msgid "Move down selected object"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:92
+msgid "Move Left\tAlt+Left"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:93
+msgid "Move left selected object"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:96
+msgid "Move Right\tAlt+Right"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:97
+msgid "Move right selected object"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:101
+msgid "&Find\tCtrl+F"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:102
+msgid "Find text in the active code editor"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:106
+msgid "Align &Left\tAlt+Shift+Left"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:107
+msgid "Align item to the left"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:111
+msgid "Align Center &Horizontal\tAlt+Shift+H"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:112
+msgid "Align item to the center horizontally"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:116
+msgid "Align &Right\tAlt+Shift+Right"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:117
+msgid "Align item to the right"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:121
+msgid "Align &Top\tAlt+Shift+Up"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:122
+msgid "Align item to the top"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:126
+msgid "Align Center &Vertical\tAlt+Shift+V"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:127
+msgid "Align item to the center vertically"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:131
+msgid "Align &Bottom\tAlt+Shift+Down"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:132
+msgid "Align item to the bottom"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:137
+msgid "&Preferences\tAlt+O"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:138
+msgid "Change global preferences"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:142
+msgid "&Tools"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:150
+msgid "&Generate Code\tF8"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:151
+msgid "Generate code for the specified language(s)"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:156
+msgid "&Help"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:158
+msgid "&About\tF1"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:159
+msgid "Show about dialog"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:162
+msgid "&Changelog"
+msgstr ""
+
+#: output/wxguidesigner.xrs/mainmenu.xrc:163
+msgid "Show Changelog"
+msgstr ""
+
+#: output/wxguidesigner.xrs/about.xrc:5
+msgid "About wxGUIDesigner"
+msgstr ""
+
+#: output/wxguidesigner.xrs/about.xrc:16
+msgid "About"
+msgstr ""
+
+#: output/wxguidesigner.xrs/about.xrc:52
+#: output/wxguidesigner.xrs/about.xrc:152
+msgid "wxGUIDesigner"
+msgstr ""
+
+#: output/wxguidesigner.xrs/about.xrc:73
+msgid "An Open Source GUI designer for"
+msgstr ""
+
+#: output/wxguidesigner.xrs/about.xrc:110
+msgid "Credits"
+msgstr ""
+
+#: output/wxguidesigner.xrs/about.xrc:168
+msgid "Forum"
+msgstr ""
+
