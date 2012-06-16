@@ -4,8 +4,8 @@ REM ##  Purpose:     Premake 4 build script for Windows.
 REM ##  Author:      Andrea Zanellato
 REM ##  Modified by: 
 REM ##  Created:     2011/10/22
-REM ##  Copyright:   (c) Andrea Zanellato
-REM ##  Licence:     wxWidgets licence
+REM ##  Copyleft:    (ↄ) Andrea Zanellato
+REM ##  Licence:     GNU General Public License Version 3
 REM ############################################################################
 @ECHO OFF
 
