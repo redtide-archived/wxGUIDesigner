@@ -6,8 +6,8 @@
 -- Modified by: 
 -- Created:     19/10/2011
 -- Revision:    $Hash$
--- Copyright:   (c) Andrea Zanellato
--- Licence:     GNU General Public License Version 2
+-- Copyleft:    (ɔ) Andrea Zanellato
+-- Licence:     GNU General Public License Version 3
 -----------------------------------------------------------------------------
 solution "wxGUIDesigner"
     language "C++"

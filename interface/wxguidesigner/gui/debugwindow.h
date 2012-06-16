@@ -5,8 +5,8 @@
 // Modified by:
 // Created:     2012/06/07
 // Revision:    $Hash$
-// Copyright:   (c) Andrea Zanellato
-// Licence:     wxWindows licence
+// Copyleft:    (ɔ) Andrea Zanellato
+// Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
 /**
  * Custom wxTectCtrl that serves as a log for 3 kinds of messages:

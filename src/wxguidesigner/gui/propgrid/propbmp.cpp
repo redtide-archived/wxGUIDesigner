@@ -5,8 +5,8 @@
 // Modified by: 
 // Created:     2012-05-08
 // RCS-ID:      $Hash$
-// Copyright:   (c) Andrea Zanellato
-// Licence:     wxWindows licence
+// Copyleft:    (ɔ) Andrea Zanellato
+// Licence:     GNU General Public License Version 3
 /////////////////////////////////////////////////////////////////////////////
 #include "wxguidesigner/gui/propgrid/propbmp.h"
 #include "wxguidesigner/gui/propgrid/artdialog.h"

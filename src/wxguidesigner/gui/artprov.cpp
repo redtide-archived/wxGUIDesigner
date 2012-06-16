@@ -1,16 +1,13 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name:        wxguidesigner/xrc/parser.h
-// Purpose:     XRC File Parser
+// Name:        wxguidesigner/gui/artprovider.cpp
+// Purpose:     
 // Author:      Andrea Zanellato
 // Modified by:
-// Created:     2012/05/11
+// Created:     2012/01/17
 // Revision:    $Hash$
-// Copyleft:    (ɔ) Andrea Zanellato
+// Copyright:   (c) Andrea Zanellato
 // Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
-#ifndef __WXGUIDESIGNER_XRC_PARSER_H__
-#define __WXGUIDESIGNER_XRC_PARSER_H__
+#include "wxguidesigner/gui/artprovider.h"
 
-
-
-#endif //__WXGUIDESIGNER_XRC_PARSER_H__
+ArtProvider

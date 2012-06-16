@@ -5,8 +5,8 @@
 // Modified by:
 // Created:     2011/12/23
 // Revision:    $Hash$
-// Copyright:   (c) Andrea Zanellato
-// Licence:     wxWindows licence
+// Copyleft:    (ɔ) Andrea Zanellato
+// Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
 #ifndef __WXGUIDESIGNER_RTTI_DATABASE_H__
 #define __WXGUIDESIGNER_RTTI_DATABASE_H__

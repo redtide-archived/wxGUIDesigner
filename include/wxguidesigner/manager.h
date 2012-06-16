@@ -5,8 +5,8 @@
 // Modified by: 
 // Created:     2012/01/13
 // Revision:    $Hash$
-// Copyright:   (c) Andrea Zanellato
-// Licence:     wxWindows licence
+// Copyleft:    (ɔ) Andrea Zanellato
+// Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
 #ifndef __WXGUIDESIGNER_MANAGER_H__
 #define __WXGUIDESIGNER_MANAGER_H__
@@ -41,7 +41,6 @@ public:
     // wxGDHandler
     wxFrame         *GetMainFrame        ( wxWindow *parent = NULL );
     wxDialog        *GetAboutDialog      ( wxWindow *parent );
-    wxPanel         *GetDesignPanel();
     wxNotebook      *GetEditorBook       ( wxWindow *parent );
     wxNotebook      *GetPropertyBook     ( wxWindow *parent );
     wxNotebook      *GetPaletteBook      ( wxWindow *parent );
@@ -49,7 +48,7 @@ public:
     wxToolBar       *GetToolBar          ( wxWindow *parent );
     wxPropertyGrid  *GetPropertiesGrid();
     wxPropertyGrid  *GetEventsGrid();
-    wxStyledTextCtrl *GetEditor( wxWindow *parent, const wxString &name );
+//  wxStyledTextCtrl *GetEditor( wxWindow *parent, const wxString &name );
 
     // Project
     void        NewProject();

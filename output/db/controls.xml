@@ -6,11 +6,11 @@
     Modified by: 
     Created:     2011/12/01
     Revision:    $Hash$
-    Copyright:   (c) Andrea Zanellato
-    Licence:     wxWindows licence
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
 -->
-<category name="controls">
-    <group name="toplevel" label="Top level">
+<controls>
+    <toplevel label="Top level">
         <item>Frame</item>
         <item>Dialog</item>
         <item>PropertySheetDialog</item>
@@ -18,8 +18,8 @@
         <item>Wizard</item>
         <item>WizardPage</item>
         <item>WizardPageSimple</item>
-    </group>
-    <group name="bars">
+    </toplevel>
+    <bars>
         <item>wxToolBar</item>
         <item>tool</item>
         <separator/>
@@ -30,8 +30,8 @@
         <item>wxMenuItem</item>
         <separator/>
         <item>wxStatusBar</item>
-    </group>
-    <group name="sizers">
+    </bars>
+    <sizers>
         <item>wxBoxSizer</item>
         <item>wxGridSizer</item>
         <item>wxFlexGridSizer</item>
@@ -40,8 +40,8 @@
         <item>wxStdDialogButtonSizer</item>
         <item>wxWrapSizer</item>
         <item>spacer</item>
-    </group>
-    <group name="common">
+    </sizers>
+    <common>
         <item>wxButton</item>
         <item>wxBitmapButton</item>
         <item>wxBitmapToggleButton</item>
@@ -73,8 +73,8 @@
         <item>wxSpinButton</item>
         <item>wxSpinCtrl</item>
         <item>wxScrollBar</item>
-    </group>
-    <group name="containers">
+    </common>
+    <containers>
         <item>wxPanel</item>
         <separator/>
         <item>wxNotebook</item>
@@ -86,16 +86,16 @@
         <item>wxCollapsiblePane</item>
         <item>wxScrolledWindow</item>
         <item>wxSplitterWindow</item>
-    </group>
-    <group name="pickers">
+    </containers>
+    <pickers>
         <item>wxColourPickerCtrl</item>
         <item>wxDatePickerCtrl</item>
         <item>wxDirPickerCtrl</item>
         <item>wxFilePickerCtrl</item>
         <item>wxFontPickerCtrl</item>
         <item>wxTimePickerCtrl</item>
-    </group>
-    <group name="advanced">
+    </pickers>
+    <advanced>
         <item>wxCommandLinkButton</item>
         <item>wxSearchCtrl</item>
         <item>wxOwnerDrawnComboBox</item>
@@ -123,18 +123,18 @@
         <item>wxPropertyGridManager</item>
         <separator/>
         <item>CustomCtrl</item>
-    </group>
-    <group name="aui" label="AUI">
+    </advanced>
+    <aui label="AUI">
         <item>wxAuiManager</item>
         <separator/>
         <item>wxAuiToolBar</item>
         <item>wxAuiToolBarItem</item>
         <separator/>
         <item>wxAuiNotebook</item>
-    </group>
-    <group name="web" label="HTML">
+    </aui>
+    <web label="HTML">
         <item>wxHtmlWindow</item>
         <item>wxSimpleHtmlListBox</item>
         <item>wxWebView</item>
-    </group>
-</category>
+    </web>
+</controls>

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 ############################################################################
 ## Name:        premake_gen.sh
 ## Purpose:     Premake 4 build script.
@@ -6,8 +6,8 @@
 ## Modified by: 
 ## Created:     2011/10/22
 ## Revision:    $Hash$
-## Copyright:   (c) Andrea Zanellato
-## Licence:     GNU General Public License Version 2
+## Copyleft:    (ɔ) Andrea Zanellato
+## Licence:     GNU General Public License Version 3
 ############################################################################
 
 # These works only on wxWidgets 2.8.10+

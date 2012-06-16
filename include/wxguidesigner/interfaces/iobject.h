@@ -5,8 +5,8 @@
 // Modified by: 
 // Created:     2011/01/06
 // Revision:    $Hash$
-// Copyright:   (c) Andrea Zanellato
-// Licence:     wxWindows licence
+// Copyleft:    (ɔ) Andrea Zanellato
+// Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
 #ifndef __WXGUIDESIGNER_INTERFACES_IOBJECT_H__
 #define __WXGUIDESIGNER_INTERFACES_IOBJECT_H__
@@ -31,7 +31,6 @@ public:
     IGUIDesigner() {}
     virtual ~IGUIDesigner() {}
     virtual wxDialog        *GetAboutDialog      ( wxWindow * ) = 0;
-    virtual wxPanel         *GetDesignPanel()                   = 0;
     virtual wxNotebook      *GetEditorBook       ( wxWindow * ) = 0;
     virtual wxNotebook      *GetPropertyBook     ( wxWindow * ) = 0;
     virtual wxNotebook      *GetPaletteBook      ( wxWindow * ) = 0;

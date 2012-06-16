@@ -6,8 +6,8 @@
     Modified by: 
     Created:     2012/01/21
     Revision:    $Hash$
-    Copyright:   (c) Andrea Zanellato
-    Licence:     wxWindows licence
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
 -->
 <class name="wxInfoBar">
     <description>An info bar is a transient window shown at top or bottom of its parent window to display non-critical information to the user.</description>

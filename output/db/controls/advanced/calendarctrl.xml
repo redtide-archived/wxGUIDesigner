@@ -6,8 +6,8 @@
     Modified by: 
     Created:     2011/12/02
     Revision:    $Hash$
-    Copyright:   (c) Andrea Zanellato
-    Licence:     wxWindows licence
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
 -->
 <class name="wxCalendarCtrl">
     <description>The calendar control allows the user to pick a date.</description>

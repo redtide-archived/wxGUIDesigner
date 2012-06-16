@@ -5,8 +5,8 @@
 // Modified by: 
 // Created:     2012/01/13
 // Revision:    $Hash$
-// Copyright:   (c) Andrea Zanellato
-// Licence:     wxWindows licence
+// Copyleft:    (ɔ) Andrea Zanellato
+// Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
 #include <wx/dialog.h>
 #include <wx/filefn.h>
@@ -38,16 +38,16 @@ m_ipcFile( new IPCFile ),
 m_currPrj(),
 m_currDir(),
 m_isChanged( false )
-{
+{/*
     wxFlagsManager::Get();
-    ClassInfoDB::Get();
+    ClassInfoDB::Get();*/
 }
 
 wxGUIDesigner::~wxGUIDesigner()
 {
-    delete m_handler;
+    delete m_handler;/*
     ClassInfoDB::Free();
-    wxFlagsManager::Free();
+    wxFlagsManager::Free();*/
 }
 
 wxGUIDesigner *wxGUIDesigner::ms_instance = NULL;
@@ -131,10 +131,6 @@ wxDialog *wxGUIDesigner::GetAboutDialog( wxWindow *parent )
 {
     return m_handler->GetAboutDialog( parent );
 }
-wxPanel *wxGUIDesigner::GetDesignPanel()
-{
-    return m_handler->GetDesignPanel();
-}
 wxNotebook *wxGUIDesigner::GetEditorBook( wxWindow *parent )
 {
     return m_handler->GetEditorBook( parent );
@@ -155,11 +151,12 @@ wxToolBar *wxGUIDesigner::GetToolBar( wxWindow *parent )
 {
     return m_handler->GetToolBar( parent );
 }
+/*
 wxStyledTextCtrl *wxGUIDesigner::GetEditor( wxWindow *parent, const wxString &name )
 {
     return m_handler->GetEditor( parent, name );
 }
-
+*/
 bool wxGUIDesigner::CheckSingleInstance( const wxString &filePath, bool switchTo )
 {
     return m_ipcFile->CheckSingleInstance( filePath, switchTo );

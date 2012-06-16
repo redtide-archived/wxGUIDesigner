@@ -5,8 +5,8 @@
 // Modified by:
 // Created:     2011/11/20
 // Revision:    $Hash$
-// Copyright:   (c) Andrea Zanellato
-// Licence:     wxWindows licence
+// Copyleft:    (ɔ) Andrea Zanellato
+// Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
 #ifndef __WXGUIDESIGNER_GUI_HANDLER_H__
 #define __WXGUIDESIGNER_GUI_HANDLER_H__
@@ -64,16 +64,16 @@ public:
     wxFrame         *GetMainFrame       ( wxWindow *parent = NULL );
     wxDialog        *GetAboutDialog     ( wxWindow *parent );
     wxDialog        *GetSettingsDialog  ( wxWindow *parent );
-    wxPanel         *GetDesignPanel();
     wxNotebook      *GetEditorBook      ( wxWindow *parent );
     wxNotebook      *GetPropertyBook    ( wxWindow *parent );
     wxNotebook      *GetPaletteBook     ( wxWindow *parent );
     wxTreeCtrl      *GetTreeView        ( wxWindow *parent );
     wxToolBar       *GetToolBar         ( wxWindow *parent );
+    wxImageList     *GetControlsImageList();
+
 #ifdef __WXDEBUG__
     wxTextCtrl      *GetDebugWindow     ( wxWindow *parent );
 #endif
-    wxStyledTextCtrl *GetEditor( wxWindow *parent, const wxString &name );
 
     wxGDSettings GetSettings() const;
 
@@ -96,11 +96,11 @@ private:
 
     void OnWindowPaint( wxPaintEvent &event );
 
-    typedef map< wxString, wxStyledTextCtrl * > CodeEditors;
+    int GetControlsImageListSize();
+
     typedef map< wxString, int >                ImageIds;
 
     ImageIds            m_imgIds;
-    CodeEditors         m_editors;
     wxGDFrame           *m_frame;
     wxMenuBar           *m_menuBar;
     wxToolBar           *m_toolBar;
@@ -108,7 +108,7 @@ private:
     wxGDToolPalette     *m_palette;
     wxGDPropertyBook    *m_propBook;
     wxGDTreeView        *m_treeView;
-    wxImageList         *m_ilsPropBook;
+    wxImageList         *m_ctrlsImgList;
     wxXmlDocument       m_xrcDoc;
 
     vector< wxEvtHandler * >        m_handlers;
@@ -116,7 +116,6 @@ private:
     wxGDDebugWindow     *m_debug;
     wxLog               *m_logOld;
 #endif
-    shared_ptr< wxGDArtProvider >   m_icons;
     shared_ptr< ObjectTree >        m_tree;
     wxGDSettings                    m_settings;
     wxLocale m_locale;

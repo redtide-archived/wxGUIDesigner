@@ -5,8 +5,8 @@
 // Modified by: 
 // Created:     2011-09-18
 // Revision:    $Hash$
-// Copyright:   (c) wxWidgets Team
-// Licence:     wxWindows licence
+// Copyleft:    (ɔ) wxWidgets Team
+// Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
 
 // For compilers that support precompilation, includes "wx.h".

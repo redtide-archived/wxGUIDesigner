@@ -1,18 +1,19 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name:        wxguidesigner/gui/iconprovider.cpp
+// Name:        wxguidesigner/gui/artprovider.cpp
 // Purpose:     
 // Author:      Andrea Zanellato
 // Modified by:
 // Created:     2012/01/17
 // Revision:    $Hash$
-// Copyright:   (c) Andrea Zanellato
-// Licence:     wxWindows licence
+// Copyleft:    (ɔ) Andrea Zanellato
+// Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
 #include "wxguidesigner/gui/artprovider.h"
 #include "wxguidesigner/rtti/database.h"
 #include "wxguidesigner/utils.h"
 
 #include <wx/artprov.h>
+#include <wx/bitmap.h>
 #include <wx/dir.h>
 #include <wx/filename.h>
 #include <wx/xml/xml.h>
@@ -39,30 +40,16 @@ wxBitmap IconGroup::GetItemBitmap( size_t index ) const
 //=============================================================================
 //  wxGDArtProvider
 //=============================================================================
-wxGDArtProvider::wxGDArtProvider()
-:
-m_sel( wxEmptyString )
+wxString       wxGDArtProvider::m_sel = wxEmptyString;
+map< wxString, vector< shared_ptr< IconGroup > > > wxGDArtProvider::m_cts;
+
+void wxGDArtProvider::Load()
 {
-    // Init the only image handler needed if not loaded already from some IDE
+    // Init the only image handler needed if not loaded already
+    // from an external application
     if(!wxImage::FindHandler( wxBITMAP_TYPE_PNG ))
-        wxImage::AddHandler( new wxPNGHandler );
+        wxImage::AddHandler( new wxPNGHandler);
 
-    Init();
-}
-
-wxGDArtProvider::~wxGDArtProvider()
-{
-    m_cts.erase( m_cts.begin(), m_cts.end() );
-}
-
-size_t wxGDArtProvider::GetGroupCount()
-{
-    return m_cts.at(m_sel).size();
-}
-
-
-void wxGDArtProvider::Init()
-{
     wxString dbPath = GetDataBasePath();
 
     if( !wxDirExists( dbPath ) )
@@ -86,6 +73,16 @@ void wxGDArtProvider::Init()
 
         haveXml = dbDir.GetNext( &xmlFile );
     }
+}
+
+wxGDArtProvider::~wxGDArtProvider()
+{
+    m_cts.erase( m_cts.begin(), m_cts.end() );
+}
+
+size_t wxGDArtProvider::GetGroupCount()
+{
+    return m_cts.at(m_sel).size();
 }
 
 bool wxGDArtProvider::LoadXML( const wxString &path )

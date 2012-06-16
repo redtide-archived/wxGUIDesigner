@@ -5,8 +5,8 @@
 // Modified by:
 // Created:     2011/12/29
 // Revision:    $Hash$
-// Copyright:   (c) Andrea Zanellato
-// Licence:     wxWindows licence
+// Copyleft:    (ɔ) Andrea Zanellato
+// Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
 #include "wxguidesigner/rtti/database.h"
 #include "wxguidesigner/utils.h"
@@ -315,12 +315,7 @@ bool ClassInfoDB::LoadXML( const wxString &path )
 bool ClassInfoDB::CheckClass( const wxString &name )
 {
     // Test for existance in wxRTTI system
-    wxClassInfo *info = wxClassInfo::FindClass( name );
-
-    if( !info )
-        return false;
-
-    return true;
+    return (wxClassInfo::FindClass( name ) != NULL);
 }
 
 void ClassInfoDB::Parse( wxXmlNode *classNode, bool recursively )

@@ -5,10 +5,13 @@
 // Modified by:
 // Created:     2011/11/21
 // Revision:    $Hash$
-// Copyright:   (c) Andrea Zanellato
-// Licence:     wxWindows licence
+// Copyleft:    (ɔ) Andrea Zanellato
+// Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
+#include "wxguidesigner/rtti/flags.h"
+#include "wxguidesigner/rtti/database.h"
 #include "wxguidesigner/rtti/tree.h"
+
 #include "wxguidesigner/utils.h"
 #include "wxguidesigner/xrc/object.h"
 
@@ -574,23 +577,21 @@ wxXmlNode *ObjectNode::SerializeProperties( Properties props, wxXmlNode *parent 
 // ObjectTree
 //=============================================================================
 ObjectTree::ObjectTree()
-:
-m_root
-(
-    new ObjectNode
-    (
-        ClassInfoDB::Get()->GetClassInfo("Project"),
-        Object()
-    )
-)
 {
-    m_sel = m_root;
+    wxFlagsManager::Get();
+    ClassInfo info = ClassInfoDB::Get()->GetClassInfo("Project");
+
+    m_root = Object( new ObjectNode( info, Object() ) );
+    m_sel  = m_root;
 }
 
 ObjectTree::~ObjectTree()
 {
     m_sel  = Object();
     m_root = Object();
+
+    ClassInfoDB::Free();
+    wxFlagsManager::Free();
 }
 
 size_t ObjectTree::GetChildInfoCount( Object parent, ClassInfo info )

@@ -5,8 +5,8 @@
 // Modified by:
 // Created:     2012/06/03
 // Revision:    $Hash$
-// Copyright:   (c) Andrea Zanellato
-// Licence:     wxWindows licence
+// Copyleft:    (ɔ) Andrea Zanellato
+// Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
 #include <wx/aui/framemanager.h>
 #include <wx/aui/dockart.h>

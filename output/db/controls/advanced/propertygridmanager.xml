@@ -6,8 +6,8 @@
     Modified by: 
     Created:     2012/01/24
     Revision:    $Hash$
-    Copyright:   (c) Andrea Zanellato
-    Licence:     wxWindows licence
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
 -->
 <class name="wxPropertyGridManager">
     <description>wxPropertyGridManager is an efficient multi-page version of wxPropertyGrid, which can optionally have toolbar for mode and page selection, a help text box, and a header.</description>

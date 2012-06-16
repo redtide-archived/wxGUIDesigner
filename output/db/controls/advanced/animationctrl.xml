@@ -6,8 +6,8 @@
     Modified by: 
     Created:     2011/12/01
     Revision:    $Hash$
-    Copyright:   (c) Andrea Zanellato
-    Licence:     wxWindows licence
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
 -->
 <class name="wxAnimationCtrl">
     <description>This is a static control which displays an animation.</description>

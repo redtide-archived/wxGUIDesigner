@@ -5,8 +5,8 @@
 // Modified by:
 // Created:     2011/11/30
 // Revision:    $Hash$
-// Copyright:   (c) Andrea Zanellato
-// Licence:     wxWindows licence
+// Copyleft:    (ɔ) Andrea Zanellato
+// Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
 #ifndef __WXGUIDESIGNER_GUI_EDITOR_H__
 #define __WXGUIDESIGNER_GUI_EDITOR_H__
@@ -33,7 +33,11 @@ public:
     wxGDEditorBook( wxGDHandler *handler, wxWindow* parent );
     ~wxGDEditorBook();
 
+//  wxStyledTextCtrl *GetEditorPage( const wxString &langName );
+
 private:
+    void LoadCodeEditorPages();
+
     void OnDesignerResize( wxSizeEvent &event );
 
     void OnObjectCreated ( wxGDObjectEvent &event );

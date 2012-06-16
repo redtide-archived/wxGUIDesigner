@@ -5,7 +5,7 @@
 // Modified by:
 // Created:     May-16-2007
 // Revision:    $Hash$
-// Copyright:   (c) Jaakko Salli
+// Copyleft:    (ɔ) Jaakko Salli
 // Licence:     wxWindows license
 /////////////////////////////////////////////////////////////////////////////
 

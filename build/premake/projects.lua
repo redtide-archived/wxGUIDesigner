@@ -5,8 +5,8 @@
 -- Modified by:
 -- Created:     2011/11/21
 -- Revision:    $Hash$
--- Copyright:   (c) Andrea Zanellato
--- Licence:     GNU General Public License Version 2
+-- Copyleft:    (ɔ) Andrea Zanellato
+-- Licence:     GNU General Public License Version 3
 -----------------------------------------------------------------------------
 CustomPrefix = "wxgd"
 -- dofile( scriptDir .. "/lua.lua" )

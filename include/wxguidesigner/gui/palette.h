@@ -5,15 +5,13 @@
 // Modified by:
 // Created:     2011/11/23
 // Revision:    $Hash$
-// Copyright:   (c) Andrea Zanellato
-// Licence:     wxWindows licence
+// Copyleft:    (ɔ) Andrea Zanellato
+// Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
 #ifndef __WXGUIDESIGNER_GUI_PALETTE_H__
 #define __WXGUIDESIGNER_GUI_PALETTE_H__
 
-#include <wx/vector.h>
-
-#if defined(__WXMAC__) || defined( USE_AUIBAR )
+#if defined(__WXMAC__) || defined( wxGD_USE_AUIBAR )
     #include <wx/aui/auibar.h>
     typedef wxAuiToolBar wxToolGroup;
 #else
@@ -27,16 +25,20 @@ class wxNotebook;
 class wxGDToolPalette : public wxNotebook
 {
 public:
-    wxGDToolPalette( wxGDHandler *handler, wxWindow* parent );
+    wxGDToolPalette( wxGDHandler *handler, wxWindow* parent,
+                     bool useSmallIcons = false );
     ~wxGDToolPalette();
 
-    wxToolGroup *AddGroup( const wxString &label, const wxBitmap &bitmap );
-
 private:
-    void OnToolClicked( wxCommandEvent &event );
+    wxToolGroup *AddGroup( const wxString &name, const wxString &label );
+    wxBitmap    LoadBitmap( const wxString &categoryName,
+                            const wxString &ctrlName = wxEmptyString,
+                            const wxSize   &size     = wxSize( 16,16 ) );
+    void        LoadPalette(const wxSize   &iconSize);
 
-    wxGDHandler              *m_handler;
-    wxVector< wxToolGroup * > m_toolGroups;
+    void        OnToolClicked( wxCommandEvent &event );
+
+    wxGDHandler *m_handler;
 };
 
 #endif //__WXGUIDESIGNER_GUI_PALETTE_H__

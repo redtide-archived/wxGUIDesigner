@@ -5,8 +5,8 @@
 // Modified by: 
 // Created:     2012/06/07
 // Revision:    $Hash$
-// Copyright:   (c) Andrea Zanellato
-// Licence:     wxWindows licence
+// Copyleft:    (ɔ) Andrea Zanellato
+// Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
 #ifndef __WXGUIDESIGNER_GUI_DIALOG_PREFS_H__
 #define __WXGUIDESIGNER_GUI_DIALOG_PREFS_H__
@@ -27,8 +27,6 @@ class wxWindow;
 class wxCommandEvent;
 class wxUpdateUIEvent;
 
-class wxGDHandler;
-
 wxDECLARE_EVENT( wxGD_EVT_GUI_OPTION_CHANGED, wxCommandEvent );
 wxDECLARE_EVENT( wxGD_EVT_GUI_CONFIG_UPDATE,  wxCommandEvent );
 wxDECLARE_EVENT( wxGD_EVT_GUI_CONFIG_SAVE,    wxCommandEvent );
@@ -38,7 +36,7 @@ wxDECLARE_EVENT( wxGD_EVT_GUI_CONFIG_SAVE,    wxCommandEvent );
 class wxGDDialogPrefs : public wxDialog 
 {
 public:
-    wxGDDialogPrefs( wxGDHandler *handler, wxWindow *parent ); 
+    wxGDDialogPrefs( wxWindow *parent ); 
     ~wxGDDialogPrefs();
 
 private:
@@ -46,7 +44,6 @@ private:
     void OnUpdatePrefs  ( wxCommandEvent &event );
     void OnSavePrefs    ( wxCommandEvent &event );
 
-    wxGDHandler             *m_handler;
     wxButton                *m_apply;
     wxButton                *m_ok;
     wxButton                *m_cancel;
@@ -59,7 +56,7 @@ private:
 class wxGDPageProject : public wxPanel 
 {
 public:
-    wxGDPageProject( wxGDHandler *handler, wxGDDialogPrefs *parent ); 
+    wxGDPageProject( wxGDDialogPrefs *parent ); 
     ~wxGDPageProject();
 
 private:
@@ -67,15 +64,32 @@ private:
     void OnUpdatePrefs  ( wxCommandEvent &event );
     void OnSavePrefs    ( wxCommandEvent &event );
 
-    wxGDHandler     *m_handler;
     wxChoice        *m_choPrjVer;
     wxChoice        *m_choPrjEnc;
-    wxChoice        *m_choWxVer;
+    wxCheckBox      *m_chkCompat;
     wxCheckListBox  *m_clbCodeGen; // TODO: Load/Save code generator languages
 
-    int m_selEnc;
-    int m_selXrcVer;
-    int m_selWxVer;
+    int  m_selEnc;
+    int  m_selXrcVer;
+    bool m_compat;
+};
+//=============================================================================
+// wxGDPageGUI
+//=============================================================================
+class wxGDPageGUI : public wxPanel 
+{
+public:
+    wxGDPageGUI( wxGDDialogPrefs *parent ); 
+    ~wxGDPageGUI();
+
+private:
+    void OnPrefsChanged ( wxCommandEvent &event );
+    void OnUpdatePrefs  ( wxCommandEvent &event );
+    void OnSavePrefs    ( wxCommandEvent &event );
+
+    wxCheckBox  *m_chkIcons;
+
+    bool m_smallIcons;
 };
 //=============================================================================
 // wxGDPageLocale
@@ -83,7 +97,7 @@ private:
 class wxGDPageLocale : public wxPanel 
 {
 public:
-    wxGDPageLocale( wxGDHandler *handler, wxGDDialogPrefs *parent ); 
+    wxGDPageLocale( wxGDDialogPrefs *parent ); 
     ~wxGDPageLocale();
 
 private:
@@ -91,7 +105,6 @@ private:
     void OnUpdatePrefs  ( wxCommandEvent &event );
     void OnSavePrefs    ( wxCommandEvent &event );
 
-    wxGDHandler      *m_handler;
     wxBitmapComboBox *m_bcbLang;
     wxCheckBox       *m_chkLang;
 
@@ -104,7 +117,7 @@ private:
 class wxGDPageEditors : public wxPanel 
 {
 public:
-    wxGDPageEditors( wxGDHandler *handler, wxGDDialogPrefs *parent ); 
+    wxGDPageEditors( wxGDDialogPrefs *parent ); 
     ~wxGDPageEditors();
 
 private:
@@ -112,7 +125,6 @@ private:
     void OnUpdatePrefs  ( wxCommandEvent &event );
     void OnSavePrefs    ( wxCommandEvent &event );
 
-    wxGDHandler      *m_handler;
     wxBitmapComboBox *m_bcbEditor;
     wxCheckBox       *m_chkLineNums;
     wxCheckBox       *m_chkGuides;

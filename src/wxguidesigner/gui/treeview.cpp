@@ -5,8 +5,8 @@
 // Modified by:
 // Created:     2012/01/11
 // Revision:    $Hash$
-// Copyright:   (c) Andrea Zanellato
-// Licence:     wxWindows licence
+// Copyleft:    (ɔ) Andrea Zanellato
+// Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
 #include <wx/imaglist.h>
 #include <wx/treectrl.h>
@@ -40,16 +40,10 @@ wxTreeCtrl( parent, wxID_ANY, wxDefaultPosition, wxDefaultSize,
                     wxTR_DEFAULT_STYLE | wxTR_HIDE_ROOT ),
 m_handler( handler )
 {
-    wxImageList *imageList = new wxImageList(22,22);
-    AssignImageList( imageList );
+    wxImageList *imageList = m_handler->GetControlsImageList();
+    SetImageList( imageList );
 
-    wxBitmap bmp = wxXmlResource::Get()->LoadBitmap("project");
-    int imgIndex = -1;
-
-    if( bmp.IsOk() )
-        imgIndex = imageList->Add( bmp );
-
-    AddRoot( "Project", imgIndex );
+    AddRoot( "Project", 0 );
 
     Bind( wxEVT_COMMAND_TREE_BEGIN_DRAG,        &wxGDTreeView::OnBeginDrag,     this );
     Bind( wxEVT_COMMAND_TREE_END_DRAG,          &wxGDTreeView::OnEndDrag,       this );

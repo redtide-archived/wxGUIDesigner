@@ -6,8 +6,8 @@
 // Modified by: 
 // Created:     2012/06/05
 // Revision:    $Hash$
-// Copyright:   (c) Andrea Zanellato
-// Licence:     wxWindows licence
+// Copyleft:    (ɔ) Andrea Zanellato
+// Licence:     GNU General Public License Version 3
 /////////////////////////////////////////////////////////////////////////////
 #ifndef __WX_XRC_GD_FRAME_H__
 #define __WX_XRC_GD_FRAME_H__

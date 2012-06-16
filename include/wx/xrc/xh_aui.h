@@ -5,8 +5,8 @@
 // Modified by: 
 // Created:     2011-09-18
 // Revision:    $Hash$
-// Copyright:   (c) 2011 wxWidgets Team
-// Licence:     wxWindows licence
+// Copyleft:    (ɔ) 2011 wxWidgets Team
+// Licence:     GNU General Public License Version 3
 /////////////////////////////////////////////////////////////////////////////
 
 #ifndef _WX_XH_AUI_H_

@@ -6,8 +6,8 @@
     Modified by: 
     Created:     2012/01/14
     Revision:    $Hash$
-    Copyright:   (c) Andrea Zanellato
-    Licence:     wxWindows licence
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
 -->
 <class name="wxToggleButton">
     <description>&lt;p&gt;wxToggleButton is a button that stays pressed when clicked by the user.&lt;/p&gt;&lt;p&gt;In other words, it is similar to wxCheckBox in functionality but looks like a wxButton.&lt;/p&gt;&lt;p&gt;Since wxWidgets version 2.9.0 this control emits an update UI event.&lt;/p&gt;</description>

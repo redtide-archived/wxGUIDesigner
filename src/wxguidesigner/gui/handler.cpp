@@ -5,8 +5,8 @@
 // Modified by: 
 // Created:     2011/11/20
 // Revision:    $Hash$
-// Copyright:   (c) Andrea Zanellato
-// Licence:     wxWindows licence
+// Copyleft:    (ɔ) Andrea Zanellato
+// Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
 #include <wx/app.h>
 #include <wx/dir.h>
@@ -19,6 +19,7 @@
 #include <wx/intl.h>
 #include <wx/notebook.h>
 #include <wx/propgrid/propgrid.h>
+#include <wx/sstream.h>
 #include <wx/stc/stc.h>
 #include <wx/stdpaths.h>
 #include <wx/treectrl.h>
@@ -68,18 +69,14 @@ m_editBook      ( NULL ),
 m_palette       ( NULL ),
 m_propBook      ( NULL ),
 m_treeView      ( NULL ),
-m_ilsPropBook   ( NULL ),
+m_ctrlsImgList  ( NULL ),
 #ifdef __WXDEBUG__
 m_debug         ( NULL ),
 m_logOld        ( NULL ),
 #endif
-m_icons         ( new wxGDArtProvider() ),
 m_tree          ( new ObjectTree() )//,
 //m_settings      ( new Settings() )
 {
-    // TODO: Remove this when using m_settings
-//  delete wxConfigBase::Set( new wxConfig( wxTheApp->GetAppDisplayName() ) );
-
     wxXmlResource::Get()->InitAllHandlers();
     wxXmlResource::Get()->AddHandler( new wxStyledTextCtrlXmlHandler );
     wxXmlResource::Get()->AddHandler( new FrameXmlHandler );
@@ -101,37 +98,42 @@ m_tree          ( new ObjectTree() )//,
     wxXmlResource::Get()->Load( wxGDAboutDialog );
 
     bool enabled = false; int selected = 0; int language = 0;
-    delete wxConfigBase::Set( new wxConfig( wxTheApp->GetAppDisplayName() ) );
 
+    // wxConfigBase must be initialized in the main application,
+    // so we can use its configuration to load/store values
     wxConfigBase::Get()->Read( "locale/enabled",  &enabled,  false );
     wxConfigBase::Get()->Read( "locale/selected", &selected, 0 );
+
+    wxGDArtProvider::Load();
 
     if( enabled )
     {
         switch( selected )
         {
-            case 0:
-                language = wxLANGUAGE_DEFAULT; break;
-            case 1:
-                language = wxLANGUAGE_ENGLISH; break;
-            case 2:
-                language = wxLANGUAGE_ITALIAN; break;
+            case 0: language = wxLANGUAGE_DEFAULT; break;
+            case 1: language = wxLANGUAGE_ENGLISH; break;
+            case 2: language = wxLANGUAGE_ITALIAN; break;
         }
 
         SelectLanguage( language );
     }
 
-    // TODO: Retrieve the XRC version from config
+    int xrcVerSel;
+    wxString xrcVer = "2.5.3.0";
+    wxConfigBase::Get()->Read( "locale/selected", &xrcVerSel, 1 );
+
+    if( xrcVerSel == 0 )
+        xrcVer = "2.3.0.1";
+
     wxXmlNode *root = new wxXmlNode( NULL, wxXML_ELEMENT_NODE, "resource" );
     root->AddAttribute( "xmlns", "http://www.wxwidgets.org/wxxrc" );
-    root->AddAttribute( "version", "2.5.3.0" );
+    root->AddAttribute( "version", xrcVer );
     m_xrcDoc.SetRoot( root );
 }
 
 wxGDHandler::~wxGDHandler()
 {
     delete wxLog::SetActiveTarget( m_logOld );
-    m_editors.clear();
     m_handlers.clear();
 //  m_tree = shared_ptr< ObjectTree >();
 }
@@ -178,6 +180,33 @@ wxFrame *wxGDHandler::GetMainFrame( wxWindow *parent )
 
     return m_frame;
 }
+
+wxImageList *wxGDHandler::GetControlsImageList()
+{
+    if( !m_ctrlsImgList )
+    {
+        int  size = GetControlsImageListSize();
+
+        m_ctrlsImgList = new wxImageList( size, size );
+
+        for( size_t i = 0; i < wxGDArtProvider::GetGroupCount(); i++ )
+        {
+            for( size_t n = 0;
+                  n < wxGDArtProvider::GetItemCount( i ); n++ )
+            {
+                wxString label = wxGDArtProvider::GetItemLabel( i, n );
+                if( label != "-" )
+                {
+                    wxBitmap bmp = wxGDArtProvider::GetItemBitmap( i, n );
+                    m_ctrlsImgList->Add( bmp );
+
+                }
+            }
+        }
+    }
+
+    return m_ctrlsImgList;
+}
 #ifdef __WXDEBUG__
 wxTextCtrl *wxGDHandler::GetDebugWindow( wxWindow *parent )
 {
@@ -198,66 +227,15 @@ wxDialog *wxGDHandler::GetAboutDialog( wxWindow *parent )
 
 wxDialog *wxGDHandler::GetSettingsDialog( wxWindow *parent )
 {
-    return new wxGDDialogPrefs( this, parent );
+    return new wxGDDialogPrefs( parent );
 }
 
 wxNotebook *wxGDHandler::GetEditorBook( wxWindow *parent )
 {
     if( !m_editBook )
-    {
         m_editBook = new wxGDEditorBook( this, parent );
 
-        if( m_icons->SelectCategory("languages") )
-        {
-            for( size_t i = 0; i < m_icons->GetGroupCount(); i++ )
-            {
-                wxString    label   = m_icons->GetGroupLabel( i );
-                wxBitmap    bmp     = m_icons->GetGroupBitmap( i );
-                wxImageList *imgLst = m_editBook->GetImageList();
-
-                if( m_icons->GetItemCount( i ) )
-                {
-                    wxNotebook  *nb     = new wxNotebook( m_editBook, wxID_ANY );
-                    wxImageList *itmLst = new wxImageList( 16, 16 );
-
-                    nb->SetImageList( itmLst );
-                    m_editBook->AddPage( nb, label, false, imgLst->Add( bmp ) );
-
-                    for( size_t n = 0;
-                          n < m_icons->GetItemCount( i ); n++ )
-                    {
-                        wxString item = m_icons->GetItemLabel( i, n );
-                        wxStyledTextCtrl *stc = GetEditor( nb, item );
-
-                        if( stc )
-                        {
-                            bmp = m_icons->GetItemBitmap( i, n );
-                            nb->AddPage( stc, item, false, itmLst->Add( bmp ) );
-                        }
-                    }
-                }
-                else
-                {
-                    wxString name = m_icons->GetGroupName( i );
-                    wxStyledTextCtrl *stc = GetEditor( m_editBook, name );
-
-                    if( stc )
-                    {
-                        m_editBook->AddPage( stc, label, false, imgLst->Add( bmp ) );
-                    }
-                }
-            }
-
-            m_handlers.push_back( m_editBook );
-        }
-    }
-
     return m_editBook;
-}
-
-wxPanel *wxGDHandler::GetDesignPanel()
-{
-    return XRCCTRL( *m_editBook, "DesignerPanel", wxPanel );
 }
 
 void wxGDHandler::OnWindowPaint( wxPaintEvent &event )
@@ -279,43 +257,31 @@ wxNotebook *wxGDHandler::GetPaletteBook( wxWindow *parent )
 {
     if( !m_palette )
     {
-        m_palette = new wxGDToolPalette( this, parent );
-
-        if( m_icons->SelectCategory("controls") )
-        {
-            for( size_t i = 0; i < m_icons->GetGroupCount(); i++ )
-            {
-                wxString    label = m_icons->GetGroupLabel( i );
-                wxBitmap    bmp   = m_icons->GetGroupBitmap( i );
-                wxToolGroup *tg   = m_palette->AddGroup( label, bmp );
-
-                for( size_t n = 0;
-                      n < m_icons->GetItemCount( i ); n++ )
-                {
-                    wxString item = m_icons->GetItemLabel( i, n );
-
-                    if( item == "-" )
-                    {
-                        tg->AddSeparator();
-                    }
-                    else
-                    {
-                        bmp = m_icons->GetItemBitmap( i, n );
-                        tg->AddTool( wxID_ANY, item, bmp, item );
-                    }
-                }
-
-                tg->Realize();
-            }
-        }
+        wxImageList *imageList = GetControlsImageList();
+        bool smallIcons = (GetControlsImageListSize() == 16);
+        m_palette = new wxGDToolPalette( this, parent, smallIcons );
+//      m_handlers.push_back( m_palette );
     }
 
     return m_palette;
 }
 
+int wxGDHandler::GetControlsImageListSize()
+{
+    // Load icons preferences
+    bool smallIcons = false;
+    int  size       = 22;
+    wxConfigBase::Get()->Read( "gui/smallicons", &smallIcons );
+
+    if( smallIcons )
+        size = 16;
+
+    return size;
+}
+
 wxNotebook *wxGDHandler::GetPropertyBook( wxWindow *parent )
 {
-    if(!m_propBook)
+    if( !m_propBook )
     {
         m_propBook = new wxGDPropertyBook( this, parent );
         m_handlers.push_back( m_propBook );
@@ -337,71 +303,10 @@ wxTreeCtrl *wxGDHandler::GetTreeView( wxWindow *parent )
     if( !m_treeView )
     {
         m_treeView = new wxGDTreeView( this, parent );
-
-        if( m_icons->SelectCategory("controls") )
-        {
-            wxImageList *imageList = m_treeView->GetImageList();
-            if( !imageList )
-            {
-                imageList = new wxImageList( 22,22 );
-                m_treeView->AssignImageList( imageList );
-            }
-
-            for( size_t i = 0; i < m_icons->GetGroupCount(); i++ )
-            {
-                for( size_t n = 0;
-                      n < m_icons->GetItemCount( i ); n++ )
-                {
-                    wxString label = m_icons->GetItemLabel( i, n );
-                    if( label != "-" )
-                    {
-                        wxBitmap bmp = m_icons->GetItemBitmap( i, n );
-                        int      idx = imageList->Add( bmp );
-                        m_imgIds.insert( ImageIds::value_type( label, idx ) );
-                    }
-                }
-            }
-
-            m_handlers.push_back( m_treeView );
-        }
+        m_handlers.push_back( m_treeView );
     }
 
     return m_treeView;
-}
-
-wxStyledTextCtrl *wxGDHandler::GetEditor( wxWindow *parent, const wxString &name )
-{
-    // If already loaded, return this editor
-    CodeEditors::const_iterator it = m_editors.find( name );
-    if( it != m_editors.end() )
-        return it->second;
-
-    wxString langDirPath = GetDataBasePath() + wxFILE_SEP_PATH + "languages" +
-                                    wxFILE_SEP_PATH + name + wxFILE_SEP_PATH;
-    wxDir langDir( langDirPath );
-
-    if( langDir.IsOpened() )
-    {
-        wxString xrcFile;
-        bool haveXrc =
-            langDir.GetFirst( &xrcFile, "*.xrc", wxDIR_FILES | wxDIR_HIDDEN );
-
-        wxString xrcPath = langDirPath + xrcFile;
-
-        if( !haveXrc || !wxXmlResource::Get()->Load( xrcPath ) )
-            return NULL;
-    }
-
-    wxObject *obj = wxXmlResource::Get()->LoadObject
-                                        ( parent, name, "wxStyledTextCtrl" );
-
-    wxStyledTextCtrl *stc = wxDynamicCast( obj, wxStyledTextCtrl );
-
-    // Save editor for later use
-    if( stc )
-        m_editors.insert( CodeEditors::value_type( name, stc ) );
-
-    return stc;
 }
 
 wxGDSettings wxGDHandler::GetSettings() const
@@ -420,51 +325,36 @@ int wxGDHandler::GetImageIndex( const wxString &className )
 
 void wxGDHandler::CreateObject( const wxString &className, int senderId )
 {
+    // Create the object informations
     Object object = m_tree->CreateObject( className );
-    if( !object )
+    Object parent = m_tree->GetSelectObject();
+
+    if( !object || !parent )
         return;
 
-    Object parent = m_tree->GetSelectObject();
-    if( parent )
-    {
-        wxXmlNode *objNode = object->Serialize( m_xrcDoc.GetRoot() );
-        m_xrcDoc.GetRoot()->AddChild( objNode );
-    }
-
-    wxLogMessage("%s created", className);
-/*
-#include <wx/sstream.h>
-#include <wx/fs_mem.h>
-#include <wx/wizard.h>
-    wxStringOutputStream sout;
-    wxXmlDocument doc = m_handler->GetXRCDocument();
-    doc.Save(sout,4);
-    wxStyledTextCtrl *xrcEdit = m_handler->GetEditor(NULL,"xrc");
-    wxString xrcText = sout.GetString();
-    if( xrcEdit )
-        xrcEdit->SetText( xrcText );
-    wxMemoryFSHandler::AddFile("xrc.xrc", xrcText );
-    wxXmlResource::Get()->Load("memory:xrc.xrc");
-    if( wxXmlResource::Get()->LoadObject( object, m_client, name, className ) )
-    {
-        wxWindow *window = wxDynamicCast( object, wxWindow );
-        if( window )
-        {
-            wxBoxSizer *sizer = new wxBoxSizer( wxVERTICAL );
-            sizer->Add( window, 1, wxEXPAND );
-            m_client->SetSizer( sizer );
-            m_resizer->SetSize( window->GetBestSize() );
-        }
-    }
-
-    wxMemoryFSHandler::RemoveFile("xrc.xrc");
-*/
-
+    // Create the real object
     wxObject *wxobject = wxCreateDynamicObject( className );
     if( !wxobject )
         return;
 
+    wxLogMessage( className + " " + _("created") );
+
+    // Serialize the object into the xrc project
+    wxXmlNode *objNode = object->Serialize( m_xrcDoc.GetRoot() );
+    m_xrcDoc.GetRoot()->AddChild( objNode );
+
+    // Save the xrc file as a string to print it in the xrc editor
+    wxStringOutputStream sout;
+    m_xrcDoc.Save( sout, 4 );
+/*
+    // Print the XML result
+    wxStyledTextCtrl *xrcEdit = GetEditor( NULL, "xrc" );
+    wxString xrcText = sout.GetString();
+    if( xrcEdit )
+        xrcEdit->SetText( xrcText );
+*/
     wxGDObjectEvent event( wxGD_EVT_OBJECT_CREATED, senderId, object );
+//  event.SetString( xrcText );
     event.SetEventObject( wxobject );
     SendEvent( event );
 }

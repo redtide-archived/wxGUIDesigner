@@ -6,8 +6,8 @@
     Modified by: 
     Created:     2011/12/02
     Revision:    $Hash$
-    Copyright:   (c) Andrea Zanellato
-    Licence:     wxWindows licence
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
 -->
 <class name="wxGenericDirCtrl">
     <description>&lt;p&gt;This control can be used to place a directory listing (with optional files) on an arbitrary window.&lt;/p&gt;&lt;p&gt;The control contains a wxTreeCtrl window representing the directory hierarchy, and optionally, a wxChoice window containing a list of filters.&lt;/p&gt;</description>

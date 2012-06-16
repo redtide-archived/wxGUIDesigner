@@ -5,8 +5,8 @@
 // Modified by: 
 // Created:     2011/11/20
 // Revision:    $Hash$
-// Copyright:   (c) Andrea Zanellato
-// Licence:     wxWindows licence
+// Copyleft:    (ɔ) Andrea Zanellato
+// Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
 #ifndef __WXGUIDESIGNER_GUI_FRAME_H__
 #define __WXGUIDESIGNER_GUI_FRAME_H__

@@ -6,8 +6,8 @@
     Modified by:
     Created:     2011/09/28
     Revision:    $Hash$
-    Copyright:   (c) Andrea Zanellato
-    Licence:     wxWindows licence
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
 -->
 <class name="wxTopLevelWindow" type="abstract">
     <description>wxTopLevelWindow is a common base class for wxDialog and wxFrame.&lt;p&gt;It is an abstract base class meaning that you never work with objects of this class directly, but all of its methods are also applicable for the two classes above.&lt;/p&gt;&lt;p&gt;Note that the instances of wxTopLevelWindow are managed by wxWidgets in the internal top level window list.&lt;/p&gt;</description>

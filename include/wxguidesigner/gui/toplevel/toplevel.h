@@ -5,8 +5,8 @@
 // Modified by: 
 // Created:     2012/06/01
 // Revision:    $Hash$
-// Copyright:   (c) Andrea Zanellato
-// Licence:     wxWindows licence
+// Copyleft:    (ɔ) Andrea Zanellato
+// Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
 #ifndef __WXGUIDESIGNER_GUI_TOPLEVEL_TOPLEVEL_H__
 #define __WXGUIDESIGNER_GUI_TOPLEVEL_TOPLEVEL_H__

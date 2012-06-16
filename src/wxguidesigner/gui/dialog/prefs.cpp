@@ -5,8 +5,8 @@
 // Modified by: 
 // Created:     2012/06/07
 // Revision:    $Hash$
-// Copyright:   (c) Andrea Zanellato
-// Licence:     wxWindows licence
+// Copyleft:    (ɔ) Andrea Zanellato
+// Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
 #include <wx/bmpcbox.h>
 #include <wx/button.h>
@@ -32,7 +32,6 @@
 
 #include "wxguidesigner/gui/dialog/prefs.h"
 #include "wxguidesigner/settings.h"
-#include "wxguidesigner/gui/handler.h"
 
 wxDEFINE_EVENT( wxGD_EVT_GUI_OPTION_CHANGED, wxCommandEvent );
 wxDEFINE_EVENT( wxGD_EVT_GUI_CONFIG_UPDATE,  wxCommandEvent );
@@ -40,11 +39,10 @@ wxDEFINE_EVENT( wxGD_EVT_GUI_CONFIG_SAVE,    wxCommandEvent );
 //=============================================================================
 // wxGDDialogPrefs
 //=============================================================================
-wxGDDialogPrefs::wxGDDialogPrefs( wxGDHandler *handler, wxWindow *parent )
+wxGDDialogPrefs::wxGDDialogPrefs( wxWindow *parent )
 :
 wxDialog( parent, wxID_ANY, _("Preferences"), wxDefaultPosition, wxDefaultSize,
           wxDEFAULT_DIALOG_STYLE|wxMAXIMIZE_BOX|wxMINIMIZE_BOX|wxRESIZE_BORDER ),
-m_handler   ( handler ),
 m_apply     ( NULL ),
 m_ok        ( NULL ),
 m_cancel    ( NULL ),
@@ -54,8 +52,8 @@ m_tbkPrefs  ( NULL )
     wxSize minSize = wxSize( 510,360 );
     SetSizeHints( minSize, wxDefaultSize );
 
-    wxBoxSizer *mainSizer = new wxBoxSizer( wxVERTICAL );
-    mainSizer->SetMinSize( minSize );
+    wxBoxSizer *prefsSizer = new wxBoxSizer( wxVERTICAL );
+    prefsSizer->SetMinSize( minSize );
  
     wxImageList *imageList = new wxImageList( 16, 16 );
     m_tbkPrefs             = new wxTreebook( this, wxID_ANY  );
@@ -63,31 +61,30 @@ m_tbkPrefs  ( NULL )
 
     wxBitmap bmpPrj     = wxXmlResource::Get()->LoadBitmap("project_small");
     wxBitmap bmpLocale  = wxXmlResource::Get()->LoadBitmap("locale");
-//  wxBitmap bmpDesign  = wxXmlResource::Get()->LoadBitmap("designer");
+    wxBitmap bmpDesign  = wxXmlResource::Get()->LoadBitmap("designer");
     wxBitmap bmpEditor  = wxXmlResource::Get()->LoadBitmap("editor");
 
     int imgIndex = -1;
     if( bmpPrj.IsOk() )
         imgIndex = imageList->Add( bmpPrj );
-    m_tbkPrefs->AddPage( new wxGDPageProject( m_handler, this ), _("Project"),
-                                                            true, imgIndex );
+    m_tbkPrefs->AddPage( new wxGDPageProject(this), _("Project"), true, imgIndex );
+
     imgIndex = -1;
     if( bmpLocale.IsOk() )
         imgIndex = imageList->Add( bmpLocale );
-    m_tbkPrefs->AddPage( new wxGDPageLocale( m_handler, this ), _("Locale"),
-                                                            false, imgIndex );
-/*
-    imgIndex = -1;
-    if( bmpDesign.IsOk() )
-        imgIndex = imageList->Add( bmpDesign );
-    m_tbkPrefs->AddPage( new wxPanel( this, wxID_ANY ), _("GUI"), false, imgIndex );
-*/
+    m_tbkPrefs->AddPage( new wxGDPageLocale(this), _("Locale"), false, imgIndex );
+
     imgIndex = -1;
     if( bmpEditor.IsOk() )
         imgIndex = imageList->Add( bmpEditor );
-    m_tbkPrefs->AddPage( new wxGDPageEditors( m_handler, this ), _("Editors"),
-                                                            false, imgIndex );
-    mainSizer->Add( m_tbkPrefs, 1, wxALL|wxEXPAND, 5 );
+    m_tbkPrefs->AddPage( new wxGDPageEditors(this), _("Editors"), false, imgIndex );
+
+    imgIndex = -1;
+    if( bmpDesign.IsOk() )
+        imgIndex = imageList->Add( bmpDesign );
+    m_tbkPrefs->AddPage( new wxGDPageGUI(this), _("GUI"), false, imgIndex );
+
+    prefsSizer->Add( m_tbkPrefs, 1, wxALL|wxEXPAND, 5 );
 
     m_apply  = new wxButton( this, wxID_APPLY ); m_apply->Enable( false );
     m_ok     = new wxButton( this, wxID_OK );    m_ok->Enable( false );
@@ -99,10 +96,10 @@ m_tbkPrefs  ( NULL )
     m_btnSizer->AddButton( m_cancel );
     m_btnSizer->Realize();
 
-    mainSizer->Add( m_btnSizer, 0, wxALIGN_CENTER_HORIZONTAL|wxBOTTOM, 5 );
-    SetSizer( mainSizer );
+    prefsSizer->Add( m_btnSizer, 0, wxALIGN_CENTER_HORIZONTAL|wxBOTTOM, 5 );
+    SetSizer( prefsSizer );
     Layout();
-    mainSizer->Fit( this );
+    prefsSizer->Fit( this );
     Centre( wxBOTH );
 
     Bind( wxGD_EVT_GUI_OPTION_CHANGED, &wxGDDialogPrefs::OnPrefsChanged, this );
@@ -149,41 +146,33 @@ void wxGDDialogPrefs::OnSavePrefs( wxCommandEvent & )
 //=============================================================================
 // wxGDPageProject
 //=============================================================================
-wxGDPageProject::wxGDPageProject( wxGDHandler *handler, wxGDDialogPrefs *parent )
+wxGDPageProject::wxGDPageProject( wxGDDialogPrefs *parent )
 :
 wxPanel( parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL ),
-m_handler   ( handler ),
 m_choPrjVer ( NULL ),
 m_choPrjEnc ( NULL ),
-m_choWxVer  ( NULL ),
+m_chkCompat ( NULL ),
 m_clbCodeGen( NULL )
 {
-    wxBoxSizer *projectSizer = new wxBoxSizer( wxVERTICAL );
-
-    wxStaticBoxSizer *sbsProject = new wxStaticBoxSizer( new wxStaticBox(
-                                    this, wxID_ANY, _("XRC") ), wxVERTICAL );
-
-    wxPanel *pnlProject     = new wxPanel( this, wxID_ANY, wxDefaultPosition,
-                                        wxDefaultSize, wxTAB_TRAVERSAL );
+    wxPanel    *pnlProject  = new wxPanel( this, wxID_ANY, wxDefaultPosition,
+                                            wxDefaultSize, wxTAB_TRAVERSAL );
     wxBoxSizer *prjSizer    = new wxBoxSizer( wxVERTICAL );
     wxBoxSizer *prjVerSizer = new wxBoxSizer( wxHORIZONTAL );
     wxStaticText *lblPrjVer = new wxStaticText( pnlProject, wxID_ANY,
                             _("Version:"), wxDefaultPosition, wxDefaultSize, 0 );
-    lblPrjVer->Wrap( -1 );
     prjVerSizer->Add( lblPrjVer, 0, wxALIGN_CENTER_VERTICAL, 0 );
 
     wxConfigBase::Get()->Read( "xrc/encoding",  &m_selEnc,    0 );
     wxConfigBase::Get()->Read( "xrc/version",   &m_selXrcVer, 1 );
-    wxConfigBase::Get()->Read( "xrc/wxversion", &m_selWxVer,  2 );
+    wxConfigBase::Get()->Read( "code/28compat", &m_compat, true );
 
     if( (m_selXrcVer < 0) || (m_selXrcVer > 2)  ) m_selXrcVer = 1;
-    if( (m_selWxVer  < 0) || (m_selWxVer  > 2)  ) m_selWxVer  = 2;
 
-    wxString m_choPrjVerChoices[] = { "2.3.0.1", "2.5.3.0", _("Custom") };
-    int m_choPrjVerNChoices = sizeof( m_choPrjVerChoices ) / sizeof( wxString );
+    wxString choPrjVerChoices[] = { "2.3.0.1", "2.5.3.0", _("Custom") };
+    int choPrjVerNChoices = sizeof( choPrjVerChoices ) / sizeof( wxString );
     m_choPrjVer = new wxChoice( pnlProject, wxID_ANY, wxDefaultPosition,
-                                wxDefaultSize, m_choPrjVerNChoices,
-                                m_choPrjVerChoices, 0 );
+                                wxDefaultSize, choPrjVerNChoices,
+                                                choPrjVerChoices, 0 );
     m_choPrjVer->SetSelection( m_selXrcVer );
     m_choPrjVer->SetToolTip( _("Choose the XRC version to use") );
 
@@ -193,7 +182,6 @@ m_clbCodeGen( NULL )
                                                 _("Encoding:"),
                                                 wxDefaultPosition,
                                                 wxDefaultSize, 0 );
-    lblPrjEnc->Wrap( -1 );
     prjVerSizer->Add( lblPrjEnc, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, 5 );
 
     wxArrayString   fontEncodings;
@@ -229,56 +217,50 @@ m_clbCodeGen( NULL )
     m_clbCodeGen->SetToolTip( _("Choose the code language to generate") );
 
     prjSizer->Add( m_clbCodeGen, 0, wxEXPAND|wxTOP, 5 );
+    prjSizer->Fit( pnlProject );
 
     pnlProject->SetSizer( prjSizer );
     pnlProject->Layout();
-    prjSizer->Fit( pnlProject );
+// ----------------------------------------------------------------------------
+// XRC Options
+// ----------------------------------------------------------------------------
+    wxStaticBoxSizer *sbsProject = new wxStaticBoxSizer(
+                                    new wxStaticBox( this, wxID_ANY, _("XRC") ),
+                                                        wxVERTICAL );
     sbsProject->Add( pnlProject, 1, wxEXPAND, 0 );
 
+    wxBoxSizer *projectSizer = new wxBoxSizer( wxVERTICAL );
     projectSizer->Add( sbsProject, 0, wxEXPAND|wxLEFT|wxRIGHT, 5 );
+// ----------------------------------------------------------------------------
+// wxWidgets Options
+// ----------------------------------------------------------------------------
+    wxPanel *pnlWx = new wxPanel( this, wxID_ANY, wxDefaultPosition,
+                                        wxDefaultSize, wxTAB_TRAVERSAL );
+    wxStaticBoxSizer *sbsWx = new wxStaticBoxSizer(
+                                    new wxStaticBox( this, wxID_ANY,
+                                        _("wxWidgets") ), wxVERTICAL );
+    sbsWx->Add( pnlWx, 1, wxEXPAND );
 
-    wxStaticBoxSizer *sbSizer6;
-    sbSizer6 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY,
-                                    _("wxWidgets") ), wxVERTICAL );
-    wxPanel *pnlProject1;
-    pnlProject1 = new wxPanel( this, wxID_ANY, wxDefaultPosition,
-                                wxDefaultSize, wxTAB_TRAVERSAL );
+    m_chkCompat = new wxCheckBox( pnlWx, wxID_ANY, _("2.8 Compatibility") );
+    wxBoxSizer *sizerWx = new wxBoxSizer( wxVERTICAL );
 
-    wxBoxSizer *sizerwx    = new wxBoxSizer( wxVERTICAL );
-    wxBoxSizer *wxVerSizer = new wxBoxSizer( wxHORIZONTAL );
-    wxStaticText *lblWxer  = new wxStaticText( pnlProject1, wxID_ANY,
-                                                _("Version:"),
-                                                wxDefaultPosition,
-                                                wxDefaultSize, 0 );
-    lblWxer->Wrap( -1 );
-    wxVerSizer->Add( lblWxer, 0, wxALIGN_CENTER_VERTICAL, 0 );
+    sizerWx->Add( m_chkCompat );
+    sizerWx->Fit( pnlWx );
 
-    wxString wxVerChoices[] = {"2.8", "2.9", _("All")};
-    int wxVerNChoices = sizeof( wxVerChoices ) / sizeof( wxString );
-    m_choWxVer = new wxChoice( pnlProject1, wxID_ANY, wxDefaultPosition,
-                                wxDefaultSize, wxVerNChoices, wxVerChoices, 0 );
-    m_choWxVer->SetSelection( m_selWxVer );
-    m_choWxVer->SetToolTip( _("Choose the XRC version to use") );
+    pnlWx->SetSizer( sizerWx );
+    pnlWx->Layout();
 
-    wxVerSizer->Add( m_choWxVer, 0, wxEXPAND, 0 );
-    sizerwx->Add( wxVerSizer, 0, wxEXPAND, 0 );
-
-    pnlProject1->SetSizer( sizerwx );
-    pnlProject1->Layout();
-    sizerwx->Fit( pnlProject1 );
-    sbSizer6->Add( pnlProject1, 1, wxEXPAND, 0 );
-
-    projectSizer->Add( sbSizer6, 0, wxEXPAND | wxLEFT | wxRIGHT, 5 );
+    projectSizer->Add( sbsWx, 0, wxEXPAND | wxLEFT | wxRIGHT, 5 );
+    projectSizer->Fit( this );
 
     SetSizer( projectSizer );
     Layout();
-    projectSizer->Fit( this );
 
     m_choPrjEnc->Bind( wxEVT_COMMAND_CHOICE_SELECTED,
                                     &wxGDPageProject::OnPrefsChanged, this );
     m_choPrjVer->Bind( wxEVT_COMMAND_CHOICE_SELECTED,
                                     &wxGDPageProject::OnPrefsChanged, this );
-    m_choWxVer->Bind( wxEVT_COMMAND_CHOICE_SELECTED,
+    m_chkCompat->Bind( wxEVT_COMMAND_CHECKBOX_CLICKED,
                                     &wxGDPageProject::OnPrefsChanged, this );
 
     Bind( wxGD_EVT_GUI_CONFIG_UPDATE, &wxGDPageProject::OnUpdatePrefs, this );
@@ -291,7 +273,7 @@ wxGDPageProject::~wxGDPageProject()
                                     &wxGDPageProject::OnPrefsChanged, this );
     m_choPrjVer->Unbind( wxEVT_COMMAND_CHOICE_SELECTED,
                                     &wxGDPageProject::OnPrefsChanged, this );
-    m_choWxVer->Unbind( wxEVT_COMMAND_CHOICE_SELECTED,
+    m_chkCompat->Unbind( wxEVT_COMMAND_CHECKBOX_CLICKED,
                                     &wxGDPageProject::OnPrefsChanged, this );
 
     Unbind( wxGD_EVT_GUI_CONFIG_UPDATE, &wxGDPageProject::OnUpdatePrefs, this );
@@ -302,7 +284,7 @@ void wxGDPageProject::OnPrefsChanged( wxCommandEvent & )
 {
     bool isDirty = (m_selEnc    != m_choPrjEnc->GetSelection()) ||
                    (m_selXrcVer != m_choPrjVer->GetSelection()) ||
-                   (m_selWxVer  != m_choWxVer->GetSelection());
+                   (m_compat    != m_chkCompat->IsChecked());
 
     wxCommandEvent evt( wxGD_EVT_GUI_OPTION_CHANGED );
     evt.SetInt( isDirty ? 1 : 0 );
@@ -313,63 +295,111 @@ void wxGDPageProject::OnUpdatePrefs( wxCommandEvent & )
 {
     m_selEnc    = m_choPrjEnc->GetSelection();
     m_selXrcVer = m_choPrjVer->GetSelection();
-    m_selWxVer  = m_choWxVer->GetSelection();
+    m_compat    = m_chkCompat->IsChecked();
 }
 
 void wxGDPageProject::OnSavePrefs( wxCommandEvent & )
 {
     wxConfigBase::Get()->Write( "xrc/encoding",  m_choPrjEnc->GetSelection() );
     wxConfigBase::Get()->Write( "xrc/version",   m_choPrjVer->GetSelection() );
-    wxConfigBase::Get()->Write( "xrc/wxversion", m_choWxVer->GetSelection() );
+    wxConfigBase::Get()->Write( "code/28compat", m_chkCompat->IsChecked() );
+    wxConfigBase::Get()->Flush();
+}
+//=============================================================================
+// wxGDPageGUI
+//=============================================================================
+wxGDPageGUI::wxGDPageGUI( wxGDDialogPrefs *parent )
+:
+wxPanel( parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL ),
+m_chkIcons  ( NULL )
+{
+    wxPanel *pnlPalette = new wxPanel( this, wxID_ANY, wxDefaultPosition,
+                                        wxDefaultSize, wxTAB_TRAVERSAL );
+
+    m_chkIcons = new wxCheckBox( pnlPalette, wxID_ANY, _("Small Icons") );
+    m_chkIcons->SetToolTip( _("Use small icons for the controls palette") );
+
+    // Load locale config
+    wxConfigBase::Get()->Read( "gui/smallicons", &m_smallIcons, true );
+    m_chkIcons->SetValue( m_smallIcons );
+
+    wxBoxSizer *paletteSizer = new wxBoxSizer( wxVERTICAL );
+    paletteSizer->Add( m_chkIcons, 0, 0, 0 );
+    paletteSizer->Fit( pnlPalette );
+
+    pnlPalette->SetSizer( paletteSizer );
+    pnlPalette->Layout();
+
+    wxStaticBoxSizer *sbsPalette = new wxStaticBoxSizer(
+                                    new wxStaticBox( this, wxID_ANY,
+                                                _("Palette") ), wxVERTICAL );
+    sbsPalette->Add( pnlPalette, 1, wxEXPAND, 0 );
+
+    wxBoxSizer *guiSizer = new wxBoxSizer( wxVERTICAL );
+    guiSizer->Add( sbsPalette, 0, wxEXPAND|wxLEFT|wxRIGHT, 5 );
+
+    SetSizer( guiSizer );
+    Layout();
+
+    m_chkIcons->Bind( wxEVT_COMMAND_CHECKBOX_CLICKED,
+                                      &wxGDPageGUI::OnPrefsChanged, this );
+    Bind( wxGD_EVT_GUI_CONFIG_UPDATE, &wxGDPageGUI::OnUpdatePrefs,  this );
+    Bind( wxGD_EVT_GUI_CONFIG_SAVE,   &wxGDPageGUI::OnSavePrefs,    this );
+}
+
+wxGDPageGUI::~wxGDPageGUI()
+{
+    m_chkIcons->Unbind( wxEVT_COMMAND_CHECKBOX_CLICKED,
+                                        &wxGDPageGUI::OnPrefsChanged, this );
+    Unbind( wxGD_EVT_GUI_CONFIG_UPDATE, &wxGDPageGUI::OnUpdatePrefs,  this );
+    Unbind( wxGD_EVT_GUI_CONFIG_SAVE,   &wxGDPageGUI::OnSavePrefs,    this );
+}
+
+void wxGDPageGUI::OnPrefsChanged( wxCommandEvent & )
+{
+    bool isDirty = (m_smallIcons != m_chkIcons->IsChecked());
+
+    wxCommandEvent evt( wxGD_EVT_GUI_OPTION_CHANGED );
+    evt.SetInt( isDirty ? 1 : 0 );
+    GetParent()->GetEventHandler()->ProcessEvent( evt );
+}
+
+void wxGDPageGUI::OnUpdatePrefs( wxCommandEvent & )
+{
+    m_smallIcons =  m_chkIcons->IsChecked();
+}
+
+void wxGDPageGUI::OnSavePrefs( wxCommandEvent & )
+{
+    wxConfigBase::Get()->Write( "gui/smallicons", m_chkIcons->IsChecked() );
     wxConfigBase::Get()->Flush();
 }
 //=============================================================================
 // wxGDPageLocale
 //=============================================================================
-wxGDPageLocale::wxGDPageLocale( wxGDHandler *handler, wxGDDialogPrefs *parent )
+wxGDPageLocale::wxGDPageLocale( wxGDDialogPrefs *parent )
 :
 wxPanel( parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL ),
-m_handler   ( handler ),
 m_bcbLang   ( NULL ),
 m_chkLang   ( NULL ),
 m_enabled   ( false ),
 m_selected  ( 0 )
 {
-    wxBoxSizer       *localeSizer = new wxBoxSizer( wxVERTICAL );
-    wxStaticBoxSizer *sbsLocale   = new wxStaticBoxSizer(
-                                    new wxStaticBox( this, wxID_ANY,
-                                    _("Locale") ), wxVERTICAL );
-
     wxPanel *pnlLocale = new wxPanel( this, wxID_ANY, wxDefaultPosition,
                                             wxDefaultSize, wxTAB_TRAVERSAL );
+    wxStaticBoxSizer *sbsLocale = new wxStaticBoxSizer(
+                                    new wxStaticBox( this, wxID_ANY,
+                                    _("Locale") ), wxVERTICAL );
+    sbsLocale->Add( pnlLocale, 1, wxEXPAND, 5 );
 
     m_chkLang   = new wxCheckBox( pnlLocale, wxID_ANY, _("Enable Localization") );
 
     m_bcbLang   = new wxBitmapComboBox( pnlLocale, wxID_ANY, wxEmptyString,
                                         wxDefaultPosition, wxDefaultSize,
                                                     0, NULL, wxCB_READONLY );
-
     m_bcbLang->Append( _("System Default"), wxBitmap( default_xpm ) );
     m_bcbLang->Append( _("English"),        wxBitmap( en_GB_xpm ) );
     m_bcbLang->Append( _("Italian"),        wxBitmap( it_xpm )  );
-/*
-    wxGDSettings settings = m_handler->GetSettings();
-    m_selected = settings->GetInt("locale/selected", 0);
-    m_enabled  = settings->GetBool("locale/enabled", false);
-*/
-    // Load locale config
-    wxConfigBase::Get()->Read( "locale/enabled",  &m_enabled,  false );
-    wxConfigBase::Get()->Read( "locale/selected", &m_selected, 0    );
-
-    m_bcbLang->SetSelection( m_selected );
-    m_bcbLang->Enable      ( m_enabled );
-    m_chkLang->SetValue    ( m_enabled );
-
-    sbsLocale->Add( pnlLocale, 1, wxEXPAND, 5 );
-    localeSizer->Add( sbsLocale, 0, wxEXPAND | wxLEFT | wxRIGHT, 5 );
-
-    m_bcbLang->SetToolTip( _("Select language to use") );
-    m_chkLang->SetToolTip( _("Enable / Disable wxGUIDesigner localization") );
 
     wxBoxSizer *sizerLang = new wxBoxSizer( wxVERTICAL );
     sizerLang->Add( m_bcbLang, 1, wxALIGN_RIGHT | wxALL | wxEXPAND, 5 );
@@ -381,10 +411,27 @@ m_selected  ( 0 )
     pnlLocale->SetSizer( pnlSizer );
     pnlLocale->Layout();
     pnlSizer->Fit( pnlLocale );
+/*
+    wxGDSettings settings = m_handler->GetSettings();
+    m_selected = settings->GetInt("locale/selected", 0);
+    m_enabled  = settings->GetBool("locale/enabled", false);
+*/
+    wxConfigBase::Get()->Read( "locale/enabled",  &m_enabled,  false );
+    wxConfigBase::Get()->Read( "locale/selected", &m_selected, 0    );
+
+    m_bcbLang->SetSelection( m_selected );
+    m_bcbLang->Enable      ( m_enabled );
+    m_chkLang->SetValue    ( m_enabled );
+
+    m_bcbLang->SetToolTip( _("Select language to use") );
+    m_chkLang->SetToolTip( _("Enable / Disable wxGUIDesigner localization") );
+
+    wxBoxSizer *localeSizer = new wxBoxSizer( wxVERTICAL );
+    localeSizer->Add( sbsLocale, 0, wxEXPAND | wxLEFT | wxRIGHT, 5 );
+    localeSizer->Fit( this );
 
     SetSizer( localeSizer );
     Layout();
-    localeSizer->Fit( this );
 
     m_chkLang->Bind( wxEVT_COMMAND_CHECKBOX_CLICKED,
                                     &wxGDPageLocale::OnPrefsChanged, this );
@@ -435,10 +482,9 @@ void wxGDPageLocale::OnSavePrefs( wxCommandEvent & )
 //=============================================================================
 // wxGDPageEditors
 //=============================================================================
-wxGDPageEditors::wxGDPageEditors( wxGDHandler *handler, wxGDDialogPrefs *parent )
+wxGDPageEditors::wxGDPageEditors( wxGDDialogPrefs *parent )
 :
 wxPanel( parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL ),
-m_handler       ( handler ),
 m_bcbEditor     ( NULL ),
 m_chkLineNums   ( NULL ),
 m_chkGuides     ( NULL ),
@@ -450,20 +496,20 @@ m_chkTabsIndent ( NULL ),
 m_choTabsWidth  ( NULL ),
 m_spnCaretW     ( NULL )
 {
-    wxBoxSizer   *mainSizer = new wxBoxSizer( wxVERTICAL );
+    wxBoxSizer   *editSizer = new wxBoxSizer( wxVERTICAL );
     wxStaticText *lblEditor = new wxStaticText( this, wxID_ANY, _("Editor:") );
     lblEditor->Wrap( -1 );
 
     m_bcbEditor = new wxBitmapComboBox( this, wxID_ANY, wxEmptyString,
                                 wxDefaultPosition, wxDefaultSize, 0, NULL, 0 ); 
 
-    wxFlexGridSizer *editSizer = new wxFlexGridSizer( 0,2,0,0 );
-    editSizer->AddGrowableCol( 1 );
-    editSizer->SetFlexibleDirection( wxBOTH );
-    editSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-    editSizer->Add( lblEditor, 0, wxALIGN_CENTER_VERTICAL | wxLEFT | wxTOP, 5 );
-    editSizer->Add( m_bcbEditor, 0, wxEXPAND | wxRIGHT | wxTOP, 5 );
-    mainSizer->Add( editSizer, 0, wxEXPAND, 5 );
+    wxFlexGridSizer *fgsEdit = new wxFlexGridSizer( 0,2,0,0 );
+    fgsEdit->AddGrowableCol( 1 );
+    fgsEdit->SetFlexibleDirection( wxBOTH );
+    fgsEdit->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+    fgsEdit->Add( lblEditor, 0, wxALIGN_CENTER_VERTICAL | wxLEFT | wxTOP, 5 );
+    fgsEdit->Add( m_bcbEditor, 0, wxEXPAND | wxRIGHT | wxTOP, 5 );
+    editSizer->Add( fgsEdit, 0, wxEXPAND, 5 );
 
     wxFlexGridSizer *fgsGuides = new wxFlexGridSizer( 0,2,0,0 );
     fgsGuides->AddGrowableCol( 1 );
@@ -512,7 +558,7 @@ m_spnCaretW     ( NULL )
                                     this, wxID_ANY, _("Guides") ), wxVERTICAL );
 
     sbsGuides->Add( pnlGuides, 0, wxEXPAND, 5 );
-    mainSizer->Add( sbsGuides, 0, wxEXPAND | wxLEFT | wxRIGHT, 5 );
+    editSizer->Add( sbsGuides, 0, wxEXPAND | wxLEFT | wxRIGHT, 5 );
 
     wxPanel *pnlTabs = new wxPanel( this, wxID_ANY, wxDefaultPosition,
                                     wxDefaultSize, wxTAB_TRAVERSAL );
@@ -548,7 +594,7 @@ m_spnCaretW     ( NULL )
     wxStaticBoxSizer *sbsTabs = new wxStaticBoxSizer( new wxStaticBox(
                                     this, wxID_ANY, _("Tabs") ),  wxVERTICAL );
     sbsTabs->Add( pnlTabs, 0, wxEXPAND, 0 );
-    mainSizer->Add( sbsTabs, 0, wxEXPAND|wxLEFT|wxRIGHT, 5 );
+    editSizer->Add( sbsTabs, 0, wxEXPAND|wxLEFT|wxRIGHT, 5 );
 
     wxFlexGridSizer *fgsMisc = new wxFlexGridSizer( 0,2,0,0 );
     fgsMisc->AddGrowableCol( 1 );
@@ -576,9 +622,9 @@ m_spnCaretW     ( NULL )
     wxStaticBoxSizer *sbsMisc = new wxStaticBoxSizer( new wxStaticBox( this,
                                             wxID_ANY, _("Misc") ), wxVERTICAL );
     sbsMisc->Add( pnlMisc, 1, wxEXPAND, 0 );
-    mainSizer->Add( sbsMisc, 1, wxBOTTOM | wxEXPAND | wxLEFT | wxRIGHT, 5 );
+    editSizer->Add( sbsMisc, 1, wxBOTTOM | wxEXPAND | wxLEFT | wxRIGHT, 5 );
 
-    SetSizer( mainSizer );
+    SetSizer( editSizer );
     Layout();
 
     m_chkLineNums->Bind( wxEVT_COMMAND_CHECKBOX_CLICKED,

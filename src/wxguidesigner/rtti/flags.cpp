@@ -5,8 +5,8 @@
 // Modified by: 
 // Created:     2012/02/02
 // Revision:    $Hash$
-// Copyright:   (c) Andrea Zanellato
-// Licence:     wxWindows licence
+// Copyleft:    (ɔ) Andrea Zanellato
+// Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
 #include "wxguidesigner/rtti/flags.h"
 

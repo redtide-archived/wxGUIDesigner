@@ -6,8 +6,8 @@
     Modified by: 
     Created:     2012/01/15
     Revision:    $Hash$
-    Copyright:   (c) Andrea Zanellato
-    Licence:     wxWindows licence
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
 -->
 <classes>
     <class name="wxRadioBox">

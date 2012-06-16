@@ -6,14 +6,15 @@
     Modified by: 
     Created:     2011/12/05
     Revision:    $Hash$
+    Copyright:   (c) Andrea Zanellato
     Licence:     wxWindows licence
 -->
-<category name="languages">
-    <group name="xrc" label="XRC"/>
-    <group name="cpp" label="C++">
+<languages>
+    <xrc label="XRC"/>
+    <cpp label="C++">
         <item>cpp</item>
         <item>h</item>
-    </group>
-    <group name="php"/>
-    <group name="python"/>
-</category>
+    </cpp>
+    <php label="PHP"/>
+    <python label="Python"/>
+</languages>

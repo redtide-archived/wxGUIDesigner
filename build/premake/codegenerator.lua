@@ -5,8 +5,8 @@
 -- Modified by: 
 -- Created:     2012/05/18
 -- Revision:    $Hash$
--- Copyright:   (c) Andrea Zanellato
--- Licence:     GNU General Public License Version 2
+-- Copyleft:    (ɔ) Andrea Zanellato
+-- Licence:     GNU General Public License Version 3
 -----------------------------------------------------------------------------
 project "LibCodeGen"
     kind        "SharedLib"
