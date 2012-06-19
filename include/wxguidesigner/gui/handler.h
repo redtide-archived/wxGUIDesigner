@@ -40,7 +40,6 @@ class wxXmlResource;
     class wxGDDebugWindow;
 #endif
 
-class wxGDArtProvider;
 class wxGDEditorBook;
 class wxGDPropertyBook;
 class wxGDToolPalette;
@@ -98,7 +97,7 @@ private:
 
     int GetControlsImageListSize();
 
-    typedef map< wxString, int >                ImageIds;
+    typedef map< wxString, int > ImageIds;
 
     ImageIds            m_imgIds;
     wxGDFrame           *m_frame;

@@ -25,17 +25,12 @@ class wxNotebook;
 class wxGDToolPalette : public wxNotebook
 {
 public:
-    wxGDToolPalette( wxGDHandler *handler, wxWindow* parent,
-                     bool useSmallIcons = false );
+    wxGDToolPalette( wxGDHandler *handler, wxWindow* parent );
     ~wxGDToolPalette();
 
-private:
-    wxToolGroup *AddGroup( const wxString &name, const wxString &label );
-    wxBitmap    LoadBitmap( const wxString &categoryName,
-                            const wxString &ctrlName = wxEmptyString,
-                            const wxSize   &size     = wxSize( 16,16 ) );
-    void        LoadPalette(const wxSize   &iconSize);
+    wxToolGroup *AddGroup( const wxString &label, const wxBitmap &bitmap );
 
+private:
     void        OnToolClicked( wxCommandEvent &event );
 
     wxGDHandler *m_handler;

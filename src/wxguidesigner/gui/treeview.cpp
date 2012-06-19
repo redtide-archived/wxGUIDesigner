@@ -43,7 +43,7 @@ m_handler( handler )
     wxImageList *imageList = m_handler->GetControlsImageList();
     SetImageList( imageList );
 
-    AddRoot( "Project", 0 );
+    AddRoot( "Project", -1 ); // TODO: Add a project icon?
 
     Bind( wxEVT_COMMAND_TREE_BEGIN_DRAG,        &wxGDTreeView::OnBeginDrag,     this );
     Bind( wxEVT_COMMAND_TREE_END_DRAG,          &wxGDTreeView::OnEndDrag,       this );
@@ -65,10 +65,10 @@ void wxGDTreeView::OnObjectCreated( wxGDObjectEvent &event )
     if( !object )
         return;
 
+    wxTreeItemId item;
     wxString name   = object->GetClassName();
     int      imgIdx = m_handler->GetImageIndex( name );
 
-    wxTreeItemId item;
     if( object->IsRoot() )
     {
         item = AddRoot( name, imgIdx );
@@ -85,9 +85,8 @@ void wxGDTreeView::OnObjectCreated( wxGDObjectEvent &event )
             parent = GetSelection();
             while( parent.IsOk() )
             {
-                wxGDTreeItemData *data =
-                            dynamic_cast< wxGDTreeItemData * >
-                                        ( GetItemData( parent ) );
+                wxGDTreeItemData *data = dynamic_cast< wxGDTreeItemData * >
+                                                    ( GetItemData( parent ) );
                 if( !data )
                     return;
 
@@ -135,10 +134,9 @@ void wxGDTreeView::OnEndDrag( wxTreeEvent &event )
 
 void wxGDTreeView::OnSelChanged( wxTreeEvent &event )
 {
-    wxTreeItemId item = event.GetItem();
-    wxGDTreeItemData *data =
-    dynamic_cast< wxGDTreeItemData * >( GetItemData( item ) );
-
+    wxTreeItemId      item = event.GetItem();
+    wxGDTreeItemData *data = dynamic_cast< wxGDTreeItemData * >
+                                        ( GetItemData( item ) );
     if( data )
     {
         Object object( data->GetObject() );
@@ -152,9 +150,8 @@ void wxGDTreeView::OnSelChanged( wxTreeEvent &event )
 void wxGDTreeView::OnItemCollapsed( wxTreeEvent &event )
 {
     wxTreeItemId      item = event.GetItem();
-    wxGDTreeItemData *data =
-    dynamic_cast< wxGDTreeItemData * >( GetItemData( item ) );
-
+    wxGDTreeItemData *data = dynamic_cast< wxGDTreeItemData * >
+                                        ( GetItemData( item ) );
     if( data )
     {
         Object object( data->GetObject() );
@@ -169,9 +166,8 @@ void wxGDTreeView::OnItemCollapsed( wxTreeEvent &event )
 void wxGDTreeView::OnItemExpanded( wxTreeEvent &event )
 {
     wxTreeItemId      item = event.GetItem();
-    wxGDTreeItemData *data =
-    dynamic_cast< wxGDTreeItemData * >( GetItemData( item ) );
-
+    wxGDTreeItemData *data = dynamic_cast< wxGDTreeItemData * >
+                                        ( GetItemData( item ) );
     if( data )
     {
         Object object( data->GetObject() );

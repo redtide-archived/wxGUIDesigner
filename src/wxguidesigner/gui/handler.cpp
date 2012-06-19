@@ -166,7 +166,7 @@ wxFrame *wxGDHandler::GetMainFrame( wxWindow *parent )
         mgr->AddPane( GetPropertyBook(pnl), wxAuiPaneInfo().Right().
                     Name("PropertyBookPane").Caption(_("Properties") ).
                     CloseButton(false).MinSize(180,-1).FloatingSize(150,300).
-                    TopDockable(false).BottomDockable( false ) );
+                    TopDockable(false).BottomDockable(false) );
 #ifdef __WXDEBUG__
         mgr->AddPane( GetDebugWindow(pnl), wxAuiPaneInfo().Bottom().
                     Name("DebugWindowPane").Caption(_("Debugger") ).
@@ -185,21 +185,20 @@ wxImageList *wxGDHandler::GetControlsImageList()
 {
     if( !m_ctrlsImgList )
     {
-        int  size = GetControlsImageListSize();
+        wxString         category   = "controls";
+        int              size       = GetControlsImageListSize();
+        m_ctrlsImgList              = new wxImageList( size, size );
 
-        m_ctrlsImgList = new wxImageList( size, size );
-
-        for( size_t i = 0; i < wxGDArtProvider::GetGroupCount(); i++ )
+        for( size_t i = 0; i < wxGDArtProvider::GetGroupCount(category); i++ )
         {
             for( size_t n = 0;
-                  n < wxGDArtProvider::GetItemCount( i ); n++ )
+                  n < wxGDArtProvider::GetItemCount( category, i ); n++ )
             {
-                wxString label = wxGDArtProvider::GetItemLabel( i, n );
+                wxString label = wxGDArtProvider::GetItemLabel( category, i, n );
                 if( label != "-" )
                 {
-                    wxBitmap bmp = wxGDArtProvider::GetItemBitmap( i, n );
+                    wxBitmap bmp = wxGDArtProvider::GetItemBitmap( category, i, n );
                     m_ctrlsImgList->Add( bmp );
-
                 }
             }
         }
@@ -257,10 +256,34 @@ wxNotebook *wxGDHandler::GetPaletteBook( wxWindow *parent )
 {
     if( !m_palette )
     {
-        wxImageList *imageList = GetControlsImageList();
-        bool smallIcons = (GetControlsImageListSize() == 16);
-        m_palette = new wxGDToolPalette( this, parent, smallIcons );
-//      m_handlers.push_back( m_palette );
+//      bool smallIcons = (GetControlsImageListSize() == 16);
+        m_palette = new wxGDToolPalette( this, parent );
+
+        wxString c = "controls";
+
+        for( size_t g = 0; g < wxGDArtProvider::GetGroupCount( c ); g++ )
+        {
+            wxString    label  = wxGDArtProvider::GetGroupLabel( c, g );
+            wxBitmap    bitmap = wxGDArtProvider::GetGroupBitmap( c, g );
+            wxToolGroup *tg    = m_palette->AddGroup( label, bitmap );
+
+            for( size_t i = 0; i < wxGDArtProvider::GetItemCount( c, g ); i++ )
+            {
+                wxString item = wxGDArtProvider::GetItemLabel( c, g, i );
+
+                if( item == "-" )
+                {
+                    tg->AddSeparator();
+                }
+                else
+                {
+                    wxBitmap bmp = wxGDArtProvider::GetItemBitmap( c, g, i );
+                    tg->AddTool( wxID_ANY, item, bmp, item );
+                }
+            }
+
+            tg->Realize();
+        }
     }
 
     return m_palette;

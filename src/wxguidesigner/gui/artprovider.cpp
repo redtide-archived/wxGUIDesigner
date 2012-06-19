@@ -8,40 +8,20 @@
 // Copyleft:    (ɔ) Andrea Zanellato
 // Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
-#include "wxguidesigner/gui/artprovider.h"
-#include "wxguidesigner/rtti/database.h"
-#include "wxguidesigner/utils.h"
-
 #include <wx/artprov.h>
 #include <wx/bitmap.h>
 #include <wx/dir.h>
 #include <wx/filename.h>
+#include <wx/string.h>
 #include <wx/xml/xml.h>
 
-#include <wx/log.h>
-//=============================================================================
-//  IconGroup
-//=============================================================================
-wxString IconGroup::GetItemLabel( size_t index ) const
-{
-    if( index < m_items.size() )
-        return m_items.at( index ).first;
+#include "wxguidesigner/gui/artprovider.h"
+#include "wxguidesigner/rtti/database.h"
+#include "wxguidesigner/utils.h"
 
-    return wxEmptyString;
-}
+using namespace wxGDArtProvider;
 
-wxBitmap IconGroup::GetItemBitmap( size_t index ) const
-{
-    if( index < m_items.size() )
-        return m_items.at( index ).second;
-
-    return wxNullBitmap;
-}
-//=============================================================================
-//  wxGDArtProvider
-//=============================================================================
-wxString       wxGDArtProvider::m_sel = wxEmptyString;
-map< wxString, vector< shared_ptr< IconGroup > > > wxGDArtProvider::m_cts;
+wxGDIconCategoryMap wxGDArtProvider::categories;
 
 void wxGDArtProvider::Load()
 {
@@ -69,122 +49,104 @@ void wxGDArtProvider::Load()
         if( !xmlFileName.IsAbsolute() )
             xmlFileName.MakeAbsolute();
 
-        LoadXML( xmlFileName.GetFullPath() );
+        LoadXML( xmlFileName );
 
         haveXml = dbDir.GetNext( &xmlFile );
     }
 }
 
-wxGDArtProvider::~wxGDArtProvider()
+void wxGDArtProvider::Unload()
 {
-    m_cts.erase( m_cts.begin(), m_cts.end() );
+    categories.clear();
 }
 
-size_t wxGDArtProvider::GetGroupCount()
+size_t wxGDArtProvider::GetGroupCount( const wxString &category )
 {
-    return m_cts.at(m_sel).size();
+    return categories[category].size();
 }
 
-bool wxGDArtProvider::LoadXML( const wxString &path )
+bool wxGDArtProvider::LoadXML ( const wxFileName &xmlFileName )
 {
     wxXmlDocument doc;
-    if( !doc.Load( path ) )
+    if( !doc.Load( xmlFileName.GetFullPath() ) )
         return false;
 
-    wxXmlNode *rootNode = doc.GetRoot();
-    wxString   catName  = rootNode->GetAttribute("name");
+    wxXmlNode *groupNode = doc.GetRoot()->GetChildren();
 
-    if( rootNode->GetName() != "category" || catName.empty() )
-        return false;
+    wxGDIconGroups   groups;
 
-    m_sel = catName;
-
-    wxXmlNode *groupNode = rootNode->GetChildren();
     while( groupNode )
     {
-        wxString nodeName   = groupNode->GetName();
-        wxString groupName  = wxEmptyString;
-        wxString groupLabel = wxEmptyString;
+        wxString groupName  = groupNode->GetName();
+        wxString groupLabel = groupNode->GetAttribute("label");
 
-        if( nodeName == "group" )
+        if( groupLabel.empty() )
+            groupLabel = groupName.Capitalize();
+
+        // TODO: avoid useless capitalized label insert
+        wxBitmap bmp = LoadBitmap( xmlFileName.GetName(), groupName );
+        wxGDIconGroupNames  groupNames( groupName, groupLabel );
+        wxGDIconGroupInfo   groupInfo( groupNames, bmp );
+        wxGDIconInfos       iconInfos;
+
+        bool wasOk = false;
+
+        wxXmlNode *itemNode = groupNode->GetChildren();
+        while( itemNode )
         {
-            groupName = groupNode->GetAttribute("name");
+            wxString itemName  = itemNode->GetNodeContent();
+            bool     separator = itemNode->GetName() == "separator";
 
-            // Skip unnamed groups
-            if( groupName.empty() )
+            if( separator )
             {
-                groupNode = groupNode->GetNext();
+                itemName = "-";
+            }/*
+            else if( xmlFileName.GetName() == "controls" )
+            {
+                wasOk = ClassInfoDB::Get()->ClassInfoExists( itemName );
+                if( !wasOk )
+//                  wxLogDebug("Discarding %s", itemName);
+            }*/
+            else
+            {
+                wasOk = (itemNode->GetName() == "item") && !itemName.empty();
+            }
+
+            if( !wasOk && !separator )
+            {
+                itemNode = itemNode->GetNext();
                 continue;
             }
 
-            groupLabel = groupNode->GetAttribute("label");
-            if( groupLabel.empty() )
-                groupLabel = groupName.Capitalize();
+            bmp = LoadBitmap( xmlFileName.GetName(), groupName, itemName );
+            wxGDIconInfo iconInfo( itemName, bmp );
 
-            wxBitmap bmp = LoadBitmap( catName, groupName );
-            IconGroupPtr group( new IconGroup( groupName, groupLabel, bmp ) );
+            iconInfos.push_back( iconInfo );
 
-            bool wasOk = false;
+            itemNode = itemNode->GetNext();
+        }
 
-            wxXmlNode *itemNode = groupNode->GetChildren();
-            while( itemNode )
-            {
-                wxString itemName  = itemNode->GetNodeContent();
-                bool     separator = itemNode->GetName() == "separator";
-
-                if( separator )
-                {
-                    if( wasOk )
-                    {
-                        itemName = "-";
-                    }
-                    else
-                    {
-                        separator = false; // Avoid unneeded separator
-                    }
-                }
-                else if( catName == "controls" )
-                {
-                    wasOk = ClassInfoDB::Get()->ClassInfoExists( itemName );
-                    if( !wasOk )
-                    {
-//                      wxLogDebug("Discarding %s", itemName);
-                    }
-                }
-                else
-                {
-                    wasOk = (itemNode->GetName() == "item") && !itemName.empty();
-                }
-
-                if( !wasOk && !separator )
-                {
-                    itemNode = itemNode->GetNext();
-                    continue;
-                }
-
-                bmp = LoadBitmap( catName, groupName, itemName );
-                IconInfo item = std::make_pair( itemName, bmp );
-
-                group->AddItem( item );
-
-                itemNode = itemNode->GetNext();
-            }
-
-            m_cts[m_sel].push_back( group );
+        if( !iconInfos.empty() )
+        {
+            wxGDIconGroup group( groupInfo, iconInfos );
+            groups.push_back( group );
         }
 
         groupNode = groupNode->GetNext();
     }
 
-    if( m_cts[m_sel].empty() )
+    if( groups.empty() )
         return false;
 
+    wxGDIconCategory category( xmlFileName.GetName(), groups );
+
+    categories.insert( category );
     return true;
 }
 
-wxBitmap wxGDArtProvider::LoadBitmap( const wxString &category,
-                                   const wxString &group,
-                                   const wxString &item )
+wxBitmap wxGDArtProvider::LoadBitmap  ( const wxString &category,
+                                        const wxString &group,
+                                        const wxString &item )
 {
     if( item == "-" )
         return wxNullBitmap;
@@ -212,38 +174,59 @@ wxBitmap wxGDArtProvider::LoadBitmap( const wxString &category,
     return wxNullBitmap;
 }
 
-bool wxGDArtProvider::CheckIconDB()
-{
-    if( m_cts.empty() )
-    {
-        wxLogError("Empty icon database, check the\n%s\n database directory",
-                    GetDataBasePath() );
-        return false;
-    }
-
-    return true;
-}
 //=============================================================================
 //  wxGDArtProvider public functions
 //=============================================================================
-bool wxGDArtProvider::SelectCategory( const wxString &category )
+bool wxGDArtProvider::CategoryExists( const wxString &categoryName )
 {
-    IconCategories::iterator it = m_cts.find( category );
-
-    if( it != m_cts.end() )
-    {
-        m_sel = category;
+    wxGDIconCategoryMap::iterator category = categories.find( categoryName );
+    if( category != categories.end() )
         return true;
-    }
 
     return false;
 }
 
-wxBitmap wxGDArtProvider::GetGroupBitmap( size_t index )
+bool wxGDArtProvider::GroupExists ( const wxString &categoryName,
+                                    size_t groupIndex )
 {
-    if( CheckIconDB() && ( index < m_cts.at(m_sel).size() ) )
+    return
+    (
+        CategoryExists( categoryName ) &&
+        (groupIndex < categories[categoryName].size())
+    );
+}
+
+bool wxGDArtProvider::ItemExists  ( const wxString &categoryName,
+                                    size_t groupIndex, size_t itemIndex )
+{
+    return
+    (
+        GroupExists( categoryName, groupIndex ) &&
+        (itemIndex < categories[categoryName].at(groupIndex).second.size())
+    );
+}
+
+wxString wxGDArtProvider::GetGroupName( const wxString &category, size_t index )
+{
+    if( GroupExists(category, index) )
+        return categories[category].at(index).first.first.first;
+
+    return wxEmptyString;
+}
+
+wxString wxGDArtProvider::GetGroupLabel( const wxString &category, size_t index )
+{
+    if( GroupExists(category, index) )
+        return categories[category].at(index).first.first.second;
+
+    return wxEmptyString;
+}
+
+wxBitmap wxGDArtProvider::GetGroupBitmap( const wxString &category, size_t index )
+{
+    if( GroupExists( category, index )  )
     {
-        wxBitmap bmp = m_cts.at(m_sel)[index]->GetBitmap();
+        wxBitmap bmp = categories[category].at(index).first.second;
         if( bmp.IsOk() )
             return bmp;
     }
@@ -252,53 +235,32 @@ wxBitmap wxGDArtProvider::GetGroupBitmap( size_t index )
                     ( wxART_MISSING_IMAGE, wxART_OTHER, wxSize( 16, 16 ) );
 }
 
-wxString wxGDArtProvider::GetGroupLabel( size_t index )
+size_t wxGDArtProvider::GetItemCount( const wxString &category, size_t index )
 {
-    if( CheckIconDB() && ( index < m_cts.at(m_sel).size() ) )
-        return m_cts.at(m_sel)[index]->GetLabel();
+    if( GroupExists( category, index ) )
+        return categories[category].at(index).second.size();
+
+    return 0;
+}
+
+wxString wxGDArtProvider::GetItemLabel( const wxString &categoryName,
+                                        size_t groupIndex, size_t itemIndex )
+{
+    if( ItemExists( categoryName, groupIndex, itemIndex ) )
+        return
+        categories[categoryName].at(groupIndex).second.at(itemIndex).first;
 
     return wxEmptyString;
 }
 
-wxString wxGDArtProvider::GetGroupName( size_t index )
+wxBitmap wxGDArtProvider::GetItemBitmap( const wxString &categoryName,
+                                        size_t groupIndex, size_t itemIndex )
 {
-    if( CheckIconDB() && ( index < m_cts.at(m_sel).size() ) )
-        return m_cts.at(m_sel)[index]->GetName();
-
-    return wxEmptyString;
-}
-
-size_t wxGDArtProvider::GetItemCount( size_t groupIndex )
-{
-    if( CheckIconDB() && groupIndex < m_cts.at(m_sel).size() )
+    if( ItemExists( categoryName, groupIndex, itemIndex ) )
     {
-        return m_cts.at(m_sel)[groupIndex]->GetItemCount();
-    }
+        wxBitmap bmp =
+        categories[categoryName].at(groupIndex).second.at(itemIndex).second;
 
-    return wxNOT_FOUND;
-}
-
-wxString wxGDArtProvider::GetItemLabel( size_t groupIndex, size_t itemIndex )
-{
-    if
-    (
-        CheckIconDB() && (groupIndex < m_cts.at(m_sel).size())
-        && (itemIndex < m_cts.at(m_sel)[groupIndex]->GetItemCount())
-    )
-        return m_cts.at(m_sel)[groupIndex]->GetItemLabel( itemIndex );
-
-    return wxEmptyString;
-}
-
-wxBitmap wxGDArtProvider::GetItemBitmap( size_t groupIndex, size_t itemIndex )
-{
-    if
-    (
-        CheckIconDB() && ( groupIndex < m_cts.at(m_sel).size() ) &&
-        ( itemIndex < m_cts.at(m_sel)[groupIndex]->GetItemCount() )
-    )
-    {
-        wxBitmap bmp = m_cts.at(m_sel)[groupIndex]->GetItemBitmap( itemIndex );
         if( bmp.IsOk() )
             return bmp;
     }

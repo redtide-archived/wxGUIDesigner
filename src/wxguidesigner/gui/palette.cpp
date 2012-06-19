@@ -19,17 +19,12 @@
 #include "wxguidesigner/gui/handler.h"
 #include "wxguidesigner/gui/palette.h"
 
-wxGDToolPalette::wxGDToolPalette( wxGDHandler *handler, wxWindow* parent,
-                                  bool useSmallIcons )
+wxGDToolPalette::wxGDToolPalette( wxGDHandler *handler, wxWindow* parent )
 :
 wxNotebook( parent, wxID_ANY ),
 m_handler( handler )
 {
     AssignImageList( new wxImageList( 16,16 ) );
-
-    wxSize size = useSmallIcons ? wxSize( 16,16 ) : wxSize( 22,22 );
-
-    LoadPalette( size );
 
     Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDToolPalette::OnToolClicked, this );
 }
@@ -51,19 +46,19 @@ void wxGDToolPalette::OnToolClicked( wxCommandEvent &event )
     }
 }
 
-wxToolGroup *wxGDToolPalette::AddGroup( const wxString &name,
-                                        const wxString &label )
+wxToolGroup *wxGDToolPalette::AddGroup( const wxString &label,
+                                        const wxBitmap &bitmap )
 {
-    wxBitmap bmp = LoadBitmap( name );
-    GetImageList()->Add( bmp );
-
     wxToolGroup *group = new wxToolGroup( this, wxID_ANY );
+
+    GetImageList()->Add( bitmap );
 
     AddPage( group, label, false, GetPageCount() );
 
     return group;
 }
 
+/*
 void wxGDToolPalette::LoadPalette( const wxSize &iconSize )
 {
     wxString ctrlDir     = GetDataBasePath() + wxFILE_SEP_PATH + "controls";
@@ -77,12 +72,12 @@ void wxGDToolPalette::LoadPalette( const wxSize &iconSize )
         return;
 
     int imgIndex = 1; // index 0 is 'project' icon
-    wxXmlNode *categoryNode = doc.GetRoot()->GetChildren();
+    wxXmlNode *groupNode = doc.GetRoot()->GetChildren();
 
-    while( categoryNode )
+    while( groupNode )
     {
-        wxString name  = categoryNode->GetName();
-        wxString label = categoryNode->GetAttribute("label");
+        wxString name  = groupNode->GetName();
+        wxString label = groupNode->GetAttribute("label");
 
         if( label.empty() )
             label = name.Capitalize();
@@ -90,11 +85,11 @@ void wxGDToolPalette::LoadPalette( const wxSize &iconSize )
         wxToolGroup *toolGroup = AddGroup( name, label );
         wxImageList *imageList = m_handler->GetControlsImageList();
 
-        wxXmlNode *itemNode = categoryNode->GetChildren();
+        wxXmlNode *itemNode = groupNode->GetChildren();
         while( itemNode )
         {
             wxString itemName  = itemNode->GetNodeContent();
-            bool     separator = itemNode->GetName() == "separator";
+            bool     separator = itemNode->GetName() == "group";
             if( separator )
             {
                 toolGroup->AddSeparator();
@@ -117,7 +112,7 @@ void wxGDToolPalette::LoadPalette( const wxSize &iconSize )
 
         toolGroup->Realize();
 
-        categoryNode = categoryNode->GetNext();
+        groupNode = groupNode->GetNext();
     }
 }
 
@@ -151,3 +146,4 @@ wxBitmap wxGDToolPalette::LoadBitmap( const wxString &categoryName,
 
     return bmp;
 }
+*/

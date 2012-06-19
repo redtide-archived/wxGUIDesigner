@@ -11,82 +11,62 @@
 #ifndef __WXGUIDESIGNER_GUI_ARTPROVIDER_H__
 #define __WXGUIDESIGNER_GUI_ARTPROVIDER_H__
 
-#include <boost/tr1/memory.hpp>
 #include <map>
 #include <utility>
 #include <vector>
 
-#include <wx/bitmap.h>
-#include <wx/string.h>
+class wxBitmap;
+class wxString;
+class wxFileName;
 
 using namespace std;
-//-----------------------------------------------------------------------------
-//  IconGroup
-//-----------------------------------------------------------------------------
-typedef pair< wxString, wxBitmap > IconInfo;
-typedef vector< IconInfo >         Items;
 
-class IconGroup
+// item label and bitmap e.g. 'wxFrame' frame.png (no need for name 'item')
+typedef pair< wxString, wxBitmap >                  wxGDIconInfo;
+typedef vector< wxGDIconInfo >                      wxGDIconInfos;
+
+// group name and label e.g. 'toplevel' 'Top Level'
+typedef pair< wxString, wxString >                  wxGDIconGroupNames;
+typedef pair< wxGDIconGroupNames, wxBitmap >        wxGDIconGroupInfo;
+typedef pair< wxGDIconGroupInfo, wxGDIconInfos >    wxGDIconGroup;
+typedef vector< wxGDIconGroup >                     wxGDIconGroups;
+
+// category name e.g. "controls"
+typedef pair< wxString, wxGDIconGroups >            wxGDIconCategory;
+typedef map< wxString, wxGDIconGroups >             wxGDIconCategoryMap;
+
+namespace wxGDArtProvider
 {
-public:
-    IconGroup( const wxString &name, const wxString &label, const wxBitmap &bitmap )
-            : m_name( name ), m_label( label ), m_bitmap( bitmap ) {}
+    void Load();
+    void Unload();
 
-    ~IconGroup() { m_items.clear(); }
+    size_t   GetGroupCount ( const wxString &categoryName );
+    wxString GetGroupName  ( const wxString &categoryName, size_t index );
+    wxString GetGroupLabel ( const wxString &categoryName, size_t index );
+    wxBitmap GetGroupBitmap( const wxString &categoryName, size_t index );
 
-    wxString GetName()   const { return m_name; }
-    wxString GetLabel()  const { return m_label; }
-    wxBitmap GetBitmap() const { return m_bitmap; }
+    size_t   GetItemCount  ( const wxString &categoryName, size_t groupIndex );
 
-    size_t   GetItemCount()    { return m_items.size(); }
-    wxString GetItemLabel( size_t index ) const;
-    wxBitmap GetItemBitmap( size_t index ) const;
+    wxString GetItemLabel ( const wxString &categoryName,
+                            size_t groupIndex, size_t itemIndex );
 
-    void AddItem( IconInfo item ) { m_items.push_back( item ); }
+    wxBitmap GetItemBitmap( const wxString &categoryName,
+                            size_t groupIndex, size_t itemIndex );
 
-private:
-    wxString m_name;
-    wxString m_label;
-    wxBitmap m_bitmap;
-    Items    m_items;
-};
-//-----------------------------------------------------------------------------
-//  wxGDArtProvider
-//-----------------------------------------------------------------------------
+    bool     CategoryExists( const wxString &categoryName );
 
-class wxGDArtProvider
-{
-public:
-    ~wxGDArtProvider();
+    bool     GroupExists  ( const wxString &categoryName,
+                            size_t groupIndex );
 
-    static void Load();
+    bool     ItemExists   ( const wxString &categoryName,
+                            size_t groupIndex, size_t itemIndex );
 
-    static bool SelectCategory( const wxString &category );
+    bool     LoadXML      ( const wxFileName &xmlFileName );
+    wxBitmap LoadBitmap   ( const wxString   &categoryName,
+                            const wxString   &groupName,
+                            const wxString   &itemLabel = wxEmptyString );
 
-    static size_t   GetGroupCount();
-    static wxString GetGroupName   ( size_t index );
-    static wxString GetGroupLabel  ( size_t index );
-    static wxBitmap GetGroupBitmap ( size_t index );
-
-    static size_t   GetItemCount   ( size_t groupIndex );
-    static wxString GetItemLabel   ( size_t groupIndex, size_t itemIndex );
-    static wxBitmap GetItemBitmap  ( size_t groupIndex, size_t itemIndex );
-
-private:
-    wxGDArtProvider( const wxGDArtProvider& );
-    wxGDArtProvider& operator=( wxGDArtProvider const& );
-
-    static bool     CheckIconDB();
-    static bool     LoadXML( const wxString &path );
-    static wxBitmap LoadBitmap( const wxString &category, const wxString &group,
-                         const wxString &item = wxEmptyString );
-
-    typedef class tr1::shared_ptr< IconGroup > IconGroupPtr;
-    typedef vector< IconGroupPtr >             IconGroups;
-    typedef map< wxString, IconGroups >        IconCategories;
-
-    static wxString       m_sel;
-    static IconCategories m_cts;
+    extern wxGDIconCategoryMap categories;
 };
 
 #endif //__WXGUIDESIGNER_GUI_ARTPROVIDER_H__
