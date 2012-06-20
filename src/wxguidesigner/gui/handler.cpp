@@ -26,8 +26,9 @@
 #include <wx/xml/xml.h>
 #include <wx/xrc/xmlres.h>
 
-#include <wx/aui/framemanager.h>
+#include <wx/aui/auibar.h>
 #include <wx/aui/dockart.h>
+#include <wx/aui/framemanager.h>
 
 #include <wx/xrc/xh_aui.h>
 #include <wx/xrc/xh_stc.h>
