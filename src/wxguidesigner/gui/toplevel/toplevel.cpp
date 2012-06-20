@@ -26,7 +26,7 @@ bool TopLevelWindow::Create(wxWindow *parent, wxWindowID id,
     return true;
 }
 
-wxIcon wxTopLevelWindowBase::GetIcon() const
+wxIcon TopLevelWindow::GetIcon() const
 {
     return m_icons.IsEmpty() ? wxIcon() : m_icons.GetIcon( -1 );
 }
