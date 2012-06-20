@@ -152,7 +152,8 @@ wxFrame *wxGDHandler::GetMainFrame( wxWindow *parent )
         mgr->AddPane( GetPaletteBook(pnl), wxAuiPaneInfo().Top().
                     Name("ToolPalettePane").Caption(_("Controls") ).
                     CloseButton(false).MinSize(-1,69).FloatingSize(300,69).
-                    LeftDockable(false).RightDockable(false).DockFixed(true) );
+                    LeftDockable(false).RightDockable(false).DockFixed(true).
+                    PaneBorder(false) );
 
         mgr->AddPane( GetTreeView(pnl), wxAuiPaneInfo().Left().
                     Name("TreeViewPane").Caption(_("Project") ).

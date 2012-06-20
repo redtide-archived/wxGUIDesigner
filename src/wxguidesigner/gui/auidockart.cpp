@@ -142,4 +142,3 @@ void wxGDAUIDockArt::DrawCaption( wxDC &dc, wxWindow *, const wxString &text,
                             rect.y + ( rect.height / 2 ) - ( h / 2 ) -1 );
     dc.DestroyClippingRegion();
 }
-

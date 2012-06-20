@@ -11,16 +11,30 @@
 #ifndef __WXGUIDESIGNER_GUI_PALETTE_H__
 #define __WXGUIDESIGNER_GUI_PALETTE_H__
 
-#if defined(__WXMAC__) || defined( wxGD_USE_AUIBAR )
-    #include <wx/aui/auibar.h>
-    typedef wxAuiToolBar wxToolGroup;
-#else
-    #include <wx/toolbar.h>
-    typedef wxToolBar wxToolGroup;
+#if 0
+    #define wxGD_AUI_TOOLBAR (defined(__WXMAC__) || defined( wxGD_USE_AUIBAR ))
+
+    #if wxGD_AUI_TOOLBAR
+        #include <wx/aui/auibar.h>
+        #include <wx/aui/framemanager.h> // wxAUI_BUTTON_STATE_*
+        typedef wxAuiToolBar wxToolGroup;
+    #else
+        #include <wx/toolbar.h>
+        typedef wxToolBar wxToolGroup;
+    #endif
 #endif
 
 class wxEvent;
 class wxNotebook;
+class wxAuiToolBar;
+class wxWindow;
+class wxString;
+class wxBitmap;
+class wxCommandEvent;
+
+class wxGDHandler;
+
+typedef wxAuiToolBar wxToolGroup;
 
 class wxGDToolPalette : public wxNotebook
 {
@@ -31,7 +45,7 @@ public:
     wxToolGroup *AddGroup( const wxString &label, const wxBitmap &bitmap );
 
 private:
-    void        OnToolClicked( wxCommandEvent &event );
+    void OnToolClicked( wxCommandEvent &event );
 
     wxGDHandler *m_handler;
 };
