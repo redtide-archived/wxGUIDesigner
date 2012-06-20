@@ -8,9 +8,10 @@
 // Copyleft:    (ɔ) Andrea Zanellato
 // Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
+#include <wx/dc.h>
+#include <wx/gdicmn.h>
 #include <wx/aui/framemanager.h>
 #include <wx/aui/dockart.h>
-#include <wx/dc.h>
 #include <wx/settings.h>
 
 #include "wxguidesigner/gui/auidockart.h"
@@ -23,7 +24,7 @@ wxGDAUIDockArt::~wxGDAUIDockArt()
 {
 }
 
-wxString wxAuiChopText( wxDC &dc, const wxString &text, int maxSize )
+wxString wxGDAUIDockArt::ChopText( wxDC &dc, const wxString &text, int maxSize )
 {
     wxCoord x,y;
 
@@ -135,7 +136,7 @@ void wxGDAUIDockArt::DrawCaption( wxDC &dc, wxWindow *, const wxString &text,
     if( pane.HasMaximizeButton() )
         clipRect.width -= m_buttonSize;
 
-    wxString drawText = wxAuiChopText( dc, text, clipRect.width );
+    wxString drawText = ChopText( dc, text, clipRect.width );
 
     dc.SetClippingRegion( clipRect );
     dc.DrawText( drawText, rect.x + 3 + captionOffset,

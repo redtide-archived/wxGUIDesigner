@@ -17,6 +17,9 @@
 #include <wx/panel.h>
 #include <wx/xrc/xmlres.h>
 
+#include <wx/aui/framemanager.h>
+#include <wx/aui/dockart.h>
+
 #include "wxguidesigner/interfaces/iobject.h"
 //#include "wxguidesigner/settings.h"
 #include "wxguidesigner/manager.h"
