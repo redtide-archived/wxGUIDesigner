@@ -10,8 +10,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include <wx/artprov.h>
 #include <wx/bitmap.h>
+#include <wx/config.h>
 #include <wx/dir.h>
 #include <wx/filename.h>
+#include <wx/imaglist.h>
 #include <wx/string.h>
 #include <wx/xml/xml.h>
 
@@ -21,15 +23,12 @@
 
 using namespace wxGDArtProvider;
 
-wxGDIconCategoryMap wxGDArtProvider::categories;
+wxGDIconCategoryMap  wxGDArtProvider::IconCategories;
+wxImageList         *wxGDArtProvider::ItemsImageList  = NULL;
+wxImageList         *wxGDArtProvider::GroupsImageList = NULL;
 
 void wxGDArtProvider::Load()
 {
-    // Init the only image handler needed if not loaded already
-    // from an external application
-    if(!wxImage::FindHandler( wxBITMAP_TYPE_PNG ))
-        wxImage::AddHandler( new wxPNGHandler);
-
     wxString dbPath = GetDataBasePath();
 
     if( !wxDirExists( dbPath ) )
@@ -38,6 +37,14 @@ void wxGDArtProvider::Load()
     wxDir dbDir( dbPath );
     if( !dbDir.IsOpened() )
         return;
+
+    // Init the only image handler needed if not loaded already
+    // from an external application
+    if(!wxImage::FindHandler( wxBITMAP_TYPE_PNG ))
+        wxImage::AddHandler( new wxPNGHandler);
+
+    GroupsImageList = new wxImageList( 16,16 );
+    ItemsImageList  = new wxImageList( 22,22 );
 
     // E.g. 'controls.xml'
     wxString xmlFile;
@@ -57,12 +64,18 @@ void wxGDArtProvider::Load()
 
 void wxGDArtProvider::Unload()
 {
-    categories.clear();
+    IconCategories.clear();
+
+    if( ItemsImageList )
+        delete ItemsImageList;
+
+    if( GroupsImageList )
+        delete GroupsImageList;
 }
 
 size_t wxGDArtProvider::GetGroupCount( const wxString &category )
 {
-    return categories[category].size();
+    return IconCategories[category].size();
 }
 
 bool wxGDArtProvider::LoadXML ( const wxFileName &xmlFileName )
@@ -71,9 +84,18 @@ bool wxGDArtProvider::LoadXML ( const wxFileName &xmlFileName )
     if( !doc.Load( xmlFileName.GetFullPath() ) )
         return false;
 
-    wxXmlNode *groupNode = doc.GetRoot()->GetChildren();
+    wxBitmap bmp = wxArtProvider::GetBitmap
+                    ( wxART_MISSING_IMAGE, wxART_OTHER, wxSize( 16,16 ) );
 
-    wxGDIconGroups   groups;
+    int grpsImgIdx = GroupsImageList->Add( bmp );
+
+    bmp = wxArtProvider::GetBitmap
+                    ( wxART_MISSING_IMAGE, wxART_OTHER, wxSize( 22,22 ) );
+
+    int itmsImgIdx = ItemsImageList->Add( bmp );
+
+    wxGDIconGroups  groups;
+    wxXmlNode       *groupNode = doc.GetRoot()->GetChildren();
 
     while( groupNode )
     {
@@ -84,9 +106,15 @@ bool wxGDArtProvider::LoadXML ( const wxFileName &xmlFileName )
             groupLabel = groupName.Capitalize();
 
         // TODO: avoid useless capitalized label insert
-        wxBitmap bmp = LoadBitmap( xmlFileName.GetName(), groupName );
+        bmp = LoadBitmap( xmlFileName.GetName(), groupName );
+
+        if( bmp.IsOk() )
+            grpsImgIdx = GroupsImageList->Add( bmp );
+        else
+            grpsImgIdx = 0;
+
         wxGDIconGroupNames  groupNames( groupName, groupLabel );
-        wxGDIconGroupInfo   groupInfo( groupNames, bmp );
+        wxGDIconGroupInfo   groupInfo( groupNames, grpsImgIdx );
         wxGDIconInfos       iconInfos;
 
         bool wasOk = false;
@@ -119,7 +147,13 @@ bool wxGDArtProvider::LoadXML ( const wxFileName &xmlFileName )
             }
 
             bmp = LoadBitmap( xmlFileName.GetName(), groupName, itemName );
-            wxGDIconInfo iconInfo( itemName, bmp );
+
+            if( bmp.IsOk() )
+                itmsImgIdx = ItemsImageList->Add( bmp );
+            else
+                itmsImgIdx = 0;
+
+            wxGDIconInfo iconInfo( itemName, itmsImgIdx );
 
             iconInfos.push_back( iconInfo );
 
@@ -140,7 +174,7 @@ bool wxGDArtProvider::LoadXML ( const wxFileName &xmlFileName )
 
     wxGDIconCategory category( xmlFileName.GetName(), groups );
 
-    categories.insert( category );
+    IconCategories.insert( category );
     return true;
 }
 
@@ -179,8 +213,8 @@ wxBitmap wxGDArtProvider::LoadBitmap  ( const wxString &category,
 //=============================================================================
 bool wxGDArtProvider::CategoryExists( const wxString &categoryName )
 {
-    wxGDIconCategoryMap::iterator category = categories.find( categoryName );
-    if( category != categories.end() )
+    wxGDIconCategoryMap::iterator category = IconCategories.find( categoryName );
+    if( category != IconCategories.end() )
         return true;
 
     return false;
@@ -192,7 +226,7 @@ bool wxGDArtProvider::GroupExists ( const wxString &categoryName,
     return
     (
         CategoryExists( categoryName ) &&
-        (groupIndex < categories[categoryName].size())
+        (groupIndex < IconCategories[categoryName].size())
     );
 }
 
@@ -202,43 +236,42 @@ bool wxGDArtProvider::ItemExists  ( const wxString &categoryName,
     return
     (
         GroupExists( categoryName, groupIndex ) &&
-        (itemIndex < categories[categoryName].at(groupIndex).second.size())
+        (itemIndex < IconCategories[categoryName].at(groupIndex).second.size())
     );
 }
 
-wxString wxGDArtProvider::GetGroupName( const wxString &category, size_t index )
+wxString wxGDArtProvider::GetGroupName( const wxString &categoryName,
+                                        size_t groupIndex )
 {
-    if( GroupExists(category, index) )
-        return categories[category].at(index).first.first.first;
+    if( GroupExists( categoryName, groupIndex ) )
+        return IconCategories[categoryName].at(groupIndex).first.first.first;
 
     return wxEmptyString;
 }
 
-wxString wxGDArtProvider::GetGroupLabel( const wxString &category, size_t index )
+wxString wxGDArtProvider::GetGroupLabel( const wxString &categoryName,
+                                         size_t groupIndex )
 {
-    if( GroupExists(category, index) )
-        return categories[category].at(index).first.first.second;
+    if( GroupExists( categoryName, groupIndex ) )
+        return IconCategories[categoryName].at(groupIndex).first.first.second;
 
     return wxEmptyString;
 }
 
-wxBitmap wxGDArtProvider::GetGroupBitmap( const wxString &category, size_t index )
+int wxGDArtProvider::GetGroupImageListIndex( const wxString &categoryName,
+                                             size_t groupIndex )
 {
-    if( GroupExists( category, index )  )
-    {
-        wxBitmap bmp = categories[category].at(index).first.second;
-        if( bmp.IsOk() )
-            return bmp;
-    }
+    if( GroupExists( categoryName, groupIndex )  )
+        return IconCategories[categoryName].at(groupIndex).first.second;
 
-    return wxArtProvider::GetBitmap
-                    ( wxART_MISSING_IMAGE, wxART_OTHER, wxSize( 16, 16 ) );
+    return 0; // wxART_MISSING_IMAGE
 }
 
-size_t wxGDArtProvider::GetItemCount( const wxString &category, size_t index )
+size_t wxGDArtProvider::GetItemCount  ( const wxString &categoryName,
+                                        size_t groupIndex )
 {
-    if( GroupExists( category, index ) )
-        return categories[category].at(index).second.size();
+    if( GroupExists( categoryName, groupIndex ) )
+        return IconCategories[categoryName].at(groupIndex).second.size();
 
     return 0;
 }
@@ -248,23 +281,47 @@ wxString wxGDArtProvider::GetItemLabel( const wxString &categoryName,
 {
     if( ItemExists( categoryName, groupIndex, itemIndex ) )
         return
-        categories[categoryName].at(groupIndex).second.at(itemIndex).first;
+        IconCategories[categoryName].at(groupIndex).second.at(itemIndex).first;
 
     return wxEmptyString;
 }
 
-wxBitmap wxGDArtProvider::GetItemBitmap( const wxString &categoryName,
-                                        size_t groupIndex, size_t itemIndex )
+int wxGDArtProvider::GetItemImageListIndex( const wxString &categoryName,
+                                            const wxString &itemName )
 {
-    if( ItemExists( categoryName, groupIndex, itemIndex ) )
+    if( CategoryExists( categoryName ) )
     {
-        wxBitmap bmp =
-        categories[categoryName].at(groupIndex).second.at(itemIndex).second;
-
-        if( bmp.IsOk() )
-            return bmp;
+        for( size_t i = 0; i < GetGroupCount( categoryName ); i++ )
+        {
+            for( size_t n = 0; n < GetItemCount( categoryName, i ); n++ )
+            {
+                if( GetItemLabel( categoryName, i, n ) == itemName )
+                    return GetItemImageListIndex( categoryName, i, n );
+            }
+        }
     }
 
-    return wxArtProvider::GetBitmap
-                    ( wxART_MISSING_IMAGE, wxART_OTHER, wxSize( 22, 22 ) );
+    return 0;
+}
+
+int wxGDArtProvider::GetItemImageListIndex( const wxString &categoryName,
+                                            size_t groupIndex, size_t itemIndex )
+{
+    if( ItemExists( categoryName, groupIndex, itemIndex ) )
+        return IconCategories[categoryName].at(groupIndex).second.at(itemIndex).second;
+
+    return 0; // wxART_MISSING_IMAGE
+}
+
+int wxGDArtProvider::GetItemImageListSize()
+{
+    // Load icons preferences
+    bool smallIcons = false;
+    int  size       = 22;
+    wxConfigBase::Get()->Read( "gui/smallicons", &smallIcons );
+
+    if( smallIcons )
+        size = 16;
+
+    return size;
 }

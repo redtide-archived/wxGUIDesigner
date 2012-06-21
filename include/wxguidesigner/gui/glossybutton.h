@@ -15,8 +15,6 @@
 
 namespace DrawUtils
 {
-    const bool IsDark( const wxColour &colour );
-
     void DrawGlossyGradient( wxDC &dc, wxRect &rect, wxColour &topStart,
                              wxColour &bottomStart,  wxColour &bottomEnd,
                              wxColour &colour, bool hover = false );

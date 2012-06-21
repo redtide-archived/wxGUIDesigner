@@ -40,10 +40,11 @@ wxTreeCtrl( parent, wxID_ANY, wxDefaultPosition, wxDefaultSize,
                     wxTR_DEFAULT_STYLE | wxTR_HIDE_ROOT ),
 m_handler( handler )
 {
-    wxImageList *imageList = m_handler->GetControlsImageList();
-    SetImageList( imageList );
+    SetImageList( wxGDArtProvider::ItemsImageList );
 
-    AddRoot( "Project", -1 ); // TODO: Add a project icon?
+    int imageIndex = wxGDArtProvider::GetItemImageListIndex( "controls", "Project" );
+
+    AddRoot( "Project", imageIndex );
 
     Bind( wxEVT_COMMAND_TREE_BEGIN_DRAG,        &wxGDTreeView::OnBeginDrag,     this );
     Bind( wxEVT_COMMAND_TREE_END_DRAG,          &wxGDTreeView::OnEndDrag,       this );
@@ -67,7 +68,7 @@ void wxGDTreeView::OnObjectCreated( wxGDObjectEvent &event )
 
     wxTreeItemId item;
     wxString name   = object->GetClassName();
-    int      imgIdx = m_handler->GetImageIndex( name );
+    int      imgIdx = wxGDArtProvider::GetItemImageListIndex( "controls", name );
 
     if( object->IsRoot() )
     {

@@ -51,7 +51,6 @@ namespace wxGDConv
     const int       StringToHex         ( const wxString &text );
     const ClassType ClassTypeFromString ( const wxString &value );
     const int       IntFromString       ( const wxString &value );
-    const bool      IsDark              ( const wxColour &colour );
     const wxColour  GetSystemColour     ( const wxString &name );
     const wxInt32   GetSystemColourIndex( const wxString &name );
     const wxFont    GetSystemFont       ( const wxString &name );

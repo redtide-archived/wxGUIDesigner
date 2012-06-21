@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name:        wxguidesigner/gui/auidockart.h
+// Name:        wxguidesigner/gui/aui/dockart.h
 // Purpose:     
 // Author:      Andrea Zanellato
 // Modified by:
@@ -8,8 +8,8 @@
 // Copyleft:    (ɔ) Andrea Zanellato
 // Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
-#ifndef __WXGUIDESIGNER_GUI_AUIDOCKART_H__
-#define __WXGUIDESIGNER_GUI_AUIDOCKART_H__
+#ifndef __WXGUIDESIGNER_GUI_AUI_DOCKART_H__
+#define __WXGUIDESIGNER_GUI_AUI_DOCKART_H__
 
 class wxAuiDefaultDockArt;
 class wxDC;
@@ -28,8 +28,7 @@ public:
     void DrawCaption( wxDC& dc, wxWindow *window, const wxString &text,
                         const wxRect &rect, wxAuiPaneInfo &pane );
 private:
-    wxString ChopText( wxDC &dc, const wxString &text, int maxSize );
-    bool IsDark( const wxColour &colour ) const;
+    wxString EllipsizeText( wxDC &dc, const wxString &text, int maxSize );
 };
 
-#endif //__WXGUIDESIGNER_GUI_AUIDOCKART_H__
+#endif //__WXGUIDESIGNER_GUI_AUI_DOCKART_H__

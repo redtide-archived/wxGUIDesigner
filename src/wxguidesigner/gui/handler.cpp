@@ -39,7 +39,7 @@
 #include "wxguidesigner/rtti/tree.h"
 
 #include "wxguidesigner/settings.h"
-#include "wxguidesigner/gui/auidockart.h"
+#include "wxguidesigner/gui/aui/dockart.h"
 #include "wxguidesigner/gui/artprovider.h"
 #include "wxguidesigner/gui/editor.h"
 #include "wxguidesigner/gui/palette.h"
@@ -70,7 +70,6 @@ m_editBook      ( NULL ),
 m_palette       ( NULL ),
 m_propBook      ( NULL ),
 m_treeView      ( NULL ),
-m_ctrlsImgList  ( NULL ),
 #ifdef __WXDEBUG__
 m_debug         ( NULL ),
 m_logOld        ( NULL ),
@@ -136,6 +135,8 @@ wxGDHandler::~wxGDHandler()
 {
     delete wxLog::SetActiveTarget( m_logOld );
     m_handlers.clear();
+    wxXmlResource::Get()->ClearHandlers();
+    wxGDArtProvider::Unload();
 //  m_tree = shared_ptr< ObjectTree >();
 }
 
@@ -183,31 +184,6 @@ wxFrame *wxGDHandler::GetMainFrame( wxWindow *parent )
     return m_frame;
 }
 
-wxImageList *wxGDHandler::GetControlsImageList()
-{
-    if( !m_ctrlsImgList )
-    {
-        wxString         category   = "controls";
-        int              size       = GetControlsImageListSize();
-        m_ctrlsImgList              = new wxImageList( size, size );
-
-        for( size_t i = 0; i < wxGDArtProvider::GetGroupCount(category); i++ )
-        {
-            for( size_t n = 0;
-                  n < wxGDArtProvider::GetItemCount( category, i ); n++ )
-            {
-                wxString label = wxGDArtProvider::GetItemLabel( category, i, n );
-                if( label != "-" )
-                {
-                    wxBitmap bmp = wxGDArtProvider::GetItemBitmap( category, i, n );
-                    m_ctrlsImgList->Add( bmp );
-                }
-            }
-        }
-    }
-
-    return m_ctrlsImgList;
-}
 #ifdef __WXDEBUG__
 wxTextCtrl *wxGDHandler::GetDebugWindow( wxWindow *parent )
 {
@@ -239,35 +215,20 @@ wxNotebook *wxGDHandler::GetEditorBook( wxWindow *parent )
     return m_editBook;
 }
 
-void wxGDHandler::OnWindowPaint( wxPaintEvent &event )
-{
-    wxWindow *win = wxDynamicCast( event.GetEventObject(), wxWindow );
-
-    if( win )
-    {
-        wxPaintDC dc( win );
-
-    //  dc.SetBrush(*wxTRANSPARENT_BRUSH);
-        dc.SetPen(*wxRED_PEN);
-        dc.DrawRectangle(wxPoint(0,0), win->GetSize());
-    }
-    event.Skip();
-}
-
 wxNotebook *wxGDHandler::GetPaletteBook( wxWindow *parent )
 {
     if( !m_palette )
     {
-//      bool smallIcons = (GetControlsImageListSize() == 16);
         m_palette = new wxGDToolPalette( this, parent );
 
         wxString c = "controls";
 
         for( size_t g = 0; g < wxGDArtProvider::GetGroupCount( c ); g++ )
         {
-            wxString    label  = wxGDArtProvider::GetGroupLabel( c, g );
-            wxBitmap    bitmap = wxGDArtProvider::GetGroupBitmap( c, g );
-            wxToolGroup *tg    = m_palette->AddGroup( label, bitmap );
+            wxString     lbl = wxGDArtProvider::GetGroupLabel( c, g );
+            int          idx = wxGDArtProvider::GetGroupImageListIndex( c, g );
+            wxBitmap     bmp = wxGDArtProvider::GroupsImageList->GetBitmap( idx );
+            wxAuiToolBar *tb = m_palette->AddGroup( lbl, bmp );
 
             for( size_t i = 0; i < wxGDArtProvider::GetItemCount( c, g ); i++ )
             {
@@ -275,33 +236,21 @@ wxNotebook *wxGDHandler::GetPaletteBook( wxWindow *parent )
 
                 if( item == "-" )
                 {
-                    tg->AddSeparator();
+                    tb->AddSeparator();
                 }
                 else
                 {
-                    wxBitmap bmp = wxGDArtProvider::GetItemBitmap( c, g, i );
-                    tg->AddTool( wxID_ANY, item, bmp, item );
+                    idx = wxGDArtProvider::GetItemImageListIndex( c, g, i );
+                    bmp = wxGDArtProvider::ItemsImageList->GetBitmap( idx );
+                    tb->AddTool( wxID_ANY, item, bmp, item );
                 }
             }
 
-            tg->Realize();
+            tb->Realize();
         }
     }
 
     return m_palette;
-}
-
-int wxGDHandler::GetControlsImageListSize()
-{
-    // Load icons preferences
-    bool smallIcons = false;
-    int  size       = 22;
-    wxConfigBase::Get()->Read( "gui/smallicons", &smallIcons );
-
-    if( smallIcons )
-        size = 16;
-
-    return size;
 }
 
 wxNotebook *wxGDHandler::GetPropertyBook( wxWindow *parent )
@@ -337,15 +286,6 @@ wxTreeCtrl *wxGDHandler::GetTreeView( wxWindow *parent )
 wxGDSettings wxGDHandler::GetSettings() const
 {
     return m_settings;
-}
-
-int wxGDHandler::GetImageIndex( const wxString &className )
-{
-    ImageIds::iterator it = m_imgIds.find( className );
-    if( it != m_imgIds.end() )
-        return it->second;
-
-    return wxNOT_FOUND;
 }
 
 void wxGDHandler::CreateObject( const wxString &className, int senderId )

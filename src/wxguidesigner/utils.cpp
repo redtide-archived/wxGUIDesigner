@@ -50,12 +50,10 @@ const ClassType wxGDConv::ClassTypeFromString( const wxString &value )
 
 const int wxGDConv::IntFromString( const wxString &value )
 {
-    int ret = 0;
-
     if( !value.empty() )
-        ret = wxAtoi( value );
+        return wxAtoi( value );
 
-    return ret;
+    return 0;
 }
 
 const wxColour wxGDConv::GetSystemColour( const wxString &name )
@@ -104,15 +102,6 @@ const wxColour wxGDConv::GetSystemColour( const wxString &name )
         #undef SYSCLR
     }
     return wxNullColour;
-}
-
-const bool wxGDConv::IsDark( const wxColour &colour )
-{
-    int average = ( colour.Red() + colour.Green() + colour.Blue() ) / 3;
-    if ( average < 127 )
-        return true;
-
-    return false;
 }
 
 const wxInt32 wxGDConv::GetSystemColourIndex( const wxString &name )

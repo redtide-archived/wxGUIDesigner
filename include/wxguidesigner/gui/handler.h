@@ -75,9 +75,6 @@ public:
 #endif
 
     wxGDSettings GetSettings() const;
-
-    int GetImageIndex( const wxString &className );
-
 //=============================================================================
 // Object operations
 //=============================================================================
@@ -89,17 +86,10 @@ public:
     shared_ptr< ObjectTree > GetTree() const { return m_tree; }
 
 private:
-    void  SelectLanguage( int language );
+    void SelectLanguage ( int language );
 
-    void SendEvent( wxEvent &event, bool delayed = false );
+    void SendEvent      ( wxEvent &event, bool delayed = false );
 
-    void OnWindowPaint( wxPaintEvent &event );
-
-    int GetControlsImageListSize();
-
-    typedef map< wxString, int > ImageIds;
-
-    ImageIds            m_imgIds;
     wxGDFrame           *m_frame;
     wxMenuBar           *m_menuBar;
     wxToolBar           *m_toolBar;
@@ -107,17 +97,16 @@ private:
     wxGDToolPalette     *m_palette;
     wxGDPropertyBook    *m_propBook;
     wxGDTreeView        *m_treeView;
-    wxImageList         *m_ctrlsImgList;
     wxXmlDocument       m_xrcDoc;
 
     vector< wxEvtHandler * >        m_handlers;
 #ifdef __WXDEBUG__
-    wxGDDebugWindow     *m_debug;
-    wxLog               *m_logOld;
+    wxGDDebugWindow                 *m_debug;
+    wxLog                           *m_logOld;
 #endif
     shared_ptr< ObjectTree >        m_tree;
     wxGDSettings                    m_settings;
-    wxLocale m_locale;
+    wxLocale                        m_locale;
 };
 
 #endif //__WXGUIDESIGNER_GUI_HANDLER_H__

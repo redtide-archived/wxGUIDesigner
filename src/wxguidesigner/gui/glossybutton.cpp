@@ -12,17 +12,9 @@
 #include <wx/log.h>
 
 #include "wxguidesigner/gui/glossybutton.h"
+#include "wxguidesigner/gui/utils/draw.h"
 
 using namespace DrawUtils;
-
-const bool DrawUtils::IsDark( const wxColour &colour )
-{
-    int average = ( colour.Red() + colour.Green() + colour.Blue() ) / 3;
-    if ( average < 127 )
-        return true;
-
-    return false;
-}
 
 void DrawUtils::DrawGlossyGradient( wxDC &dc, wxRect &rect, wxColour &topStart,
                                     wxColour &bottomStart,  wxColour &bottomEnd,
@@ -122,8 +114,7 @@ void wxGlossyButton::OnPaint( wxPaintEvent &event )
         // Update defaults also when changing the current theme at runtime
         m_topEnd = wxSystemSettings::GetColour( wxSYS_COLOUR_ACTIVECAPTION );
 
-        bool isDark = DrawUtils::IsDark( m_topEnd );
-        foreground  = isDark ? *wxWHITE : *wxBLACK;
+        foreground  = wxGDDraw::IsDark( m_topEnd ) ? *wxWHITE : *wxBLACK;
 
         SetBackgroundColour( m_topEnd );
         SetForegroundColour( foreground );

@@ -72,7 +72,7 @@ int wxGUIDesignerApp::OnExit()
 {
     wxGUIDesigner::Free();
 
-    wxConfigBase::Set( NULL );
+//  wxConfigBase::Set( NULL );
 
     return wxApp::OnExit();
 }

@@ -28,6 +28,7 @@
 #include "wxguidesigner/events.h"
 #include "wxguidesigner/utils.h"
 #include "wxguidesigner/rtti/tree.h"
+#include "wxguidesigner/gui/utils/draw.h"
 #include "wxguidesigner/gui/handler.h"
 #include "wxguidesigner/gui/designer.h"
 #include "wxguidesigner/gui/glossybutton.h"
@@ -91,7 +92,7 @@ m_handler( handler )
     // TODO: wxRendererNative for wxMAC and wxMSW
 
     // Titlebar label color, depending if background dark or bright
-    wxColour label = wxGDConv::IsDark( caption ) ? *wxWHITE : *wxBLACK;
+    wxColour label = wxGDDraw::IsDark( caption ) ? *wxWHITE : *wxBLACK;
     m_titleLbl->SetFont( wxFont( 9, 70, 90, 90, false, wxEmptyString ) );
     m_titleLbl->SetForegroundColour( label );
     titleSizer->Add( m_titleLbl, 1, wxALIGN_CENTER_VERTICAL | wxALL, 3 );

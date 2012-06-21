@@ -14,7 +14,8 @@
 #include <wx/aui/dockart.h>
 #include <wx/settings.h>
 
-#include "wxguidesigner/gui/auidockart.h"
+#include "wxguidesigner/gui/utils/draw.h"
+#include "wxguidesigner/gui/aui/dockart.h"
 
 wxGDAUIDockArt::wxGDAUIDockArt()
 {
@@ -24,7 +25,7 @@ wxGDAUIDockArt::~wxGDAUIDockArt()
 {
 }
 
-wxString wxGDAUIDockArt::ChopText( wxDC &dc, const wxString &text, int maxSize )
+wxString wxGDAUIDockArt::EllipsizeText( wxDC &dc, const wxString &text, int maxSize )
 {
     wxCoord x,y;
 
@@ -50,15 +51,6 @@ wxString wxGDAUIDockArt::ChopText( wxDC &dc, const wxString &text, int maxSize )
     wxString ret = text.Left( lastGoodLength );
     ret += "...";
     return ret;
-}
-
-bool wxGDAUIDockArt::IsDark( const wxColour &colour ) const
-{
-    int average = ( colour.Red() + colour.Green() + colour.Blue() ) / 3;
-    if ( average < 127 )
-        return true;
-
-    return false;
 }
 
 void wxGDAUIDockArt::DrawCaption( wxDC &dc, wxWindow *, const wxString &text,
@@ -118,7 +110,7 @@ void wxGDAUIDockArt::DrawCaption( wxDC &dc, wxWindow *, const wxString &text,
 
 // Draw caption label
     wxCoord w, h;
-    wxColour labelColour = IsDark( bottomStart ) ? *wxWHITE : *wxBLACK;
+    wxColour labelColour = wxGDDraw::IsDark( bottomStart ) ? *wxWHITE : *wxBLACK;
     dc.GetTextExtent( "ABCDEFHXfgkj", &w, &h );
     dc.SetFont( wxFont( 9, 70, 90, 90, false, wxEmptyString ) );
     dc.SetTextForeground( labelColour );
@@ -136,7 +128,7 @@ void wxGDAUIDockArt::DrawCaption( wxDC &dc, wxWindow *, const wxString &text,
     if( pane.HasMaximizeButton() )
         clipRect.width -= m_buttonSize;
 
-    wxString drawText = ChopText( dc, text, clipRect.width );
+    wxString drawText = EllipsizeText( dc, text, clipRect.width );
 
     dc.SetClippingRegion( clipRect );
     dc.DrawText( drawText, rect.x + 3 + captionOffset,

@@ -151,7 +151,6 @@ bool ClassNode::PropertyInfoExists( const wxString &name )
 //=============================================================================
 //  ClassInfoDB
 //=============================================================================
-
 ClassInfoDB::ClassInfoDB()
 {
     Init();
@@ -215,11 +214,7 @@ bool ClassInfoDB::InitClassList( const wxString &path )
     if( !doc.Load( path ) )
         return false;
 
-    wxXmlNode *node = doc.GetRoot();
-    if( !node || node->GetName() != "category" )
-        return false;
-
-    node = node->GetChildren();
+    wxXmlNode *node = doc.GetRoot()->GetChildren();
     while( node )
     {
         wxXmlNode *itemNode = node->GetChildren();
