@@ -15,11 +15,14 @@
 #include <wx/menu.h>
 #include <wx/msgdlg.h>
 #include <wx/panel.h>
+#include <wx/aui/framemanager.h>
+#include <wx/aui/dockart.h>
 #include <wx/xrc/xmlres.h>
 
 #include "wxguidesigner/interfaces/iobject.h"
 //#include "wxguidesigner/settings.h"
 #include "wxguidesigner/manager.h"
+#include "wxguidesigner/gui/aui/dockart.h"
 #include "wxguidesigner/gui/handler.h"
 #include "wxguidesigner/gui/mainframe.h"
 //=============================================================================
@@ -63,12 +66,52 @@ m_mgr       (NULL)
     CreateStatusBar(1);
 
     SetMinSize( wxSize(630,480) );
-
+//=============================================================================
+// AUI
+//=============================================================================
     m_panel = new wxPanel(this, wxID_ANY);
-    m_mgr   = new wxAuiManager(m_panel, wxAUI_MGR_ALLOW_FLOATING|
-                                        wxAUI_MGR_LIVE_RESIZE   |
-                                        wxAUI_MGR_HINT_FADE     |
+    m_mgr   = new wxAuiManager(m_panel, wxAUI_MGR_ALLOW_FLOATING    |
+                                        wxAUI_MGR_LIVE_RESIZE       |
+                                        wxAUI_MGR_HINT_FADE         |
                                         wxAUI_MGR_VENETIAN_BLINDS_HINT );
+
+    m_mgr->SetArtProvider( new wxGDAUIDockArt() );
+
+    wxWindow *palette  = (wxWindow *)m_handler->GetPaletteBook(m_panel);
+    wxWindow *treeView = (wxWindow *)m_handler->GetTreeView(m_panel);
+    wxWindow *editor   = (wxWindow *)m_handler->GetEditorBook(m_panel);
+    wxWindow *propBook = (wxWindow *)m_handler->GetPropertyBook(m_panel);
+
+    m_mgr->AddPane( palette, wxAuiPaneInfo().Top().
+                    Name("ToolPalettePane").Caption(_("Controls") ).
+                    CloseButton(false).MinSize(-1,69).FloatingSize(300,69).
+                    LeftDockable(false).RightDockable(false).DockFixed(true).
+                    PaneBorder(false) );
+
+    m_mgr->AddPane( treeView, wxAuiPaneInfo().Left().
+                    Name("TreeViewPane").Caption(_("Project") ).
+                    CloseButton(false).MinSize(180,-1).FloatingSize(150,300).
+                    TopDockable(false).BottomDockable(false) );
+
+    m_mgr->AddPane( editor, wxAuiPaneInfo().Center().
+                    Name("EditorBookPane").Caption(_("Editor") ).
+                    CloseButton(false).DockFixed(true) );
+
+    m_mgr->AddPane( propBook, wxAuiPaneInfo().Right().
+                    Name("PropertyBookPane").Caption(_("Properties") ).
+                    CloseButton(false).MinSize(180,-1).FloatingSize(150,300).
+                    TopDockable(false).BottomDockable(false) );
+#ifdef __WXDEBUG__
+    wxWindow *dbgWnd = (wxWindow *)m_handler->GetDebugWindow(m_panel);
+
+    m_mgr->AddPane( dbgWnd, wxAuiPaneInfo().Bottom().
+                    Name("DebugWindowPane").Caption(_("Debugger") ).
+                    CloseButton(false).MinSize(-1,120).FloatingSize(300,120).
+                    LeftDockable(false).RightDockable(false) );
+#endif
+    LoadLayout();
+
+    m_mgr->Update();
 //=============================================================================
 // Events
 //=============================================================================

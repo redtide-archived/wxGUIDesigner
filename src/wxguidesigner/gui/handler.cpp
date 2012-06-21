@@ -26,10 +26,6 @@
 #include <wx/xml/xml.h>
 #include <wx/xrc/xmlres.h>
 
-#include <wx/aui/auibar.h>
-#include <wx/aui/dockart.h>
-#include <wx/aui/framemanager.h>
-
 #include <wx/xrc/xh_aui.h>
 #include <wx/xrc/xh_stc.h>
 #include <wx/xrc/xh_propgrid.h>
@@ -38,8 +34,7 @@
 
 #include "wxguidesigner/rtti/tree.h"
 
-#include "wxguidesigner/settings.h"
-#include "wxguidesigner/gui/aui/dockart.h"
+//#include "wxguidesigner/settings.h"
 #include "wxguidesigner/gui/artprovider.h"
 #include "wxguidesigner/gui/editor.h"
 #include "wxguidesigner/gui/palette.h"
@@ -143,43 +138,7 @@ wxGDHandler::~wxGDHandler()
 wxFrame *wxGDHandler::GetMainFrame( wxWindow *parent )
 {
     if(!m_frame)
-    {
         m_frame = new wxGDFrame(this);
-
-        wxAuiManager *mgr = m_frame->GetAUIManager();
-        wxPanel      *pnl = m_frame->GetAUIPanel();
-
-        mgr->SetArtProvider( new wxGDAUIDockArt() );
-
-        mgr->AddPane( GetPaletteBook(pnl), wxAuiPaneInfo().Top().
-                    Name("ToolPalettePane").Caption(_("Controls") ).
-                    CloseButton(false).MinSize(-1,69).FloatingSize(300,69).
-                    LeftDockable(false).RightDockable(false).DockFixed(true).
-                    PaneBorder(false) );
-
-        mgr->AddPane( GetTreeView(pnl), wxAuiPaneInfo().Left().
-                    Name("TreeViewPane").Caption(_("Project") ).
-                    CloseButton(false).MinSize(180,-1).FloatingSize(150,300).
-                    TopDockable(false).BottomDockable(false) );
-
-        mgr->AddPane( GetEditorBook(pnl), wxAuiPaneInfo().Center().
-                    Name("EditorBookPane").Caption(_("Editor") ).
-                    CloseButton(false).DockFixed(true) );
-
-        mgr->AddPane( GetPropertyBook(pnl), wxAuiPaneInfo().Right().
-                    Name("PropertyBookPane").Caption(_("Properties") ).
-                    CloseButton(false).MinSize(180,-1).FloatingSize(150,300).
-                    TopDockable(false).BottomDockable(false) );
-#ifdef __WXDEBUG__
-        mgr->AddPane( GetDebugWindow(pnl), wxAuiPaneInfo().Bottom().
-                    Name("DebugWindowPane").Caption(_("Debugger") ).
-                    CloseButton(false).MinSize(-1,120).FloatingSize(300,120).
-                    LeftDockable(false).RightDockable(false) );
-#endif
-        m_frame->LoadLayout();
-
-        mgr->Update();
-    }
 
     return m_frame;
 }
@@ -210,52 +169,25 @@ wxDialog *wxGDHandler::GetSettingsDialog( wxWindow *parent )
 wxNotebook *wxGDHandler::GetEditorBook( wxWindow *parent )
 {
     if( !m_editBook )
+    {
         m_editBook = new wxGDEditorBook( this, parent );
+        m_handlers.push_back( m_editBook );
+    }
 
     return m_editBook;
 }
 
 wxNotebook *wxGDHandler::GetPaletteBook( wxWindow *parent )
 {
-    if( !m_palette )
-    {
+    if(!m_palette)
         m_palette = new wxGDToolPalette( this, parent );
-
-        wxString c = "controls";
-
-        for( size_t g = 0; g < wxGDArtProvider::GetGroupCount( c ); g++ )
-        {
-            wxString     lbl = wxGDArtProvider::GetGroupLabel( c, g );
-            int          idx = wxGDArtProvider::GetGroupImageListIndex( c, g );
-            wxBitmap     bmp = wxGDArtProvider::GroupsImageList->GetBitmap( idx );
-            wxAuiToolBar *tb = m_palette->AddGroup( lbl, bmp );
-
-            for( size_t i = 0; i < wxGDArtProvider::GetItemCount( c, g ); i++ )
-            {
-                wxString item = wxGDArtProvider::GetItemLabel( c, g, i );
-
-                if( item == "-" )
-                {
-                    tb->AddSeparator();
-                }
-                else
-                {
-                    idx = wxGDArtProvider::GetItemImageListIndex( c, g, i );
-                    bmp = wxGDArtProvider::ItemsImageList->GetBitmap( idx );
-                    tb->AddTool( wxID_ANY, item, bmp, item );
-                }
-            }
-
-            tb->Realize();
-        }
-    }
 
     return m_palette;
 }
 
 wxNotebook *wxGDHandler::GetPropertyBook( wxWindow *parent )
 {
-    if( !m_propBook )
+    if(!m_propBook)
     {
         m_propBook = new wxGDPropertyBook( this, parent );
         m_handlers.push_back( m_propBook );
@@ -307,11 +239,11 @@ void wxGDHandler::CreateObject( const wxString &className, int senderId )
     // Serialize the object into the xrc project
     wxXmlNode *objNode = object->Serialize( m_xrcDoc.GetRoot() );
     m_xrcDoc.GetRoot()->AddChild( objNode );
-
+/*
     // Save the xrc file as a string to print it in the xrc editor
     wxStringOutputStream sout;
     m_xrcDoc.Save( sout, 4 );
-/*
+
     // Print the XML result
     wxStyledTextCtrl *xrcEdit = GetEditor( NULL, "xrc" );
     wxString xrcText = sout.GetString();
@@ -319,7 +251,6 @@ void wxGDHandler::CreateObject( const wxString &className, int senderId )
         xrcEdit->SetText( xrcText );
 */
     wxGDObjectEvent event( wxGD_EVT_OBJECT_CREATED, senderId, object );
-//  event.SetString( xrcText );
     event.SetEventObject( wxobject );
     SendEvent( event );
 }

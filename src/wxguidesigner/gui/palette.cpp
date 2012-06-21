@@ -22,6 +22,7 @@
 #include "wxguidesigner/rtti/database.h"
 
 #include "wxguidesigner/gui/aui/tbarart.h"
+#include "wxguidesigner/gui/artprovider.h"
 #include "wxguidesigner/gui/handler.h"
 #include "wxguidesigner/gui/palette.h"
 
@@ -30,7 +31,38 @@ wxGDToolPalette::wxGDToolPalette( wxGDHandler *handler, wxWindow* parent )
 wxNotebook( parent, wxID_ANY ),
 m_handler( handler )
 {
-    AssignImageList( new wxImageList( 16,16 ) );
+    wxImageList *imageList = wxGDArtProvider::GroupsImageList;
+    if( !imageList )
+        return;
+
+    SetImageList( imageList );
+    wxString c = "controls";
+
+    for( size_t g = 0; g < wxGDArtProvider::GetGroupCount( c ); g++ )
+    {
+        int          idx = wxGDArtProvider::GetGroupImageListIndex( c, g );
+        wxString   label = wxGDArtProvider::GetGroupLabel( c, g );
+        wxString    name = wxGDArtProvider::GetGroupName( c, g );
+        wxAuiToolBar *tb = AddGroup( label, idx );
+
+        for( size_t i = 0; i < wxGDArtProvider::GetItemCount( c, g ); i++ )
+        {
+            wxString item = wxGDArtProvider::GetItemLabel( c, g, i );
+
+            if( item == "-" )
+            {
+                tb->AddSeparator();
+            }
+            else
+            {
+                idx = wxGDArtProvider::GetItemImageListIndex( c, g, i );
+                wxBitmap bmp = wxGDArtProvider::ItemsImageList->GetBitmap(idx);
+                tb->AddTool( wxID_ANY, item, bmp, item );
+            }
+        }
+
+        tb->Realize();
+    }
 
     Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDToolPalette::OnToolClicked, this );
 }
@@ -56,17 +88,14 @@ void wxGDToolPalette::OnToolClicked( wxCommandEvent &event )
     }
 }
 
-wxAuiToolBar *wxGDToolPalette::AddGroup( const wxString &label,
-                                        const wxBitmap &bitmap )
+wxAuiToolBar *wxGDToolPalette::AddGroup( const wxString &label, int imageIndex )
 {
     wxAuiToolBar *group = new wxAuiToolBar( this, wxID_ANY, wxDefaultPosition,
                                             wxDefaultSize, wxAUI_TB_OVERFLOW );
 
     group->SetArtProvider( new wxGDAUIToolBarArt() );
 
-    GetImageList()->Add( bitmap );
-
-    AddPage( group, label, false, GetPageCount() );
+    AddPage( group, label, false, imageIndex );
 
     return group;
 }

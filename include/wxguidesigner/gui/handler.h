@@ -74,14 +74,13 @@ public:
     wxTextCtrl      *GetDebugWindow     ( wxWindow *parent );
 #endif
 
+    wxXmlDocument   GetXRCProject() const { return m_xrcDoc; }
     wxGDSettings GetSettings() const;
 //=============================================================================
 // Object operations
 //=============================================================================
     void CreateObject( const wxString &className, int senderId );
     void SelectObject( Object object, int senderId );
-
-    wxXmlDocument GetXRCDocument() { return m_xrcDoc; }
 
     shared_ptr< ObjectTree > GetTree() const { return m_tree; }
 

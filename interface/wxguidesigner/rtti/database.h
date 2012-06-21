@@ -267,4 +267,7 @@ public:
     bool         ClassInfoExists( const wxString &name );
     ClassInfo    GetClassInfo   ( const wxString &name ) const;
     PropertyType GetPropertyType( const wxString &name ) const;
+
+private:
+    ClassType    ClassTypeFromString( const wxString &value ) const;
 };

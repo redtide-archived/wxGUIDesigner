@@ -46,6 +46,15 @@ void wxGDArtProvider::Load()
     GroupsImageList = new wxImageList( 16,16 );
     ItemsImageList  = new wxImageList( 22,22 );
 
+    // Add 'no image' replacement
+    wxBitmap bmp = wxArtProvider::GetBitmap
+                    ( wxART_MISSING_IMAGE, wxART_OTHER, wxSize( 16,16 ) );
+    GroupsImageList->Add( bmp );
+
+    bmp = wxArtProvider::GetBitmap
+                    ( wxART_MISSING_IMAGE, wxART_OTHER, wxSize( 22,22 ) );
+    ItemsImageList->Add( bmp );
+
     // E.g. 'controls.xml'
     wxString xmlFile;
     bool haveXml = dbDir.GetFirst( &xmlFile, "*.xml",
@@ -84,16 +93,6 @@ bool wxGDArtProvider::LoadXML ( const wxFileName &xmlFileName )
     if( !doc.Load( xmlFileName.GetFullPath() ) )
         return false;
 
-    wxBitmap bmp = wxArtProvider::GetBitmap
-                    ( wxART_MISSING_IMAGE, wxART_OTHER, wxSize( 16,16 ) );
-
-    int grpsImgIdx = GroupsImageList->Add( bmp );
-
-    bmp = wxArtProvider::GetBitmap
-                    ( wxART_MISSING_IMAGE, wxART_OTHER, wxSize( 22,22 ) );
-
-    int itmsImgIdx = ItemsImageList->Add( bmp );
-
     wxGDIconGroups  groups;
     wxXmlNode       *groupNode = doc.GetRoot()->GetChildren();
 
@@ -106,12 +105,11 @@ bool wxGDArtProvider::LoadXML ( const wxFileName &xmlFileName )
             groupLabel = groupName.Capitalize();
 
         // TODO: avoid useless capitalized label insert
-        bmp = LoadBitmap( xmlFileName.GetName(), groupName );
+        wxBitmap bmp = LoadBitmap( xmlFileName.GetName(), groupName );
 
+        int grpsImgIdx = 0;
         if( bmp.IsOk() )
             grpsImgIdx = GroupsImageList->Add( bmp );
-        else
-            grpsImgIdx = 0;
 
         wxGDIconGroupNames  groupNames( groupName, groupLabel );
         wxGDIconGroupInfo   groupInfo( groupNames, grpsImgIdx );
@@ -148,10 +146,9 @@ bool wxGDArtProvider::LoadXML ( const wxFileName &xmlFileName )
 
             bmp = LoadBitmap( xmlFileName.GetName(), groupName, itemName );
 
+            int itmsImgIdx = 0;
             if( bmp.IsOk() )
                 itmsImgIdx = ItemsImageList->Add( bmp );
-            else
-                itmsImgIdx = 0;
 
             wxGDIconInfo iconInfo( itemName, itmsImgIdx );
 
@@ -160,12 +157,9 @@ bool wxGDArtProvider::LoadXML ( const wxFileName &xmlFileName )
             itemNode = itemNode->GetNext();
         }
 
-        if( !iconInfos.empty() )
-        {
-            wxGDIconGroup group( groupInfo, iconInfos );
-            groups.push_back( group );
-        }
-
+        // IconGroups can have no items
+        wxGDIconGroup group( groupInfo, iconInfos );
+        groups.push_back( group );
         groupNode = groupNode->GetNext();
     }
 

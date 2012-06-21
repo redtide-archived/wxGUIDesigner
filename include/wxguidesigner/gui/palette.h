@@ -16,7 +16,6 @@ class wxNotebook;
 class wxAuiToolBar;
 class wxWindow;
 class wxString;
-class wxBitmap;
 class wxCommandEvent;
 
 class wxGDHandler;
@@ -27,7 +26,7 @@ public:
     wxGDToolPalette( wxGDHandler *handler, wxWindow* parent );
     ~wxGDToolPalette();
 
-    wxAuiToolBar *AddGroup( const wxString &label, const wxBitmap &bitmap );
+    wxAuiToolBar *AddGroup( const wxString &label, int imageIndex );
 
 private:
     void OnToolClicked( wxCommandEvent &event );

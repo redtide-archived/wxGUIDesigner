@@ -32,22 +32,6 @@ const wxString wxGDConv::HexToString( int value )
     return wxString::Format( "%s", value );
 }
 
-const ClassType wxGDConv::ClassTypeFromString( const wxString &value )
-{
-    if     ( value == "abstract"  ) return CLASS_TYPE_ABSTRACT;
-    else if( value == "container" ) return CLASS_TYPE_CONTAINER;
-    else if( value == "custom"    ) return CLASS_TYPE_CUSTOM;
-    else if( value == "item"      ) return CLASS_TYPE_ITEM;
-    else if( value == "layout"    ) return CLASS_TYPE_LAYOUT;
-    else if( value == "root"      ) return CLASS_TYPE_ROOT;
-    else if( value == "sizer"     ) return CLASS_TYPE_SIZER;
-    else if( value == "toplevel"  ) return CLASS_TYPE_TOPLEVEL;
-    else if( value == "window"    ) return CLASS_TYPE_WINDOW;
-    else if( value == "widget"    ) return CLASS_TYPE_WIDGET;
-
-    return CLASS_TYPE_UNKNOWN;
-}
-
 const int wxGDConv::IntFromString( const wxString &value )
 {
     if( !value.empty() )

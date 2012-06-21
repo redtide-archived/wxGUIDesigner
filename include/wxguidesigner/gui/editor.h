@@ -33,8 +33,6 @@ public:
     wxGDEditorBook( wxGDHandler *handler, wxWindow* parent );
     ~wxGDEditorBook();
 
-//  wxStyledTextCtrl *GetEditorPage( const wxString &langName );
-
 private:
     void LoadCodeEditorPages();
 

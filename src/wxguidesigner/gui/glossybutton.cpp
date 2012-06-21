@@ -14,8 +14,6 @@
 #include "wxguidesigner/gui/glossybutton.h"
 #include "wxguidesigner/gui/utils/draw.h"
 
-using namespace DrawUtils;
-
 void DrawUtils::DrawGlossyGradient( wxDC &dc, wxRect &rect, wxColour &topStart,
                                     wxColour &bottomStart,  wxColour &bottomEnd,
                                     wxColour &colour, bool hover )

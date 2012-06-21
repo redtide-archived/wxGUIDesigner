@@ -20,6 +20,7 @@
 #include <wx/settings.h>
 #include <wx/scrolwin.h>
 #include <wx/sizer.h>
+#include <wx/sstream.h>
 #include <wx/statbmp.h>
 #include <wx/stattext.h>
 #include <wx/stc/stc.h>
@@ -28,6 +29,7 @@
 #include "wxguidesigner/events.h"
 #include "wxguidesigner/utils.h"
 #include "wxguidesigner/rtti/tree.h"
+#include "wxguidesigner/gui/artprovider.h"
 #include "wxguidesigner/gui/utils/draw.h"
 #include "wxguidesigner/gui/handler.h"
 #include "wxguidesigner/gui/designer.h"
@@ -142,13 +144,13 @@ m_handler( handler )
     reSizer->Fit( m_resizer );
 
     // Editor imagelist
-    wxImageList *imageList = new wxImageList( 16,16 );
-    AssignImageList( imageList );
+    wxImageList *imageList = wxGDArtProvider::GroupsImageList;
+    if( !imageList )
+        return;
 
-    bmp = wxXmlResource::Get()->LoadBitmap("designer");
-    int imgIndex = -1;
-    if( bmp.IsOk() )
-        imgIndex = imageList->Add( bmp );
+    SetImageList( imageList );
+
+    int imgIndex = wxGDArtProvider::GetItemImageListIndex( "controls", "toplevel" );
 
     AddPage( m_scrolled, _("Designer"), true, imgIndex );
 
@@ -168,87 +170,53 @@ wxGDEditorBook::~wxGDEditorBook()
 
 void wxGDEditorBook::LoadCodeEditorPages()
 {
-    wxString dbPath      = GetDataBasePath() + wxFILE_SEP_PATH;
-    wxString langDir     = dbPath  + "languages";
-    wxString xmlLangList = langDir + ".xml";
+    wxString c = "languages";
 
-    wxXmlDocument doc;
-    if( !doc.Load( xmlLangList ) )
-        return;
-
-    if( doc.GetRoot()->GetName() != "languages" )
-        return;
-
-    wxXmlNode *langNode = doc.GetRoot()->GetChildren();
-    while( langNode )
+    for( size_t g = 0; g < wxGDArtProvider::GetGroupCount( c ); g++ )
     {
-        wxString name  = langNode->GetName();
-        wxString label = langNode->GetAttribute("label");
-        if( label.empty() )
-            label = name.Capitalize();
-
-        // e.g.: db/languages/cpp/cpp.xrc
-        wxString xrcFilePath = langDir + wxFILE_SEP_PATH + name +
-                                wxFILE_SEP_PATH + name + ".xrc";
+        wxString name        = wxGDArtProvider::GetGroupName( c, g );
+        wxString xrcFilePath = GetDataBasePath() + wxFILE_SEP_PATH + c +
+                                wxFILE_SEP_PATH + name + wxFILE_SEP_PATH +
+                                name + ".xrc";
 
         if( !wxXmlResource::Get()->Load( xrcFilePath ) )
             continue;
 
-        wxArrayString pageNames;
-        wxXmlNode *itemNode = langNode->GetChildren();
-        while( itemNode && (itemNode->GetName() == "item") )
-        {
-            pageNames.Add( itemNode->GetNodeContent() );
-            itemNode = itemNode->GetNext();
-        }
+        int      index = wxGDArtProvider::GetGroupImageListIndex( c, g );
+        wxString label = wxGDArtProvider::GetGroupLabel( c, g );
+        size_t   count = wxGDArtProvider::GetItemCount( c, g );
 
-        // e.g. db/languages/cpp/icons/cpp.png
-        wxString iconPath = langDir + wxFILE_SEP_PATH + name + wxFILE_SEP_PATH +
-                            "icons" + wxFILE_SEP_PATH + name + ".png";
-        int imageIndex = -1;
-        wxBitmap bmp   = wxBitmap( iconPath, wxBITMAP_TYPE_PNG );
-        if( bmp.IsOk() )
-            imageIndex = GetImageList()->Add( bmp );
-
-        size_t count = pageNames.GetCount();
         if( count )
         {
-            wxNotebook  *nb     = new wxNotebook( this, wxID_ANY );
-            wxImageList *itmLst = new wxImageList( 16,16 );
+            wxNotebook  *nb        = new wxNotebook( this, wxID_ANY );
+            wxImageList *imageList = wxGDArtProvider::ItemsImageList;
 
-            nb->AssignImageList( itmLst );
-            AddPage( nb, label, false, imageIndex );
-            imageIndex = -1;
+            if( !imageList )
+                continue;
 
-            for(  size_t i = 0; i < count; i++ )
+            nb->SetImageList( imageList );
+            AddPage( nb, label, false, index );
+
+            for( size_t i = 0; i < count; i++ )
             {
-                // e.g. db/languages/cpp/icons/h.png
-                label    = pageNames.Item(i);
-                iconPath = langDir + wxFILE_SEP_PATH + name + wxFILE_SEP_PATH +
-                            "icons" + wxFILE_SEP_PATH + label + ".png";
-                bmp      = wxBitmap( iconPath, wxBITMAP_TYPE_PNG );
-
-                if( bmp.IsOk() )
-                    imageIndex = itmLst->Add( bmp );
+                index = wxGDArtProvider::GetItemImageListIndex( c, g, i );
+                label = wxGDArtProvider::GetItemLabel( c, g, i );
 
                 wxObject *obj =
                 wxXmlResource::Get()->LoadObject( nb, label, "wxStyledTextCtrl" );
                 wxStyledTextCtrl *stc = wxDynamicCast( obj, wxStyledTextCtrl );
                 if( stc )
-                    nb->AddPage( stc, label, false, imageIndex );
+                    nb->AddPage( stc, label, false, index );
             }
         }
         else
         {
             wxObject *obj =
-                wxXmlResource::Get()->LoadObject( this, name, "wxStyledTextCtrl" );
-
+            wxXmlResource::Get()->LoadObject( this, name, "wxStyledTextCtrl" );
             wxStyledTextCtrl *stc = wxDynamicCast( obj, wxStyledTextCtrl );
             if( stc )
-                AddPage( stc, label, false, imageIndex );
+                AddPage( stc, label, false, index );
         }
-
-        langNode = langNode->GetNext();
     }
 }
 
@@ -271,11 +239,18 @@ void wxGDEditorBook::OnObjectCreated( wxGDObjectEvent &event )
 
     wxString name      = object->GetName();
     wxString className = object->GetClassName();
-/*
+
     // Load the xrcText in memory so access it and load the object
+    wxXmlDocument doc = m_handler->GetXRCProject();
+    wxStringOutputStream sout;
+    doc.Save( sout, 4 );
+    wxString xrcText = sout.GetString();
     wxMemoryFSHandler::AddFile("xrc.xrc", xrcText );
     wxXmlResource::Get()->Load("memory:xrc.xrc");
-
+    wxStyledTextCtrl *xrcEditor = wxDynamicCast( GetPage(1), wxStyledTextCtrl );
+    if( xrcEditor )
+        xrcEditor->SetText( xrcText );
+/*
     if( wxXmlResource::Get()->LoadObject( wxobject, m_client, name, className ) )
     {
         wxWindow *window = wxDynamicCast( object, wxWindow );
@@ -287,10 +262,9 @@ void wxGDEditorBook::OnObjectCreated( wxGDObjectEvent &event )
             m_resizer->SetSize( window->GetBestSize() );
         }
     }
-
+*/
     // Delete the temporary file
     wxMemoryFSHandler::RemoveFile("xrc.xrc");
-*/
 }
 
 void wxGDEditorBook::OnObjectDeleted( wxGDObjectEvent &event )

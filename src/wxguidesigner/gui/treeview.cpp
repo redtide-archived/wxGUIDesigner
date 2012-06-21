@@ -40,7 +40,11 @@ wxTreeCtrl( parent, wxID_ANY, wxDefaultPosition, wxDefaultSize,
                     wxTR_DEFAULT_STYLE | wxTR_HIDE_ROOT ),
 m_handler( handler )
 {
-    SetImageList( wxGDArtProvider::ItemsImageList );
+    wxImageList *imageList = wxGDArtProvider::GroupsImageList;
+    if( !imageList )
+        return;
+
+    SetImageList( imageList );
 
     int imageIndex = wxGDArtProvider::GetItemImageListIndex( "controls", "Project" );
 

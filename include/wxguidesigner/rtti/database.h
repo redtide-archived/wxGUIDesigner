@@ -244,6 +244,8 @@ private:
     EventInfo       DoGetEventInfo     ( wxXmlNode *eventNode );
     PropertyInfo    DoGetPropertyInfo  ( wxXmlNode *propertyNode );
 
+    ClassType       ClassTypeFromString( const wxString &value ) const;
+
     ClassInfoMap    m_classes;
     PropertyTypeMap m_propTypes;
     wxArrayString   m_classList;
