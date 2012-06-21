@@ -49,7 +49,9 @@ namespace wxGDArtProvider
                                     size_t groupIndex );
 
     int      GetGroupImageListIndex( const wxString &categoryName,
-                                    size_t groupIndex );
+                                     const wxString &groupName );
+    int      GetGroupImageListIndex( const wxString &categoryName,
+                                     size_t groupIndex );
 
     size_t   GetItemCount         ( const wxString &categoryName,
                                     size_t groupIndex );

@@ -23,11 +23,11 @@ class wxCloseEvent;
 class wxCommandEvent;
 class wxString;
 
-class wxGDFrame : public wxFrame
+class wxGDMainFrame : public wxFrame
 {
 public:
-    wxGDFrame( wxGDHandler *handler, wxWindow *parent = NULL );
-    ~wxGDFrame();
+    wxGDMainFrame( wxGDHandler *handler, wxWindow *parent = NULL );
+    ~wxGDMainFrame();
 
     wxAuiManager *GetAUIManager() const { return m_mgr; }
     wxPanel      *GetAUIPanel()   const { return m_panel; }

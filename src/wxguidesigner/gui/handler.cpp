@@ -58,9 +58,9 @@
 wxGDHandler::wxGDHandler()
 :
 wxEvtHandler(),
-m_frame         ( NULL ),
 m_menuBar       ( NULL ),
 m_toolBar       ( NULL ),
+m_frame         ( NULL ),
 m_editBook      ( NULL ),
 m_palette       ( NULL ),
 m_propBook      ( NULL ),
@@ -138,7 +138,7 @@ wxGDHandler::~wxGDHandler()
 wxFrame *wxGDHandler::GetMainFrame( wxWindow *parent )
 {
     if(!m_frame)
-        m_frame = new wxGDFrame(this);
+        m_frame = new wxGDMainFrame(this);
 
     return m_frame;
 }

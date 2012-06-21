@@ -150,7 +150,7 @@ m_handler( handler )
 
     SetImageList( imageList );
 
-    int imgIndex = wxGDArtProvider::GetItemImageListIndex( "controls", "toplevel" );
+    int imgIndex = wxGDArtProvider::GetGroupImageListIndex( "controls", "toplevel" );
 
     AddPage( m_scrolled, _("Designer"), true, imgIndex );
 

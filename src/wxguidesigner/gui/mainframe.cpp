@@ -26,9 +26,9 @@
 #include "wxguidesigner/gui/handler.h"
 #include "wxguidesigner/gui/mainframe.h"
 //=============================================================================
-// wxGDFrame
+// wxGDMainFrame
 //=============================================================================
-wxGDFrame::wxGDFrame( wxGDHandler *handler, wxWindow *parent )
+wxGDMainFrame::wxGDMainFrame( wxGDHandler *handler, wxWindow *parent )
 :
 wxFrame(parent, wxID_ANY, "wxGUIDesigner", wxDefaultPosition,
         wxSize(630,480), wxDEFAULT_FRAME_STYLE | wxTAB_TRAVERSAL),
@@ -36,6 +36,9 @@ m_handler   (handler),
 m_panel     (NULL),
 m_mgr       (NULL)
 {
+//=============================================================================
+// Icon bundle
+//=============================================================================
     wxBitmap bmpLogo = wxXmlResource::Get()->LoadBitmap("logo");
     if( bmpLogo.IsOk() )
     {
@@ -52,7 +55,9 @@ m_mgr       (NULL)
 
         SetIcons(bundle);
     }
-
+//=============================================================================
+// Bars
+//=============================================================================
     wxMenuBar *menuBar = wxXmlResource::Get()->LoadMenuBar("MainMenu");
     SetMenuBar(menuBar);
     if(menuBar)
@@ -115,108 +120,108 @@ m_mgr       (NULL)
 //=============================================================================
 // Events
 //=============================================================================
-    Bind( wxEVT_CLOSE_WINDOW,         &wxGDFrame::OnClose, this );
+    Bind( wxEVT_CLOSE_WINDOW,         &wxGDMainFrame::OnClose, this );
 
-    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDFrame::OnAbout,
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDMainFrame::OnAbout,
                                 this, XRCID("wxID_ABOUT") );
 
-    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDFrame::OnPreferences,
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDMainFrame::OnPreferences,
                                 this, XRCID("wxID_PREFERENCES") );
 
-    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDFrame::OnExit,
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDMainFrame::OnExit,
                                 this, XRCID("wxID_EXIT") );
 //=============================================================================
 // Project
 //=============================================================================
-    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDFrame::OnNewProject,
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDMainFrame::OnNewProject,
                                 this, XRCID("wxID_NEW") );
 
-    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDFrame::OnOpenProject,
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDMainFrame::OnOpenProject,
                                 this, XRCID("wxID_OPEN") );
 
-    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDFrame::OnOpenRecent,
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDMainFrame::OnOpenRecent,
                                 this, XRCID("wxID_FILE1"), XRCID("wxID_FILE9") );
 
-    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDFrame::OnSaveAsProject,
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDMainFrame::OnSaveAsProject,
                                 this, XRCID("wxID_SAVEAS") );
 
-    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDFrame::OnSaveProject,
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDMainFrame::OnSaveProject,
                                 this, XRCID("wxID_SAVE") );
 //=============================================================================
 // Undo/Redo
 //=============================================================================
-    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDFrame::OnUndo,
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDMainFrame::OnUndo,
                                 this, XRCID("wxID_UNDO") );
 
-    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDFrame::OnRedo,
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDMainFrame::OnRedo,
                                 this, XRCID("wxID_REDO") );
 //=============================================================================
 // Clipboard
 //=============================================================================
-    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDFrame::OnCut,
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDMainFrame::OnCut,
                                 this, XRCID("wxID_CUT") );
 
-    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDFrame::OnCopy,
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDMainFrame::OnCopy,
                                 this, XRCID("wxID_COPY") );
 
-    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDFrame::OnPaste,
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDMainFrame::OnPaste,
                                 this, XRCID("wxID_PASTE") );
 
-    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDFrame::OnDelete,
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDMainFrame::OnDelete,
                                 this, XRCID("wxID_DELETE") );
 //=============================================================================
 // CodeGenerator
 //=============================================================================
-    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDFrame::OnGenerateCode,
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDMainFrame::OnGenerateCode,
                                 this, XRCID("wxID_EXECUTE") );
 //=============================================================================
 // Widget's alignment
 //=============================================================================
-    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDFrame::OnAlignLeft,
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDMainFrame::OnAlignLeft,
                                 this, XRCID("ID_ALIGN_LEFT") );
 
-    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDFrame::OnAlignCenterH,
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDMainFrame::OnAlignCenterH,
                                 this, XRCID("ID_ALIGN_CENTER_H") );
 
-    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDFrame::OnAlignRight,
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDMainFrame::OnAlignRight,
                                 this, XRCID("ID_ALIGN_RIGHT") );
 
-    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDFrame::OnAlignTop,
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDMainFrame::OnAlignTop,
                                 this, XRCID("ID_ALIGN_TOP") );
 
-    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDFrame::OnAlignCenterV,
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDMainFrame::OnAlignCenterV,
                                 this, XRCID("ID_ALIGN_CENTER_V") );
 
-    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDFrame::OnAlignBottom,
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDMainFrame::OnAlignBottom,
                                 this, XRCID("ID_ALIGN_BOTTOM") );
 
-    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDFrame::OnExpand,
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDMainFrame::OnExpand,
                                 this, XRCID("ID_EXPAND") );
 
-    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDFrame::OnStretch,
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDMainFrame::OnStretch,
                                 this, XRCID("ID_STRETCH") );
 //=============================================================================
 // Widget's borders
 //=============================================================================
-    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDFrame::OnBorderLeft,
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDMainFrame::OnBorderLeft,
                                 this, XRCID("ID_BORDER_LEFT") );
 
-    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDFrame::OnBorderRight,
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDMainFrame::OnBorderRight,
                                 this, XRCID("ID_BORDER_RIGHT") );
 
-    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDFrame::OnBorderTop,
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDMainFrame::OnBorderTop,
                                 this, XRCID("ID_BORDER_TOP") );
 
-    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDFrame::OnBorderBottom,
+    Bind( wxEVT_COMMAND_TOOL_CLICKED, &wxGDMainFrame::OnBorderBottom,
                                 this, XRCID("ID_BORDER_BOTTOM") );
 }
 
-wxGDFrame::~wxGDFrame()
+wxGDMainFrame::~wxGDMainFrame()
 {
     m_mgr->UnInit();
 }
 /*
-void wxGDFrame::LoadLayout()
+void wxGDMainFrame::LoadLayout()
 {
     wxGDSettings settings = m_handler->GetSettings();
 
@@ -256,7 +261,7 @@ void wxGDFrame::LoadLayout()
     m_history.Load( *wxConfigBase::Get() );
 }
 */
-void wxGDFrame::LoadLayout()
+void wxGDMainFrame::LoadLayout()
 {
     wxString perspective;
     bool     maximized, iconized;
@@ -299,7 +304,7 @@ void wxGDFrame::LoadLayout()
     m_history.Load( *wxConfigBase::Get() );
 }
 
-void wxGDFrame::SaveLayout()
+void wxGDMainFrame::SaveLayout()
 {
 //  wxGDSettings settings = m_handler->GetSettings();
     wxString perspective  = m_mgr->SavePerspective();
@@ -329,7 +334,7 @@ void wxGDFrame::SaveLayout()
 //  settings->Update();
 }
 
-bool wxGDFrame::SaveWarning()
+bool wxGDMainFrame::SaveWarning()
 {
     int result = wxYES;
 
@@ -348,7 +353,7 @@ bool wxGDFrame::SaveWarning()
     return( result != wxCANCEL );
 }
 
-void wxGDFrame::OnAbout( wxCommandEvent & )
+void wxGDMainFrame::OnAbout( wxCommandEvent & )
 {
     if(!m_handler)
         return;
@@ -361,7 +366,7 @@ void wxGDFrame::OnAbout( wxCommandEvent & )
     }
 }
 
-void wxGDFrame::OnPreferences( wxCommandEvent & )
+void wxGDMainFrame::OnPreferences( wxCommandEvent & )
 {
     if(!m_handler)
         return;
@@ -374,12 +379,12 @@ void wxGDFrame::OnPreferences( wxCommandEvent & )
     }
 }
 
-void wxGDFrame::OnExit( wxCommandEvent & )
+void wxGDMainFrame::OnExit( wxCommandEvent & )
 {
     Close();
 }
 
-void wxGDFrame::OnClose( wxCloseEvent &event )
+void wxGDMainFrame::OnClose( wxCloseEvent &event )
 {
     if( !SaveWarning() )
         return;
@@ -391,7 +396,7 @@ void wxGDFrame::OnClose( wxCloseEvent &event )
 //=============================================================================
 // Project
 //=============================================================================
-void wxGDFrame::OnNewProject( wxCommandEvent & )
+void wxGDMainFrame::OnNewProject( wxCommandEvent & )
 {
     if( !SaveWarning() )
         return;
@@ -399,7 +404,7 @@ void wxGDFrame::OnNewProject( wxCommandEvent & )
     wxGUIDesigner::Get()->NewProject();
 }
 
-void wxGDFrame::OnOpenProject( wxCommandEvent & )
+void wxGDMainFrame::OnOpenProject( wxCommandEvent & )
 {
     if( !SaveWarning() )
         return;
@@ -422,7 +427,7 @@ void wxGDFrame::OnOpenProject( wxCommandEvent & )
     };
 }
 
-void wxGDFrame::OnOpenRecent( wxCommandEvent &event )
+void wxGDMainFrame::OnOpenRecent( wxCommandEvent &event )
 {
     if( !SaveWarning() )
         return;
@@ -468,7 +473,7 @@ void wxGDFrame::OnOpenRecent( wxCommandEvent &event )
     }
 }
 
-void wxGDFrame::OnSaveAsProject( wxCommandEvent & )
+void wxGDMainFrame::OnSaveAsProject( wxCommandEvent & )
 {
     wxFileDialog dlg( this, _("Save Project"), m_lastDir, wxEmptyString,
                       _("XRC Files (*.xrc)|*.xrc"), wxFD_SAVE );
@@ -500,7 +505,7 @@ void wxGDFrame::OnSaveAsProject( wxCommandEvent & )
     }
 }
 
-void wxGDFrame::OnSaveProject( wxCommandEvent &event )
+void wxGDMainFrame::OnSaveProject( wxCommandEvent &event )
 {
     wxString currPrj = wxGUIDesigner::Get()->GetProjectFileName();
 
@@ -517,105 +522,105 @@ void wxGDFrame::OnSaveProject( wxCommandEvent &event )
 //=============================================================================
 // Undo/Redo
 //=============================================================================
-void wxGDFrame::OnUndo( wxCommandEvent &event )
+void wxGDMainFrame::OnUndo( wxCommandEvent &event )
 {
     
 }
 
-void wxGDFrame::OnRedo( wxCommandEvent &event )
+void wxGDMainFrame::OnRedo( wxCommandEvent &event )
 {
     
 }
 //=============================================================================
 // Clipboard
 //=============================================================================
-void wxGDFrame::OnCut( wxCommandEvent &event )
+void wxGDMainFrame::OnCut( wxCommandEvent &event )
 {
     
 }
 
-void wxGDFrame::OnCopy( wxCommandEvent &event )
+void wxGDMainFrame::OnCopy( wxCommandEvent &event )
 {
     
 }
 
-void wxGDFrame::OnPaste( wxCommandEvent &event )
+void wxGDMainFrame::OnPaste( wxCommandEvent &event )
 {
     
 }
 
-void wxGDFrame::OnDelete( wxCommandEvent &event )
+void wxGDMainFrame::OnDelete( wxCommandEvent &event )
 {
     
 }
 //=============================================================================
 // CodeGenerator
 //=============================================================================
-void wxGDFrame::OnGenerateCode( wxCommandEvent & )
+void wxGDMainFrame::OnGenerateCode( wxCommandEvent & )
 {
     wxGUIDesigner::Get()->GenerateCode();
 }
 //=============================================================================
 // Widget's alignment
 //=============================================================================
-void wxGDFrame::OnAlignLeft( wxCommandEvent &event )
+void wxGDMainFrame::OnAlignLeft( wxCommandEvent &event )
 {
     
 }
 
-void wxGDFrame::OnAlignCenterH( wxCommandEvent &event )
+void wxGDMainFrame::OnAlignCenterH( wxCommandEvent &event )
 {
     
 }
 
-void wxGDFrame::OnAlignRight( wxCommandEvent &event )
+void wxGDMainFrame::OnAlignRight( wxCommandEvent &event )
 {
     
 }
 
-void wxGDFrame::OnAlignTop( wxCommandEvent &event )
+void wxGDMainFrame::OnAlignTop( wxCommandEvent &event )
 {
     
 }
 
-void wxGDFrame::OnAlignCenterV( wxCommandEvent &event )
+void wxGDMainFrame::OnAlignCenterV( wxCommandEvent &event )
 {
     
 }
 
-void wxGDFrame::OnAlignBottom( wxCommandEvent &event )
+void wxGDMainFrame::OnAlignBottom( wxCommandEvent &event )
 {
     
 }
 
-void wxGDFrame::OnExpand( wxCommandEvent &event )
+void wxGDMainFrame::OnExpand( wxCommandEvent &event )
 {
     
 }
 
-void wxGDFrame::OnStretch( wxCommandEvent &event )
+void wxGDMainFrame::OnStretch( wxCommandEvent &event )
 {
     
 }
 //=============================================================================
 // Widget's borders
 //=============================================================================
-void wxGDFrame::OnBorderLeft( wxCommandEvent &event )
+void wxGDMainFrame::OnBorderLeft( wxCommandEvent &event )
 {
     
 }
 
-void wxGDFrame::OnBorderRight( wxCommandEvent &event )
+void wxGDMainFrame::OnBorderRight( wxCommandEvent &event )
 {
     
 }
 
-void wxGDFrame::OnBorderTop( wxCommandEvent &event )
+void wxGDMainFrame::OnBorderTop( wxCommandEvent &event )
 {
     
 }
 
-void wxGDFrame::OnBorderBottom( wxCommandEvent &event )
+void wxGDMainFrame::OnBorderBottom( wxCommandEvent &event )
 {
     
 }

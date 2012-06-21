@@ -253,6 +253,21 @@ wxString wxGDArtProvider::GetGroupLabel( const wxString &categoryName,
 }
 
 int wxGDArtProvider::GetGroupImageListIndex( const wxString &categoryName,
+                                             const wxString &groupName )
+{
+    if( CategoryExists( categoryName ) )
+    {
+        for( size_t g = 0; g < GetGroupCount( categoryName ); g++ )
+        {
+            if( GetGroupName( categoryName, g ) == groupName )
+                return GetGroupImageListIndex( categoryName, g );
+        }
+    }
+
+    return 0;
+}
+
+int wxGDArtProvider::GetGroupImageListIndex( const wxString &categoryName,
                                              size_t groupIndex )
 {
     if( GroupExists( categoryName, groupIndex )  )
@@ -285,12 +300,12 @@ int wxGDArtProvider::GetItemImageListIndex( const wxString &categoryName,
 {
     if( CategoryExists( categoryName ) )
     {
-        for( size_t i = 0; i < GetGroupCount( categoryName ); i++ )
+        for( size_t g = 0; g < GetGroupCount( categoryName ); g++ )
         {
-            for( size_t n = 0; n < GetItemCount( categoryName, i ); n++ )
+            for( size_t i = 0; i < GetItemCount( categoryName, g ); i++ )
             {
-                if( GetItemLabel( categoryName, i, n ) == itemName )
-                    return GetItemImageListIndex( categoryName, i, n );
+                if( GetItemLabel( categoryName, g, i ) == itemName )
+                    return GetItemImageListIndex( categoryName, g, i );
             }
         }
     }

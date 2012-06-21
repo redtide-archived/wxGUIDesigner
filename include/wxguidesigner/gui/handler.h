@@ -44,7 +44,7 @@ class wxGDEditorBook;
 class wxGDPropertyBook;
 class wxGDToolPalette;
 class wxGDTreeView;
-class wxGDFrame;
+class wxGDMainFrame;
 class wxGDDialogPrefs;
 class Settings;
 class ObjectTree;
@@ -89,9 +89,9 @@ private:
 
     void SendEvent      ( wxEvent &event, bool delayed = false );
 
-    wxGDFrame           *m_frame;
     wxMenuBar           *m_menuBar;
     wxToolBar           *m_toolBar;
+    wxGDMainFrame       *m_frame;
     wxGDEditorBook      *m_editBook;
     wxGDToolPalette     *m_palette;
     wxGDPropertyBook    *m_propBook;
