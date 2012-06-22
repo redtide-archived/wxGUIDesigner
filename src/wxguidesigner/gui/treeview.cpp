@@ -40,7 +40,7 @@ wxTreeCtrl( parent, wxID_ANY, wxDefaultPosition, wxDefaultSize,
                     wxTR_DEFAULT_STYLE | wxTR_HIDE_ROOT ),
 m_handler( handler )
 {
-    wxImageList *imageList = wxGDArtProvider::GroupsImageList;
+    wxImageList *imageList = wxGDArtProvider::ImageList;
     if( !imageList )
         return;
 

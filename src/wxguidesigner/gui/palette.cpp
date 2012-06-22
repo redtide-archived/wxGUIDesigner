@@ -31,7 +31,7 @@ wxGDToolPalette::wxGDToolPalette( wxGDHandler *handler, wxWindow* parent )
 wxNotebook( parent, wxID_ANY ),
 m_handler( handler )
 {
-    wxImageList *imageList = wxGDArtProvider::GroupsImageList;
+    wxImageList *imageList = wxGDArtProvider::SmallImageList;
     if( !imageList )
         return;
 
@@ -56,7 +56,7 @@ m_handler( handler )
             else
             {
                 idx = wxGDArtProvider::GetItemImageListIndex( c, g, i );
-                wxBitmap bmp = wxGDArtProvider::ItemsImageList->GetBitmap(idx);
+                wxBitmap bmp = wxGDArtProvider::ImageList->GetBitmap(idx);
                 tb->AddTool( wxID_ANY, item, bmp, item );
             }
         }

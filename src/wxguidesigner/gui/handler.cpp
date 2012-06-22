@@ -99,7 +99,8 @@ m_tree          ( new ObjectTree() )//,
     wxConfigBase::Get()->Read( "locale/enabled",  &enabled,  false );
     wxConfigBase::Get()->Read( "locale/selected", &selected, 0 );
 
-    wxGDArtProvider::Load();
+    // Load imagelists shared by wxGDTreeView and wxGDToolPalette
+    wxGDArtProvider::Load("controls");
 
     if( enabled )
     {
@@ -170,6 +171,9 @@ wxNotebook *wxGDHandler::GetEditorBook( wxWindow *parent )
 {
     if( !m_editBook )
     {
+        // Force groups to use small imagelist
+        wxGDArtProvider::Load( "languages", true );
+
         m_editBook = new wxGDEditorBook( this, parent );
         m_handlers.push_back( m_editBook );
     }

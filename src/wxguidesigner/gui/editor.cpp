@@ -144,7 +144,7 @@ m_handler( handler )
     reSizer->Fit( m_resizer );
 
     // Editor imagelist
-    wxImageList *imageList = wxGDArtProvider::GroupsImageList;
+    wxImageList *imageList = wxGDArtProvider::SmallImageList;
     if( !imageList )
         return;
 
@@ -189,7 +189,7 @@ void wxGDEditorBook::LoadCodeEditorPages()
         if( count )
         {
             wxNotebook  *nb        = new wxNotebook( this, wxID_ANY );
-            wxImageList *imageList = wxGDArtProvider::ItemsImageList;
+            wxImageList *imageList = wxGDArtProvider::SmallImageList;
 
             if( !imageList )
                 continue;
