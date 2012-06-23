@@ -28,10 +28,16 @@
 
 #include "wxguidesigner/events.h"
 #include "wxguidesigner/utils.h"
+
+#include "wxguidesigner/defs.h"
+#include "wxguidesigner/interfaces/iobject.h"
+#include "wxguidesigner/rtti/database.h"
 #include "wxguidesigner/rtti/tree.h"
+
 #include "wxguidesigner/gui/artprovider.h"
 #include "wxguidesigner/gui/utils/draw.h"
 #include "wxguidesigner/gui/handler.h"
+#include "wxguidesigner/gui/debugwindow.h"
 #include "wxguidesigner/gui/designer.h"
 #include "wxguidesigner/gui/glossybutton.h"
 #include "wxguidesigner/gui/editor.h"
@@ -166,6 +172,7 @@ m_handler( handler )
 
 wxGDEditorBook::~wxGDEditorBook()
 {
+    m_objects.clear();
 }
 
 void wxGDEditorBook::LoadCodeEditorPages()
@@ -230,39 +237,61 @@ void wxGDEditorBook::OnDesignerResize( wxSizeEvent &event )
 
 void wxGDEditorBook::OnObjectCreated( wxGDObjectEvent &event )
 {
-    wxObject *wxobject = event.GetEventObject();
-    Object   object    = event.GetObject();
-//  wxString xrcText   = event.GetString();
-
-    if( !object || !wxobject )
+    Object object = event.GetObject();
+    if( !object )
         return;
 
-    wxString name      = object->GetName();
     wxString className = object->GetClassName();
+    wxObject *wxobject = wxCreateDynamicObject( className );
+    if( !object )
+        return;
+
+    wxLogMessage( className + " " + _("created") );
+
+    wxGDObject item( object, wxobject );
+    m_objects.insert( item );
+
+    wxWindow *wxwindow = wxDynamicCast( wxobject, wxWindow );
+    if( !wxwindow )
+        return;
+
+    Object parent = object->GetParent();
+    wxGDObjects::iterator it = m_objects.find( parent );
+
+    wxWindow *wxparent = NULL;
+    if( it != m_objects.end() )
+    {
+        wxparent = wxDynamicCast( (*it).second, wxWindow );
+    }
+    else if( object->IsTopLevel() )
+    {
+        wxparent = m_client;
+    }
 
     // Load the xrcText in memory so access it and load the object
-    wxXmlDocument doc = m_handler->GetXRCProject();
+    wxXmlDocument *doc = m_handler->GetXRCProject();
     wxStringOutputStream sout;
-    doc.Save( sout, 4 );
+    doc->Save( sout, 4 );
     wxString xrcText = sout.GetString();
     wxMemoryFSHandler::AddFile("xrc.xrc", xrcText );
     wxXmlResource::Get()->Load("memory:xrc.xrc");
+
+    wxString name = object->GetName();
+    if( wxXmlResource::Get()->LoadObjectRecursively( wxwindow, wxparent, name, className ) )
+    {
+        if( object->IsTopLevel() )
+        {
+            wxBoxSizer *sizer = new wxBoxSizer( wxVERTICAL );
+            sizer->Add( wxwindow, 1, wxEXPAND );
+            m_client->SetSizer( sizer );
+            m_resizer->SetSize( wxwindow->GetBestSize() );
+        }
+    }
+
     wxStyledTextCtrl *xrcEditor = wxDynamicCast( GetPage(1), wxStyledTextCtrl );
     if( xrcEditor )
         xrcEditor->SetText( xrcText );
-/*
-    if( wxXmlResource::Get()->LoadObject( wxobject, m_client, name, className ) )
-    {
-        wxWindow *window = wxDynamicCast( object, wxWindow );
-        if( window )
-        {
-            wxBoxSizer *sizer = new wxBoxSizer( wxVERTICAL );
-            sizer->Add( window, 1, wxEXPAND );
-            m_client->SetSizer( sizer );
-            m_resizer->SetSize( window->GetBestSize() );
-        }
-    }
-*/
+
     // Delete the temporary file
     wxMemoryFSHandler::RemoveFile("xrc.xrc");
 }

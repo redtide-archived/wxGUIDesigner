@@ -12,6 +12,10 @@
 #define __WXGUIDESIGNER_GUI_DEBUGWINDOW_H__
 
 class wxTextCtrl;
+class wxWindow;
+class wxString;
+class wxCommandEvent;
+
 class wxGDHandler;
 
 class wxGDDebugWindow : public wxTextCtrl
@@ -20,11 +24,9 @@ public:
     wxGDDebugWindow( wxGDHandler *handler, wxWindow *parent );
     virtual ~wxGDDebugWindow();
 
-    void AddMessage ( const wxString &message );
-    void AddWarning ( const wxString &message );
-    void AddError   ( const wxString &message );
-
 private:
+    void OnTextUpdated( wxCommandEvent &event );
+
     wxGDHandler *m_handler;
 };
 

@@ -8,22 +8,24 @@
 // Copyleft:    (ɔ) Andrea Zanellato
 // Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
+#include <wx/any.h>
+#include <wx/sstream.h>
+#include <wx/bitmap.h>
+#include <wx/gdicmn.h>
+#include <wx/event.h>
+#include <wx/filename.h>
+#include <wx/font.h>
+#include <wx/log.h>
+#include <wx/tokenzr.h>
+#include <wx/xml/xml.h>
+
+#include "wxguidesigner/interfaces/iobject.h"
 #include "wxguidesigner/rtti/flags.h"
 #include "wxguidesigner/rtti/database.h"
 #include "wxguidesigner/rtti/tree.h"
 
 #include "wxguidesigner/utils.h"
 #include "wxguidesigner/xrc/object.h"
-
-#include <wx/bitmap.h>
-#include <wx/gdicmn.h>
-#include <wx/event.h>
-#include <wx/filename.h>
-#include <wx/font.h>
-#include <wx/tokenzr.h>
-#include <wx/xml/xml.h>
-
-#include <wx/log.h>
 
 using namespace std;
 //=============================================================================
@@ -287,7 +289,7 @@ wxString ObjectNode::GetDescription() const
 wxString ObjectNode::GetName()
 {
     Property prop = GetProperty("name");
-    if( prop.get() )
+    if( prop )
         return prop->GetAsString();
 
     return wxEmptyString;
@@ -377,7 +379,7 @@ Event ObjectNode::GetEvent( const wxString &name )
 void ObjectNode::AddProperty( Property prop )
 {
     // TODO: need to be recursive?
-    if( prop.get() )
+    if( prop )
     {
         m_props.push_back( prop );
 
@@ -402,12 +404,12 @@ Property ObjectNode::GetProperty( size_t index )
 
 Property ObjectNode::GetChildProperty( Property parent, const wxString &name )
 {
-    if( parent.get() )
+    if( parent )
     {
         for( size_t i = 0; i < parent->GetChildCount(); i++ )
         {
             Property prop = parent->GetChild( i );
-            if( prop.get() && prop->GetName() == name )
+            if( prop && prop->GetName() == name )
                 return prop;
         }
     }
@@ -422,7 +424,7 @@ Property ObjectNode::GetProperty( const wxString &name )
             return *it;
 
         Property prop = GetChildProperty( *it, name );
-        if( prop.get() && prop->GetName() == name )
+        if( prop && prop->GetName() == name )
             return prop;
     }
 
@@ -448,7 +450,7 @@ void ObjectNode::AddBaseInfo( ClassInfo info )
 
 wxString ObjectNode::GetBaseName( size_t index )
 {
-    if( m_info.get() )
+    if( m_info )
         return m_info->GetBaseName( index );
 
     return wxEmptyString;
@@ -518,6 +520,7 @@ wxXmlNode *ObjectNode::SerializeChildren( Objects children, wxXmlNode *parent )
     {
         Object obj = *it;
         objNode = obj->Serialize( parent );
+        parent->AddChild( objNode );
     }
 
     return objNode;
@@ -615,20 +618,20 @@ Object ObjectTree::CreateObject( const wxString &className, Object parent )
 //  This function is not called for the special root object.
 
     ClassInfo info = ClassInfoDB::Get()->GetClassInfo( className );
-    if( !info.get() )
+    if( !info )
     {
         wxLogError(_("Unknown object type") );
         return Object();
     }
 
-    if( !parent.get() )
+    if( !parent )
         parent = m_sel;
 
     bool   allow    = false;
     size_t childCount = GetChildInfoCount( parent, info );
 
     // Try all parents
-    while( parent.get() )
+    while( parent )
     {
         allow = parent->GetClassInfo()->IsChildInfoOk( className, childCount );
 
@@ -687,7 +690,7 @@ Object ObjectTree::CreateObject( const wxString &className, Object parent )
         wxString     baseName = info->GetBaseName( i );
         ClassInfo    baseInfo = ClassInfoDB::Get()->GetClassInfo( baseName );
 
-        if( baseInfo.get() )
+        if( baseInfo )
         {
             PropertyInfo catInfo( new PropertyInfoNode
             ( PROPERTY_TYPE_CATEGORY, baseName, baseName ) );
@@ -716,6 +719,24 @@ Object ObjectTree::CreateObject( const wxString &className, Object parent )
     }
 
     return object;
+}
+
+Object ObjectTree::GetTopLevelObject( Object object )
+{
+    Object ret = Object();
+    if( !object )
+        return ret;
+
+    Object parent = object;
+    while( parent )
+    {
+        if( parent->IsTopLevel() )
+            return parent;
+
+        parent = parent->GetParent();
+    }
+
+    return ret;
 }
 
 void ObjectTree::SelectObject( Object object, bool withEvent )
@@ -781,7 +802,7 @@ Object ObjectTree::DoCreateObject( Object parentObject, wxXmlNode *childNode,
         // Create the object
         childObject = CreateObject( className, parentObject );
 
-        if( childObject.get() )
+        if( childObject )
         {
             // Get all object's property values
             wxXmlNode *subNode = childNode->GetChildren();
@@ -794,7 +815,7 @@ Object ObjectTree::DoCreateObject( Object parentObject, wxXmlNode *childNode,
                     DoCreateObject( childObject, subNode );
 
                     Property prop  = childObject->GetProperty("name");
-                    if( prop.get() )
+                    if( prop )
                         prop->SetValue( subNode->GetAttribute("name") );
                 }
                 else if( nodeName == "object_ref" )
@@ -806,7 +827,7 @@ Object ObjectTree::DoCreateObject( Object parentObject, wxXmlNode *childNode,
                     Property prop    = childObject->GetProperty("name");
                     wxString refName = subNode->GetAttribute("ref");
 
-                    if( prop.get() )
+                    if( prop )
                     {
                         prop->SetValue( subNode->GetAttribute("name") );
                         prop->AddAttribute( "ref", refName );
@@ -819,7 +840,7 @@ Object ObjectTree::DoCreateObject( Object parentObject, wxXmlNode *childNode,
                     Property prop  = childObject->GetProperty( nodeName );
                     wxString value = subNode->GetNodeContent();
 
-                    if( prop.get() )
+                    if( prop )
                     {
                         if( !value.empty() )
                         {
@@ -892,6 +913,16 @@ Object ObjectTree::DoCreateObject( Object parentObject, wxXmlNode *childNode,
     }
 
     return childObject;
+}
+
+bool ObjectTree::Serialize( wxXmlNode *rootNode )
+{
+    if( !m_root || !rootNode )
+        return false;
+
+    m_root->SerializeChildren( m_root->GetChildren(), rootNode );
+
+    return true;
 }
 
 bool ObjectTree::Serialize( const wxString &filePath )

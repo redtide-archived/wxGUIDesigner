@@ -11,10 +11,10 @@
 #ifndef __WXGUIDESIGNER_GUI_HANDLER_H__
 #define __WXGUIDESIGNER_GUI_HANDLER_H__
 
-#include <wx/xml/xml.h>
+#include <map>
+#include <boost/tr1/memory.hpp>
 #include "wxguidesigner/dllimpexp.h"
 #include "wxguidesigner/defs.h"
-#include <map>
 
 class wxEvent;
 class wxEvtHandler;
@@ -32,6 +32,7 @@ class wxStyledTextCtrl;
 class wxToolBar;
 class wxTreeCtrl;
 class wxWindow;
+class wxXmlDocument;
 class wxXmlResource;
 
 #ifdef __WXDEBUG__
@@ -52,7 +53,7 @@ class ObjectTree;
 using namespace std;
 using namespace std::tr1;
 
-typedef shared_ptr< Settings > wxGDSettings;
+//typedef shared_ptr< Settings > wxGDSettings;
 
 class DLLIMPEXP_WXGUIDESIGNER wxGDHandler : public wxEvtHandler
 {
@@ -71,11 +72,17 @@ public:
     wxImageList     *GetControlsImageList();
 
 #ifdef __WXDEBUG__
-    wxTextCtrl      *GetDebugWindow     ( wxWindow *parent );
+    wxGDDebugWindow *GetDebugWindow     ( wxWindow *parent = NULL );
 #endif
 
-    wxXmlDocument   GetXRCProject() const { return m_xrcDoc; }
-    wxGDSettings GetSettings() const;
+    void            RecreateXRCProject();
+    wxXmlDocument   *GetXRCProject()
+    {
+        RecreateXRCProject();
+        return m_xrcDoc;
+    }
+
+//  wxGDSettings    GetSettings() const;
 //=============================================================================
 // Object operations
 //=============================================================================
@@ -96,7 +103,7 @@ private:
     wxGDToolPalette     *m_palette;
     wxGDPropertyBook    *m_propBook;
     wxGDTreeView        *m_treeView;
-    wxXmlDocument       m_xrcDoc;
+    wxXmlDocument       *m_xrcDoc;
 
     vector< wxEvtHandler * >        m_handlers;
 #ifdef __WXDEBUG__
@@ -104,7 +111,7 @@ private:
     wxLog                           *m_logOld;
 #endif
     shared_ptr< ObjectTree >        m_tree;
-    wxGDSettings                    m_settings;
+//  wxGDSettings                    m_settings;
     wxLocale                        m_locale;
 };
 

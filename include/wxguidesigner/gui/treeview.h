@@ -11,9 +11,6 @@
 #ifndef __WXGUIDESIGNER_GUI_TREEVIEW_H__
 #define __WXGUIDESIGNER_GUI_TREEVIEW_H__
 
-#include "wxguidesigner/interfaces/iobject.h"
-#include "wxguidesigner/defs.h"
-
 class wxTreeCtrl;
 class wxTreeEvent;
 

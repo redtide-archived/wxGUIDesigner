@@ -12,6 +12,11 @@
 #include <wx/treectrl.h>
 #include <wx/xrc/xmlres.h>
 
+#include "wxguidesigner/defs.h"
+#include "wxguidesigner/interfaces/iobject.h"
+#include "wxguidesigner/rtti/database.h"
+#include "wxguidesigner/rtti/tree.h"
+
 #include "wxguidesigner/gui/treeview.h"
 #include "wxguidesigner/gui/artprovider.h"
 #include "wxguidesigner/gui/handler.h"

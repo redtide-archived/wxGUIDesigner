@@ -11,8 +11,8 @@
 #ifndef __WXGUIDESIGNER_GUI_EDITOR_H__
 #define __WXGUIDESIGNER_GUI_EDITOR_H__
 
-#include "wxguidesigner/interfaces/iobject.h"
-#include "wxguidesigner/defs.h"
+#include <utility>
+#include <map>
 
 class wxNotebook;
 class wxPanel;
@@ -34,6 +34,9 @@ public:
     ~wxGDEditorBook();
 
 private:
+    typedef pair< Object, wxObject * > wxGDObject;
+    typedef map< Object, wxObject * >  wxGDObjects;
+
     void LoadCodeEditorPages();
 
     void OnDesignerResize( wxSizeEvent &event );
@@ -55,6 +58,8 @@ private:
     wxGlossyButton      *m_titleBmpMin;
     wxGlossyButton      *m_titleBmpMax;
     wxGlossyButton      *m_titleBmpClose;
+
+    wxGDObjects         m_objects;
 };
 
 #endif //__WXGUIDESIGNER_GUI_EDITOR_H__

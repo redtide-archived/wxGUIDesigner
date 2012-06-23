@@ -29,9 +29,13 @@
 #include <wx/xrc/xh_aui.h>
 #include <wx/xrc/xh_stc.h>
 #include <wx/xrc/xh_propgrid.h>
+
 #include "wx/xrc/gd_frame.h"
 #include "wx/xrc/gd_wizard.h"
 
+#include "wxguidesigner/defs.h"
+#include "wxguidesigner/interfaces/iobject.h"
+#include "wxguidesigner/rtti/database.h"
 #include "wxguidesigner/rtti/tree.h"
 
 //#include "wxguidesigner/settings.h"
@@ -65,6 +69,7 @@ m_editBook      ( NULL ),
 m_palette       ( NULL ),
 m_propBook      ( NULL ),
 m_treeView      ( NULL ),
+m_xrcDoc        ( NULL ),
 #ifdef __WXDEBUG__
 m_debug         ( NULL ),
 m_logOld        ( NULL ),
@@ -114,6 +119,12 @@ m_tree          ( new ObjectTree() )//,
         SelectLanguage( language );
     }
 
+    m_xrcDoc = new wxXmlDocument();
+    RecreateXRCProject();
+}
+
+void wxGDHandler::RecreateXRCProject()
+{
     int xrcVerSel;
     wxString xrcVer = "2.5.3.0";
     wxConfigBase::Get()->Read( "locale/selected", &xrcVerSel, 1 );
@@ -121,17 +132,26 @@ m_tree          ( new ObjectTree() )//,
     if( xrcVerSel == 0 )
         xrcVer = "2.3.0.1";
 
-    wxXmlNode *root = new wxXmlNode( NULL, wxXML_ELEMENT_NODE, "resource" );
+    wxXmlNode *root = m_xrcDoc->GetRoot();
+    if( root )
+    {
+        m_xrcDoc->DetachRoot();
+        delete root;
+    }
+
+    root = new wxXmlNode( NULL, wxXML_ELEMENT_NODE, "resource" );
     root->AddAttribute( "xmlns", "http://www.wxwidgets.org/wxxrc" );
     root->AddAttribute( "version", xrcVer );
-    m_xrcDoc.SetRoot( root );
+
+    m_xrcDoc->SetRoot( root );
+    m_tree->Serialize( root );
 }
 
 wxGDHandler::~wxGDHandler()
 {
     delete wxLog::SetActiveTarget( m_logOld );
     m_handlers.clear();
-    wxXmlResource::Get()->ClearHandlers();
+//  wxXmlResource::Get()->ClearHandlers(); done in wxXmlResource dtor
     wxGDArtProvider::Unload();
 //  m_tree = shared_ptr< ObjectTree >();
 }
@@ -145,8 +165,16 @@ wxFrame *wxGDHandler::GetMainFrame( wxWindow *parent )
 }
 
 #ifdef __WXDEBUG__
-wxTextCtrl *wxGDHandler::GetDebugWindow( wxWindow *parent )
+wxGDDebugWindow *wxGDHandler::GetDebugWindow( wxWindow *parent )
 {
+    if( !parent )
+    {
+        if( m_frame )
+            parent = m_frame;
+        else
+            return NULL;
+    }
+
     if( !m_debug )
     {
         m_debug = new wxGDDebugWindow( this, parent );
@@ -218,44 +246,17 @@ wxTreeCtrl *wxGDHandler::GetTreeView( wxWindow *parent )
 
     return m_treeView;
 }
-
+/*
 wxGDSettings wxGDHandler::GetSettings() const
 {
     return m_settings;
 }
-
+*/
 void wxGDHandler::CreateObject( const wxString &className, int senderId )
 {
-    // Create the object informations
     Object object = m_tree->CreateObject( className );
-    Object parent = m_tree->GetSelectObject();
 
-    if( !object || !parent )
-        return;
-
-    // Create the real object
-    wxObject *wxobject = wxCreateDynamicObject( className );
-    if( !wxobject )
-        return;
-
-    wxLogMessage( className + " " + _("created") );
-
-    // Serialize the object into the xrc project
-    wxXmlNode *objNode = object->Serialize( m_xrcDoc.GetRoot() );
-    m_xrcDoc.GetRoot()->AddChild( objNode );
-/*
-    // Save the xrc file as a string to print it in the xrc editor
-    wxStringOutputStream sout;
-    m_xrcDoc.Save( sout, 4 );
-
-    // Print the XML result
-    wxStyledTextCtrl *xrcEdit = GetEditor( NULL, "xrc" );
-    wxString xrcText = sout.GetString();
-    if( xrcEdit )
-        xrcEdit->SetText( xrcText );
-*/
     wxGDObjectEvent event( wxGD_EVT_OBJECT_CREATED, senderId, object );
-    event.SetEventObject( wxobject );
     SendEvent( event );
 }
 

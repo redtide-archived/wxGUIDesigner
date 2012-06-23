@@ -24,7 +24,7 @@
 using namespace wxGDArtProvider;
 
 wxGDIconCategoryMap  wxGDArtProvider::Categories;
-wxImageList         *wxGDArtProvider::ImageList  = NULL;
+wxImageList         *wxGDArtProvider::ImageList      = NULL;
 wxImageList         *wxGDArtProvider::SmallImageList = NULL;
 
 void wxGDArtProvider::Init()
@@ -215,9 +215,6 @@ wxBitmap wxGDArtProvider::LoadBitmap  ( const wxString &category,
     return wxNullBitmap;
 }
 
-//=============================================================================
-//  wxGDArtProvider public functions
-//=============================================================================
 bool wxGDArtProvider::CategoryExists( const wxString &categoryName )
 {
     wxGDIconCategoryMap::iterator category = Categories.find( categoryName );
@@ -277,7 +274,7 @@ int wxGDArtProvider::GetGroupImageListIndex( const wxString &categoryName,
         }
     }
 
-    return 0;
+    return 0; // wxART_MISSING_IMAGE
 }
 
 int wxGDArtProvider::GetGroupImageListIndex( const wxString &categoryName,
@@ -295,7 +292,7 @@ size_t wxGDArtProvider::GetItemCount  ( const wxString &categoryName,
     if( GroupExists( categoryName, groupIndex ) )
         return Categories[categoryName].at(groupIndex).second.size();
 
-    return 0;
+    return 0; // wxART_MISSING_IMAGE
 }
 
 wxString wxGDArtProvider::GetItemLabel( const wxString &categoryName,
@@ -323,7 +320,7 @@ int wxGDArtProvider::GetItemImageListIndex( const wxString &categoryName,
         }
     }
 
-    return 0;
+    return 0; // wxART_MISSING_IMAGE
 }
 
 int wxGDArtProvider::GetItemImageListIndex( const wxString &categoryName,

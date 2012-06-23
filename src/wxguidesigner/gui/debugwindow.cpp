@@ -9,6 +9,7 @@
 // Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
 #include <wx/textctrl.h>
+#include <wx/tokenzr.h>
 
 #include "wxguidesigner/gui/handler.h"
 #include "wxguidesigner/gui/debugwindow.h"
@@ -19,35 +20,26 @@ wxTextCtrl( parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize,
                     wxTE_MULTILINE | wxTE_READONLY | wxTE_LEFT ),
 m_handler( handler )
 {
+    SetBackgroundColour( *wxBLACK );
+    SetForegroundColour( wxColour(0,255,0) );
+
+    Bind( wxEVT_COMMAND_TEXT_UPDATED, &wxGDDebugWindow::OnTextUpdated, this );
 }
 
 wxGDDebugWindow::~wxGDDebugWindow()
 {
 }
 
-void wxGDDebugWindow::AddMessage(const wxString& message)
+void wxGDDebugWindow::OnTextUpdated( wxCommandEvent &event )
 {
-    SetDefaultStyle( wxTextAttr( wxColour( 88,184,53 ) ) );
-    AppendText(_("Ok: "));
+    wxString msg = event.GetString();
 
-    SetDefaultStyle( wxTextAttr( wxColour( *wxBLACK ) ) );
-    AppendText( message + "\n" );
-}
-
-void wxGDDebugWindow::AddWarning(const wxString& message)
-{
-    SetDefaultStyle( wxTextAttr( wxColour( 223,212,29 ) ) );
-    AppendText(_("Warning: "));
-
-    SetDefaultStyle( wxTextAttr( wxColour( *wxBLACK ) ) );
-    AppendText( message + "\n" );
-}
-
-void wxGDDebugWindow::AddError(const wxString& message)
-{
-    SetDefaultStyle( wxTextAttr( *wxRED ) );
-    AppendText(_("Error: "));
-
-    SetDefaultStyle( wxTextAttr( wxColour( *wxBLACK ) ) );
-    AppendText( message + "\n" );
+    wxArrayString lines = wxStringTokenize( msg, "\n" );
+    for( size_t i = 0; i < lines.GetCount(); i++ )
+    {
+        if( lines.Item(i).Contains("Error") )
+            SetDefaultStyle( wxTextAttr( wxColour(255,0,0) ) );
+        else
+            SetDefaultStyle( wxTextAttr( wxColour(0,255,0) ) );
+    }
 }

@@ -11,17 +11,20 @@
 #ifndef __WXGUIDESIGNER_RTTI_TREE_H__
 #define __WXGUIDESIGNER_RTTI_TREE_H__
 
-#include "wxguidesigner/rtti/database.h"
-#include "wxguidesigner/defs.h"
-
-#include "wxguidesigner/interfaces/iobject.h"
-
-#include <wx/any.h>
-
+class wxAny;
 class wxBitmap;
 class wxFont;
 class wxPoint;
 class wxSize;
+class wxXmlDocument;
+
+#include "wxguidesigner/defs.h"
+
+class ClassNode;
+class EventInfoNode;
+class PropertyInfoNode;
+
+class IObject;
 //=============================================================================
 // EventNode Class
 //=============================================================================
@@ -219,7 +222,7 @@ private:
 //=============================================================================
 // ObjectTree Singleton Class
 //=============================================================================
-class ObjectTree : public IObjectManager
+class ObjectTree// : public IObjectManager
 {
 public:
     ObjectTree();
@@ -228,15 +231,18 @@ public:
     virtual Object  CreateObject    ( const wxString &className,
                                         Object parent = Object() );
 
-    virtual void    SelectObject    ( Object object, bool withEvent = true );
-
     virtual Object  GetSelectObject() const { return m_sel; }
 
+    Object GetTopLevelObject( Object object );
+
+    virtual void    SelectObject    ( Object object, bool withEvent = true );
+
     virtual bool    Load            ( const wxString &fileName );
-    virtual bool    Serialize       ( const wxString &fileName );
+    virtual bool    Serialize       ( wxXmlNode *rootNode );
+    virtual bool    Serialize       ( const wxString &filePath );
 
 private:
-   bool            CheckType( const wxString &parentType,
+   bool             CheckType( const wxString &parentType,
                                const wxString &childType );
 
     size_t          GetChildInfoCount( Object parent, ClassInfo info );
