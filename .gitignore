@@ -1,0 +1,16 @@
+bin
+lib
+share
+build/codelite
+build/codeblocks
+build/gmake
+build/premake/*/bin
+build/premake/*/obj
+*.[oa]
+*~
+*.dll
+*.exe
+*.project*
+*.workspace*
+*.tags
+output/docs
