@@ -10,6 +10,7 @@ build/premake/*/obj
 *~
 *.dll
 *.exe
+*.cbp
 *.project*
 *.workspace*
 *.tags

@@ -88,10 +88,12 @@ public:
 //=============================================================================
     void CreateObject( const wxString &className, int senderId );
     void SelectObject( Object object, int senderId );
+    Object GetTopLevelObject( Object object );
 
     shared_ptr< ObjectTree > GetTree() const { return m_tree; }
 
 private:
+    void InitAllXmlHandlers();
     void SelectLanguage ( int language );
 
     void SendEvent      ( wxEvent &event, bool delayed = false );

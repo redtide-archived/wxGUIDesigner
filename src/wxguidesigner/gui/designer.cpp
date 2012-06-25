@@ -21,66 +21,6 @@
 
 #include "wxguidesigner/gui/designer.h"
 //=============================================================================
-// wxGDTitleBarPanel
-//=============================================================================
-wxGDTitleBarPanel::wxGDTitleBarPanel( wxWindow *parent, wxWindowID id,
-                                        const wxPoint &position,
-                                        const wxSize &size, long style )
-:
-wxPanel( parent, id, position, size, style )
-{
-    Bind( wxEVT_PAINT, &wxGDTitleBarPanel::OnPaint, this );
-}
-
-wxGDTitleBarPanel::~wxGDTitleBarPanel()
-{
-}
-
-void wxGDTitleBarPanel::OnPaint( wxPaintEvent & )
-{
-// Draw caption glossy gradient
-    wxColour topStart, topEnd, bottomStart, bottomEnd; int r, g, b;
-
-    topEnd = wxSystemSettings::GetColour( wxSYS_COLOUR_ACTIVECAPTION );
-
-    r = topEnd.Red()   + 45; if( r > 255 ) r = 225;
-    g = topEnd.Green() + 45; if( g > 255 ) g = 225;
-    b = topEnd.Blue()  + 45; if( b > 255)  b = 225;
-
-    topStart = wxColour( (unsigned char)r, (unsigned char)g, (unsigned char)b );
-
-    r = topEnd.Red()   - 75; if( r < 0 ) r = 15;
-    g = topEnd.Green() - 75; if( g < 0 ) g = 15;
-    b = topEnd.Blue()  - 75; if( b < 0 ) b = 15;
-
-    bottomStart = wxColour( (unsigned char)r, (unsigned char)g, (unsigned char)b );
-
-    r = topEnd.Red()   - 15; if( r < 0 ) r = 30;
-    g = topEnd.Green() - 15; if( g < 0 ) g = 30;
-    b = topEnd.Blue()  - 15; if( b < 0 ) b = 30;
-
-    bottomEnd = wxColour( (unsigned char)r, (unsigned char)g, (unsigned char)b );
-
-    wxBufferedPaintDC dc(this);
-    wxRect rect = GetRect();
-
-    rect.SetHeight( rect.GetHeight() / 2 );
-    dc.GradientFillLinear( rect, topStart, topEnd, wxSOUTH);
-    rect.Offset( 0, rect.GetHeight() );
-    dc.GradientFillLinear( rect, bottomStart, bottomEnd, wxSOUTH );
-
-    dc.SetPen( wxPen( bottomStart ) );
-    dc.SetBrush( *wxTRANSPARENT_BRUSH );
-    dc.DrawRectangle( 0, 0, rect.GetWidth(), rect.GetHeight() );
-
-    dc.SetPen( wxPen( *wxWHITE ) );
-    wxCoord x = rect.GetWidth() - 24;
-    wxCoord y = rect.GetHeight() - 11;
-
-    dc.DrawBitmap( wxArtProvider::GetBitmap(wxART_CLOSE, wxART_OTHER, wxSize(22,22) ),
-                    x, y, true );
-}
-//=============================================================================
 // wxGDResizingPanel
 //=============================================================================
 wxGDResizingPanel::wxGDResizingPanel( wxWindow *parent, wxWindowID id,

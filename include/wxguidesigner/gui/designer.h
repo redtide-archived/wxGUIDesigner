@@ -16,20 +16,6 @@ class wxPanel;
 class wxMouseEvent;
 class wxPaintEvent;
 //=============================================================================
-// wxGDTitleBarPanel
-//=============================================================================
-class wxGDTitleBarPanel : public wxPanel
-{
-public:
-    wxGDTitleBarPanel( wxWindow *parent, wxWindowID id  = wxID_ANY,
-                        const wxPoint &position = wxDefaultPosition,
-                        const wxSize &size = wxDefaultSize, long style = 0 );
-    ~wxGDTitleBarPanel();
-
-private:
-    void OnPaint( wxPaintEvent &event );
-};
-//=============================================================================
 // wxGDResizingPanel
 //=============================================================================
 class wxGDResizingPanel : public wxPanel

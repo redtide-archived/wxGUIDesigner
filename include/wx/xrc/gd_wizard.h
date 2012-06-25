@@ -12,7 +12,7 @@
 #ifndef __WX_XRC_GD_WIZARD_H__
 #define __WX_XRC_GD_WIZARD_H__
 
-#include "wx/xrc/xmlres.h"
+#include <wx/xrc/xmlres.h>
 
 #if wxUSE_XRC && wxUSE_WIZARDDLG
 

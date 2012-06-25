@@ -10,16 +10,16 @@
     Licence:     GNU General Public License Version 3
 -->
 <classes>
-    <class name="Wizard" type="toplevel">
+    <class name="wxWizard" type="toplevel">
         <description>wxWizard is the central class for implementing 'wizard-like' dialogs.</description>
         <inherits>
-            <class>Dialog</class>
-            <class>TopLevelWindow</class>
-            <class>Window</class>
+            <class>wxDialog</class>
+            <class>wxTopLevelWindow</class>
+            <class>wxWindow</class>
         </inherits>
         <children>
-            <class name="WizardPage"       max="-1"/>
-            <class name="WizardPageSimple" max="-1"/>
+            <class name="wxWizardPage"       max="-1"/>
+            <class name="wxWizardPageSimple" max="-1"/>
         </children>
         <name label="Name">
             <value>m_wizard</value>
@@ -61,7 +61,7 @@
         </event>
     </class>
 
-    <class name="WizardPage" type="abstract">
+    <class name="wxWizardPage" type="abstract">
         <inherits>
             <class>wxPanel</class>
         </inherits>
@@ -73,9 +73,9 @@
         </bitmap>
     </class>
 
-    <class name="WizardPageSimple">
+    <class name="wxWizardPageSimple">
         <inherits>
-            <class>WizardPage</class>
+            <class>wxWizardPage</class>
         </inherits>
     </class>
 </classes>

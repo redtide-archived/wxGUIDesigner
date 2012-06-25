@@ -11,15 +11,13 @@
 #ifndef __WXGUIDESIGNER_GUI_TOPLEVEL_FRAME_H__
 #define __WXGUIDESIGNER_GUI_TOPLEVEL_FRAME_H__
 
-#include "wxguidesigner/gui/toplevel/toplevel.h"
-
 class wxBitmap;
 class wxBoxSizer;
 class wxButton;
 class wxCommandEvent;
 //class wxPanel;
 class wxStaticBitmap;
-//class TopLevelWindow;
+class TopLevelWindow;
 
 class Frame : public TopLevelWindow 
 {
@@ -35,7 +33,8 @@ public:
     {
         Create( parent, id, title, pos, size, style, name );
     }
-    ~Frame() {}
+
+    virtual ~Frame() {}
 
     bool Create(wxWindow        *parent,
                 wxWindowID      id,
@@ -44,6 +43,8 @@ public:
                 const wxSize    &size   = wxDefaultSize,
                 long            style   = wxTAB_TRAVERSAL | wxNO_BORDER,
                 const wxString  &name   = "gd_frame" );
+private:
+    DECLARE_DYNAMIC_CLASS( Frame )
 };
 
 #endif //__WXGUIDESIGNER_GUI_TOPLEVEL_FRAME_H__

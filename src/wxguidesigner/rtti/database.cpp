@@ -350,8 +350,7 @@ void ClassInfoDB::Parse( wxXmlNode *classNode, bool recursively )
     if
     (
         (type != CLASS_TYPE_ABSTRACT) && (type != CLASS_TYPE_ITEM) &&
-        (type != CLASS_TYPE_CUSTOM)   && (type != CLASS_TYPE_ROOT) &&
-        (type != CLASS_TYPE_TOPLEVEL) && (!name.Contains("Wizard"))
+        (type != CLASS_TYPE_CUSTOM)   && (type != CLASS_TYPE_ROOT)
     )
     {
         if( m_classList.Index( name ) == wxNOT_FOUND )

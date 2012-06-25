@@ -49,15 +49,7 @@ private:
     wxScrolledWindow    *m_scrolled;
     wxGDResizingPanel   *m_resizer;
     wxPanel             *m_border;
-    wxPanel             *m_designer;
-    wxGDTitleBarPanel   *m_title;
-    wxPanel             *m_client;
-
-    wxStaticText        *m_titleLbl;
-    wxStaticBitmap      *m_titleBmp;
-    wxGlossyButton      *m_titleBmpMin;
-    wxGlossyButton      *m_titleBmpMax;
-    wxGlossyButton      *m_titleBmpClose;
+//  wxPanel             *m_designer;
 
     wxGDObjects         m_objects;
 };

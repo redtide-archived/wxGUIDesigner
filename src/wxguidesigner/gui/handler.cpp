@@ -25,12 +25,15 @@
 #include <wx/treectrl.h>
 #include <wx/xml/xml.h>
 #include <wx/xrc/xmlres.h>
+#include <wx/xrc/xh_all.h>
 
 #include <wx/xrc/xh_aui.h>
 #include <wx/xrc/xh_stc.h>
 #include <wx/xrc/xh_propgrid.h>
 
+#include "wx/xrc/gd_dialog.h"
 #include "wx/xrc/gd_frame.h"
+#include "wx/xrc/gd_propdlg.h"
 #include "wx/xrc/gd_wizard.h"
 
 #include "wxguidesigner/defs.h"
@@ -51,11 +54,12 @@
 #endif
 
 #include "wxguidesigner/gui/dialog/prefs.h"
-#include "wxguidesigner/gui/handler.h"
 #include "wxguidesigner/gui/mainframe.h"
 
 #include "wxguidesigner/events.h"
 #include "wxguidesigner/utils.h"
+
+#include "wxguidesigner/gui/handler.h"
 
 #include <wx/log.h>
 
@@ -77,10 +81,7 @@ m_logOld        ( NULL ),
 m_tree          ( new ObjectTree() )//,
 //m_settings      ( new Settings() )
 {
-    wxXmlResource::Get()->InitAllHandlers();
-    wxXmlResource::Get()->AddHandler( new wxStyledTextCtrlXmlHandler );
-    wxXmlResource::Get()->AddHandler( new FrameXmlHandler );
-    wxXmlResource::Get()->AddHandler( new WizardXmlHandler );
+    InitAllXmlHandlers();
 
     wxFileSystem::AddHandler( new wxArchiveFSHandler );
     wxFileSystem::AddHandler( new wxMemoryFSHandler );
@@ -143,8 +144,8 @@ void wxGDHandler::RecreateXRCProject()
     root->AddAttribute( "xmlns", "http://www.wxwidgets.org/wxxrc" );
     root->AddAttribute( "version", xrcVer );
 
-    m_xrcDoc->SetRoot( root );
     m_tree->Serialize( root );
+    m_xrcDoc->SetRoot( root );
 }
 
 wxGDHandler::~wxGDHandler()
@@ -270,6 +271,11 @@ void wxGDHandler::SelectObject( Object object, int senderId )
     SendEvent( event );
 }
 
+Object wxGDHandler::GetTopLevelObject( Object object )
+{
+    return m_tree->GetTopLevelObject( object );
+}
+
 void wxGDHandler::SendEvent( wxEvent &event, bool delayed )
 {
     vector< wxEvtHandler * >::iterator handler;
@@ -312,5 +318,190 @@ void wxGDHandler::SelectLanguage( int language )
 #ifdef __LINUX__
     wxLogNull noLog;
     m_locale.AddCatalog("fileutils");
+#endif
+}
+
+void wxGDHandler::InitAllXmlHandlers()
+{
+    wxXmlResource::Get()->AddHandler(new wxUnknownWidgetXmlHandler);
+    wxXmlResource::Get()->AddHandler(new wxBitmapXmlHandler);
+    wxXmlResource::Get()->AddHandler(new wxIconXmlHandler);
+    wxXmlResource::Get()->AddHandler(new DialogXmlHandler);
+    wxXmlResource::Get()->AddHandler(new wxPanelXmlHandler);
+    wxXmlResource::Get()->AddHandler(new wxSizerXmlHandler);
+    wxXmlResource::Get()->AddHandler(new FrameXmlHandler);
+    wxXmlResource::Get()->AddHandler(new wxScrolledWindowXmlHandler);
+
+#if wxUSE_ANIMATIONCTRL
+    wxXmlResource::Get()->AddHandler(new wxAnimationCtrlXmlHandler);
+#endif
+#if wxUSE_BANNERWINDOW
+    wxXmlResource::Get()->AddHandler(new wxBannerWindowXmlHandler);
+#endif
+#if wxUSE_BITMAPCOMBOBOX
+    wxXmlResource::Get()->AddHandler(new wxBitmapComboBoxXmlHandler);
+#endif
+#if wxUSE_BMPBUTTON
+    wxXmlResource::Get()->AddHandler(new wxBitmapButtonXmlHandler);
+#endif
+#if wxUSE_BOOKCTRL
+    wxXmlResource::Get()->AddHandler(new PropertySheetDialogXmlHandler);
+#endif
+#if wxUSE_BUTTON
+    wxXmlResource::Get()->AddHandler(new wxStdDialogButtonSizerXmlHandler);
+    wxXmlResource::Get()->AddHandler(new wxButtonXmlHandler);
+#endif
+#if wxUSE_CALENDARCTRL
+    wxXmlResource::Get()->AddHandler(new wxCalendarCtrlXmlHandler);
+#endif
+#if wxUSE_CHECKBOX
+    wxXmlResource::Get()->AddHandler(new wxCheckBoxXmlHandler);
+#endif
+#if wxUSE_CHECKLISTBOX
+    wxXmlResource::Get()->AddHandler(new wxCheckListBoxXmlHandler);
+#endif
+#if wxUSE_CHOICE
+    wxXmlResource::Get()->AddHandler(new wxChoiceXmlHandler);
+#endif
+#if wxUSE_CHOICEBOOK
+    wxXmlResource::Get()->AddHandler(new wxChoicebookXmlHandler);
+#endif
+#if wxUSE_COLLPANE
+    wxXmlResource::Get()->AddHandler(new wxCollapsiblePaneXmlHandler);
+#endif
+#if wxUSE_COLOURPICKERCTRL
+    wxXmlResource::Get()->AddHandler(new wxColourPickerCtrlXmlHandler);
+#endif
+#if wxUSE_COMBOBOX
+    wxXmlResource::Get()->AddHandler(new wxComboBoxXmlHandler);
+#endif
+#if wxUSE_COMBOCTRL
+    wxXmlResource::Get()->AddHandler(new wxComboCtrlXmlHandler);
+#endif
+#if wxUSE_COMMANDLINKBUTTON
+    wxXmlResource::Get()->AddHandler(new wxCommandLinkButtonXmlHandler);
+#endif
+#if wxUSE_DATEPICKCTRL
+    wxXmlResource::Get()->AddHandler(new wxDateCtrlXmlHandler);
+#endif
+#if wxUSE_DIRDLG
+    wxXmlResource::Get()->AddHandler(new wxGenericDirCtrlXmlHandler);
+#endif
+#if wxUSE_DIRPICKERCTRL
+    wxXmlResource::Get()->AddHandler(new wxDirPickerCtrlXmlHandler);
+#endif
+#if wxUSE_EDITABLELISTBOX
+    wxXmlResource::Get()->AddHandler(new wxEditableListBoxXmlHandler);
+#endif
+#if wxUSE_FILECTRL
+    wxXmlResource::Get()->AddHandler(new wxFileCtrlXmlHandler);
+#endif
+#if wxUSE_FILEPICKERCTRL
+    wxXmlResource::Get()->AddHandler(new wxFilePickerCtrlXmlHandler);
+#endif
+#if wxUSE_FONTPICKERCTRL
+    wxXmlResource::Get()->AddHandler(new wxFontPickerCtrlXmlHandler);
+#endif
+#if wxUSE_GAUGE
+    wxXmlResource::Get()->AddHandler(new wxGaugeXmlHandler);
+#endif
+#if wxUSE_GRID
+    wxXmlResource::Get()->AddHandler( new wxGridXmlHandler);
+#endif
+#if wxUSE_HTML
+    wxXmlResource::Get()->AddHandler(new wxHtmlWindowXmlHandler);
+    wxXmlResource::Get()->AddHandler(new wxSimpleHtmlListBoxXmlHandler);
+#endif
+#if wxUSE_HYPERLINKCTRL
+    wxXmlResource::Get()->AddHandler( new wxHyperlinkCtrlXmlHandler);
+#endif
+#if wxUSE_LISTBOOK
+    wxXmlResource::Get()->AddHandler(new wxListbookXmlHandler);
+#endif
+#if wxUSE_LISTBOX
+    wxXmlResource::Get()->AddHandler(new wxListBoxXmlHandler);
+#endif
+#if wxUSE_LISTCTRL
+    wxXmlResource::Get()->AddHandler(new wxListCtrlXmlHandler);
+#endif
+#if wxUSE_MDI
+    wxXmlResource::Get()->AddHandler(new wxMdiXmlHandler);
+#endif
+#if wxUSE_MENUS
+    wxXmlResource::Get()->AddHandler(new wxMenuXmlHandler);
+    wxXmlResource::Get()->AddHandler(new wxMenuBarXmlHandler);
+#endif
+#if wxUSE_NOTEBOOK
+    wxXmlResource::Get()->AddHandler(new wxNotebookXmlHandler);
+#endif
+#if wxUSE_ODCOMBOBOX
+    wxXmlResource::Get()->AddHandler(new wxOwnerDrawnComboBoxXmlHandler);
+#endif
+#if wxUSE_RADIOBOX
+    wxXmlResource::Get()->AddHandler(new wxRadioBoxXmlHandler);
+#endif
+#if wxUSE_RADIOBTN
+    wxXmlResource::Get()->AddHandler(new wxRadioButtonXmlHandler);
+#endif
+#if 0 && wxUSE_RICHTEXT
+    wxXmlResource::Get()->AddHandler(new wxRichTextCtrlXmlHandler);
+#endif
+#if wxUSE_SCROLLBAR
+    wxXmlResource::Get()->AddHandler(new wxScrollBarXmlHandler);
+#endif
+#if wxUSE_SEARCHCTRL
+    wxXmlResource::Get()->AddHandler(new wxSearchCtrlXmlHandler);
+#endif
+#if wxUSE_SLIDER
+    wxXmlResource::Get()->AddHandler(new wxSliderXmlHandler);
+#endif
+#if wxUSE_SPINBTN
+    wxXmlResource::Get()->AddHandler(new wxSpinButtonXmlHandler);
+#endif
+#if wxUSE_SPINCTRL
+    wxXmlResource::Get()->AddHandler(new wxSpinCtrlXmlHandler);
+#endif
+#if wxUSE_SPLITTER
+    wxXmlResource::Get()->AddHandler(new wxSplitterWindowXmlHandler);
+#endif
+#if wxUSE_STATBMP
+    wxXmlResource::Get()->AddHandler(new wxStaticBitmapXmlHandler);
+#endif
+#if wxUSE_STATBOX
+    wxXmlResource::Get()->AddHandler(new wxStaticBoxXmlHandler);
+#endif
+#if wxUSE_STATLINE
+    wxXmlResource::Get()->AddHandler(new wxStaticLineXmlHandler);
+#endif
+#if wxUSE_STATTEXT
+    wxXmlResource::Get()->AddHandler(new wxStaticTextXmlHandler);
+#endif
+#if wxUSE_STATUSBAR
+    wxXmlResource::Get()->AddHandler(new wxStatusBarXmlHandler);
+#endif
+    wxXmlResource::Get()->AddHandler(new wxStyledTextCtrlXmlHandler);
+#if wxUSE_TEXTCTRL
+    wxXmlResource::Get()->AddHandler(new wxTextCtrlXmlHandler);
+#endif
+#if wxUSE_TOGGLEBTN
+    wxXmlResource::Get()->AddHandler(new wxToggleButtonXmlHandler);
+#endif
+#if wxUSE_TIMEPICKCTRL
+    wxXmlResource::Get()->AddHandler(new wxTimeCtrlXmlHandler);
+#endif
+#if wxUSE_TOOLBAR
+    wxXmlResource::Get()->AddHandler(new wxToolBarXmlHandler);
+#endif
+#if wxUSE_TOOLBOOK
+    wxXmlResource::Get()->AddHandler(new wxToolbookXmlHandler);
+#endif
+#if wxUSE_TREEBOOK
+    wxXmlResource::Get()->AddHandler(new wxTreebookXmlHandler);
+#endif
+#if wxUSE_TREECTRL
+    wxXmlResource::Get()->AddHandler(new wxTreeCtrlXmlHandler);
+#endif
+#if wxUSE_WIZARDDLG
+    wxXmlResource::Get()->AddHandler(new WizardXmlHandler);
 #endif
 }

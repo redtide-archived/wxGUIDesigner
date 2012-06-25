@@ -1,4 +1,4 @@
-/////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 // Name:        wx/xrc/gd_frame.cpp
 // Purpose:     XML resource handler for Frame (fake toplevel for wxGD)
 //              (from the original wx/xrc/xh_frame.cpp)
@@ -8,26 +8,24 @@
 // Revision:    $Hash$
 // Copyleft:    (ɔ) Andrea Zanellato
 // Licence:     GNU General Public License Version 3
-/////////////////////////////////////////////////////////////////////////////
-
-// For compilers that support precompilation, includes "wx.h".
+///////////////////////////////////////////////////////////////////////////////
 #include <wx/wxprec.h>
 
 #ifdef __BORLANDC__
     #pragma hdrstop
 #endif
 
-#if wxUSE_XRC
-
 #include "wx/xrc/gd_frame.h"
 
 #ifndef WX_PRECOMP
+    #include <wx/dialog.h> // to get wxDEFAULT_DIALOG_STYLE
+    #include <wx/frame.h>
     #include <wx/intl.h>
     #include <wx/log.h>
-    #include <wx/frame.h>
-    #include <wx/dialog.h> // to get wxDEFAULT_DIALOG_STYLE
+    #include <wx/panel.h>
 #endif
 
+#include "wxguidesigner/gui/toplevel/toplevel.h"
 #include "wxguidesigner/gui/toplevel/frame.h"
 
 IMPLEMENT_DYNAMIC_CLASS(FrameXmlHandler, wxXmlResourceHandler)
@@ -97,7 +95,5 @@ wxObject *FrameXmlHandler::DoCreateResource()
 
 bool FrameXmlHandler::CanHandle(wxXmlNode *node)
 {
-    return IsOfClass(node, wxT("Frame"));
+    return IsOfClass(node, wxT("wxFrame"));
 }
-
-#endif // wxUSE_XRC

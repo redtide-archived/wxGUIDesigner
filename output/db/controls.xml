@@ -11,13 +11,13 @@
 -->
 <controls>
     <toplevel label="Top level">
-        <item>Frame</item>
-        <item>Dialog</item>
-        <item>PropertySheetDialog</item>
+        <item>wxFrame</item>
+        <item>wxDialog</item>
+        <item>wxPropertySheetDialog</item>
         <separator/>
-        <item>Wizard</item>
-        <item>WizardPage</item>
-        <item>WizardPageSimple</item>
+        <item>wxWizard</item>
+        <item>wxWizardPage</item>
+        <item>wxWizardPageSimple</item>
     </toplevel>
     <bars>
         <item>wxToolBar</item>

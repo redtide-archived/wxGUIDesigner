@@ -620,14 +620,14 @@ Object ObjectTree::CreateObject( const wxString &className, Object parent )
     ClassInfo info = ClassInfoDB::Get()->GetClassInfo( className );
     if( !info )
     {
-        wxLogError(_("Unknown object type") );
+        wxLogError(_("Unknown object type") + " " + className );
         return Object();
     }
 
     if( !parent )
         parent = m_sel;
 
-    bool   allow    = false;
+    bool   allow      = false;
     size_t childCount = GetChildInfoCount( parent, info );
 
     // Try all parents

@@ -21,8 +21,6 @@
 #include <wx/scrolwin.h>
 #include <wx/sizer.h>
 #include <wx/sstream.h>
-#include <wx/statbmp.h>
-#include <wx/stattext.h>
 #include <wx/stc/stc.h>
 #include <wx/xrc/xmlres.h>
 
@@ -35,11 +33,9 @@
 #include "wxguidesigner/rtti/tree.h"
 
 #include "wxguidesigner/gui/artprovider.h"
-#include "wxguidesigner/gui/utils/draw.h"
 #include "wxguidesigner/gui/handler.h"
 #include "wxguidesigner/gui/debugwindow.h"
 #include "wxguidesigner/gui/designer.h"
-#include "wxguidesigner/gui/glossybutton.h"
 #include "wxguidesigner/gui/editor.h"
 //=============================================================================
 // wxGDEditorBook
@@ -67,73 +63,12 @@ m_handler( handler )
 //-----------------------------------------------------------------------------
     m_resizer = new wxGDResizingPanel( m_scrolled );
     m_resizer->SetBackgroundColour( wxColour( 192, 192, 192 ) );
-//-----------------------------------------------------------------------------
-// The main designer
-//-----------------------------------------------------------------------------
-    m_designer = new wxPanel( m_resizer, wxID_ANY, wxDefaultPosition,
-                                        wxDefaultSize, wxBORDER_NONE );
-//-----------------------------------------------------------------------------
-// The 'fake TopLevelWindow' titlebar
-//-----------------------------------------------------------------------------
-    m_title = new wxGDTitleBarPanel( m_designer );
-    wxBoxSizer* titleSizer = new wxBoxSizer( wxHORIZONTAL );
 
-    // Init the only image handler needed if not loaded already
-    if(!wxImage::FindHandler( wxBITMAP_TYPE_PNG ))
-        wxImage::AddHandler( new wxPNGHandler );
-
-    // Titlebar bitmap
-    wxBitmap bmp = wxXmlResource::Get()->LoadBitmap("icon_msw");
-    m_titleBmp   = new wxStaticBitmap( m_title, wxID_ANY, bmp );
-    titleSizer->Add( m_titleBmp, 0, wxALIGN_CENTER_VERTICAL|wxALL, 3 );
-
-    // Titlebar label
-    m_titleLbl = new wxStaticText( m_title, wxID_ANY, wxT("Title") );
-    m_titleLbl->Wrap( -1 );
-
-    // Titlebar appearance
-    wxColour colour = wxSystemSettings::GetColour( wxSYS_COLOUR_ACTIVECAPTION );
-    int r = colour.Red()   - 75; if( r < 0 ) r = 15;
-    int g = colour.Green() - 75; if( g < 0 ) g = 15;
-    int b = colour.Blue()  - 75; if( b < 0 ) b = 15;
-    wxColour caption = wxColour( (unsigned char)r, (unsigned char)g, (unsigned char)b );
-    // TODO: wxRendererNative for wxMAC and wxMSW
-
-    // Titlebar label color, depending if background dark or bright
-    wxColour label = wxGDDraw::IsDark( caption ) ? *wxWHITE : *wxBLACK;
-    m_titleLbl->SetFont( wxFont( 9, 70, 90, 90, false, wxEmptyString ) );
-    m_titleLbl->SetForegroundColour( label );
-    titleSizer->Add( m_titleLbl, 1, wxALIGN_CENTER_VERTICAL | wxALL, 3 );
-
-    // Titlebar buttons
-    wxBoxSizer* titleBtnSizer = new wxBoxSizer( wxHORIZONTAL );
-
-    // Minimize button
-    bmp = wxXmlResource::Get()->LoadBitmap("minimize");
-    m_titleBmpMin = new wxGlossyButton( m_title, wxID_ANY, bmp, wxEmptyString,
-                                        wxDefaultPosition, wxSize( 26,-1 ) );
-    titleBtnSizer->Add( m_titleBmpMin );
-
-    // Maximize button
-    bmp = wxXmlResource::Get()->LoadBitmap("maximize");
-    m_titleBmpMax = new wxGlossyButton( m_title, wxID_ANY, bmp, wxEmptyString,
-                                        wxDefaultPosition, wxSize( 26,-1 ) );
-    titleBtnSizer->Add( m_titleBmpMax );
-
-    // Close button
-    bmp = wxArtProvider::GetBitmap( wxART_CLOSE );
-    m_titleBmpClose = new wxGlossyButton( m_title, wxID_ANY, bmp, wxEmptyString,
-                                        wxDefaultPosition, wxSize( 26,-1 ) );
-    titleBtnSizer->Add( m_titleBmpClose );
-
-    titleSizer->Add( titleBtnSizer, 0, wxALL, 3 );
-    m_title->SetSizer( titleSizer );
-    m_title->Layout();
-    titleSizer->Fit( m_title );
-
-    wxBoxSizer* designerSizer = new wxBoxSizer( wxVERTICAL );
-    designerSizer->Add( m_title, 0, wxEXPAND );
-//-----------------------------------------------------------------------------
+    wxBoxSizer* reSizer = new wxBoxSizer( wxVERTICAL );
+    m_resizer->SetSizer( reSizer );
+    m_resizer->Layout();
+    reSizer->Fit( m_resizer );
+/*-----------------------------------------------------------------------------
 // The client area, this is our 'GetClientSize()' except when has scrollbars
 //-----------------------------------------------------------------------------
     m_client = new wxPanel( m_designer );
@@ -142,13 +77,7 @@ m_handler( handler )
     m_designer->SetSizer( designerSizer );
     m_designer->Layout();
     designerSizer->Fit( m_designer );
-
-    wxBoxSizer* reSizer = new wxBoxSizer( wxVERTICAL );
-    reSizer->Add( m_designer, 1, wxBOTTOM | wxRIGHT | wxEXPAND, 3 );
-    m_resizer->SetSizer( reSizer );
-    m_resizer->Layout();
-    reSizer->Fit( m_resizer );
-
+*/
     // Editor imagelist
     wxImageList *imageList = wxGDArtProvider::SmallImageList;
     if( !imageList )
@@ -159,8 +88,6 @@ m_handler( handler )
     int imgIndex = wxGDArtProvider::GetGroupImageListIndex( "controls", "toplevel" );
 
     AddPage( m_scrolled, _("Designer"), true, imgIndex );
-
-    m_designer->Bind( wxEVT_SIZE, &wxGDEditorBook::OnDesignerResize, this );
 //=============================================================================
 // wxGDCodeEditors
 //=============================================================================
@@ -241,59 +168,47 @@ void wxGDEditorBook::OnObjectCreated( wxGDObjectEvent &event )
     if( !object )
         return;
 
-    wxString className = object->GetClassName();
-    wxObject *wxobject = wxCreateDynamicObject( className );
-    if( !object )
+    Object toplevel = m_handler->GetTopLevelObject( object );
+    if( !toplevel )
         return;
-
-    wxLogMessage( className + " " + _("created") );
-
-    wxGDObject item( object, wxobject );
-    m_objects.insert( item );
-
-    wxWindow *wxwindow = wxDynamicCast( wxobject, wxWindow );
-    if( !wxwindow )
-        return;
-
-    Object parent = object->GetParent();
-    wxGDObjects::iterator it = m_objects.find( parent );
-
-    wxWindow *wxparent = NULL;
-    if( it != m_objects.end() )
-    {
-        wxparent = wxDynamicCast( (*it).second, wxWindow );
-    }
-    else if( object->IsTopLevel() )
-    {
-        wxparent = m_client;
-    }
 
     // Load the xrcText in memory so access it and load the object
     wxXmlDocument *doc = m_handler->GetXRCProject();
     wxStringOutputStream sout;
     doc->Save( sout, 4 );
     wxString xrcText = sout.GetString();
+
     wxMemoryFSHandler::AddFile("xrc.xrc", xrcText );
     wxXmlResource::Get()->Load("memory:xrc.xrc");
-
-    wxString name = object->GetName();
-    if( wxXmlResource::Get()->LoadObjectRecursively( wxwindow, wxparent, name, className ) )
-    {
-        if( object->IsTopLevel() )
-        {
-            wxBoxSizer *sizer = new wxBoxSizer( wxVERTICAL );
-            sizer->Add( wxwindow, 1, wxEXPAND );
-            m_client->SetSizer( sizer );
-            m_resizer->SetSize( wxwindow->GetBestSize() );
-        }
-    }
 
     wxStyledTextCtrl *xrcEditor = wxDynamicCast( GetPage(1), wxStyledTextCtrl );
     if( xrcEditor )
         xrcEditor->SetText( xrcText );
 
-    // Delete the temporary file
+    wxString className = toplevel->GetClassName();
+    wxString name      = toplevel->GetName();
+
+//  m_resizer->DestroyChildren();
+    wxSizer *reSizer = m_resizer->GetSizer();
+    if( reSizer )
+        reSizer->DeleteWindows();
+
+    wxObject *wxobject = wxXmlResource::Get()->LoadObject( m_resizer, name, className );
+    wxWindow *wxwindow = wxDynamicCast( wxobject, wxWindow );
+
     wxMemoryFSHandler::RemoveFile("xrc.xrc");
+
+    if( !wxwindow )
+        return;
+
+    if( reSizer )
+        reSizer->Add( wxwindow, 1, wxBOTTOM | wxRIGHT | wxEXPAND, 3 );
+
+    wxwindow->Reparent( m_resizer );
+    m_resizer->SetSize( wxSize( 399,339 ) );
+    m_resizer->Layout();
+
+    wxwindow->Bind( wxEVT_SIZE, &wxGDEditorBook::OnDesignerResize, this );
 }
 
 void wxGDEditorBook::OnObjectDeleted( wxGDObjectEvent &event )

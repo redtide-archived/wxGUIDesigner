@@ -12,18 +12,17 @@
 #define __WXGUIDESIGNER_GUI_TOPLEVEL_WIZARD_H__
 
 #include <vector>
-#include <wx/dialog.h>
-#include "wxguidesigner/gui/toplevel/toplevel.h"
 
 class wxBitmap;
 class wxBoxSizer;
 class wxButton;
 class wxCommandEvent;
+class wxDialog;
 class wxPanel;
 class wxStaticBitmap;
 class wxStaticLine;
 
-//class TopLevelWindow;
+class Dialog;
 class Wizard;
 class WizardPageSimple;
 class WizardEvent;
@@ -88,7 +87,7 @@ public:
     WizardPageSimple(   Wizard          *parent,
                         WizardPage      *prev   = NULL,
                         WizardPage      *next   = NULL,
-                        const wxBitmap  &bitmap = wxNullBitmap)
+                        const wxBitmap  &bitmap = wxNullBitmap )
     {
         Create(parent, prev, next, bitmap);
     }
@@ -132,39 +131,40 @@ private:
 //=============================================================================
 // Wizard
 //=============================================================================
-class Wizard : public TopLevelWindow 
+class Wizard : public Dialog 
 {
 public:
     Wizard() { Init(); }
 
-    Wizard( wxWindow *parent,
-            int id = wxID_ANY,
-            const wxString& title = wxEmptyString,
-            const wxBitmap& bitmap = wxNullBitmap,
-            const wxPoint& pos = wxDefaultPosition,
-            long style = wxDEFAULT_DIALOG_STYLE )
+    Wizard( wxWindow        *parent,
+            int             id      = wxID_ANY,
+            const wxString  &title  = wxEmptyString,
+            const wxBitmap  &bitmap = wxNullBitmap,
+            const wxPoint   &pos    = wxDefaultPosition,
+            long            style   = wxDEFAULT_DIALOG_STYLE )
     {
         Init();
 
         Create( parent, id, title, bitmap, pos, style );
     }
 
-    bool Create( wxWindow           *parent,
-                 int                id      = wxID_ANY,
-                 const wxString&    title   = wxEmptyString,
-                 const wxBitmap&    bitmap  = wxNullBitmap,
-                 const wxPoint&     pos     = wxDefaultPosition,
-                 long               style   = wxDEFAULT_DIALOG_STYLE );
-    ~Wizard();
+    bool Create( wxWindow       *parent,
+                 int            id      = wxID_ANY,
+                 const wxString &title  = wxEmptyString,
+                 const wxBitmap &bitmap = wxNullBitmap,
+                 const wxPoint  &pos    = wxDefaultPosition,
+                 long           style   = wxDEFAULT_DIALOG_STYLE );
+
+    virtual ~Wizard();
 
     void SetSelection   ( size_t pageIndex );
     void SetBitmap      ( const wxBitmap &bitmap );
-    void AddPage        ( WizardPageSimple *page );
+    void AddPage        ( WizardPage *page );
 
-    size_t              GetPageCount()                          const;
-    size_t              GetPageIndex( WizardPageSimple *page )  const;
-    wxBoxSizer*         GetPageSizer()                          const;
-    WizardPageSimple    *GetPage( size_t index )                const;
+    size_t              GetPageCount()                      const;
+    size_t              GetPageIndex( WizardPage *page )    const;
+    wxBoxSizer          *GetPageSizer()                     const;
+    WizardPage          *GetPage( size_t index )            const;
 
 private:
     void Init();
@@ -174,9 +174,10 @@ private:
     void OnCancel       ( wxCommandEvent  &event );
     void OnWizEvent     ( WizardEvent &event );
 
-    typedef std::vector< WizardPageSimple* > WizardPages;
+    typedef std::vector< WizardPage* > WizardPages;
 
     wxBitmap                m_bitmap;
+    wxBoxSizer      *m_clientSizer;
     wxBoxSizer              *m_sizerBmpAndPage;
     wxBoxSizer              *m_sizerPage;
     wxButton                *m_help;
@@ -184,8 +185,8 @@ private:
     wxButton                *m_next;
     wxButton                *m_canc;
     wxStaticBitmap          *m_staticBmp;
-    WizardPageSimple    *m_page;
-    WizardPages         m_pages;
+    WizardPage              *m_page;
+    WizardPages             m_pages;
 
     DECLARE_DYNAMIC_CLASS( Wizard )
 };
@@ -195,18 +196,18 @@ private:
 class WizardEvent : public wxNotifyEvent
 {
 public:
-    WizardEvent( wxEventType type           = wxEVT_NULL,
-                     int         id             = wxID_ANY,
-                     bool        direction      = true,
-                     WizardPageSimple *page = NULL );
+    WizardEvent(wxEventType type      = wxEVT_NULL,
+                int         id        = wxID_ANY,
+                bool        direction = true,
+                WizardPage *page      = NULL);
 
     virtual wxEvent         *Clone()        const;
-    WizardPageSimple    *GetPage()      const;
+    WizardPage              *GetPage()      const;
     bool                    GetDirection()  const;
 
 private:
     bool                    m_direction;
-    WizardPageSimple    *m_page;
+    WizardPage              *m_page;
 };
 
 #endif //__WXGUIDESIGNER_GUI_TOPLEVEL_WIZARD_H__

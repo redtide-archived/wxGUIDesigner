@@ -10,6 +10,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include <wx/intl.h>
 #include <wx/bitmap.h>
+#include <wx/dialog.h>
 #include <wx/event.h>
 #include <wx/image.h>
 #include <wx/icon.h>
@@ -25,6 +26,8 @@
 #include <wx/panel.h>
 #include <wx/wizard.h>
 
+#include "wxguidesigner/gui/toplevel/toplevel.h"
+#include "wxguidesigner/gui/toplevel/dialog.h"
 #include "wxguidesigner/gui/toplevel/wizard.h"
 
 #include <wx/log.h>
@@ -36,9 +39,9 @@ wxDEFINE_EVENT( wxGD_EVT_WIZARD_FINISHED,      WizardEvent );
 wxDEFINE_EVENT( wxGD_EVT_WIZARD_HELP,          WizardEvent );
 wxDEFINE_EVENT( wxGD_EVT_WIZARD_PAGE_SHOWN,    WizardEvent );
 
-IMPLEMENT_DYNAMIC_CLASS( Wizard,            wxPanel     )
-IMPLEMENT_ABSTRACT_CLASS(WizardPage,        wxPanel     )
-IMPLEMENT_DYNAMIC_CLASS( WizardPageSimple,  wxWizardPage)
+IMPLEMENT_DYNAMIC_CLASS( Wizard,           Dialog )
+IMPLEMENT_ABSTRACT_CLASS(WizardPage,       wxPanel )
+IMPLEMENT_DYNAMIC_CLASS( WizardPageSimple, WizardPage )
 //=============================================================================
 // WizardPage
 //=============================================================================
@@ -92,17 +95,12 @@ void Wizard::Init()
 bool Wizard::Create( wxWindow *parent, int id, const wxString& title,
                     const wxBitmap &bitmap, const wxPoint &pos, long style )
 {
-    if( !TopLevelWindow::Create
-        ( parent, id, title, pos, wxDefaultSize, style, "gd_wizard" ) )
+    if(!Dialog::Create(parent, id, title, pos, wxDefaultSize, style, "gd_wizard"))
         return false;
 
-    wxBoxSizer *windowSizer  = new wxBoxSizer( wxVERTICAL );
-    wxBoxSizer *mainColumn   = new wxBoxSizer( wxVERTICAL );
-    wxBoxSizer *buttonRow    = new wxBoxSizer( wxHORIZONTAL );
-    wxBoxSizer *backNextPair = new wxBoxSizer( wxHORIZONTAL );
-    m_sizerBmpAndPage        = new wxBoxSizer( wxHORIZONTAL );
-    m_sizerPage              = new wxBoxSizer( wxVERTICAL );
-    m_staticBmp              = new wxStaticBitmap( this, wxID_ANY, bitmap );
+    m_sizerPage       = new wxBoxSizer( wxVERTICAL );
+    m_staticBmp       = new wxStaticBitmap( this, wxID_ANY, bitmap );
+    m_sizerBmpAndPage = new wxBoxSizer( wxHORIZONTAL );
 
     m_sizerBmpAndPage->SetMinSize( wxSize( 270, 270 ) );
     m_sizerBmpAndPage->Add( m_staticBmp, 0, wxALL, 5 );
@@ -117,25 +115,24 @@ bool Wizard::Create( wxWindow *parent, int id, const wxString& title,
     m_prev->Enable( false );
     m_next->Enable( false );
 
+    wxBoxSizer *backNextPair = new wxBoxSizer( wxHORIZONTAL );
     backNextPair->Add( m_prev, 0, wxBOTTOM | wxLEFT | wxTOP, 0 );
     backNextPair->Add( 10, 0, 0,  wxEXPAND, 0 );
     backNextPair->Add( m_next, 0, wxBOTTOM | wxRIGHT | wxTOP, 0 );
 
+    wxBoxSizer *buttonRow = new wxBoxSizer( wxHORIZONTAL );
     buttonRow->Add( m_help, 0, wxALL, 5 );
     buttonRow->Add( backNextPair, 0, wxALL, 5 );
     buttonRow->Add( m_canc, 0, wxALL, 5 );
 
+    wxBoxSizer *mainColumn = new wxBoxSizer( wxVERTICAL );
     mainColumn->Add( m_sizerBmpAndPage, 1, wxEXPAND );
     mainColumn->Add( 0, 5, 0, wxEXPAND );
     mainColumn->Add( new wxStaticLine( this ), 0, wxEXPAND | wxALL, 5 );
     mainColumn->Add( 0, 5, 0, wxEXPAND ); 
     mainColumn->Add( buttonRow, 0, wxALIGN_RIGHT );
 
-    windowSizer->Add( mainColumn, 1, wxALL | wxEXPAND, 5 );
-
-    SetSizer( windowSizer );
-    Layout();
-    windowSizer->Fit( this );
+    GetClientSizer()->Add( mainColumn, 1, wxALL | wxEXPAND, 5 );
 
     m_help->Bind( wxEVT_COMMAND_BUTTON_CLICKED, &Wizard::OnHelp,        this );
     m_prev->Bind( wxEVT_COMMAND_BUTTON_CLICKED, &Wizard::OnBackOrNext,  this );
@@ -253,7 +250,7 @@ void Wizard::OnWizEvent( WizardEvent &event )
     }
 }
 
-void Wizard::AddPage( WizardPageSimple* page )
+void Wizard::AddPage( WizardPage* page )
 {
     m_page = page;
     m_pages.push_back(page);
@@ -280,7 +277,7 @@ void Wizard::AddPage( WizardPageSimple* page )
     }
 }
 
-WizardPageSimple *Wizard::GetPage( size_t index ) const
+WizardPage *Wizard::GetPage( size_t index ) const
 {
     return m_pages.at(index);
 }
@@ -290,7 +287,7 @@ size_t Wizard::GetPageCount() const
     return m_pages.size();
 }
 
-size_t Wizard::GetPageIndex( WizardPageSimple *page ) const
+size_t Wizard::GetPageIndex( WizardPage *page ) const
 {
     for( size_t index = 0; index < m_pages.size(); ++index )
     {
@@ -316,7 +313,7 @@ void Wizard::SetBitmap( const wxBitmap &bitmap )
 // WizardEvent
 //=============================================================================
 WizardEvent::WizardEvent( wxEventType type, int id, bool direction,
-                                  WizardPageSimple *page )
+                                  WizardPage *page )
 :
 wxNotifyEvent   ( type, id ),
 m_direction     ( direction ),
@@ -329,7 +326,7 @@ wxEvent *WizardEvent::Clone() const
     return new WizardEvent( *this );
 }
 
-WizardPageSimple *WizardEvent::GetPage() const
+WizardPage *WizardEvent::GetPage() const
 {
     return m_page;
 }

@@ -16,12 +16,12 @@
 
 class FrameXmlHandler : public wxXmlResourceHandler
 {
-    DECLARE_DYNAMIC_CLASS(FrameXmlHandler)
+    DECLARE_DYNAMIC_CLASS( FrameXmlHandler )
 
 public:
     FrameXmlHandler();
     virtual wxObject *DoCreateResource();
-    virtual bool CanHandle(wxXmlNode *node);
+    virtual bool CanHandle( wxXmlNode *node );
 };
 
 #endif //__WX_XRC_GD_FRAME_H__

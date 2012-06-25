@@ -18,13 +18,16 @@
 #include <wx/tokenzr.h>
 #include <wx/xrc/xmlres.h>
 
+#include "wxguidesigner/defs.h"
+#include "wxguidesigner/interfaces/iobject.h"
+#include "wxguidesigner/rtti/flags.h"
+#include "wxguidesigner/rtti/database.h"
+#include "wxguidesigner/rtti/tree.h"
+
 #include "wxguidesigner/gui/propgrid/propbook.h"
 #include "wxguidesigner/gui/propgrid/propbmp.h"
 #include "wxguidesigner/gui/propgrid/props.h"
 #include "wxguidesigner/gui/handler.h"
-#include "wxguidesigner/rtti/database.h"
-#include "wxguidesigner/rtti/flags.h"
-#include "wxguidesigner/rtti/tree.h"
 #include "wxguidesigner/events.h"
 #include "wxguidesigner/utils.h"
 

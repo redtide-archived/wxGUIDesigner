@@ -1,4 +1,4 @@
-/////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 // Name:        wx/xrc/gd_wizard.cpp
 // Purpose:     XML resource handler for Frame (fake toplevel for wxGD)
 //              (from the original wx/xrc/xh_wizrd.cpp)
@@ -8,9 +8,7 @@
 // Revision:    $Hash$
 // Copyleft:    (ɔ) Andrea Zanellato
 // Licence:     GNU General Public License Version 3
-/////////////////////////////////////////////////////////////////////////////
-
-// For compilers that support precompilation, includes "wx.h".
+///////////////////////////////////////////////////////////////////////////////
 #include <wx/wxprec.h>
 
 #ifdef __BORLANDC__
@@ -26,6 +24,9 @@
 #endif
 
 #include <wx/wizard.h>
+
+#include "wxguidesigner/gui/toplevel/toplevel.h"
+#include "wxguidesigner/gui/toplevel/dialog.h"
 #include "wxguidesigner/gui/toplevel/wizard.h"
 
 IMPLEMENT_DYNAMIC_CLASS(WizardXmlHandler, wxXmlResourceHandler)
@@ -40,7 +41,7 @@ WizardXmlHandler::WizardXmlHandler() : wxXmlResourceHandler()
 
 wxObject *WizardXmlHandler::DoCreateResource()
 {
-    if (m_class == wxT("Wizard"))
+    if (m_class == wxT("wxWizard"))
     {
         XRC_MAKE_INSTANCE(wiz, Wizard)
 
@@ -65,7 +66,7 @@ wxObject *WizardXmlHandler::DoCreateResource()
     {
         WizardPage *page;
 
-        if (m_class == wxT("WizardPageSimple"))
+        if (m_class == wxT("wxWizardPageSimple"))
         {
             XRC_MAKE_INSTANCE(p, WizardPageSimple)
             p->Create(m_wizard, NULL, NULL, GetBitmap());
@@ -74,11 +75,11 @@ wxObject *WizardXmlHandler::DoCreateResource()
             page = p;
             m_lastSimplePage = p;
         }
-        else // if (m_class == wxT("WizardPage"))
+        else // if (m_class == wxT("wxWizardPage"))
         {
             if ( !m_instance )
             {
-                ReportError("WizardPage is abstract class and must be subclassed");
+                ReportError("wxWizardPage is abstract class and must be subclassed");
                 return NULL;
             }
 
@@ -91,16 +92,19 @@ wxObject *WizardXmlHandler::DoCreateResource()
 
         SetupWindow(page);
         CreateChildren(page);
+
+        m_wizard->AddPage(page);
+
         return page;
     }
 }
 
 bool WizardXmlHandler::CanHandle(wxXmlNode *node)
 {
-    return IsOfClass( node, wxT("Wizard") )             ||
-                        ( m_wizard != NULL              &&
-                (IsOfClass( node, wxT("WizardPage") )   ||
-                 IsOfClass( node, wxT("WizardPageSimple"))) );
+    return IsOfClass( node, wxT("wxWizard") )                   ||
+                    ( m_wizard != NULL                          &&
+                    ( IsOfClass( node, wxT("wxWizardPage") )    ||
+                      IsOfClass( node, wxT("wxWizardPageSimple") ) ) );
 }
 
 #endif // wxUSE_XRC && wxUSE_WIZARDDLG
