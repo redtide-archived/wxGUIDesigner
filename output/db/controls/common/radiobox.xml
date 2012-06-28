@@ -17,13 +17,13 @@
         </description>
         <inherits>
             <class>wxControl</class>
-            <class>wxWindow</class>
+            <class>wxItemContainerImmutable</class>
         </inherits>
         <children>
             <class name="radioboxitem" max="-1"/>
         </children>
         <name label="Name">
-            <value>m_radioBtn</value>
+            <value>radioBox</value>
         </name>
         <style label="Style">
             <flag name="wxRA_SPECIFY_ROWS">

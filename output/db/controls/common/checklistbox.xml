@@ -11,16 +11,18 @@
 -->
 <classes>
     <class name="wxCheckListBox">
-        <description>A wxCheckListBox is like a wxListBox, but allows items to be checked or unchecked.</description>
+        <description>
+            &lt;p&gt;A &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_check_list_box.html" title="A wxCheckListBox is like a wxListBox, but allows items to be checked or unchecked."&gt;wxCheckListBox&lt;/a&gt; is like a &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_list_box.html" title="A listbox is used to select one or more of a list of strings."&gt;wxListBox&lt;/a&gt;, but allows items to be checked or unchecked. &lt;/p&gt;
+            &lt;p&gt;When using this class under Windows wxWidgets must be compiled with wxUSE_OWNER_DRAWN set to 1.&lt;/p&gt;
+        </description>
         <inherits>
             <class>wxListBox</class>
-            <class>wxWindow</class>
         </inherits>
         <children>
             <class name="checklistboxitem" max="-1"/>
         </children>
         <name label="Name">
-            <value>m_chkLstBox</value>
+            <value>chkLstBox</value>
         </name>
         <items name="content" label="Content">
             <description>Content of the control; this property has any number of &gt;item&lt; XML elements as its children, with the items text as their text values (see below; default: empty).</description>

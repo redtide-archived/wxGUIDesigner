@@ -10,15 +10,20 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxTreeCtrl">
-    <description>A tree control presents information as a hierarchy, with items that may be expanded to show further items.</description>
+    <description>
+        &lt;p&gt;A tree control presents information as a hierarchy, with items that may be expanded to show further items. &lt;/p&gt;
+        &lt;p&gt;Items in a tree control are referenced by &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_tree_item_id.html" title="An opaque reference to a tree item."&gt;wxTreeItemId&lt;/a&gt; handles, which may be tested for validity by calling &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_tree_item_id.html#af1e170fe0fa8dab8c8bfd601267034a6" title="Returns true if this instance is referencing a valid tree item."&gt;wxTreeItemId::IsOk()&lt;/a&gt;.&lt;/p&gt;
+        &lt;p&gt;A similar control with a fully native implementation for GTK+ and OS X as well is &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_data_view_tree_ctrl.html" title="This class is a wxDataViewCtrl which internally uses a wxDataViewTreeStore and forwards most of its A..."&gt;wxDataViewTreeCtrl&lt;/a&gt;.&lt;/p&gt;
+        &lt;p&gt;To intercept events from a tree control, use the event table macros described in &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_tree_event.html" title="A tree event holds information about events associated with wxTreeCtrl objects."&gt;wxTreeEvent&lt;/a&gt;.&lt;/p&gt;
+    </description>
     <inherits>
-        <class>wxWindow</class>
+        <class>wxControl</class>
     </inherits>
     <children>
         <class name="wxImageList" max="1"/>
     </children>
     <name label="Name">
-        <value>m_treeCtrl</value>
+        <value>treeCtrl</value>
     </name>
     <style label="Style">
         <flag name="wxTR_EDIT_LABELS">

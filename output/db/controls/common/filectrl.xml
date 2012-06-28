@@ -10,14 +10,18 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxFileCtrl">
-    <description>This control allows the user to select a file.</description>
+    <description>
+        &lt;p&gt;This control allows the user to select a file. &lt;/p&gt;
+        &lt;p&gt;Two implementations of this class exist, one for Gtk and another generic one for all the other ports.&lt;/p&gt;
+        &lt;p&gt;This class is only available if &lt;code&gt;wxUSE_FILECTRL&lt;/code&gt; is set to 1.&lt;/p&gt;
+    </description>
     <inherits>
-        <class>wxWindow</class>
+        <class>wxControl</class>
     </inherits>
     <name label="Name">
-        <value>m_fileCtrl</value>
+        <value>fileCtrl</value>
     </name>
-    <style>
+    <style label="Style">
         <flag name="wxFC_DEFAULT_STYLE">
             <description>The default style: wxFC_OPEN</description>
         </flag>

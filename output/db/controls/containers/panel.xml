@@ -10,7 +10,14 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxPanel" type="container">
-    <description>A panel is a window on which controls are placed.</description>
+    <description>
+        &lt;p&gt;A panel is a window on which controls are placed. &lt;/p&gt;
+        &lt;p&gt;It is usually placed within a frame. Its main feature over its parent class &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_window.html" title="wxWindow is the base class for all windows and represents any visible object on screen."&gt;wxWindow&lt;/a&gt; is code for handling child windows and TAB traversal. Since wxWidgets 2.9, there is support both for TAB traversal implemented by wxWidgets itself as well as native TAB traversal (such as for GTK 2.0).&lt;/p&gt;
+        &lt;dl class="note"&gt;&lt;dt&gt;&lt;b&gt;Note:&lt;/b&gt;&lt;/dt&gt;&lt;dd&gt;Tab traversal is implemented through an otherwise undocumented intermediate wxControlContainer class from which any class can derive in addition to the normal &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_window.html" title="wxWindow is the base class for all windows and represents any visible object on screen."&gt;wxWindow&lt;/a&gt; base class. Please see &lt;code&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/containr_8h.html"&gt;wx/containr.h&lt;/a&gt;&lt;/code&gt; and &lt;code&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/panel_8h.html"&gt;wx/panel.h&lt;/a&gt;&lt;/code&gt; to find out how this is achieved.&lt;/dd&gt;
+        &lt;dd&gt;
+        if not all characters are being intercepted by your OnKeyDown or OnChar handler, it may be because you are using the &lt;code&gt;wxTAB_TRAVERSAL&lt;/code&gt; style, which grabs some keypresses for use by child controls.&lt;/dd&gt;&lt;/dl&gt;
+        &lt;dl class="remark"&gt;&lt;dt&gt;&lt;b&gt;Remarks:&lt;/b&gt;&lt;/dt&gt;&lt;dd&gt;By default, a panel has the same colouring as a dialog.&lt;/dd&gt;&lt;/dl&gt;
+    </description>
     <inherits>
         <class>wxWindow</class>
     </inherits>
@@ -19,7 +26,7 @@
         <class type="sizer"   max="1"/>
     </children>
     <name label="Name">
-        <value>m_panel</value>
+        <value>panel</value>
     </name>
     <event name="wxNavigationKeyEvent">
         <type name="wxEVT_NAVIGATION_KEY">

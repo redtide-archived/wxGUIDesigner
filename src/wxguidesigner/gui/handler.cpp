@@ -168,7 +168,7 @@ wxFrame *wxGDHandler::GetMainFrame( wxWindow *parent )
 #ifdef __WXDEBUG__
 wxGDDebugWindow *wxGDHandler::GetDebugWindow( wxWindow *parent )
 {
-    if( !parent )
+    if(!parent)
     {
         if( m_frame )
             parent = m_frame;
@@ -176,7 +176,7 @@ wxGDDebugWindow *wxGDHandler::GetDebugWindow( wxWindow *parent )
             return NULL;
     }
 
-    if( !m_debug )
+    if(!m_debug)
     {
         m_debug = new wxGDDebugWindow( this, parent );
         m_logOld = wxLog::SetActiveTarget(new wxLogTextCtrl(m_debug));
@@ -198,7 +198,7 @@ wxDialog *wxGDHandler::GetSettingsDialog( wxWindow *parent )
 
 wxNotebook *wxGDHandler::GetEditorBook( wxWindow *parent )
 {
-    if( !m_editBook )
+    if(!m_editBook)
     {
         // Force groups to use small imagelist
         wxGDArtProvider::Load( "languages", true );
@@ -239,7 +239,7 @@ wxToolBar *wxGDHandler::GetToolBar( wxWindow *parent )
 
 wxTreeCtrl *wxGDHandler::GetTreeView( wxWindow *parent )
 {
-    if( !m_treeView )
+    if(!m_treeView)
     {
         m_treeView = new wxGDTreeView( this, parent );
         m_handlers.push_back( m_treeView );
@@ -274,6 +274,21 @@ void wxGDHandler::SelectObject( Object object, int senderId )
 Object wxGDHandler::GetTopLevelObject( Object object )
 {
     return m_tree->GetTopLevelObject( object );
+}
+
+Object wxGDHandler::GetSelectedObject() const
+{
+    return m_tree->GetSelectedObject();
+}
+
+bool wxGDHandler::Load( const wxString &filePath )
+{
+    return m_tree->Load( filePath );
+}
+
+bool wxGDHandler::Serialize( const wxString &filePath )
+{
+    return m_tree->Serialize( filePath );
 }
 
 void wxGDHandler::SendEvent( wxEvent &event, bool delayed )
@@ -332,6 +347,9 @@ void wxGDHandler::InitAllXmlHandlers()
     wxXmlResource::Get()->AddHandler(new FrameXmlHandler);
     wxXmlResource::Get()->AddHandler(new wxScrolledWindowXmlHandler);
 
+#if wxUSE_AUI
+    wxXmlResource::Get()->AddHandler(new wxAuiXmlHandler);
+#endif
 #if wxUSE_ANIMATIONCTRL
     wxXmlResource::Get()->AddHandler(new wxAnimationCtrlXmlHandler);
 #endif

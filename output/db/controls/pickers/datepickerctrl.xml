@@ -10,13 +10,18 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxDatePickerCtrl">
+    <description>
+        &lt;p&gt;This control allows the user to select a date. &lt;/p&gt;
+        &lt;p&gt;Unlike &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_calendar_ctrl.html" title="The calendar control allows the user to pick a date."&gt;wxCalendarCtrl&lt;/a&gt;, which is a relatively big control, &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_date_picker_ctrl.html" title="This control allows the user to select a date."&gt;wxDatePickerCtrl&lt;/a&gt; is implemented as a small window showing the currently selected date. The control can be edited using the keyboard, and can also display a popup window for more user-friendly date selection, depending on the styles used and the platform.&lt;/p&gt;
+        &lt;p&gt;It is only available if &lt;code&gt;wxUSE_DATEPICKCTRL&lt;/code&gt; is set to 1.&lt;/p&gt;
+    </description>
     <inherits>
-        <class>wxWindow</class>
+        <class>wxControl</class>
     </inherits>
     <name label="Name">
-        <value>m_datePicker</value>
+        <value>datePicker</value>
     </name>
-    <style>
+    <style label="Style">
         <flag name="wxDP_SPIN">
             <description>Creates a control without a month calendar drop down but with spin-control-like arrows to change individual date components. This style is not supported by the generic version.</description>
         </flag>

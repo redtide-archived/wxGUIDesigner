@@ -11,20 +11,23 @@
 -->
 <classes>
     <class name="wxChoicebook" type="container">
-        <description>wxChoicebook is a class similar to wxNotebook, but uses a wxChoice control to show the labels instead of the tabs.</description>
+        <description>
+            &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_choicebook.html" title="wxChoicebook is a class similar to wxNotebook, but uses a wxChoice control to show the labels instead..."&gt;wxChoicebook&lt;/a&gt; is a class similar to &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_notebook.html" title="This class represents a notebook control, which manages multiple windows with associated tabs..."&gt;wxNotebook&lt;/a&gt;, but uses a &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_choice.html" title="A choice item is used to select one of a list of strings."&gt;wxChoice&lt;/a&gt; control to show the labels instead of the tabs. &lt;/p&gt;
+            &lt;p&gt;For usage documentation of this class, please refer to the base abstract class wxBookCtrl. You can also use the &lt;a class="el" href="page_samples.html#page_samples_notebook"&gt;Notebook Sample&lt;/a&gt; to see &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_choicebook.html" title="wxChoicebook is a class similar to wxNotebook, but uses a wxChoice control to show the labels instead..."&gt;wxChoicebook&lt;/a&gt; in action.&lt;/p&gt;
+            &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_choicebook.html" title="wxChoicebook is a class similar to wxNotebook, but uses a wxChoice control to show the labels instead..."&gt;wxChoicebook&lt;/a&gt; allows the use of wxBookCtrlBase::GetControlSizer(), allowing a program to add other controls next to the choice control. This is particularly useful when screen space is restricted, as it often is when &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_choicebook.html" title="wxChoicebook is a class similar to wxNotebook, but uses a wxChoice control to show the labels instead..."&gt;wxChoicebook&lt;/a&gt; is being employed.&lt;/p&gt;
+        </description>
         <inherits>
             <class>wxBookCtrlBase</class>
-            <class>wxWindow</class>
         </inherits>
         <children>
             <class name="choicebookpage" max="-1"/>
             <class name="wxImageList"    max="1"/>
         </children>
         <name label="Name">
-            <value>m_choiceBook</value>
+            <value>choiceBook</value>
         </name>
         <style label="Style">
-            <flag name="wxCHB_DEFAULT">
+            <!--flag name="wxCHB_DEFAULT">
                 <description>Choose the default location for the labels depending on the current platform (left everywhere except Mac where it is top).</description>
             </flag>
             <flag name="wxCHB_TOP">
@@ -38,7 +41,7 @@
             </flag>
             <flag name="wxCHB_BOTTOM">
                 <description>Place labels below the page area.</description>
-            </flag>
+            </flag-->
         </style>
         <event name="wxBookCtrlEvent">
             <type name="wxEVT_COMMAND_CHOICEBOOK_PAGE_CHANGED">

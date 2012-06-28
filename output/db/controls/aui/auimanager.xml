@@ -11,12 +11,29 @@
 -->
 <classes>
     <class name="wxAuiManager" type="layout">
-        <description>wxAuiManager is the central class of the wxAUI class framework.</description>
+        <inherits>
+            <class>wxEvtHandler</class>
+        </inherits>
+        <description>
+            &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_aui_manager.html" title="wxAuiManager is the central class of the wxAUI class framework."&gt;wxAuiManager&lt;/a&gt; is the central class of the wxAUI class framework. &lt;/p&gt;
+            &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_aui_manager.html" title="wxAuiManager is the central class of the wxAUI class framework."&gt;wxAuiManager&lt;/a&gt; manages the panes associated with it for a particular &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_frame.html" title="A frame is a window whose size and position can (usually) be changed by the user."&gt;wxFrame&lt;/a&gt;, using a pane's &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_aui_pane_info.html" title="wxAuiPaneInfo is part of the wxAUI class framework."&gt;wxAuiPaneInfo&lt;/a&gt; information to determine each pane's docking and floating behaviour.&lt;/p&gt;
+            &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_aui_manager.html" title="wxAuiManager is the central class of the wxAUI class framework."&gt;wxAuiManager&lt;/a&gt; uses wxWidgets' sizer mechanism to plan the layout of each frame. It uses a replaceable dock art class to do all drawing, so all drawing is localized in one area, and may be customized depending on an application's specific needs.&lt;/p&gt;
+            &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_aui_manager.html" title="wxAuiManager is the central class of the wxAUI class framework."&gt;wxAuiManager&lt;/a&gt; works as follows: the programmer adds panes to the class, or makes changes to existing pane properties (dock position, floating state, show state, etc.). To apply these changes, wxAuiManager's &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_aui_manager.html#a0b58a6eaef93c8aff7e2872cf487ffb3" title="This method is called after any number of changes are made to any of the managed panes."&gt;Update()&lt;/a&gt; function is called. This batch processing can be used to avoid flicker, by modifying more than one pane at a time, and then "committing" all of the changes at once by calling &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_aui_manager.html#a0b58a6eaef93c8aff7e2872cf487ffb3" title="This method is called after any number of changes are made to any of the managed panes."&gt;Update()&lt;/a&gt;.&lt;/p&gt;
+            &lt;p&gt;Panes can be added quite easily:&lt;/p&gt;
+            &lt;div class="fragment"&gt;&lt;pre class="fragment"&gt;    &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_text_ctrl.html" title="A text control allows text to be displayed and edited."&gt;wxTextCtrl&lt;/a&gt;* text1 = &lt;span class="keyword"&gt;new&lt;/span&gt; &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_text_ctrl.html" title="A text control allows text to be displayed and edited."&gt;wxTextCtrl&lt;/a&gt;(&lt;span class="keyword"&gt;this&lt;/span&gt;, -1);
+                &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_text_ctrl.html" title="A text control allows text to be displayed and edited."&gt;wxTextCtrl&lt;/a&gt;* text2 = &lt;span class="keyword"&gt;new&lt;/span&gt; &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_text_ctrl.html" title="A text control allows text to be displayed and edited."&gt;wxTextCtrl&lt;/a&gt;(&lt;span class="keyword"&gt;this&lt;/span&gt;, -1);
+                m_mgr.AddPane(text1, &lt;a class="code" href="http://docs.wxwidgets.org/trunk/defs_8h.html#ac0f30319732dcceda470516918ff3556aab66c1f81b54102c884b1307840d323c"&gt;wxLEFT&lt;/a&gt;, &lt;span class="stringliteral"&gt;"Pane Caption"&lt;/span&gt;);
+                m_mgr.AddPane(text2, &lt;a class="code" href="http://docs.wxwidgets.org/trunk/defs_8h.html#ac0f30319732dcceda470516918ff3556a17bc9a3dbb6e30a2418601aa5e30019b"&gt;wxBOTTOM&lt;/a&gt;, &lt;span class="stringliteral"&gt;"Pane Caption"&lt;/span&gt;);
+                m_mgr.Update();
+            &lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Later on, the positions can be modified easily. The following will float an existing pane in a tool window:&lt;/p&gt;
+            &lt;div class="fragment"&gt;&lt;pre class="fragment"&gt;    m_mgr.GetPane(text1).Float();
+            &lt;/pre&gt;&lt;/div&gt;
+        </description>
         <children>
             <class name="wxAuiPaneInfo" max="-1"/>
         </children>
         <name label="Name">
-            <value>m_mgr</value>
+            <value>mgr</value>
         </name>
         <style label="Style">
             <flag name="wxAUI_MGR_ALLOW_FLOATING">

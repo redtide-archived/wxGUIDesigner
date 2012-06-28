@@ -687,32 +687,38 @@ Object ObjectTree::CreateObject( const wxString &className, Object parent )
     // Add inherited class informations
     for( size_t i = 0; i < info->GetBaseCount(); i++ )
     {
-        wxString     baseName = info->GetBaseName( i );
-        ClassInfo    baseInfo = ClassInfoDB::Get()->GetClassInfo( baseName );
+        wxString     baseClassName = info->GetBaseName( i );
+        ClassInfo    baseClassInfo = ClassInfoDB::Get()->GetClassInfo( baseClassName );
 
-        if( baseInfo )
+        if( baseClassInfo )
         {
-            PropertyInfo catInfo( new PropertyInfoNode
-            ( PROPERTY_TYPE_CATEGORY, baseName, baseName ) );
-
-            Property category( new PropertyNode( catInfo ) );
-            object->AddProperty( category );
-
-            for( size_t n = 0; n < baseInfo->GetPropertyInfoCount(); n++ )
+            for( size_t n = 0; n < baseClassInfo->GetPropertyInfoCount(); n++ )
             {
                 // Is it possible that the inherit class have a property
-                // with same name, skip it (overrided method)
-                PropertyInfo info = baseInfo->GetPropertyInfo( n );
-                if( !object->PropertyExists( info->GetName() ) )
+                // with same name, merge it
+                PropertyInfo basePropInfo = baseClassInfo->GetPropertyInfo( n );
+                wxString     basePropName = basePropInfo->GetName();
+
+                if( !object->PropertyExists( basePropName ) )
                 {
-                    Property prop( new PropertyNode( info ) );
-                    category->AddChild( prop );
+                    Property prop( new PropertyNode( basePropInfo ) );
+                    object->AddProperty( prop );
+                }
+                else
+                {
+                    Property prop = object->GetProperty( basePropName );
+                    for( size_t j = 0; j < basePropInfo->GetChildCount(); j++ )
+                    {
+                        PropertyInfo childInfo( basePropInfo->GetChild(j) );
+                        Property child( new PropertyNode( childInfo ) );
+                        prop->AddChild( child );
+                    }
                 }
             }
 
-            for( size_t n = 0; n < baseInfo->GetEventInfoCount(); n++ )
+            for( size_t n = 0; n < baseClassInfo->GetEventInfoCount(); n++ )
             {
-                Event evt( new EventNode( baseInfo->GetEventInfo( n ) ) );
+                Event evt( new EventNode( baseClassInfo->GetEventInfo( n ) ) );
                 object->AddEvent( evt );
             }
         }
@@ -721,7 +727,7 @@ Object ObjectTree::CreateObject( const wxString &className, Object parent )
     return object;
 }
 
-Object ObjectTree::GetTopLevelObject( Object object )
+Object ObjectTree::GetTopLevelObject( Object object ) const
 {
     Object ret = Object();
     if( !object )

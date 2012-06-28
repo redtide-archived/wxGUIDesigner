@@ -10,12 +10,17 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxStyledTextCtrl">
-    <description>A wxWidgets implementation of the Scintilla source code editing component.</description>
+    <description>
+        &lt;p&gt;A wxWidgets implementation of the Scintilla source code editing component. &lt;/p&gt;
+        &lt;p&gt;As well as features found in standard text editing components, Scintilla includes features especially useful when editing and debugging source code. These include support for syntax styling, error indicators, code completion and call tips.&lt;/p&gt;
+        &lt;p&gt;The selection margin can contain markers like those used in debuggers to indicate breakpoints and the current line. Styling choices are more open than with many editors, allowing the use of proportional fonts, bold and italics, multiple foreground and background colours and multiple fonts.&lt;/p&gt;
+        &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_styled_text_ctrl.html" title="A wxWidgets implementation of the Scintilla source code editing component."&gt;wxStyledTextCtrl&lt;/a&gt; is a 1 to 1 mapping of "raw" scintilla interface, whose documentation can be found in the Scintilla website (&lt;a href="http://www.scintilla.org/"&gt;http://www.scintilla.org/&lt;/a&gt;).&lt;/p&gt;
+    </description>
     <inherits>
-        <class>wxWindow</class>
+        <class>wxControl</class>
     </inherits>
     <name label="Name">
-        <value>m_stc</value>
+        <value>stc</value>
     </name>
     <event name="wxStyledTextEvent">
         <type name="EVT_STC_CHANGE">

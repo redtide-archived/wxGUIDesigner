@@ -10,14 +10,22 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxComboBox">
-    <description>A combobox is like a combination of an edit control and a listbox.</description>
+    <description>
+        &lt;p&gt;A combobox is like a combination of an edit control and a listbox. &lt;/p&gt;
+        &lt;p&gt;It can be displayed as static list with editable or read-only text field; or a drop-down list with text field; or a drop-down list without a text field depending on the platform and presence of wxCB_READONLY style.&lt;/p&gt;
+        &lt;p&gt;A combobox permits a single selection only. Combobox items are numbered from zero.&lt;/p&gt;
+        &lt;p&gt;If you need a customized combobox, have a look at &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_combo_ctrl.html" title="A combo control is a generic combobox that allows totally custom popup."&gt;wxComboCtrl&lt;/a&gt;, &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_owner_drawn_combo_box.html" title="wxOwnerDrawnComboBox is a combobox with owner-drawn list items."&gt;wxOwnerDrawnComboBox&lt;/a&gt;, &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_combo_popup.html" title="In order to use a custom popup with wxComboCtrl, an interface class must be derived from wxComboPopup..."&gt;wxComboPopup&lt;/a&gt; and the ready-to-use &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_bitmap_combo_box.html" title="A combobox that displays bitmap in front of the list items."&gt;wxBitmapComboBox&lt;/a&gt;.&lt;/p&gt;
+        &lt;p&gt;Please refer to &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_text_entry.html" title="Common base class for single line text entry fields."&gt;wxTextEntry&lt;/a&gt; documentation for the description of methods operating with the text entry part of the combobox and to &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_item_container.html" title="This class is an abstract base class for some wxWidgets controls which contain several items such as ..."&gt;wxItemContainer&lt;/a&gt; for the methods operating with the list of strings. Notice that at least under MSW &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_combo_box.html" title="A combobox is like a combination of an edit control and a listbox."&gt;wxComboBox&lt;/a&gt; doesn't behave correctly if it contains strings differing in case only so portable programs should avoid adding such strings to this control.&lt;/p&gt;
+    </description>
     <inherits>
-        <class>wxWindow</class>
+        <class>wxControl</class>
+        <class>wxItemContainer</class>
+        <class>wxTextEntry</class>
     </inherits>
     <name label="Name">
-        <value>m_cboBox</value>
+        <value>cboBox</value>
     </name>
-    <style>
+    <style label="Style">
         <flag name="wxCB_SIMPLE">
             <description>Creates a combobox with a permanently displayed list. Windows only.</description>
         </flag>

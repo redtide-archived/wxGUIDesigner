@@ -10,13 +10,15 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxBitmapButton">
-    <description>A bitmap button is a control that contains a bitmap.</description>
+    <description>
+        &lt;p&gt;A bitmap button is a control that contains a bitmap. &lt;/p&gt;
+        &lt;p&gt;Notice that since wxWidgets 2.9.1 bitmap display is supported by the base &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_button.html" title="A button is a control that contains a text string, and is one of the most common elements of a GUI..."&gt;wxButton&lt;/a&gt; class itself and the only tiny advantage of using this class is that it allows to specify the bitmap in its constructor, unlike &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_button.html" title="A button is a control that contains a text string, and is one of the most common elements of a GUI..."&gt;wxButton&lt;/a&gt;. Please see the base class documentation for more information about images support in &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_button.html" title="A button is a control that contains a text string, and is one of the most common elements of a GUI..."&gt;wxButton&lt;/a&gt;.&lt;/p&gt;
+    </description>
     <inherits>
         <class>wxButton</class>
-        <class>wxWindow</class>
     </inherits>
     <name label="Name">
-        <value>m_bmpBtn</value>
+        <value>bmpBtn</value>
     </name>
     <bitmap name="selected" label="Selected">
         <description>Bitmap to show when the button is selected (default: none, same as bitmap).</description>

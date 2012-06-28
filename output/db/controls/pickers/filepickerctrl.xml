@@ -10,13 +10,17 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxFilePickerCtrl">
+    <description>
+        &lt;p&gt;This control allows the user to select a file. &lt;/p&gt;
+        &lt;p&gt;The generic implementation is a button which brings up a &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_file_dialog.html" title="This class represents the file chooser dialog."&gt;wxFileDialog&lt;/a&gt; when clicked. Native implementation may differ but this is usually a (small) widget which give access to the file-chooser dialog. It is only available if &lt;code&gt;wxUSE_FILEPICKERCTRL&lt;/code&gt; is set to 1 (the default).&lt;/p&gt;
+    </description>
     <inherits>
-        <class>wxWindow</class>
+        <class>wxPickerBase</class>
     </inherits>
     <name label="Name">
-        <value>m_filePicker</value>
+        <value>filePicker</value>
     </name>
-    <style>
+    <style label="Style">
         <flag name="wxFLP_DEFAULT_STYLE">
             <description>The default style: includes wxFLP_OPEN | wxFLP_FILE_MUST_EXIST and, under wxMSW only, wxFLP_USE_TEXTCTRL.</description>
         </flag>
@@ -42,13 +46,13 @@
             <description>Use smaller version of the control with a small "..." button instead of the normal "Browse" one. This flag is new since wxWidgets 2.9.3.</description>
         </flag>
     </style>
-    <string name="value">
+    <string name="value" label="Value">
         <description>Initial value of the control (default: empty).</description>
     </string>
-    <text name="message">
+    <text name="message" label="Message">
         <description>Message shown to the user in wxDirDialog shown by the control (required).</description>
     </text>
-    <string name="wildcard">
+    <string name="wildcard" label="Wildcard">
         <description>Sets the wildcard, which can contain multiple file types, for example: "BMP files (*.bmp)|*.bmp|GIF files (*.gif)|*.gif".</description>
     </string>
     <event name="wxFileDirPickerEvent">

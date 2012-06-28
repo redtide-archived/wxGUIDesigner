@@ -11,20 +11,23 @@
 -->
 <classes>
     <class name="wxNotebook" type="container">
-        <description>This class represents a notebook control, which manages multiple windows with associated tabs.</description>
+        <description>
+            &lt;p&gt;This class represents a notebook control, which manages multiple windows with associated tabs. &lt;/p&gt;
+            &lt;p&gt;To use the class, create a &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_notebook.html" title="This class represents a notebook control, which manages multiple windows with associated tabs..."&gt;wxNotebook&lt;/a&gt; object and call &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_book_ctrl_base.html#ab47f8935c3705a452fce7d292d8181dd" title="Adds a new page."&gt;wxNotebook::AddPage&lt;/a&gt; or &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_notebook.html#a18afa4472fe9768311d7a4990df5ced9" title="Inserts a new page at the specified position."&gt;wxNotebook::InsertPage&lt;/a&gt;, passing a window to be used as the page. Do not explicitly delete the window for a page that is currently managed by &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_notebook.html" title="This class represents a notebook control, which manages multiple windows with associated tabs..."&gt;wxNotebook&lt;/a&gt;.&lt;/p&gt;
+            &lt;p&gt;&lt;b&gt;wxNotebookPage&lt;/b&gt; is a typedef for &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_window.html" title="wxWindow is the base class for all windows and represents any visible object on screen."&gt;wxWindow&lt;/a&gt;.&lt;/p&gt;
+        </description>
         <inherits>
             <class>wxBookCtrlBase</class>
-            <class>wxWindow</class>
         </inherits>
         <children>
             <class name="notebookpage" max="-1"/>
             <class name="wxImageList"  max="1"/>
         </children>
         <name label="Name">
-            <value>m_listBook</value>
+            <value>noteBook</value>
         </name>
         <style label="Style">
-            <flag name="wxNB_TOP">
+            <!--flag name="wxNB_TOP">
                 <description>Place labels on the top side.</description>
             </flag>
             <flag name="wxNB_LEFT">
@@ -35,7 +38,7 @@
             </flag>
             <flag name="wxNB_BOTTOM">
                 <description>Place tabs under instead of above the notebook pages.</description>
-            </flag>
+            </flag-->
             <flag name="wxNB_FIXEDWIDTH">
                 <description>(Windows only) All tabs will have same width.</description>
             </flag>

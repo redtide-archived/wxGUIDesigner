@@ -23,6 +23,7 @@ class wxWindow;
 
 class wxGDHandler;
 class wxGDObjectEvent;
+class wxGDPropertyEvent;
 class wxGDTitleBarPanel;
 class wxGDResizingPanel;
 class wxGlossyButton;
@@ -38,12 +39,14 @@ private:
     typedef map< Object, wxObject * >  wxGDObjects;
 
     void LoadCodeEditorPages();
+    void UpdateControls();
 
     void OnDesignerResize( wxSizeEvent &event );
 
-    void OnObjectCreated ( wxGDObjectEvent &event );
-    void OnObjectDeleted ( wxGDObjectEvent &event );
-    void OnObjectSelected( wxGDObjectEvent &event );
+    void OnObjectCreated    ( wxGDObjectEvent   &event );
+    void OnObjectDeleted    ( wxGDObjectEvent   &event );
+    void OnObjectSelected   ( wxGDObjectEvent   &event );
+    void OnPropertyChanged  ( wxGDPropertyEvent &event );
 
     wxGDHandler         *m_handler;
     wxScrolledWindow    *m_scrolled;

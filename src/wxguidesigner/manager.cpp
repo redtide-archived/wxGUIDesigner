@@ -86,7 +86,7 @@ bool wxGUIDesigner::LoadProject( const wxString &filePath, bool checkInstance )
     if( checkInstance && !CheckSingleInstance( filePath ) )
         return false;
 
-    if( m_handler->GetTree()->Load( filePath ) )
+    if( m_handler->Load( filePath ) )
     {
         m_currDir = wxPathOnly( filePath );
         m_currPrj = filePath;
@@ -112,7 +112,7 @@ bool wxGUIDesigner::SaveProject( const wxString &filePath )
         return false;
     }
 
-    if( m_handler->GetTree()->Serialize( filePath ) )
+    if( m_handler->Serialize( filePath ) )
     {
         m_currDir = wxPathOnly( filePath );
         m_currPrj = filePath;

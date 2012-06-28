@@ -10,13 +10,17 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxColourPickerCtrl">
+    <description>
+        &lt;p&gt;This control allows the user to select a colour. &lt;/p&gt;
+        &lt;p&gt;The generic implementation is a button which brings up a &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_colour_dialog.html" title="This class represents the colour chooser dialog."&gt;wxColourDialog&lt;/a&gt; when clicked. Native implementation may differ but this is usually a (small) widget which give access to the colour-chooser dialog. It is only available if &lt;code&gt;wxUSE_COLOURPICKERCTRL&lt;/code&gt; is set to 1 (the default).&lt;/p&gt;
+    </description>
     <inherits>
-        <class>wxWindow</class>
+        <class>wxPickerBase</class>
     </inherits>
     <name label="Name">
-        <value>m_clrPicker</value>
+        <value>clrPicker</value>
     </name>
-    <style>
+    <style label="Style">
         <flag name="wxCLRP_DEFAULT_STYLE">
             <description>The default style: 0.</description>
         </flag>
@@ -27,8 +31,9 @@
             <description>Shows the colour in HTML form (AABBCC) as colour button label (instead of no label at all).</description>
         </flag>
     </style>
-    <colour name="value">
+    <colour name="value" label="value">
         <description>Initial value of the control (default: wxBLACK).</description>
+        <!--value>wxBLACK</value-->
     </colour>
     <event name="wxColourPickerEvent">
         <type name="wxEVT_COMMAND_COLOURPICKER_CHANGED">

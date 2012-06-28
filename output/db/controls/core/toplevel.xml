@@ -10,8 +10,13 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxTopLevelWindow" type="abstract">
-    <description>wxTopLevelWindow is a common base class for wxDialog and wxFrame.&lt;p&gt;It is an abstract base class meaning that you never work with objects of this class directly, but all of its methods are also applicable for the two classes above.&lt;/p&gt;&lt;p&gt;Note that the instances of wxTopLevelWindow are managed by wxWidgets in the internal top level window list.&lt;/p&gt;</description>
+    <description>
+        &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_top_level_window.html" title="wxTopLevelWindow is a common base class for wxDialog and wxFrame."&gt;wxTopLevelWindow&lt;/a&gt; is a common base class for &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_dialog.html" title="A dialog box is a window with a title bar and sometimes a system menu, which can be moved around the ..."&gt;wxDialog&lt;/a&gt; and &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_frame.html" title="A frame is a window whose size and position can (usually) be changed by the user."&gt;wxFrame&lt;/a&gt;. &lt;/p&gt;
+        &lt;p&gt;It is an abstract base class meaning that you never work with objects of this class directly, but all of its methods are also applicable for the two classes above.&lt;/p&gt;
+        &lt;p&gt;Note that the instances of &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_top_level_window.html" title="wxTopLevelWindow is a common base class for wxDialog and wxFrame."&gt;wxTopLevelWindow&lt;/a&gt; are managed by wxWidgets in the internal top level window list.&lt;/p&gt;
+    </description>
     <inherits>
+        <!--class>wxNonOwnedWindow</class-->
         <class>wxWindow</class>
     </inherits>
     <text name="title" label="Title">

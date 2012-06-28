@@ -10,13 +10,15 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxStaticText">
-    <description>A static text control displays one or more lines of read-only text.</description>
+    <description>
+        &lt;p&gt;A static text control displays one or more lines of read-only text. &lt;/p&gt;
+        &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_static_text.html" title="A static text control displays one or more lines of read-only text."&gt;wxStaticText&lt;/a&gt; supports the three classic text alignments, label ellipsization i.e. replacing parts of the text with the ellipsis ("...") if the label doesn't fit into the provided space and also formatting markup with &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_control.html#afeb308dc3b54d8d735b33cb250395503" title="Sets the controls label to a string using markup."&gt;wxControl::SetLabelMarkup()&lt;/a&gt;.&lt;/p&gt;
+    </description>
     <inherits>
         <class>wxControl</class>
-        <class>wxWindow</class>
     </inherits>
     <name label="Name">
-        <value>m_statText</value>
+        <value>statText</value>
     </name>
     <style label="Style">
         <flag name="wxALIGN_LEFT">

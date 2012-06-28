@@ -10,7 +10,10 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxSplitterWindow" type="container">
-    <description>This class manages up to two subwindows.</description>
+    <description>
+        &lt;p&gt;This class manages up to two subwindows. &lt;/p&gt;
+        &lt;p&gt;The current view can be split into two programmatically (perhaps from a menu command), and unsplit either programmatically or via the &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_splitter_window.html" title="This class manages up to two subwindows."&gt;wxSplitterWindow&lt;/a&gt; user interface.&lt;/p&gt;
+    </description>
     <inherits>
         <class>wxWindow</class>
     </inherits>
@@ -18,7 +21,7 @@
         <child type="control" max="2"/>
     </children>
     <name label="Name">
-        <value>m_splitter</value>
+        <value>splitter</value>
     </name>
     <style label="Style">
         <flag name="wxSP_3D">

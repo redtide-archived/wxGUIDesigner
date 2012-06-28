@@ -11,7 +11,12 @@
 -->
 <classes>
     <class name="wxMenuBar">
-        <description>A menu bar is a series of menus accessible from the top of a frame.</description>
+        <description>
+            &lt;p&gt;A menu bar is a series of menus accessible from the top of a frame. &lt;/p&gt;
+            &lt;dl class="remark"&gt;&lt;dt&gt;&lt;b&gt;Remarks:&lt;/b&gt;&lt;/dt&gt;&lt;dd&gt;To respond to a menu selection, provide a handler for EVT_MENU, in the frame that contains the menu bar.&lt;/dd&gt;&lt;/dl&gt;
+            &lt;p&gt;If you have a toolbar which uses the same identifiers as your EVT_MENU entries, events from the toolbar will also be processed by your EVT_MENU event handlers.&lt;/p&gt;
+            &lt;p&gt;Tip: under Windows, if you discover that menu shortcuts (for example, Alt-F to show the file menu) are not working, check any EVT_CHAR events you are handling in child windows. If you are not calling event.Skip() for events that you don't process in these event handlers, menu shortcuts may cease to work.&lt;/p&gt;
+        </description>
         <inherits>
             <class>wxWindow</class>
         </inherits>
@@ -21,7 +26,7 @@
         <name label="Name">
             <value>m_menuBar</value>
         </name>
-        <style name="Style">
+        <style label="Style">
             <flag name="wxMB_DOCKABLE">
                 <description>The menu bar can be detached (wxGTK only).</description>
             </flag>
@@ -29,7 +34,31 @@
     </class>
 
     <class name="wxMenu">
-        <description>A menu is a popup (or pull down) list of items, one of which may be selected before the menu goes away (clicking elsewhere dismisses the menu).</description>
+        <description>
+            &lt;p&gt;A menu is a popup (or pull down) list of items, one of which may be selected before the menu goes away (clicking elsewhere dismisses the menu). &lt;/p&gt;
+            &lt;p&gt;Menus may be used to construct either menu bars or popup menus.&lt;/p&gt;
+            &lt;p&gt;A menu item has an integer ID associated with it which can be used to identify the selection, or to change the menu item in some way. A menu item with a special identifier &lt;em&gt;wxID_SEPARATOR&lt;/em&gt; is a separator item and doesn't have an associated command but just makes a separator line appear in the menu.&lt;/p&gt;
+            &lt;dl class="note"&gt;&lt;dt&gt;&lt;b&gt;Note:&lt;/b&gt;&lt;/dt&gt;&lt;dd&gt;Please note that &lt;em&gt;wxID_ABOUT&lt;/em&gt; and &lt;em&gt;wxID_EXIT&lt;/em&gt; are predefined by wxWidgets and have a special meaning since entries using these IDs will be taken out of the normal menus under MacOS X and will be inserted into the system menu (following the appropriate MacOS X interface guideline).&lt;/dd&gt;&lt;/dl&gt;
+            &lt;p&gt;Menu items may be either &lt;em&gt;normal&lt;/em&gt; items, &lt;em&gt;check&lt;/em&gt; items or &lt;em&gt;radio&lt;/em&gt; items. Normal items don't have any special properties while the check items have a boolean flag associated to them and they show a checkmark in the menu when the flag is set. wxWidgets automatically toggles the flag value when the item is clicked and its value may be retrieved using either &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_menu.html#a088f0097e2077518e60200f80232e291" title="Determines whether a menu item is checked."&gt;wxMenu::IsChecked&lt;/a&gt; method of &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_menu.html" title="A menu is a popup (or pull down) list of items, one of which may be selected before the menu goes awa..."&gt;wxMenu&lt;/a&gt; or &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_menu_bar.html" title="A menu bar is a series of menus accessible from the top of a frame."&gt;wxMenuBar&lt;/a&gt; itself or by using wxEvent::IsChecked when you get the menu notification for the item in question.&lt;/p&gt;
+            &lt;p&gt;The radio items are similar to the check items except that all the other items in the same radio group are unchecked when a radio item is checked. The radio group is formed by a contiguous range of radio items, i.e. it starts at the first item of this kind and ends with the first item of a different kind (or the end of the menu). Notice that because the radio groups are defined in terms of the item positions inserting or removing the items in the menu containing the radio items risks to not work correctly.&lt;/p&gt;
+            &lt;h2&gt;&lt;a class="anchor" id="menu_allocation"&gt;&lt;/a&gt;
+            Allocation strategy&lt;/h2&gt;
+            &lt;p&gt;All menus must be created on the &lt;b&gt;heap&lt;/b&gt; because all menus attached to a menubar or to another menu will be deleted by their parent when it is deleted. The only exception to this rule are the popup menus (i.e. menus used with &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_window.html#a8f715d238cf74a845488b0e2645e98df" title="Pops up the given menu at the specified coordinates, relative to this window, and returns control whe..."&gt;wxWindow::PopupMenu()&lt;/a&gt;) as wxWidgets does not destroy them to allow reusing the same menu more than once. But the exception applies only to the menus themselves and not to any submenus of popup menus which are still destroyed by wxWidgets as usual and so must be heap-allocated.&lt;/p&gt;
+            &lt;p&gt;As the frame menubar is deleted by the frame itself, it means that normally all menus used are deleted automatically.&lt;/p&gt;
+            &lt;h2&gt;&lt;a class="anchor" id="menu_eventhandling"&gt;&lt;/a&gt;
+            Event handling&lt;/h2&gt;
+            &lt;p&gt;If the menu is part of a menubar, then &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_menu_bar.html" title="A menu bar is a series of menus accessible from the top of a frame."&gt;wxMenuBar&lt;/a&gt; event processing is used.&lt;/p&gt;
+            &lt;p&gt;With a popup menu (see &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_window.html#a8f715d238cf74a845488b0e2645e98df" title="Pops up the given menu at the specified coordinates, relative to this window, and returns control whe..."&gt;wxWindow::PopupMenu&lt;/a&gt;), there is a variety of ways to handle a menu selection event (&lt;code&gt;wxEVT_COMMAND_MENU_SELECTED&lt;/code&gt;):&lt;/p&gt;
+            &lt;ul&gt;
+            &lt;li&gt;Provide &lt;code&gt;EVT_MENU&lt;/code&gt; handlers in the window which pops up the menu, or in an ancestor of that window (the simplest method);&lt;/li&gt;
+            &lt;li&gt;Derive a new class from &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_menu.html" title="A menu is a popup (or pull down) list of items, one of which may be selected before the menu goes awa..."&gt;wxMenu&lt;/a&gt; and define event table entries using the &lt;code&gt;EVT_MENU&lt;/code&gt; macro;&lt;/li&gt;
+            &lt;li&gt;Set a new event handler for &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_menu.html" title="A menu is a popup (or pull down) list of items, one of which may be selected before the menu goes awa..."&gt;wxMenu&lt;/a&gt;, through &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_evt_handler.html#a68e2ef2d2b7d68c4c9c18ca92933031b" title="Sets the pointer to the next handler."&gt;wxEvtHandler::SetNextHandler&lt;/a&gt;, specifying an object whose class has &lt;code&gt;EVT_MENU&lt;/code&gt; entries;&lt;/li&gt;
+            &lt;/ul&gt;
+            &lt;p&gt;Note that instead of static &lt;code&gt;EVT_MENU&lt;/code&gt; macros you can also use dynamic connection; see &lt;a class="el" href="http://docs.wxwidgets.org/trunk/overview_events.html#overview_events_bind"&gt;Dynamic Event Handling&lt;/a&gt;.&lt;/p&gt;
+        </description>
+        <inherits>
+            <class>wxEvtHandler</class>
+        </inherits>
         <children>
             <class name="break"      max="-1"/>
             <class name="separator"  max="-1"/>
@@ -39,36 +68,39 @@
         <name label="Name">
             <value>m_menu</value>
         </name>
-        <text name="label">
+        <text name="label" label="Label">
             <description>Menu's label (default: empty, but required for menus other than popup menus).</description>
         </text>
-        <text name="help">
+        <text name="help" label="Help">
             <description>Help shown in statusbar when the menu is selected (only for submenus of another wxMenu, default: none).</description>
         </text>
-        <bool name="enabled">
-                <value>1</value>
+        <bool name="enabled" label="Enabled">
             <description>Is the submenu item enabled (only for submenus of another wxMenu, default: 1)?</description>
+            <value>1</value>
         </bool>
     </class>
 
     <class name="wxMenuItem">
         <description>A menu item represents an item in a menu.</description>
-        <name label="Name">
+        <inherits>
+            <class>wxObject</class>
+        </inherits>
+        <name>
             <value>m_mnuItm</value>
         </name>
-        <bitmap name="bitmap">
+        <bitmap name="bitmap" label="Bitmap">
             <description>Bitmap to show with the item (default: none).</description>
         </bitmap>
         <bitmap name="bitmap2" label="Checked bitmap">
             <description>Bitmap for the checked state (wxMSW, if checkable; default: none).</description>
         </bitmap>
-        <text name="label">
+        <text name="label" label="Label">
             <description>Item's label (required).</description>
         </text>
         <string name="accel" label="Accelerator">
             <description>Item's accelerator (default: none).</description>
         </string>
-        <enum name="kind">
+        <enum name="kind" label="Kind">
             <flag name="wxITEM_NORMAL">
                 <description>A normal menu item (default)</description>
             </flag>
@@ -79,13 +111,13 @@
                 <description>A checkable menu item (such menu item stays pressed after it had been toggled)</description>
             </flag>
         </enum>
-        <text name="help">
+        <text name="help" label="Help">
             <description>Help shown in statusbar when the item is selected (default: none).</description>
         </text>
-        <bool name="enabled">
+        <bool name="enabled" label="Enabled">
             <description>Is the item enabled (default: 1)?</description>
         </bool>
-        <bool name="checked">
+        <bool name="checked" label="Checked">
             <description>Is the item checked initially (default: 0)?</description>
         </bool>
         <event name="wxCommandEvent">
@@ -109,7 +141,11 @@
         </event>
     </class>
 
-    <class name="separator" type="item"/>
+    <class name="separator" type="item">
+        <description>&lt;p&gt;The &lt;code&gt;separator&lt;/code&gt; pseudo-class is used to insert separators into the menu and has neither properties nor children.&lt;/p&gt;</description>
+    </class>
 
-    <class name="break" type="item"/>
+    <class name="break" type="item">
+        <description>&lt;p&gt;&lt;code&gt;break&lt;/code&gt; inserts a break (see &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_menu.html#a3728d2f96ee825b042e0b6d0e08d21d3" title="Inserts a break in a menu, causing the next appended item to appear in a new column."&gt;wxMenu::Break()&lt;/a&gt;).&lt;/p&gt;</description>
+    </class>
 </classes>

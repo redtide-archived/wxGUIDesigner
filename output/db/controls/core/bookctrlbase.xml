@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        bookctrlbase.xml
+    Purpose:     wxBookCtrlBase class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/06/28
+    Revision:    $Hash$
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
+-->
+<class name="wxBookCtrlBase" type="abstract">
+    <description>
+        &lt;p&gt;A book control is a convenient way of displaying multiple pages of information, displayed one page at a time. &lt;/p&gt;
+        &lt;p&gt;wxWidgets has five variants of this control:&lt;/p&gt;
+        &lt;ul&gt;
+        &lt;li&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_choicebook.html" title="wxChoicebook is a class similar to wxNotebook, but uses a wxChoice control to show the labels instead..."&gt;wxChoicebook&lt;/a&gt;: controlled by a &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_choice.html" title="A choice item is used to select one of a list of strings."&gt;wxChoice&lt;/a&gt; &lt;/li&gt;
+        &lt;li&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_listbook.html" title="wxListbook is a class similar to wxNotebook but which uses a wxListCtrl to show the labels instead of..."&gt;wxListbook&lt;/a&gt;: controlled by a &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_list_ctrl.html" title="A list control presents lists in a number of formats: list view, report view, icon view and small ico..."&gt;wxListCtrl&lt;/a&gt; &lt;/li&gt;
+        &lt;li&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_notebook.html" title="This class represents a notebook control, which manages multiple windows with associated tabs..."&gt;wxNotebook&lt;/a&gt;: uses a row of tabs &lt;/li&gt;
+        &lt;li&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_treebook.html" title="This class is an extension of the wxNotebook class that allows a tree structured set of pages to be s..."&gt;wxTreebook&lt;/a&gt;: controlled by a &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_tree_ctrl.html" title="A tree control presents information as a hierarchy, with items that may be expanded to show further i..."&gt;wxTreeCtrl&lt;/a&gt; &lt;/li&gt;
+        &lt;li&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_toolbook.html" title="wxToolbook is a class similar to wxNotebook but which uses a wxToolBar to show the labels instead of ..."&gt;wxToolbook&lt;/a&gt;: controlled by a &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_tool_bar.html" title="A toolbar is a bar of buttons and/or other controls usually placed below the menu bar in a wxFrame..."&gt;wxToolBar&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+        &lt;p&gt;This abstract class is the parent of all these book controls, and provides their basic interface. This is a pure virtual class so you cannot allocate it directly.&lt;/p&gt;
+    </description>
+    <inherits>
+        <class>wxControl</class>
+        <class>wxWithImages</class>
+    </inherits>
+    <style>
+        <flag name="wxBK_DEFAULT">
+            <description>Native controller placement.</description>
+        </flag>
+        <flag name="wxBK_TOP">
+            <description>Controller above pages.</description>
+        </flag>
+        <flag name="wxBK_BOTTOM">
+            <description>Controller below pages.</description>
+        </flag>
+        <flag name="wxBK_LEFT">
+            <description>Controller on the left.</description>
+        </flag>
+        <flag name="wxBK_RIGHT">
+            <description>Controller on the right.</description>
+        </flag>
+    </style>
+</class>

@@ -10,12 +10,40 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxInfoBar">
-    <description>An info bar is a transient window shown at top or bottom of its parent window to display non-critical information to the user.</description>
+    <description>
+        &lt;p&gt;An info bar is a transient window shown at top or bottom of its parent window to display non-critical information to the user. &lt;/p&gt;
+        &lt;p&gt;This class provides another way to show messages to the user, intermediate between message boxes and status bar messages. The message boxes are modal and thus interrupt the users work flow and should be used sparingly for this reason. However status bar messages are often too easy not to notice at all. An info bar provides a way to present the messages which has a much higher chance to be noticed by the user but without being annoying.&lt;/p&gt;
+        &lt;p&gt;Info bar may show an icon (on the left), text message and, optionally, buttons allowing the user to react to the information presented. It always has a close button at the right allowing the user to dismiss it so it isn't necessary to provide a button just to close it.&lt;/p&gt;
+        &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_info_bar.html" title="An info bar is a transient window shown at top or bottom of its parent window to display non-critical..."&gt;wxInfoBar&lt;/a&gt; calls its parent &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_window.html#a1b143c3e72bd0af533b76db4830a6113" title="Invokes the constraint-based layout algorithm or the sizer-based algorithm for this window..."&gt;wxWindow::Layout()&lt;/a&gt; method and assumes that it will change the parent layout appropriately depending on whether the info bar itself is shown or hidden. Usually this is achieved by simply using a sizer for the parent window layout and adding &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_info_bar.html" title="An info bar is a transient window shown at top or bottom of its parent window to display non-critical..."&gt;wxInfoBar&lt;/a&gt; to this sizer as one of the items. Considering the usual placement of the info bars, normally this sizer should be a vertical &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_box_sizer.html" title="The basic idea behind a box sizer is that windows will most often be laid out in rather simple basic ..."&gt;wxBoxSizer&lt;/a&gt; and the bar its first or last element so the simplest possible example of using this class would be: &lt;/p&gt;
+        &lt;div class="fragment"&gt;&lt;pre class="fragment"&gt;    &lt;span class="keyword"&gt;class &lt;/span&gt;MyFrame : &lt;span class="keyword"&gt;public&lt;/span&gt; &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_frame.html" title="A frame is a window whose size and position can (usually) be changed by the user."&gt;wxFrame&lt;/a&gt;
+            {
+                ...
+
+                &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_info_bar.html" title="An info bar is a transient window shown at top or bottom of its parent window to display non-critical..."&gt;wxInfoBar&lt;/a&gt; *m_infoBar;
+            };
+
+            MyFrame::MyFrame()
+            {
+                ...
+                m_infoBar = &lt;span class="keyword"&gt;new&lt;/span&gt; &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_info_bar.html#a802021e4b71dc8286c7fc56a45c73967" title="Default constructor."&gt;wxInfoBar&lt;/a&gt;(&lt;span class="keyword"&gt;this&lt;/span&gt;);
+
+                &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_sizer.html" title="wxSizer is the abstract base class used for laying out subwindows in a window."&gt;wxSizer&lt;/a&gt; *sizer = &lt;span class="keyword"&gt;new&lt;/span&gt; &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_box_sizer.html" title="The basic idea behind a box sizer is that windows will most often be laid out in rather simple basic ..."&gt;wxBoxSizer&lt;/a&gt;(&lt;a class="code" href="http://docs.wxwidgets.org/trunk/defs_8h.html#a1e6994f40bd9cb140e292afb165af971a2134d1cb8cf605532880c118190695b5"&gt;wxVERTICAL&lt;/a&gt;);
+                sizer-&gt;&lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_sizer.html#a4e2122f2749261473c21cb192d00709f" title="Appends a child to the sizer."&gt;Add&lt;/a&gt;(m_infoBar, &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_sizer_flags.html" title="Container for sizer items flags providing readable names for them."&gt;wxSizerFlags&lt;/a&gt;().Expand());
+                ... add other frame controls to the sizer ...
+                &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_window.html#abc95691b45e29a52c24aa9d33d46dec1" title="Sets the window to have the given layout sizer."&gt;SetSizer&lt;/a&gt;(sizer);
+            }
+
+            &lt;span class="keywordtype"&gt;void&lt;/span&gt; MyFrame::SomeMethod()
+            {
+                m_infoBar-&gt;ShowMessage(&lt;span class="stringliteral"&gt;"Something happened"&lt;/span&gt;, &lt;a class="code" href="http://docs.wxwidgets.org/trunk/defs_8h.html#a6ad4380c48ee0854f49c171b1a2514eb"&gt;wxICON_INFORMATION&lt;/a&gt;);
+            }
+        &lt;/pre&gt;&lt;/div&gt;&lt;p&gt;See the dialogs sample for more sophisticated examples.&lt;/p&gt;
+        &lt;p&gt;Currently this class is implemented generically (i.e. in the same platform-independent way for all ports) and also natively in wxGTK but the native implementation requires a recent -- as of this writing -- GTK+ 2.18 version.&lt;/p&gt;
+    </description>
     <inherits>
         <class>wxControl</class>
-        <class>wxWindow</class>
     </inherits>
     <name label="Name">
-        <value>m_infoBar</value>
+        <value>infoBar</value>
     </name>
 </class>

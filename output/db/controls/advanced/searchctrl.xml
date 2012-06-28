@@ -13,10 +13,9 @@
     <description>A search control is a composite control with a search button, a text control, and a cancel button.</description>
     <inherits>
         <class>wxTextCtrl</class>
-        <class>wxWindow</class>
     </inherits>
     <name label="Name">
-        <value>m_srchCtrl</value>
+        <value>srchCtrl</value>
     </name>
     <event name="wxCommandEvent">
         <type name="EVT_SEARCHCTRL_SEARCH_BTN">

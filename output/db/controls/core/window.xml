@@ -10,18 +10,23 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxWindow" type="abstract">
-    <description>wxWindow is the base class for all windows and represents any visible object on screen.</description>
-    <!--id>
+    <description>
+        &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_window.html" title="wxWindow is the base class for all windows and represents any visible object on screen."&gt;wxWindow&lt;/a&gt; is the base class for all windows and represents any visible object on screen. &lt;/p&gt;
+        &lt;p&gt;All controls, top level windows and so on are windows. Sizers and device contexts are not, however, as they don't appear on screen themselves.&lt;/p&gt;
+        &lt;p&gt;Please note that all children of the window will be deleted automatically by the destructor before the window itself is deleted which means that you don't have to worry about deleting them manually. Please see the &lt;a class="el" href="http://docs.wxwidgets.org/trunk/overview_windowdeletion.html"&gt;window deletion overview&lt;/a&gt; for more information.&lt;/p&gt;
+        &lt;p&gt;Also note that in this, and many others, wxWidgets classes some &lt;code&gt;GetXXX()&lt;/code&gt; methods may be overloaded (as, for example, &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_window.html#a124c12cff1e7b6e96a5e1fd3e48dca34" title="Returns the size of the entire window in pixels, including title bar, border, scrollbars, etc."&gt;wxWindow::GetSize&lt;/a&gt; or &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_window.html#ae56fc53268b815b58570f66bfc33838f" title="Returns the size of the window 'client area' in pixels."&gt;wxWindow::GetClientSize&lt;/a&gt;). In this case, the overloads are non-virtual because having multiple virtual functions with the same name results in a virtual function name hiding at the derived class level (in English, this means that the derived class has to override all overloaded variants if it overrides any of them). To allow overriding them in the derived class, wxWidgets uses a unique protected virtual &lt;code&gt;DoGetXXX()&lt;/code&gt; method and all &lt;code&gt;GetXXX()&lt;/code&gt; ones are forwarded to it, so overriding the former changes the behaviour of the latter.&lt;/p&gt;
+    </description>
+    <!--int name="id">
         <value>wxID_ANY</value>
         <description>The type of unique identifiers (ID) used for wxWindow-derived classes.</description>
-    </id-->
+    </int-->
     <point name="pos" label="Position">
         <description>Initial position of the window (default: wxDefaultPosition).</description>
     </point>
     <size label="Size">
         <description>Initial size of the window (default: wxDefaultSize).</description>
     </size>
-    <style name="style_window" label="Style">
+    <style label="Style">
         <description>Window style for this control. The allowed values depend on what window is being created, consult respective class' constructor documentation for details (default: window-dependent default, usually wxFOO_DEFAULT_STYLE if defined for class wxFoo, 0 if not).</description>
         <flag name="wxBORDER_NONE">
             <description>Displays no border, overriding the default border style for the window. wxNO_BORDER is the old name for this style.</description>
@@ -66,7 +71,7 @@
             <description>Use this style to force a complete redraw of the window whenever it is resized instead of redrawing just the part of the window affected by resizing. Note that this was the behaviour by default before 2.5.1 release and that if you experience redraw problems with code which previously used to work you may want to try this. Currently this style applies on GTK+ 2 and Windows only, and full repainting is always done on other platforms.</description>
         </flag>
     </style>
-    <style name="exstyle_window" label="Extra style">
+    <style name="exstyle" label="Extra style">
         <description>Extra style for the window, if any. See wxWindow::SetExtraStyle() (default: not set).</description>
         <flag name="wxWS_EX_VALIDATE_RECURSIVELY">
             <description>By default, wxWindow::Validate(), wxWindow::TransferDataTo() and wxWindow::TransferDataFromWindow() only work on direct children of the window (compatible behaviour). Set this flag to make them recursively descend into all subwindows.</description>
@@ -99,7 +104,7 @@
     <colour name="ownbg" label="Own background colour">
         <description>Non-inheritable background colour of the window, see wxWindow::SetOwnBackgroundColour() (default: none).</description>
     </colour>
-    <font label="Font">
+    <font>
         <description>Font to use for the control (default: window's default).</description>
     </font>
     <font name="ownfont" label="Own font">

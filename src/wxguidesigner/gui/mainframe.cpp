@@ -95,16 +95,18 @@ m_mgr       (NULL)
 
     m_mgr->AddPane( treeView, wxAuiPaneInfo().Left().
                     Name("TreeViewPane").Caption(_("Project") ).
-                    CloseButton(false).MinSize(180,-1).FloatingSize(150,300).
+                    MaximizeButton(true).CloseButton(false).
+                    MinSize(180,-1).FloatingSize(150,300).
                     TopDockable(false).BottomDockable(false) );
 
     m_mgr->AddPane( editor, wxAuiPaneInfo().Center().
                     Name("EditorBookPane").Caption(_("Editor") ).
-                    CloseButton(false).DockFixed(true) );
+                    MaximizeButton(true).CloseButton(false).DockFixed(true) );
 
     m_mgr->AddPane( propBook, wxAuiPaneInfo().Right().
                     Name("PropertyBookPane").Caption(_("Properties") ).
-                    CloseButton(false).MinSize(180,-1).FloatingSize(150,300).
+                    MaximizeButton(true).CloseButton(false).
+                    MinSize(180,-1).FloatingSize(150,300).
                     TopDockable(false).BottomDockable(false) );
 #ifdef __WXDEBUG__
     wxWindow *dbgWnd = (wxWindow *)m_handler->GetDebugWindow(m_panel);

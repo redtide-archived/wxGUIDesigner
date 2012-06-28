@@ -10,12 +10,15 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxStaticLine">
-    <description>A static line is just a line which may be used in a dialog to separate the groups of controls.</description>
+    <description>
+        &lt;p&gt;A static line is just a line which may be used in a dialog to separate the groups of controls. &lt;/p&gt;
+        &lt;p&gt;The line may be only vertical or horizontal. Moreover, not all ports (notably not wxGTK) support specifying the transversal direction of the line (e.g. height for a horizontal line) so for maximal portability you should specify it as wxDefaultCoord.&lt;/p&gt;
+    </description>
     <inherits>
-        <class>wxWindow</class>
+        <class>wxControl</class>
     </inherits>
     <name label="Name">
-        <value>m_statLine</value>
+        <value>statLine</value>
     </name>
     <style label="Style">
         <flag name="wxLI_HORIZONTAL">

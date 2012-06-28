@@ -10,14 +10,20 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxGauge">
-    <description>A gauge is a horizontal or vertical bar which shows a quantity (often time).</description>
+    <description>
+        &lt;p&gt;A gauge is a horizontal or vertical bar which shows a quantity (often time). &lt;/p&gt;
+        &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_gauge.html" title="A gauge is a horizontal or vertical bar which shows a quantity (often time)."&gt;wxGauge&lt;/a&gt; supports two working modes: determinate and indeterminate progress.&lt;/p&gt;
+        &lt;p&gt;The first is the usual working mode (see &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_gauge.html#a10d32bc2c4c4bb6c45041a0728f601dd" title="Sets the position of the gauge."&gt;SetValue()&lt;/a&gt; and &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_gauge.html#ad371fb5ea9d29d482baea51f97976123" title="Sets the range (maximum value) of the gauge."&gt;SetRange()&lt;/a&gt;) while the second can be used when the program is doing some processing but you don't know how much progress is being done. In this case, you can periodically call the &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_gauge.html#a45c379e7a36861aa4cf4a381f8dc1e31" title="Switch the gauge to indeterminate mode (if required) and makes the gauge move a bit to indicate the u..."&gt;Pulse()&lt;/a&gt; function to make the progress bar switch to indeterminate mode (graphically it's usually a set of blocks which move or bounce in the bar control).&lt;/p&gt;
+        &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_gauge.html" title="A gauge is a horizontal or vertical bar which shows a quantity (often time)."&gt;wxGauge&lt;/a&gt; supports dynamic switch between these two work modes.&lt;/p&gt;
+        &lt;p&gt;There are no user commands for the gauge.&lt;/p&gt;
+    </description>
     <inherits>
         <class>wxControl</class>
     </inherits>
     <name label="Name">
-        <value>m_gauge</value>
+        <value>gauge</value>
     </name>
-    <style>
+    <style label="Style">
         <flag name="wxGA_HORIZONTAL">
             <description>Creates a horizontal gauge.</description>
         </flag>
@@ -28,17 +34,17 @@
             <description>Creates smooth progress bar with one pixel wide update step (not supported by all platforms).</description>
         </flag>
     </style>
-    <int name="range">
-            <value>100</value>
+    <int name="range" label="Range">
         <description>Maximum value of the gauge (default: 100).</description>
+        <value>100</value>
     </int>
-    <int name="value">
+    <int name="value" label="Value">
         <description>Initial value of the control (default: 0).</description>
     </int>
-    <dimension name="shadow">
+    <dimension name="shadow" label="Shadow">
         <description>Rendered shadow size (default: none; ignored by most platforms).</description>
     </dimension>
-    <dimension name="bezel">
+    <dimension name="bezel" label="Bezel">
         <description>Rendered bezel size (default: none; ignored by most platforms).</description>
     </dimension>
 </class>

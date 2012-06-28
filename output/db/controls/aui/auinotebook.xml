@@ -11,16 +11,20 @@
 -->
 <classes>
     <class name="wxAuiNotebook" type="container">
-        <description>wxAuiNotebook is a notebook control which implements many features common in applications with dockable panes. Specifically, wxAuiNotebook implements functionality which allows the user to rearrange tab order via drag-and-drop, split the tab window into many different splitter configurations, and toggle through different themes to customize the control's look and feel.</description>
+        <description>
+            &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_aui_notebook.html" title="wxAuiNotebook is part of the wxAUI class framework."&gt;wxAuiNotebook&lt;/a&gt; is part of the wxAUI class framework. &lt;/p&gt;
+            &lt;p&gt;See also &lt;a class="el" href="http://docs.wxwidgets.org/trunk/overview_aui.html"&gt;wxAUI Overview&lt;/a&gt;.&lt;/p&gt;
+            &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_aui_notebook.html" title="wxAuiNotebook is part of the wxAUI class framework."&gt;wxAuiNotebook&lt;/a&gt; is a notebook control which implements many features common in applications with dockable panes. Specifically, &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_aui_notebook.html" title="wxAuiNotebook is part of the wxAUI class framework."&gt;wxAuiNotebook&lt;/a&gt; implements functionality which allows the user to rearrange tab order via drag-and-drop, split the tab window into many different splitter configurations, and toggle through different themes to customize the control's look and feel.&lt;/p&gt;
+            &lt;p&gt;The default theme that is used is wxAuiDefaultTabArt, which provides a modern, glossy look and feel. The theme can be changed by calling &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_aui_notebook.html#ab1b3740da86630f7f1a7e3f5c7f308d2" title="Sets the art provider to be used by the notebook."&gt;wxAuiNotebook::SetArtProvider&lt;/a&gt;.&lt;/p&gt;
+        </description>
         <inherits>
             <class>wxBookCtrlBase</class>
-            <class>wxWindow</class>
         </inherits>
         <children>
             <class>auinotebookpage</class>
         </children>
         <name label="Name">
-            <value>m_auiBook</value>
+            <value>auiBook</value>
         </name>
         <style label="Style">
             <flag name="wxAUI_NB_DEFAULT_STYLE">

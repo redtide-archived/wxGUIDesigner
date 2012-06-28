@@ -10,6 +10,10 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxBoxSizer" type="sizer">
+    <description>
+        &lt;p&gt;The basic idea behind a box sizer is that windows will most often be laid out in rather simple basic geometry, typically in a row or a column or several hierarchies of either. &lt;/p&gt;
+        &lt;p&gt;For more information, please see &lt;a class="el" href="http://docs.wxwidgets.org/trunk/overview_sizer.html#overview_sizer_box"&gt;Programming with wxBoxSizer&lt;/a&gt;.&lt;/p&gt;
+    </description>
     <inherits>
         <class>wxSizer</class>
     </inherits>

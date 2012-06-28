@@ -26,14 +26,14 @@ using namespace std;
 //  PropertyInfoNode
 //=============================================================================
 
-PropertyInfoNode::PropertyInfoNode( PropertyType type,
-                                    const wxString &name,
+PropertyInfoNode::PropertyInfoNode( PropertyType type, const wxString &name,
                                     const wxString &label )
-                                  : m_type( type ),
-                                    m_name( name ),
-                                    m_label( label ),
-                                    m_value( wxEmptyString ),
-                                    m_desc( wxEmptyString )
+:
+m_type  ( type ),
+m_name  ( name ),
+m_label ( label ),
+m_value ( wxEmptyString ),
+m_desc  ( wxEmptyString )
 {
 }
 
@@ -59,7 +59,9 @@ PropertyInfo PropertyInfoNode::GetChild( size_t index )
 //=============================================================================
 
 ClassNode::ClassNode( const wxString &className, ClassType type )
-                            : m_name( className ), m_type( type )
+:
+m_name( className ),
+m_type( type )
 {
 }
 
@@ -119,6 +121,7 @@ bool ClassNode::IsChildInfoOk( const wxString &name, size_t count )
             }
         }
     }
+
     return false;
 }
 
@@ -298,9 +301,6 @@ bool ClassInfoDB::LoadXML( const wxString &path )
         classNode = classNode->GetChildren();
         if( !classNode || ( classNode->GetName() != "class" ) )
             return false;
-
-        Parse( classNode, true );
-        return true;
     }
 
     Parse( classNode );
@@ -364,7 +364,6 @@ void ClassInfoDB::Parse( wxXmlNode *classNode, bool recursively )
             return;
         }
     }
-
 
 //  wxLogDebug( "Loading class %s", name );
 

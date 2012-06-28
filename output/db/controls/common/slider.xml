@@ -16,10 +16,10 @@
         &lt;p&gt;Slider events are handled in the same way as a scrollbar.&lt;/p&gt;
     </description>
     <inherits>
-        <class>wxWindow</class>
+        <class>wxControl</class>
     </inherits>
     <name label="Name">
-        <value>m_slider</value>
+        <value>slider</value>
     </name>
     <style label="Style">
         <flag name="wxSL_HORIZONTAL">

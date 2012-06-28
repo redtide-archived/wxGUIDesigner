@@ -13,23 +13,31 @@
     <description>
         &lt;p&gt;A frame is a window whose size and position can (usually) be changed by the user. &lt;/p&gt;
         &lt;p&gt;It usually has thick borders and a title bar, and can optionally contain a menu bar, toolbar and status bar. A frame can contain any window that is not a frame or dialog.&lt;/p&gt;
-        &lt;p&gt;A frame that has a status bar and toolbar, created via the &lt;a title="Creates a status bar at the bottom of the frame." href="http://docs.wxwidgets.org/trunk/classwx_frame.html#aaa5134dcecc1ec77386465a327dd0a21" class="el"&gt;CreateStatusBar()&lt;/a&gt; and &lt;a title="Creates a toolbar at the top or left of the frame." href="http://docs.wxwidgets.org/trunk/classwx_frame.html#a529698edc2fd2037ac8578dadafad0e2" class="el"&gt;CreateToolBar()&lt;/a&gt; functions, manages these windows and adjusts the value returned by &lt;a title="Returns the size of the window 'client area' in pixels." href="http://docs.wxwidgets.org/trunk/classwx_window.html#ae56fc53268b815b58570f66bfc33838f" class="el"&gt;GetClientSize()&lt;/a&gt; to reflect the remaining size available to application windows.&lt;/p&gt;
-        &lt;dl class="remark"&gt;&lt;dt&gt;&lt;b&gt;Remarks:&lt;/b&gt;&lt;/dt&gt;&lt;dd&gt;An application should normally define an &lt;a title="This event class contains information about window and session close events." href="http://docs.wxwidgets.org/trunk/classwx_close_event.html" class="el"&gt;wxCloseEvent&lt;/a&gt; handler for the frame to respond to system close events, for example so that related data and subwindows can be cleaned up.&lt;/dd&gt;
+        &lt;p&gt;A frame that has a status bar and toolbar, created via the &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_frame.html#aaa5134dcecc1ec77386465a327dd0a21" title="Creates a status bar at the bottom of the frame."&gt;CreateStatusBar()&lt;/a&gt; and &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_frame.html#a529698edc2fd2037ac8578dadafad0e2" title="Creates a toolbar at the top or left of the frame."&gt;CreateToolBar()&lt;/a&gt; functions, manages these windows and adjusts the value returned by &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_window.html#ae56fc53268b815b58570f66bfc33838f" title="Returns the size of the window 'client area' in pixels."&gt;GetClientSize()&lt;/a&gt; to reflect the remaining size available to application windows.&lt;/p&gt;
+        &lt;dl class="remark"&gt;&lt;dt&gt;&lt;b&gt;Remarks:&lt;/b&gt;&lt;/dt&gt;&lt;dd&gt;An application should normally define an &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_close_event.html" title="This event class contains information about window and session close events."&gt;wxCloseEvent&lt;/a&gt; handler for the frame to respond to system close events, for example so that related data and subwindows can be cleaned up.&lt;/dd&gt;&lt;/dl&gt;
+        &lt;h2&gt;&lt;a class="anchor" id="frame_defaultevent"&gt;&lt;/a&gt;
+        Default event processing&lt;/h2&gt;
+        &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_frame.html" title="A frame is a window whose size and position can (usually) be changed by the user."&gt;wxFrame&lt;/a&gt; processes the following events:&lt;/p&gt;
+        &lt;ul&gt;
+        &lt;li&gt;&lt;code&gt;wxEVT_SIZE:&lt;/code&gt; if the frame has exactly one child window, not counting the status and toolbar, this child is resized to take the entire frame client area. If two or more windows are present, they should be laid out explicitly either by manually handling &lt;code&gt;wxEVT_SIZE&lt;/code&gt; or using sizers; &lt;/li&gt;
+        &lt;li&gt;&lt;code&gt;wxEVT_MENU_HIGHLIGHT:&lt;/code&gt; the default implementation displays the help string associated with the selected item in the first pane of the status bar, if there is one.&lt;/li&gt;
+        &lt;/ul&gt;
     </description>
     <inherits>
         <class>wxTopLevelWindow</class>
-        <class>wxWindow</class>
     </inherits>
     <children>
-        <child type="layout"      max="1"  option="1"/>
-        <child type="sizer"       max="1"  option="1"/>
-        <child type="window"      max="-1" option="1"/>
+        <child type="layout"      max="1" option="1"/>
+        <child type="sizer"       max="1" option="1"/>
+        <child type="container"   max="1" option="1"/>
+        <child type="widget"      max="1" option="1"/>
+        <child type="window"      max="1" option="1"/>
         <child name="wxMenuBar"   max="1"/>
         <child name="wxStatusBar" max="1"/>
         <child name="wxToolBar"   max="1"/>
     </children>
     <name label="Name">
-        <value>m_frame</value>
+        <value>frame</value>
     </name>
     <style label="Style">
         <flag name="wxDEFAULT_FRAME_STYLE">

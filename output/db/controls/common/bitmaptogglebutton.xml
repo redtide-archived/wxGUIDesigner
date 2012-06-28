@@ -10,13 +10,16 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxBitmapToggleButton">
-    <description>wxBitmapToggleButton is a wxToggleButton that contains a bitmap instead of text.</description>
+    <description>
+        &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_bitmap_toggle_button.html" title="wxBitmapToggleButton is a wxToggleButton that contains a bitmap instead of text."&gt;wxBitmapToggleButton&lt;/a&gt; is a &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_toggle_button.html" title="wxToggleButton is a button that stays pressed when clicked by the user."&gt;wxToggleButton&lt;/a&gt; that contains a bitmap instead of text. &lt;/p&gt;
+        &lt;p&gt;This class is not available in all ports currently (although it is available in the major ones), test for &lt;code&gt;wxHAS_BITMAPTOGGLEBUTTON&lt;/code&gt; to determine whether it can be used (in addition for possibly testing for &lt;code&gt;wxUSE_TOGGLEBTN&lt;/code&gt; which can be set to 0 to explicitly disable support for this class and &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_toggle_button.html" title="wxToggleButton is a button that stays pressed when clicked by the user."&gt;wxToggleButton&lt;/a&gt;).&lt;/p&gt;
+        &lt;p&gt;This control emits an update UI event.&lt;/p&gt;
+    </description>
     <inherits>
         <class>wxToggleButton</class>
-        <class>wxWindow</class>
     </inherits>
     <name label="Name">
-        <value>m_toggleBtn</value>
+        <value>toggleBtn</value>
     </name>
     <style label="Style">
         <flag name="wxBU_LEFT">

@@ -12,9 +12,8 @@
 <class name="CustomCtrl" type="custom">
     <inherits>
         <class>wxControl</class>
-        <class>wxWindow</class>
     </inherits>
     <name label="Name">
-        <value>m_custCtrl</value>
+        <value>custCtrl</value>
     </name>
 </class>

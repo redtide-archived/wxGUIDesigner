@@ -11,8 +11,8 @@
 #include <wx/textctrl.h>
 #include <wx/tokenzr.h>
 
-#include "wxguidesigner/gui/debugwindow.h"
 #include "wxguidesigner/gui/handler.h"
+#include "wxguidesigner/gui/debugwindow.h"
 
 wxGDDebugWindow::wxGDDebugWindow( wxGDHandler *handler, wxWindow *parent )
 :

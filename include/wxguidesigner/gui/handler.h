@@ -82,15 +82,17 @@ public:
         return m_xrcDoc;
     }
 
+    bool Load( const wxString &filePath );
+
 //  wxGDSettings    GetSettings() const;
 //=============================================================================
 // Object operations
 //=============================================================================
     void CreateObject( const wxString &className, int senderId );
     void SelectObject( Object object, int senderId );
+    Object GetSelectedObject() const;
     Object GetTopLevelObject( Object object );
-
-    shared_ptr< ObjectTree > GetTree() const { return m_tree; }
+    bool Serialize( const wxString &filePath );
 
 private:
     void InitAllXmlHandlers();

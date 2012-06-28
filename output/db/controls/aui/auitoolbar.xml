@@ -11,17 +11,20 @@
 -->
 <classes>
     <class name="wxAuiToolBar">
-        <description>wxAuiToolBar is a dockable toolbar, part of the wxAUI class framework.</description>
+        <description>
+            &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_aui_tool_bar.html" title="wxAuiToolBar is a dockable toolbar, part of the wxAUI class framework."&gt;wxAuiToolBar&lt;/a&gt; is a dockable toolbar, part of the wxAUI class framework. &lt;/p&gt;
+            &lt;p&gt;See also &lt;a class="el" href="http://docs.wxwidgets.org/trunk/overview_aui.html"&gt;wxAUI Overview&lt;/a&gt;.&lt;/p&gt;
+        </description>
         <inherits>
-            <class>wxWindow</class>
+            <class>wxControl</class>
         </inherits>
         <children>
             <class>wxAuiToolBarItem</class>
         </children>
         <name label="Name">
-            <value>m_toolBar</value>
+            <value>auiBar</value>
         </name>
-        <style>
+        <style label="Style">
             <flag name="wxAUI_TB_TEXT">
                 <description></description>
             </flag>
@@ -78,5 +81,9 @@
     </class>
 
     <class name="wxAuiToolBarItem" type="item">
+        <description>
+            &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_aui_tool_bar_item.html" title="wxAuiToolBarItem is part of the wxAUI class framework."&gt;wxAuiToolBarItem&lt;/a&gt; is part of the wxAUI class framework. &lt;/p&gt;
+            &lt;p&gt;See also &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_aui_tool_bar.html"&gt;wxAuiToolBar&lt;/a&gt; and &lt;a class="el" href="http://docs.wxwidgets.org/trunk/overview_aui.html"&gt;wxAUI Overview&lt;/a&gt;.&lt;/p&gt;
+        </description>
     </class>
 </classes>

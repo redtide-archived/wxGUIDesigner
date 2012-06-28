@@ -231,13 +231,13 @@ public:
     virtual Object  CreateObject    ( const wxString &className,
                                         Object parent = Object() );
 
-    virtual Object  GetSelectObject() const { return m_sel; }
+    virtual Object  GetSelectedObject() const { return m_sel; }
 
-    Object GetTopLevelObject( Object object );
+    Object GetTopLevelObject( Object object ) const;
 
     virtual void    SelectObject    ( Object object, bool withEvent = true );
 
-    virtual bool    Load            ( const wxString &fileName );
+    virtual bool    Load            ( const wxString &filePath );
     virtual bool    Serialize       ( wxXmlNode *rootNode );
     virtual bool    Serialize       ( const wxString &filePath );
 

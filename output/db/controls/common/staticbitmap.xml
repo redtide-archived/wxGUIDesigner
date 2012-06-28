@@ -10,12 +10,16 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxStaticBitmap">
-    <description>A static bitmap control displays a bitmap.</description>
+    <description>
+        &lt;p&gt;A static bitmap control displays a bitmap. &lt;/p&gt;
+        &lt;p&gt;Native implementations on some platforms are only meant for display of the small icons in the dialog boxes. In particular, under Windows 9x the size of bitmap is limited to 64*64 pixels.&lt;/p&gt;
+        &lt;p&gt;If you want to display larger images portably, you may use generic implementation wxGenericStaticBitmap declared in &lt;wx/generic/statbmpg.h&gt;.&lt;/p&gt;
+    </description>
     <inherits>
-        <class>wxWindow</class>
+        <class>wxControl</class>
     </inherits>
     <name label="Name">
-        <value>m_statBmp</value>
+        <value>statBmp</value>
     </name>
     <bitmap label="Bitmap">
         <description>Bitmap to display (required).</description>

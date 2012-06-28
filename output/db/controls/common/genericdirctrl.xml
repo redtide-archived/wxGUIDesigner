@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Name:        dirctrl.xml
+    Name:        genericdirctrl.xml
     Purpose:     wxGenericDirCtrl class definition
     Author:      Andrea Zanellato
     Modified by: 
@@ -10,12 +10,15 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxGenericDirCtrl">
-    <description>&lt;p&gt;This control can be used to place a directory listing (with optional files) on an arbitrary window.&lt;/p&gt;&lt;p&gt;The control contains a wxTreeCtrl window representing the directory hierarchy, and optionally, a wxChoice window containing a list of filters.&lt;/p&gt;</description>
+    <description>
+        &lt;p&gt;This control can be used to place a directory listing (with optional files) on an arbitrary window. &lt;/p&gt;
+        &lt;p&gt;The control contains a &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_tree_ctrl.html" title="A tree control presents information as a hierarchy, with items that may be expanded to show further i..."&gt;wxTreeCtrl&lt;/a&gt; window representing the directory hierarchy, and optionally, a &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_choice.html" title="A choice item is used to select one of a list of strings."&gt;wxChoice&lt;/a&gt; window containing a list of filters.&lt;/p&gt;
+    </description>
     <inherits>
-        <class>wxWindow</class>
+        <class>wxControl</class>
     </inherits>
     <name label="Name">
-        <value>m_dirCtrl</value>
+        <value>dirCtrl</value>
     </name>
     <style label="Style">
         <flag name="wxDIRCTRL_DIR_ONLY">

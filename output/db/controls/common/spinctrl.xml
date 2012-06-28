@@ -10,12 +10,14 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxSpinCtrl">
-    <description>wxSpinCtrl combines wxTextCtrl and wxSpinButton in one control.</description>
+    <description>
+        &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_spin_ctrl.html" title="wxSpinCtrl combines wxTextCtrl and wxSpinButton in one control."&gt;wxSpinCtrl&lt;/a&gt; combines &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_text_ctrl.html" title="A text control allows text to be displayed and edited."&gt;wxTextCtrl&lt;/a&gt; and &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_spin_button.html" title="A wxSpinButton has two small up and down (or left and right) arrow buttons."&gt;wxSpinButton&lt;/a&gt; in one control. &lt;/p&gt;
+    </description>
     <inherits>
         <class>wxControl</class>
     </inherits>
     <name label="Name">
-        <value>m_spinCtrl</value>
+        <value>spinCtrl</value>
     </name>
     <style label="Style">
         <flag name="wxSP_ARROW_KEYS">

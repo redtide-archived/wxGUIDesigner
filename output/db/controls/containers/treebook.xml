@@ -11,41 +11,29 @@
 -->
 <classes>
     <class name="wxTreebook">
-        <description>This class is an extension of the wxNotebook class that allows a tree structured set of pages to be shown in a control.</description>
+        <description>
+            &lt;p&gt;This class is an extension of the &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_notebook.html" title="This class represents a notebook control, which manages multiple windows with associated tabs..."&gt;wxNotebook&lt;/a&gt; class that allows a tree structured set of pages to be shown in a control. &lt;/p&gt;
+            &lt;p&gt;A classic example is a netscape preferences dialog that shows a tree of preference sections on the left and select section page on the right.&lt;/p&gt;
+            &lt;p&gt;To use the class simply create it and populate with pages using &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_treebook.html#a9491fe745b68b9a51063f8f3aac59376" title="Inserts a new page just before the page indicated by pagePos."&gt;InsertPage()&lt;/a&gt;, &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_treebook.html#ae3c46fd64891e13d511b4840b275143c" title="Inserts a sub page under the specified page."&gt;InsertSubPage()&lt;/a&gt;, &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_treebook.html#a005654249564b0f3e3c1127bc33cfb8b" title="Adds a new page."&gt;AddPage()&lt;/a&gt;, &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_treebook.html#a409e957bacff40d46c3ba9a6606fc0d2" title="Adds a new child-page to the last top-level page."&gt;AddSubPage()&lt;/a&gt;.&lt;/p&gt;
+            &lt;p&gt;If your tree is no more than 1 level in depth then you could simply use &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_treebook.html#a005654249564b0f3e3c1127bc33cfb8b" title="Adds a new page."&gt;AddPage()&lt;/a&gt; and &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_treebook.html#a409e957bacff40d46c3ba9a6606fc0d2" title="Adds a new child-page to the last top-level page."&gt;AddSubPage()&lt;/a&gt; to sequentially populate your tree by adding at every step a page or a subpage to the end of the tree.&lt;/p&gt;
+        </description>
         <inherits>
             <class>wxBookCtrlBase</class>
-            <class>wxWindow</class>
         </inherits>
         <children>
             <class name="treebookpage" max="-1"/>
             <class name="wxImageList"  max="1"/>
         </children>
         <name label="Name">
-            <value>m_treeBook</value>
+            <value>treeBook</value>
         </name>
-        <style label="Style">
-            <flag name="wxBK_DEFAULT">
-                <description>Native controller placement.</description>
-            </flag>
-            <flag name="wxBK_TOP">
-                <description>Controller above pages.</description>
-            </flag>
-            <flag name="wxBK_BOTTOM">
-                <description>Controller below pages.</description>
-            </flag>
-            <flag name="wxBK_LEFT">
-                <description>Controller on the left.</description>
-            </flag>
-            <flag name="wxBK_RIGHT">
-                <description>Controller on the right.</description>
-            </flag>
-        </style>
+        <style label="Style"/>
         <event name="wxBookCtrlEvent">
-            <type name="wxEVT_COMMAND_TOOLBOOK_PAGE_CHANGED">
+            <type name="wxEVT_COMMAND_TREEBOOK_PAGE_CHANGED">
                 <macro_id>EVT_TREEBOOK_PAGE_CHANGED</macro_id>
                 <description>The page selection was changed.</description>
             </type>
-            <type name="wxEVT_COMMAND_TOOLBOOK_PAGE_CHANGING">
+            <type name="wxEVT_COMMAND_TREEBOOK_PAGE_CHANGING">
                 <macro_id>EVT_TREEBOOK_PAGE_CHANGING</macro_id>
                 <description>The page selection is about to be changed. This event can be vetoed (using wxNotifyEvent::Veto()).</description>
             </type>

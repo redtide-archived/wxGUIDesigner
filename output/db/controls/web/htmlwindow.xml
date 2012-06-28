@@ -10,10 +10,15 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxHtmlWindow">
-    <description>wxHtmlWindow is probably the only class you will directly use unless you want to do something special (like adding new tag handlers or MIME filters).</description>
+    <description>
+        &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_html_window.html" title="wxHtmlWindow is probably the only class you will directly use unless you want to do something special..."&gt;wxHtmlWindow&lt;/a&gt; is probably the only class you will directly use unless you want to do something special (like adding new tag handlers or MIME filters). &lt;/p&gt;
+        &lt;p&gt;The purpose of this class is to display rich content pages (either local file or downloaded via HTTP protocol) in a window based on a subset of the HTML standard. The width of the window is constant - given in the constructor - and virtual height is changed dynamically depending on page size. Once the window is created you can set its content by calling &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_html_window.html#ac6d0335b1bb749b498598fc5a3b32703" title="Sets the source of a page and displays it, for example:"&gt;SetPage()&lt;/a&gt; with raw HTML, &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_html_window.html#ab7086e665bb533a34dc11ab29465db09" title="Unlike SetPage() this function first loads the HTML page from location and then displays it..."&gt;LoadPage()&lt;/a&gt; with a &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_file_system.html" title="This class provides an interface for opening files on different file systems."&gt;wxFileSystem&lt;/a&gt; location or &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_html_window.html#a1ffb71e2736cbe36740fd38bc3d100b2" title="Loads an HTML page from a file and displays it."&gt;LoadFile()&lt;/a&gt; with a filename.&lt;/p&gt;
+        &lt;dl class="note"&gt;&lt;dt&gt;&lt;b&gt;Note:&lt;/b&gt;&lt;/dt&gt;&lt;dd&gt;If you want complete HTML/CSS support as well as a Javascript engine, see instead &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_web_view.html" title="This control may be used to render web (HTML / CSS / javascript) documents."&gt;wxWebView&lt;/a&gt;.&lt;/dd&gt;
+        &lt;dd&gt;
+        &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_html_window.html" title="wxHtmlWindow is probably the only class you will directly use unless you want to do something special..."&gt;wxHtmlWindow&lt;/a&gt; uses the &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_image.html" title="This class encapsulates a platform-independent image."&gt;wxImage&lt;/a&gt; class for displaying images, as such you need to initialize the handlers for any image formats you use before loading a page. See &lt;a class="el" href="http://docs.wxwidgets.org/trunk/group__group__funcmacro__appinitterm.html#ga27f6c78d5d13374a28022b7bd44c6823" title="Initializes all available image handlers."&gt;wxInitAllImageHandlers&lt;/a&gt; and &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_image.html#ab39fb3747dfb8c2d444eff9fe41fa205" title="Register an image handler."&gt;wxImage::AddHandler&lt;/a&gt;.&lt;/dd&gt;&lt;/dl&gt;
+    </description>
     <inherits>
         <class>wxScrolledWindow</class>
-        <class>wxWindow</class>
     </inherits>
     <name label="Name">
         <value>m_htmlWnd</value>

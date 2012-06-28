@@ -93,8 +93,9 @@ m_handler( handler )
 //=============================================================================
     LoadCodeEditorPages();
 
-    Bind( wxGD_EVT_OBJECT_CREATED,  &wxGDEditorBook::OnObjectCreated,  this );
-    Bind( wxGD_EVT_OBJECT_SELECTED, &wxGDEditorBook::OnObjectSelected, this );
+    Bind( wxGD_EVT_OBJECT_CREATED,   &wxGDEditorBook::OnObjectCreated,   this );
+    Bind( wxGD_EVT_OBJECT_SELECTED,  &wxGDEditorBook::OnObjectSelected,  this );
+    Bind( wxGD_EVT_PROPERTY_CHANGED, &wxGDEditorBook::OnPropertyChanged, this );
 }
 
 wxGDEditorBook::~wxGDEditorBook()
@@ -162,9 +163,30 @@ void wxGDEditorBook::OnDesignerResize( wxSizeEvent &event )
     event.Skip();
 }
 
-void wxGDEditorBook::OnObjectCreated( wxGDObjectEvent &event )
+void wxGDEditorBook::OnObjectCreated( wxGDObjectEvent & )
 {
-    Object object = event.GetObject();
+    UpdateControls();
+}
+
+void wxGDEditorBook::OnObjectDeleted( wxGDObjectEvent & )
+{
+    UpdateControls();
+}
+
+void wxGDEditorBook::OnObjectSelected( wxGDObjectEvent & )
+{
+    UpdateControls();
+    // TODO: Draw the coloured rectangle
+}
+
+void wxGDEditorBook::OnPropertyChanged( wxGDPropertyEvent & )
+{
+    UpdateControls();
+}
+
+void wxGDEditorBook::UpdateControls()
+{
+    Object object = m_handler->GetSelectedObject();
     if( !object )
         return;
 
@@ -188,10 +210,7 @@ void wxGDEditorBook::OnObjectCreated( wxGDObjectEvent &event )
     wxString className = toplevel->GetClassName();
     wxString name      = toplevel->GetName();
 
-//  m_resizer->DestroyChildren();
-    wxSizer *reSizer = m_resizer->GetSizer();
-    if( reSizer )
-        reSizer->DeleteWindows();
+    m_resizer->DestroyChildren();
 
     wxObject *wxobject = wxXmlResource::Get()->LoadObject( m_resizer, name, className );
     wxWindow *wxwindow = wxDynamicCast( wxobject, wxWindow );
@@ -201,6 +220,7 @@ void wxGDEditorBook::OnObjectCreated( wxGDObjectEvent &event )
     if( !wxwindow )
         return;
 
+    wxSizer *reSizer = m_resizer->GetSizer();
     if( reSizer )
         reSizer->Add( wxwindow, 1, wxBOTTOM | wxRIGHT | wxEXPAND, 3 );
 
@@ -209,14 +229,4 @@ void wxGDEditorBook::OnObjectCreated( wxGDObjectEvent &event )
     m_resizer->Layout();
 
     wxwindow->Bind( wxEVT_SIZE, &wxGDEditorBook::OnDesignerResize, this );
-}
-
-void wxGDEditorBook::OnObjectDeleted( wxGDObjectEvent &event )
-{
-    // TODO: Update the xrcText
-}
-
-void wxGDEditorBook::OnObjectSelected( wxGDObjectEvent &event )
-{
-    // TODO: Draw the coloured rectangle
 }

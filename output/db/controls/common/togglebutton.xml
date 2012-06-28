@@ -10,13 +10,17 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxToggleButton">
-    <description>&lt;p&gt;wxToggleButton is a button that stays pressed when clicked by the user.&lt;/p&gt;&lt;p&gt;In other words, it is similar to wxCheckBox in functionality but looks like a wxButton.&lt;/p&gt;&lt;p&gt;Since wxWidgets version 2.9.0 this control emits an update UI event.&lt;/p&gt;</description>
+    <description>
+        &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_toggle_button.html" title="wxToggleButton is a button that stays pressed when clicked by the user."&gt;wxToggleButton&lt;/a&gt; is a button that stays pressed when clicked by the user. &lt;/p&gt;
+        &lt;p&gt;In other words, it is similar to &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_check_box.html" title="A checkbox is a labelled box which by default is either on (checkmark is visible) or off (no checkmar..."&gt;wxCheckBox&lt;/a&gt; in functionality but looks like a &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_button.html" title="A button is a control that contains a text string, and is one of the most common elements of a GUI..."&gt;wxButton&lt;/a&gt;.&lt;/p&gt;
+        &lt;p&gt;Since wxWidgets version 2.9.0 this control emits an update UI event.&lt;/p&gt;
+        &lt;p&gt;You can see &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_toggle_button.html" title="wxToggleButton is a button that stays pressed when clicked by the user."&gt;wxToggleButton&lt;/a&gt; in action in &lt;a class="el" href="http://docs.wxwidgets.org/trunk/page_samples.html#page_samples_controls"&gt;Controls Sample&lt;/a&gt;.&lt;/p&gt;
+    </description>
     <inherits>
-        <class>wxControl</class>
-        <class>wxWindow</class>
+        <class>wxAnyButton</class>
     </inherits>
     <name label="Name">
-        <value>m_toggleBtn</value>
+        <value>toggleBtn</value>
     </name>
     <style label="Style">
         <flag name="wxBU_LEFT">

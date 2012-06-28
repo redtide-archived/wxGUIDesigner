@@ -10,17 +10,45 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxDialog" type="toplevel">
-    <description>A dialog box is a window with a title bar and sometimes a system menu, which can be moved around the screen.</description>
+    <description>
+        &lt;p&gt;A dialog box is a window with a title bar and sometimes a system menu, which can be moved around the screen. &lt;/p&gt;
+        &lt;p&gt;It can contain controls and other windows and is often used to allow the user to make some choice or to answer a question.&lt;/p&gt;
+        &lt;p&gt;Dialogs can be made scrollable, automatically, for computers with low resolution screens: please see &lt;a class="el" href="http://docs.wxwidgets.org/trunk/overview_dialog.html#overview_dialog_autoscrolling"&gt;Automatic scrolling dialogs&lt;/a&gt; for further details.&lt;/p&gt;
+        &lt;p&gt;Dialogs usually contains either a single button allowing to close the dialog or two buttons, one accepting the changes and the other one discarding them (such button, if present, is automatically activated if the user presses the "Esc" key). By default, buttons with the standard wxID_OK and wxID_CANCEL identifiers behave as expected. Starting with wxWidgets 2.7 it is also possible to use a button with a different identifier instead, see &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_dialog.html#a72ea7e269bedb2552bfeaccdbac07939" title="Sets the identifier to be used as OK button."&gt;SetAffirmativeId()&lt;/a&gt; and &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_dialog.html#a585869988e308f549128a6a065f387c6" title="Sets the identifier of the button which should work like the standard &quot;Cancel&quot; button in this dialog..."&gt;SetEscapeId()&lt;/a&gt;.&lt;/p&gt;
+        &lt;p&gt;Also notice that the &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_dialog.html#ae362b7c61430593ef8ac5034f1bd92c8" title="Creates a sizer with standard buttons."&gt;CreateButtonSizer()&lt;/a&gt; should be used to create the buttons appropriate for the current platform and positioned correctly (including their order which is platform-dependent).&lt;/p&gt;
+        &lt;h2&gt;&lt;a class="anchor" id="dialog_modal"&gt;&lt;/a&gt;
+        Modal and Modeless&lt;/h2&gt;
+        &lt;p&gt;There are two kinds of dialog, modal and modeless. A modal dialog blocks program flow and user input on other windows until it is dismissed, whereas a modeless dialog behaves more like a frame in that program flow continues, and input in other windows is still possible. To show a modal dialog you should use the &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_dialog.html#a6e078c3d0653f75ad3c34a37c0b54637" title="Shows an application-modal dialog."&gt;ShowModal()&lt;/a&gt; method while to show a dialog modelessly you simply use &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_dialog.html#ae8e5fa98d473b812b8d1c2f163b65c67" title="Hides or shows the dialog."&gt;Show()&lt;/a&gt;, just as with frames.&lt;/p&gt;
+        &lt;p&gt;Note that the modal dialog is one of the very few examples of wxWindow-derived objects which may be created on the stack and not on the heap. In other words, while most windows would be created like this:&lt;/p&gt;
+        &lt;div class="fragment"&gt;&lt;pre class="fragment"&gt;    &lt;span class="keywordtype"&gt;void&lt;/span&gt; AskUser()
+            {
+                MyAskDialog *dlg = &lt;span class="keyword"&gt;new&lt;/span&gt; MyAskDialog(...);
+                &lt;span class="keywordflow"&gt;if&lt;/span&gt; ( dlg-&gt;ShowModal() == &lt;a class="code" href="http://docs.wxwidgets.org/trunk/defs_8h.html#ac66d0a09761e7d86b2ac0b2e0c6a8cbbaeeb1bdf97306d7f0fdffb62c8af3d02f" title="Standard button and menu IDs."&gt;wxID_OK&lt;/a&gt; )
+                    &lt;span class="comment"&gt;// ...&lt;/span&gt;
+                &lt;span class="comment"&gt;//else: dialog was cancelled or some another button pressed&lt;/span&gt;
+
+                dlg-&gt;Destroy();
+            }
+        &lt;/pre&gt;&lt;/div&gt;&lt;p&gt;You can achieve the same result with dialogs by using simpler code:&lt;/p&gt;
+        &lt;div class="fragment"&gt;&lt;pre class="fragment"&gt;    &lt;span class="keywordtype"&gt;void&lt;/span&gt; AskUser()
+            {
+                MyAskDialog dlg(...);
+                &lt;span class="keywordflow"&gt;if&lt;/span&gt; ( dlg.ShowModal() == &lt;a class="code" href="http://docs.wxwidgets.org/trunk/defs_8h.html#ac66d0a09761e7d86b2ac0b2e0c6a8cbbaeeb1bdf97306d7f0fdffb62c8af3d02f" title="Standard button and menu IDs."&gt;wxID_OK&lt;/a&gt; )
+                    &lt;span class="comment"&gt;// ...&lt;/span&gt;
+
+                &lt;span class="comment"&gt;// no need to call Destroy() here&lt;/span&gt;
+            }
+        &lt;/pre&gt;&lt;/div&gt;&lt;p&gt;An application can define a &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_close_event.html" title="This event class contains information about window and session close events."&gt;wxCloseEvent&lt;/a&gt; handler for the dialog to respond to system close events.&lt;/p&gt;
+    </description>
     <inherits>
         <class>wxTopLevelWindow</class>
-        <class>wxWindow</class>
     </inherits>
     <children>
         <child type="layout" max="1"  option="1"/>
         <child type="window" max="-1" option="1"/>
     </children>
     <name label="Name">
-        <value>m_dlg</value>
+        <value>dlg</value>
     </name>
     <style label="Style">
         <value>wxDEFAULT_DIALOG_STYLE</value>

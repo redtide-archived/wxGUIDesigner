@@ -13,6 +13,7 @@
 
 class wxNotebook;
 class wxWindow;
+class wxChildFocusEvent;
 class wxSizeEvent;
 class wxPropertyGridEvent;
 class wxHtmlLinkEvent;
@@ -31,10 +32,11 @@ class wxGDObjectEvent;
 class wxGDPropertyBook : public wxNotebook
 {
 public:
-    wxGDPropertyBook( wxGDHandler *handler, wxWindow* parent );
+    wxGDPropertyBook( wxGDHandler *handler, wxWindow *parent );
     ~wxGDPropertyBook();
 
 private:
+    void OnChildFocus           ( wxChildFocusEvent     &event );
     void OnSize                 ( wxSizeEvent           &event );
     void OnPropGridChanged      ( wxPropertyGridEvent   &event );
     void OnPropGridSelected     ( wxPropertyGridEvent   &event );
@@ -53,15 +55,15 @@ private:
 
     wxPGProperty *AddProperty   ( Property prop );
 
-    wxGDHandler     * m_handler;
-    wxPropertyGrid  * m_pgEvents;
-    wxPropertyGrid  * m_pgProps;
-    wxSplitterWindow* m_egSplitter;
-    wxSplitterWindow* m_pgSplitter;
-    wxPanel         * m_egDesc;
-    wxPanel         * m_pgDesc;
-    wxHtmlWindow    * m_egHtml;
-    wxHtmlWindow    * m_pgHtml;
+    wxGDHandler      *m_handler;
+    wxPropertyGrid   *m_pgEvents;
+    wxPropertyGrid   *m_pgProps;
+    wxSplitterWindow *m_egSplitter;
+    wxSplitterWindow *m_pgSplitter;
+    wxPanel          *m_egDesc;
+    wxPanel          *m_pgDesc;
+    wxHtmlWindow     *m_egHtml;
+    wxHtmlWindow     *m_pgHtml;
 };
 
 #endif //__WXGUIDESIGNER_PROPBOOK_H__

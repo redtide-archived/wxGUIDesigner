@@ -10,14 +10,19 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxStatusBar">
-    <description>A status bar is a narrow window that can be placed along the bottom of a frame to give small amounts of status information.</description>
+    <description>
+        &lt;p&gt;A status bar is a narrow window that can be placed along the bottom of a frame to give small amounts of status information. &lt;/p&gt;
+        &lt;p&gt;It can contain one or more fields, one or more of which can be variable length according to the size of the window.&lt;/p&gt;
+        &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_status_bar.html" title="A status bar is a narrow window that can be placed along the bottom of a frame to give small amounts ..."&gt;wxStatusBar&lt;/a&gt; also maintains an independent stack of status texts for each field (see &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_status_bar.html#a5e524ee9181b0cfd491a35bafcf50cf4" title="Saves the current field text in a per-field stack, and sets the field text to the string passed as ar..."&gt;PushStatusText()&lt;/a&gt; and &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_status_bar.html#a222327877b1c698955e2cffeb80044c3" title="Restores the text to the value it had before the last call to PushStatusText()."&gt;PopStatusText()&lt;/a&gt;).&lt;/p&gt;
+        &lt;p&gt;Note that in &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_status_bar.html" title="A status bar is a narrow window that can be placed along the bottom of a frame to give small amounts ..."&gt;wxStatusBar&lt;/a&gt; context, the terms &lt;em&gt;pane&lt;/em&gt; and &lt;em&gt;field&lt;/em&gt; are synonyms.&lt;/p&gt;
+    </description>
     <inherits>
-        <class>wxWindow</class>
+        <class>wxControl</class>
     </inherits>
-    <name label="Name">
-        <value>m_statusBar</value>
+    <name>
+        <value>statusBar</value>
     </name>
-    <style name="flag">
+    <style name="flag" label="Flag">
         <flag name="wxSTB_SIZEGRIP">
             <description>Displays a gripper at the right-hand side of the status bar which can be used to resize the parent window.</description>
         </flag >
@@ -37,14 +42,14 @@
             <description>The default style: includes wxSTB_SIZEGRIP|wxSTB_SHOW_TIPS|wxSTB_ELLIPSIZE_END|wxFULL_REPAINT_ON_RESIZE.</description>
         </flag >
     </style>
-    <int name="fields">
+    <int name="fields" label="Fields">
         <value>1</value>
         <description>Number of status bar fields (default: 1).</description>
     </int>
-    <string name="widths">
+    <string name="widths" label="Widths">
         <description>Comma-separated list of fields integers. Each value specifies width of one field; the values are interpreted using the same convention used by wxStatusBar::SetStatusWidths().</description>
     </string>
-    <string name="styles">
+    <string name="styles" label="Styles">
         <description>Comma-separated list of fields flags. Each value specifies status bar field flag and can be one of wxSB_NORMAL, wxSB_FLAT or wxSB_RAISED. See wxStatusBar::SetStatusStyles() for their description.</description>
     </string>
     <string name="accel" label="Accelerator">

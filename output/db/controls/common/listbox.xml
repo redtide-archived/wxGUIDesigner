@@ -10,15 +10,19 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxListBox">
-    <description>A listbox is used to select one or more of a list of strings.</description>
+    <description>
+        &lt;p&gt;A listbox is used to select one or more of a list of strings. &lt;/p&gt;
+        &lt;p&gt;The strings are displayed in a scrolling box, with the selected string(s) marked in reverse video. A listbox can be single selection (if an item is selected, the previous selection is removed) or multiple selection (clicking an item toggles the item on or off independently of other selections).&lt;/p&gt;
+        &lt;p&gt;List box elements are numbered from zero. Their number may be limited under some platforms.&lt;/p&gt;
+        &lt;p&gt;A listbox callback gets an event &lt;code&gt;wxEVT_COMMAND_LISTBOX_SELECTED&lt;/code&gt; for single clicks, and &lt;code&gt;wxEVT_COMMAND_LISTBOX_DOUBLECLICKED&lt;/code&gt; for double clicks.&lt;/p&gt;
+    </description>
     <inherits>
-        <class>wxControl</class>
-        <class>wxWindow</class>
+        <class>wxControlWithItems</class>
     </inherits>
     <name label="Name">
-        <value>m_listBox</value>
+        <value>listBox</value>
     </name>
-    <style>
+    <style label="Style">
         <description>Note that wxLB_SINGLE, wxLB_MULTIPLE and wxLB_EXTENDED styles are mutually exclusive and you can specify at most one of them (single selection is the default). See also Window Styles.</description>
         <flag name="wxLB_SINGLE">
             <description>Single-selection list.</description>

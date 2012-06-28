@@ -10,14 +10,17 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxChoice">
-    <description>&lt;p&gt;A choice item is used to select one of a list of strings.&lt;/p&gt;&lt;p&gt;Unlike a wxListBox, only the selection is visible until the user pulls down the menu of choices.&lt;/p&gt;</description>
+    <description>
+        &lt;p&gt;A choice item is used to select one of a list of strings. &lt;/p&gt;
+        &lt;p&gt;Unlike a &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_list_box.html" title="A listbox is used to select one or more of a list of strings."&gt;wxListBox&lt;/a&gt;, only the selection is visible until the user pulls down the menu of choices.&lt;/p&gt;
+    </description>
     <inherits>
-        <class>wxWindow</class>
+        <class>wxControlWithItems</class>
     </inherits>
     <name label="Name">
-        <value>m_choice</value>
+        <value>choice</value>
     </name>
-    <style>
+    <style label="Style">
         <flag name="wxCB_SORT">
             <description>Sorts the entries alphabetically.</description>
         </flag>

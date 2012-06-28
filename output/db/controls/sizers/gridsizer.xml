@@ -10,6 +10,10 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxGridSizer" type="sizer">
+    <description>
+        &lt;p&gt;A grid sizer is a sizer which lays out its children in a two-dimensional table with all table fields having the same size, i.e. &lt;/p&gt;
+        &lt;p&gt;the width of each field is the width of the widest child, the height of each field is the height of the tallest child.&lt;/p&gt;
+    </description>
     <inherits>
         <class>wxSizer</class>
     </inherits>
@@ -20,7 +24,7 @@
     <name label="Name">
         <value>gridSizer</value>
     </name>
-    <int name="rows">
+    <int name="rows" label="Rows">
         <description>Number of rows in the grid (default: 0 - determine automatically).</description>
     </int>
     <int name="cols" label="Columns">

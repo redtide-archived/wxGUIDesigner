@@ -10,13 +10,17 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxFontPickerCtrl">
+    <description>
+        &lt;p&gt;This control allows the user to select a font. &lt;/p&gt;
+        &lt;p&gt;The generic implementation is a button which brings up a &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_font_dialog.html" title="This class represents the font chooser dialog."&gt;wxFontDialog&lt;/a&gt; when clicked. Native implementation may differ but this is usually a (small) widget which give access to the font-chooser dialog. It is only available if &lt;code&gt;wxUSE_FONTPICKERCTRL&lt;/code&gt; is set to 1 (the default).&lt;/p&gt;
+    </description>
     <inherits>
-        <class>wxWindow</class>
+        <class>wxPickerBase</class>
     </inherits>
     <name label="Name">
-        <value>m_fontPicker</value>
+        <value>fontPicker</value>
     </name>
-    <style>
+    <style label="Style">
         <flag name="wxFNTP_DEFAULT_STYLE">
             <description>The default style: wxFNTP_FONTDESC_AS_LABEL | wxFNTP_USEFONT_FOR_LABEL.</description>
         </flag>
@@ -30,7 +34,7 @@
             <description>Uses the currently selected font to draw the label of the button.</description>
         </flag>
     </style>
-    <string name="value">
+    <string name="value" label="Value">
         <description>Initial value of the control (default: empty).</description>
     </string>
     <event name="wxFontPickerEvent">

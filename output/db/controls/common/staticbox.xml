@@ -10,12 +10,29 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxStaticBox">
-    <description>A static box is a rectangle drawn around other windows to denote a logical grouping of items.</description>
+    <description>
+        &lt;p&gt;A static box is a rectangle drawn around other windows to denote a logical grouping of items. &lt;/p&gt;
+        &lt;p&gt;Note that while the previous versions required that windows appearing inside a static box be created as its siblings (i.e. use the same parent as the static box itself), since wxWidgets 2.9.1 it is also possible to create them as children of &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_static_box.html" title="A static box is a rectangle drawn around other windows to denote a logical grouping of items..."&gt;wxStaticBox&lt;/a&gt; itself and you are actually encouraged to do it like this if compatibility with the previous versions is not important.&lt;/p&gt;
+        &lt;p&gt;So the new recommended way to create static box is: &lt;/p&gt;
+        &lt;div class="fragment"&gt;&lt;pre class="fragment"&gt;        &lt;span class="keywordtype"&gt;void&lt;/span&gt; MyFrame::CreateControls()
+                {
+                    &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_panel.html" title="A panel is a window on which controls are placed."&gt;wxPanel&lt;/a&gt; *panel = &lt;span class="keyword"&gt;new&lt;/span&gt; &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_panel.html" title="A panel is a window on which controls are placed."&gt;wxPanel&lt;/a&gt;(&lt;span class="keyword"&gt;this&lt;/span&gt;);
+                    &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_static_box.html" title="A static box is a rectangle drawn around other windows to denote a logical grouping of items..."&gt;wxStaticBox&lt;/a&gt; *box = &lt;span class="keyword"&gt;new&lt;/span&gt; &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_static_box.html#aa96250d5fbd5864d041ef878def4e474" title="Default constructor."&gt;wxStaticBox&lt;/a&gt;(panel, wxID_ANY, &lt;span class="stringliteral"&gt;"StaticBox"&lt;/span&gt;);
+
+                    &lt;span class="keyword"&gt;new&lt;/span&gt; &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_static_text.html" title="A static text control displays one or more lines of read-only text."&gt;wxStaticText&lt;/a&gt;(box, wxID_ANY &lt;span class="stringliteral"&gt;"This window is a child of the staticbox"&lt;/span&gt;);
+                    ...
+                }
+        &lt;/pre&gt;&lt;/div&gt;&lt;p&gt;While the compatible -- and now deprecated -- way is &lt;/p&gt;
+        &lt;div class="fragment"&gt;&lt;pre class="fragment"&gt;            &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_static_box.html" title="A static box is a rectangle drawn around other windows to denote a logical grouping of items..."&gt;wxStaticBox&lt;/a&gt; *box = &lt;span class="keyword"&gt;new&lt;/span&gt; &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_static_box.html#aa96250d5fbd5864d041ef878def4e474" title="Default constructor."&gt;wxStaticBox&lt;/a&gt;(panel, wxID_ANY, &lt;span class="stringliteral"&gt;"StaticBox"&lt;/span&gt;);
+
+                    &lt;span class="keyword"&gt;new&lt;/span&gt; &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_static_text.html" title="A static text control displays one or more lines of read-only text."&gt;wxStaticText&lt;/a&gt;(panel, wxID_ANY &lt;span class="stringliteral"&gt;"This window is a child of the panel"&lt;/span&gt;);
+                    ...
+        &lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Also note that there is a specialized &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_sizer.html" title="wxSizer is the abstract base class used for laying out subwindows in a window."&gt;wxSizer&lt;/a&gt; class (&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_static_box_sizer.html" title="wxStaticBoxSizer is a sizer derived from wxBoxSizer but adds a static box around the sizer..."&gt;wxStaticBoxSizer&lt;/a&gt;) which can be used as an easier way to pack items into a static box.&lt;/p&gt;
+    </description>
     <inherits>
         <class>wxControl</class>
-        <class>wxWindow</class>
     </inherits>
     <name label="Name">
-        <value>m_statBox</value>
+        <value>statBox</value>
     </name>
 </class>

@@ -10,12 +10,17 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxAnimationCtrl">
-    <description>This is a static control which displays an animation.</description>
+    <description>
+        &lt;p&gt;This is a static control which displays an animation. &lt;/p&gt;
+        &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_animation_ctrl.html" title="This is a static control which displays an animation."&gt;wxAnimationCtrl&lt;/a&gt; API is as simple as possible and won't give you full control on the animation; if you need it then use &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_media_ctrl.html" title="wxMediaCtrl is a class for displaying types of media, such as videos, audio files, natively through native codecs."&gt;wxMediaCtrl&lt;/a&gt;.&lt;/p&gt;
+        &lt;p&gt;This control is useful to display a (small) animation while doing a long task (e.g. a "throbber").&lt;/p&gt;
+        &lt;p&gt;It is only available if &lt;code&gt;wxUSE_ANIMATIONCTRL&lt;/code&gt; is set to 1 (the default).&lt;/p&gt;
+    </description>
     <inherits>
-        <class>wxWindow</class>
+        <class>wxControl</class>
     </inherits>
     <name label="Name">
-        <value>m_animCtrl</value>
+        <value>animCtrl</value>
     </name>
     <style label="Style">
         <flag name="wxAC_DEFAULT_STYLE">
@@ -28,7 +33,7 @@
     <url name="animation" label="Animation">
         <description>Sets the animation to play in this control.</description>
     </url>
-    <bitmap label="Inactive bitmap">
+    <bitmap name="inactive-bitmap" label="Inactive bitmap">
         <description>Sets the bitmap to show on the control when it's not playing an animation.</description>
     </bitmap>
     <bool name="play" label="Play">

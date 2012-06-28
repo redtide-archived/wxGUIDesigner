@@ -10,12 +10,18 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxPropertyGrid">
-    <description>wxPropertyGrid is a specialized grid for editing properties.</description>
+    <description>
+        &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_property_grid.html" title="wxPropertyGrid is a specialized grid for editing properties - in other words name = value pairs..."&gt;wxPropertyGrid&lt;/a&gt; is a specialized grid for editing properties - in other words name = value pairs. &lt;/p&gt;
+        &lt;p&gt;List of ready-to-use property classes include strings, numbers, flag sets, fonts, colours and many others. It is possible, for example, to categorize properties, set up a complete tree-hierarchy, add more than two columns, and set arbitrary per-property attributes.&lt;/p&gt;
+        &lt;p&gt;Please note that most member functions are inherited and as such not documented on this page. This means you will probably also want to read &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_property_grid_interface.html" title="Most of the shared property manipulation interface shared by wxPropertyGrid, wxPropertyGridPage, and wxPropertyGridManager is defined in this class."&gt;wxPropertyGridInterface&lt;/a&gt; class reference.&lt;/p&gt;
+        &lt;p&gt;See also &lt;a class="el" href="overview_propgrid.html"&gt;wxPropertyGrid Overview&lt;/a&gt;.&lt;/p&gt;
+    </description>
     <inherits>
-        <class>wxWindow</class>
+        <class>wxControl</class>
+        <class>wxPropertyGridInterface</class>
     </inherits>
     <name label="Name">
-        <value>m_propGrid</value>
+        <value>propGrid</value>
     </name>
     <event name="wxPropertyGridEvent">
         <type name="EVT_PG_SELECTED">

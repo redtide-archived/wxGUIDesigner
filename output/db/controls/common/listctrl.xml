@@ -11,9 +11,17 @@
 -->
 <classes>
     <class name="wxListCtrl">
-        <description>A list control presents lists in a number of formats: list view, report view, icon view and small icon view.</description>
+        <description>
+            &lt;p&gt;A list control presents lists in a number of formats: list view, report view, icon view and small icon view. &lt;/p&gt;
+            &lt;p&gt;In any case, elements are numbered from zero. For all these modes, the items are stored in the control and must be added to it using &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_list_ctrl.html#aa65a5ca4e7bd7c0e60a0522a9092a693" title="Inserts an item, returning the index of the new item if successful, -1 otherwise."&gt;wxListCtrl::InsertItem&lt;/a&gt; method.&lt;/p&gt;
+            &lt;p&gt;A special case of report view quite different from the other modes of the list control is a virtual control in which the items data (including text, images and attributes) is managed by the main program and is requested by the control itself only when needed which allows to have controls with millions of items without consuming much memory. To use virtual list control you must use &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_list_ctrl.html#a5ded9342e4969eeeb60d1305f75995fd" title="This method can only be used with virtual list controls."&gt;wxListCtrl::SetItemCount&lt;/a&gt; first and override at least &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_list_ctrl.html#a92370967f97215e6068326645ee76624" title="This function must be overridden in the derived class for a control with wxLC_VIRTUAL style..."&gt;wxListCtrl::OnGetItemText&lt;/a&gt; (and optionally &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_list_ctrl.html#a05bd10ebe1ea2a45955dda48045d23a3" title="This function must be overridden in the derived class for a control with wxLC_VIRTUAL style having an..."&gt;wxListCtrl::OnGetItemImage&lt;/a&gt; or &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_list_ctrl.html#ac2650c225e81512af8dcff22ab50a9dc" title="Override this function in the derived class for a control with wxLC_VIRTUAL and wxLC_REPORT styles in..."&gt;wxListCtrl::OnGetItemColumnImage&lt;/a&gt; and &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_list_ctrl.html#ad8508ae3a3478d778a912581f87cf349" title="This function may be overridden in the derived class for a control with wxLC_VIRTUAL style..."&gt;wxListCtrl::OnGetItemAttr&lt;/a&gt;) to return the information about the items when the control requests it.&lt;/p&gt;
+            &lt;p&gt;Virtual list control can be used as a normal one except that no operations which can take time proportional to the number of items in the control happen -- this is required to allow having a practically infinite number of items. For example, in a multiple selection virtual list control, the selections won't be sent when many items are selected at once because this could mean iterating over all the items.&lt;/p&gt;
+            &lt;p&gt;Using many of &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_list_ctrl.html" title="A list control presents lists in a number of formats: list view, report view, icon view and small ico..."&gt;wxListCtrl&lt;/a&gt; features is shown in the &lt;a class="el" href="http://docs.wxwidgets.org/trunk/page_samples.html#page_samples_listctrl"&gt;corresponding sample&lt;/a&gt;.&lt;/p&gt;
+            &lt;p&gt;To intercept events from a list control, use the event table macros described in &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_list_event.html" title="A list event holds information about events associated with wxListCtrl objects."&gt;wxListEvent&lt;/a&gt;.&lt;/p&gt;
+            &lt;p&gt;&lt;b&gt;wxMac Note&lt;/b&gt;: Starting with wxWidgets 2.8, &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_list_ctrl.html" title="A list control presents lists in a number of formats: list view, report view, icon view and small ico..."&gt;wxListCtrl&lt;/a&gt; uses a native implementation for report mode, and uses a generic implementation for other modes. You can use the generic implementation for report mode as well by setting the &lt;code&gt;mac.listctrl.always_use_generic&lt;/code&gt; system option (see &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_system_options.html" title="wxSystemOptions stores option/value pairs that wxWidgets itself or applications can use to alter beha..."&gt;wxSystemOptions&lt;/a&gt;) to 1.&lt;/p&gt;
+        </description>
         <inherits>
-            <class>wxWindow</class>
+            <class>wxControl</class>
         </inherits>
         <children>
             <class name="listcol"     max="-1"/>
@@ -21,7 +29,7 @@
             <class name="wxImageList" max="-1"/>
         </children>
         <name label="Name">
-            <value>m_listCtrl</value>
+            <value>listCtrl</value>
         </name>
         <style label="Style">
             <flag name="wxLC_LIST">

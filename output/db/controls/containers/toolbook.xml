@@ -11,34 +11,21 @@
 -->
 <classes>
     <class name="wxToolbook">
-        <description>wxToolbook is a class similar to wxNotebook but which uses a wxToolBar to show the labels instead of the tabs.</description>
+        <description>
+            &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_toolbook.html" title="wxToolbook is a class similar to wxNotebook but which uses a wxToolBar to show the labels instead of ..."&gt;wxToolbook&lt;/a&gt; is a class similar to &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_notebook.html" title="This class represents a notebook control, which manages multiple windows with associated tabs..."&gt;wxNotebook&lt;/a&gt; but which uses a &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_tool_bar.html" title="A toolbar is a bar of buttons and/or other controls usually placed below the menu bar in a wxFrame..."&gt;wxToolBar&lt;/a&gt; to show the labels instead of the tabs. &lt;/p&gt;
+            &lt;p&gt;There is no documentation for this class yet but its usage is identical to &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_notebook.html" title="This class represents a notebook control, which manages multiple windows with associated tabs..."&gt;wxNotebook&lt;/a&gt; (except for the features clearly related to tabs only), so please refer to that class documentation for now. You can also use the &lt;a class="el" href="http://docs.wxwidgets.org/trunk/page_samples.html#page_samples_notebook"&gt;Notebook Sample&lt;/a&gt; to see &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_toolbook.html" title="wxToolbook is a class similar to wxNotebook but which uses a wxToolBar to show the labels instead of ..."&gt;wxToolbook&lt;/a&gt; in action.&lt;/p&gt;
+        </description>
         <inherits>
             <class>wxBookCtrlBase</class>
-            <class>wxWindow</class>
         </inherits>
         <children>
             <class name="toolbookpage" max="-1"/>
             <class name="wxImageList"  max="1"/>
         </children>
         <name label="Name">
-            <value>m_toolBook</value>
+            <value>toolBook</value>
         </name>
         <style label="Style">
-            <flag name="wxBK_DEFAULT">
-                <description>Native controller placement.</description>
-            </flag>
-            <flag name="wxBK_TOP">
-                <description>Controller above pages.</description>
-            </flag>
-            <flag name="wxBK_BOTTOM">
-                <description>Controller below pages.</description>
-            </flag>
-            <flag name="wxBK_LEFT">
-                <description>Controller on the left.</description>
-            </flag>
-            <flag name="wxBK_RIGHT">
-                <description>Controller on the right.</description>
-            </flag>
             <flag name="wxTBK_BUTTONBAR">
                 <description>Use wxButtonToolBar-based implementation under Mac OS (ignored under other platforms).</description>
             </flag>

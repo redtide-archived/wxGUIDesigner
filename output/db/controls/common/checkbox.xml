@@ -10,15 +10,17 @@
     Licence:     GNU General Public License Version 3
 -->
 <class name="wxCheckBox">
-    <description>A checkbox is a labelled box which by default is either on (checkmark is visible) or off (no checkmark).</description>
+    <description>
+        &lt;p&gt;A checkbox is a labelled box which by default is either on (checkmark is visible) or off (no checkmark). &lt;/p&gt;
+        &lt;p&gt;Optionally (when the wxCHK_3STATE style flag is set) it can have a third state, called the mixed or undetermined state. Often this is used as a "Does Not Apply" state.&lt;/p&gt;
+    </description>
     <inherits>
         <class>wxControl</class>
-        <class>wxWindow</class>
     </inherits>
     <name label="Name">
-        <value>m_chkBox</value>
+        <value>chkBox</value>
     </name>
-    <style>
+    <style label="Style">
         <flag name="wxCHK_2STATE">
             <description>Create a 2-state checkbox. This is the default.</description>
         </flag>

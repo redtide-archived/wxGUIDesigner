@@ -129,6 +129,8 @@ m_handler( handler )
                                 ( wxGDPropertyBook::OnLinkClicked ), NULL, this );
 
     Bind( wxGD_EVT_OBJECT_SELECTED, &wxGDPropertyBook::OnObjectSelected, this );
+
+    Bind( wxEVT_CHILD_FOCUS, &wxGDPropertyBook::OnChildFocus, this );
 }
 
 wxGDPropertyBook::~wxGDPropertyBook()
@@ -151,6 +153,11 @@ wxGDPropertyBook::~wxGDPropertyBook()
                                 ( wxGDPropertyBook::OnLinkClicked ), NULL, this );
 }
 
+void wxGDPropertyBook::OnChildFocus( wxChildFocusEvent & )
+{
+    // Workaround: unwanted scrollbar scrolling when clicking on a property
+}
+
 void wxGDPropertyBook::OnSize( wxSizeEvent &event )
 {
     int height = event.GetSize().GetHeight();
@@ -171,7 +178,7 @@ void wxGDPropertyBook::OnPropGridChanged( wxPropertyGridEvent &event )
     {
         wxString propName = pgProp->GetName();
         Property prop =
-        m_handler->GetTree()->GetSelectObject()->GetProperty( pgProp->GetName() );
+        m_handler->GetSelectedObject()->GetProperty( pgProp->GetName() );
 
         if( prop )
         {
@@ -267,7 +274,7 @@ void wxGDPropertyBook::OnPropGridSelected( wxPropertyGridEvent &event )
     {
         wxString propName    = pgProp->GetBaseName();
         wxString description = "<h5>" + pgProp->GetLabel() + "</h5>";
-        Object   object      = m_handler->GetTree()->GetSelectObject();
+        Object   object      = m_handler->GetSelectedObject();
 
         if( pgProp->IsCategory() )
         {
@@ -321,7 +328,7 @@ void wxGDPropertyBook::OnEventGridChanged( wxPropertyGridEvent &event )
         }
 
         Event evt = // Get the Event
-        m_handler->GetTree()->GetSelectObject()->GetEvent( pgCat->GetName() );
+        m_handler->GetSelectedObject()->GetEvent( pgCat->GetName() );
 
         if( evt )
         {
@@ -356,7 +363,7 @@ void wxGDPropertyBook::OnEventGridSelected( wxPropertyGridEvent &event )
                 return;
         }
         wxString evtName = pgPropEvt->GetLabel();
-        Event evt = m_handler->GetTree()->GetSelectObject()->GetEvent( evtName );
+        Event evt = m_handler->GetSelectedObject()->GetEvent( evtName );
         wxString desc = "<h5>" + evtName + "</h5>";
 
         if( pgPropEvtType )
@@ -399,7 +406,7 @@ void wxGDPropertyBook::OnEventGridLeftDClick( wxPropertyGridEvent &event )
             evtFuncName.Append( tokenizer.GetNextToken().MakeCapitalized() );
         }
 
-        Object obj = m_handler->GetTree()->GetSelectObject();
+        Object obj = m_handler->GetSelectedObject();
         wxPGProperty *evtCat = p->GetParent();
 
         if( obj && evtCat )
