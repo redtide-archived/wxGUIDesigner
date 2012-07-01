@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        sizer.xml
+    Purpose:     wxSizer class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2011/12/03
+    Revision:    $Hash$
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
+-->
+<classes>
+    <class name="wxSizer" type="abstract">
+        <description>
+            &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_sizer.html" title="wxSizer is the abstract base class used for laying out subwindows in a window."&gt;wxSizer&lt;/a&gt; is the abstract base class used for laying out subwindows in a window. &lt;/p&gt;
+            &lt;p&gt;You cannot use &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_sizer.html" title="wxSizer is the abstract base class used for laying out subwindows in a window."&gt;wxSizer&lt;/a&gt; directly; instead, you will have to use one of the sizer classes derived from it. Currently there are &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_box_sizer.html" title="The basic idea behind a box sizer is that windows will most often be laid out in rather simple basic ..."&gt;wxBoxSizer&lt;/a&gt;, &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_static_box_sizer.html" title="wxStaticBoxSizer is a sizer derived from wxBoxSizer but adds a static box around the sizer..."&gt;wxStaticBoxSizer&lt;/a&gt;, &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_grid_sizer.html" title="A grid sizer is a sizer which lays out its children in a two-dimensional table with all table fields ..."&gt;wxGridSizer&lt;/a&gt;, &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_flex_grid_sizer.html" title="A flex grid sizer is a sizer which lays out its children in a two-dimensional table with all table fi..."&gt;wxFlexGridSizer&lt;/a&gt;, &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_wrap_sizer.html" title="A wrap sizer lays out its items in a single line, like a box sizer -- as long as there is space avail..."&gt;wxWrapSizer&lt;/a&gt; and &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_grid_bag_sizer.html" title="A wxSizer that can lay out items in a virtual grid like a wxFlexGridSizer but in this case explicit p..."&gt;wxGridBagSizer&lt;/a&gt;.&lt;/p&gt;
+            &lt;p&gt;The layout algorithm used by sizers in wxWidgets is closely related to layout in other GUI toolkits, such as Java's AWT, the GTK toolkit or the Qt toolkit. It is based upon the idea of the individual subwindows reporting their minimal required size and their ability to get stretched if the size of the parent window has changed.&lt;/p&gt;
+            &lt;p&gt;This will most often mean that the programmer does not set the original size of a dialog in the beginning, rather the dialog will be assigned a sizer and this sizer will be queried about the recommended size. The sizer in turn will query its children, which can be normal windows, empty space or other sizers, so that a hierarchy of sizers can be constructed. Note that &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_sizer.html" title="wxSizer is the abstract base class used for laying out subwindows in a window."&gt;wxSizer&lt;/a&gt; does not derive from &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_window.html" title="wxWindow is the base class for all windows and represents any visible object on screen."&gt;wxWindow&lt;/a&gt; and thus does not interfere with tab ordering and requires very little resources compared to a real window on screen.&lt;/p&gt;
+            &lt;p&gt;What makes sizers so well fitted for use in wxWidgets is the fact that every control reports its own minimal size and the algorithm can handle differences in font sizes or different window (dialog item) sizes on different platforms without problems. If e.g. the standard font as well as the overall design of Motif widgets requires more space than on Windows, the initial dialog size will automatically be bigger on Motif than on Windows.&lt;/p&gt;
+            &lt;p&gt;Sizers may also be used to control the layout of custom drawn items on the window. The &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_sizer.html#a4e2122f2749261473c21cb192d00709f" title="Appends a child to the sizer."&gt;wxSizer::Add()&lt;/a&gt;, &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_sizer.html#aafc5f53e9d3511440be05f9805bb2871" title="Insert a child into the sizer before any existing item at index."&gt;wxSizer::Insert()&lt;/a&gt;, and &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_sizer.html#a7417fb9b0e3b4777c11b381f14cf0153" title="Same as Add(), but prepends the items to the beginning of the list of items (windows, subsizers or spaces) owned by this sizer."&gt;wxSizer::Prepend()&lt;/a&gt; functions return a pointer to the newly added &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_sizer_item.html" title="The wxSizerItem class is used to track the position, size and other attributes of each item managed b..."&gt;wxSizerItem&lt;/a&gt;. Just add empty space of the desired size and attributes, and then use the &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_sizer_item.html#a3c3a8e59193eb64cb6cf1e120c9ed544" title="Get the rectangle of the item on the parent window, excluding borders."&gt;wxSizerItem::GetRect()&lt;/a&gt; method to determine where the drawing operations should take place.&lt;/p&gt;
+            &lt;p&gt;Please notice that sizers, like child windows, are owned by the library and will be deleted by it which implies that they must be allocated on the heap. However if you create a sizer and do not add it to another sizer or window, the library wouldn't be able to delete such an orphan sizer and in this, and only this, case it should be deleted explicitly.&lt;/p&gt;
+            &lt;h2&gt;&lt;a class="anchor" id="wxsizer_flags"&gt;&lt;/a&gt;
+            wxSizer flags&lt;/h2&gt;
+            &lt;p&gt;The "flag" argument accepted by wxSizeItem constructors and other functions, e.g. &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_sizer.html#a4e2122f2749261473c21cb192d00709f" title="Appends a child to the sizer."&gt;wxSizer::Add()&lt;/a&gt;, is OR-combination of the following flags. Two main behaviours are defined using these flags. One is the border around a window: the border parameter determines the border width whereas the flags given here determine which side(s) of the item that the border will be added. The other flags determine how the sizer item behaves when the space allotted to the sizer changes, and is somewhat dependent on the specific kind of sizer used.&lt;/p&gt;
+            &lt;table class="doclist" border="1" cellspacing="0"&gt;
+            &lt;tbody&gt;&lt;tr&gt;
+            &lt;td&gt;&lt;span class="itemdef"&gt;wxTOP&lt;br&gt;
+             wxBOTTOM&lt;br&gt;
+             wxLEFT&lt;br&gt;
+             wxRIGHT&lt;br&gt;
+             wxALL&lt;/span&gt; &lt;/td&gt;&lt;td&gt;These flags are used to specify which side(s) of the sizer item the border width will apply to. &lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;
+            &lt;td&gt;&lt;span class="itemdef"&gt;wxEXPAND&lt;/span&gt; &lt;/td&gt;&lt;td&gt;The item will be expanded to fill the space assigned to the item. &lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;
+            &lt;td&gt;&lt;span class="itemdef"&gt;wxSHAPED&lt;/span&gt; &lt;/td&gt;&lt;td&gt;The item will be expanded as much as possible while also maintaining its aspect ratio. &lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;
+            &lt;td&gt;&lt;span class="itemdef"&gt;wxFIXED_MINSIZE&lt;/span&gt; &lt;/td&gt;&lt;td&gt;Normally wxSizers will use GetAdjustedBestSize() to determine what the minimal size of window items should be, and will use that size to calculate the layout. This allows layouts to adjust when an item changes and its best size becomes different. If you would rather have a window item stay the size it started with then use &lt;code&gt;wxFIXED_MINSIZE&lt;/code&gt;. &lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;
+            &lt;td&gt;&lt;span class="itemdef"&gt;wxRESERVE_SPACE_EVEN_IF_HIDDEN&lt;/span&gt; &lt;/td&gt;&lt;td&gt;Normally wxSizers don't allocate space for hidden windows or other items. This flag overrides this behaviour so that sufficient space is allocated for the window even if it isn't visible. This makes it possible to dynamically show and hide controls without resizing parent dialog, for example. (Available since 2.8.8.) &lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;
+            &lt;td&gt;&lt;span class="itemdef"&gt;wxALIGN_CENTER&lt;br&gt;
+             wxALIGN_CENTRE&lt;br&gt;
+             wxALIGN_LEFT&lt;br&gt;
+             wxALIGN_RIGHT&lt;br&gt;
+             wxALIGN_TOP&lt;br&gt;
+             wxALIGN_BOTTOM&lt;br&gt;
+             wxALIGN_CENTER_VERTICAL&lt;br&gt;
+             wxALIGN_CENTRE_VERTICAL&lt;br&gt;
+             wxALIGN_CENTER_HORIZONTAL&lt;br&gt;
+             wxALIGN_CENTRE_HORIZONTAL&lt;/span&gt; &lt;/td&gt;&lt;td&gt;The &lt;code&gt;wxALIGN_*&lt;/code&gt; flags allow you to specify the alignment of the item within the space allotted to it by the sizer, adjusted for the border if any. &lt;/td&gt;&lt;/tr&gt;
+            &lt;/tbody&gt;&lt;/table&gt;
+        </description>
+        <size name="minsize" label="Minimal size">
+            <description>Minimal size that this sizer will have, see wxSizer::SetMinSize() (default: no min size).</description>
+        </size>
+    </class>
+
+    <class name="sizeritem" type="item">
+        <children>
+            <class type="sizer"  max="1" option="1"/>
+            <class type="window" max="1" option="1"/>
+        </children>
+        <int name="option" label="Proportion">
+            <description>The "option" value for sizers. Used by wxBoxSizer to set proportion of the item in the growable direction (default: 0).</description>
+        </int>
+        <style name="flag" label="Flag">
+            <flag name="wxTOP">
+                <description></description>
+            </flag>
+            <flag name="wxBOTTOM">
+                <description></description>
+            </flag>
+            <flag name="wxLEFT">
+                <description></description>
+            </flag>
+            <flag name="wxRIGHT">
+                <description></description>
+            </flag>
+            <flag name="wxALL">
+                <description></description>
+            </flag>
+            <flag name="wxEXPAND">
+                <description>The item will be expanded to fill the space assigned to the item.</description>
+            </flag>
+            <flag name="wxSHAPED">
+                <description>The item will be expanded as much as possible while also maintaining its aspect ratio.</description>
+            </flag>
+            <flag name="wxFIXED_MINSIZE">
+                <description>Normally wxSizers will use GetAdjustedBestSize() to determine what the minimal size of window items should be, and will use that size to calculate the layout. This allows layouts to adjust when an item changes and its best size becomes different. If you would rather have a window item stay the size it started with then use wxFIXED_MINSIZE.</description>
+            </flag>
+            <flag name="wxRESERVE_SPACE_EVEN_IF_HIDDEN">
+                <description>Normally wxSizers don't allocate space for hidden windows or other items. This flag overrides this behaviour so that sufficient space is allocated for the window even if it isn't visible. This makes it possible to dynamically show and hide controls without resizing parent dialog, for example. (Available since 2.8.8.)</description>
+            </flag>
+            <flag name="wxALIGN_CENTER">
+                <description></description>
+            </flag>
+            <flag name="wxALIGN_LEFT">
+                <description></description>
+            </flag>
+            <flag name="wxALIGN_RIGHT">
+                <description></description>
+            </flag>
+            <flag name="wxALIGN_TOP">
+                <description></description>
+            </flag>
+            <flag name="wxALIGN_BOTTOM">
+                <description></description>
+            </flag>
+            <flag name="wxALIGN_CENTER_VERTICAL">
+                <description></description>
+            </flag>
+            <flag name="wxALIGN_CENTER_HORIZONTAL">
+                <description></description>
+            </flag>
+        </style>
+        <dimension name="border" label="Border">
+            <description>Size of the border around the item (directions are specified in flags) (default: 0).</description>
+        </dimension>
+        <size name="minsize" label="Minimal size">
+            <description>Minimal size of this item (default: no min size).</description>
+        </size>
+        <size name="ratio" label="Ratio">
+            <description>Item ratio, see wxSizer::SetRatio() (default: no ratio).</description>
+        </size>
+    </class>
+
+    <class name="spacer" type="custom">
+        <style name="flag">
+            <flag name="wxTOP">
+                <description></description>
+            </flag>
+            <flag name="wxBOTTOM">
+                <description></description>
+            </flag>
+            <flag name="wxLEFT">
+                <description></description>
+            </flag>
+            <flag name="wxRIGHT">
+                <description></description>
+            </flag>
+            <flag name="wxALL">
+                <description></description>
+            </flag>
+            <flag name="wxEXPAND">
+                <description>The item will be expanded to fill the space assigned to the item.</description>
+            </flag>
+            <flag name="wxSHAPED">
+                <description>The item will be expanded as much as possible while also maintaining its aspect ratio.</description>
+            </flag>
+            <flag name="wxFIXED_MINSIZE">
+                <description>Normally wxSizers will use GetAdjustedBestSize() to determine what the minimal size of window items should be, and will use that size to calculate the layout. This allows layouts to adjust when an item changes and its best size becomes different. If you would rather have a window item stay the size it started with then use wxFIXED_MINSIZE.</description>
+            </flag>
+            <flag name="wxRESERVE_SPACE_EVEN_IF_HIDDEN">
+                <description>Normally wxSizers don't allocate space for hidden windows or other items. This flag overrides this behaviour so that sufficient space is allocated for the window even if it isn't visible. This makes it possible to dynamically show and hide controls without resizing parent dialog, for example. (Available since 2.8.8.)</description>
+            </flag>
+            <flag name="wxALIGN_CENTER">
+                <description></description>
+            </flag>
+            <flag name="wxALIGN_LEFT">
+                <description></description>
+            </flag>
+            <flag name="wxALIGN_RIGHT">
+                <description></description>
+            </flag>
+            <flag name="wxALIGN_TOP">
+                <description></description>
+            </flag>
+            <flag name="wxALIGN_BOTTOM">
+                <description></description>
+            </flag>
+            <flag name="wxALIGN_CENTER_VERTICAL">
+                <description></description>
+            </flag>
+            <flag name="wxALIGN_CENTER_HORIZONTAL">
+                <description></description>
+            </flag>
+        </style>
+        <size label="Size">
+            <description>Size of the empty space (required).</description>
+        </size>
+        <int name="option" label="Proportion">
+            <description>The "option" value for sizers. Used by wxBoxSizer to set proportion of the item in the growable direction (default: 0).</description>
+        </int>
+        <dimension name="border" label="Border">
+            <description>Size of the border around the item (directions are specified in flags) (default: 0).</description>
+        </dimension>
+        <size name="minsize" label="Minimal size">
+            <description>Minimal size of this item (default: no min size).</description>
+        </size>
+        <size name="ratio" label="Ratio">
+            <description>Item ratio, see wxSizer::SetRatio() (default: no ratio).</description>
+        </size>
+    </class>
+</classes>

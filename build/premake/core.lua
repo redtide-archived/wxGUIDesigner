@@ -14,6 +14,7 @@ project "LibCore"
     {
         "../../include/wxguidesigner/**.h", "../../src/wxguidesigner/**.cpp",
         "../../include/wx/**.h", "../../src/wx/**.cpp",
+        "../../output/db/controlbase.xml", "../../output/db/controlbase/**.xml",
         "../../output/db/controls.xml", "../../output/db/controls/**.xml"
     }
     includedirs

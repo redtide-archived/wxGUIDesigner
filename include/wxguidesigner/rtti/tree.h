@@ -151,59 +151,61 @@ private:
 //=============================================================================
 // ObjectNode Class
 //=============================================================================
-class ObjectNode : public IObject
+class ObjectNode //: public IObject
 {
 public:
-    ObjectNode( ClassInfo classInfo,
-                Object parent, 
-                bool expanded = true,
-                bool isReference = false );
+    ObjectNode( ClassInfo classInfo, Object parent,
+                bool expanded = true, bool isReference = false );
     ~ObjectNode();
 
-    virtual wxString GetClassName()   const;
-    virtual wxString GetDescription() const;
+    wxString    GetName()           const;
+    wxString    GetDescription()    const;
 
-    wxString    GetName();
-
-    ClassInfo   GetClassInfo() const;
-
-    bool        IsReference() const { return m_isRef; }
+    bool        IsReference()       const;
     bool        IsRoot();
-    bool        IsExpanded();
-    bool        IsTopLevel() { return m_info->IsTypeOf( CLASS_TYPE_TOPLEVEL ); }
-
+    bool        IsTopLevel();
+//-----------------------------------------------------------------------------
+// State into the tree
+//-----------------------------------------------------------------------------
+    bool        IsExpanded() const;
     void        Collapse();
     void        Expand();
-
-    // Events
-    void        AddEvent( Event event );
-    Event       GetEvent( size_t index );
-    Event       GetEvent( const wxString &name );
+//-----------------------------------------------------------------------------
+// ClassInfos
+//-----------------------------------------------------------------------------
+    ClassInfo   GetClassInfo() const;
+    wxString    GetClassName() const;
+//-----------------------------------------------------------------------------
+// Events
+//-----------------------------------------------------------------------------
+    void        AddEvent        ( Event event );
+    Event       GetEvent        ( size_t index )         const;
+    Event       GetEvent        ( const wxString &name ) const;
     size_t      GetEventCount();
-
-    // Properties
-    void        AddProperty( Property prop );
-    Property    GetProperty( size_t index );
-    Property    GetProperty( const wxString &name );
-    Properties  GetProperties() const                   { return m_props; }
-    bool        PropertyExists( const wxString &name );
+//-----------------------------------------------------------------------------
+// Properties
+//-----------------------------------------------------------------------------
+    void        AddProperty     ( Property prop );
+    bool        PropertyExists  ( const wxString &name );
+    Property    GetProperty     ( size_t index )         const;
+    Property    GetProperty     ( const wxString &name ) const;
+    Property    GetChildProperty( Property parent,
+                                  const wxString &name ) const;
+    Properties  GetProperties()                          const;
     size_t      GetPropertyCount();
-    Property    GetChildProperty( Property parent, const wxString &name );
-
-    // Inherited classes
-    void        AddBaseInfo( ClassInfo info );
-    ClassInfo   GetBaseInfo( size_t index );
-    wxString    GetBaseName( size_t index );
-    size_t      GetBaseCount();
-
-    // Parent / children objects
-    void        AddChild( Object child );
-    Object      GetChild( size_t index );
-    Object      GetParent();
-    Objects     GetChildren() const { return m_children; }
+//-----------------------------------------------------------------------------
+// Parent / children objects
+//-----------------------------------------------------------------------------
+    void        AddChild        ( Object child );
+    Object      GetChild        ( size_t index )        const;
+    Object      GetParent()                             const;
+    Objects     GetChildren()                           const;
     size_t      GetChildCount();
-
+//-----------------------------------------------------------------------------
+// Serialize
+//-----------------------------------------------------------------------------
     wxXmlNode  *Serialize( wxXmlNode *parent );
+
 private:
     friend class ObjectTree;
 
@@ -211,7 +213,6 @@ private:
     wxXmlNode  *SerializeProperties( Properties props, wxXmlNode *parent );
 
     ClassInfo   m_info;
-    ClassInfos  m_baseinfos;
     Object      m_parent;
     Objects     m_children;
     bool        m_expanded;
@@ -220,7 +221,7 @@ private:
     Properties  m_props;
 };
 //=============================================================================
-// ObjectTree Singleton Class
+// ObjectTree Class
 //=============================================================================
 class ObjectTree// : public IObjectManager
 {
@@ -231,26 +232,28 @@ public:
     virtual Object  CreateObject    ( const wxString &className,
                                         Object parent = Object() );
 
-    virtual Object  GetSelectedObject() const { return m_sel; }
-
-    Object GetTopLevelObject( Object object ) const;
+    virtual Object  GetSelectedObject() const;
+    Object          GetTopLevelObject( Object object ) const;
 
     virtual void    SelectObject    ( Object object, bool withEvent = true );
 
     virtual bool    Load            ( const wxString &filePath );
+//-----------------------------------------------------------------------------
+// Serialize
+//-----------------------------------------------------------------------------
     virtual bool    Serialize       ( wxXmlNode *rootNode );
     virtual bool    Serialize       ( const wxString &filePath );
 
 private:
-   bool             CheckType( const wxString &parentType,
-                               const wxString &childType );
+// bool             CheckType       ( const wxString &parentType,
+//                                    const wxString &childType );
 
     size_t          GetChildInfoCount( Object parent, ClassInfo info );
 
     Object          DoCreateObject( Object parentObject, wxXmlNode *parentNode,
                                     bool isReference = false );
-    Object          m_root;
-    Object          m_sel;
+    Object m_root; // Root object
+    Object m_sel;  // Selected object
 };
 
 #endif //__WXGUIDESIGNER_RTTI_TREE_H__

@@ -19,6 +19,8 @@
 #include <wx/log.h>
 
 class wxXmlNode;
+
+using namespace std;
 //=============================================================================
 // ChildInfoNode
 //=============================================================================
@@ -178,34 +180,43 @@ public:
     wxString        GetName()        const { return m_name; }
     wxString        GetDescription() const { return m_desc; }
     ClassType       GetType()        const { return m_type; }
-
+//-----------------------------------------------------------------------------
+// Inherited classes
+//-----------------------------------------------------------------------------
+    ClassInfo       GetBaseInfo( size_t index );
+    wxString        GetBaseName( size_t index );
+    size_t          GetBaseCount();
     bool            IsKindOf( const wxString &className );
     bool            IsTypeOf( ClassType type );
-
-    size_t          GetBaseCount()          { return m_bases.GetCount(); }
-    size_t          GetChildInfoCount()     { return m_children.size(); }
-    size_t          GetEventInfoCount()     { return m_events.size(); }
-    size_t          GetPropertyInfoCount()  { return m_props.size(); }
-
-    wxString        GetBaseName( size_t index );
-    ChildInfo       GetChildInfo( size_t index );
-    EventInfo       GetEventInfo( size_t index );
+//-----------------------------------------------------------------------------
+// PropertyInfos
+//-----------------------------------------------------------------------------
     PropertyInfo    GetPropertyInfo( size_t index );
-
+    PropertyInfo    GetPropertyInfo( const wxString &name );
+    size_t          GetPropertyInfoCount()  { return m_props.size(); }
+    bool            PropertyInfoExists( const wxString &name );
+//-----------------------------------------------------------------------------
+// EventInfos
+//-----------------------------------------------------------------------------
+    EventInfo       GetEventInfo( size_t index );
+    size_t          GetEventInfoCount()     { return m_events.size(); }
+//-----------------------------------------------------------------------------
+// ChildInfos
+//-----------------------------------------------------------------------------
+    ChildInfo       GetChildInfo( size_t index );
+    size_t          GetChildInfoCount()     { return m_children.size(); }
     bool            IsChildInfoOk( const wxString &name, size_t count );
-    bool            PropertyInfoExists ( const wxString &name );
 
 private:
-    void AddBaseName( const wxString &name )    { m_bases.Add( name ); }
-    void AddChildInfo( ChildInfo info )         { m_children.push_back( info ); }
-    void AddEventInfo( EventInfo info )         { m_events.push_back( info ); }
-    void AddPropertyInfo( PropertyInfo info )   { m_props.push_back( info ); }
-
+    void AddBaseInfo    ( ClassInfo info );
+    void AddChildInfo   ( ChildInfo info )    { m_children.push_back( info ); }
+    void AddEventInfo   ( EventInfo info )    { m_events.push_back( info ); }
+    void AddPropertyInfo( PropertyInfo info ) { m_props.push_back( info ); }
 
     wxString        m_name;
     wxString        m_desc;
     ClassType       m_type;
-    wxArrayString   m_bases;
+    ClassInfos      m_baseInfos;
     ChildInfos      m_children;
     EventInfos      m_events;
     PropertyInfos   m_props;
@@ -219,11 +230,11 @@ class DLLIMPEXP_WXGUIDESIGNER ClassInfoDB
 {
 public:
     static ClassInfoDB *Get();
-    static void Free();
+    static void         Free();
 
-    bool            ClassInfoExists( const wxString &name );
-    ClassInfo       GetClassInfo   ( const wxString &name ) const;
-    PropertyType    GetPropertyType( const wxString &name ) const;
+    bool            ClassInfoExists ( const wxString &name );
+    ClassInfo       GetClassInfo    ( const wxString &name ) const;
+    PropertyType    GetPropertyType ( const wxString &name ) const;
 
 private:
     ClassInfoDB();
@@ -236,19 +247,27 @@ private:
     void            InitPropertyTypes();
     void            Init();
 
-    bool            LoadXML    ( const wxString &path );
+    void            LoadClasses( const wxString &category );
+    bool            LoadXML    ( const wxString &category );
     bool            CheckClass ( const wxString &name );
     void            Parse      ( wxXmlNode *node, bool recursively = false );
 
-    ChildInfo       DoGetChildInfo     ( wxXmlNode *childNode );
-    EventInfo       DoGetEventInfo     ( wxXmlNode *eventNode );
-    PropertyInfo    DoGetPropertyInfo  ( wxXmlNode *propertyNode );
+    void            AddBaseInfos        ( ClassInfo classInfo,
+                                          ClassInfo baseInfo );
 
-    ClassType       ClassTypeFromString( const wxString &value ) const;
+    ChildInfo       DoGetChildInfo      ( wxXmlNode *childNode );
+    EventInfo       DoGetEventInfo      ( wxXmlNode *eventNode );
+    PropertyInfo    DoGetPropertyInfo   ( wxXmlNode *propertyNode );
+
+    ClassType       ClassTypeFromString ( const wxString &value ) const;
 
     ClassInfoMap    m_classes;
     PropertyTypeMap m_propTypes;
-    wxArrayString   m_classList;
+
+    typedef map< wxString, wxString > ClassNameMap;
+
+    wxArrayString   m_baseList;
+    ClassNameMap    m_classMap;
 
     static ClassInfoDB *ms_instance;
 };

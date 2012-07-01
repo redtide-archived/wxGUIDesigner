@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        controlbase.xml
+    Purpose:     Control base classes group list
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/06/29
+    Revision:    $Hash$
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
+-->
+<controlbase>
+    <item>Project</item>
+    <item>wxWindow</item>
+    <item>wxTopLevelWindow</item>
+    <item>wxSizer</item>
+    <item>wxControl</item>
+    <item>wxBookCtrlBase</item>
+</controlbase>

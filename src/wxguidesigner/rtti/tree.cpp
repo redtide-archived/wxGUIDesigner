@@ -31,8 +31,10 @@ using namespace std;
 //=============================================================================
 // PropertyNode Class
 //=============================================================================
-PropertyNode::PropertyNode( PropertyInfo info )
-            : m_info( info ), m_value( info->GetDefaultValue() )
+PropertyNode::PropertyNode( PropertyInfo propertyInfo )
+:
+m_info  ( propertyInfo ),
+m_value ( propertyInfo->GetDefaultValue() )
 {
 }
 
@@ -74,9 +76,22 @@ size_t PropertyNode::GetChildCount()
     return m_children.size();
 }
 
-void PropertyNode::AddChild( Property prop )
+void PropertyNode::AddChild( Property property )
 {
-    m_children.push_back( prop );
+    if( !property )
+        return;
+
+    m_children.push_back( property );
+
+    PropertyInfo propertyInfo = property->GetInfo();
+
+    for( size_t i = 0; i < propertyInfo->GetChildCount(); i++ )
+    {
+        PropertyInfo childInfo = propertyInfo->GetChild(i);
+        Property child( new PropertyNode( childInfo ) );
+
+        property->AddChild( child );
+    }
 }
 
 void PropertyNode::AddAttribute( const wxString &name, const wxString &value )
@@ -262,10 +277,10 @@ void PropertyNode::SetValue( const wxAny &value )
 ObjectNode::ObjectNode( ClassInfo classInfo, Object parent,
                         bool expanded, bool isReference )
 :
-m_info( classInfo ),
-m_parent( parent ),
-m_expanded( expanded ),
-m_isRef( isReference )
+m_info      ( classInfo ),
+m_parent    ( parent ),
+m_expanded  ( expanded ),
+m_isRef     ( isReference )
 {
 }
 
@@ -276,17 +291,7 @@ ObjectNode::~ObjectNode()
     m_children.clear();
 }
 
-wxString ObjectNode::GetClassName() const
-{
-    return m_info->GetName();
-}
-
-wxString ObjectNode::GetDescription() const
-{
-    return m_info->GetDescription();
-}
-
-wxString ObjectNode::GetName()
+wxString ObjectNode::GetName() const
 {
     Property prop = GetProperty("name");
     if( prop )
@@ -295,17 +300,29 @@ wxString ObjectNode::GetName()
     return wxEmptyString;
 }
 
-ClassInfo ObjectNode::GetClassInfo() const
+wxString ObjectNode::GetDescription() const
 {
-    return m_info;
+    return m_info->GetDescription();
+}
+
+bool ObjectNode::IsReference() const
+{
+    return m_isRef;
 }
 
 bool ObjectNode::IsRoot()
 {
-    return m_info->GetType() == CLASS_TYPE_ROOT;
+    return( m_info->GetType() == CLASS_TYPE_ROOT );
 }
 
-bool ObjectNode::IsExpanded()
+bool ObjectNode::IsTopLevel()
+{
+    return m_info->IsTypeOf( CLASS_TYPE_TOPLEVEL );
+}
+//-----------------------------------------------------------------------------
+// State into the tree
+//-----------------------------------------------------------------------------
+bool ObjectNode::IsExpanded() const
 {
     return m_expanded;
 }
@@ -319,43 +336,30 @@ void ObjectNode::Expand()
 {
     m_expanded = true;
 }
+//-----------------------------------------------------------------------------
+// ClassInfos
+//-----------------------------------------------------------------------------
+ClassInfo ObjectNode::GetClassInfo() const
+{
+    return m_info;
+}
 
+wxString ObjectNode::GetClassName() const
+{
+    return m_info->GetName();
+}
+//-----------------------------------------------------------------------------
+// Events
+//-----------------------------------------------------------------------------
 void ObjectNode::AddEvent( Event event )
 {
+    if( !event )
+        return;
+
     m_events.push_back( event );
 }
 
-size_t ObjectNode::GetEventCount()
-{
-    return m_events.size();
-}
-
-Object ObjectNode::GetChild( size_t index )
-{
-    if( index < m_children.size() )
-        return m_children.at( index );
-
-    return Object();
-}
-
-void ObjectNode::AddChild( Object child )
-{
-    m_children.push_back( child );
-}
-
-Object ObjectNode::GetParent()
-{
-    return m_parent;
-}
-
-size_t ObjectNode::GetChildCount()
-{
-    return m_children.size();
-}
-//=============================================================================
-// Events
-//=============================================================================
-Event ObjectNode::GetEvent( size_t index )
+Event ObjectNode::GetEvent( size_t index ) const
 {
     if( index < m_events.size() )
         return m_events.at( index );
@@ -363,9 +367,10 @@ Event ObjectNode::GetEvent( size_t index )
     return Event();
 }
 
-Event ObjectNode::GetEvent( const wxString &name )
+Event ObjectNode::GetEvent( const wxString &name ) const
 {
-    for( Events::iterator it = m_events.begin(); it != m_events.end(); ++it )
+    for( Events::const_iterator it = m_events.begin();
+                                it != m_events.end(); ++it )
     {
         if( (*it)->GetName() == name )
             return *it;
@@ -373,28 +378,39 @@ Event ObjectNode::GetEvent( const wxString &name )
 
     return Event();
 }
-//=============================================================================
-// Properties
-//=============================================================================
-void ObjectNode::AddProperty( Property prop )
+
+size_t ObjectNode::GetEventCount()
 {
-    // TODO: need to be recursive?
-    if( prop )
+    return m_events.size();
+}
+//-----------------------------------------------------------------------------
+// Properties
+//-----------------------------------------------------------------------------
+void ObjectNode::AddProperty( Property property )
+{
+    if( !property )
+        return;
+
+    m_props.push_back( property );
+
+    PropertyInfo propertyInfo = property->GetInfo();
+
+    for( size_t i = 0; i < propertyInfo->GetChildCount(); i++ )
     {
-        m_props.push_back( prop );
+        PropertyInfo childInfo = propertyInfo->GetChild(i);
+        Property     child( new PropertyNode( childInfo ) );
 
-        for( size_t i = 0; i < prop->GetInfo()->GetChildCount(); i++ )
-        {
-            PropertyInfo childInfo = prop->GetInfo()->GetChild( i );
-            Property     child( new PropertyNode( childInfo ) );
-
-            child->SetValue( childInfo->GetDefaultValue() );
-            prop->AddChild( child );
-        }
+        child->SetValue( childInfo->GetDefaultValue() );
+        property->AddChild( child );
     }
 }
 
-Property ObjectNode::GetProperty( size_t index )
+bool ObjectNode::PropertyExists( const wxString &name )
+{
+    return m_info->PropertyInfoExists( name );
+}
+
+Property ObjectNode::GetProperty( size_t index ) const
 {
     if( index < m_props.size() )
         return m_props.at( index );
@@ -402,23 +418,10 @@ Property ObjectNode::GetProperty( size_t index )
     return Property();
 }
 
-Property ObjectNode::GetChildProperty( Property parent, const wxString &name )
+Property ObjectNode::GetProperty( const wxString &name ) const
 {
-    if( parent )
-    {
-        for( size_t i = 0; i < parent->GetChildCount(); i++ )
-        {
-            Property prop = parent->GetChild( i );
-            if( prop && prop->GetName() == name )
-                return prop;
-        }
-    }
-    return Property();
-}
-
-Property ObjectNode::GetProperty( const wxString &name )
-{
-    for( Properties::iterator it = m_props.begin(); it != m_props.end(); ++it )
+    for( Properties::const_iterator it = m_props.begin();
+                                    it != m_props.end(); ++it )
     {
         if( (*it)->GetName() == name )
             return *it;
@@ -431,41 +434,64 @@ Property ObjectNode::GetProperty( const wxString &name )
     return Property();
 }
 
+Property ObjectNode::GetChildProperty( Property parent,
+                                       const wxString &name ) const
+{
+    if( parent )
+    {
+        for( size_t i = 0; i < parent->GetChildCount(); i++ )
+        {
+            Property prop = parent->GetChild(i);
+            if( prop && prop->GetName() == name )
+                return prop;
+        }
+    }
+
+    return Property();
+}
+
+Properties ObjectNode::GetProperties() const
+{
+    return m_props;
+}
+
 size_t ObjectNode::GetPropertyCount()
 {
     return m_props.size();
 }
-
-bool ObjectNode::PropertyExists( const wxString &name )
+//-----------------------------------------------------------------------------
+// Parent / children objects
+//-----------------------------------------------------------------------------
+void ObjectNode::AddChild( Object child )
 {
-    return m_info->PropertyInfoExists( name );
-}
-//=============================================================================
-// Inherited classes
-//=============================================================================
-void ObjectNode::AddBaseInfo( ClassInfo info )
-{
-    m_baseinfos.push_back( info );
+    m_children.push_back( child );
 }
 
-wxString ObjectNode::GetBaseName( size_t index )
+Object ObjectNode::GetChild( size_t index ) const
 {
-    if( m_info )
-        return m_info->GetBaseName( index );
+    if( index < m_children.size() )
+        return m_children.at( index );
 
-    return wxEmptyString;
+    return Object();
 }
 
-ClassInfo ObjectNode::GetBaseInfo( size_t index )
+Object ObjectNode::GetParent() const
 {
-    return ClassInfoDB::Get()->GetClassInfo( GetBaseName( index ) );
+    return m_parent;
 }
 
-size_t ObjectNode::GetBaseCount()
+Objects ObjectNode::GetChildren() const
 {
-    return m_info->GetBaseCount();
+    return m_children;
 }
 
+size_t ObjectNode::GetChildCount()
+{
+    return m_children.size();
+}
+//-----------------------------------------------------------------------------
+// Serialize
+//-----------------------------------------------------------------------------
 wxXmlNode *ObjectNode::Serialize( wxXmlNode *parent )
 {
     wxString objType = m_isRef ? "object_ref" : "object";
@@ -569,7 +595,7 @@ wxXmlNode *ObjectNode::SerializeProperties( Properties props, wxXmlNode *parent 
         {
             wxString attrName = prop->GetAttributeName(i);
             wxString attrVal  = prop->GetAttributeValue(i);
-            wxLogDebug("%s %s", attrName, attrVal);
+//          wxLogDebug("%s %s", attrName, attrVal);
             propNode->AddAttribute( attrName, attrVal );
         }
     }
@@ -582,31 +608,19 @@ wxXmlNode *ObjectNode::SerializeProperties( Properties props, wxXmlNode *parent 
 ObjectTree::ObjectTree()
 {
     wxFlagsManager::Get();
-    ClassInfo info = ClassInfoDB::Get()->GetClassInfo("Project");
+    ClassInfo classInfo = ClassInfoDB::Get()->GetClassInfo("Project");
 
-    m_root = Object( new ObjectNode( info, Object() ) );
+    m_root = Object( new ObjectNode( classInfo, Object() ) );
     m_sel  = m_root;
 }
 
 ObjectTree::~ObjectTree()
 {
-    m_sel  = Object();
+    m_sel  =
     m_root = Object();
 
     ClassInfoDB::Free();
     wxFlagsManager::Free();
-}
-
-size_t ObjectTree::GetChildInfoCount( Object parent, ClassInfo info )
-{
-    size_t count = 0;
-
-    for( size_t i = 0; i < parent->GetChildCount(); i++ )
-    {
-        if( parent->GetChild( i )->GetClassInfo() == info )
-            count++;
-    }
-    return count;
 }
 
 Object ObjectTree::CreateObject( const wxString &className, Object parent )
@@ -617,18 +631,18 @@ Object ObjectTree::CreateObject( const wxString &className, Object parent )
 
 //  This function is not called for the special root object.
 
-    ClassInfo info = ClassInfoDB::Get()->GetClassInfo( className );
-    if( !info )
+    ClassInfo classInfo = ClassInfoDB::Get()->GetClassInfo( className );
+    if(!classInfo)
     {
         wxLogError(_("Unknown object type") + " " + className );
         return Object();
     }
 
-    if( !parent )
+    if(!parent)
         parent = m_sel;
 
     bool   allow      = false;
-    size_t childCount = GetChildInfoCount( parent, info );
+    size_t childCount = GetChildInfoCount( parent, classInfo );
 
     // Try all parents
     while( parent )
@@ -667,64 +681,31 @@ Object ObjectTree::CreateObject( const wxString &className, Object parent )
     }
 
     // Create the object
-    Object object( new ObjectNode( info, m_sel ) );
+    Object object( new ObjectNode( classInfo, m_sel ) );
     m_sel->AddChild( object );
 
     // Add properties
-    for( size_t i = 0; i < info->GetPropertyInfoCount(); i++ )
+    for( size_t i = 0; i < classInfo->GetPropertyInfoCount(); i++ )
     {
-        Property prop( new PropertyNode( info->GetPropertyInfo( i ) ) );
-        object->AddProperty( prop );
+        PropertyInfo propertyInfo = classInfo->GetPropertyInfo(i);
+        Property property( new PropertyNode( propertyInfo ) );
+        object->AddProperty( property );
     }
 
     // Add events
-    for( size_t i = 0; i < info->GetEventInfoCount(); i++ )
+    for( size_t i = 0; i < classInfo->GetEventInfoCount(); i++ )
     {
-        Event evt( new EventNode( info->GetEventInfo( i ) ) );
-        object->AddEvent( evt );
-    }
-
-    // Add inherited class informations
-    for( size_t i = 0; i < info->GetBaseCount(); i++ )
-    {
-        wxString     baseClassName = info->GetBaseName( i );
-        ClassInfo    baseClassInfo = ClassInfoDB::Get()->GetClassInfo( baseClassName );
-
-        if( baseClassInfo )
-        {
-            for( size_t n = 0; n < baseClassInfo->GetPropertyInfoCount(); n++ )
-            {
-                // Is it possible that the inherit class have a property
-                // with same name, merge it
-                PropertyInfo basePropInfo = baseClassInfo->GetPropertyInfo( n );
-                wxString     basePropName = basePropInfo->GetName();
-
-                if( !object->PropertyExists( basePropName ) )
-                {
-                    Property prop( new PropertyNode( basePropInfo ) );
-                    object->AddProperty( prop );
-                }
-                else
-                {
-                    Property prop = object->GetProperty( basePropName );
-                    for( size_t j = 0; j < basePropInfo->GetChildCount(); j++ )
-                    {
-                        PropertyInfo childInfo( basePropInfo->GetChild(j) );
-                        Property child( new PropertyNode( childInfo ) );
-                        prop->AddChild( child );
-                    }
-                }
-            }
-
-            for( size_t n = 0; n < baseClassInfo->GetEventInfoCount(); n++ )
-            {
-                Event evt( new EventNode( baseClassInfo->GetEventInfo( n ) ) );
-                object->AddEvent( evt );
-            }
-        }
+        EventInfo eventInfo = classInfo->GetEventInfo(i);
+        Event event( new EventNode( eventInfo ) );
+        object->AddEvent( event );
     }
 
     return object;
+}
+
+Object ObjectTree::GetSelectedObject() const
+{
+    return m_sel;
 }
 
 Object ObjectTree::GetTopLevelObject( Object object ) const
@@ -793,6 +774,52 @@ bool ObjectTree::Load( const wxString &filePath )
     }
     return true;
 }
+//-----------------------------------------------------------------------------
+// Serialize
+//-----------------------------------------------------------------------------
+bool ObjectTree::Serialize( wxXmlNode *rootNode )
+{
+    if( !m_root || !rootNode )
+        return false;
+
+    m_root->SerializeChildren( m_root->GetChildren(), rootNode );
+
+    return true;
+}
+
+bool ObjectTree::Serialize( const wxString &filePath )
+{
+    if( !m_root )
+        return false;
+
+    wxFileName fileName = filePath;
+    if( !fileName.DirExists() )
+        return false;
+
+    wxXmlDocument doc;
+
+    wxXmlNode *root = new wxXmlNode( NULL, wxXML_ELEMENT_NODE, "resource" );
+    root->AddAttribute( "xmlns", "http://www.wxwidgets.org/wxxrc" );
+    root->AddAttribute( "version", "2.5.3.0" );
+
+    m_root->SerializeChildren( m_root->GetChildren(), root );
+
+    doc.SetRoot( root );
+
+    return doc.Save( filePath, 4 );
+}
+
+size_t ObjectTree::GetChildInfoCount( Object parent, ClassInfo classInfo )
+{
+    size_t count = 0;
+
+    for( size_t i = 0; i < parent->GetChildCount(); i++ )
+    {
+        if( parent->GetChild( i )->GetClassInfo() == classInfo )
+            count++;
+    }
+    return count;
+}
 
 Object ObjectTree::DoCreateObject( Object parentObject, wxXmlNode *childNode,
                                                             bool isReference )
@@ -850,7 +877,7 @@ Object ObjectTree::DoCreateObject( Object parentObject, wxXmlNode *childNode,
                     {
                         if( !value.empty() )
                         {
-                            wxLogDebug( "Setting property %s to %s", nodeName, value );
+//                          wxLogDebug( "Setting property %s to %s", nodeName, value );
                             prop->SetValue( value );
                         }
 
@@ -858,7 +885,7 @@ Object ObjectTree::DoCreateObject( Object parentObject, wxXmlNode *childNode,
                         while( attr )
                         {
                             wxString attrName = attr->GetName();
-                            wxLogDebug( "Adding attribute %s: %s", attrName, attr->GetValue() );
+//                          wxLogDebug( "Adding attribute %s: %s", attrName, attr->GetValue() );
                             prop->AddAttribute( attrName, attr->GetValue() );
 /* TODO
                             // platform specific
@@ -910,7 +937,7 @@ Object ObjectTree::DoCreateObject( Object parentObject, wxXmlNode *childNode,
                 else
                 {
                     // Get all object's events
-                    wxLogDebug( "Setting %s %s", nodeName, subNode->GetAttribute("class") );
+//                  wxLogDebug( "Setting %s %s", nodeName, subNode->GetAttribute("class") );
                 }
 
                 subNode = subNode->GetNext();
@@ -919,36 +946,4 @@ Object ObjectTree::DoCreateObject( Object parentObject, wxXmlNode *childNode,
     }
 
     return childObject;
-}
-
-bool ObjectTree::Serialize( wxXmlNode *rootNode )
-{
-    if( !m_root || !rootNode )
-        return false;
-
-    m_root->SerializeChildren( m_root->GetChildren(), rootNode );
-
-    return true;
-}
-
-bool ObjectTree::Serialize( const wxString &filePath )
-{
-    if( !m_root.get() )
-        return false;
-
-    wxFileName fileName = filePath;
-    if( !fileName.DirExists() )
-        return false;
-
-    wxXmlDocument doc;
-
-    wxXmlNode *root = new wxXmlNode( NULL, wxXML_ELEMENT_NODE, "resource" );
-    root->AddAttribute( "xmlns", "http://www.wxwidgets.org/wxxrc" );
-    root->AddAttribute( "version", "2.5.3.0" );
-
-    m_root->SerializeChildren( m_root->GetChildren(), root );
-
-    doc.SetRoot( root );
-
-    return doc.Save( filePath, 4 );
 }

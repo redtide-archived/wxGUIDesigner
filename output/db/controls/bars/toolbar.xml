@@ -34,7 +34,7 @@
             <class name="tool"      max="-1"/>
         </children>
         <name>
-            <value>m_toolBar</value>
+            <value>toolBar</value>
         </name>
         <style label="Style">
             <flag name="wxTB_FLAT">
@@ -117,7 +117,7 @@
             <class name="wxMenu" max="1"/>
         </children>
         <name>
-            <value>m_tool</value>
+            <value>tool</value>
         </name>
         <bitmap name="bitmap" label="Bitmap">
             <description>Tool's bitmap (required).</description>

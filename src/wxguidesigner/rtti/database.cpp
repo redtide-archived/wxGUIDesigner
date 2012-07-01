@@ -21,11 +21,9 @@
 #include <wx/log.h>
 
 using namespace std;
-
 //=============================================================================
 //  PropertyInfoNode
 //=============================================================================
-
 PropertyInfoNode::PropertyInfoNode( PropertyType type, const wxString &name,
                                     const wxString &label )
 :
@@ -57,7 +55,6 @@ PropertyInfo PropertyInfoNode::GetChild( size_t index )
 //=============================================================================
 //  ClassNode
 //=============================================================================
-
 ClassNode::ClassNode( const wxString &className, ClassType type )
 :
 m_name( className ),
@@ -70,24 +67,49 @@ ClassNode::~ClassNode()
     m_events.clear();
     m_props.clear();
     m_children.clear();
+    m_baseInfos.clear();
+}
+//=============================================================================
+// Inherited classes
+//=============================================================================
+ClassInfo ClassNode::GetBaseInfo( size_t index )
+{
+    if( index < GetBaseCount() )
+        return m_baseInfos.at( index );
+
+    return ClassInfo();
+}
+
+wxString ClassNode::GetBaseName( size_t index )
+{
+    if( index < GetBaseCount() )
+        return m_baseInfos.at( index )->GetName();
+
+    return wxEmptyString;
+}
+
+size_t ClassNode::GetBaseCount()
+{
+    return m_baseInfos.size();
+}
+
+void ClassNode::AddBaseInfo( ClassInfo info )
+{
+    m_baseInfos.push_back( info );
 }
 
 bool ClassNode::IsKindOf( const wxString &name )
 {
-    return m_bases.Index( name ) != wxNOT_FOUND;
+    for( size_t i = 0; i < GetBaseCount(); i++ )
+        if( GetBaseName(i) == name )
+            return true;
+
+    return false;
 }
 
 bool ClassNode::IsTypeOf( ClassType type )
 {
     return( m_type == type );
-}
-
-wxString ClassNode::GetBaseName( size_t index )
-{
-    if( index < m_bases.GetCount() )
-        return m_bases.Item( index );
-
-    return wxEmptyString;
 }
 
 ChildInfo ClassNode::GetChildInfo( size_t index )
@@ -102,7 +124,7 @@ bool ClassNode::IsChildInfoOk( const wxString &name, size_t count )
 {
     // Child class validation check
     ClassInfo childClsInfo = ClassInfoDB::Get()->GetClassInfo( name );
-    if( !childClsInfo.get() )
+    if( !childClsInfo )
         return false;
 
     for( size_t i = 0; i < m_children.size(); i++ )
@@ -141,6 +163,18 @@ PropertyInfo ClassNode::GetPropertyInfo( size_t index )
     return PropertyInfo();
 }
 
+PropertyInfo ClassNode::GetPropertyInfo( const wxString &name )
+{
+    for( PropertyInfos::iterator it = m_props.begin(); it != m_props.end(); ++it )
+    {
+        PropertyInfo propertyInfo = *it;
+        if( propertyInfo->GetName() == name )
+            return propertyInfo;
+    }
+
+    return PropertyInfo();
+}
+
 bool ClassNode::PropertyInfoExists( const wxString &name )
 {
     for( PropertyInfos::iterator it = m_props.begin(); it != m_props.end(); ++it )
@@ -162,6 +196,9 @@ ClassInfoDB::ClassInfoDB()
 ClassInfoDB::~ClassInfoDB()
 {
     m_classes.clear();
+    m_classMap.clear();
+    m_propTypes.clear();
+    m_baseList.Clear();
 }
 
 ClassInfoDB *ClassInfoDB::ms_instance = NULL;
@@ -210,9 +247,10 @@ void ClassInfoDB::InitPropertyTypes()
     m_propTypes.insert( PropertyTypeMap::value_type( "url",         PROPERTY_TYPE_URL ) );
 }
 
-bool ClassInfoDB::InitClassList( const wxString &path )
+bool ClassInfoDB::InitClassList( const wxString &category )
 {
-    // Check document
+    wxString path = GetDataBasePath() + wxFILE_SEP_PATH + category + ".xml";
+
     wxXmlDocument doc;
     if( !doc.Load( path ) )
         return false;
@@ -220,69 +258,118 @@ bool ClassInfoDB::InitClassList( const wxString &path )
     wxXmlNode *node = doc.GetRoot()->GetChildren();
     while( node )
     {
-        wxXmlNode *itemNode = node->GetChildren();
-        while( itemNode )
-        {
-            if( itemNode->GetName() == "item" )
-             {
-                 m_classList.Add( itemNode->GetNodeContent() );
-                 //wxLogDebug("Loaded %s", itemNode->GetNodeContent() );
-             }
+        wxString nodeName = node->GetName();
 
-            itemNode = itemNode->GetNext();
+        if( category == "controlbase" )
+        {
+            if( nodeName == "item" )
+            {
+                wxString className = node->GetNodeContent();
+
+                m_baseList.Add( className );
+//              wxLogDebug("Loaded %s", className );
+            }
+        }
+        else if( category == "controls" )
+        {
+            wxXmlNode *itemNode = node->GetChildren();
+
+            while( itemNode )
+            {
+                if( itemNode->GetName() == "item" )
+                {
+                    wxString className = itemNode->GetNodeContent();
+                    m_classMap.insert
+                        ( ClassNameMap::value_type( className, nodeName ) );
+
+//                  wxLogDebug("Loaded %s", className );
+                }
+
+                itemNode = itemNode->GetNext();
+            }
         }
 
         node = node->GetNext();
     }
+    if( category == "controlbase" )
+        return( !m_baseList.empty() );
+    else if( category == "controls" )
+        return( !m_classMap.empty() );
 
-    if( m_classList.empty() )
-        return false;
-
-    return true;
+    return false;
 }
 
 void ClassInfoDB::Init()
 {
-    // /path/to/db/controls
-    wxString dbPath = GetDataBasePath() + wxFILE_SEP_PATH + "controls";
+    InitPropertyTypes();
 
-    if( !wxDirExists( dbPath ) )
+    if( !InitClassList("controlbase") || !InitClassList("controls") )
         return;
 
-    wxDir dbDir( dbPath );
+    LoadClasses("controlbase");
+    LoadClasses("controls");
+}
+
+void ClassInfoDB::LoadClasses( const wxString &category )
+{
+    wxString path = GetDataBasePath() + wxFILE_SEP_PATH + category;
+
+    if( !wxDirExists( path ) )
+        return;
+
+    wxDir dbDir( path );
     if( !dbDir.IsOpened() )
         return;
 
-    if( !InitClassList( dbPath + ".xml" ) )
-        return;
-
-    InitPropertyTypes();
-
-    wxString currentDir;
-    bool haveDir = dbDir.GetFirst( &currentDir, wxEmptyString,
-                                    wxDIR_DIRS | wxDIR_HIDDEN );
-    while( haveDir )
+    if( category == "controlbase" )
     {
-        wxString categoryPath = dbPath + wxFILE_SEP_PATH + currentDir;
-        wxDir categoryDir( categoryPath );
-        if( categoryDir.IsOpened() )
+        for( size_t i = 0; i < m_baseList.GetCount(); i++ )
         {
-            wxString xmlFile;
-            bool haveXml = categoryDir.GetFirst( &xmlFile, "*.xml",
-                                                wxDIR_FILES | wxDIR_HIDDEN );
-            while( haveXml )
+            wxString xmlFile = m_baseList.Item(i).Lower() + ".xml";
+            xmlFile.Replace("wx", "");
+            wxString xmlFilePath = path + wxFILE_SEP_PATH + xmlFile;
+            wxFileName xmlFileName( xmlFilePath ); 
+
+            if( xmlFileName.FileExists() )
             {
-                wxFileName xmlFileName( categoryPath + wxFILE_SEP_PATH + xmlFile );
-                if( !xmlFileName.IsAbsolute() )
+                if(!xmlFileName.IsAbsolute())
                     xmlFileName.MakeAbsolute();
 
                 LoadXML( xmlFileName.GetFullPath() );
+            }
+//          else
+//              wxLogDebug("Path %s not found", xmlFilePath);
+        }
+    }
+    else if( category == "controls" )
+    {
+        for( ClassNameMap::iterator it = m_classMap.begin();
+                                    it != m_classMap.end(); ++it )
+        {
+            wxString className = (*it).first;
+            wxString classType = (*it).second;
+            wxString classPath = path + wxFILE_SEP_PATH + classType +
+                                                        wxFILE_SEP_PATH;
+            wxDir classTypeDir( classPath );
 
-                haveXml = categoryDir.GetNext( &xmlFile );
+            if( classTypeDir.IsOpened() )
+            {
+                wxString xmlFile = className.Lower() + ".xml";
+                xmlFile.Replace("wx", "");
+                wxString xmlFilePath = classPath + xmlFile;
+                wxFileName xmlFileName( xmlFilePath ); 
+
+                if( xmlFileName.FileExists() )
+                {
+                    if(!xmlFileName.IsAbsolute())
+                        xmlFileName.MakeAbsolute();
+
+                    LoadXML( xmlFileName.GetFullPath() );
+                }
+//              else
+//                  wxLogDebug("Path %s not found", xmlFilePath);
             }
         }
-
-        haveDir = dbDir.GetNext( &currentDir );
     }
 }
 
@@ -296,14 +383,18 @@ bool ClassInfoDB::LoadXML( const wxString &path )
     // If the 'class' element isn't the root node, then we could have
     // other classes defined in the xml: tell it to the parser.
     wxXmlNode *classNode = doc.GetRoot();
+    bool      hasClasses = false;
+
     if( !( classNode->GetName() == "class" ) )
     {
         classNode = classNode->GetChildren();
         if( !classNode || ( classNode->GetName() != "class" ) )
             return false;
+
+        hasClasses = true;
     }
 
-    Parse( classNode );
+    Parse( classNode, hasClasses );
     return true;
 }
 
@@ -349,26 +440,29 @@ void ClassInfoDB::Parse( wxXmlNode *classNode, bool recursively )
     ClassType type = ClassTypeFromString( classNode->GetAttribute("type") );
     if
     (
-        (type != CLASS_TYPE_ABSTRACT) && (type != CLASS_TYPE_ITEM) &&
-        (type != CLASS_TYPE_CUSTOM)   && (type != CLASS_TYPE_ROOT)
+        // TODO: better check for wx abstract classes
+        (type != CLASS_TYPE_ROOT)     &&
+        (type != CLASS_TYPE_CUSTOM)   &&
+        (type != CLASS_TYPE_ITEM)
     )
     {
-        if( m_classList.Index( name ) == wxNOT_FOUND )
+        ClassNameMap::iterator it = m_classMap.find( name );
+        if( (it == m_classMap.end()) && (m_baseList.Index(name) == wxNOT_FOUND) )
         {
             wxLogError( "Class '%s' was not found in registered list.", name );
             return;
         }
         else if( !CheckClass( name ) )
         {
-//          wxLogError( "Can't register class '%s'.", name );
+            wxLogError( "Can't register class '%s'.", name );
             return;
         }
     }
 
 //  wxLogDebug( "Loading class %s", name );
 
-    ClassInfo clsInfo( new ClassNode( name, type ) );
-    m_classes.insert( ClassInfoMap::value_type( name, clsInfo ) );
+    ClassInfo classInfo( new ClassNode( name, type ) );
+    m_classes.insert( ClassInfoMap::value_type( name, classInfo ) );
 
     wxXmlNode *node = classNode->GetChildren();
     while( node )
@@ -376,14 +470,18 @@ void ClassInfoDB::Parse( wxXmlNode *classNode, bool recursively )
         wxString nodeName = node->GetName();
         if( nodeName == "description" )
         {
-            clsInfo->m_desc = node->GetNodeContent();
+            classInfo->m_desc = node->GetNodeContent();
         }
         else if( nodeName == "inherits" )
         {
             wxXmlNode *childNode = node->GetChildren();
             while( childNode && childNode->GetName() == "class" )
             {
-                clsInfo->AddBaseName( childNode->GetNodeContent() );
+                wxString  baseName = childNode->GetNodeContent();
+                ClassInfo baseInfo = GetClassInfo( baseName );
+
+                if( baseInfo )
+                    classInfo->AddBaseInfo( baseInfo );
 
                 childNode = childNode->GetNext();
             }
@@ -395,28 +493,34 @@ void ClassInfoDB::Parse( wxXmlNode *classNode, bool recursively )
             {
                 ChildInfo info = DoGetChildInfo( childNode );
 
-                if( info.get() )
-                    clsInfo->AddChildInfo( info );
+                if( info )
+                    classInfo->AddChildInfo( info );
 
                 childNode = childNode->GetNext();
             }
         }
         else if( nodeName == "event" )
         {
-            EventInfo info = DoGetEventInfo( node );
+            EventInfo eventInfo = DoGetEventInfo( node );
 
-            if( info.get() )
-                clsInfo->AddEventInfo( info );
+            if( eventInfo )
+                classInfo->AddEventInfo( eventInfo );
         }
-        else if( node->GetType() != wxXML_COMMENT_NODE )
+        else
         {
-            PropertyInfo info = DoGetPropertyInfo( node );
+            PropertyInfo propertyInfo = DoGetPropertyInfo( node );
 
-            if( info.get() )
-                clsInfo->AddPropertyInfo( info );
+            if( propertyInfo )
+                classInfo->AddPropertyInfo( propertyInfo );
         }
 
         node = node->GetNext();
+    }
+
+    for( size_t i = 0; i < classInfo->GetBaseCount(); i++ )
+    {
+        ClassInfo baseInfo = classInfo->GetBaseInfo(i);
+        AddBaseInfos( classInfo, baseInfo );
     }
 
     if( recursively )
@@ -425,6 +529,40 @@ void ClassInfoDB::Parse( wxXmlNode *classNode, bool recursively )
 
         if( classNode )
             Parse( classNode, true );
+    }
+}
+
+void ClassInfoDB::AddBaseInfos( ClassInfo classInfo, ClassInfo baseInfo )
+{
+    wxString baseName = baseInfo->GetName();
+
+    if( m_baseList.Index( baseName ) == wxNOT_FOUND )
+        return;
+
+    for( size_t i = 0; i < baseInfo->GetPropertyInfoCount(); i++ )
+    {
+        PropertyInfo propInfoBase = baseInfo->GetPropertyInfo(i);
+        wxString     propBaseName = propInfoBase->GetName();
+        PropertyInfo propertyInfo = classInfo->GetPropertyInfo( propBaseName );
+
+        if( propertyInfo )
+        {
+            for( size_t j = 0; j < propInfoBase->GetChildCount(); j++ )
+            {
+                PropertyInfo child = propInfoBase->GetChild(j);
+                propertyInfo->AddChild( child );
+            }
+        }
+        else
+        {
+            classInfo->AddPropertyInfo( propInfoBase );
+        }
+    }
+
+    for( size_t i = 0; i < baseInfo->GetEventInfoCount(); i++ )
+    {
+        EventInfo eventInfoBase = baseInfo->GetEventInfo(i);
+        classInfo->AddEventInfo( eventInfoBase );
     }
 }
 
@@ -448,9 +586,9 @@ ChildInfo ClassInfoDB::DoGetChildInfo( wxXmlNode *node )
         max = wxGDConv::IntFromString( node->GetAttribute("max") );
     }
 
-    bool opt  = node->HasAttribute("option");
+    bool hasOption = node->HasAttribute("option");
 
-    ChildInfo info( new ChildInfoNode( type, name, max, opt ) );
+    ChildInfo info( new ChildInfoNode( type, name, max, hasOption ) );
 
     return info;
 }
@@ -497,6 +635,9 @@ EventInfo ClassInfoDB::DoGetEventInfo( wxXmlNode *eventNode )
 
 PropertyInfo ClassInfoDB::DoGetPropertyInfo( wxXmlNode *propertyNode )
 {
+    if( !propertyNode || (propertyNode->GetType() == wxXML_COMMENT_NODE) )
+        return PropertyInfo();
+
     PropertyType type = GetPropertyType( propertyNode->GetName() );
     PropertyInfo propInfo;
 
@@ -514,7 +655,7 @@ PropertyInfo ClassInfoDB::DoGetPropertyInfo( wxXmlNode *propertyNode )
 
         wxXmlNode *childNode = propertyNode->GetChildren();
 
-        propInfo.reset( new PropertyInfoNode( type, name, label ) );
+        propInfo = PropertyInfo( new PropertyInfoNode( type, name, label ) );
 
         while( childNode )
         {
@@ -529,7 +670,7 @@ PropertyInfo ClassInfoDB::DoGetPropertyInfo( wxXmlNode *propertyNode )
             else
             {
                 PropertyInfo childInfo( DoGetPropertyInfo( childNode ) );
-                if( childInfo.get() )
+                if( childInfo )
                     propInfo->AddChild( childInfo );
             }
             childNode = childNode->GetNext();
@@ -539,15 +680,15 @@ PropertyInfo ClassInfoDB::DoGetPropertyInfo( wxXmlNode *propertyNode )
     {
         wxLogError( "Unknown property '%s'", propertyNode->GetName() );
     }
+
     return propInfo;
 }
 //=============================================================================
 //  ClassInfoDB public functions
 //=============================================================================
-
-ClassInfo ClassInfoDB::GetClassInfo( const wxString &className ) const
+ClassInfo ClassInfoDB::GetClassInfo( const wxString &name ) const
 {
-    ClassInfoMap::const_iterator it = m_classes.find( className );
+    ClassInfoMap::const_iterator it = m_classes.find( name );
 
     if( it != m_classes.end() )
         return it->second;
@@ -555,9 +696,9 @@ ClassInfo ClassInfoDB::GetClassInfo( const wxString &className ) const
     return ClassInfo();
 }
 
-PropertyType ClassInfoDB::GetPropertyType( const wxString &tagname ) const
+PropertyType ClassInfoDB::GetPropertyType( const wxString &name ) const
 {
-    PropertyTypeMap::const_iterator it = m_propTypes.find( tagname );
+    PropertyTypeMap::const_iterator it = m_propTypes.find( name );
 
     if( it != m_propTypes.end() )
         return it->second;
@@ -568,8 +709,5 @@ PropertyType ClassInfoDB::GetPropertyType( const wxString &tagname ) const
 bool ClassInfoDB::ClassInfoExists( const wxString &name )
 {
     ClassInfoMap::iterator it = m_classes.find( name );
-    if( it != m_classes.end() )
-        return true;
-
-    return false;
+    return( it != m_classes.end() );
 }

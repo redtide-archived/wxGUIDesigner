@@ -56,7 +56,7 @@ bool IPCFile::CheckSingleInstance( const wxString &filePath, bool switchTo )
 #endif
     // Check to see if I already have a server with this name
     // if so, no need to make another.
-    if( m_server.get() )
+    if( m_server )
     {
         if( m_server->GetFilePath() == lockFileName )
             return true;
@@ -90,7 +90,7 @@ bool IPCFile::CheckSingleInstance( const wxString &filePath, bool switchTo )
         // so temporarily drop the server if there is one
         bool hadServer = false;
         wxString oldName;
-        if( m_server.get() )
+        if( m_server )
         {
             oldName = m_server->GetFilePath();
             m_server.reset();
@@ -113,7 +113,7 @@ bool IPCFile::CheckSingleInstance( const wxString &filePath, bool switchTo )
 
             connection.reset( client->MakeConnection( "localhost", sPort, lockFileName ) );
 
-            if( connection.get() )
+            if( connection )
             {
                 connected = true;
                 wxChar* pid = (wxChar*)connection->Request( "PID", NULL );
