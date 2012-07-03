@@ -24,8 +24,8 @@
             <class>wxWindow</class>
         </inherits>
         <children>
-            <class name="treelistcol" max="-1"/>
-            <class name="treelistitem" max="-1"/>
+            <class>treelistcol</class>
+            <class>treelistitem</class>
         </children>
         <style label="Style">
             <flag name="wxTL_DEFAULT_STYLE">

@@ -680,6 +680,12 @@ Object ObjectTree::CreateObject( const wxString &className, Object parent )
         return Object();
     }
 
+    // Check item object
+    if( classInfo->IsTypeOf( CLASS_TYPE_ITEM ) )
+    {
+        
+    }
+
     // Create the object
     Object object( new ObjectNode( classInfo, m_sel ) );
     m_sel->AddChild( object );

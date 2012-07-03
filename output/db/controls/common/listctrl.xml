@@ -24,9 +24,9 @@
             <class>wxControl</class>
         </inherits>
         <children>
-            <class name="listcol"     max="-1"/>
-            <class name="listitem"    max="-1"/>
-            <class name="wxImageList" max="-1"/>
+            <class>listcol</class>
+            <class>listitem</class>
+            <class>wxImageList</class>
         </children>
         <name label="Name">
             <value>listCtrl</value>

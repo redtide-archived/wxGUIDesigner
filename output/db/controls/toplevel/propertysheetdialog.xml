@@ -39,7 +39,7 @@
             <class>wxDialog</class>
         </inherits>
         <children>
-            <class name="propertysheetpage" max="-1"/>
+            <class>propertysheetpage</class>
         </children>
         <name label="Name">
             <value>m_propDlg</value>

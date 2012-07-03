@@ -20,8 +20,8 @@
             <class>wxBookCtrlBase</class>
         </inherits>
         <children>
-            <class name="notebookpage" max="-1"/>
-            <class name="wxImageList"  max="1"/>
+            <class>notebookpage</class>
+            <class max="1">wxImageList</class>
         </children>
         <name label="Name">
             <value>noteBook</value>

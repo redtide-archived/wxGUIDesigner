@@ -177,9 +177,11 @@ public:
     ClassNode( const wxString &className, ClassType type = CLASS_TYPE_WIDGET );
     ~ClassNode();
 
-    wxString        GetName()        const { return m_name; }
-    wxString        GetDescription() const { return m_desc; }
-    ClassType       GetType()        const { return m_type; }
+    wxString        GetName()        const;
+    wxString        GetDescription() const;
+    ClassType       GetType()        const;
+
+    void            SetDescription( const wxString &description );
 //-----------------------------------------------------------------------------
 // Inherited classes
 //-----------------------------------------------------------------------------
@@ -193,33 +195,33 @@ public:
 //-----------------------------------------------------------------------------
     PropertyInfo    GetPropertyInfo( size_t index );
     PropertyInfo    GetPropertyInfo( const wxString &name );
-    size_t          GetPropertyInfoCount()  { return m_props.size(); }
+    size_t          GetPropertyInfoCount();
     bool            PropertyInfoExists( const wxString &name );
 //-----------------------------------------------------------------------------
 // EventInfos
 //-----------------------------------------------------------------------------
     EventInfo       GetEventInfo( size_t index );
-    size_t          GetEventInfoCount()     { return m_events.size(); }
+    size_t          GetEventInfoCount();
 //-----------------------------------------------------------------------------
 // ChildInfos
 //-----------------------------------------------------------------------------
     ChildInfo       GetChildInfo( size_t index );
-    size_t          GetChildInfoCount()     { return m_children.size(); }
+    size_t          GetChildInfoCount();
     bool            IsChildInfoOk( const wxString &name, size_t count );
 
 private:
     void AddBaseInfo    ( ClassInfo info );
     void AddChildInfo   ( ChildInfo info )    { m_children.push_back( info ); }
-    void AddEventInfo   ( EventInfo info )    { m_events.push_back( info ); }
-    void AddPropertyInfo( PropertyInfo info ) { m_props.push_back( info ); }
+    void AddEventInfo   ( EventInfo info )    { m_eventInfos.push_back( info ); }
+    void AddPropertyInfo( PropertyInfo info ) { m_propInfos.push_back( info ); }
 
     wxString        m_name;
     wxString        m_desc;
     ClassType       m_type;
     ClassInfos      m_baseInfos;
     ChildInfos      m_children;
-    EventInfos      m_events;
-    PropertyInfos   m_props;
+    EventInfos      m_eventInfos;
+    PropertyInfos   m_propInfos;
 
     friend class ClassInfoDB;
 };
@@ -261,13 +263,17 @@ private:
 
     ClassType       ClassTypeFromString ( const wxString &value ) const;
 
-    ClassInfoMap    m_classes;
-    PropertyTypeMap m_propTypes;
-
+    // Class name and type (e.g. wxFrame, toplevel )
     typedef map< wxString, wxString > ClassNameMap;
 
-    wxArrayString   m_baseList;
-    ClassNameMap    m_classMap;
+    ClassInfoMap    m_classInfos;
+    wxArrayString   m_baseNames;  // e.g. 'wxTopLevelWindow'
+    wxArrayString   m_classNames; // e.g. 'wxFrame'
+    wxArrayString   m_classTypes; // e.g. 'toplevel'
+
+    // TODO: unordered_map needed
+
+    PropertyTypeMap m_propTypes;
 
     static ClassInfoDB *ms_instance;
 };

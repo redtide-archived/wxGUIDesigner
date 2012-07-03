@@ -21,8 +21,8 @@
             <class>wxBookCtrlBase</class>
         </inherits>
         <children>
-            <class name="treebookpage" max="-1"/>
-            <class name="wxImageList"  max="1"/>
+            <class>treebookpage</class>
+            <class max="1">wxImageList</class>
         </children>
         <name label="Name">
             <value>treeBook</value>

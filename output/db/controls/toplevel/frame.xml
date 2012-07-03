@@ -27,14 +27,12 @@
         <class>wxTopLevelWindow</class>
     </inherits>
     <children>
-        <child type="layout"      max="1" option="1"/>
-        <child type="sizer"       max="1" option="1"/>
-        <child type="container"   max="1" option="1"/>
-        <child type="widget"      max="1" option="1"/>
-        <child type="window"      max="1" option="1"/>
-        <child name="wxMenuBar"   max="1"/>
-        <child name="wxStatusBar" max="1"/>
-        <child name="wxToolBar"   max="1"/>
+        <option max="1">wxSizer</option>
+        <option max="1">wxAuiManager</option>
+        <option>wxWindow</option>
+        <class max="1">wxMenuBar</class>
+        <class max="1">wxStatusBar</class>
+        <class max="1">wxToolBar</class>
     </children>
     <name label="Name">
         <value>frame</value>

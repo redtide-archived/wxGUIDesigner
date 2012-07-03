@@ -19,7 +19,7 @@
             <class>wxListBox</class>
         </inherits>
         <children>
-            <class name="checklistboxitem" max="-1"/>
+            <class>checklistboxitem</class>
         </children>
         <name label="Name">
             <value>chkLstBox</value>

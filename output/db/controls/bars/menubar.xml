@@ -21,7 +21,7 @@
             <class>wxWindow</class>
         </inherits>
         <children>
-            <class name="wxMenu" max="-1"/>
+            <class>wxMenu</class>
         </children>
         <name label="Name">
             <value>m_menuBar</value>
@@ -60,10 +60,10 @@
             <class>wxEvtHandler</class>
         </inherits>
         <children>
-            <class name="break"      max="-1"/>
-            <class name="separator"  max="-1"/>
-            <class name="wxMenu"     max="-1"/>
-            <class name="wxMenuItem" max="-1"/>
+            <class>break</class>
+            <class>separator</class>
+            <class>wxMenu</class>
+            <class>wxMenuItem</class>
         </children>
         <name label="Name">
             <value>m_menu</value>

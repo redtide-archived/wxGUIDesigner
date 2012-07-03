@@ -18,8 +18,8 @@
         <class>wxGridSizer</class>
     </inherits>
     <children>
-        <class name="sizeritem" max="-1"/>
-        <class name="spacer"    max="-1"/>
+        <class>sizeritem</class>
+        <class>spacer</class>
     </children>
     <name label="Name">
         <value>fgSizer</value>
@@ -30,4 +30,28 @@
     <string name="growablecols" label="Growable cols">
         <description>Comma-separated list of indexes of columns that are growable (default: none).</description>
     </string>
+    <enum name="flexible_direction" label="Flexible direction">
+        <description>&lt;a class="el" href="http://docs.wxwidgets.org/trunk/defs_8h.html#a1e6994f40bd9cb140e292afb165af971" title="A generic orientation value."&gt;wxOrientation&lt;/a&gt; value that specifies whether the sizer flexibly resizes its columns, rows, or both (default).</description>
+        <flag name="wxHORIZONTAL">
+            <description>Columns are flexibly sized.</description>
+        </flag>
+        <flag name="wxVERTICAL">
+            <description>Rows are flexibly sized.</description>
+        </flag>
+        <flag name="wxBOTH">
+            <description>Both rows and columns are flexibly sized (this is the default value).</description>
+        </flag>
+    </enum>
+    <enum name="non_flexible_grow_mode" label="Non flexible grow mode">
+        <description>Values which define the behaviour for resizing &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_flex_grid_sizer.html" title="A flex grid sizer is a sizer which lays out its children in a two-dimensional table..."&gt;wxFlexGridSizer&lt;/a&gt; cells in the "non-flexible" direction. </description>
+        <flag name="wxFLEX_GROWMODE_NONE">
+            <description>Don't resize the cells in non-flexible direction at all. </description>
+        </flag>
+        <flag name="wxFLEX_GROWMODE_SPECIFIED">
+            <description>Uniformly resize only the specified ones (default). </description>
+        </flag>
+        <flag name="wxFLEX_GROWMODE_ALL">
+            <description>Uniformly resize all cells. </description>
+        </flag>
+    </enum>
 </class>

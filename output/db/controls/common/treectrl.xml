@@ -20,7 +20,7 @@
         <class>wxControl</class>
     </inherits>
     <children>
-        <class name="wxImageList" max="1"/>
+        <class max="1">wxImageList</class>
     </children>
     <name label="Name">
         <value>treeCtrl</value>

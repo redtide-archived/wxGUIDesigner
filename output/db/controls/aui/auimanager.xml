@@ -30,7 +30,7 @@
             &lt;/pre&gt;&lt;/div&gt;
         </description>
         <children>
-            <class name="wxAuiPaneInfo" max="-1"/>
+            <class>wxAuiPaneInfo</class>
         </children>
         <name label="Name">
             <value>mgr</value>
@@ -93,8 +93,8 @@
 
     <class name="wxAuiPaneInfo" type="item">
         <children>
-            <child type="widget"    max="1"/>
-            <child type="container" max="1"/>
+            <type max="1">widget</type>
+            <type max="1">container</type>
         </children>
     </class>
 </classes>

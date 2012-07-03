@@ -23,8 +23,8 @@
             <class>wxDialog</class>
         </inherits>
         <children>
-            <class name="wxWizardPage"       max="-1"/>
-            <class name="wxWizardPageSimple" max="-1"/>
+            <class>wxWizardPage</class>
+            <class>wxWizardPageSimple</class>
         </children>
         <name>
             <value>m_wizard</value>
@@ -76,8 +76,8 @@
             <class>wxPanel</class>
         </inherits>
         <children>
-            <class type="sizer" max="1"/>
-            <class type="control" max="-1"/>
+            <class>wxSizer</class>
+            <type>control</type>
         </children>
         <name label="Name">
             <value>wizPage</value>

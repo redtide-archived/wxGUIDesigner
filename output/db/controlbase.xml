@@ -15,5 +15,6 @@
     <item>wxTopLevelWindow</item>
     <item>wxSizer</item>
     <item>wxControl</item>
+    <item>wxAnyButton</item>
     <item>wxBookCtrlBase</item>
 </controlbase>

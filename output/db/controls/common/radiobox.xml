@@ -20,7 +20,7 @@
             <class>wxItemContainerImmutable</class>
         </inherits>
         <children>
-            <class name="radioboxitem" max="-1"/>
+            <class>radioboxitem</class>
         </children>
         <name label="Name">
             <value>radioBox</value>

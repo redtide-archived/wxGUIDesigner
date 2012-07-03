@@ -22,8 +22,8 @@
         <class>wxWindow</class>
     </inherits>
     <children>
-        <class name="control" max="-1"/>
-        <class type="sizer"   max="1"/>
+        <class>wxControl</class>
+        <class max="1">wxSizer</class>
     </children>
     <name label="Name">
         <value>panel</value>

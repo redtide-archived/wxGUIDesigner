@@ -19,8 +19,8 @@
             <class>wxBookCtrlBase</class>
         </inherits>
         <children>
-            <class name="toolbookpage" max="-1"/>
-            <class name="wxImageList"  max="1"/>
+            <class>toolbookpage</class>
+            <class max="1">wxImageList</class>
         </children>
         <name label="Name">
             <value>toolBook</value>

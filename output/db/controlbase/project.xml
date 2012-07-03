@@ -12,6 +12,6 @@
 <class name="Project" type="root">
     <description>Main root class</description>
     <children>
-        <child type="toplevel" max="-1"/>
+        <class>wxTopLevelWindow</class>
     </children>
 </class>

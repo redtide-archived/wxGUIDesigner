@@ -33,7 +33,7 @@
             <class>wxControl</class>
         </inherits>
         <children>
-            <class name="panewindow" max="1"/>
+            <class max="1">panewindow</class>
         </children>
         <name label="Name">
             <value>collPane</value>
@@ -67,8 +67,8 @@
     <class name="panewindow" type="item">
         <description>&lt;a title="A collapsible pane is a container with an embedded button-like control which can be used by the user ..." href="http://docs.wxwidgets.org/trunk/classwx_collapsible_pane.html" class="el"&gt;wxCollapsiblePane&lt;/a&gt; may contain single optional child object of the &lt;code&gt;panewindow&lt;/code&gt; pseudo-class type. &lt;code&gt;panewindow&lt;/code&gt; itself must contain exactly one child that is a &lt;a href="http://docs.wxwidgets.org/trunk/overview_xrcformat.html#overview_xrcformat_sizers" class="el"&gt;sizer&lt;/a&gt; or a non-toplevel window object.</description>
         <children>
-            <child type="layout" max="1"/>
-            <child type="window" max="1"/>
+            <class max="1">wxSizer</class>
+            <class max="1">wxWindow</class>
         </children>
     </class>
 </classes>

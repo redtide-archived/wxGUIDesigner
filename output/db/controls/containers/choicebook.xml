@@ -20,8 +20,8 @@
             <class>wxBookCtrlBase</class>
         </inherits>
         <children>
-            <class name="choicebookpage" max="-1"/>
-            <class name="wxImageList"    max="1"/>
+            <class>choicebookpage</class>
+            <class max="1">wxImageList</class>
         </children>
         <name label="Name">
             <value>choiceBook</value>
@@ -57,8 +57,8 @@
 
     <class name="choicebookpage" type="item">
         <children>
-            <class name="container" max="1"/>
-            <class name="widget"    max="1"/>
+            <type max="1">container</type>
+            <type max="1">widget</type>
         </children>
         <text name="label" label="Label">
             <description>Sheet page's title (required).</description>

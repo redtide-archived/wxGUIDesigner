@@ -18,8 +18,8 @@
         <class>wxSizer</class>
     </inherits>
     <children>
-        <class name="sizeritem" max="-1"/>
-        <class name="spacer"    max="-1"/>
+        <class>sizeritem</class>
+        <class>spacer</class>
     </children>
     <name label="Name">
         <value>gridSizer</value>

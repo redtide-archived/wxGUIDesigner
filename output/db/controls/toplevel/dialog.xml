@@ -44,8 +44,9 @@
         <class>wxTopLevelWindow</class>
     </inherits>
     <children>
-        <child type="layout" max="1"  option="1"/>
-        <child type="window" max="-1" option="1"/>
+        <option max="1">wxSizer</option>
+        <option max="1">wxAuiManager</option>
+        <option>wxWindow</option>
     </children>
     <name label="Name">
         <value>dlg</value>

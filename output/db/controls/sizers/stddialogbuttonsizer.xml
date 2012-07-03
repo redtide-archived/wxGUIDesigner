@@ -22,7 +22,7 @@
             <class>wxBoxSizer</class>
         </inherits>
         <children>
-            <class name="button" max="-1"/>
+            <class>button</class>
         </children>
         <name label="Name">
             <value>sdbSizer</value>
@@ -37,7 +37,7 @@
 
         </description>
         <children>
-            <class name="wxButton" max="1"/>
+            <class max="1">wxButton</class>
         </children>
     </class>
 </classes>

@@ -28,10 +28,10 @@
             <class>wxControl</class>
         </inherits>
         <children>
-            <class type="control"   max="-1"/>
-            <class name="separator" max="-1"/>
-            <class name="space"     max="-1"/>
-            <class name="tool"      max="-1"/>
+            <class>wxControl</class>
+            <class>separator</class>
+            <class>space</class>
+            <class>tool</class>
         </children>
         <name>
             <value>toolBar</value>
@@ -114,7 +114,7 @@
     <class name="tool" type="item">
         <description>The tool pseudo-class objects specify toolbar buttons.</description>
         <children>
-            <class name="wxMenu" max="1"/>
+            <class max="1">wxMenu</class>
         </children>
         <name>
             <value>tool</value>

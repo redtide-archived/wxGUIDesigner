@@ -18,7 +18,7 @@
         <class>wxWindow</class>
     </inherits>
     <children>
-        <child type="control" max="2"/>
+        <type max="2">control</type>
     </children>
     <name label="Name">
         <value>splitter</value>

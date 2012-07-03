@@ -57,13 +57,14 @@
 
     <class name="sizeritem" type="item">
         <children>
-            <class type="sizer"  max="1" option="1"/>
-            <class type="window" max="1" option="1"/>
+            <option max="1">wxSizer</option>
+            <option max="1">wxWindow</option>
         </children>
         <int name="option" label="Proportion">
-            <description>The "option" value for sizers. Used by wxBoxSizer to set proportion of the item in the growable direction (default: 0).</description>
+            <description>The "option" value for sizers. Used by &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_box_sizer.html" title="The basic idea behind a box sizer is that windows will most often be laid out in rather simple basic ..."&gt;wxBoxSizer&lt;/a&gt; to set proportion of the item in the growable direction (default: 0). </description>
         </int>
         <style name="flag" label="Flag">
+            <description>&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_sizer_item.html" title="The wxSizerItem class is used to track the position, size and other attributes of each item managed b..."&gt;wxSizerItem&lt;/a&gt; flags (default: 0). </description>
             <flag name="wxTOP">
                 <description></description>
             </flag>
@@ -122,65 +123,72 @@
         <size name="ratio" label="Ratio">
             <description>Item ratio, see wxSizer::SetRatio() (default: no ratio).</description>
         </size>
+        <point name="cellpos" label="Cell position">
+            <description>(&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_grid_bag_sizer.html" title="A wxSizer that can lay out items in a virtual grid like a wxFlexGridSizer but in this case explicit p..."&gt;wxGridBagSizer&lt;/a&gt; only) Position, see &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_g_b_sizer_item.html#a16f4cfb3084129107896cdcb6ab6e0df" title="If the item is already a member of a sizer then first ensure that there is no other item that would i..."&gt;wxGBSizerItem::SetPos()&lt;/a&gt; (required).</description>
+        </point>
+        <size name="cellspan" label="Cell span">
+            <description>(&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_grid_bag_sizer.html" title="A wxSizer that can lay out items in a virtual grid like a wxFlexGridSizer but in this case explicit p..."&gt;wxGridBagSizer&lt;/a&gt; only) Span, see &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_g_b_sizer_item.html#a62fe2aad8ca333ba7d99b688970ab23d" title="If the item is already a member of a sizer then first ensure that there is no other item that would i..."&gt;wxGBSizerItem::SetSpan()&lt;/a&gt; (required).</description>
+        </size>
     </class>
 
-    <class name="spacer" type="custom">
-        <style name="flag">
-            <flag name="wxTOP">
-                <description></description>
-            </flag>
-            <flag name="wxBOTTOM">
-                <description></description>
-            </flag>
-            <flag name="wxLEFT">
-                <description></description>
-            </flag>
-            <flag name="wxRIGHT">
-                <description></description>
-            </flag>
-            <flag name="wxALL">
-                <description></description>
-            </flag>
-            <flag name="wxEXPAND">
-                <description>The item will be expanded to fill the space assigned to the item.</description>
-            </flag>
-            <flag name="wxSHAPED">
-                <description>The item will be expanded as much as possible while also maintaining its aspect ratio.</description>
-            </flag>
-            <flag name="wxFIXED_MINSIZE">
-                <description>Normally wxSizers will use GetAdjustedBestSize() to determine what the minimal size of window items should be, and will use that size to calculate the layout. This allows layouts to adjust when an item changes and its best size becomes different. If you would rather have a window item stay the size it started with then use wxFIXED_MINSIZE.</description>
-            </flag>
-            <flag name="wxRESERVE_SPACE_EVEN_IF_HIDDEN">
-                <description>Normally wxSizers don't allocate space for hidden windows or other items. This flag overrides this behaviour so that sufficient space is allocated for the window even if it isn't visible. This makes it possible to dynamically show and hide controls without resizing parent dialog, for example. (Available since 2.8.8.)</description>
-            </flag>
-            <flag name="wxALIGN_CENTER">
-                <description></description>
-            </flag>
-            <flag name="wxALIGN_LEFT">
-                <description></description>
-            </flag>
-            <flag name="wxALIGN_RIGHT">
-                <description></description>
-            </flag>
-            <flag name="wxALIGN_TOP">
-                <description></description>
-            </flag>
-            <flag name="wxALIGN_BOTTOM">
-                <description></description>
-            </flag>
-            <flag name="wxALIGN_CENTER_VERTICAL">
-                <description></description>
-            </flag>
-            <flag name="wxALIGN_CENTER_HORIZONTAL">
-                <description></description>
-            </flag>
-        </style>
+    <class name="spacer" type="item">
         <size label="Size">
             <description>Size of the empty space (required).</description>
         </size>
         <int name="option" label="Proportion">
-            <description>The "option" value for sizers. Used by wxBoxSizer to set proportion of the item in the growable direction (default: 0).</description>
+            <description>The "option" value for sizers. Used by &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_box_sizer.html" title="The basic idea behind a box sizer is that windows will most often be laid out in rather simple basic ..."&gt;wxBoxSizer&lt;/a&gt; to set proportion of the item in the growable direction (default: 0). </description>
         </int>
+        <style name="flag">
+            <description>&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_sizer_item.html" title="The wxSizerItem class is used to track the position, size and other attributes of each item managed b..."&gt;wxSizerItem&lt;/a&gt; flags (default: 0). </description>
+            <flag name="wxTOP">
+                <description></description>
+            </flag>
+            <flag name="wxBOTTOM">
+                <description></description>
+            </flag>
+            <flag name="wxLEFT">
+                <description></description>
+            </flag>
+            <flag name="wxRIGHT">
+                <description></description>
+            </flag>
+            <flag name="wxALL">
+                <description></description>
+            </flag>
+            <flag name="wxEXPAND">
+                <description>The item will be expanded to fill the space assigned to the item.</description>
+            </flag>
+            <flag name="wxSHAPED">
+                <description>The item will be expanded as much as possible while also maintaining its aspect ratio.</description>
+            </flag>
+            <flag name="wxFIXED_MINSIZE">
+                <description>Normally wxSizers will use GetAdjustedBestSize() to determine what the minimal size of window items should be, and will use that size to calculate the layout. This allows layouts to adjust when an item changes and its best size becomes different. If you would rather have a window item stay the size it started with then use wxFIXED_MINSIZE.</description>
+            </flag>
+            <flag name="wxRESERVE_SPACE_EVEN_IF_HIDDEN">
+                <description>Normally wxSizers don't allocate space for hidden windows or other items. This flag overrides this behaviour so that sufficient space is allocated for the window even if it isn't visible. This makes it possible to dynamically show and hide controls without resizing parent dialog, for example. (Available since 2.8.8.)</description>
+            </flag>
+            <flag name="wxALIGN_CENTER">
+                <description></description>
+            </flag>
+            <flag name="wxALIGN_LEFT">
+                <description></description>
+            </flag>
+            <flag name="wxALIGN_RIGHT">
+                <description></description>
+            </flag>
+            <flag name="wxALIGN_TOP">
+                <description></description>
+            </flag>
+            <flag name="wxALIGN_BOTTOM">
+                <description></description>
+            </flag>
+            <flag name="wxALIGN_CENTER_VERTICAL">
+                <description></description>
+            </flag>
+            <flag name="wxALIGN_CENTER_HORIZONTAL">
+                <description></description>
+            </flag>
+        </style>
         <dimension name="border" label="Border">
             <description>Size of the border around the item (directions are specified in flags) (default: 0).</description>
         </dimension>
@@ -189,6 +197,12 @@
         </size>
         <size name="ratio" label="Ratio">
             <description>Item ratio, see wxSizer::SetRatio() (default: no ratio).</description>
+        </size>
+        <point name="cellpos" label="Cell position">
+            <description>(&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_grid_bag_sizer.html" title="A wxSizer that can lay out items in a virtual grid like a wxFlexGridSizer but in this case explicit p..."&gt;wxGridBagSizer&lt;/a&gt; only) Position, see &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_g_b_sizer_item.html#a16f4cfb3084129107896cdcb6ab6e0df" title="If the item is already a member of a sizer then first ensure that there is no other item that would i..."&gt;wxGBSizerItem::SetPos()&lt;/a&gt; (required).</description>
+        </point>
+        <size name="cellspan" label="Cell span">
+            <description>(&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_grid_bag_sizer.html" title="A wxSizer that can lay out items in a virtual grid like a wxFlexGridSizer but in this case explicit p..."&gt;wxGridBagSizer&lt;/a&gt; only) Span, see &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_g_b_sizer_item.html#a62fe2aad8ca333ba7d99b688970ab23d" title="If the item is already a member of a sizer then first ensure that there is no other item that would i..."&gt;wxGBSizerItem::SetSpan()&lt;/a&gt; (required).</description>
         </size>
     </class>
 </classes>
