@@ -22,6 +22,105 @@
 
 using namespace std;
 //=============================================================================
+// ChildInfoNode
+//=============================================================================
+ChildInfoNode::ChildInfoNode  ( ClassType type, const wxString &name,
+                                int max, bool option )
+:
+m_type  ( type ),
+m_name  ( name ),
+m_max   ( max ),
+m_option( option )
+{
+}
+
+ChildInfoNode::~ChildInfoNode()
+{
+}
+
+ClassType ChildInfoNode::GetType() const
+{
+    return m_type;
+}
+
+wxString ChildInfoNode::GetName() const
+{
+    return m_name;
+}
+
+int ChildInfoNode::GetMax() const
+{
+    return m_max;
+}
+
+bool ChildInfoNode::IsOption() const
+{
+    return m_option;
+}
+
+bool ChildInfoNode::IsType() const
+{
+    return m_name.empty();
+}
+//=============================================================================
+// EventInfoNode
+//=============================================================================
+EventInfoNode::EventInfoNode( const wxString &name, const wxString &description )
+:
+m_name( name ),
+m_desc( description )
+{
+}
+
+EventInfoNode::~EventInfoNode()
+{
+    m_types.clear();
+}
+
+wxString EventInfoNode::GetName() const
+{
+    return m_name;
+}
+
+wxString EventInfoNode::GetDescription() const
+{
+    return m_desc;
+}
+//-----------------------------------------------------------------------------
+// EventTypeInfos
+//-----------------------------------------------------------------------------
+void EventInfoNode::AddType( const wxString &name, const wxString &description )
+{
+    EventTypeInfo info( new EventTypeInfoNode( name, description ) );
+    m_types.push_back( info );
+}
+
+void EventInfoNode::SetDescription( const wxString &description )
+{
+    m_desc = description;
+}
+
+wxString EventInfoNode::GetTypeName( size_t index ) const
+{
+    if( index < m_types.size() )
+        return m_types.at( index )->GetName();
+
+    return wxEmptyString;
+}
+
+wxString EventInfoNode::GetTypeDescription( size_t index ) const
+{
+    if( index < m_types.size() )
+        return m_types.at( index )->GetDescription();
+
+    return wxEmptyString;
+}
+
+size_t EventInfoNode::GetTypeCount() const
+{
+    return m_types.size();
+}
+//=============================================================================
 //  PropertyInfoNode
 //=============================================================================
 PropertyInfoNode::PropertyInfoNode( PropertyType type, const wxString &name,
@@ -40,6 +139,36 @@ PropertyInfoNode::~PropertyInfoNode()
     m_children.clear();
 }
 
+PropertyType PropertyInfoNode::GetType() const
+{
+    return m_type;
+}
+
+wxString PropertyInfoNode::GetName() const
+{
+    return m_name;
+}
+
+wxString PropertyInfoNode::GetLabel() const
+{
+    return m_label;
+}
+
+wxString PropertyInfoNode::GetDefaultValue() const
+{
+    return m_value;
+}
+
+wxString PropertyInfoNode::GetDescription() const
+{
+    return m_desc;
+}
+
+size_t PropertyInfoNode::GetChildCount() const
+{
+    return m_children.size();
+}
+
 void PropertyInfoNode::AddChild( PropertyInfo info )
 {
     m_children.push_back( info );
@@ -51,6 +180,16 @@ PropertyInfo PropertyInfoNode::GetChild( size_t index )
         return m_children.at( index );
 
     return PropertyInfo();
+}
+
+void PropertyInfoNode::SetDefaultValue( const wxString &value )
+{
+    m_value = value;
+}
+
+void PropertyInfoNode::SetDescription( const wxString &description )
+{
+    m_desc = description;
 }
 //=============================================================================
 //  ClassNode
@@ -92,7 +231,7 @@ void ClassNode::SetDescription( const wxString &description )
 //-----------------------------------------------------------------------------
 // Inherited classes
 //-----------------------------------------------------------------------------
-ClassInfo ClassNode::GetBaseInfo( size_t index )
+ClassInfo ClassNode::GetBaseInfo( size_t index ) const
 {
     if( index < m_baseInfos.size() )
         return m_baseInfos.at( index );
@@ -100,7 +239,7 @@ ClassInfo ClassNode::GetBaseInfo( size_t index )
     return ClassInfo();
 }
 
-wxString ClassNode::GetBaseName( size_t index )
+wxString ClassNode::GetBaseName( size_t index ) const
 {
     if( index < m_baseInfos.size() )
         return m_baseInfos.at( index )->GetName();
@@ -108,33 +247,57 @@ wxString ClassNode::GetBaseName( size_t index )
     return wxEmptyString;
 }
 
-size_t ClassNode::GetBaseCount()
+size_t ClassNode::GetBaseCount() const
 {
     return m_baseInfos.size();
 }
 
 void ClassNode::AddBaseInfo( ClassInfo classInfo )
 {
+    if( !classInfo )
+        return;
+
     m_baseInfos.push_back( classInfo );
 }
 
-bool ClassNode::IsKindOf( const wxString &name )
+bool ClassNode::IsA( const wxString &className ) const
 {
+    if( m_name == className )
+        return true;
+
     for( size_t i = 0; i < m_baseInfos.size(); i++ )
-        if( GetBaseName(i) == name )
+    {
+        wxString baseName = GetBaseName(i);
+
+        if( baseName == className )
             return true;
+
+        // Recursively check a level up
+        ClassInfo baseInfo = ClassInfoDB::Get()->GetClassInfo( baseName );
+
+        if( baseInfo && baseInfo->IsA( className ) )
+            return true;
+    }
 
     return false;
 }
 
-bool ClassNode::IsTypeOf( ClassType type )
+bool ClassNode::IsTypeOf( ClassType type ) const
 {
     return( m_type == type );
 }
 //-----------------------------------------------------------------------------
 // PropertyInfos
 //-----------------------------------------------------------------------------
-PropertyInfo ClassNode::GetPropertyInfo( size_t index )
+void ClassNode::AddPropertyInfo( PropertyInfo propertyInfo )
+{
+    if( !propertyInfo )
+        return;
+
+    m_propInfos.push_back( propertyInfo );
+}
+
+PropertyInfo ClassNode::GetPropertyInfo( size_t index ) const
 {
     if( index < m_propInfos.size() )
         return m_propInfos.at( index );
@@ -142,10 +305,10 @@ PropertyInfo ClassNode::GetPropertyInfo( size_t index )
     return PropertyInfo();
 }
 
-PropertyInfo ClassNode::GetPropertyInfo( const wxString &name )
+PropertyInfo ClassNode::GetPropertyInfo( const wxString &name ) const
 {
-    for( PropertyInfos::iterator it = m_propInfos.begin();
-                                it != m_propInfos.end(); ++it )
+    for( PropertyInfos::const_iterator it = m_propInfos.begin();
+                                      it != m_propInfos.end(); ++it )
     {
         PropertyInfo propertyInfo = *it;
         if( propertyInfo->GetName() == name )
@@ -155,15 +318,15 @@ PropertyInfo ClassNode::GetPropertyInfo( const wxString &name )
     return PropertyInfo();
 }
 
-size_t ClassNode::GetPropertyInfoCount()
+size_t ClassNode::GetPropertyInfoCount() const
 {
     return m_propInfos.size();
 }
 
-bool ClassNode::PropertyInfoExists( const wxString &name )
+bool ClassNode::PropertyInfoExists( const wxString &name ) const
 {
-    for( PropertyInfos::iterator it = m_propInfos.begin();
-                                it != m_propInfos.end(); ++it )
+    for( PropertyInfos::const_iterator it = m_propInfos.begin();
+                                      it != m_propInfos.end(); ++it )
     {
         if( (*it)->GetName() == name )
             return true;
@@ -174,7 +337,12 @@ bool ClassNode::PropertyInfoExists( const wxString &name )
 //-----------------------------------------------------------------------------
 // EventInfos
 //-----------------------------------------------------------------------------
-EventInfo ClassNode::GetEventInfo( size_t index )
+void ClassNode::AddEventInfo( EventInfo eventInfo )
+{
+    m_eventInfos.push_back( eventInfo );
+}
+
+EventInfo ClassNode::GetEventInfo( size_t index ) const
 {
     if( index < m_eventInfos.size() )
         return m_eventInfos.at( index );
@@ -182,14 +350,19 @@ EventInfo ClassNode::GetEventInfo( size_t index )
     return EventInfo();
 }
 
-size_t ClassNode::GetEventInfoCount()
+size_t ClassNode::GetEventInfoCount() const
 {
     return m_eventInfos.size();
 }
 //-----------------------------------------------------------------------------
 // ChildInfos
 //-----------------------------------------------------------------------------
-ChildInfo ClassNode::GetChildInfo( size_t index )
+void ClassNode::AddChildInfo( ChildInfo childInfo )
+{
+    m_children.push_back( childInfo );
+}
+
+ChildInfo ClassNode::GetChildInfo( size_t index ) const
 {
     if( index < m_children.size() )
         return m_children.at( index );
@@ -197,33 +370,39 @@ ChildInfo ClassNode::GetChildInfo( size_t index )
     return ChildInfo();
 }
 
-size_t ClassNode::GetChildInfoCount()
+ChildInfo ClassNode::GetChildInfo( const wxString &name ) const
+{
+    for( ChildInfos::const_iterator it = m_children.begin();
+                                    it != m_children.end(); ++it )
+    {
+        ChildInfo childInfo = *it;
+        if( childInfo->GetName() == name )
+            return childInfo;
+    }
+
+    return ChildInfo();
+}
+
+size_t ClassNode::GetChildInfoCount() const
 {
     return m_children.size();
 }
 
-bool ClassNode::IsChildInfoOk( const wxString &className, size_t count )
+bool ClassNode::IsChildInfoOk( const wxString &className, size_t count ) const
 {
-    // Child class validation check
-    ClassInfo childClsInfo = ClassInfoDB::Get()->GetClassInfo( className );
-    if( !childClsInfo )
+    ClassInfo classInfo = ClassInfoDB::Get()->GetClassInfo( className );
+    if( !classInfo )
         return false;
 
     for( size_t i = 0; i < m_children.size(); i++ )
     {
-        // Check type / name
         ChildInfo childInfo = m_children.at(i);
-        if( ( childInfo->GetType() == childClsInfo->GetType() ) ||
-            ( childInfo->GetName() == childClsInfo->GetName() ) )
-        {
-            // Check maximum allowed instances
-            if( ( childInfo->GetMax() == -1 ) ||
-                ( childInfo->GetMax() > ( int )count ) )
-            {
-                // TODO: Check option
-                return true;
-            }
-        }
+        int       childMax  = childInfo->GetMax();
+        bool      countOK   = ((childMax == -1) || (childMax > (int)count));
+        wxString  childName = childInfo->GetName();
+
+        if( classInfo->IsA( childName ) && countOK )
+            return true;
     }
 
     return false;
@@ -311,7 +490,7 @@ bool ClassInfoDB::InitClassList( const wxString &category )
                 wxString className = node->GetNodeContent();
 
                 m_baseNames.Add( className );
-                wxLogDebug("Loaded %s", className );
+//              wxLogDebug("Loaded %s", className );
             }
         }
         else if( category == "controls" )
@@ -326,7 +505,7 @@ bool ClassInfoDB::InitClassList( const wxString &category )
                     m_classNames.Add( className );
                     m_classTypes.Add( nodeName );
 
-                    wxLogDebug("Loaded %s", className );
+//                  wxLogDebug("Loaded %s", className );
                 }
 
                 itemNode = itemNode->GetNext();
@@ -499,7 +678,7 @@ void ClassInfoDB::Parse( wxXmlNode *classNode, bool recursively )
         }
     }
 
-    wxLogDebug( "Loading class %s", className );
+//  wxLogDebug( "Loading class %s", className );
 
     ClassInfo classInfo( new ClassNode( className, classType ) );
     m_classInfos.insert( ClassInfoMap::value_type( className, classInfo ) );
@@ -633,7 +812,8 @@ ChildInfo ClassInfoDB::DoGetChildInfo( wxXmlNode *node )
     }
     else if( nodeName == "option" )
     {
-        isOption = true;
+        childName = node->GetNodeContent();
+        isOption  = true;
     }
 
     if( node->HasAttribute("max") )

@@ -196,11 +196,11 @@ public:
 //-----------------------------------------------------------------------------
 // Parent / children objects
 //-----------------------------------------------------------------------------
-    void        AddChild        ( Object child );
-    Object      GetChild        ( size_t index )        const;
-    Object      GetParent()                             const;
-    Objects     GetChildren()                           const;
-    size_t      GetChildCount();
+    void        AddChild( Object child );
+    Object      GetChild( size_t index ) const;
+    Object      GetParent()              const;
+    Objects     GetChildren()            const;
+    size_t      GetChildCount()          const;
 //-----------------------------------------------------------------------------
 // Serialize
 //-----------------------------------------------------------------------------
@@ -223,7 +223,7 @@ private:
 //=============================================================================
 // ObjectTree Class
 //=============================================================================
-class ObjectTree// : public IObjectManager
+class ObjectTree
 {
 public:
     ObjectTree();
@@ -238,6 +238,7 @@ public:
     virtual void    SelectObject    ( Object object, bool withEvent = true );
 
     virtual bool    Load            ( const wxString &filePath );
+    bool            IsChildOk       ( Object parent, ClassInfo child );
 //-----------------------------------------------------------------------------
 // Serialize
 //-----------------------------------------------------------------------------
@@ -245,10 +246,7 @@ public:
     virtual bool    Serialize       ( const wxString &filePath );
 
 private:
-// bool             CheckType       ( const wxString &parentType,
-//                                    const wxString &childType );
-
-    size_t          GetChildInfoCount( Object parent, ClassInfo info );
+    size_t          GetSiblingsCount( Object parent, ClassInfo info );
 
     Object          DoCreateObject( Object parentObject, wxXmlNode *parentNode,
                                     bool isReference = false );

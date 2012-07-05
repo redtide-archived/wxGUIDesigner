@@ -485,7 +485,7 @@ Objects ObjectNode::GetChildren() const
     return m_children;
 }
 
-size_t ObjectNode::GetChildCount()
+size_t ObjectNode::GetChildCount() const
 {
     return m_children.size();
 }
@@ -632,22 +632,21 @@ Object ObjectTree::CreateObject( const wxString &className, Object parent )
 //  This function is not called for the special root object.
 
     ClassInfo classInfo = ClassInfoDB::Get()->GetClassInfo( className );
-    if(!classInfo)
+    if( !classInfo )
     {
         wxLogError(_("Unknown object type") + " " + className );
         return Object();
     }
 
-    if(!parent)
+    if( !parent )
         parent = m_sel;
 
-    bool   allow      = false;
-    size_t childCount = GetChildInfoCount( parent, classInfo );
+    bool allow = false;
 
     // Try all parents
     while( parent )
     {
-        allow = parent->GetClassInfo()->IsChildInfoOk( className, childCount );
+        allow = IsChildOk( parent, classInfo );
 
         if( allow )
         {
@@ -659,26 +658,7 @@ Object ObjectTree::CreateObject( const wxString &className, Object parent )
     }
 
     if( !allow )
-    {
-        if( childCount > 0 )
-        {
-            wxLogError
-            (
-                "%s allows only %i %s instances as its child(ren)",
-                m_sel->GetClassName(), childCount, className
-            );
-        }
-        else
-        {
-            wxLogError
-            (
-                "%s isn't an allowed child type for class %s",
-                className, m_sel->GetClassName()
-            );
-        }
-
         return Object();
-    }
 
     // Check item object
     if( classInfo->IsTypeOf( CLASS_TYPE_ITEM ) )
@@ -709,6 +689,90 @@ Object ObjectTree::CreateObject( const wxString &className, Object parent )
     return object;
 }
 
+size_t ObjectTree::GetSiblingsCount( Object parent, ClassInfo classInfo )
+{
+    size_t count = 0;
+
+    // Enumerate all children at same depth
+    for( size_t i = 0; i < parent->GetChildCount(); i++ )
+    {
+        Object    sibling     = parent->GetChild(i);
+        ClassInfo siblingInfo = sibling->GetClassInfo();
+        wxString  siblingName = siblingInfo->GetName();
+
+        // Compare sibling class
+        if( classInfo->IsA( siblingName ) )
+        {
+            count++;
+        }
+        else
+        {
+            // Compare sibling inherited classes
+            for( size_t j = 0; j < siblingInfo->GetBaseCount(); j++ )
+            {
+                wxString siblingBaseName = siblingInfo->GetBaseName(j);
+
+                if( classInfo->IsA( siblingBaseName ) )
+                {
+                    count++;
+                    break;
+                }
+            }
+        }
+    }
+
+    return count;
+}
+
+bool ObjectTree::IsChildOk( Object parentObject, ClassInfo classInfo )
+{
+    if( !parentObject || !classInfo )
+        return false;
+
+    ClassInfo parentInfo = parentObject->GetClassInfo();
+    wxString  parentName = parentInfo->GetName();
+    wxString  className  = classInfo->GetName();
+
+    // Partial check at database level
+    size_t childCount = GetSiblingsCount( parentObject, classInfo );
+    bool isOk = parentInfo->IsChildInfoOk( className, childCount );
+
+    if( isOk )
+    {
+        // Check for optional children, return false if any
+        for( size_t i = 0; i < parentObject->GetChildCount(); i++ )
+        {
+            Object child = parentObject->GetChild(i);
+            classInfo = child->GetClassInfo();
+
+            for( size_t j = 0; j < parentInfo->GetChildInfoCount(); j++ )
+            {
+                ChildInfo childInfo = parentInfo->GetChildInfo(j);
+                wxString  childName = childInfo->GetName();
+
+                if( classInfo->IsA( childName ) &&
+                    childInfo->IsOption() )
+                {
+                    wxLogError( "%s has already 1 %s as mutually exclusive child.",
+                                parentName, childName );
+                    return false;
+                }
+            }
+        }
+    }
+    else
+    {
+        if( childCount > 0 )
+            wxLogError( "%s allows only %i %s instance(s) as its child(ren)",
+                        parentName, childCount, className );
+        else
+            wxLogError( "%s isn't an allowed child type for class %s",
+                        className, parentName );
+    }
+
+    return isOk;
+}
+
 Object ObjectTree::GetSelectedObject() const
 {
     return m_sel;
@@ -737,10 +801,6 @@ void ObjectTree::SelectObject( Object object, bool withEvent )
     wxASSERT( object != m_sel );
 
     m_sel = object;
-
-    // Forward the event to other handlers if needed.
-//  if( withEvent )
-//      SendEvent( object, EVT_OBJECT_SELECTED );
 }
 
 bool ObjectTree::Load( const wxString &filePath )
@@ -815,20 +875,8 @@ bool ObjectTree::Serialize( const wxString &filePath )
     return doc.Save( filePath, 4 );
 }
 
-size_t ObjectTree::GetChildInfoCount( Object parent, ClassInfo classInfo )
-{
-    size_t count = 0;
-
-    for( size_t i = 0; i < parent->GetChildCount(); i++ )
-    {
-        if( parent->GetChild( i )->GetClassInfo() == classInfo )
-            count++;
-    }
-    return count;
-}
-
-Object ObjectTree::DoCreateObject( Object parentObject, wxXmlNode *childNode,
-                                                            bool isReference )
+Object ObjectTree::DoCreateObject ( Object parentObject, wxXmlNode *childNode,
+                                                        bool isReference )
 {
     Object childObject = Object();
 

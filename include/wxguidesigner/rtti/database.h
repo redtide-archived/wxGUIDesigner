@@ -30,18 +30,14 @@ public:
     ChildInfoNode( ClassType       type      = CLASS_TYPE_UNKNOWN,
                    const wxString &name      = wxEmptyString,
                    int             max       = 0,
-                   bool            option    = false )
-                   :    m_type( type ),
-                        m_name( name ),
-                        m_max( max ),
-                        m_option( option ) {}
-    ~ChildInfoNode() {}
+                   bool            option    = false );
+    ~ChildInfoNode();
 
-    ClassType GetType()     const { return m_type; }
-    wxString  GetName()     const { return m_name; }
-    int       GetMax()      const { return m_max;  }
-    bool      IsOption()    const { return m_option; }
-    bool      IsType()      const { return m_name.empty(); }
+    ClassType GetType()     const;
+    wxString  GetName()     const;
+    int       GetMax()      const;
+    bool      IsOption()    const;
+    bool      IsType()      const;
 
 private:
     ClassType m_type;
@@ -88,52 +84,28 @@ private:
 class EventInfoNode
 {
 public:
-    EventInfoNode( const wxString &name,
-                   const wxString &description = wxEmptyString )
-                                : m_name( name ),
-                                  m_desc( description ) {}
-    ~EventInfoNode()
-    {
-        m_evtTypes.clear();
-    }
+    EventInfoNode ( const wxString &name,
+                    const wxString &description = wxEmptyString );
+    ~EventInfoNode();
 
-    wxString GetName()          const { return m_name; }
-    wxString GetDescription()   const { return m_desc; }
-
-    // EventTypeInfos
-
-    wxString GetTypeName( size_t index ) const
-    {
-        if( index < m_evtTypes.size() )
-            return m_evtTypes.at( index )->GetName();
-
-        return wxEmptyString;
-    }
-
-    wxString GetTypeDescription( size_t index ) const
-    {
-        if( index < m_evtTypes.size() )
-            return m_evtTypes.at( index )->GetDescription();
-
-        return wxEmptyString;
-    }
-
-    size_t GetTypeCount() const { return m_evtTypes.size(); }
+    wxString GetName()        const;
+    wxString GetDescription() const;
+//------------------------------------------------------------------------------
+// EventTypeInfos
+//------------------------------------------------------------------------------
+    wxString GetTypeName       ( size_t index ) const;
+    wxString GetTypeDescription( size_t index ) const;
+    size_t   GetTypeCount()                     const;
 
 private:
-    friend class ClassInfoDB;
-
-    void SetDescription( const wxString &description ) { m_desc = description; }
-
-    void AddType( const wxString &name, const wxString &description )
-    {
-        EventTypeInfo info( new EventTypeInfoNode( name, description ) );
-        m_evtTypes.push_back( info );
-    }
+    void SetDescription( const wxString &description );
+    void AddType( const wxString &name, const wxString &description );
 
     wxString        m_name;
     wxString        m_desc;
-    EventTypeInfos  m_evtTypes;
+    EventTypeInfos  m_types;
+
+    friend class ClassInfoDB;
 };
 //=============================================================================
 // PropertyInfoNode
@@ -141,32 +113,29 @@ private:
 class PropertyInfoNode
 {
 public:
-    PropertyInfoNode( PropertyType   type,
-                      const wxString &name,
-                      const wxString &label );
-
+    PropertyInfoNode( PropertyType type,
+                      const wxString &name, const wxString &label );
     ~PropertyInfoNode();
 
-    PropertyType GetType()         const { return m_type; }
-    wxString     GetName()         const { return m_name; }
-    wxString     GetLabel()        const { return m_label; }
-
-    wxString     GetDefaultValue() const { return m_value; }
-    wxString     GetDescription()  const { return m_desc; }
-    size_t       GetChildCount()   const { return m_children.size(); }
+    PropertyType GetType()         const;
+    wxString     GetName()         const;
+    wxString     GetLabel()        const;
+    wxString     GetDefaultValue() const;
+    wxString     GetDescription()  const;
+    size_t       GetChildCount()   const;
 
     PropertyInfo GetChild( size_t index );
     void         AddChild( PropertyInfo info );
 
 private:
-    friend class ClassInfoDB;
-
-    void SetDefaultValue( const wxString &value )     { m_value = value; }
-    void SetDescription( const wxString &description ){ m_desc  = description; }
+    void SetDefaultValue( const wxString &value );
+    void SetDescription ( const wxString &description );
 
     PropertyInfos   m_children;
     PropertyType    m_type;
     wxString        m_name, m_label, m_value, m_desc;
+
+    friend class ClassInfoDB;
 };
 //=============================================================================
 // ClassNode
@@ -185,35 +154,36 @@ public:
 //-----------------------------------------------------------------------------
 // Inherited classes
 //-----------------------------------------------------------------------------
-    ClassInfo       GetBaseInfo( size_t index );
-    wxString        GetBaseName( size_t index );
-    size_t          GetBaseCount();
-    bool            IsKindOf( const wxString &className );
-    bool            IsTypeOf( ClassType type );
+    ClassInfo       GetBaseInfo ( size_t index )              const;
+    wxString        GetBaseName ( size_t index )              const;
+    size_t          GetBaseCount()                            const;
+    bool            IsA         ( const wxString &className ) const;
+    bool            IsTypeOf    ( ClassType type )            const;
 //-----------------------------------------------------------------------------
 // PropertyInfos
 //-----------------------------------------------------------------------------
-    PropertyInfo    GetPropertyInfo( size_t index );
-    PropertyInfo    GetPropertyInfo( const wxString &name );
-    size_t          GetPropertyInfoCount();
-    bool            PropertyInfoExists( const wxString &name );
+    PropertyInfo    GetPropertyInfo     ( size_t index )         const;
+    PropertyInfo    GetPropertyInfo     ( const wxString &name ) const;
+    bool            PropertyInfoExists  ( const wxString &name ) const;
+    size_t          GetPropertyInfoCount()                       const;
 //-----------------------------------------------------------------------------
 // EventInfos
 //-----------------------------------------------------------------------------
-    EventInfo       GetEventInfo( size_t index );
-    size_t          GetEventInfoCount();
+    EventInfo       GetEventInfo( size_t index ) const;
+    size_t          GetEventInfoCount()          const;
 //-----------------------------------------------------------------------------
 // ChildInfos
 //-----------------------------------------------------------------------------
-    ChildInfo       GetChildInfo( size_t index );
-    size_t          GetChildInfoCount();
-    bool            IsChildInfoOk( const wxString &name, size_t count );
+    ChildInfo       GetChildInfo( size_t index )                        const;
+    ChildInfo       GetChildInfo( const wxString &name )                const;
+    size_t          GetChildInfoCount()                                 const;
+    bool            IsChildInfoOk( const wxString &name, size_t count ) const;
 
 private:
-    void AddBaseInfo    ( ClassInfo info );
-    void AddChildInfo   ( ChildInfo info )    { m_children.push_back( info ); }
-    void AddEventInfo   ( EventInfo info )    { m_eventInfos.push_back( info ); }
-    void AddPropertyInfo( PropertyInfo info ) { m_propInfos.push_back( info ); }
+    void            AddBaseInfo    ( ClassInfo    classInfo );
+    void            AddPropertyInfo( PropertyInfo propertyInfo );
+    void            AddEventInfo   ( EventInfo    eventInfo );
+    void            AddChildInfo   ( ChildInfo    childInfo );
 
     wxString        m_name;
     wxString        m_desc;
