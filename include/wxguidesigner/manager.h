@@ -16,7 +16,6 @@
 #include <boost/tr1/memory.hpp>
 
 #include "wxguidesigner/ipc.h"
-#include "wxguidesigner/interfaces/iobject.h"
 
 class wxDialog;
 class wxMenuBar;
@@ -30,9 +29,10 @@ class wxTreeCtrl;
 class wxGDHandler;
 //class IGUIDesigner;
 
-using namespace std::tr1;
+using namespace std;
+using namespace tr1;
 
-class DLLIMPEXP_WXGUIDESIGNER wxGUIDesigner : public IGUIDesigner
+class DLLIMPEXP_WXGUIDESIGNER wxGUIDesigner// : public IGUIDesigner
 {
 public:
     static wxGUIDesigner *Get();

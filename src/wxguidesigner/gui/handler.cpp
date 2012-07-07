@@ -36,10 +36,11 @@
 #include "wx/xrc/gd_propdlg.h"
 #include "wx/xrc/gd_wizard.h"
 
-#include "wxguidesigner/defs.h"
-#include "wxguidesigner/interfaces/iobject.h"
+#include "wxguidesigner/rtti/tree.h"
 #include "wxguidesigner/rtti/database.h"
 #include "wxguidesigner/rtti/tree.h"
+
+#include "wxguidesigner/xrc/serializer.h"
 
 //#include "wxguidesigner/settings.h"
 #include "wxguidesigner/gui/artprovider.h"
@@ -124,6 +125,15 @@ m_tree          ( new ObjectTree() )//,
     RecreateXRCProject();
 }
 
+wxGDHandler::~wxGDHandler()
+{
+    delete wxLog::SetActiveTarget( m_logOld );
+    m_handlers.clear();
+//  wxXmlResource::Get()->ClearHandlers(); done in wxXmlResource dtor
+    wxGDArtProvider::Unload();
+//  m_tree = shared_ptr< ObjectTree >();
+}
+
 void wxGDHandler::RecreateXRCProject()
 {
     int xrcVerSel;
@@ -144,17 +154,14 @@ void wxGDHandler::RecreateXRCProject()
     root->AddAttribute( "xmlns", "http://www.wxwidgets.org/wxxrc" );
     root->AddAttribute( "version", xrcVer );
 
-    m_tree->Serialize( root );
+    wxXRCSerializer::Serialize( m_tree, root );
     m_xrcDoc->SetRoot( root );
 }
 
-wxGDHandler::~wxGDHandler()
+wxXmlDocument *wxGDHandler::GetXRCProject()
 {
-    delete wxLog::SetActiveTarget( m_logOld );
-    m_handlers.clear();
-//  wxXmlResource::Get()->ClearHandlers(); done in wxXmlResource dtor
-    wxGDArtProvider::Unload();
-//  m_tree = shared_ptr< ObjectTree >();
+    RecreateXRCProject();
+    return m_xrcDoc;
 }
 
 wxFrame *wxGDHandler::GetMainFrame( wxWindow *parent )
@@ -283,12 +290,12 @@ Object wxGDHandler::GetSelectedObject() const
 
 bool wxGDHandler::Load( const wxString &filePath )
 {
-    return m_tree->Load( filePath );
+    return wxXRCSerializer::Load( m_tree, filePath );
 }
 
-bool wxGDHandler::Serialize( const wxString &filePath )
+bool wxGDHandler::Save( const wxString &filePath )
 {
-    return m_tree->Serialize( filePath );
+    return wxXRCSerializer::Save( m_tree, filePath );
 }
 
 void wxGDHandler::SendEvent( wxEvent &event, bool delayed )

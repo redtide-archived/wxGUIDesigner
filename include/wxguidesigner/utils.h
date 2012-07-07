@@ -11,8 +11,6 @@
 #ifndef __WXGUIDESIGNER_UTILS_H__
 #define __WXGUIDESIGNER_UTILS_H__
 
-#include "wxguidesigner/defs.h"
-
 #include <wx/stdpaths.h>
 #include <wx/window.h>
 
@@ -53,7 +51,7 @@ namespace wxGDConv
     const wxColour  GetSystemColour     ( const wxString &name );
     const wxInt32   GetSystemColourIndex( const wxString &name );
     const wxFont    GetSystemFont       ( const wxString &name );
-    const Colour    StringToColourInfo  ( const wxString &value );
+//  const Colour    StringToColourInfo  ( const wxString &value );
 };
 
 #endif //__WXGUIDESIGNER_UTILS_H__

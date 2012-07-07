@@ -20,7 +20,7 @@
 #include <wx/toolbar.h>
 #include <wx/treectrl.h>
 
-#include "wxguidesigner/interfaces/iobject.h"
+#include "wxguidesigner/rtti/tree.h"
 //#include "wxguidesigner/codegenerator/codegenerator.h"
 #include "wxguidesigner/ipc.h"
 #include "wxguidesigner/gui/artprovider.h"
@@ -32,22 +32,18 @@
 
 wxGUIDesigner::wxGUIDesigner()
 :
-IGUIDesigner(),
+//IGUIDesigner(),
 m_handler( new wxGDHandler ),
 m_ipcFile( new IPCFile ),
 m_currPrj(),
 m_currDir(),
 m_isChanged( false )
-{/*
-    wxFlagsManager::Get();
-    ClassInfoDB::Get();*/
+{
 }
 
 wxGUIDesigner::~wxGUIDesigner()
 {
-    delete m_handler;/*
-    ClassInfoDB::Free();
-    wxFlagsManager::Free();*/
+    delete m_handler;
 }
 
 wxGUIDesigner *wxGUIDesigner::ms_instance = NULL;
@@ -112,7 +108,7 @@ bool wxGUIDesigner::SaveProject( const wxString &filePath )
         return false;
     }
 
-    if( m_handler->Serialize( filePath ) )
+    if( m_handler->Save( filePath ) )
     {
         m_currDir = wxPathOnly( filePath );
         m_currPrj = filePath;

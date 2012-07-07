@@ -11,10 +11,7 @@
 #ifndef __WXGUIDESIGNER_GUI_HANDLER_H__
 #define __WXGUIDESIGNER_GUI_HANDLER_H__
 
-#include <map>
-#include <boost/tr1/memory.hpp>
-#include "wxguidesigner/dllimpexp.h"
-#include "wxguidesigner/defs.h"
+#include "wxguidesigner/rtti.h"
 
 class wxEvent;
 class wxEvtHandler;
@@ -76,13 +73,10 @@ public:
 #endif
 
     void            RecreateXRCProject();
-    wxXmlDocument   *GetXRCProject()
-    {
-        RecreateXRCProject();
-        return m_xrcDoc;
-    }
+    wxXmlDocument   *GetXRCProject();
 
     bool Load( const wxString &filePath );
+    bool Save( const wxString &filePath );
 
 //  wxGDSettings    GetSettings() const;
 //=============================================================================
@@ -92,7 +86,6 @@ public:
     void SelectObject( Object object, int senderId );
     Object GetSelectedObject() const;
     Object GetTopLevelObject( Object object );
-    bool Serialize( const wxString &filePath );
 
 private:
     void InitAllXmlHandlers();
@@ -114,7 +107,7 @@ private:
     wxGDDebugWindow                 *m_debug;
     wxLog                           *m_logOld;
 #endif
-    shared_ptr< ObjectTree >        m_tree;
+    RTTITree                        m_tree;
 //  wxGDSettings                    m_settings;
     wxLocale                        m_locale;
 };

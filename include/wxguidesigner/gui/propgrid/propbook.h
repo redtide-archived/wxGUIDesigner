@@ -26,9 +26,6 @@ class wxHtmlWindow;
 class wxGDHandler;
 class wxGDObjectEvent;
 
-#include "wxguidesigner/defs.h"
-#include "wxguidesigner/interfaces/iobject.h"
-
 class wxGDPropertyBook : public wxNotebook
 {
 public:

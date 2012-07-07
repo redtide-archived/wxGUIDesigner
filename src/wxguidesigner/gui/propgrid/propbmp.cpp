@@ -185,11 +185,11 @@ void wxBitmapProperty::Init( int source, const wxArrayString& params )
             }
             case wxPG_BMP_SRC_FILE:
             {
-                wxFileName fn = params.Item( 0 );
+                wxFileName fileName = params.Item( 0 );
 
-                if( fn.FileExists() )
+                if( fileName.FileExists() )
                 {
-                    wxString path = fn.GetFullPath();
+                    wxString path = fileName.GetFullPath();
                     wxBitmap bmp  = wxBitmap( path, wxBITMAP_TYPE_ANY );
 
                     if( bmp.IsOk() )

@@ -18,8 +18,6 @@
 #include <wx/tokenzr.h>
 #include <wx/xrc/xmlres.h>
 
-#include "wxguidesigner/defs.h"
-#include "wxguidesigner/interfaces/iobject.h"
 #include "wxguidesigner/rtti/flags.h"
 #include "wxguidesigner/rtti/database.h"
 #include "wxguidesigner/rtti/tree.h"
@@ -338,7 +336,7 @@ void wxGDPropertyBook::OnEventGridChanged( wxPropertyGridEvent &event )
                 wxString evtTypeName = pgProp->GetLabel();
                 if( evt->GetTypeName( i ) == evtTypeName )
                 {
-                    evt->SetFunctionName( i, pgProp->GetValueAsString() );
+                    evt->SetHandlerName( i, pgProp->GetValueAsString() );
                     break;
                 }
             }
@@ -413,7 +411,7 @@ void wxGDPropertyBook::OnEventGridLeftDClick( wxPropertyGridEvent &event )
         {
             Event evt = obj->GetEvent( evtCat->GetLabel() );
             if( evt )
-                evt->SetFunctionName( p->GetLabel(), evtFuncName );
+                evt->SetHandlerName( p->GetLabel(), evtFuncName );
         
             p->SetValueFromString( evtFuncName );
         }
@@ -467,7 +465,7 @@ void wxGDPropertyBook::LoadEvents( Object object )
                 wxPGProperty *p = cat->AppendChild( new wxStringProperty
                                         ( evt->GetTypeName( n ), wxPG_LABEL ) );
 
-                p->SetValueFromString( evt->GetFunctionName( n ) );
+                p->SetValueFromString( evt->GetHandlerName( n ) );
             }
         }
     }

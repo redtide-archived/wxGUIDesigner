@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name:        wxguidesigner/defs.h
+// Name:        wxguidesigner/rtti.h
 // Purpose:     
 // Author:      Andrea Zanellato
 // Modified by: 
@@ -13,11 +13,11 @@
 
 #include "wxguidesigner/dllimpexp.h"
 
-#include <boost/tr1/memory.hpp>
-#include <list>
 #include <map>
 #include <utility>
 #include <vector>
+
+#include <boost/tr1/memory.hpp>
 
 #include <wx/bitmap.h>
 #include <wx/colour.h>
@@ -85,8 +85,8 @@ class ClassNode;
 class EventNode;
 class PropertyNode;
 class ObjectNode;
+class ObjectTree;
 
-class wxArrayString;
 class wxString;
 //=============================================================================
 // ClassInfoDB
@@ -115,24 +115,20 @@ typedef map< wxString, ClassInfo >      ClassInfoMap;
 
 // TODO: Remove these using wxColour GetAsColour() and int GetAsInt()
 //       for the default/system/custom colour and index?
-
-const wxInt32 ColourCustom = 0xFFFFFF;
-
 struct Colour
 {
     wxInt32  type;
     wxColour colour;
 };
 
-typedef pair< wxString, wxString >      Attribute;
+typedef pair< wxString, wxString >  Attribute;
+typedef shared_ptr< EventNode >     Event;
+typedef shared_ptr< PropertyNode >  Property;
+typedef shared_ptr< ObjectNode >    Object;
+typedef shared_ptr< ObjectTree >    RTTITree;
 
-typedef shared_ptr< EventNode >         Event;
-typedef shared_ptr< PropertyNode >      Property;
-typedef shared_ptr< ObjectNode >        Object;
-
-typedef vector< Event >                 Events;
-typedef vector< Attribute >             Attributes;
-typedef vector< Property >              Properties;
-typedef vector< Object >                Objects;
-
+typedef vector< Attribute >         Attributes;
+typedef vector< Event >             Events;
+typedef vector< Property >          Properties;
+typedef vector< Object >            Objects;
 #endif //__WXGUIDESIGNER_DEFS_H__

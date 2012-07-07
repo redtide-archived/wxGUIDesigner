@@ -322,18 +322,6 @@ size_t ClassNode::GetPropertyInfoCount() const
 {
     return m_propInfos.size();
 }
-
-bool ClassNode::PropertyInfoExists( const wxString &name ) const
-{
-    for( PropertyInfos::const_iterator it = m_propInfos.begin();
-                                      it != m_propInfos.end(); ++it )
-    {
-        if( (*it)->GetName() == name )
-            return true;
-    }
-
-    return false;
-}
 //-----------------------------------------------------------------------------
 // EventInfos
 //-----------------------------------------------------------------------------
@@ -489,7 +477,7 @@ bool ClassInfoDB::InitClassList( const wxString &category )
             {
                 wxString className = node->GetNodeContent();
 
-                m_baseNames.Add( className );
+                m_baseNames.push_back( className );
 //              wxLogDebug("Loaded %s", className );
             }
         }
@@ -502,8 +490,8 @@ bool ClassInfoDB::InitClassList( const wxString &category )
                 if( itemNode->GetName() == "item" )
                 {
                     wxString className = itemNode->GetNodeContent();
-                    m_classNames.Add( className );
-                    m_classTypes.Add( nodeName );
+                    m_classNames.push_back( className );
+                    m_classTypes.push_back( nodeName );
 
 //                  wxLogDebug("Loaded %s", className );
                 }
@@ -550,9 +538,9 @@ void ClassInfoDB::LoadClasses( const wxString &category )
 
     if( category == "controlbase" )
     {
-        for( size_t i = 0; i < m_baseNames.GetCount(); i++ )
+        for( size_t i = 0; i < m_baseNames.size(); i++ )
         {
-            wxString xmlFile = m_baseNames.Item(i).Lower() + ".xml";
+            wxString xmlFile = m_baseNames.at(i).Lower() + ".xml";
             xmlFile.Replace("wx", "");
             wxString xmlFilePath = path + wxFILE_SEP_PATH + xmlFile;
             wxFileName xmlFileName( xmlFilePath ); 
@@ -570,10 +558,10 @@ void ClassInfoDB::LoadClasses( const wxString &category )
     }
     else if( category == "controls" )
     {
-        for( size_t i = 0; i < m_classNames.GetCount(); i++ )
+        for( size_t i = 0; i < m_classNames.size(); i++ )
         {
-            wxString className = m_classNames.Item(i);
-            wxString classType = m_classTypes.Item(i);
+            wxString className = m_classNames.at(i);
+            wxString classType = m_classTypes.at(i);
             wxString classPath = path + wxFILE_SEP_PATH + classType +
                                                         wxFILE_SEP_PATH;
             wxDir classTypeDir( classPath );
@@ -665,8 +653,13 @@ void ClassInfoDB::Parse( wxXmlNode *classNode, bool recursively )
     if( (classType != CLASS_TYPE_ROOT) && (classType != CLASS_TYPE_CUSTOM) &&
         (classType != CLASS_TYPE_ITEM) && (classType != CLASS_TYPE_ABSTRACT) )
     {
-        if( (m_baseNames.Index ( className ) == wxNOT_FOUND) &&
-            (m_classNames.Index( className ) == wxNOT_FOUND) )
+        for( Strings::iterator baseIt = m_baseNames.begin();
+                                baseIt < m_baseNames.end(); ++baseIt )
+
+        for( Strings::iterator classIt = m_classNames.begin();
+                                classIt < m_classNames.end(); ++classIt )
+
+        if( (baseIt == m_baseNames.end()) && (classIt == m_classNames.end()) )
         {
             wxLogError( "Class '%s' was not found in registered list.", className );
             return;
@@ -758,9 +751,26 @@ void ClassInfoDB::Parse( wxXmlNode *classNode, bool recursively )
 void ClassInfoDB::AddBaseInfos( ClassInfo classInfo, ClassInfo baseInfo )
 {
     wxString baseName = baseInfo->GetName();
+    bool found = false;
 
-    if( (m_baseNames.Index ( baseName ) == wxNOT_FOUND) &&
-        (m_classNames.Index( baseName ) == wxNOT_FOUND) )
+    for( Strings::iterator it = m_baseNames.begin();
+                            it != m_baseNames.end(); ++it )
+    {
+        if( *it == baseName )
+            found = true;
+    }
+
+    if( !found )
+    {
+        for( Strings::iterator it = m_classNames.begin();
+                                it != m_classNames.end(); ++it )
+        {
+            if( *it == baseName )
+                found = true;
+        }
+    }
+
+    if( !found )
         return;
 
     for( size_t i = 0; i < baseInfo->GetPropertyInfoCount(); i++ )

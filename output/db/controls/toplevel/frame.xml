@@ -29,7 +29,7 @@
     <children>
         <option max="1">wxSizer</option>
         <option max="1">wxAuiManager</option>
-        <option>wxWindow</option>
+        <option>wxControl</option>
         <class max="1">wxMenuBar</class>
         <class max="1">wxStatusBar</class>
         <class max="1">wxToolBar</class>

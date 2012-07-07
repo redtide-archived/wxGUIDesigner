@@ -152,7 +152,7 @@ const wxFont wxGDConv::GetSystemFont( const wxString &name )
     }
     return wxNullFont;
 }
-
+/*
 const Colour wxGDConv::StringToColourInfo( const wxString &value )
 {
     // System colour
@@ -176,6 +176,7 @@ const Colour wxGDConv::StringToColourInfo( const wxString &value )
     if( ok )
         colour = wxColour( r, g, b );
 
-    Colour col = { ColourCustom, colour };
+    Colour col = { 0xFFFFFF, colour };
     return col;
 }
+*/

@@ -11,16 +11,11 @@
 #ifndef __WXGUIDESIGNER_RTTI_DATABASE_H__
 #define __WXGUIDESIGNER_RTTI_DATABASE_H__
 
-#include "wxguidesigner/defs.h"
+#include "wxguidesigner/rtti.h"
 
-#include <wx/arrstr.h>
-#include <wx/string.h>
-
-#include <wx/log.h>
+typedef vector< wxString > Strings;
 
 class wxXmlNode;
-
-using namespace std;
 //=============================================================================
 // ChildInfoNode
 //=============================================================================
@@ -164,7 +159,6 @@ public:
 //-----------------------------------------------------------------------------
     PropertyInfo    GetPropertyInfo     ( size_t index )         const;
     PropertyInfo    GetPropertyInfo     ( const wxString &name ) const;
-    bool            PropertyInfoExists  ( const wxString &name ) const;
     size_t          GetPropertyInfoCount()                       const;
 //-----------------------------------------------------------------------------
 // EventInfos
@@ -237,9 +231,9 @@ private:
     typedef map< wxString, wxString > ClassNameMap;
 
     ClassInfoMap    m_classInfos;
-    wxArrayString   m_baseNames;  // e.g. 'wxTopLevelWindow'
-    wxArrayString   m_classNames; // e.g. 'wxFrame'
-    wxArrayString   m_classTypes; // e.g. 'toplevel'
+    Strings         m_baseNames;  // e.g. 'wxTopLevelWindow'
+    Strings         m_classNames; // e.g. 'wxFrame'
+    Strings         m_classTypes; // e.g. 'toplevel'
 
     // TODO: unordered_map needed
 

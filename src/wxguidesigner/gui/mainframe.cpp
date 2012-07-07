@@ -19,7 +19,7 @@
 #include <wx/aui/dockart.h>
 #include <wx/xrc/xmlres.h>
 
-#include "wxguidesigner/interfaces/iobject.h"
+#include "wxguidesigner/rtti/tree.h"
 //#include "wxguidesigner/settings.h"
 #include "wxguidesigner/manager.h"
 #include "wxguidesigner/gui/aui/dockart.h"

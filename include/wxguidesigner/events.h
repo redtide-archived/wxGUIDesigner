@@ -11,8 +11,9 @@
 #ifndef __WXGUIDESIGNER_EVENTS_H__
 #define __WXGUIDESIGNER_EVENTS_H__
 
-#include <wx/event.h>
-#include "wxguidesigner/defs.h"
+#include "wxguidesigner/rtti.h"
+
+class wxEvent;
 
 class wxGDEvent;
 class wxGDPropertyEvent;
@@ -34,8 +35,7 @@ wxDECLARE_EVENT( wxGD_EVT_CODE_GENERATED,   wxCommandEvent );
 class wxGDEvent: public wxEvent
 {
 public:
-    wxGDEvent( wxEventType type = wxEVT_NULL, int id = 0,
-                    Event event = Event() );
+    wxGDEvent( wxEventType type = wxEVT_NULL, int id = 0, Event event = Event() );
     ~wxGDEvent();
 
     wxEvent *Clone() const;

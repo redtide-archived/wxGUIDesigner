@@ -19,22 +19,113 @@
 #include <wx/tokenzr.h>
 #include <wx/xml/xml.h>
 
-#include "wxguidesigner/interfaces/iobject.h"
 #include "wxguidesigner/rtti/flags.h"
 #include "wxguidesigner/rtti/database.h"
 #include "wxguidesigner/rtti/tree.h"
 
 #include "wxguidesigner/utils.h"
-#include "wxguidesigner/xrc/object.h"
 
 using namespace std;
+//=============================================================================
+// EventNode Class
+//=============================================================================
+EventNode::EventNode( EventInfo eventInfo )
+:
+m_eventInfo( eventInfo )
+{
+    for( size_t i = 0; i < m_eventInfo->GetTypeCount(); i++ )
+        m_functions.push_back(wxEmptyString);
+}
+
+EventNode::~EventNode()
+{
+}
+
+wxString EventNode::GetName() const
+{
+    return m_eventInfo->GetName();
+}
+
+wxString EventNode::GetDescription() const
+{
+    return m_eventInfo->GetDescription();
+}
+
+wxString EventNode::GetHandlerName( size_t typeIndex ) const
+{
+    if( typeIndex < m_functions.size() )
+        return m_functions.at( typeIndex );
+
+    return wxEmptyString;
+}
+
+wxString EventNode::GetTypeName( size_t typeIndex  ) const
+{
+    if( typeIndex < m_eventInfo->GetTypeCount() )
+        return m_eventInfo->GetTypeName( typeIndex );
+
+    return wxEmptyString;
+}
+
+wxString EventNode::GetTypeDescription( size_t typeIndex  ) const
+{
+    if( typeIndex < m_eventInfo->GetTypeCount() )
+        return m_eventInfo->GetTypeDescription( typeIndex );
+
+    return wxEmptyString;
+}
+
+size_t EventNode::GetTypeCount() const
+{
+    return m_eventInfo->GetTypeCount();
+}
+
+bool EventNode::HasHandlers()
+{
+    bool hasHandlers = false;
+
+    for( size_t i = 0; i < m_functions.size(); i++ )
+    {
+        if( m_functions.at(i) != wxEmptyString )
+        {
+            hasHandlers = true;
+            break;
+        }
+    }
+
+    return hasHandlers;
+}
+
+void EventNode::SetHandlerName( size_t typeIndex, const wxString &funcName )
+{
+    if( typeIndex < m_eventInfo->GetTypeCount() )
+    {
+        vector< wxString >::iterator it = m_functions.begin() + typeIndex;
+        m_functions.erase( it );
+        m_functions.insert( it, funcName );
+    }
+}
+
+void EventNode::SetHandlerName( const wxString &typeName,
+                                const wxString &funcName )
+{
+    for( size_t i = 0; i < m_eventInfo->GetTypeCount(); i++ )
+    {
+        if( m_eventInfo->GetTypeName(i) == typeName )
+        {
+            vector< wxString >::iterator it = m_functions.begin() + i;
+            m_functions.erase( it );
+            m_functions.insert( it, funcName );
+        }
+    }
+}
 //=============================================================================
 // PropertyNode Class
 //=============================================================================
 PropertyNode::PropertyNode( PropertyInfo propertyInfo )
 :
-m_info  ( propertyInfo ),
-m_value ( propertyInfo->GetDefaultValue() )
+m_propertyInfo  ( propertyInfo ),
+m_value         ( propertyInfo->GetDefaultValue() )
 {
 }
 
@@ -48,32 +139,37 @@ PropertyNode::~PropertyNode()
 
 wxString PropertyNode::GetName() const
 {
-    return m_info->GetName();
+    return m_propertyInfo->GetName();
 }
 
 wxString PropertyNode::GetLabel() const
 {
-    return m_info->GetLabel();
+    return m_propertyInfo->GetLabel();
 }
 
 wxString PropertyNode::GetDescription() const
 {
-    return m_info->GetDescription();
+    return m_propertyInfo->GetDescription();
 }
 
 PropertyType PropertyNode::GetType() const
 {
-    return m_info->GetType();
+    return m_propertyInfo->GetType();
 }
 
 PropertyInfo PropertyNode::GetInfo() const
 {
-    return m_info;
+    return m_propertyInfo;
 }
 
-size_t PropertyNode::GetChildCount()
+size_t PropertyNode::GetChildCount() const
 {
     return m_children.size();
+}
+
+Properties PropertyNode::GetChildren() const
+{
+    return m_children;
 }
 
 void PropertyNode::AddChild( Property property )
@@ -96,7 +192,7 @@ void PropertyNode::AddChild( Property property )
 
 void PropertyNode::AddAttribute( const wxString &name, const wxString &value )
 {
-    Attribute attr = std::make_pair( name, value );
+    Attribute attr = make_pair( name, value );
 
     m_attributes.push_back( attr );
 }
@@ -125,7 +221,7 @@ wxString PropertyNode::GetAttributeValue( size_t index )  const
     return wxEmptyString;
 }
 
-size_t PropertyNode::GetAttributeCount()
+size_t PropertyNode::GetAttributeCount() const
 {
     return m_attributes.size();
 }
@@ -259,6 +355,11 @@ wxString PropertyNode::GetAsURL() const
     return GetAsString(); // TODO
 }
 
+bool PropertyNode::IsCategory() const
+{
+    return( m_propertyInfo->GetType() == PROPERTY_TYPE_CATEGORY );
+}
+
 Property PropertyNode::GetChild( size_t index  ) const
 {
     if( index < m_children.size() )
@@ -277,7 +378,7 @@ void PropertyNode::SetValue( const wxAny &value )
 ObjectNode::ObjectNode( ClassInfo classInfo, Object parent,
                         bool expanded, bool isReference )
 :
-m_info      ( classInfo ),
+m_classInfo ( classInfo ),
 m_parent    ( parent ),
 m_expanded  ( expanded ),
 m_isRef     ( isReference )
@@ -286,7 +387,7 @@ m_isRef     ( isReference )
 
 ObjectNode::~ObjectNode()
 {
-    m_props.clear();
+    m_properties.clear();
     m_events.clear();
     m_children.clear();
 }
@@ -302,7 +403,7 @@ wxString ObjectNode::GetName() const
 
 wxString ObjectNode::GetDescription() const
 {
-    return m_info->GetDescription();
+    return m_classInfo->GetDescription();
 }
 
 bool ObjectNode::IsReference() const
@@ -310,14 +411,14 @@ bool ObjectNode::IsReference() const
     return m_isRef;
 }
 
-bool ObjectNode::IsRoot()
+bool ObjectNode::IsRoot() const
 {
-    return( m_info->GetType() == CLASS_TYPE_ROOT );
+    return( m_classInfo->GetType() == CLASS_TYPE_ROOT );
 }
 
-bool ObjectNode::IsTopLevel()
+bool ObjectNode::IsTopLevel() const
 {
-    return m_info->IsTypeOf( CLASS_TYPE_TOPLEVEL );
+    return( m_classInfo->IsTypeOf( CLASS_TYPE_TOPLEVEL ) );
 }
 //-----------------------------------------------------------------------------
 // State into the tree
@@ -341,12 +442,12 @@ void ObjectNode::Expand()
 //-----------------------------------------------------------------------------
 ClassInfo ObjectNode::GetClassInfo() const
 {
-    return m_info;
+    return m_classInfo;
 }
 
 wxString ObjectNode::GetClassName() const
 {
-    return m_info->GetName();
+    return m_classInfo->GetName();
 }
 //-----------------------------------------------------------------------------
 // Events
@@ -379,7 +480,12 @@ Event ObjectNode::GetEvent( const wxString &name ) const
     return Event();
 }
 
-size_t ObjectNode::GetEventCount()
+Events ObjectNode::GetEvents() const
+{
+    return m_events;
+}
+
+size_t ObjectNode::GetEventCount() const
 {
     return m_events.size();
 }
@@ -391,7 +497,7 @@ void ObjectNode::AddProperty( Property property )
     if( !property )
         return;
 
-    m_props.push_back( property );
+    m_properties.push_back( property );
 
     PropertyInfo propertyInfo = property->GetInfo();
 
@@ -405,23 +511,18 @@ void ObjectNode::AddProperty( Property property )
     }
 }
 
-bool ObjectNode::PropertyExists( const wxString &name )
-{
-    return m_info->PropertyInfoExists( name );
-}
-
 Property ObjectNode::GetProperty( size_t index ) const
 {
-    if( index < m_props.size() )
-        return m_props.at( index );
+    if( index < m_properties.size() )
+        return m_properties.at( index );
 
     return Property();
 }
 
 Property ObjectNode::GetProperty( const wxString &name ) const
 {
-    for( Properties::const_iterator it = m_props.begin();
-                                    it != m_props.end(); ++it )
+    for( Properties::const_iterator it = m_properties.begin();
+                                    it != m_properties.end(); ++it )
     {
         if( (*it)->GetName() == name )
             return *it;
@@ -452,12 +553,12 @@ Property ObjectNode::GetChildProperty( Property parent,
 
 Properties ObjectNode::GetProperties() const
 {
-    return m_props;
+    return m_properties;
 }
 
-size_t ObjectNode::GetPropertyCount()
+size_t ObjectNode::GetPropertyCount() const
 {
-    return m_props.size();
+    return m_properties.size();
 }
 //-----------------------------------------------------------------------------
 // Parent / children objects
@@ -489,119 +590,6 @@ size_t ObjectNode::GetChildCount() const
 {
     return m_children.size();
 }
-//-----------------------------------------------------------------------------
-// Serialize
-//-----------------------------------------------------------------------------
-wxXmlNode *ObjectNode::Serialize( wxXmlNode *parent )
-{
-    wxString objType = m_isRef ? "object_ref" : "object";
-    wxString objName = GetName();
-
-    wxXmlNode *objNode = new wxXmlNode( parent, wxXML_ELEMENT_NODE, objType );
-    objNode->AddAttribute( "class", GetClassName() );
-    objNode->AddAttribute( "name", GetName() );
-    objNode->AddAttribute( "expanded", m_expanded ? "1" : "0" );
-
-    wxXmlNode *propNode = SerializeProperties( m_props, objNode );
-    if( propNode )
-        objNode->AddChild( propNode );
-
-    for( Events::iterator it = m_events.begin(); it != m_events.end(); ++it )
-    {
-        Event event = *it;
-
-        if( event->HasFunctions() )
-        {
-            wxXmlNode *eventNode =
-            new wxXmlNode( objNode, wxXML_ELEMENT_NODE, "event" );
-            eventNode->AddAttribute( "class", event->GetName() );
-
-            for( size_t i = 0; i < event->GetTypeCount(); i++ )
-            {
-                wxString fName = event->GetFunctionName(i);
-                if( !fName.empty() )
-                {
-                    wxXmlNode *tNode =
-                    new wxXmlNode( eventNode, wxXML_ELEMENT_NODE, "type" );
-                    tNode->AddAttribute( "name", event->GetTypeName(i) );
-
-                    wxXmlNode *fNode =
-                    new wxXmlNode( tNode, wxXML_ELEMENT_NODE, "function" );
-                    new wxXmlNode( fNode, wxXML_TEXT_NODE, "", fName );
-                }
-            }
-        }
-    }
-
-    SerializeChildren( m_children, objNode );
-
-    return objNode;
-}
-
-wxXmlNode *ObjectNode::SerializeChildren( Objects children, wxXmlNode *parent )
-{
-    wxXmlNode *objNode = NULL;
-
-    for( Objects::iterator it = children.begin(); it != children.end(); ++it )
-    {
-        Object obj = *it;
-        objNode = obj->Serialize( parent );
-        parent->AddChild( objNode );
-    }
-
-    return objNode;
-}
-
-wxXmlNode *ObjectNode::SerializeProperties( Properties props, wxXmlNode *parent )
-{
-    wxXmlNode *propNode = NULL;
-
-    for( Properties::iterator it = props.begin(); it != props.end(); ++it )
-    {
-        propNode      = NULL;
-        Property prop = *it;
-        wxString name = prop->GetName();
-
-        // In XRC the "name" property is an attribute, skip it:
-        // it is set in Serialize()
-        if( name == "name" )
-            continue;
-
-        if( prop->IsCategory() )
-        {
-            propNode = SerializeProperties( prop->GetChildren(), parent );
-
-            if( propNode )
-                parent->AddChild( propNode );
-
-            continue;
-        }
-
-        wxString value  = prop->GetAsString();
-        size_t   count  = prop->GetAttributeCount();
-        bool hasValue   = !value.empty();
-
-        if( hasValue || count )
-            propNode = new wxXmlNode( parent, wxXML_ELEMENT_NODE, name );
-        else
-            continue;
-
-        if( hasValue )
-        {
-            new wxXmlNode( propNode, wxXML_TEXT_NODE, "", value );
-        }
-
-        for( size_t i = 0; i < count; i++ )
-        {
-            wxString attrName = prop->GetAttributeName(i);
-            wxString attrVal  = prop->GetAttributeValue(i);
-//          wxLogDebug("%s %s", attrName, attrVal);
-            propNode->AddAttribute( attrName, attrVal );
-        }
-    }
-
-    return propNode;
-}
 //=============================================================================
 // ObjectTree
 //=============================================================================
@@ -610,14 +598,14 @@ ObjectTree::ObjectTree()
     wxFlagsManager::Get();
     ClassInfo classInfo = ClassInfoDB::Get()->GetClassInfo("Project");
 
-    m_root = Object( new ObjectNode( classInfo, Object() ) );
-    m_sel  = m_root;
+    m_root      = Object( new ObjectNode( classInfo, Object() ) );
+    m_selected  = m_root;
 }
 
 ObjectTree::~ObjectTree()
 {
-    m_sel  =
-    m_root = Object();
+    m_selected  =
+    m_root      = Object();
 
     ClassInfoDB::Free();
     wxFlagsManager::Free();
@@ -639,7 +627,7 @@ Object ObjectTree::CreateObject( const wxString &className, Object parent )
     }
 
     if( !parent )
-        parent = m_sel;
+        parent = m_selected;
 
     bool allow = false;
 
@@ -650,7 +638,7 @@ Object ObjectTree::CreateObject( const wxString &className, Object parent )
 
         if( allow )
         {
-            m_sel = parent;
+            m_selected = parent;
             break;
         }
 
@@ -667,8 +655,8 @@ Object ObjectTree::CreateObject( const wxString &className, Object parent )
     }
 
     // Create the object
-    Object object( new ObjectNode( classInfo, m_sel ) );
-    m_sel->AddChild( object );
+    Object object( new ObjectNode( classInfo, m_selected ) );
+    m_selected->AddChild( object );
 
     // Add properties
     for( size_t i = 0; i < classInfo->GetPropertyInfoCount(); i++ )
@@ -689,7 +677,7 @@ Object ObjectTree::CreateObject( const wxString &className, Object parent )
     return object;
 }
 
-size_t ObjectTree::GetSiblingsCount( Object parent, ClassInfo classInfo )
+size_t ObjectTree::GetSiblingsCount( Object parent, ClassInfo classInfo ) const
 {
     size_t count = 0;
 
@@ -724,7 +712,7 @@ size_t ObjectTree::GetSiblingsCount( Object parent, ClassInfo classInfo )
     return count;
 }
 
-bool ObjectTree::IsChildOk( Object parentObject, ClassInfo classInfo )
+bool ObjectTree::IsChildOk( Object parentObject, ClassInfo classInfo ) const
 {
     if( !parentObject || !classInfo )
         return false;
@@ -773,16 +761,20 @@ bool ObjectTree::IsChildOk( Object parentObject, ClassInfo classInfo )
     return isOk;
 }
 
+Object ObjectTree::GetRootObject() const
+{
+    return m_root;
+}
+
 Object ObjectTree::GetSelectedObject() const
 {
-    return m_sel;
+    return m_selected;
 }
 
 Object ObjectTree::GetTopLevelObject( Object object ) const
 {
-    Object ret = Object();
     if( !object )
-        return ret;
+        return Object();
 
     Object parent = object;
     while( parent )
@@ -793,211 +785,12 @@ Object ObjectTree::GetTopLevelObject( Object object ) const
         parent = parent->GetParent();
     }
 
-    return ret;
+    return parent;
 }
 
-void ObjectTree::SelectObject( Object object, bool withEvent )
+void ObjectTree::SelectObject( Object object )
 {
-    wxASSERT( object != m_sel );
+    wxASSERT( object != m_selected );
 
-    m_sel = object;
-}
-
-bool ObjectTree::Load( const wxString &filePath )
-{
-    wxXmlDocument doc;
-    if( !doc.Load( filePath ) )
-        return false;
-
-    if( doc.GetRoot()->GetName() != "resource" )
-        return false;
-
-    Object      parentObject = Object();                     // root
-    Object      childObject  = Object();                     // frame
-    wxXmlNode   *childNode   = doc.GetRoot()->GetChildren(); // frame
-
-    while( childNode )
-    {
-        wxString childName = childNode->GetName();
-        if( childName == "object" )
-        {
-            childObject = DoCreateObject( parentObject, childNode );
-        }
-        else if( childName == "object_ref")
-        {
-            wxString objectRef  = childNode->GetAttribute("ref");
-            wxString objectID  = childNode->GetAttribute("name");
-        }
-        else if( childName == "event")
-        {
-            wxString className = childNode->GetAttribute("class");
-        }
-        else // property
-        {
-            
-        }
-        childNode = childNode->GetNext();
-    }
-    return true;
-}
-//-----------------------------------------------------------------------------
-// Serialize
-//-----------------------------------------------------------------------------
-bool ObjectTree::Serialize( wxXmlNode *rootNode )
-{
-    if( !m_root || !rootNode )
-        return false;
-
-    m_root->SerializeChildren( m_root->GetChildren(), rootNode );
-
-    return true;
-}
-
-bool ObjectTree::Serialize( const wxString &filePath )
-{
-    if( !m_root )
-        return false;
-
-    wxFileName fileName = filePath;
-    if( !fileName.DirExists() )
-        return false;
-
-    wxXmlDocument doc;
-
-    wxXmlNode *root = new wxXmlNode( NULL, wxXML_ELEMENT_NODE, "resource" );
-    root->AddAttribute( "xmlns", "http://www.wxwidgets.org/wxxrc" );
-    root->AddAttribute( "version", "2.5.3.0" );
-
-    m_root->SerializeChildren( m_root->GetChildren(), root );
-
-    doc.SetRoot( root );
-
-    return doc.Save( filePath, 4 );
-}
-
-Object ObjectTree::DoCreateObject ( Object parentObject, wxXmlNode *childNode,
-                                                        bool isReference )
-{
-    Object childObject = Object();
-
-    if( childNode && (childNode->GetName() == "object") )
-    {
-        // Set 'name' and 'class' attributes
-        wxString className  = childNode->GetAttribute("class");
-        wxString subclsName = childNode->GetAttribute("subclass"); // TODO
-
-        // Create the object
-        childObject = CreateObject( className, parentObject );
-
-        if( childObject )
-        {
-            // Get all object's property values
-            wxXmlNode *subNode = childNode->GetChildren();
-            while( subNode )
-            {
-                wxString nodeName = subNode->GetName();
-                if( nodeName == "object" )
-                {
-                    // Get all object's children recursively
-                    DoCreateObject( childObject, subNode );
-
-                    Property prop  = childObject->GetProperty("name");
-                    if( prop )
-                        prop->SetValue( subNode->GetAttribute("name") );
-                }
-                else if( nodeName == "object_ref" )
-                {
-                    // Get all object references recursively
-                    // TODO: insert_at and ref attributes
-                    DoCreateObject( childObject, subNode, true );
-
-                    Property prop    = childObject->GetProperty("name");
-                    wxString refName = subNode->GetAttribute("ref");
-
-                    if( prop )
-                    {
-                        prop->SetValue( subNode->GetAttribute("name") );
-                        prop->AddAttribute( "ref", refName );
-                    }
-                }
-                // Get all object's properties, excluding 'name' one:
-                // we use it as property, but XRC objects use it as attribute
-                else if( (nodeName != "event") && (nodeName != "name") )
-                {
-                    Property prop  = childObject->GetProperty( nodeName );
-                    wxString value = subNode->GetNodeContent();
-
-                    if( prop )
-                    {
-                        if( !value.empty() )
-                        {
-//                          wxLogDebug( "Setting property %s to %s", nodeName, value );
-                            prop->SetValue( value );
-                        }
-
-                        wxXmlAttribute *attr = subNode->GetAttributes();
-                        while( attr )
-                        {
-                            wxString attrName = attr->GetName();
-//                          wxLogDebug( "Adding attribute %s: %s", attrName, attr->GetValue() );
-                            prop->AddAttribute( attrName, attr->GetValue() );
-/* TODO
-                            // platform specific
-                            if( attrName == "platform" )
-                            {
-                                
-                            }
-                            // label
-                            if( attrName == "translate" )
-                            {
-                                
-                            }
-                            // wxArtProvider bitmap
-                            else if( attrName == "stock_id" )
-                            {
-                                
-                            }
-                            else if( attrName == "stock_client" )
-                            {
-                                
-                            }
-                            // wxCheckListBox
-                            else if( attrName == "checked" )
-                            {
-                                
-                            }
-                            // wxRadioBox
-                            else if( attrName == "tooltip" )
-                            {
-                                
-                            }
-                            else if( attrName == "helptext" )
-                            {
-                                
-                            }
-                            else if( attrName == "enabled" )
-                            {
-                                
-                            }
-                            else if( attrName == "hidden" )
-                            {
-                                
-                            }
-*/
-                            attr = attr->GetNext();
-                        }
-                    }
-                }
-                else
-                {
-                    // Get all object's events
-//                  wxLogDebug( "Setting %s %s", nodeName, subNode->GetAttribute("class") );
-                }
-
-                subNode = subNode->GetNext();
-            }
-        }
-    }
-
-    return childObject;
+    m_selected = object;
 }

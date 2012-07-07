@@ -46,7 +46,7 @@
     <children>
         <option max="1">wxSizer</option>
         <option max="1">wxAuiManager</option>
-        <option>wxWindow</option>
+        <option>wxControl</option>
     </children>
     <name label="Name">
         <value>dlg</value>

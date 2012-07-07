@@ -8,6 +8,8 @@
 // Copyleft:    (ɔ) Andrea Zanellato
 // Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
+#include <wx/event.h>
+
 #include "wxguidesigner/events.h"
 
 wxDEFINE_EVENT( wxGD_EVT_EVENT_CHANGED,    wxGDEvent );

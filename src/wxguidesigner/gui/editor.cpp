@@ -27,8 +27,7 @@
 #include "wxguidesigner/events.h"
 #include "wxguidesigner/utils.h"
 
-#include "wxguidesigner/defs.h"
-#include "wxguidesigner/interfaces/iobject.h"
+#include "wxguidesigner/rtti/tree.h"
 #include "wxguidesigner/rtti/database.h"
 #include "wxguidesigner/rtti/tree.h"
 
