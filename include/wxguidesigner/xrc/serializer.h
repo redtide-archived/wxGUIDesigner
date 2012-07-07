@@ -2,7 +2,7 @@
 // Name:        wxguidesigner/xrc/serializer.h
 // Purpose:     XRC File Parser
 // Author:      Andrea Zanellato
-// Modified by:
+// Modified by: 
 // Created:     2012/05/11
 // Revision:    $Hash$
 // Copyleft:    (ɔ) Andrea Zanellato
@@ -13,18 +13,19 @@
 
 namespace wxXRCSerializer
 {
-    bool        Load                  ( RTTITree tree, const wxString &filePath );
-    bool        Save                  ( RTTITree tree, const wxString &filePath );
+    bool    Load                  ( RTTITree    tree, const wxString &path );
+    bool    Save                  ( RTTITree    tree, const wxString &path,
+                                    int indent = 4 );
 
-    Object      CreateObject          ( RTTITree tree, Object parent,
-                                        wxXmlNode *parentNode,
-                                        bool isReference = false );
+    void    Serialize             ( RTTITree    tree,       wxXmlNode *root   );
+    void    SerializeObject       ( Object      object,     wxXmlNode *parent );
+    void    SerializeChildren     ( Objects     children,   wxXmlNode *parent );
+    void    SerializeProperties   ( Properties  properties, wxXmlNode *parent );
+    void    SerializeEvents       ( Events      events,     wxXmlNode *parent );
 
-    bool        Serialize             ( RTTITree tree, wxXmlNode *rootNode );
-
-    wxXmlNode   *SerializeObject      ( Object object,    wxXmlNode *parent );
-    wxXmlNode   *SerializeChildren    ( Objects children, wxXmlNode *parent );
-    wxXmlNode   *SerializeProperties  ( Properties props, wxXmlNode *parent );
+    Object  CreateObject          ( RTTITree    tree,       Object parent,
+                                    wxXmlNode *parentNode,
+                                    bool isReference = false );
 };
 
 #endif //__WXGUIDESIGNER_XRC_SERIALIZER_H__

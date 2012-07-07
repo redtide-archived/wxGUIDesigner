@@ -300,18 +300,19 @@ bool wxGDHandler::Save( const wxString &filePath )
 
 void wxGDHandler::SendEvent( wxEvent &event, bool delayed )
 {
-    vector< wxEvtHandler * >::iterator handler;
+    vector< wxEvtHandler * >::iterator it;
     // Process the event immediatly or delay it using
     // QueueEvent to be thread safe to all wxEvtHandlers
-    for( handler = m_handlers.begin(); handler != m_handlers.end(); ++handler )
+    for( it = m_handlers.begin(); it != m_handlers.end(); ++it )
     {
-        if( (*handler) == event.GetEventObject() )
+        wxEvtHandler *handler = (*it);
+        if( handler == event.GetEventObject() )
             continue; // Skip the sender
 
         if( delayed )
-            (*handler)->QueueEvent( event.Clone() );
+            handler->QueueEvent( event.Clone() );
         else
-            (*handler)->ProcessEvent( event );
+            handler->ProcessEvent( event );
     }
 }
 

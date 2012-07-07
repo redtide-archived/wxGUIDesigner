@@ -14,10 +14,10 @@
 #include "wxguidesigner/rtti/tree.h"
 #include "wxguidesigner/xrc/serializer.h"
 
-bool wxXRCSerializer::Load( RTTITree tree, const wxString &filePath )
+bool wxXRCSerializer::Load( RTTITree tree, const wxString &path )
 {
     wxXmlDocument doc;
-    if( !tree || !doc.Load( filePath ) )
+    if( !tree || !doc.Load( path ) )
         return false;
 
     if( doc.GetRoot()->GetName() != "resource" )
@@ -36,7 +36,7 @@ bool wxXRCSerializer::Load( RTTITree tree, const wxString &filePath )
         }
         else if( childName == "object_ref")
         {
-            wxString objectRef  = childNode->GetAttribute("ref");
+            wxString objectRef = childNode->GetAttribute("ref");
             wxString objectID  = childNode->GetAttribute("name");
         }
         else if( childName == "event")
@@ -54,27 +54,12 @@ bool wxXRCSerializer::Load( RTTITree tree, const wxString &filePath )
     return true;
 }
 
-bool wxXRCSerializer::Serialize( RTTITree tree, wxXmlNode *rootNode )
-{
-    if( !tree || !rootNode )
-        return false;
-
-    Object root = tree->GetRootObject();
-
-    if( !root )
-        return false;
-
-    SerializeChildren( root->GetChildren(), rootNode );
-
-    return true;
-}
-
-bool wxXRCSerializer::Save( RTTITree tree, const wxString &filePath )
+bool wxXRCSerializer::Save( RTTITree tree, const wxString &path, int indent )
 {
     if( !tree || !tree->GetRootObject() )
         return false;
 
-    wxFileName fileName = filePath;
+    wxFileName fileName = path;
     if( !fileName.DirExists() )
         return false;
 
@@ -88,7 +73,122 @@ bool wxXRCSerializer::Save( RTTITree tree, const wxString &filePath )
 
     doc.SetRoot( rootNode );
 
-    return doc.Save( filePath, 4 );
+    return doc.Save( path, indent );
+}
+
+void wxXRCSerializer::Serialize( RTTITree tree, wxXmlNode *rootNode )
+{
+    if( !tree || !rootNode )
+        return;
+
+    Object root = tree->GetRootObject();
+
+    if( !root )
+        return;
+
+    SerializeChildren( root->GetChildren(), rootNode );
+}
+
+void wxXRCSerializer::SerializeObject( Object object, wxXmlNode *parent )
+{
+    if( !object || !parent )
+        return;
+
+    wxString objType = object->IsReference() ? "object_ref" : "object";
+    wxString objName = object->GetName();
+
+    wxXmlNode *objNode = new wxXmlNode( parent, wxXML_ELEMENT_NODE, objType );
+    objNode->AddAttribute( "class", object->GetClassName() );
+    objNode->AddAttribute( "name", object->GetName() );
+    objNode->AddAttribute( "expanded", object->IsExpanded() ? "1" : "0" );
+
+    SerializeProperties ( object->GetProperties(),  objNode );
+    SerializeEvents     ( object->GetEvents(),      objNode );
+    SerializeChildren   ( object->GetChildren(),    objNode );
+}
+
+void wxXRCSerializer::SerializeChildren( Objects children, wxXmlNode *parent )
+{
+    for( Objects::iterator it = children.begin(); it != children.end(); ++it )
+    {
+        Object object = *it;
+        SerializeObject( object, parent );
+    }
+}
+
+void wxXRCSerializer::SerializeProperties( Properties props, wxXmlNode *parent )
+{
+    for( Properties::iterator it = props.begin(); it != props.end(); ++it )
+    {
+        Property prop = *it;
+        wxString name = prop->GetName();
+
+        // In XRC the "name" property is an attribute, skip it:
+        // it is set in Serialize()
+        if( name == "name" )
+            continue;
+
+        if( prop->IsCategory() )
+        {
+            SerializeProperties( prop->GetChildren(), parent );
+
+            continue;
+        }
+
+        wxString value  = prop->GetAsString();
+        size_t   count  = prop->GetAttributeCount();
+        bool hasValue   = !value.empty();
+
+        wxXmlNode *propNode = NULL;
+
+        if( hasValue || count )
+            propNode = new wxXmlNode( parent, wxXML_ELEMENT_NODE, name );
+        else
+            continue;
+
+        if( hasValue )
+        {
+            new wxXmlNode( propNode, wxXML_TEXT_NODE, "", value );
+        }
+
+        for( size_t i = 0; i < count; i++ )
+        {
+            wxString attrName = prop->GetAttributeName(i);
+            wxString attrVal  = prop->GetAttributeValue(i);
+//          wxLogDebug("%s %s", attrName, attrVal);
+            propNode->AddAttribute( attrName, attrVal );
+        }
+    }
+}
+
+void wxXRCSerializer::SerializeEvents( Events events, wxXmlNode *parent )
+{
+    for( Events::iterator it = events.begin(); it != events.end(); ++it )
+    {
+        Event event = (*it);
+
+        if( event && event->HasHandlers() )
+        {
+            wxXmlNode *eventNode =
+            new wxXmlNode( parent, wxXML_ELEMENT_NODE, "event" );
+            eventNode->AddAttribute( "class", event->GetName() );
+
+            for( size_t i = 0; i < event->GetTypeCount(); i++ )
+            {
+                wxString fName = event->GetHandlerName(i);
+                if( !fName.empty() )
+                {
+                    wxXmlNode *tNode =
+                    new wxXmlNode( eventNode, wxXML_ELEMENT_NODE, "type" );
+                    tNode->AddAttribute( "name", event->GetTypeName(i) );
+
+                    wxXmlNode *fNode =
+                    new wxXmlNode( tNode, wxXML_ELEMENT_NODE, "function" );
+                    new wxXmlNode( fNode, wxXML_TEXT_NODE, "", fName );
+                }
+            }
+        }
+    }
 }
 
 Object wxXRCSerializer::CreateObject  ( RTTITree tree, Object parent,
@@ -216,120 +316,4 @@ Object wxXRCSerializer::CreateObject  ( RTTITree tree, Object parent,
     }
 
     return child;
-}
-
-wxXmlNode *wxXRCSerializer::SerializeObject( Object object, wxXmlNode *parent )
-{
-    if( !object || !parent )
-        return NULL;
-
-    wxString objType = object->IsReference() ? "object_ref" : "object";
-    wxString objName = object->GetName();
-
-    wxXmlNode *objNode = new wxXmlNode( parent, wxXML_ELEMENT_NODE, objType );
-    objNode->AddAttribute( "class", object->GetClassName() );
-    objNode->AddAttribute( "name", object->GetName() );
-    objNode->AddAttribute( "expanded", object->IsExpanded() ? "1" : "0" );
-
-    wxXmlNode *propNode = SerializeProperties( object->GetProperties(), objNode );
-    if( propNode )
-        objNode->AddChild( propNode );
-
-    Events events = object->GetEvents();
-
-    for( Events::iterator it = events.begin(); it != events.end(); ++it )
-    {
-        Event event = (*it);
-
-        if( event && event->HasHandlers() )
-        {
-            wxXmlNode *eventNode =
-            new wxXmlNode( objNode, wxXML_ELEMENT_NODE, "event" );
-            eventNode->AddAttribute( "class", event->GetName() );
-
-            for( size_t i = 0; i < event->GetTypeCount(); i++ )
-            {
-                wxString fName = event->GetHandlerName(i);
-                if( !fName.empty() )
-                {
-                    wxXmlNode *tNode =
-                    new wxXmlNode( eventNode, wxXML_ELEMENT_NODE, "type" );
-                    tNode->AddAttribute( "name", event->GetTypeName(i) );
-
-                    wxXmlNode *fNode =
-                    new wxXmlNode( tNode, wxXML_ELEMENT_NODE, "function" );
-                    new wxXmlNode( fNode, wxXML_TEXT_NODE, "", fName );
-                }
-            }
-        }
-    }
-
-    SerializeChildren( object->GetChildren(), objNode );
-
-    return objNode;
-}
-
-wxXmlNode *wxXRCSerializer::SerializeChildren( Objects children, wxXmlNode *parent )
-{
-    wxXmlNode *objNode = NULL;
-
-    for( Objects::iterator it = children.begin(); it != children.end(); ++it )
-    {
-        Object object = *it;
-        objNode = SerializeObject( object, parent );
-        parent->AddChild( objNode );
-    }
-
-    return objNode;
-}
-
-wxXmlNode *wxXRCSerializer::SerializeProperties( Properties props, wxXmlNode *parent )
-{
-    wxXmlNode *propNode = NULL;
-
-    for( Properties::iterator it = props.begin(); it != props.end(); ++it )
-    {
-        propNode      = NULL;
-        Property prop = *it;
-        wxString name = prop->GetName();
-
-        // In XRC the "name" property is an attribute, skip it:
-        // it is set in Serialize()
-        if( name == "name" )
-            continue;
-
-        if( prop->IsCategory() )
-        {
-            propNode = SerializeProperties( prop->GetChildren(), parent );
-
-            if( propNode )
-                parent->AddChild( propNode );
-
-            continue;
-        }
-
-        wxString value  = prop->GetAsString();
-        size_t   count  = prop->GetAttributeCount();
-        bool hasValue   = !value.empty();
-
-        if( hasValue || count )
-            propNode = new wxXmlNode( parent, wxXML_ELEMENT_NODE, name );
-        else
-            continue;
-
-        if( hasValue )
-        {
-            new wxXmlNode( propNode, wxXML_TEXT_NODE, "", value );
-        }
-
-        for( size_t i = 0; i < count; i++ )
-        {
-            wxString attrName = prop->GetAttributeName(i);
-            wxString attrVal  = prop->GetAttributeValue(i);
-//          wxLogDebug("%s %s", attrName, attrVal);
-            propNode->AddAttribute( attrName, attrVal );
-        }
-    }
-
-    return propNode;
 }
