@@ -71,21 +71,21 @@ public:
 #ifdef __WXDEBUG__
     wxGDDebugWindow *GetDebugWindow     ( wxWindow *parent = NULL );
 #endif
-
-    void            RecreateXRCProject();
-    wxXmlDocument   *GetXRCProject();
-
-    bool Load( const wxString &filePath );
-    bool Save( const wxString &filePath );
-
-//  wxGDSettings    GetSettings() const;
-//=============================================================================
+//-----------------------------------------------------------------------------
+// Serialize
+//-----------------------------------------------------------------------------
+    bool            Load                ( const wxString &filePath );
+    bool            Save                ( const wxString &filePath );
+    wxXmlDocument   Serialize();
+//-----------------------------------------------------------------------------
 // Object operations
-//=============================================================================
+//-----------------------------------------------------------------------------
     void CreateObject( const wxString &className, int senderId );
     void SelectObject( Object object, int senderId );
     Object GetSelectedObject() const;
     Object GetTopLevelObject( Object object );
+
+//  wxGDSettings    GetSettings() const;
 
 private:
     void InitAllXmlHandlers();
@@ -100,7 +100,6 @@ private:
     wxGDToolPalette     *m_palette;
     wxGDPropertyBook    *m_propBook;
     wxGDTreeView        *m_treeView;
-    wxXmlDocument       *m_xrcDoc;
 
     vector< wxEvtHandler * >        m_handlers;
 #ifdef __WXDEBUG__

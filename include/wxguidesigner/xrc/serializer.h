@@ -17,7 +17,8 @@ namespace wxXRCSerializer
     bool    Save                  ( RTTITree    tree, const wxString &path,
                                     int indent = 4 );
 
-    void    Serialize             ( RTTITree    tree,       wxXmlNode *root   );
+    wxXmlDocument Serialize       ( RTTITree    tree );
+
     void    SerializeObject       ( Object      object,     wxXmlNode *parent );
     void    SerializeChildren     ( Objects     children,   wxXmlNode *parent );
     void    SerializeProperties   ( Properties  properties, wxXmlNode *parent );

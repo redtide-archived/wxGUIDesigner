@@ -74,7 +74,6 @@ m_editBook      ( NULL ),
 m_palette       ( NULL ),
 m_propBook      ( NULL ),
 m_treeView      ( NULL ),
-m_xrcDoc        ( NULL ),
 #ifdef __WXDEBUG__
 m_debug         ( NULL ),
 m_logOld        ( NULL ),
@@ -120,9 +119,6 @@ m_tree          ( new ObjectTree() )//,
 
         SelectLanguage( language );
     }
-
-    m_xrcDoc = new wxXmlDocument();
-    RecreateXRCProject();
 }
 
 wxGDHandler::~wxGDHandler()
@@ -132,36 +128,6 @@ wxGDHandler::~wxGDHandler()
 //  wxXmlResource::Get()->ClearHandlers(); done in wxXmlResource dtor
     wxGDArtProvider::Unload();
 //  m_tree = shared_ptr< ObjectTree >();
-}
-
-void wxGDHandler::RecreateXRCProject()
-{
-    int xrcVerSel;
-    wxString xrcVer = "2.5.3.0";
-    wxConfigBase::Get()->Read( "locale/selected", &xrcVerSel, 1 );
-
-    if( xrcVerSel == 0 )
-        xrcVer = "2.3.0.1";
-
-    wxXmlNode *root = m_xrcDoc->GetRoot();
-    if( root )
-    {
-        m_xrcDoc->DetachRoot();
-        delete root;
-    }
-
-    root = new wxXmlNode( NULL, wxXML_ELEMENT_NODE, "resource" );
-    root->AddAttribute( "xmlns", "http://www.wxwidgets.org/wxxrc" );
-    root->AddAttribute( "version", xrcVer );
-
-    wxXRCSerializer::Serialize( m_tree, root );
-    m_xrcDoc->SetRoot( root );
-}
-
-wxXmlDocument *wxGDHandler::GetXRCProject()
-{
-    RecreateXRCProject();
-    return m_xrcDoc;
 }
 
 wxFrame *wxGDHandler::GetMainFrame( wxWindow *parent )
@@ -287,7 +253,9 @@ Object wxGDHandler::GetSelectedObject() const
 {
     return m_tree->GetSelectedObject();
 }
-
+//-----------------------------------------------------------------------------
+// Serialize
+//-----------------------------------------------------------------------------
 bool wxGDHandler::Load( const wxString &filePath )
 {
     return wxXRCSerializer::Load( m_tree, filePath );
@@ -296,6 +264,11 @@ bool wxGDHandler::Load( const wxString &filePath )
 bool wxGDHandler::Save( const wxString &filePath )
 {
     return wxXRCSerializer::Save( m_tree, filePath );
+}
+
+wxXmlDocument wxGDHandler::Serialize()
+{
+    return wxXRCSerializer::Serialize( m_tree );
 }
 
 void wxGDHandler::SendEvent( wxEvent &event, bool delayed )

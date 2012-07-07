@@ -194,9 +194,9 @@ void wxGDEditorBook::UpdateControls()
         return;
 
     // Load the xrcText in memory so access it and load the object
-    wxXmlDocument *doc = m_handler->GetXRCProject();
+    wxXmlDocument doc = m_handler->Serialize();
     wxStringOutputStream sout;
-    doc->Save( sout, 4 );
+    doc.Save( sout, 4 );
     wxString xrcText = sout.GetString();
 
     wxMemoryFSHandler::AddFile("xrc.xrc", xrcText );
