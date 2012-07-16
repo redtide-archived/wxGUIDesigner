@@ -8,39 +8,20 @@
 // Copyleft:    (ɔ) Andrea Zanellato
 // Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
+#include "wxguidesigner/fontcontainer.h"
 #include "wxguidesigner/utils.h"
+#include "wxguidesigner/rtti.h"
 
 #include <cstring>
 #include <ios>
 #include <sstream>
 
 #include <wx/colour.h>
-#include <wx/settings.h>
 #include <wx/string.h>
 #include <wx/tokenzr.h>
+#include <wx/log.h>
 
-const int wxGDConv::StringToHex( const wxString &text )
-{
-    std::stringstream s(text.ToStdString());
-    int ret;
-    s >> std::hex >> ret;
-    return ret;
-}
-
-const wxString wxGDConv::HexToString( int value )
-{
-    return wxString::Format( "%s", value );
-}
-
-const int wxGDConv::IntFromString( const wxString &value )
-{
-    if( !value.empty() )
-        return wxAtoi( value );
-
-    return 0;
-}
-
-const wxColour wxGDConv::GetSystemColour( const wxString &name )
+wxColour wxGDConv::GetSystemColour( const wxString &name )
 {
     if( !name.empty() )
     {
@@ -85,10 +66,11 @@ const wxColour wxGDConv::GetSystemColour( const wxString &name )
         SYSCLR( wxSYS_COLOUR_MENUBAR )
         #undef SYSCLR
     }
+
     return wxNullColour;
 }
 
-const wxInt32 wxGDConv::GetSystemColourIndex( const wxString &name )
+wxInt32 wxGDConv::GetSystemColourIndex( const wxString &name )
 {
     if( !name.empty() )
     {
@@ -133,10 +115,11 @@ const wxInt32 wxGDConv::GetSystemColourIndex( const wxString &name )
         SYSCLRIDX( wxSYS_COLOUR_MENUBAR )
         #undef SYSCLRIDX
     }
+
     return 0;
 }
 
-const wxFont wxGDConv::GetSystemFont( const wxString &name )
+wxFont wxGDConv::GetSystemFont( const wxString &name )
 {
     if( !name.empty() )
     {
@@ -150,10 +133,11 @@ const wxFont wxGDConv::GetSystemFont( const wxString &name )
         SYSFONT( wxSYS_DEFAULT_GUI_FONT )
         #undef SYSFONT
     }
+
     return wxNullFont;
 }
 /*
-const Colour wxGDConv::StringToColourInfo( const wxString &value )
+Colour wxGDConv::StringToColourInfo( const wxString &value )
 {
     // System colour
     if( value.StartsWith("wxSYS_COLOUR_") )
@@ -180,3 +164,205 @@ const Colour wxGDConv::StringToColourInfo( const wxString &value )
     return col;
 }
 */
+
+int wxGDConv::StringToHex( const wxString &text )
+{
+    std::stringstream s(text.ToStdString());
+    int ret;
+    s >> std::hex >> ret;
+    return ret;
+}
+
+int wxGDConv::StringToInt( const wxString &value )
+{
+    if( !value.empty() )
+        return wxAtoi( value );
+
+    return 0;
+}
+
+wxFontContainer wxGDConv::StringToFont( const wxString &value )
+{
+    wxFontContainer font; // = wxSystemSettings::GetFont( wxSYS_SYSTEM_FONT );
+
+    wxStringTokenizer tokenizer( value, "," );
+
+    // Order: size,family,style,weight,underlined,face and encoding
+    //        (int,int,int,int,int,string) as in 3.0 ctor
+    if( tokenizer.HasMoreTokens() )
+        font.SetPointSize( wxAtoi( tokenizer.GetNextToken() ) );
+
+    if( tokenizer.HasMoreTokens() )
+        font.SetFamily( wxAtoi( tokenizer.GetNextToken() ) );
+
+    if( tokenizer.HasMoreTokens() )
+        font.SetStyle( wxAtoi( tokenizer.GetNextToken() ) );
+
+    if( tokenizer.HasMoreTokens() )
+        font.SetWeight( wxAtoi( tokenizer.GetNextToken() ) );
+
+    if( tokenizer.HasMoreTokens() )
+        font.SetUnderlined( wxAtoi( tokenizer.GetNextToken() ) != 0 );
+
+    if( tokenizer.HasMoreTokens() )
+    {
+        wxString faceName = tokenizer.GetNextToken();
+        faceName.Trim( true );
+        faceName.Trim( false );
+        font.SetFaceName( faceName );
+    }
+
+    if( tokenizer.HasMoreTokens() )
+    {
+        int encoding = wxAtoi( tokenizer.GetNextToken() );
+        font.SetEncoding( encoding );
+    }
+
+    return font;
+}
+
+wxString wxGDConv::AnyToString( const wxAny &any )
+{
+    if( any.CheckType< wxString >() )
+    {
+        return any.As< wxString >();
+    }
+    else if( any.CheckType< wxArrayString >() )
+    {
+        return wxEmptyString; // TODO?
+    }
+    else if( any.CheckType< wxBitmap >() )
+    {
+        return wxEmptyString; // TODO?
+    }
+    else if( any.CheckType< bool >() )
+    {
+        return BoolToString( any.As< bool >() );
+    }
+    else if( any.CheckType< Colour >() )
+    {
+        Colour colour = any.As< Colour >();
+        return ColourToString( colour.colour, colour.type );
+    }
+    else if( any.CheckType< double >() )
+    {
+        return FloatToString( any.As< double >() );
+    }
+    else if( any.CheckType< wxFont >() )
+    {
+        return FontToString( any.As< wxFont >() );
+    }
+    else if( any.CheckType< int >() )
+    {
+        return IntToString( any.As< int >() );
+    }
+    else if( any.CheckType< wxPoint >() )
+    {
+        return PointToString( any.As< wxPoint >() );
+    }
+    else if( any.CheckType< wxSize >() )
+    {
+        return SizeToString( any.As< wxSize >() );
+    }
+
+    return wxEmptyString;
+}
+
+wxString wxGDConv::BoolToString( bool value )
+{
+    return( value ? "1" : "0" );
+}
+
+wxString wxGDConv::SystemColourToString( wxInt32 index )
+{
+    switch( index )
+    {
+        #define SYSCLRTOSTR(idx) \
+            case idx: \
+                return #idx;
+        SYSCLRTOSTR( wxSYS_COLOUR_SCROLLBAR )
+        SYSCLRTOSTR( wxSYS_COLOUR_BACKGROUND )
+//      SYSCLRTOSTR( wxSYS_COLOUR_DESKTOP )
+        SYSCLRTOSTR( wxSYS_COLOUR_ACTIVECAPTION )
+        SYSCLRTOSTR( wxSYS_COLOUR_INACTIVECAPTION )
+        SYSCLRTOSTR( wxSYS_COLOUR_MENU )
+        SYSCLRTOSTR( wxSYS_COLOUR_WINDOW )
+        SYSCLRTOSTR( wxSYS_COLOUR_WINDOWFRAME )
+        SYSCLRTOSTR( wxSYS_COLOUR_MENUTEXT )
+        SYSCLRTOSTR( wxSYS_COLOUR_WINDOWTEXT )
+        SYSCLRTOSTR( wxSYS_COLOUR_CAPTIONTEXT )
+        SYSCLRTOSTR( wxSYS_COLOUR_ACTIVEBORDER )
+        SYSCLRTOSTR( wxSYS_COLOUR_INACTIVEBORDER )
+        SYSCLRTOSTR( wxSYS_COLOUR_APPWORKSPACE )
+        SYSCLRTOSTR( wxSYS_COLOUR_HIGHLIGHT )
+        SYSCLRTOSTR( wxSYS_COLOUR_HIGHLIGHTTEXT )
+        SYSCLRTOSTR( wxSYS_COLOUR_BTNFACE )
+//      SYSCLRTOSTR( wxSYS_COLOUR_3DFACE )
+        SYSCLRTOSTR( wxSYS_COLOUR_BTNSHADOW )
+//      SYSCLRTOSTR( wxSYS_COLOUR_3DSHADOW )
+        SYSCLRTOSTR( wxSYS_COLOUR_GRAYTEXT )
+        SYSCLRTOSTR( wxSYS_COLOUR_BTNTEXT )
+        SYSCLRTOSTR( wxSYS_COLOUR_INACTIVECAPTIONTEXT )
+//      SYSCLRTOSTR( wxSYS_COLOUR_BTNHIGHLIGHT )
+//      SYSCLRTOSTR( wxSYS_COLOUR_BTNHILIGHT )
+        SYSCLRTOSTR( wxSYS_COLOUR_3DHIGHLIGHT )
+//      SYSCLRTOSTR( wxSYS_COLOUR_3DHILIGHT )
+        SYSCLRTOSTR( wxSYS_COLOUR_3DDKSHADOW )
+        SYSCLRTOSTR( wxSYS_COLOUR_3DLIGHT )
+        SYSCLRTOSTR( wxSYS_COLOUR_INFOTEXT )
+        SYSCLRTOSTR( wxSYS_COLOUR_INFOBK )
+        SYSCLRTOSTR( wxSYS_COLOUR_LISTBOX )
+        SYSCLRTOSTR( wxSYS_COLOUR_HOTLIGHT )
+        SYSCLRTOSTR( wxSYS_COLOUR_GRADIENTACTIVECAPTION )
+        SYSCLRTOSTR( wxSYS_COLOUR_GRADIENTINACTIVECAPTION )
+        SYSCLRTOSTR( wxSYS_COLOUR_MENUHILIGHT )
+        SYSCLRTOSTR( wxSYS_COLOUR_MENUBAR )
+        #undef SYSCLRTOSTR
+    }
+
+    return wxEmptyString;
+}
+
+wxString wxGDConv::ColourToString( const wxColour &colour, wxInt32 type )
+{
+    if( type != 0xFFFFFF ) // wxPG_COLOUR_CUSTOM
+    {
+        return SystemColourToString( type );
+    }
+    else
+    {
+        return( wxString::Format( "rgb(%i,%i,%i)", colour.Red(), colour.Green(), colour.Blue() ) );
+    }
+
+    return wxEmptyString;
+}
+
+wxString wxGDConv::FloatToString( double value )
+{
+    return wxString::Format( "%d", value );
+}
+
+wxString wxGDConv::FontToString( const wxFontContainer &font )
+{
+    // Order: size,family,style,weight,underlined,face and encoding
+    //        (int,int,int,int,int,string) as in 3.0 ctor
+    return wxString::Format   ( wxT("%i,%i,%i,%i,%i,%s,%i"), font.GetPointSize(),
+                                font.GetFamily(), font.GetStyle(),
+                                font.GetWeight(), font.GetUnderlined() ? 1 : 0,
+                                font.GetFaceName(), font.GetEncoding() );
+}
+
+wxString wxGDConv::IntToString( int value )
+{
+    return wxString::Format( "%i", value );
+}
+
+wxString wxGDConv::PointToString( const wxPoint &point )
+{
+    return wxString::Format( "%i,%i", point.x, point.y );
+}
+
+wxString wxGDConv::SizeToString( const wxSize &size )
+{
+    return wxString::Format( "%i,%i", size.GetWidth(), size.GetHeight() );
+}

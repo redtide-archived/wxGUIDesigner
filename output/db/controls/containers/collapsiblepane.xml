@@ -47,7 +47,6 @@
             </flag>
         </style>
         <bool name="collapsed" label="Collapsed">
-            <value>0</value>
             <description>Should the pane be collapsed initially (default: 0)?</description>
         </bool>
         <event name="wxCollapsiblePaneEvent">

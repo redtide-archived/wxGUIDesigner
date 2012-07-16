@@ -60,7 +60,6 @@
             <description>Bitmap shown alongside the label (default: none).</description>
         </bitmap>
         <bool name="selected" label="Selected">
-            <value>0</value>
             <description>Is the page selected initially (only one page can be selected; default: 0)?</description>
         </bool>
     </class>

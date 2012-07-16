@@ -828,7 +828,7 @@ ChildInfo ClassInfoDB::DoGetChildInfo( wxXmlNode *node )
 
     if( node->HasAttribute("max") )
     {
-        max = wxGDConv::IntFromString( node->GetAttribute("max") );
+        max = wxGDConv::StringToInt( node->GetAttribute("max") );
     }
 
     ChildInfo info( new ChildInfoNode( childType, childName, max, isOption ) );

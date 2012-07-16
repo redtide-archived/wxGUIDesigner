@@ -10,8 +10,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include <wx/config.h>
 #include <wx/filename.h>
+#include <wx/fontmap.h>
 #include <wx/xml/xml.h>
 
+#include "wxguidesigner/fontcontainer.h"
 #include "wxguidesigner/rtti/tree.h"
 #include "wxguidesigner/xrc/serializer.h"
 
@@ -105,9 +107,11 @@ void wxXRCSerializer::SerializeObject( Object object, wxXmlNode *parent )
     wxString   objType = object->IsReference() ? "object_ref" : "object";
     wxXmlNode *objNode = new wxXmlNode( parent, wxXML_ELEMENT_NODE, objType );
 
-    objNode->AddAttribute( "class",     object->GetClassName() );
-    objNode->AddAttribute( "name",      object->GetName() );
-    objNode->AddAttribute( "expanded",  object->IsExpanded() ? "1" : "0" );
+    objNode->AddAttribute( "class", object->GetClassName() );
+    objNode->AddAttribute( "name",  object->GetName() );
+
+    if( object->IsExpanded() )
+        objNode->AddAttribute( "expanded", "1" );
 
     SerializeProperties ( object->GetProperties(),  objNode );
     SerializeEvents     ( object->GetEvents(),      objNode );
@@ -116,7 +120,7 @@ void wxXRCSerializer::SerializeObject( Object object, wxXmlNode *parent )
 
 void wxXRCSerializer::SerializeChildren( Objects children, wxXmlNode *parent )
 {
-    for( Objects::iterator it = children.begin(); it != children.end(); ++it )
+    for( Objects::const_iterator it = children.begin(); it != children.end(); ++it )
     {
         Object object = *it;
         SerializeObject( object, parent );
@@ -125,25 +129,188 @@ void wxXRCSerializer::SerializeChildren( Objects children, wxXmlNode *parent )
 
 void wxXRCSerializer::SerializeProperties( Properties props, wxXmlNode *parent )
 {
-    for( Properties::iterator it = props.begin(); it != props.end(); ++it )
+    for( Properties::const_iterator it = props.begin(); it != props.end(); ++it )
     {
-        Property prop = *it;
-        wxString name = prop->GetName();
+        Property property = *it;
+        wxString name     = property->GetName();
 
         // In XRC the "name" property is an attribute, skip it:
         // it is set in Serialize()
         if( name == "name" )
             continue;
 
-        if( prop->IsCategory() )
+        PropertyType type = property->GetType();
+
+        if( type == PROPERTY_TYPE_CATEGORY )
         {
-            SerializeProperties( prop->GetChildren(), parent );
+            SerializeProperties( property->GetChildren(), parent );
+            continue;
+        }
+        else if( type == PROPERTY_TYPE_FONT )
+        {
+            wxFontContainer font = property->GetAsFont();
+            int     size        = font.GetPointSize();
+            int     family      = font.GetFamily();
+            int     style       = font.GetStyle();
+            int     weight      = font.GetWeight();
+            int     encoding    = font.GetEncoding();
+            bool    underlined  = font.GetUnderlined();
+            wxString face       = font.GetFaceName();
+
+            if( size < 1 && family == wxFONTFAMILY_DEFAULT &&
+                style  == wxFONTSTYLE_NORMAL &&
+                weight == wxFONTWEIGHT_NORMAL &&
+                encoding == wxFONTENCODING_DEFAULT && underlined == false &&
+                ( face.empty() || (face == _("Default")) ) )
+                continue;
+
+            wxXmlNode *fontNode =
+            new wxXmlNode( parent, wxXML_ELEMENT_NODE, name );
+
+            // Font face
+            if( !face.empty() && (face != _("Default")) )
+            {
+                wxXmlNode *faceNode =
+                new wxXmlNode( fontNode, wxXML_ELEMENT_NODE, "face" );
+                new wxXmlNode( faceNode, wxXML_TEXT_NODE, "", face );
+            }
+
+            // Font style
+            if( style != wxFONTSTYLE_NORMAL )
+            {
+                wxString value;
+                switch( style )
+                {
+                    case wxFONTSTYLE_ITALIC:
+                    {
+                        value = "italic";
+                        break;
+                    }
+                    case wxFONTSTYLE_SLANT:
+                    {
+                        value = "slant";
+                        break;
+                    }
+                    default:
+                    {
+                        value = "normal";
+                        break;
+                    }
+                }
+
+                wxXmlNode *styleNode =
+                new wxXmlNode( fontNode, wxXML_ELEMENT_NODE, "style" );
+                new wxXmlNode( styleNode, wxXML_TEXT_NODE, "", value );
+            }
+
+            // Font weight
+            if( weight != wxFONTWEIGHT_NORMAL )
+            {
+                wxString value;
+                switch( weight )
+                {
+                    case wxFONTWEIGHT_LIGHT:
+                    {
+                        value = "light";
+                        break;
+                    }
+                    case wxFONTWEIGHT_BOLD:
+                    {
+                        value = "bold";
+                        break;
+                    }
+                    default:
+                    {
+                        value = "normal";
+                        break;
+                    }
+                }
+
+                wxXmlNode *weightNode =
+                new wxXmlNode( fontNode, wxXML_ELEMENT_NODE, "weight" );
+                new wxXmlNode( weightNode, wxXML_TEXT_NODE, "", value );
+            }
+
+            // Font size
+            if( size > 0 )
+            {
+                wxString value = wxString::Format( "%i", size );
+                wxXmlNode *sizeNode =
+                new wxXmlNode( fontNode, wxXML_ELEMENT_NODE, "size" );
+                new wxXmlNode( sizeNode, wxXML_TEXT_NODE, "", value );
+            }
+
+            // Font family
+            if( family != wxFONTFAMILY_DEFAULT )
+            {
+                wxString value;
+                switch( family )
+                {
+                    case wxFONTFAMILY_DECORATIVE:
+                    {
+                        value = "decorative";
+                        break;
+                    }
+                    case wxFONTFAMILY_ROMAN:
+                    {
+                        value = "roman";
+                        break;
+                    }
+                    case wxFONTFAMILY_SCRIPT:
+                    {
+                        value = "script";
+                        break;
+                    }
+                    case wxFONTFAMILY_SWISS:
+                    {
+                        value = "swiss";
+                        break;
+                    }
+                    case wxFONTFAMILY_MODERN:
+                    {
+                        value = "modern";
+                        break;
+                    }
+                    case wxFONTFAMILY_TELETYPE:
+                    {
+                        value = "teletype";
+                        break;
+                    }
+                    default: // wxFONTFAMILY_DEFAULT
+                    {
+                        value = "default";
+                        break;
+                    }
+                }
+
+                wxXmlNode *familyNode =
+                new wxXmlNode( fontNode, wxXML_ELEMENT_NODE, "family" );
+                new wxXmlNode( familyNode, wxXML_TEXT_NODE, "", value );
+            }
+
+            // Font underlined
+            if( underlined )
+            {
+                wxXmlNode *underlinedNode =
+                new wxXmlNode( fontNode, wxXML_ELEMENT_NODE, "underlined" );
+                new wxXmlNode( underlinedNode, wxXML_TEXT_NODE, "", "1" );
+            }
+
+            if( encoding != wxFONTENCODING_DEFAULT )
+            {
+                wxString value =
+                wxFontMapper::GetEncodingName( (wxFontEncoding)encoding );
+                wxXmlNode *encodingNode =
+                new wxXmlNode( fontNode, wxXML_ELEMENT_NODE, "encoding" );
+                new wxXmlNode( encodingNode, wxXML_TEXT_NODE, "", value );
+            }
+
             continue;
         }
 
-        wxString value  = prop->GetAsString();
-        size_t   count  = prop->GetAttributeCount();
-        bool hasValue   = !value.empty();
+        wxString value    = property->GetAsString();
+        size_t   count    = property->GetAttributeCount();
+        bool     hasValue = !value.empty();
 
         wxXmlNode *propNode = NULL;
 
@@ -157,8 +324,8 @@ void wxXRCSerializer::SerializeProperties( Properties props, wxXmlNode *parent )
 
         for( size_t i = 0; i < count; i++ )
         {
-            wxString attrName = prop->GetAttributeName(i);
-            wxString attrVal  = prop->GetAttributeValue(i);
+            wxString attrName = property->GetAttributeName(i);
+            wxString attrVal  = property->GetAttributeValue(i);
 //          wxLogDebug("%s %s", attrName, attrVal);
             propNode->AddAttribute( attrName, attrVal );
         }
@@ -167,7 +334,7 @@ void wxXRCSerializer::SerializeProperties( Properties props, wxXmlNode *parent )
 
 void wxXRCSerializer::SerializeEvents( Events events, wxXmlNode *parent )
 {
-    for( Events::iterator it = events.begin(); it != events.end(); ++it )
+    for( Events::const_iterator it = events.begin(); it != events.end(); ++it )
     {
         Event event = (*it);
 
@@ -220,9 +387,9 @@ Object wxXRCSerializer::CreateObject  ( RTTITree tree, Object parent,
                     // Get all object's children recursively
                     CreateObject( tree, child, subNode );
 
-                    Property prop  = child->GetProperty("name");
-                    if( prop )
-                        prop->SetValue( subNode->GetAttribute("name") );
+                    Property property  = child->GetProperty("name");
+                    if( property )
+                        property->SetValue( subNode->GetAttribute("name") );
                 }
                 else if( nodeName == "object_ref" )
                 {
@@ -230,28 +397,28 @@ Object wxXRCSerializer::CreateObject  ( RTTITree tree, Object parent,
                     // TODO: insert_at and ref attributes
                     CreateObject( tree, child, subNode, true );
 
-                    Property prop    = child->GetProperty("name");
+                    Property property    = child->GetProperty("name");
                     wxString refName = subNode->GetAttribute("ref");
 
-                    if( prop )
+                    if( property )
                     {
-                        prop->SetValue( subNode->GetAttribute("name") );
-                        prop->AddAttribute( "ref", refName );
+                        property->SetValue( subNode->GetAttribute("name") );
+                        property->AddAttribute( "ref", refName );
                     }
                 }
                 // Get all object's properties, excluding 'name' one:
                 // we use it as property, but XRC objects use it as attribute
                 else if( (nodeName != "event") && (nodeName != "name") )
                 {
-                    Property prop  = child->GetProperty( nodeName );
+                    Property property  = child->GetProperty( nodeName );
                     wxString value = subNode->GetNodeContent();
 
-                    if( prop )
+                    if( property )
                     {
                         if( !value.empty() )
                         {
 //                          wxLogDebug( "Setting property %s to %s", nodeName, value );
-                            prop->SetValue( value );
+                            property->SetValue( value );
                         }
 
                         wxXmlAttribute *attr = subNode->GetAttributes();
@@ -259,7 +426,7 @@ Object wxXRCSerializer::CreateObject  ( RTTITree tree, Object parent,
                         {
                             wxString attrName = attr->GetName();
 //                          wxLogDebug( "Adding attribute %s: %s", attrName, attr->GetValue() );
-                            prop->AddAttribute( attrName, attr->GetValue() );
+                            property->AddAttribute( attrName, attr->GetValue() );
 /* TODO
                             // platform specific
                             if( attrName == "platform" )

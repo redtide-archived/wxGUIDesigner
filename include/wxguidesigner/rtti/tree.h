@@ -16,7 +16,7 @@
 class wxAny;
 class wxBitmap;
 class wxColour;
-class wxFont;
+class wxFontContainer;
 class wxPoint;
 class wxSize;
 class wxString;
@@ -30,13 +30,13 @@ public:
     EventNode( EventInfo eventInfo );
     ~EventNode();
 
-    wxString        GetName()                              const;
-    wxString        GetDescription()                       const;
-    wxString        GetHandlerName    ( size_t typeIndex ) const;
-    wxString        GetTypeName       ( size_t typeIndex ) const;
-    wxString        GetTypeDescription( size_t typeIndex ) const;
-    size_t          GetTypeCount()                         const;
-
+    wxString        GetName()                               const;
+    wxString        GetDescription()                        const;
+    wxString        GetHandlerName    ( size_t typeIndex )  const;
+    wxString        GetTypeName       ( size_t typeIndex )  const;
+    wxString        GetTypeDescription( size_t typeIndex )  const;
+    size_t          GetTypeCount()                          const;
+    Handlers        GetHandlers()                           const;
     bool            HasHandlers();
 
     void            SetHandlerName    ( size_t typeIndex,
@@ -44,8 +44,8 @@ public:
     void            SetHandlerName    ( const wxString &typeName,
                                         const wxString &funcName );
 private:
-    EventInfo           m_eventInfo;
-    vector< wxString >  m_functions;
+    EventInfo       m_eventInfo;
+    Handlers        m_handlers;
 };
 //=============================================================================
 // PropertyNode Class
@@ -67,7 +67,7 @@ public:
     bool            GetAsBool()         const;
     Colour          GetAsColour()       const;
     double          GetAsDouble()       const;
-    wxFont          GetAsFont()         const;
+    wxFontContainer GetAsFont()         const;
     int             GetAsInt()          const;
     wxPoint         GetAsPoint()        const;
     wxSize          GetAsSize()         const;

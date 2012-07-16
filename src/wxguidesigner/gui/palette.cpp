@@ -84,7 +84,8 @@ void wxGDToolPalette::OnToolClicked( wxCommandEvent &event )
         wxString   clsNme = tg->GetToolShortHelp( toolId );
         int        selPge = GetSelection();
         wxString   pgeNme = GetPageText( selPge );
-        m_handler->CreateObject( clsNme, GetId() ); // TODO: Assign winid
+
+        m_handler->CreateObject( clsNme, GetId() );
     }
 }
 

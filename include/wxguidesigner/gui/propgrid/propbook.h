@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name:        wxguidesigner/gui/propbook.h
+// Name:        wxguidesigner/gui/propgrid/propbook.h
 // Purpose:     
 // Author:      Andrea Zanellato
 // Modified by: 
@@ -8,8 +8,8 @@
 // Copyleft:    (ɔ) Andrea Zanellato
 // Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
-#ifndef __WXGUIDESIGNER_GUI_PROPBOOK_H__
-#define __WXGUIDESIGNER_GUI_PROPBOOK_H__
+#ifndef __WXGUIDESIGNER_GUI_PROPGRID_PROPBOOK_H__
+#define __WXGUIDESIGNER_GUI_PROPGRID_PROPBOOK_H__
 
 class wxNotebook;
 class wxWindow;
@@ -63,4 +63,4 @@ private:
     wxHtmlWindow     *m_pgHtml;
 };
 
-#endif //__WXGUIDESIGNER_PROPBOOK_H__
+#endif //__WXGUIDESIGNER_GUI_PROPGRID_PROPBOOK_H__

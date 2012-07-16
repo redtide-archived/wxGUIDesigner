@@ -41,7 +41,6 @@
         <description>HTML markup to display in the window.</description>
     </text>
     <dimension name="borders" label="Borders">
-        <value>0</value>
         <description>Border around HTML content (default: 0).</description>
     </dimension>
     <event name="wxHtmlCellEvent">

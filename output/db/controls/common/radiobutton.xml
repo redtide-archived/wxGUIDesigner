@@ -30,7 +30,6 @@
         </flag>
     </style>
     <bool name="value" label="Value">
-        <value>0</value>
         <description>Initial value of the control (default: 0).</description>
     </bool>
     <event name="wxCommandEvent">

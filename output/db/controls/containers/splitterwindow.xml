@@ -53,11 +53,9 @@
         </flag>
     </style>
     <string name="orientation" label="Orientation">
-        <value>horizontal</value>
         <description>Orientation of the splitter, either "vertical" or "horizontal" (default: horizontal).</description>
     </string>
     <int name="sashpos" label="Sash position">
-        <value>0</value>
         <description>Initial position of the sash (default: 0).</description>
     </int>
     <int name="minsize" label="Minimum size">

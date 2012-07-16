@@ -76,7 +76,6 @@
         </text>
         <bool name="enabled" label="Enabled">
             <description>Is the submenu item enabled (only for submenus of another wxMenu, default: 1)?</description>
-            <value>1</value>
         </bool>
     </class>
 

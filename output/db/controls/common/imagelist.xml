@@ -26,7 +26,6 @@
     </name>
     <bool name="mask" label="Mask">
         <description>If masks should be created for all images (default: true).</description>
-        <value>1</value>
     </bool>
     <size label="Size">
         <description>The size of the images in the list (default: the size of the first bitmap).</description>

@@ -60,15 +60,12 @@
         </flag>
     </style>
     <int name="value" label="Value">
-        <value>0</value>
         <description>Initial value of the control (default: 0).</description>
     </int>
     <int name="min" label="Minimum">
-        <value>0</value>
         <description>Minimum allowed value (default: 0).</description>
     </int>
     <int name="max" label="Maximum">
-        <value>100</value>
         <description>Maximum allowed value (default: 100).</description>
     </int>
     <int name="pagesize" label="Page size">

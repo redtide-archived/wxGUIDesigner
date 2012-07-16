@@ -250,7 +250,12 @@ bool wxBitmapProperty::IntToValue( wxVariant& variant,
 wxString wxBitmapProperty::ValueToString( wxVariant& value, int argFlags ) const
 {
     //wxLogDebug( "ValueToString variant=%s", value.GetType() ); TODO
-    return m_choices.GetLabel( GetIndex() );
+    size_t index = GetIndex();
+    size_t count = m_choices.GetCount();
+    if( index < count )
+        return m_choices.GetLabel( index );
+
+    return wxEmptyString;
 }
 
 bool wxBitmapProperty::StringToValue( wxVariant& variant, const wxString& text,

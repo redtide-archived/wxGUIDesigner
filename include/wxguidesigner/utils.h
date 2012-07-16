@@ -12,9 +12,11 @@
 #define __WXGUIDESIGNER_UTILS_H__
 
 #include <wx/stdpaths.h>
+#include <wx/settings.h>
 #include <wx/window.h>
 
 class wxColour;
+class wxFontContainer;
 class wxString;
 
 inline wxWindow *wxFindWindowById( long winid, const wxWindow *parent = NULL )
@@ -45,13 +47,24 @@ inline wxString GetResourcePath()
 
 namespace wxGDConv
 {
-    const wxString  HexToString         ( int value );
-    const int       StringToHex         ( const wxString &text );
-    const int       IntFromString       ( const wxString &value );
-    const wxColour  GetSystemColour     ( const wxString &name );
-    const wxInt32   GetSystemColourIndex( const wxString &name );
-    const wxFont    GetSystemFont       ( const wxString &name );
-//  const Colour    StringToColourInfo  ( const wxString &value );
+    wxColour        GetSystemColour     ( const wxString &name );
+    wxInt32         GetSystemColourIndex( const wxString &name );
+    wxFont          GetSystemFont       ( const wxString &name );
+
+    int             StringToHex         ( const wxString &value );
+    int             StringToInt         ( const wxString &value );
+    wxFontContainer StringToFont        ( const wxString &value );
+//  Colour          StringToColourInfo  ( const wxString &value );
+
+    wxString        AnyToString         ( const wxAny &any );
+    wxString        BoolToString        ( bool value );
+    wxString        SystemColourToString( wxInt32 index );
+    wxString        ColourToString      ( const wxColour &colour, wxInt32 type );
+    wxString        FloatToString       ( double value );
+    wxString        FontToString        ( const wxFontContainer &font );
+    wxString        IntToString         ( int value );
+    wxString        SizeToString        ( const wxSize &size );
+    wxString        PointToString       ( const wxPoint &point );
 };
 
 #endif //__WXGUIDESIGNER_UTILS_H__

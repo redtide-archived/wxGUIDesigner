@@ -61,7 +61,6 @@
             <description>Is the button enabled (default: 1)?</description>
         </bool>
         <bool name="hidden" label="Hidden" xrcattribute="1">
-            <value>0</value>
             <description>Is the button hidden initially (default: 0)?</description>
         </bool>
     </class>

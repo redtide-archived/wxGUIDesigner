@@ -29,7 +29,6 @@
         </children>
         <style label="Style">
             <flag name="wxTL_DEFAULT_STYLE">
-                <value>1</value>
                 <description>Style used by the control by default, just wxTL_SINGLE currently.</description>
             </flag>
             <flag name="wxTL_SINGLE">

@@ -94,6 +94,7 @@ m_handler( handler )
 
     Bind( wxGD_EVT_OBJECT_CREATED,   &wxGDEditorBook::OnObjectCreated,   this );
     Bind( wxGD_EVT_OBJECT_SELECTED,  &wxGDEditorBook::OnObjectSelected,  this );
+    Bind( wxGD_EVT_EVENT_CHANGED,    &wxGDEditorBook::OnEventChanged,    this );
     Bind( wxGD_EVT_PROPERTY_CHANGED, &wxGDEditorBook::OnPropertyChanged, this );
 }
 
@@ -176,6 +177,11 @@ void wxGDEditorBook::OnObjectSelected( wxGDObjectEvent & )
 {
     UpdateControls();
     // TODO: Draw the coloured rectangle
+}
+
+void wxGDEditorBook::OnEventChanged( wxGDEvent & )
+{
+    UpdateControls();
 }
 
 void wxGDEditorBook::OnPropertyChanged( wxGDPropertyEvent & )

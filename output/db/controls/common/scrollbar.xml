@@ -29,19 +29,15 @@
         </flag>
     </style>
     <int name="value" label="Value">
-        <value>0</value>
         <description>Initial position of the scrollbar (default: 0).</description>
     </int>
     <int name="range" label="Range">
-        <value>10</value>
         <description>Maximum value of the gauge (default: 10).</description>
     </int>
     <int name="thumbsize" label="Thumb size">
-        <value>1</value>
         <description>Size of the thumb (default: 1).</description>
     </int>
     <int name="pagesize" label="Page size">
-        <value>1</value>
         <description>Page size (default: 1).</description>
     </int>
     <event name="wxScrollEvent">

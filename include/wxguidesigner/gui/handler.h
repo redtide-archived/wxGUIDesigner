@@ -87,11 +87,11 @@ public:
 
 //  wxGDSettings    GetSettings() const;
 
+    void SendEvent      ( wxEvent &event, bool delayed = false );
+
 private:
     void InitAllXmlHandlers();
     void SelectLanguage ( int language );
-
-    void SendEvent      ( wxEvent &event, bool delayed = false );
 
     wxMenuBar           *m_menuBar;
     wxToolBar           *m_toolBar;

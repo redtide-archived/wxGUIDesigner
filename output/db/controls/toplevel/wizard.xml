@@ -27,7 +27,7 @@
             <class>wxWizardPageSimple</class>
         </children>
         <name>
-            <value>m_wizard</value>
+            <value>wizard</value>
         </name>
         <style name="exstyle" label="Extra style">
             <flag name="wxWIZARD_EX_HELPBUTTON">

@@ -36,7 +36,6 @@
     </style>
     <int name="range" label="Range">
         <description>Maximum value of the gauge (default: 100).</description>
-        <value>100</value>
     </int>
     <int name="value" label="Value">
         <description>Initial value of the control (default: 0).</description>

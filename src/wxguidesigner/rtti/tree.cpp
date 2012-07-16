@@ -19,11 +19,13 @@
 #include <wx/tokenzr.h>
 #include <wx/xml/xml.h>
 
+#include "wxguidesigner/fontcontainer.h"
+#include "wxguidesigner/utils.h"
+
 #include "wxguidesigner/rtti/flags.h"
 #include "wxguidesigner/rtti/database.h"
 #include "wxguidesigner/rtti/tree.h"
 
-#include "wxguidesigner/utils.h"
 
 using namespace std;
 //=============================================================================
@@ -34,7 +36,7 @@ EventNode::EventNode( EventInfo eventInfo )
 m_eventInfo( eventInfo )
 {
     for( size_t i = 0; i < m_eventInfo->GetTypeCount(); i++ )
-        m_functions.push_back(wxEmptyString);
+        m_handlers.push_back(wxEmptyString);
 }
 
 EventNode::~EventNode()
@@ -53,8 +55,8 @@ wxString EventNode::GetDescription() const
 
 wxString EventNode::GetHandlerName( size_t typeIndex ) const
 {
-    if( typeIndex < m_functions.size() )
-        return m_functions.at( typeIndex );
+    if( typeIndex < m_handlers.size() )
+        return m_handlers.at( typeIndex );
 
     return wxEmptyString;
 }
@@ -80,13 +82,18 @@ size_t EventNode::GetTypeCount() const
     return m_eventInfo->GetTypeCount();
 }
 
+Handlers EventNode::GetHandlers() const
+{
+    return m_handlers;
+}
+
 bool EventNode::HasHandlers()
 {
     bool hasHandlers = false;
 
-    for( size_t i = 0; i < m_functions.size(); i++ )
+    for( size_t i = 0; i < m_handlers.size(); i++ )
     {
-        if( m_functions.at(i) != wxEmptyString )
+        if( m_handlers.at(i) != wxEmptyString )
         {
             hasHandlers = true;
             break;
@@ -100,9 +107,9 @@ void EventNode::SetHandlerName( size_t typeIndex, const wxString &funcName )
 {
     if( typeIndex < m_eventInfo->GetTypeCount() )
     {
-        vector< wxString >::iterator it = m_functions.begin() + typeIndex;
-        m_functions.erase( it );
-        m_functions.insert( it, funcName );
+        Handlers::iterator it = m_handlers.begin() + typeIndex;
+        m_handlers.erase( it );
+        m_handlers.insert( it, funcName );
     }
 }
 
@@ -113,9 +120,9 @@ void EventNode::SetHandlerName( const wxString &typeName,
     {
         if( m_eventInfo->GetTypeName(i) == typeName )
         {
-            vector< wxString >::iterator it = m_functions.begin() + i;
-            m_functions.erase( it );
-            m_functions.insert( it, funcName );
+            Handlers::iterator it = m_handlers.begin() + i;
+            m_handlers.erase( it );
+            m_handlers.insert( it, funcName );
         }
     }
 }
@@ -283,28 +290,16 @@ double PropertyNode::GetAsDouble() const
     return 0.0;
 }
 
-wxFont PropertyNode::GetAsFont() const
+wxFontContainer PropertyNode::GetAsFont() const
 {
-    if( m_value.CheckType< wxString >() )
-    {
-        wxString strFont = m_value.As< wxString >();
-        if( strFont.StartsWith("wxSYS_") && strFont.EndsWith("_FONT") )
-        {
-            return wxGDConv::GetSystemFont( strFont );
-        }
-    }
-    else if( m_value.CheckType< wxFont >() )
-    {
-        return m_value.As< wxFont >();
-    }
-    return wxNullFont;
+    return wxGDConv::StringToFont( m_value.As< wxString >() );
 }
 
 int PropertyNode::GetAsInt() const
 {
     if( m_value.CheckType< wxString >() )
     {
-        return wxGDConv::IntFromString( m_value.As< wxString >() );
+        return wxGDConv::StringToInt( m_value.As< wxString >() );
     }
     else if( m_value.CheckType< int >() )
     {
@@ -331,10 +326,14 @@ wxSize PropertyNode::GetAsSize() const
 
 wxString PropertyNode::GetAsString() const
 {
-    if( m_value.CheckType< wxString >() )
-        return m_value.As< wxString >();
+//  wxLogDebug("name: %s", GetName());
+    wxString str = wxEmptyString;
 
-    return wxEmptyString;
+    str = wxGDConv::AnyToString( m_value );
+
+//  wxLogDebug("value: %s", str);
+
+    return str;
 }
 
 int PropertyNode::GetAsStyle() const
@@ -504,9 +503,10 @@ void ObjectNode::AddProperty( Property property )
     for( size_t i = 0; i < propertyInfo->GetChildCount(); i++ )
     {
         PropertyInfo childInfo = propertyInfo->GetChild(i);
+        wxString     value     = childInfo->GetDefaultValue();
         Property     child( new PropertyNode( childInfo ) );
 
-        child->SetValue( childInfo->GetDefaultValue() );
+        child->SetValue( value );
         property->AddChild( child );
     }
 }

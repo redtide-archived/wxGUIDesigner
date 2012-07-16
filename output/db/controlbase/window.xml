@@ -112,7 +112,6 @@
     </font>
     <bool name="enabled" label="Enabled">
         <description>If set to 0, the control is disabled (default: 1).</description>
-        <value>1</value>
     </bool>
     <bool name="hidden" label="Hidden">
         <description>If set to 1, the control is created hidden (default: 0).</description>

@@ -43,7 +43,6 @@
         </flag >
     </style>
     <int name="fields" label="Fields">
-        <value>1</value>
         <description>Number of status bar fields (default: 1).</description>
     </int>
     <string name="widths" label="Widths">

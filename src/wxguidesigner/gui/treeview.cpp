@@ -150,7 +150,13 @@ void wxGDTreeView::OnSelChanged( wxTreeEvent &event )
     {
         Object object( data->GetObject() );
         if( object )
-            m_handler->SelectObject( object, GetId() ); // TODO: Assign winid
+        {
+            m_handler->SelectObject( object, GetId() );
+/*
+            wxGDObjectEvent event( wxGD_EVT_OBJECT_SELECTED, GetId(), object );
+            m_handler->SendEvent( event );
+*/
+        }
     }
 
     event.Skip();

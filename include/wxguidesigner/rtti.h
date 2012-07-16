@@ -82,11 +82,6 @@ class PropertyInfoNode;
 class ChildInfoNode;
 class ClassNode;
 
-class EventNode;
-class PropertyNode;
-class ObjectNode;
-class ObjectTree;
-
 class wxString;
 //=============================================================================
 // ClassInfoDB
@@ -112,6 +107,10 @@ typedef map< wxString, ClassInfo >      ClassInfoMap;
 //=============================================================================
 // ObjectTree
 //=============================================================================
+class EventNode;
+class PropertyNode;
+class ObjectNode;
+class ObjectTree;
 
 // TODO: Remove these using wxColour GetAsColour() and int GetAsInt()
 //       for the default/system/custom colour and index?
@@ -129,6 +128,8 @@ typedef shared_ptr< ObjectTree >    RTTITree;
 
 typedef vector< Attribute >         Attributes;
 typedef vector< Event >             Events;
+typedef vector< wxString >          Handlers;
 typedef vector< Property >          Properties;
 typedef vector< Object >            Objects;
+
 #endif //__WXGUIDESIGNER_DEFS_H__

@@ -21,9 +21,10 @@ class wxStaticBitmap;
 class wxStaticText;
 class wxWindow;
 
-class wxGDHandler;
-class wxGDObjectEvent;
+class wxGDEvent;
 class wxGDPropertyEvent;
+class wxGDObjectEvent;
+class wxGDHandler;
 class wxGDTitleBarPanel;
 class wxGDResizingPanel;
 class wxGlossyButton;
@@ -46,6 +47,7 @@ private:
     void OnObjectCreated    ( wxGDObjectEvent   &event );
     void OnObjectDeleted    ( wxGDObjectEvent   &event );
     void OnObjectSelected   ( wxGDObjectEvent   &event );
+    void OnEventChanged     ( wxGDEvent         &event );
     void OnPropertyChanged  ( wxGDPropertyEvent &event );
 
     wxGDHandler         *m_handler;

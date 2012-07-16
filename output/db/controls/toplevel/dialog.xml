@@ -52,7 +52,6 @@
         <value>dlg</value>
     </name>
     <style label="Style">
-        <value>wxDEFAULT_DIALOG_STYLE</value>
         <flag name="wxDEFAULT_DIALOG_STYLE">
             <description>Equivalent to a combination of wxCAPTION, wxCLOSE_BOX and wxSYSTEM_MENU (the last one is not used under Unix).</description>
         </flag>
