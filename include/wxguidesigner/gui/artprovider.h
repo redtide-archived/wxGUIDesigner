@@ -38,8 +38,8 @@ typedef map< wxString, wxGDIconGroups >             wxGDIconCategoryMap;
 
 namespace wxGDArtProvider
 {
-    void Init();
-    void Load( const wxString &categoryName, bool useSmallIcons = false );
+    void Load ( const wxString &categoryName, wxImageList *smallImageList,
+                wxImageList *largeImageList, bool useSmallIcons = false );
     void Unload();
 
     size_t   GetGroupCount        ( const wxString &categoryName );
@@ -75,15 +75,15 @@ namespace wxGDArtProvider
                                     size_t groupIndex, size_t itemIndex );
 
     bool     LoadXML              ( const wxFileName &xmlFileName,
+                                    wxImageList *smallImageList,
+                                    wxImageList *largeImageList,
                                     bool useSmallIcons );
 
-    wxBitmap LoadBitmap           ( const wxString   &categoryName,
-                                    const wxString   &groupName,
-                                    const wxString   &itemLabel = wxEmptyString );
+    wxBitmap LoadBitmap           ( const wxString &categoryName,
+                                    const wxString &groupName,
+                                    const wxString &itemLabel = wxEmptyString );
 
     extern wxGDIconCategoryMap  Categories;
-    extern wxImageList          *ImageList;
-    extern wxImageList          *SmallImageList;
 };
 
 #endif //__WXGUIDESIGNER_GUI_ARTPROVIDER_H__

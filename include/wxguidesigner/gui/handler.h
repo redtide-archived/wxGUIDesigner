@@ -66,7 +66,8 @@ public:
     wxNotebook      *GetPaletteBook     ( wxWindow *parent );
     wxTreeCtrl      *GetTreeView        ( wxWindow *parent );
     wxToolBar       *GetToolBar         ( wxWindow *parent );
-    wxImageList     *GetControlsImageList();
+    wxImageList     *GetLargeImageList() const { return m_largeImgs; }
+    wxImageList     *GetSmallImageList() const { return m_smallImgs; }
 
 #ifdef __WXDEBUG__
     wxGDDebugWindow *GetDebugWindow     ( wxWindow *parent = NULL );
@@ -93,6 +94,9 @@ private:
     void InitAllXmlHandlers();
     void SelectLanguage ( int language );
 
+    wxDialog            *m_about;
+    wxImageList         *m_largeImgs;
+    wxImageList         *m_smallImgs;
     wxMenuBar           *m_menuBar;
     wxToolBar           *m_toolBar;
     wxGDMainFrame       *m_frame;

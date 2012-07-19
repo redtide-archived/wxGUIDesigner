@@ -11,6 +11,7 @@
 #include "wxguidesigner/fontcontainer.h"
 #include "wxguidesigner/utils.h"
 #include "wxguidesigner/rtti.h"
+#include "wxguidesigner/rtti/flags.h"
 
 #include <cstring>
 #include <ios>
@@ -20,13 +21,179 @@
 #include <wx/string.h>
 #include <wx/tokenzr.h>
 #include <wx/log.h>
-
-wxColour wxGDConv::GetSystemColour( const wxString &name )
+//-----------------------------------------------------------------------------
+// Getters
+//-----------------------------------------------------------------------------
+int wxGD::Convert::StringToHex( const wxString &text )
 {
-    if( !name.empty() )
+    std::stringstream s(text.ToStdString());
+    int ret;
+    s >> std::hex >> ret;
+    return ret;
+}
+
+int wxGD::Convert::StringToFlag( const wxString &value )
+{
+    int result = 0;
+
+    wxStringTokenizer tokenizer( value, "|" );
+    while( tokenizer.HasMoreTokens() )
+    {
+        wxString token = tokenizer.GetNextToken();
+        token.Trim( true );
+        token.Trim( false );
+
+        result |= wxFlagsManager::Get()->GetFlag( token );
+    }
+
+    return result;
+}
+
+int wxGD::Convert::StringToInteger( const wxString &value )
+{
+    if( !value.empty() && value.IsNumber() )
+        return wxAtoi( value );
+
+    return 0;
+}
+
+bool wxGD::Convert::StringToBool( const wxString &value )
+{
+    if( value == "true" || (StringToInteger( value ) > 0) )
+        return true;
+
+    return false;
+}
+
+double wxGD::Convert::StringToFloat( const wxString &value )
+{
+    double result;
+    value.ToDouble( &result );
+    return result;
+}
+
+wxArrayString wxGD::Convert::StringToArrayString( const wxString &value )
+{
+    return wxStringTokenize( value, "\n" );
+}
+
+int wxGD::Convert::StringToBitmapType( wxString &value )
+{
+    int bitmapType = 0;
+
+    if( !value.empty() )
+    {
+        wxArrayString attributes = wxStringTokenize( value, ";" );
+        size_t count = attributes.GetCount();
+
+        if( count > 1 ) // "<bmpType>;<value>"
+        {
+            wxString bmpType    = attributes.Item(0);
+                     value      = attributes.Item(1);
+                     bitmapType = wxAtoi( bmpType );
+
+            if( bitmapType == 0 )       // Default
+            {
+                value = wxEmptyString;
+            }
+            else if( bitmapType == 1 )  // wxArtProvider
+            {
+                if( count == 3 )        // - wxArtClient
+                    value += ";" + attributes.Item(2) + "_C";
+
+                if( count == 4 )        // - wxSize
+                    value += ";" + attributes.Item(3);
+            }
+        }
+    }
+
+    return bitmapType;
+}
+
+wxFontContainer wxGD::Convert::StringToFont( const wxString &value )
+{
+    wxFontContainer font;
+
+    wxStringTokenizer tokenizer( value, "," );
+
+    // Order: size,family,style,weight,underlined,face and encoding
+    //        (int,int,int,int,int,string) as in 3.0 ctor
+    if( tokenizer.HasMoreTokens() )
+        font.SetPointSize( wxAtoi( tokenizer.GetNextToken() ) );
+
+    if( tokenizer.HasMoreTokens() )
+        font.SetFamily( wxAtoi( tokenizer.GetNextToken() ) );
+
+    if( tokenizer.HasMoreTokens() )
+        font.SetStyle( wxAtoi( tokenizer.GetNextToken() ) );
+
+    if( tokenizer.HasMoreTokens() )
+        font.SetWeight( wxAtoi( tokenizer.GetNextToken() ) );
+
+    if( tokenizer.HasMoreTokens() )
+        font.SetUnderlined( wxAtoi( tokenizer.GetNextToken() ) != 0 );
+
+    if( tokenizer.HasMoreTokens() )
+    {
+        wxString faceName = tokenizer.GetNextToken();
+        faceName.Trim( true );
+        faceName.Trim( false );
+        font.SetFaceName( faceName );
+    }
+
+    if( tokenizer.HasMoreTokens() )
+    {
+        int encoding = wxAtoi( tokenizer.GetNextToken() );
+        font.SetEncoding( encoding );
+    }
+
+    return font;
+}
+
+wxFont wxGD::Convert::StringToSystemFont( const wxString &value )
+{
+    if( !value.empty() )
+    {
+        #define SYSFONT(font) \
+            if( value == #font ) return wxSystemSettings::GetFont( font );
+        SYSFONT( wxSYS_OEM_FIXED_FONT )
+        SYSFONT( wxSYS_ANSI_FIXED_FONT )
+        SYSFONT( wxSYS_ANSI_VAR_FONT )
+        SYSFONT( wxSYS_SYSTEM_FONT )
+        SYSFONT( wxSYS_DEVICE_DEFAULT_FONT )
+        SYSFONT( wxSYS_DEFAULT_GUI_FONT )
+        #undef SYSFONT
+    }
+
+    return wxNullFont;
+}
+
+wxColour wxGD::Convert::StringToColour( const wxString &value )
+{
+    /* System colour
+    if( value.StartsWith("wxSYS_COLOUR_") )
+        return StringToSystemColour( value );
+*/
+    // Custom colour: "r,g,b"
+    wxStringTokenizer tokenizer( value, "," );
+    bool ok; unsigned long r = 0, g = 0, b = 0;
+
+    ok = tokenizer.GetNextToken().ToULong( &r );
+    ok = ok && tokenizer.GetNextToken().ToULong( &g );
+    ok = ok && tokenizer.GetNextToken().ToULong( &b );
+
+    if( ok )
+        return wxColour( r, g, b );
+
+    return wxNullColour;
+}
+
+wxColour wxGD::Convert::StringToSystemColour( const wxString &value )
+{
+    if( !value.empty() )
     {
         #define SYSCLR(clr) \
-            if( name == #clr ) return wxSystemSettings::GetColour( clr );
+            if( value == #clr ) return wxSystemSettings::GetColour( clr );
         SYSCLR( wxSYS_COLOUR_SCROLLBAR )
         SYSCLR( wxSYS_COLOUR_BACKGROUND )
         SYSCLR( wxSYS_COLOUR_DESKTOP )
@@ -70,12 +237,12 @@ wxColour wxGDConv::GetSystemColour( const wxString &name )
     return wxNullColour;
 }
 
-wxInt32 wxGDConv::GetSystemColourIndex( const wxString &name )
+int wxGD::Convert::StringToSystemColourIndex( const wxString &value )
 {
-    if( !name.empty() )
+    if( !value.empty() )
     {
         #define SYSCLRIDX( clr ) \
-            if( name == #clr ) return clr;
+            if( value == #clr ) return clr;
         SYSCLRIDX( wxSYS_COLOUR_SCROLLBAR )
         SYSCLRIDX( wxSYS_COLOUR_BACKGROUND )
         SYSCLRIDX( wxSYS_COLOUR_DESKTOP )
@@ -116,164 +283,70 @@ wxInt32 wxGDConv::GetSystemColourIndex( const wxString &name )
         #undef SYSCLRIDX
     }
 
-    return 0;
+    return 0; // "Default"
 }
 
-wxFont wxGDConv::GetSystemFont( const wxString &name )
+wxPoint wxGD::Convert::StringToPoint( const wxString &value )
 {
-    if( !name.empty() )
+    wxArrayString tokens = wxStringTokenize( value, "," );
+    if( tokens.GetCount() == 2 )
     {
-        #define SYSFONT(font) \
-            if( name == #font ) return wxSystemSettings::GetFont( font );
-        SYSFONT( wxSYS_OEM_FIXED_FONT )
-        SYSFONT( wxSYS_ANSI_FIXED_FONT )
-        SYSFONT( wxSYS_ANSI_VAR_FONT )
-        SYSFONT( wxSYS_SYSTEM_FONT )
-        SYSFONT( wxSYS_DEVICE_DEFAULT_FONT )
-        SYSFONT( wxSYS_DEFAULT_GUI_FONT )
-        #undef SYSFONT
+        wxString sX = tokens.Item(0);
+        wxString sY = tokens.Item(1);
+
+        if( sX.IsNumber() && sY.IsNumber() )
+        {
+            int x = wxAtoi(sX);
+            int y = wxAtoi(sY);
+            return wxPoint( x,y );
+        }
     }
 
-    return wxNullFont;
+    return wxDefaultPosition;
 }
-/*
-Colour wxGDConv::StringToColourInfo( const wxString &value )
+
+wxSize wxGD::Convert::StringToSize( const wxString &value )
 {
-    // System colour
-    if( value.StartsWith("wxSYS_COLOUR_") )
+    wxArrayString tokens = wxStringTokenize( value, "," );
+    if( tokens.GetCount() == 2 )
     {
-        wxInt32 colType = GetSystemColourIndex( value );
-        Colour col = { colType, wxColour() };
-        return col;
+        wxString sX = tokens.Item(0);
+        wxString sY = tokens.Item(1);
+
+        if( sX.IsNumber() && sY.IsNumber() )
+        {
+            int x = wxAtoi(sX);
+            int y = wxAtoi(sY);
+            return wxSize( x,y );
+        }
     }
 
-    // Custom colour
-    wxStringTokenizer tokenizer( value, "," );
-    bool ok; unsigned long r = 0, g = 0, b = 0;
-
-    ok = tokenizer.GetNextToken().ToULong( &r );
-    ok = ok && tokenizer.GetNextToken().ToULong( &g );
-    ok = ok && tokenizer.GetNextToken().ToULong( &b );
-
-    wxColour colour = wxNullColour;
-
-    if( ok )
-        colour = wxColour( r, g, b );
-
-    Colour col = { 0xFFFFFF, colour };
-    return col;
+    return wxDefaultSize;
 }
-*/
-
-int wxGDConv::StringToHex( const wxString &text )
+//-----------------------------------------------------------------------------
+// Setters
+//-----------------------------------------------------------------------------
+wxString wxGD::Convert::IntegerToString( int value )
 {
-    std::stringstream s(text.ToStdString());
-    int ret;
-    s >> std::hex >> ret;
-    return ret;
+    return wxString::Format( "%i", value );
 }
 
-int wxGDConv::StringToInt( const wxString &value )
+wxString wxGD::Convert::FlagToString( int value )
 {
-    if( !value.empty() )
-        return wxAtoi( value );
-
-    return 0;
+    return wxFlagsManager::Get()->GetFlag( value );
 }
 
-wxFontContainer wxGDConv::StringToFont( const wxString &value )
-{
-    wxFontContainer font; // = wxSystemSettings::GetFont( wxSYS_SYSTEM_FONT );
-
-    wxStringTokenizer tokenizer( value, "," );
-
-    // Order: size,family,style,weight,underlined,face and encoding
-    //        (int,int,int,int,int,string) as in 3.0 ctor
-    if( tokenizer.HasMoreTokens() )
-        font.SetPointSize( wxAtoi( tokenizer.GetNextToken() ) );
-
-    if( tokenizer.HasMoreTokens() )
-        font.SetFamily( wxAtoi( tokenizer.GetNextToken() ) );
-
-    if( tokenizer.HasMoreTokens() )
-        font.SetStyle( wxAtoi( tokenizer.GetNextToken() ) );
-
-    if( tokenizer.HasMoreTokens() )
-        font.SetWeight( wxAtoi( tokenizer.GetNextToken() ) );
-
-    if( tokenizer.HasMoreTokens() )
-        font.SetUnderlined( wxAtoi( tokenizer.GetNextToken() ) != 0 );
-
-    if( tokenizer.HasMoreTokens() )
-    {
-        wxString faceName = tokenizer.GetNextToken();
-        faceName.Trim( true );
-        faceName.Trim( false );
-        font.SetFaceName( faceName );
-    }
-
-    if( tokenizer.HasMoreTokens() )
-    {
-        int encoding = wxAtoi( tokenizer.GetNextToken() );
-        font.SetEncoding( encoding );
-    }
-
-    return font;
-}
-
-wxString wxGDConv::AnyToString( const wxAny &any )
-{
-    if( any.CheckType< wxString >() )
-    {
-        return any.As< wxString >();
-    }
-    else if( any.CheckType< wxArrayString >() )
-    {
-        return wxEmptyString; // TODO?
-    }
-    else if( any.CheckType< wxBitmap >() )
-    {
-        return wxEmptyString; // TODO?
-    }
-    else if( any.CheckType< bool >() )
-    {
-        return BoolToString( any.As< bool >() );
-    }
-    else if( any.CheckType< Colour >() )
-    {
-        Colour colour = any.As< Colour >();
-        return ColourToString( colour.colour, colour.type );
-    }
-    else if( any.CheckType< double >() )
-    {
-        return FloatToString( any.As< double >() );
-    }
-    else if( any.CheckType< wxFont >() )
-    {
-        return FontToString( any.As< wxFont >() );
-    }
-    else if( any.CheckType< int >() )
-    {
-        return IntToString( any.As< int >() );
-    }
-    else if( any.CheckType< wxPoint >() )
-    {
-        return PointToString( any.As< wxPoint >() );
-    }
-    else if( any.CheckType< wxSize >() )
-    {
-        return SizeToString( any.As< wxSize >() );
-    }
-
-    return wxEmptyString;
-}
-
-wxString wxGDConv::BoolToString( bool value )
+wxString wxGD::Convert::BoolToString( bool value )
 {
     return( value ? "1" : "0" );
 }
 
-wxString wxGDConv::SystemColourToString( wxInt32 index )
+wxString wxGD::Convert::FloatToString( double value )
+{
+    return wxString::Format( "%d", value );
+}
+
+wxString wxGD::Convert::SystemColourToString( wxInt32 index )
 {
     switch( index )
     {
@@ -320,29 +393,72 @@ wxString wxGDConv::SystemColourToString( wxInt32 index )
         #undef SYSCLRTOSTR
     }
 
-    return wxEmptyString;
+    return "0"; // "Default"
 }
 
-wxString wxGDConv::ColourToString( const wxColour &colour, wxInt32 type )
+wxString wxGD::Convert::ColourToString( const wxColour &colour, int type )
 {
-    if( type != 0xFFFFFF ) // wxPG_COLOUR_CUSTOM
+    if( (type != 0xFFFFFF) && (type != 0) ) // !wxPG_COLOUR_CUSTOM || !"Default"
     {
         return SystemColourToString( type );
     }
     else
     {
-        return( wxString::Format( "rgb(%i,%i,%i)", colour.Red(), colour.Green(), colour.Blue() ) );
+        return( wxString::Format("%i,%i,%i", colour.Red(), colour.Green(), colour.Blue()) );
     }
 
     return wxEmptyString;
 }
 
-wxString wxGDConv::FloatToString( double value )
+wxString wxGD::Convert::ArrayStringToString( const wxArrayString &value )
 {
-    return wxString::Format( "%d", value );
+    wxString result = wxEmptyString;
+
+    for( size_t i = 0; i < value.GetCount(); i++ )
+        result += value.Item(i) + "\n";
+
+    return result;
 }
 
-wxString wxGDConv::FontToString( const wxFontContainer &font )
+wxString wxGD::Convert::BitmapTypeToString( int bitmapType, const wxString &value )
+{
+// "Default"
+    wxString type     = wxString::Format( "%i", bitmapType );
+    wxString newValue = wxEmptyString;
+
+// "wxArtProvider"
+    if( bitmapType == 1 )
+    {
+        wxArrayString attributes = wxStringTokenize( value, ";" );
+        size_t        count      = attributes.GetCount();
+
+        if( !count )
+            return newValue;
+
+        if( count > 0 ) // wxArtID
+            newValue = type + ";" + attributes.Item(0);
+
+        if( count > 1 ) // wxArtClient
+        {
+            wxString client = attributes.Item(1);
+            // Remove the last '_C' in wxArtClient
+            client.Truncate( client.length() - 2 );
+            newValue += ";" + client;
+        }
+
+        if( count > 2 ) // wxSize
+            newValue += ";" + attributes.Item(2);
+    }
+// "File"
+    else if( bitmapType == 2 )
+    {
+        newValue = type + ";" + value;
+    }
+
+    return newValue;
+}
+
+wxString wxGD::Convert::FontToString( const wxFontContainer &font )
 {
     // Order: size,family,style,weight,underlined,face and encoding
     //        (int,int,int,int,int,string) as in 3.0 ctor
@@ -352,17 +468,12 @@ wxString wxGDConv::FontToString( const wxFontContainer &font )
                                 font.GetFaceName(), font.GetEncoding() );
 }
 
-wxString wxGDConv::IntToString( int value )
-{
-    return wxString::Format( "%i", value );
-}
-
-wxString wxGDConv::PointToString( const wxPoint &point )
+wxString wxGD::Convert::PointToString( const wxPoint &point )
 {
     return wxString::Format( "%i,%i", point.x, point.y );
 }
 
-wxString wxGDConv::SizeToString( const wxSize &size )
+wxString wxGD::Convert::SizeToString( const wxSize &size )
 {
     return wxString::Format( "%i,%i", size.GetWidth(), size.GetHeight() );
 }

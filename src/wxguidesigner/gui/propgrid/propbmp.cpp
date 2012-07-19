@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////
 // Name:        wxguidesigner/gui/propgrid/propbmp.cpp
-// Purpose:     wxBitmapProperty and related support classes implementation
+// Purpose:     wxGDBitmapProperty and related support classes implementation
 // Author:      Andrea Zanellato
 // Modified by: 
 // Created:     2012-05-08
@@ -8,21 +8,21 @@
 // Copyleft:    (ɔ) Andrea Zanellato
 // Licence:     GNU General Public License Version 3
 /////////////////////////////////////////////////////////////////////////////
-#include "wxguidesigner/gui/propgrid/propbmp.h"
-#include "wxguidesigner/gui/propgrid/artdialog.h"
-
-#include <wx/propgrid/propgrid.h>
 #include <wx/filedlg.h>
 #include <wx/filefn.h>
+#include <wx/propgrid/propgrid.h>
+
 #include <wx/log.h>
+
+#include "wxguidesigner/gui/propgrid/propbmp.h"
+#include "wxguidesigner/gui/propgrid/artdialog.h"
 //=============================================================================
 // wxPGBitmapDialogAdapter
 //=============================================================================
-
 bool wxPGBitmapDialogAdapter::DoShowDialog( wxPropertyGrid* propGrid,
                                             wxPGProperty*   property )
 {
-    wxBitmapProperty *bmpProp = wxDynamicCast( property, wxBitmapProperty );
+    wxGDBitmapProperty *bmpProp = wxDynamicCast( property, wxGDBitmapProperty );
 
     if( bmpProp )
     {
@@ -120,11 +120,10 @@ bool wxPGBitmapDialogAdapter::DoShowDialog( wxPropertyGrid* propGrid,
     return false;
 }
 //=============================================================================
-// wxBitmapProperty
+// wxGDBitmapProperty
 //=============================================================================
-
 static const wxChar* const gs_bp_style_labels[] = {
-    _("Default"),
+    _("None"),
     _("wxArtProvider"),
     _("File"),
     (const wxChar*) NULL
@@ -136,17 +135,18 @@ static const long gs_bp_style_values[] = {
     wxPG_BMP_SRC_FILE
 };
 
-WX_PG_IMPLEMENT_PROPERTY_CLASS( wxBitmapProperty, wxEnumProperty, wxArrayString,
-                                const wxArrayString&, ChoiceAndButton )
+WX_PG_IMPLEMENT_PROPERTY_CLASS( wxGDBitmapProperty, wxEnumProperty, wxString,
+                                const wxString&, ChoiceAndButton )
 
-wxString wxBitmapProperty::ms_lastDir   = wxEmptyString;
-int      wxBitmapProperty::ms_indFilter = 0;
+wxString wxGDBitmapProperty::ms_lastDir   = wxEmptyString;
+int      wxGDBitmapProperty::ms_indFilter = 0;
 
-void wxBitmapProperty::Init( int source, const wxArrayString& params )
+void wxGDBitmapProperty::Init( int source, const wxString &value )
 {
-    wxArrayString newParams;
-    int           bmpType = wxPG_BMP_SRC_NONE;
-    size_t        count   = params.GetCount();
+    int           type     = wxPG_BMP_SRC_NONE;
+    wxString      newValue = wxEmptyString;
+    wxArrayString params   = wxStringTokenize( value, ";" );
+    size_t        count    = params.GetCount();
 
     if( count )
     {
@@ -164,21 +164,17 @@ void wxBitmapProperty::Init( int source, const wxArrayString& params )
 
                 if( bmp.IsOk() )
                 {
-                    //wxLogDebug("Loading stock_id:%s", artId );
-                    newParams.Add( artId );
+                    newValue = artId;
 
                     if( count > 1 )
-                    {
-                        //wxLogDebug("Loading stock_client:%s", client );
-                        newParams.Add( client );
-                    }
+                        newValue += ";" + client;
 
-                    bmpType = source;
-                    m_imgThumb = wxImage( bmp.ConvertToImage() );
+                    type        = source;
+                    m_imgThumb  = wxImage( bmp.ConvertToImage() );
                 }
                 else
                 {
-                    //wxLogDebug("Invalid art:%s %s", artId, client);
+                    wxLogDebug("Invalid art:%s %s", artId, client);
                 }
 
                 break;
@@ -194,9 +190,9 @@ void wxBitmapProperty::Init( int source, const wxArrayString& params )
 
                     if( bmp.IsOk() )
                     {
-                        newParams.Add( path );
-                        bmpType    = source;
-                        m_imgThumb = wxImage( bmp.ConvertToImage() );
+                        newValue    = path;
+                        type        = source;
+                        m_imgThumb  = wxImage( bmp.ConvertToImage() );
                     }
                 }
 
@@ -204,52 +200,48 @@ void wxBitmapProperty::Init( int source, const wxArrayString& params )
             }
             default:
             {
-                //wxLogDebug("Invalid index:%i", source);
+                wxLogDebug("Invalid index:%i", source);
             }
         }
     }
     else
     {
-        //wxLogDebug("Nothing to load");
+        wxLogDebug("Nothing to load");
     }
 
-    wxEnumProperty::SetIndex( bmpType );
-
-    m_value = WXVARIANT( newParams );
+    SetIndex( type );
+    m_value = WXVARIANT( newValue );
 }
 
-wxBitmapProperty::wxBitmapProperty( int                  source,
-                                    const wxArrayString& params,
-                                    const wxString&      label,
-                                    const wxString&      name )
+wxGDBitmapProperty::wxGDBitmapProperty( int             source,
+                                    const wxString &value,
+                                    const wxString &label,
+                                    const wxString &name )
 :
 wxEnumProperty( label, name, gs_bp_style_labels, gs_bp_style_values ),
 m_bmpThumb( wxNullBitmap ),
 m_imgThumb( wxNullImage )
 {
-    Init( source, params );
+    Init( source, value );
 }
 
-wxBitmapProperty::~wxBitmapProperty()
+wxGDBitmapProperty::~wxGDBitmapProperty()
 {
 }
 
-bool wxBitmapProperty::IntToValue( wxVariant& variant,
-                                     int intVal,
-                                     int argFlags ) const
+bool wxGDBitmapProperty::IntToValue( wxVariant& variant, int index, int flags ) const
 {
-    if( variant.GetType() == "arrstring" )
+    if( variant.GetType() == "string" )
     {
-        wxVariant v = WXVARIANT( intVal );
-        return wxEnumProperty::IntToValue( v, intVal, argFlags );
+        variant = WXVARIANT( index );
+        return wxEnumProperty::IntToValue( variant, index, flags );
     }
 
-    return wxEnumProperty::IntToValue( variant, intVal, argFlags );
+    return wxEnumProperty::IntToValue( variant, index, flags );
 }
 
-wxString wxBitmapProperty::ValueToString( wxVariant& value, int argFlags ) const
+wxString wxGDBitmapProperty::ValueToString( wxVariant& value, int flags ) const
 {
-    //wxLogDebug( "ValueToString variant=%s", value.GetType() ); TODO
     size_t index = GetIndex();
     size_t count = m_choices.GetCount();
     if( index < count )
@@ -258,32 +250,29 @@ wxString wxBitmapProperty::ValueToString( wxVariant& value, int argFlags ) const
     return wxEmptyString;
 }
 
-bool wxBitmapProperty::StringToValue( wxVariant& variant, const wxString& text,
-                                      int argFlags ) const
+bool wxGDBitmapProperty::StringToValue( wxVariant &, const wxString &, int ) const
 {
-    //wxLogDebug( "StringToValue variant=%s text=%s", variant.GetType(), text ); TODO
     return false;
 }
 
-void wxBitmapProperty::OnSetValue()
+void wxGDBitmapProperty::OnSetValue()
 {
     // Avoid to set the long value in wxEnumProperty::OnSetValue()
 }
 
-wxPGEditorDialogAdapter *wxBitmapProperty::GetEditorDialog() const
+wxPGEditorDialogAdapter *wxGDBitmapProperty::GetEditorDialog() const
 {
     return new wxPGBitmapDialogAdapter();
 }
 //=============================================================================
 // Thumbnail drawing
 //=============================================================================
-
-wxSize wxBitmapProperty::OnMeasureImage( int ) const
+wxSize wxGDBitmapProperty::OnMeasureImage( int ) const
 {
     return wxPG_DEFAULT_IMAGE_SIZE;
 }
 
-void wxBitmapProperty::OnCustomPaint( wxDC& dc, const wxRect& rect, wxPGPaintData& )
+void wxGDBitmapProperty::OnCustomPaint( wxDC& dc, const wxRect& rect, wxPGPaintData& )
 {
     if( !m_bmpThumb.IsNull() || m_imgThumb.IsOk() )
     {

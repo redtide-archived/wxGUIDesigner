@@ -20,9 +20,6 @@ wxTextCtrl( parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize,
                     wxTE_MULTILINE | wxTE_READONLY | wxTE_LEFT ),
 m_handler( handler )
 {
-    SetBackgroundColour( *wxBLACK );
-    SetForegroundColour( wxColour(0,255,0) );
-
     Bind( wxEVT_COMMAND_TEXT_UPDATED, &wxGDDebugWindow::OnTextUpdated, this );
 }
 
@@ -37,9 +34,11 @@ void wxGDDebugWindow::OnTextUpdated( wxCommandEvent &event )
     wxArrayString lines = wxStringTokenize( msg, "\n" );
     for( size_t i = 0; i < lines.GetCount(); i++ )
     {
-        if( lines.Item(i).Contains("Error") )
-            SetDefaultStyle( wxTextAttr( wxColour(255,0,0) ) );
+        if( lines.Item(i).Contains(_("Error: ") ) )
+            SetDefaultStyle( wxTextAttr( wxColour(210,0,0) ) );
+        else if( lines.Item(i).Contains(_("Warning: ") ) )
+            SetDefaultStyle( wxTextAttr( wxColour(255,150,0) ) );
         else
-            SetDefaultStyle( wxTextAttr( wxColour(0,255,0) ) );
+            SetDefaultStyle( wxTextAttr( wxColour(0,150,0) ) );
     }
 }

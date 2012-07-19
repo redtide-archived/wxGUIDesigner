@@ -11,6 +11,7 @@
 #include <wx/config.h>
 #include <wx/filename.h>
 #include <wx/fontmap.h>
+#include <wx/tokenzr.h>
 #include <wx/xml/xml.h>
 
 #include "wxguidesigner/fontcontainer.h"
@@ -73,7 +74,7 @@ wxXmlDocument wxXRCSerializer::Serialize( RTTITree tree )
     wxXmlDocument xmlDocument;
 
     int xrcVerSel;
-    wxString xrcVer = "2.5.3.0";
+    wxString xrcVer = "2.5.3.1";
     wxConfigBase::Get()->Read( "locale/selected", &xrcVerSel, 1 );
 
     if( xrcVerSel == 0 )
@@ -132,18 +133,91 @@ void wxXRCSerializer::SerializeProperties( Properties props, wxXmlNode *parent )
     for( Properties::const_iterator it = props.begin(); it != props.end(); ++it )
     {
         Property property = *it;
-        wxString name     = property->GetName();
+        wxString     name = property->GetName();
+        PropertyType type = property->GetType();
 
         // In XRC the "name" property is an attribute, skip it:
         // it is set in Serialize()
         if( name == "name" )
+        {
             continue;
+        }
+        else if( type == PROPERTY_TYPE_BITMAP )
+        {
+            wxString value = property->GetAsString();
+            if( value.empty() )
+                continue;
 
-        PropertyType type = property->GetType();
+            wxArrayString attributes = wxStringTokenize( value, ";" );
+            size_t count = attributes.GetCount();
+            if( count < 2 )
+                continue;
 
-        if( type == PROPERTY_TYPE_CATEGORY )
+            int bitmapType = wxAtoi( attributes.Item(0) );
+
+            if( bitmapType == 1 ) // wxArtProvider
+            {
+                wxXmlNode *bitmapNode =
+                new wxXmlNode( parent, wxXML_ELEMENT_NODE, name );
+
+                if( count > 1 )
+                {
+                    wxString artId  = attributes.Item(1);
+                    bitmapNode->AddAttribute("stock_id", artId );
+                }
+
+                if( count > 2 )
+                {
+                    wxString client = attributes.Item(2);
+                    bitmapNode->AddAttribute("stock_client", client );
+                }
+
+                if( count > 3 )
+                {
+                    wxString size   = attributes.Item(3);
+                    bitmapNode->AddAttribute("size", size ); // TODO
+                }
+
+            }
+            else if( bitmapType == 2 ) // File
+            {
+                value = attributes.Item(1);
+                wxXmlNode *bitmapNode =
+                new wxXmlNode( parent, wxXML_ELEMENT_NODE, name );
+                new wxXmlNode( bitmapNode, wxXML_TEXT_NODE, "", value );
+            }
+
+            continue;
+        }
+        else if( type == PROPERTY_TYPE_BOOL )
+        {
+            bool value = property->GetAsBool();
+            if( !value )
+                continue;
+
+            wxXmlNode *boolNode =
+            new wxXmlNode( parent, wxXML_ELEMENT_NODE, name );
+            new wxXmlNode( boolNode, wxXML_TEXT_NODE, "", "1" );
+
+            continue;
+        }
+        else if( type == PROPERTY_TYPE_CATEGORY )
         {
             SerializeProperties( property->GetChildren(), parent );
+            continue;
+        }
+        else if( type == PROPERTY_TYPE_COLOUR )
+        {
+            wxString value = property->GetAsString();
+            if( value.empty() )
+                continue;
+            else if( !value.Contains("wxSYS_COLOUR_") )
+                value.Prepend("rgb(").Append(")");
+
+            wxXmlNode *colourNode =
+            new wxXmlNode( parent, wxXML_ELEMENT_NODE, name );
+            new wxXmlNode( colourNode, wxXML_TEXT_NODE, "", value );
+
             continue;
         }
         else if( type == PROPERTY_TYPE_FONT )
@@ -304,6 +378,18 @@ void wxXRCSerializer::SerializeProperties( Properties props, wxXmlNode *parent )
                 new wxXmlNode( fontNode, wxXML_ELEMENT_NODE, "encoding" );
                 new wxXmlNode( encodingNode, wxXML_TEXT_NODE, "", value );
             }
+
+            continue;
+        }
+        else if( (type == PROPERTY_TYPE_POINT) || (type == PROPERTY_TYPE_SIZE) )
+        {
+            wxString value = property->GetAsString();
+            if( value.empty() || value == "-1,-1" )
+                continue;
+
+            wxXmlNode *node =
+            new wxXmlNode( parent, wxXML_ELEMENT_NODE, name );
+            new wxXmlNode( node, wxXML_TEXT_NODE, "", value );
 
             continue;
         }

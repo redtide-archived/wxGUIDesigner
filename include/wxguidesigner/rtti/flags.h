@@ -24,8 +24,9 @@ public:
     static wxFlagsManager *Get();
     static void Free();
 
-    void AddFlag( const wxString &name, int value );
-    int  GetFlag( const wxString &name );
+    void        AddFlag( const wxString &name, int value );
+    int         GetFlag( const wxString &name );
+    wxString    GetFlag( size_t index );
 
 private:
     wxFlagsManager();

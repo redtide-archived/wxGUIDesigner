@@ -41,9 +41,9 @@
         <flag name="wxDEFAULT_FRAME_STYLE">
             <description>Defined as wxMINIMIZE_BOX | wxMAXIMIZE_BOX | wxRESIZE_BORDER | wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN.</description>
         </flag>
-        <flag name="wxICONIZE">
+        <!--flag name="wxICONIZE">
             <description>Display the frame iconized (minimized). Windows only.</description>
-        </flag>
+        </flag-->
         <flag name="wxCAPTION">
             <description>Puts a caption on the frame. Notice that this flag is required by wxMINIMIZE_BOX, wxMAXIMIZE_BOX and wxCLOSE_BOX on most systems as the corresponding buttons cannot be shown if the window has no title bar at all. I.e. if wxCAPTION is not specified those styles would be simply ignored.</description>
         </flag>

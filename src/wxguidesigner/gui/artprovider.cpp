@@ -17,6 +17,8 @@
 #include <wx/string.h>
 #include <wx/xml/xml.h>
 
+#include <wx/log.h>
+
 #include "wxguidesigner/gui/artprovider.h"
 #include "wxguidesigner/rtti/database.h"
 #include "wxguidesigner/utils.h"
@@ -24,34 +26,10 @@
 using namespace wxGDArtProvider;
 
 wxGDIconCategoryMap  wxGDArtProvider::Categories;
-wxImageList         *wxGDArtProvider::ImageList      = NULL;
-wxImageList         *wxGDArtProvider::SmallImageList = NULL;
 
-void wxGDArtProvider::Init()
-{
-    if(!wxImage::FindHandler( wxBITMAP_TYPE_PNG ))
-        wxImage::AddHandler( new wxPNGHandler);
-
-    if(!SmallImageList)
-    {
-        SmallImageList = new wxImageList( 16,16 );
-
-        wxBitmap bmp = wxArtProvider::GetBitmap
-                        ( wxART_MISSING_IMAGE, wxART_OTHER, wxSize( 16,16 ) );
-        SmallImageList->Add( bmp );
-    }
-
-    if(!ImageList)
-    {
-        ImageList = new wxImageList( 22,22 );
-
-        wxBitmap bmp = wxArtProvider::GetBitmap
-                        ( wxART_MISSING_IMAGE, wxART_OTHER, wxSize( 22,22 ) );
-        ImageList->Add( bmp );
-    }
-}
-
-void wxGDArtProvider::Load( const wxString &categoryName, bool useSmallIcons )
+void wxGDArtProvider::Load( const wxString &categoryName,
+                            wxImageList *smallImageList,
+                            wxImageList *largeImageList, bool useSmallIcons )
 {
     // No duplicates
     if( CategoryExists( categoryName ) )
@@ -66,8 +44,6 @@ void wxGDArtProvider::Load( const wxString &categoryName, bool useSmallIcons )
     if( !dbDir.IsOpened() )
         return;
 
-    Init();
-
     // E.g. 'controls.xml'
     wxString   xmlFilePath = dbPath  + wxFILE_SEP_PATH + categoryName + ".xml";
     wxFileName xmlFileName( xmlFilePath ); 
@@ -77,19 +53,13 @@ void wxGDArtProvider::Load( const wxString &categoryName, bool useSmallIcons )
         if(!xmlFileName.IsAbsolute())
             xmlFileName.MakeAbsolute();
 
-        LoadXML( xmlFileName, useSmallIcons );
+        LoadXML( xmlFileName, smallImageList, largeImageList, useSmallIcons );
     }
 }
 
 void wxGDArtProvider::Unload()
 {
     Categories.clear();
-
-    if( ImageList )
-        delete ImageList;
-
-    if( SmallImageList )
-        delete SmallImageList;
 }
 
 size_t wxGDArtProvider::GetGroupCount( const wxString &category )
@@ -97,7 +67,10 @@ size_t wxGDArtProvider::GetGroupCount( const wxString &category )
     return Categories[category].size();
 }
 
-bool wxGDArtProvider::LoadXML( const wxFileName &xmlFileName, bool useSmallIcons )
+bool wxGDArtProvider::LoadXML( const wxFileName &xmlFileName,
+                                    wxImageList *smallImageList,
+                                    wxImageList *largeImageList,
+                                    bool useSmallIcons )
 {
     wxXmlDocument doc;
     if( !doc.Load( xmlFileName.GetFullPath() ) )
@@ -119,7 +92,7 @@ bool wxGDArtProvider::LoadXML( const wxFileName &xmlFileName, bool useSmallIcons
 
         int grpsImgIdx = 0;
         if( bmp.IsOk() )
-            grpsImgIdx = SmallImageList->Add( bmp );
+            grpsImgIdx = smallImageList->Add( bmp );
 
         wxGDIconGroupNames  groupNames( groupName, groupLabel );
         wxGDIconGroupInfo   groupInfo( groupNames, grpsImgIdx );
@@ -136,13 +109,15 @@ bool wxGDArtProvider::LoadXML( const wxFileName &xmlFileName, bool useSmallIcons
             if( separator )
             {
                 itemName = "-";
-            }/*
+            }
             else if( xmlFileName.GetName() == "controls" )
             {
                 wasOk = ClassInfoDB::Get()->ClassInfoExists( itemName );
                 if( !wasOk )
-//                  wxLogDebug("Discarding %s", itemName);
-            }*/
+                {
+                    wxLogDebug("Discarding %s", itemName);
+                }
+            }
             else
             {
                 wasOk = (itemNode->GetName() == "item") && !itemName.empty();
@@ -160,13 +135,14 @@ bool wxGDArtProvider::LoadXML( const wxFileName &xmlFileName, bool useSmallIcons
             if( bmp.IsOk() )
             {
                 if( useSmallIcons )
-                    itmsImgIdx = SmallImageList->Add( bmp );
+                    itmsImgIdx = smallImageList->Add( bmp );
                 else
-                    itmsImgIdx = ImageList->Add( bmp );
+                    itmsImgIdx = largeImageList->Add( bmp );
             }
 
             wxGDIconInfo iconInfo( itemName, itmsImgIdx );
             iconInfos.push_back( iconInfo );
+
             itemNode = itemNode->GetNext();
         }
 

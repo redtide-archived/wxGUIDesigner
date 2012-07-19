@@ -85,6 +85,14 @@ int wxFlagsManager::GetFlag( const wxString &name )
     return 0; // Default style
 }
 
+wxString wxFlagsManager::GetFlag( size_t index )
+{
+    if( index < m_flagNames.GetCount() )
+        return m_flagNames.Item( index );
+
+    return wxEmptyString;
+}
+
 void wxFlagsManager::Init()
 {
     // TODO: seems that 0 is not a valid value for the wxIntProperty,

@@ -67,6 +67,9 @@
 wxGDHandler::wxGDHandler()
 :
 wxEvtHandler(),
+m_about         ( NULL ),
+m_largeImgs     ( NULL ),
+m_smallImgs     ( NULL ),
 m_menuBar       ( NULL ),
 m_toolBar       ( NULL ),
 m_frame         ( NULL ),
@@ -105,8 +108,24 @@ m_tree          ( new ObjectTree() )//,
     wxConfigBase::Get()->Read( "locale/enabled",  &enabled,  false );
     wxConfigBase::Get()->Read( "locale/selected", &selected, 0 );
 
+/*
+    if(!wxImage::FindHandler( wxBITMAP_TYPE_PNG ))
+        wxImage::AddHandler( new wxPNGHandler);
+*/
+    wxInitAllImageHandlers();
+
     // Load imagelists shared by wxGDTreeView and wxGDToolPalette
-    wxGDArtProvider::Load("controls");
+    m_smallImgs  = new wxImageList( 16,16 );
+    wxBitmap bmp = wxArtProvider::GetBitmap
+                    ( wxART_MISSING_IMAGE, wxART_OTHER, wxSize( 16,16 ) );
+    m_smallImgs->Add( bmp );
+
+    m_largeImgs = new wxImageList( 22,22 );
+    bmp         = wxArtProvider::GetBitmap
+                    ( wxART_MISSING_IMAGE, wxART_OTHER, wxSize( 22,22 ) );
+    m_largeImgs->Add( bmp );
+
+    wxGDArtProvider::Load( "controls", m_smallImgs, m_largeImgs );
 
     if( enabled )
     {
@@ -128,6 +147,9 @@ wxGDHandler::~wxGDHandler()
 //  wxXmlResource::Get()->ClearHandlers(); done in wxXmlResource dtor
     wxGDArtProvider::Unload();
 //  m_tree = shared_ptr< ObjectTree >();
+
+    delete m_smallImgs;
+    delete m_largeImgs;
 }
 
 wxFrame *wxGDHandler::GetMainFrame( wxWindow *parent )
@@ -161,7 +183,10 @@ wxGDDebugWindow *wxGDHandler::GetDebugWindow( wxWindow *parent )
 #endif
 wxDialog *wxGDHandler::GetAboutDialog( wxWindow *parent )
 {
-    return wxXmlResource::Get()->LoadDialog( parent, "About" );
+    if( !m_about )
+        m_about = wxXmlResource::Get()->LoadDialog( parent, "About" );
+
+    return m_about;
 }
 
 wxDialog *wxGDHandler::GetSettingsDialog( wxWindow *parent )
@@ -174,7 +199,7 @@ wxNotebook *wxGDHandler::GetEditorBook( wxWindow *parent )
     if(!m_editBook)
     {
         // Force groups to use small imagelist
-        wxGDArtProvider::Load( "languages", true );
+        wxGDArtProvider::Load( "languages", m_smallImgs, m_largeImgs, true );
 
         m_editBook = new wxGDEditorBook( this, parent );
         m_handlers.push_back( m_editBook );
@@ -405,14 +430,14 @@ void wxGDHandler::InitAllXmlHandlers()
     wxXmlResource::Get()->AddHandler(new wxGaugeXmlHandler);
 #endif
 #if wxUSE_GRID
-    wxXmlResource::Get()->AddHandler( new wxGridXmlHandler);
+    wxXmlResource::Get()->AddHandler(new wxGridXmlHandler);
 #endif
 #if wxUSE_HTML
     wxXmlResource::Get()->AddHandler(new wxHtmlWindowXmlHandler);
     wxXmlResource::Get()->AddHandler(new wxSimpleHtmlListBoxXmlHandler);
 #endif
 #if wxUSE_HYPERLINKCTRL
-    wxXmlResource::Get()->AddHandler( new wxHyperlinkCtrlXmlHandler);
+    wxXmlResource::Get()->AddHandler(new wxHyperlinkCtrlXmlHandler);
 #endif
 #if wxUSE_LISTBOOK
     wxXmlResource::Get()->AddHandler(new wxListbookXmlHandler);

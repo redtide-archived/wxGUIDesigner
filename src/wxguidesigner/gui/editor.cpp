@@ -78,7 +78,7 @@ m_handler( handler )
     designerSizer->Fit( m_designer );
 */
     // Editor imagelist
-    wxImageList *imageList = wxGDArtProvider::SmallImageList;
+    wxImageList *imageList = m_handler->GetSmallImageList();
     if( !imageList )
         return;
 
@@ -124,7 +124,7 @@ void wxGDEditorBook::LoadCodeEditorPages()
         if( count )
         {
             wxNotebook  *nb        = new wxNotebook( this, wxID_ANY );
-            wxImageList *imageList = wxGDArtProvider::SmallImageList;
+            wxImageList *imageList = GetImageList();
 
             if( !imageList )
                 continue;

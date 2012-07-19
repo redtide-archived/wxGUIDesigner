@@ -138,9 +138,6 @@ m_value         ( propertyInfo->GetDefaultValue() )
 
 PropertyNode::~PropertyNode()
 {
-    if( !m_value.IsNull() )
-        m_value.MakeNull();
-
     m_children.clear();
 }
 
@@ -169,16 +166,13 @@ PropertyInfo PropertyNode::GetInfo() const
     return m_propertyInfo;
 }
 
-size_t PropertyNode::GetChildCount() const
+bool PropertyNode::IsCategory() const
 {
-    return m_children.size();
+    return( m_propertyInfo->GetType() == PROPERTY_TYPE_CATEGORY );
 }
-
-Properties PropertyNode::GetChildren() const
-{
-    return m_children;
-}
-
+//-----------------------------------------------------------------------------
+// Children
+//-----------------------------------------------------------------------------
 void PropertyNode::AddChild( Property property )
 {
     if( !property )
@@ -197,6 +191,26 @@ void PropertyNode::AddChild( Property property )
     }
 }
 
+Property PropertyNode::GetChild( size_t index  ) const
+{
+    if( index < m_children.size() )
+        return m_children.at( index );
+
+    return Property();
+}
+
+Properties PropertyNode::GetChildren() const
+{
+    return m_children;
+}
+
+size_t PropertyNode::GetChildCount() const
+{
+    return m_children.size();
+}
+//-----------------------------------------------------------------------------
+// Attributes
+//-----------------------------------------------------------------------------
 void PropertyNode::AddAttribute( const wxString &name, const wxString &value )
 {
     Attribute attr = make_pair( name, value );
@@ -232,116 +246,86 @@ size_t PropertyNode::GetAttributeCount() const
 {
     return m_attributes.size();
 }
-//=============================================================================
+//-----------------------------------------------------------------------------
 // Getters
-//=============================================================================
+//-----------------------------------------------------------------------------
+using namespace wxGD::Convert;
+
 wxArrayString PropertyNode::GetAsArrayString() const
 {
-    if( m_value.CheckType< wxArrayString >() )
-        return m_value.As< wxArrayString >();
-
-    return wxArrayString();
+    return StringToArrayString( m_value );
 }
 
-wxBitmap PropertyNode::GetAsBitmap() const
+int PropertyNode::GetAsBitmapType() const
 {
-    if( m_value.CheckType< wxBitmap >() )
-        return m_value.As< wxBitmap >();
-
-    return wxBitmap();
+    wxString value( m_value );
+    return StringToBitmapType( value );
 }
 
 bool PropertyNode::GetAsBool() const
 {
-    if( m_value.CheckType< bool >() )
-        return m_value.As< bool >();
-
-    return false;
+    return StringToBool( m_value );
 }
 
-Colour PropertyNode::GetAsColour() const
+int PropertyNode::GetAsSystemColour() const
 {
-    if( m_value.CheckType< wxString >() )
-    {
-        wxString strCol = m_value.As< wxString >();
-        if( strCol.StartsWith("wxSYS_COLOUR_") )
-        {
-            int sysColIdx = wxGDConv::GetSystemColourIndex( strCol );
-            if( sysColIdx != wxNOT_FOUND )
-            {
-                Colour sysCol = { wxGDConv::GetSystemColourIndex( strCol ) };
-                return sysCol;
-            }
-        }
-    }
-    else if( m_value.CheckType< Colour >() )
-    {
-        return m_value.As< Colour >();
-    }
+    // System or Default Colour
+    wxColour colour = StringToColour( m_value );
+    if( colour == wxNullColour )
+        return StringToSystemColourIndex( m_value );
 
-    return Colour();
+    // Custom Colour
+    return 0xFFFFFF;
+}
+
+wxColour PropertyNode::GetAsColour() const
+{
+    // Default Colour
+    if( m_value.empty() )
+        return wxNullColour;
+
+    // System Colour or Default Colour
+    wxColour colour = StringToSystemColour( m_value );
+    if( colour != wxNullColour )
+        return colour;
+
+    // Custom Colour
+    return StringToColour( m_value );
 }
 
 double PropertyNode::GetAsDouble() const
 {
-    if( m_value.CheckType< double >() )
-        return m_value.As< double >();
-
-    return 0.0;
+    return StringToFloat( m_value );
 }
 
 wxFontContainer PropertyNode::GetAsFont() const
 {
-    return wxGDConv::StringToFont( m_value.As< wxString >() );
+    return StringToFont( m_value );
 }
 
-int PropertyNode::GetAsInt() const
+int PropertyNode::GetAsInteger() const
 {
-    if( m_value.CheckType< wxString >() )
-    {
-        return wxGDConv::StringToInt( m_value.As< wxString >() );
-    }
-    else if( m_value.CheckType< int >() )
-    {
-        return m_value.As< int >();
-    }
-    return 0;
+    return StringToInteger( m_value );
 }
 
 wxPoint PropertyNode::GetAsPoint() const
 {
-    if( m_value.CheckType< wxPoint >() )
-        return m_value.As< wxPoint >();
-
-    return wxDefaultPosition;
+    return StringToPoint( m_value );
 }
 
 wxSize PropertyNode::GetAsSize() const
 {
-    if( m_value.CheckType< wxSize >() )
-        return m_value.As< wxSize >();
-
-    return wxDefaultSize;
+    return StringToSize( m_value );
 }
 
 wxString PropertyNode::GetAsString() const
 {
-//  wxLogDebug("name: %s", GetName());
-    wxString str = wxEmptyString;
-
-    str = wxGDConv::AnyToString( m_value );
-
-//  wxLogDebug("value: %s", str);
-
-    return str;
+    return m_value;
 }
 
 int PropertyNode::GetAsStyle() const
 {
-    if( m_value.CheckType< int >() )
-        return m_value.As< int >();
-
-    return 0;
+    return StringToFlag( m_value );
 }
 
 wxString PropertyNode::GetAsText() const
@@ -353,23 +337,73 @@ wxString PropertyNode::GetAsURL() const
 {
     return GetAsString(); // TODO
 }
-
-bool PropertyNode::IsCategory() const
-{
-    return( m_propertyInfo->GetType() == PROPERTY_TYPE_CATEGORY );
-}
-
-Property PropertyNode::GetChild( size_t index  ) const
-{
-    if( index < m_children.size() )
-        return m_children.at( index );
-
-    return Property();
-}
-
-void PropertyNode::SetValue( const wxAny &value )
+//-----------------------------------------------------------------------------
+// Setters
+//-----------------------------------------------------------------------------
+void PropertyNode::SetValue( const wxString &value )
 {
     m_value = value;
+}
+
+void PropertyNode::SetValue( int value )
+{
+    m_value = IntegerToString(value);
+}
+
+void PropertyNode::SetValue( bool value )
+{
+    m_value = BoolToString(value);
+}
+
+void PropertyNode::SetValue( double value )
+{
+    m_value = FloatToString(value);
+}
+
+void PropertyNode::SetValue( const wxArrayString &value )
+{
+    m_value = ArrayStringToString(value);
+}
+
+void PropertyNode::SetValue( int bitmapType, const wxString &value )
+{
+    m_value = BitmapTypeToString( bitmapType, value );
+}
+
+void PropertyNode::SetValue( const wxColour &colour, int type )
+{
+    switch( type )
+    {
+        case 0:         // Default
+        {
+            m_value = wxEmptyString;
+            break;
+        }
+        case 0xFFFFFF:  // Custom Colour
+        {
+            m_value = ColourToString( colour, type );
+            break;
+        }
+        default:        // System Colour
+        {
+            m_value = SystemColourToString( type );
+        }
+    }
+}
+
+void PropertyNode::SetValue( const wxFontContainer &value )
+{
+    m_value = FontToString(value);
+}
+
+void PropertyNode::SetValue( const wxPoint &value )
+{
+    m_value = PointToString(value);
+}
+
+void PropertyNode::SetValue( const wxSize &value )
+{
+    m_value = SizeToString(value);
 }
 //=============================================================================
 // ObjectNode Class

@@ -362,10 +362,7 @@ void wxGDMainFrame::OnAbout( wxCommandEvent & )
 
     wxDialog *dlg = m_handler->GetAboutDialog( this );
     if( dlg )
-    {
         dlg->ShowModal();
-        dlg->Destroy();
-    }
 }
 
 void wxGDMainFrame::OnPreferences( wxCommandEvent & )

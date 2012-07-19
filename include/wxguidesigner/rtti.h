@@ -89,7 +89,6 @@ class wxString;
 // Note: unique_ptr not available and scoped_ptr can't be used
 //       inside STL containers
 //=============================================================================
-
 typedef shared_ptr< ChildInfoNode >     ChildInfo;
 typedef shared_ptr< EventInfoNode >     EventInfo;
 typedef shared_ptr< EventTypeInfoNode > EventTypeInfo;
@@ -111,14 +110,6 @@ class EventNode;
 class PropertyNode;
 class ObjectNode;
 class ObjectTree;
-
-// TODO: Remove these using wxColour GetAsColour() and int GetAsInt()
-//       for the default/system/custom colour and index?
-struct Colour
-{
-    wxInt32  type;
-    wxColour colour;
-};
 
 typedef pair< wxString, wxString >  Attribute;
 typedef shared_ptr< EventNode >     Event;

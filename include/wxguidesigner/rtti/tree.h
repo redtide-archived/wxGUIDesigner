@@ -13,7 +13,6 @@
 
 #include "wxguidesigner/rtti.h"
 
-class wxAny;
 class wxBitmap;
 class wxColour;
 class wxFontContainer;
@@ -61,41 +60,59 @@ public:
     wxString        GetDescription()    const;
     PropertyType    GetType()           const;
     PropertyInfo    GetInfo()           const;
-
-    wxArrayString   GetAsArrayString()  const;
-    wxBitmap        GetAsBitmap()       const;
-    bool            GetAsBool()         const;
-    Colour          GetAsColour()       const;
-    double          GetAsDouble()       const;
-    wxFontContainer GetAsFont()         const;
-    int             GetAsInt()          const;
-    wxPoint         GetAsPoint()        const;
-    wxSize          GetAsSize()         const;
-    wxString        GetAsString()       const;
-    int             GetAsStyle()        const;
-    wxString        GetAsText()         const;
-    wxString        GetAsURL()          const;
-
+    bool            IsCategory()        const;
+//-----------------------------------------------------------------------------
+// Children
+//-----------------------------------------------------------------------------
     void            AddChild( Property prop );
     Property        GetChild( size_t index ) const;
     Properties      GetChildren()            const;
-    bool            IsCategory()             const;
     size_t          GetChildCount()          const;
-
+//-----------------------------------------------------------------------------
+// Attributes
+//-----------------------------------------------------------------------------
     void            AddAttribute      ( const wxString &name,
                                         const wxString &value );
     Attribute       GetAttribute      ( size_t index ) const;
     wxString        GetAttributeName  ( size_t index ) const;
     wxString        GetAttributeValue ( size_t index ) const;
     size_t          GetAttributeCount()                const;
-
-    void            SetValue( const wxAny &value );
-
+//-----------------------------------------------------------------------------
+// Getters
+//-----------------------------------------------------------------------------
+    int             GetAsInteger()      const;
+    int             GetAsStyle()        const;
+    int             GetAsSystemColour() const;
+    bool            GetAsBool()         const;
+    double          GetAsDouble()       const;
+    wxArrayString   GetAsArrayString()  const;
+    int             GetAsBitmapType()   const;
+    wxColour        GetAsColour()       const;
+    wxFontContainer GetAsFont()         const;
+    wxPoint         GetAsPoint()        const;
+    wxSize          GetAsSize()         const;
+    wxString        GetAsString()       const;
+    wxString        GetAsText()         const;
+    wxString        GetAsURL()          const;
+//-----------------------------------------------------------------------------
+// Setters
+//-----------------------------------------------------------------------------
+    void            SetValue( int                   value );
+    void            SetValue( bool                  value );
+    void            SetValue( double                value );
+    void            SetValue( const wxArrayString   &value );
+    void            SetValue( const wxFontContainer &value );
+    void            SetValue( const wxPoint         &value );
+    void            SetValue( const wxSize          &value );
+    void            SetValue( const wxString        &value );
+    void            SetValue( int   bitmapType,
+                              const wxString        &value );
+    void            SetValue( const wxColour        &value, int type = 0xFFFFFF );
 private:
     Attributes      m_attributes;
     PropertyInfo    m_propertyInfo;
     Properties      m_children;
-    wxAny           m_value;
+    wxString        m_value;
 };
 //=============================================================================
 // ObjectNode Class

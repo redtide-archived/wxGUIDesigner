@@ -8,17 +8,19 @@
 // Copyleft:    (ɔ) Andrea Zanellato
 // Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
-#include "wxguidesigner/utils.h"
-#include "wxguidesigner/gui/propgrid/props.h"
+#include <wx/propgrid/propgrid.h>
+#include <wx/propgrid/advprops.h>
 
-#include <wx/settings.h>
+#include "wxguidesigner/utils.h"
+#include "wxguidesigner/fontcontainer.h"
+#include "wxguidesigner/gui/propgrid/props.h"
 //=============================================================================
-// wxSizeProperty
+// wxGDSizeProperty
 //=============================================================================
-WX_PG_IMPLEMENT_PROPERTY_CLASS( wxSizeProperty, wxPGProperty,
+WX_PG_IMPLEMENT_PROPERTY_CLASS( wxGDSizeProperty, wxPGProperty,
                                 wxSize, const wxSize&, TextCtrl )
 
-wxSizeProperty::wxSizeProperty( const wxString &label,
+wxGDSizeProperty::wxGDSizeProperty( const wxString &label,
                                 const wxString &name,
                                 const wxSize   &value )
 :
@@ -29,11 +31,11 @@ wxPGProperty( label, name )
     AddPrivateChild( new wxIntProperty( _("Height"), wxPG_LABEL, value.y ) );
 }
 
-wxSizeProperty::~wxSizeProperty()
+wxGDSizeProperty::~wxGDSizeProperty()
 {
 }
 
-void wxSizeProperty::RefreshChildren()
+void wxGDSizeProperty::RefreshChildren()
 {
     if( !GetChildCount() ) return;
 
@@ -43,7 +45,7 @@ void wxSizeProperty::RefreshChildren()
     Item(1)->SetValue( (long)size.y );
 }
 
-wxVariant wxSizeProperty::ChildChanged( wxVariant &thisValue,
+wxVariant wxGDSizeProperty::ChildChanged( wxVariant &thisValue,
                                         int       childIndex,
                                         wxVariant &childValue ) const
 {
@@ -70,12 +72,12 @@ wxVariant wxSizeProperty::ChildChanged( wxVariant &thisValue,
     return newVariant;
 }
 //=============================================================================
-// wxPointProperty
+// wxGDPointProperty
 //=============================================================================
-WX_PG_IMPLEMENT_PROPERTY_CLASS( wxPointProperty, wxPGProperty, wxPoint,
+WX_PG_IMPLEMENT_PROPERTY_CLASS( wxGDPointProperty, wxPGProperty, wxPoint,
                                 const wxPoint&, TextCtrl )
 
-wxPointProperty::wxPointProperty  ( const wxString &label,
+wxGDPointProperty::wxGDPointProperty  ( const wxString &label,
                                     const wxString &name,
                                     const wxPoint  &value )
 :
@@ -86,26 +88,26 @@ wxPGProperty( label, name )
     AddPrivateChild( new wxIntProperty( "Y", wxPG_LABEL, value.y ) );
 }
 
-wxPointProperty::~wxPointProperty()
+wxGDPointProperty::~wxGDPointProperty()
 {
 }
 
-void wxPointProperty::RefreshChildren()
+void wxGDPointProperty::RefreshChildren()
 {
     if( !GetChildCount() )
         return;
 
-    const wxPoint& point = wxPointRefFromVariant( m_value );
+    const wxPoint &point = wxPointRefFromVariant( m_value );
 
     Item(0)->SetValue( (long)point.x );
     Item(1)->SetValue( (long)point.y );
 }
 
-wxVariant wxPointProperty::ChildChanged(wxVariant &thisValue,
+wxVariant wxGDPointProperty::ChildChanged(wxVariant &thisValue,
                                         int       childIndex,
                                         wxVariant &childValue) const
 {
-    wxPoint& point = wxPointRefFromVariant( thisValue );
+    wxPoint &point = wxPointRefFromVariant( thisValue );
 
     int val = childValue.GetLong();
     switch( childIndex )
@@ -210,7 +212,274 @@ wxSystemColourProperty( label, name, gs_cp_labels, gs_cp_values,
 wxGDColourProperty::~wxGDColourProperty()
 {
 }
+//=============================================================================
+// wxGDFlagsProperty
+//=============================================================================
+IMPLEMENT_DYNAMIC_CLASS( wxGDFlagsProperty, wxPGProperty )
 
+WX_PG_IMPLEMENT_PROPERTY_CLASS_PLAIN( wxGDFlagsProperty, long, TextCtrl )
+
+void wxGDFlagsProperty::Init()
+{
+    long value = m_value;
+
+    // Generate children
+    size_t prevChildCount = m_children.size();
+
+    int oldSelection = -1;
+    if( prevChildCount )
+    {
+        wxPropertyGridPageState* state = GetParentState();
+
+        // State safety check (it may be NULL in immediate parent)
+        wxASSERT( state );
+
+        if( state )
+        {
+            wxPGProperty* selected = state->GetSelection();
+            if( selected )
+            {
+                if( selected->GetParent() == this )
+                    oldSelection = selected->GetIndexInParent();
+                else if( selected == this )
+                    oldSelection = -2;
+            }
+        }
+        state->DoClearSelection();
+    }
+
+    // Delete old children
+    for( size_t i = 0; i < prevChildCount; i++ )
+        delete m_children[i];
+
+    m_children.clear();
+
+    if( m_choices.IsOk() )
+    {
+        for( size_t i = 0; i < GetItemCount(); i++ )
+        {
+            bool childValue = ( value & m_choices.GetValue(i) ) ? true : false;
+            wxString label  = GetLabel(i);
+
+            wxPGProperty* boolProp = NULL;
+#if wxUSE_INTL
+            if( wxPGGlobalVars->m_autoGetTranslation )
+            {
+                boolProp =
+                new wxBoolProperty( ::wxGetTranslation(label), label, childValue );
+            }
+            else
+#endif
+            {
+                boolProp = new wxBoolProperty( label, label, childValue );
+            }
+
+            boolProp->SetAttribute( wxPG_BOOL_USE_CHECKBOX, true );
+
+            AddPrivateChild( boolProp );
+        }
+
+        m_oldChoicesData = m_choices.GetDataPtr();
+    }
+
+    m_oldValue = m_value;
+
+    if( prevChildCount )
+        SubPropsChanged( oldSelection );
+}
+
+wxGDFlagsProperty::wxGDFlagsProperty  ( const wxString      &label,
+                                        const wxString      &name,
+                                        const wxArrayString &labels,
+                                        const wxArrayInt    &values,
+                                        int                 value )
+:
+wxPGProperty( label, name )
+{
+    m_oldChoicesData = NULL;
+
+    if( &labels && labels.size() )
+    {
+        m_choices.Set( labels, values );
+
+        wxASSERT( GetItemCount() );
+
+        SetValue( (long)value );
+    }
+    else
+    {
+        m_value = wxPGGlobalVars->m_vZero;
+    }
+}
+
+wxGDFlagsProperty::~wxGDFlagsProperty()
+{
+}
+
+void wxGDFlagsProperty::OnSetValue()
+{
+    if( !m_choices.IsOk() || !GetItemCount() )
+    {
+        m_value = wxPGGlobalVars->m_vZero;
+    }
+    else
+    {
+        long val = m_value.GetLong();
+        long fullFlags = 0;
+
+        // normalize the value (i.e. remove extra flags)
+        for( size_t i = 0; i < GetItemCount(); i++ )
+        {
+            fullFlags |= m_choices.GetValue(i);
+        }
+
+        val &= fullFlags;
+
+        m_value = val;
+
+        // Need to (re)init now?
+        if( GetChildCount() != GetItemCount() ||
+            m_choices.GetDataPtr() != m_oldChoicesData )
+        {
+            Init();
+        }
+    }
+
+    long newFlags = m_value;
+    if( newFlags != m_oldValue )
+    {
+        // Set child modified states
+        for( size_t i = 0; i<GetItemCount(); i++ )
+        {
+            int flag = m_choices.GetValue(i);
+
+            if( (newFlags & flag) != (m_oldValue & flag) )
+                Item(i)->ChangeFlag( wxPG_PROP_MODIFIED, true );
+        }
+
+        m_oldValue = newFlags;
+    }
+}
+
+wxString wxGDFlagsProperty::ValueToString( wxVariant &value, int ) const
+{
+    wxString text;
+
+    if( !m_choices.IsOk() )
+        return text;
+
+    long flags = value;
+
+    for( size_t i = 0; i < GetItemCount(); i++ )
+    {
+        int doAdd = ( flags & m_choices.GetValue(i) );
+        if( doAdd )
+        {
+            text += m_choices.GetLabel(i);
+            text += "|";
+        }
+    }
+
+    // remove last or
+    size_t textLength = text.length();
+    if( textLength > 1 )
+        text.Truncate ( textLength - 1 );
+
+    return text;
+}
+// Translate string into flag tokens
+bool wxGDFlagsProperty::StringToValue( wxVariant &variant, const wxString &text, int ) const
+{
+    if( !m_choices.IsOk() )
+        return false;
+
+    long newFlags = 0;
+
+    // semicolons are no longer valid delimeters
+    WX_PG_TOKENIZER1_BEGIN( text, '|' )
+        if( !token.empty() )
+        {
+            // Determine which one it is
+            long bit = IdToBit( token );
+            if( bit != -1 )
+                newFlags |= bit; // Changed?
+            else
+                break;
+        }
+    WX_PG_TOKENIZER1_END()
+
+    if( variant != (long)newFlags )
+    {
+        variant = (long)newFlags;
+        return true;
+    }
+
+    return false;
+}
+
+// Converts string id to a relevant bit.
+long wxGDFlagsProperty::IdToBit( const wxString &id ) const
+{
+    for( size_t i = 0; i < GetItemCount(); i++ )
+    {
+        if( id == GetLabel(i) )
+            return m_choices.GetValue(i);
+    }
+
+    return -1;
+}
+
+void wxGDFlagsProperty::RefreshChildren()
+{
+    if( !m_choices.IsOk() || !GetChildCount() )
+        return;
+
+    int flags = m_value.GetLong();
+
+    for( size_t i = 0; i < GetItemCount(); i++ )
+    {
+        long flag   = m_choices.GetValue(i);
+        long subVal = flags & flag;
+
+        wxPGProperty* p = Item(i);
+
+        if( subVal != (m_oldValue & flag ) )
+            p->ChangeFlag( wxPG_PROP_MODIFIED, true );
+
+        p->SetValue( subVal ? true : false );
+    }
+
+    m_oldValue = flags;
+}
+
+wxVariant wxGDFlagsProperty::ChildChanged ( wxVariant &thisValue, int childIndex,
+                                            wxVariant &childValue ) const
+{
+    long oldValue = thisValue.GetLong();
+    long value = childValue.GetLong();
+    unsigned long vi = m_choices.GetValue(childIndex);
+
+    if( value )
+        return (long) (oldValue | vi);
+
+    return (long) (oldValue & ~(vi));
+}
+
+bool wxGDFlagsProperty::DoSetAttribute( const wxString &name, wxVariant &value )
+{
+    if( name == wxPG_BOOL_USE_CHECKBOX ||
+        name == wxPG_BOOL_USE_DOUBLE_CLICK_CYCLING )
+    {
+        for( size_t i=0; i<GetChildCount(); i++ )
+        {
+            Item(i)->SetAttribute(name, value);
+        }
+        // Must return false so that the attribute is stored in
+        // flag property's actual property storage
+        return false;
+    }
+    return false;
+}
 //=============================================================================
 // wxGDFontProperty
 //=============================================================================
@@ -271,6 +540,8 @@ static const long gs_fp_es_weight_values[] = {
 static wxArrayString gs_fp_es_encodings;
 static wxArrayInt gs_fp_es_encodings_vals;
 
+using namespace wxGD::Convert;
+
 WX_PG_IMPLEMENT_PROPERTY_CLASS( wxGDFontProperty, wxPGProperty, wxFont,
                                 const wxFont &, TextCtrlAndButton )
 
@@ -280,7 +551,7 @@ wxGDFontProperty::wxGDFontProperty( const wxString          &label,
 :
 wxPGProperty( label, name )
 {
-    SetValue( WXVARIANT( wxGDConv::FontToString( value ) ) );
+    SetValue( WXVARIANT( FontToString( value ) ) );
 
     // Initialize font family choices list
     if( !wxPGGlobalVars->m_fontFamilyChoices )
@@ -359,9 +630,9 @@ void wxGDFontProperty::OnSetValue()
 {
 }
 
-wxString wxGDFontProperty::ValueToString( wxVariant &value, int argFlags ) const
+wxString wxGDFontProperty::ValueToString( wxVariant &value, int flags ) const
 {
-    return wxPGProperty::ValueToString( value, argFlags );
+    return wxPGProperty::ValueToString( value, flags );
 }
 
 bool wxGDFontProperty::OnEvent( wxPropertyGrid* propgrid,
@@ -371,7 +642,7 @@ bool wxGDFontProperty::OnEvent( wxPropertyGrid* propgrid,
     if( propgrid->IsMainButtonEvent( event ) )
     {
         wxFontData      data;
-        wxFontContainer font = wxGDConv::StringToFont( m_value.GetString() );
+        wxFontContainer font = StringToFont( m_value.GetString() );
 
         data.SetInitialFont( font );
         data.SetColour( *wxBLACK );
@@ -382,7 +653,7 @@ bool wxGDFontProperty::OnEvent( wxPropertyGrid* propgrid,
             propgrid->EditorsValueWasModified();
 
             wxFontContainer font    = dlg.GetFontData().GetChosenFont();
-            wxVariant       variant = WXVARIANT( wxGDConv::FontToString(font) );
+            wxVariant       variant = WXVARIANT( FontToString(font) );
 
             SetValueInEvent( variant );
             return true;
@@ -394,7 +665,7 @@ bool wxGDFontProperty::OnEvent( wxPropertyGrid* propgrid,
 
 void wxGDFontProperty::RefreshChildren()
 {
-    wxFontContainer font = wxGDConv::StringToFont( m_value.GetString() );
+    wxFontContainer font = StringToFont( m_value.GetString() );
 
     Item(0)->SetValue( font.GetPointSize() );
     Item(1)->SetValue( font.GetFamily() );
@@ -409,7 +680,7 @@ wxVariant wxGDFontProperty::ChildChanged  ( wxVariant &thisValue,
                                             int       index,
                                             wxVariant &childValue ) const
 {
-    wxFontContainer font = wxGDConv::StringToFont( thisValue.GetString() );
+    wxFontContainer font = StringToFont( thisValue.GetString() );
 
     switch( index )
     {
@@ -474,6 +745,6 @@ wxVariant wxGDFontProperty::ChildChanged  ( wxVariant &thisValue,
         }
     }
 
-    thisValue = WXVARIANT( wxGDConv::FontToString(font) );
+    thisValue = WXVARIANT( FontToString(font) );
     return thisValue;
 }

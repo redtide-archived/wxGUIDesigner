@@ -16,6 +16,7 @@
 #include <wx/splitter.h>
 #include <wx/html/htmlwin.h>
 #include <wx/propgrid/propgrid.h>
+#include <wx/propgrid/advprops.h>
 #include <wx/tokenzr.h>
 #include <wx/xrc/xmlres.h>
 
@@ -23,12 +24,17 @@
 #include "wxguidesigner/rtti/database.h"
 #include "wxguidesigner/rtti/tree.h"
 
+#include "wxguidesigner/events.h"
+#include "wxguidesigner/fontcontainer.h"
+#include "wxguidesigner/utils.h"
+
 #include "wxguidesigner/gui/propgrid/propbook.h"
 #include "wxguidesigner/gui/propgrid/propbmp.h"
 #include "wxguidesigner/gui/propgrid/props.h"
+
 #include "wxguidesigner/gui/handler.h"
-#include "wxguidesigner/events.h"
-#include "wxguidesigner/utils.h"
+
+using namespace wxGD::Convert;
 
 wxGDPropertyBook::wxGDPropertyBook( wxGDHandler *handler, wxWindow* parent )
 :
@@ -157,93 +163,80 @@ void wxGDPropertyBook::OnSize( wxSizeEvent &event )
 
 void wxGDPropertyBook::OnPropGridChanged( wxPropertyGridEvent &event )
 {
-    wxPGProperty *pgProperty  = event.GetProperty();
+    wxPGProperty *pgProperty = event.GetProperty();
     if( pgProperty )
     {
-        wxString propName = pgProperty->GetName();
         Property property =
         m_handler->GetSelectedObject()->GetProperty( pgProperty->GetName() );
 
         if( property )
         {
-            PropertyType propType = property->GetType();
+            PropertyType type = property->GetType();
 
-            if( propType == PROPERTY_TYPE_COLOUR )
+            if( type == PROPERTY_TYPE_BOOL )
             {
-                wxColourPropertyValue value =
+                bool value = pgProperty->GetValue().GetAny().As< bool >();
+                property->SetValue( value );
+            }
+            else if( type == PROPERTY_TYPE_COLOUR )
+            {
+                wxColourPropertyValue colourValue =
                 pgProperty->GetValue().GetAny().As< wxColourPropertyValue >();
 
-                Colour col = { value.m_type, value.m_colour };
-
-                property->SetValue( col );
+                property->SetValue( colourValue.m_colour, colourValue.m_type );
             }
-            else if( propType == PROPERTY_TYPE_BITMAP )
+            else if( type == PROPERTY_TYPE_FONT )
             {
-                wxArrayString params  = pgProperty->GetValue().GetArrayString();
-                wxString      strType = pgProperty->GetValueAsString();
-                int           bmpType = pgProperty->GetChoices().Index( strType );
-                size_t        count   = params.GetCount();
+                wxString value = wxEmptyString;
 
-                //wxLogDebug("strType:%s", strType);
-                //wxLogDebug("bmpType:%i", bmpType);
+                wxGDFontProperty *fontProperty =
+                wxDynamicCast( pgProperty, wxGDFontProperty );
 
-                if( count )
+                if( fontProperty )
+                    value = fontProperty->GetValue().GetString();
+                    
+                property->SetValue( value );
+            }
+            else if( type == PROPERTY_TYPE_BITMAP )
+            {
+                wxString value   = pgProperty->GetValueAsString();
+                int      bmpType = pgProperty->GetChoices().Index( value );
+
+                wxGDBitmapProperty *bmpProperty =
+                wxDynamicCast( pgProperty, wxGDBitmapProperty );
+
+                if( bmpProperty )
                 {
-                    wxString debug  = "params:";
-                    wxString artId  = wxEmptyString;
+                    value = bmpProperty->GetValue().GetString();
 
-                    for( size_t i = 0; i < count; i++ )
-                    {
-                        wxString param = params.Item(i);
-                        wxString sep = i == 0 ? "" : " ";
-                        debug += sep + param;
+                    // No need index string representation value for empty values
+                    if( value.IsNumber() )
+                        value = wxEmptyString;
 
-                        switch( bmpType )
-                        {
-                            case wxPG_BMP_SRC_ART:
-                            {
-                                if( i == 0 )
-                                {
-                                    artId = param;
-                                    //wxLogDebug("Saving stock_id:%s", param );
-                                    property->AddAttribute( "stock_id", param );
-                                }
-                                else if( (i == 1) && !(artId.empty()) )
-                                {
-                                    // Remove the last '_C' in wxArtClient
-                                    param = param.Truncate( param.length() - 2 );
-                                    //wxLogDebug("Saving stock_client:%s", param );
-                                    property->AddAttribute( "stock_client", param );
-                                }
-                                else
-                                {
-                                    wxLogDebug("invalid param %s", param);
-                                }
-
-                                break;
-                            }
-                            case wxPG_BMP_SRC_FILE:
-                            {
-                                if( i == 0 )
-                                {
-                                    //wxLogDebug("Saving path:%s", param );
-                                    property->SetValue( param );
-                                }
-                                else
-                                {
-                                    //wxLogDebug("File value is empty");
-                                }
-                                break;
-                            }
-                        }
-                    }
-
-                    //wxLogDebug( debug );
+                    property->SetValue( bmpType, value );
                 }
+                else
+                {
+                    property->SetValue( wxEmptyString );
+                }
+            }
+            else if( type == PROPERTY_TYPE_STYLE )
+            {
+                wxString value = pgProperty->GetValueAsString();
+                value.Replace( ", ", "|" );
+                property->SetValue( value );
+            }
+            else if((type == PROPERTY_TYPE_POINT) ||
+                    (type == PROPERTY_TYPE_SIZE)  )
+            {
+                wxString value = pgProperty->GetValueAsString();
+                value.Replace( "; ", "," );
+                property->SetValue( value );
             }
             else
             {
-                property->SetValue( pgProperty->GetValue() );
+                wxString value = pgProperty->GetValueAsString();
+                property->SetValue( value );
             }
 
             wxGDPropertyEvent event( wxGD_EVT_PROPERTY_CHANGED, GetId(), property );
@@ -539,176 +532,116 @@ wxPGProperty *wxGDPropertyBook::AddProperty( Property property )
     if( !property )
         return NULL;
 
-    wxString label = property->GetLabel();
-    wxString name  = property->GetName();
+    wxString     label = property->GetLabel();
+    wxString     name  = property->GetName();
+    PropertyType type  = property->GetType();
 
-    switch( property->GetType() )
+    if( type == PROPERTY_TYPE_ARRAYSTRING )
     {
-        case PROPERTY_TYPE_ARRAYSTRING:
+        return new wxArrayStringProperty( label, name,
+                                          property->GetAsArrayString() );
+    }
+    else if( type == PROPERTY_TYPE_BITMAP )
+    {
+        wxString value      = property->GetAsString();
+        int      bitmapType = StringToBitmapType( value );
+
+        return new wxGDBitmapProperty( bitmapType, value, label, name );
+    }
+    else if( type == PROPERTY_TYPE_BOOL )
+    {
+        wxPGProperty *pgProperty = new wxBoolProperty ( label, name,
+                                                        property->GetAsBool() );
+        pgProperty->SetAttribute( wxPG_BOOL_USE_CHECKBOX, true );
+
+        return pgProperty;
+    }
+    else if( type == PROPERTY_TYPE_CATEGORY )
+    {
+        return new wxPropertyCategory( label, name );
+    }
+    else if( type == PROPERTY_TYPE_COLOUR )
+    {
+        int      type   = property->GetAsSystemColour();
+        wxColour colour = property->GetAsColour();
+
+        wxColourPropertyValue colourValue( type, colour );
+
+        wxGDColourProperty
+        *pgProperty = new wxGDColourProperty( label, name, colourValue );
+
+        return pgProperty;
+    }/*
+    else if( type == PROPERTY_TYPE_DIMENSION )
+    {
+        return new wxDimensionProperty( label, name,
+                                        property->GetAsDimension() );
+    }*/
+    else if( type == PROPERTY_TYPE_FLOAT || type == PROPERTY_TYPE_DOUBLE )
+    {
+        return new wxFloatProperty( label, name, property->GetAsDouble() );
+    }
+    else if( type == PROPERTY_TYPE_ENUM )
+    {
+        wxArrayString flagNames;
+        wxArrayInt    flagValues;
+
+        for( size_t i = 0; i < property->GetInfo()->GetChildCount(); i++ )
         {
-            return new wxArrayStringProperty( label, name,
-                                              property->GetAsArrayString() );
+            wxString flagName = property->GetInfo()->GetChild( i )->GetName();
+            int      flagVal  = wxFlagsManager::Get()->GetFlag( flagName );
+
+            flagNames.Add( flagName );
+            flagValues.Add( flagVal );
         }
-        case PROPERTY_TYPE_BITMAP:
+
+        return new wxEnumProperty ( label, name, flagNames, flagValues,
+                                                property->GetAsInteger() );
+    }
+    else if( type == PROPERTY_TYPE_FONT )
+    {
+        return new wxGDFontProperty( label, name, property->GetAsFont() );
+    }
+    else if( type == PROPERTY_TYPE_INT )
+    {
+        return new wxIntProperty( label, name, property->GetAsInteger() );
+    }
+    else if( type == PROPERTY_TYPE_NAME   ||
+             type == PROPERTY_TYPE_STRING ||
+             type == PROPERTY_TYPE_TEXT   )
+    {
+        return new wxStringProperty( label, name, property->GetAsString() );
+    }
+    else if( type == PROPERTY_TYPE_SIZE )
+    {
+        return new wxGDSizeProperty( label, name, property->GetAsSize() );
+    }
+    else if( type == PROPERTY_TYPE_POINT )
+    {
+        return new wxGDPointProperty( label, name, property->GetAsPoint() );
+    }
+    else if( type == PROPERTY_TYPE_URL )
+    {
+        return new wxFileProperty( label, name, property->GetAsURL() );
+    }
+    else if( type == PROPERTY_TYPE_FLAG || type == PROPERTY_TYPE_STYLE )
+    {
+        wxArrayString styleNames;
+        wxArrayInt    styleValues;
+
+        for( size_t i = 0; i < property->GetInfo()->GetChildCount(); i++ )
         {
-            int           bmpType     = wxPG_BMP_SRC_NONE;
-            size_t        attribCount = property->GetAttributeCount();
-            wxArrayString params;
+            wxString styleName = property->GetInfo()->GetChild(i)->GetName();
+            int      styleVal  = wxFlagsManager::Get()->GetFlag( styleName );
 
-            if( attribCount ) // wxArtProvider
-            {
-                wxString artId  = wxEmptyString;
-                wxString client = wxEmptyString;
-
-                for( size_t i = 0; i < attribCount; i++ )
-                {
-                    wxString attrName = property->GetAttribute(i).first;
-                    wxString attrVal  = property->GetAttribute(i).second;
-
-                    if( attrName == "stock_id" )
-                    {
-                        artId  = attrVal;
-                    }
-                    else if( attrName == "stock_client" )
-                    {
-                        client = attrVal + "_C";
-                    }
-                }
-
-                if( !artId.empty() )
-                {
-                    bmpType = wxPG_BMP_SRC_ART;
-
-                    params.Add( artId );
-
-                    if( !client.empty() )
-                    {
-                        params.Add( client );
-                    }
-                }
-
-                //wxLogDebug( "Loading bmpType:%i ID:%s Client:%s", bmpType, artId, client );
-
-                return new wxBitmapProperty( bmpType, params, label, name );
-            }
-
-            wxString value = property->GetAsString(); // File
-
-            if( !value.empty() )
-            {
-                bmpType = wxPG_BMP_SRC_FILE;
-
-                params.Add( value );
-
-                //wxLogDebug( "Loading bmpType:%i File:%s", bmpType, value );
-            }
-
-            if( bmpType == wxPG_BMP_SRC_NONE )
-            {
-                //wxLogDebug("Loading empty bitmap");
-            }
-
-            return new wxBitmapProperty( bmpType, params, label, name );
+            styleNames.Add( styleName );
+            styleValues.Add( styleVal );
         }
-        case PROPERTY_TYPE_BOOL:
-        {
-            wxPGProperty *pgProperty = new wxBoolProperty ( label, name,
-                                                            property->GetAsBool() );
-            pgProperty->SetAttribute( wxPG_BOOL_USE_CHECKBOX, true );
 
-            return pgProperty;
-        }
-        case PROPERTY_TYPE_CATEGORY:
-        {
-            return new wxPropertyCategory( label, name );
-        }
-        case PROPERTY_TYPE_COLOUR:
-        {
-            Colour col = property->GetAsColour();
-
-            wxColourPropertyValue colVal( col.type, col.colour );
-
-            wxGDColourProperty
-            *pgProperty = new wxGDColourProperty( label, name, colVal );
-
-            return pgProperty;
-        }/*
-        case PROPERTY_TYPE_DIMENSION:
-        {
-            return new wxDimensionProperty( label, name,
-                                            property->GetAsDimension() );
-        }*/
-        case PROPERTY_TYPE_FLOAT:
-        case PROPERTY_TYPE_DOUBLE:
-        {
-            return new wxFloatProperty( label, name, property->GetAsDouble() );
-        }
-        case PROPERTY_TYPE_ENUM:
-        {
-            wxArrayString flagNames;
-            wxArrayInt    flagValues;
-
-            for( size_t i = 0; i < property->GetInfo()->GetChildCount(); i++ )
-            {
-                wxString flagName = property->GetInfo()->GetChild( i )->GetName();
-                int      flagVal  = wxFlagsManager::Get()->GetFlag( flagName );
-
-                flagNames.Add( flagName );
-                flagValues.Add( flagVal );
-            }
-
-            return new wxEnumProperty ( label, name, flagNames, flagValues,
-                                                    property->GetAsInt() );
-        }
-        case PROPERTY_TYPE_FONT:
-        {
-            return new wxGDFontProperty( label, name, property->GetAsFont() );
-        }
-        case PROPERTY_TYPE_INT:
-        {
-            return new wxIntProperty( label, name, property->GetAsInt() );
-        }
-        case PROPERTY_TYPE_NAME:
-        case PROPERTY_TYPE_STRING:
-        case PROPERTY_TYPE_TEXT:
-        {
-            return new wxStringProperty( label, name, property->GetAsString() );
-        }
-        case PROPERTY_TYPE_SIZE:
-        {
-            return new wxSizeProperty( label, name, property->GetAsSize() );
-        }
-        case PROPERTY_TYPE_POINT:
-        {
-            return new wxPointProperty( label, name, property->GetAsPoint() );
-        }
-        case PROPERTY_TYPE_URL:
-        {
-            return new wxFileProperty( label, name, property->GetAsURL() );
-        }
-        case PROPERTY_TYPE_FLAG:
-        case PROPERTY_TYPE_STYLE:
-        {
-            wxArrayString styleNames;
-            wxArrayInt    styleValues;
-
-            for( size_t i = 0; i < property->GetInfo()->GetChildCount(); i++ )
-            {
-                wxString styleName = property->GetInfo()->GetChild( i )->GetName();
-                int      styleVal  = wxFlagsManager::Get()->GetFlag( styleName );
-
-                styleNames.Add( styleName );
-                styleValues.Add( styleVal );
-            }
-
-            wxPGProperty *pgProperty = new wxFlagsProperty( label, name,
-                                                        styleNames, styleValues,
-                                                        property->GetAsInt() );
-            pgProperty->SetAttribute( wxPG_BOOL_USE_CHECKBOX, true );
-            return pgProperty;
-        }
-        default:
-            return NULL;
+        wxPGProperty *pgProperty =
+        new wxGDFlagsProperty( label, name, styleNames, styleValues,
+                                                property->GetAsInteger() );
+        return pgProperty;
     }
 
     return NULL;

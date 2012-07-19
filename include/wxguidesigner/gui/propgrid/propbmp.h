@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////
 // Name:        wxguidesigner/gui/propgrid/propbmp.h
-// Purpose:     wxBitmapProperty and related support classes
+// Purpose:     wxGDBitmapProperty and related support classes
 // Author:      Andrea Zanellato
 // Modified by:
 // Created:     2012-05-08
@@ -10,27 +10,8 @@
 /////////////////////////////////////////////////////////////////////////////
 #ifndef __WXGUIDESIGNER_GUI_PROPGRID_PROPBMP_H__
 #define __WXGUIDESIGNER_GUI_PROPGRID_PROPBMP_H__
-
-#include <wx/propgrid/propgrid.h>
-
-enum
-{
-    wxPG_BMP_SRC_NONE = 0,
-    wxPG_BMP_SRC_ART = 1,
-    wxPG_BMP_SRC_FILE = 2
-};
 //=============================================================================
-// wxPGBitmapDialogAdapter
-//=============================================================================
-
-class wxPGBitmapDialogAdapter : public wxPGEditorDialogAdapter
-{
-public:
-    virtual bool DoShowDialog( wxPropertyGrid* propGrid,
-                               wxPGProperty*   property );
-};
-//=============================================================================
-// wxBitmapProperty
+// wxGDBitmapProperty
 //
 // Manages wxBitmap values from different source/index from a wxArrayString.
 // Currently, it supports 2 source types plus a default value:
@@ -49,48 +30,61 @@ public:
 //    params is empty
 //
 //=============================================================================
-
-class wxBitmapProperty : public wxEnumProperty
+enum
 {
-    WX_PG_DECLARE_PROPERTY_CLASS( wxBitmapProperty )
+    wxPG_BMP_SRC_NONE = 0,
+    wxPG_BMP_SRC_ART = 1,
+    wxPG_BMP_SRC_FILE = 2
+};
+
+class wxGDBitmapProperty : public wxEnumProperty
+{
+    WX_PG_DECLARE_PROPERTY_CLASS( wxGDBitmapProperty )
 
     friend class wxPGBitmapDialogAdapter;
 
 public:
-    wxBitmapProperty( int                  source = wxPG_BMP_SRC_NONE,
-                      const wxArrayString& params = wxArrayString(),
-                      const wxString&      label  = wxPG_LABEL,
-                      const wxString&      name   = wxPG_LABEL );
+    wxGDBitmapProperty( int            source = wxPG_BMP_SRC_NONE,
+                      const wxString &value = wxEmptyString,
+                      const wxString &label = wxPG_LABEL,
+                      const wxString &name  = wxPG_LABEL );
 
-    virtual ~wxBitmapProperty();
+    virtual ~wxGDBitmapProperty();
 
-    virtual bool IntToValue( wxVariant& variant,
-                             int number,
-                             int argFlags = 0 ) const;
+    virtual bool                    IntToValue( wxVariant &variant, int number,
+                                                int argFlags = 0 ) const;
+    virtual bool                    StringToValue( wxVariant &variant,
+                                                    const wxString &text,
+                                                    int argFlags = 0 ) const;
 
-    virtual bool StringToValue( wxVariant& variant, const wxString& text,
-                                int argFlags = 0 ) const;
-
-    virtual wxString ValueToString( wxVariant& value, int argFlags = 0 ) const;
-
-    virtual void OnSetValue();
-
+    wxString                        ValueToString( wxVariant &value,
+                                                        int flags ) const;
+    virtual void                    OnSetValue();
     virtual wxPGEditorDialogAdapter *GetEditorDialog() const;
 
     // Thumbnail
-    virtual wxSize OnMeasureImage( int item ) const;
-    virtual void OnCustomPaint( wxDC& dc, const wxRect& rect,
-                                wxPGPaintData& paintdata );
+    virtual wxSize                  OnMeasureImage( int item ) const;
+    virtual void                    OnCustomPaint( wxDC& dc, const wxRect& rect,
+                                                    wxPGPaintData& paintdata );
 
 protected:
-    void Init( int                  source = wxPG_BMP_SRC_NONE,
-               const wxArrayString& params = wxArrayString() );
+    void Init ( int             source  = wxPG_BMP_SRC_NONE,
+                const wxString &value   = wxEmptyString );
 
-    wxBitmap        m_bmpThumb; // final thumbnail area
-    wxImage         m_imgThumb; // intermediate thumbnail area
+    wxBitmap                        m_bmpThumb; // final thumbnail area
+    wxImage                         m_imgThumb; // intermediate thumbnail area
 
-    static int      ms_indFilter; // index to the selected filter
-    static wxString ms_lastDir;   // last used path
+    static int                      ms_indFilter; // index to the selected filter
+    static wxString                 ms_lastDir;   // last used path
+};
+//=============================================================================
+// wxPGBitmapDialogAdapter
+//=============================================================================
+class wxPGBitmapDialogAdapter : public wxPGEditorDialogAdapter
+{
+public:
+    virtual bool DoShowDialog( wxPropertyGrid* propGrid,
+                               wxPGProperty*   property );
 };
 
 #endif //__WXGUIDESIGNER_GUI_PROPGRID_PROPBMP_H__

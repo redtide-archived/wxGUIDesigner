@@ -45,26 +45,44 @@ inline wxString GetResourcePath()
 #endif
 }
 
-namespace wxGDConv
+namespace wxGD
 {
-    wxColour        GetSystemColour     ( const wxString &name );
-    wxInt32         GetSystemColourIndex( const wxString &name );
-    wxFont          GetSystemFont       ( const wxString &name );
-
-    int             StringToHex         ( const wxString &value );
-    int             StringToInt         ( const wxString &value );
-    wxFontContainer StringToFont        ( const wxString &value );
-//  Colour          StringToColourInfo  ( const wxString &value );
-
-    wxString        AnyToString         ( const wxAny &any );
-    wxString        BoolToString        ( bool value );
-    wxString        SystemColourToString( wxInt32 index );
-    wxString        ColourToString      ( const wxColour &colour, wxInt32 type );
-    wxString        FloatToString       ( double value );
-    wxString        FontToString        ( const wxFontContainer &font );
-    wxString        IntToString         ( int value );
-    wxString        SizeToString        ( const wxSize &size );
-    wxString        PointToString       ( const wxPoint &point );
+    namespace Convert
+    {
+//-----------------------------------------------------------------------------
+// Getters
+//-----------------------------------------------------------------------------
+        int             StringToBitmapType          (       wxString &value );
+        int             StringToHex                 ( const wxString &value );
+        int             StringToFlag                ( const wxString &value );
+        int             StringToInteger             ( const wxString &value );
+        int             StringToSystemColourIndex   ( const wxString &value );
+        bool            StringToBool                ( const wxString &value );
+        double          StringToFloat               ( const wxString &value );
+        wxArrayString   StringToArrayString         ( const wxString &value );
+        wxColour        StringToColour              ( const wxString &value );
+        wxColour        StringToSystemColour        ( const wxString &value );
+        wxFontContainer StringToFont                ( const wxString &value );
+        wxFont          StringToSystemFont          ( const wxString &value );
+        wxPoint         StringToPoint               ( const wxString &value );
+        wxSize          StringToSize                ( const wxString &value );
+//-----------------------------------------------------------------------------
+// Setters
+//-----------------------------------------------------------------------------
+        wxString        IntegerToString       ( int     value );
+        wxString        FlagToString          ( int     value );
+        wxString        BoolToString          ( bool    value );
+        wxString        FloatToString         ( double  value );
+        wxString        SystemColourToString  ( int     index );
+        wxString        ColourToString        ( const wxColour &colour,
+                                                int colourType );
+        wxString        BitmapTypeToString    ( int bitmapType,
+                                                const wxString          &value );
+        wxString        ArrayStringToString   ( const wxArrayString     &value );
+        wxString        FontToString          ( const wxFontContainer   &value );
+        wxString        PointToString         ( const wxPoint           &value );
+        wxString        SizeToString          ( const wxSize            &value );
+    };
 };
 
 #endif //__WXGUIDESIGNER_UTILS_H__
