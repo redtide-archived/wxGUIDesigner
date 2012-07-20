@@ -110,14 +110,6 @@ bool wxGDArtProvider::LoadXML( const wxFileName &xmlFileName,
             {
                 itemName = "-";
             }
-            else if( xmlFileName.GetName() == "controls" )
-            {
-                wasOk = ClassInfoDB::Get()->ClassInfoExists( itemName );
-                if( !wasOk )
-                {
-                    wxLogDebug("Discarding %s", itemName);
-                }
-            }
             else
             {
                 wasOk = (itemNode->GetName() == "item") && !itemName.empty();

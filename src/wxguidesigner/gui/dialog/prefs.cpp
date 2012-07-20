@@ -31,7 +31,6 @@
 #include "wxguidesigner/gui/flags/default.xpm"
 
 #include "wxguidesigner/gui/dialog/prefs.h"
-#include "wxguidesigner/settings.h"
 
 wxDEFINE_EVENT( wxGD_EVT_GUI_OPTION_CHANGED, wxCommandEvent );
 wxDEFINE_EVENT( wxGD_EVT_GUI_CONFIG_UPDATE,  wxCommandEvent );

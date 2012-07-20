@@ -38,6 +38,7 @@ class wxXmlResource;
     class wxGDDebugWindow;
 #endif
 
+class wxGDAboutDialog;
 class wxGDEditorBook;
 class wxGDPropertyBook;
 class wxGDToolPalette;
@@ -86,15 +87,16 @@ public:
     Object GetSelectedObject() const;
     Object GetTopLevelObject( Object object );
 
-//  wxGDSettings    GetSettings() const;
-
     void SendEvent      ( wxEvent &event, bool delayed = false );
 
 private:
     void InitAllXmlHandlers();
     void SelectLanguage ( int language );
 
-    wxDialog            *m_about;
+#ifdef __WXDEBUG__
+    wxGDDebugWindow     *m_debug;
+    wxLog               *m_logOld;
+#endif
     wxImageList         *m_largeImgs;
     wxImageList         *m_smallImgs;
     wxMenuBar           *m_menuBar;
@@ -104,12 +106,9 @@ private:
     wxGDToolPalette     *m_palette;
     wxGDPropertyBook    *m_propBook;
     wxGDTreeView        *m_treeView;
+    wxGDAboutDialog     *m_about;
 
     vector< wxEvtHandler * >        m_handlers;
-#ifdef __WXDEBUG__
-    wxGDDebugWindow                 *m_debug;
-    wxLog                           *m_logOld;
-#endif
     RTTITree                        m_tree;
 //  wxGDSettings                    m_settings;
     wxLocale                        m_locale;

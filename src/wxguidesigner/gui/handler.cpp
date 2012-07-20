@@ -9,8 +9,8 @@
 // Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
 #include <wx/app.h>
-#include <wx/dir.h>
 #include <wx/config.h>
+#include <wx/dir.h>
 #include <wx/event.h>
 #include <wx/filefn.h>
 #include <wx/frame.h>
@@ -20,8 +20,8 @@
 #include <wx/notebook.h>
 #include <wx/propgrid/propgrid.h>
 #include <wx/sstream.h>
-#include <wx/stc/stc.h>
 #include <wx/stdpaths.h>
+#include <wx/stc/stc.h>
 #include <wx/treectrl.h>
 #include <wx/xml/xml.h>
 #include <wx/xrc/xmlres.h>
@@ -31,10 +31,15 @@
 #include <wx/xrc/xh_stc.h>
 #include <wx/xrc/xh_propgrid.h>
 
+#include <wx/log.h>
+
 #include "wx/xrc/gd_dialog.h"
 #include "wx/xrc/gd_frame.h"
 #include "wx/xrc/gd_propdlg.h"
 #include "wx/xrc/gd_wizard.h"
+
+#include "wxguidesigner/events.h"
+#include "wxguidesigner/utils.h"
 
 #include "wxguidesigner/rtti/tree.h"
 #include "wxguidesigner/rtti/database.h"
@@ -42,32 +47,27 @@
 
 #include "wxguidesigner/xrc/serializer.h"
 
-//#include "wxguidesigner/settings.h"
 #include "wxguidesigner/gui/artprovider.h"
-#include "wxguidesigner/gui/editor.h"
-#include "wxguidesigner/gui/palette.h"
-#include "wxguidesigner/gui/propgrid/propbook.h"
-#include "wxguidesigner/gui/treeview.h"
-
 #ifdef __WXDEBUG__
     #include <wx/textctrl.h>
     #include "wxguidesigner/gui/debugwindow.h"
 #endif
-
+#include "wxguidesigner/gui/dialog/about.h"
 #include "wxguidesigner/gui/dialog/prefs.h"
+#include "wxguidesigner/gui/editor.h"
+#include "wxguidesigner/gui/palette.h"
+#include "wxguidesigner/gui/propgrid/propbook.h"
+#include "wxguidesigner/gui/treeview.h"
 #include "wxguidesigner/gui/mainframe.h"
-
-#include "wxguidesigner/events.h"
-#include "wxguidesigner/utils.h"
-
 #include "wxguidesigner/gui/handler.h"
-
-#include <wx/log.h>
 
 wxGDHandler::wxGDHandler()
 :
 wxEvtHandler(),
-m_about         ( NULL ),
+#ifdef __WXDEBUG__
+m_debug         ( NULL ),
+m_logOld        ( NULL ),
+#endif
 m_largeImgs     ( NULL ),
 m_smallImgs     ( NULL ),
 m_menuBar       ( NULL ),
@@ -77,12 +77,7 @@ m_editBook      ( NULL ),
 m_palette       ( NULL ),
 m_propBook      ( NULL ),
 m_treeView      ( NULL ),
-#ifdef __WXDEBUG__
-m_debug         ( NULL ),
-m_logOld        ( NULL ),
-#endif
-m_tree          ( new ObjectTree() )//,
-//m_settings      ( new Settings() )
+m_about         ( NULL )
 {
     InitAllXmlHandlers();
 
@@ -94,12 +89,10 @@ m_tree          ( new ObjectTree() )//,
     wxString wxGDImages        = wxGDXRCArchive + "#zip:images.xrc";
     wxString wxGDMainMenu      = wxGDXRCArchive + "#zip:mainmenu.xrc";
     wxString wxGDToolbar       = wxGDXRCArchive + "#zip:toolbar.xrc";
-    wxString wxGDAboutDialog   = wxGDXRCArchive + "#zip:about.xrc";
 
     wxXmlResource::Get()->Load( wxGDImages );
     wxXmlResource::Get()->Load( wxGDMainMenu );
     wxXmlResource::Get()->Load( wxGDToolbar );
-    wxXmlResource::Get()->Load( wxGDAboutDialog );
 
     bool enabled = false; int selected = 0; int language = 0;
 
@@ -107,7 +100,6 @@ m_tree          ( new ObjectTree() )//,
     // so we can use its configuration to load/store values
     wxConfigBase::Get()->Read( "locale/enabled",  &enabled,  false );
     wxConfigBase::Get()->Read( "locale/selected", &selected, 0 );
-
 /*
     if(!wxImage::FindHandler( wxBITMAP_TYPE_PNG ))
         wxImage::AddHandler( new wxPNGHandler);
@@ -121,7 +113,7 @@ m_tree          ( new ObjectTree() )//,
     m_smallImgs->Add( bmp );
 
     m_largeImgs = new wxImageList( 22,22 );
-    bmp         = wxArtProvider::GetBitmap
+    bmp = wxArtProvider::GetBitmap
                     ( wxART_MISSING_IMAGE, wxART_OTHER, wxSize( 22,22 ) );
     m_largeImgs->Add( bmp );
 
@@ -138,6 +130,9 @@ m_tree          ( new ObjectTree() )//,
 
         SelectLanguage( language );
     }
+
+    m_frame = new wxGDMainFrame(this);
+    m_tree  = RTTITree( new ObjectTree() );
 }
 
 wxGDHandler::~wxGDHandler()
@@ -154,16 +149,13 @@ wxGDHandler::~wxGDHandler()
 
 wxFrame *wxGDHandler::GetMainFrame( wxWindow *parent )
 {
-    if(!m_frame)
-        m_frame = new wxGDMainFrame(this);
-
     return m_frame;
 }
 
 #ifdef __WXDEBUG__
 wxGDDebugWindow *wxGDHandler::GetDebugWindow( wxWindow *parent )
 {
-    if(!parent)
+    if( !parent )
     {
         if( m_frame )
             parent = m_frame;
@@ -171,9 +163,9 @@ wxGDDebugWindow *wxGDHandler::GetDebugWindow( wxWindow *parent )
             return NULL;
     }
 
-    if(!m_debug)
+    if( !m_debug )
     {
-        m_debug = new wxGDDebugWindow( this, parent );
+        m_debug  = new wxGDDebugWindow( this, parent );
         m_logOld = wxLog::SetActiveTarget(new wxLogTextCtrl(m_debug));
         wxLogMessage(_("Started") );
     }
@@ -183,8 +175,16 @@ wxGDDebugWindow *wxGDHandler::GetDebugWindow( wxWindow *parent )
 #endif
 wxDialog *wxGDHandler::GetAboutDialog( wxWindow *parent )
 {
+    if( !parent )
+    {
+        if( m_frame )
+            parent = m_frame;
+        else
+            return NULL;
+    }
+
     if( !m_about )
-        m_about = wxXmlResource::Get()->LoadDialog( parent, "About" );
+        m_about = new wxGDAboutDialog( parent );
 
     return m_about;
 }

@@ -82,6 +82,14 @@ m_mgr       (NULL)
 
     m_mgr->SetArtProvider( new wxGDAUIDockArt() );
 
+#ifdef __WXDEBUG__
+    wxWindow *dbgWnd = (wxWindow *)m_handler->GetDebugWindow(m_panel);
+
+    m_mgr->AddPane( dbgWnd, wxAuiPaneInfo().Bottom().
+                    Name("DebugWindowPane").Caption(_("Logger") ).
+                    CloseButton(false).MinSize(-1,120).FloatingSize(300,120).
+                    LeftDockable(false).RightDockable(false) );
+#endif
     wxWindow *palette  = (wxWindow *)m_handler->GetPaletteBook(m_panel);
     wxWindow *treeView = (wxWindow *)m_handler->GetTreeView(m_panel);
     wxWindow *editor   = (wxWindow *)m_handler->GetEditorBook(m_panel);
@@ -108,14 +116,6 @@ m_mgr       (NULL)
                     MaximizeButton(true).CloseButton(false).
                     MinSize(180,-1).FloatingSize(150,300).
                     TopDockable(false).BottomDockable(false) );
-#ifdef __WXDEBUG__
-    wxWindow *dbgWnd = (wxWindow *)m_handler->GetDebugWindow(m_panel);
-
-    m_mgr->AddPane( dbgWnd, wxAuiPaneInfo().Bottom().
-                    Name("DebugWindowPane").Caption(_("Debugger") ).
-                    CloseButton(false).MinSize(-1,120).FloatingSize(300,120).
-                    LeftDockable(false).RightDockable(false) );
-#endif
     LoadLayout();
 
     m_mgr->Update();
@@ -222,47 +222,7 @@ wxGDMainFrame::~wxGDMainFrame()
 {
     m_mgr->UnInit();
 }
-/*
-void wxGDMainFrame::LoadLayout()
-{
-    wxGDSettings settings = m_handler->GetSettings();
 
-    wxString perspective = settings->GetString("/mainframe/perspective");
-    bool     maximized   = settings->GetBool( "/mainframe/maximized", true );
-    bool     iconized    = settings->GetBool( "/mainframe/iconized", false );
-
-    if( !perspective.empty() )
-    {
-        m_mgr->LoadPerspective( perspective );
-        m_mgr->Update();
-    }
-
-    if( maximized )
-    {
-        Maximize( maximized );
-    }
-    else if( iconized )
-    {
-        Iconize( iconized );
-    }
-    else
-    {
-        int x = settings->GetInt( "/mainframe/left",   -1 );
-        int y = settings->GetInt( "/mainframe/top",    -1 );
-        int w = settings->GetInt( "/mainframe/width",  -1 );
-        int h = settings->GetInt( "/mainframe/height", -1 );
-
-        if( x > -1 && y > -1 && w >= 630 && h >= 480 )
-        {
-            SetSize( x, y, w, h );
-        }
-    }
-
-    m_lastDir = settings->GetString("last_dir");
-
-    m_history.Load( *wxConfigBase::Get() );
-}
-*/
 void wxGDMainFrame::LoadLayout()
 {
     wxString perspective;
