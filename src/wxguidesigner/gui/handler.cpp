@@ -76,8 +76,7 @@ m_frame         ( NULL ),
 m_editBook      ( NULL ),
 m_palette       ( NULL ),
 m_propBook      ( NULL ),
-m_treeView      ( NULL ),
-m_about         ( NULL )
+m_treeView      ( NULL )
 {
     InitAllXmlHandlers();
 
@@ -106,7 +105,7 @@ m_about         ( NULL )
 */
     wxInitAllImageHandlers();
 
-    // Load imagelists shared by wxGDTreeView and wxGDToolPalette
+    // Load share imagelists, add a default image for missing images
     m_smallImgs  = new wxImageList( 16,16 );
     wxBitmap bmp = wxArtProvider::GetBitmap
                     ( wxART_MISSING_IMAGE, wxART_OTHER, wxSize( 16,16 ) );
@@ -175,28 +174,23 @@ wxGDDebugWindow *wxGDHandler::GetDebugWindow( wxWindow *parent )
 #endif
 wxDialog *wxGDHandler::GetAboutDialog( wxWindow *parent )
 {
-    if( !parent )
-    {
-        if( m_frame )
-            parent = m_frame;
-        else
-            return NULL;
-    }
+    if( parent )
+        return new wxGDAboutDialog( parent );
 
-    if( !m_about )
-        m_about = new wxGDAboutDialog( parent );
-
-    return m_about;
+    return NULL;
 }
 
 wxDialog *wxGDHandler::GetSettingsDialog( wxWindow *parent )
 {
-    return new wxGDDialogPrefs( parent );
+    if( parent )
+        return new wxGDDialogPrefs( parent );
+
+    return NULL;
 }
 
 wxNotebook *wxGDHandler::GetEditorBook( wxWindow *parent )
 {
-    if(!m_editBook)
+    if( !m_editBook )
     {
         // Force groups to use small imagelist
         wxGDArtProvider::Load( "languages", m_smallImgs, m_largeImgs, true );
@@ -210,7 +204,7 @@ wxNotebook *wxGDHandler::GetEditorBook( wxWindow *parent )
 
 wxNotebook *wxGDHandler::GetPaletteBook( wxWindow *parent )
 {
-    if(!m_palette)
+    if( !m_palette )
         m_palette = new wxGDToolPalette( this, parent );
 
     return m_palette;
@@ -218,7 +212,7 @@ wxNotebook *wxGDHandler::GetPaletteBook( wxWindow *parent )
 
 wxNotebook *wxGDHandler::GetPropertyBook( wxWindow *parent )
 {
-    if(!m_propBook)
+    if( !m_propBook )
     {
         m_propBook = new wxGDPropertyBook( this, parent );
         m_handlers.push_back( m_propBook );
@@ -229,7 +223,7 @@ wxNotebook *wxGDHandler::GetPropertyBook( wxWindow *parent )
 
 wxToolBar *wxGDHandler::GetToolBar( wxWindow *parent )
 {
-    if(!m_toolBar)
+    if( !m_toolBar )
         m_toolBar = wxXmlResource::Get()->LoadToolBar( parent, "ToolBar" );
 
     return m_toolBar;
@@ -237,7 +231,7 @@ wxToolBar *wxGDHandler::GetToolBar( wxWindow *parent )
 
 wxTreeCtrl *wxGDHandler::GetTreeView( wxWindow *parent )
 {
-    if(!m_treeView)
+    if( !m_treeView )
     {
         m_treeView = new wxGDTreeView( this, parent );
         m_handlers.push_back( m_treeView );
@@ -245,12 +239,9 @@ wxTreeCtrl *wxGDHandler::GetTreeView( wxWindow *parent )
 
     return m_treeView;
 }
-/*
-wxGDSettings wxGDHandler::GetSettings() const
-{
-    return m_settings;
-}
-*/
+//-----------------------------------------------------------------------------
+// Object operations
+//-----------------------------------------------------------------------------
 void wxGDHandler::CreateObject( const wxString &className, int senderId )
 {
     Object object = m_tree->CreateObject( className );

@@ -8,17 +8,20 @@
 // Copyleft:    (ɔ) Andrea Zanellato
 // Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
-#include "wxguidesigner/gui/propgrid/artdialog.h"
-
+#include <wx/artprov.h>
 #include <wx/button.h>
+#include <wx/dialog.h>
 #include <wx/imaglist.h>
 #include <wx/listctrl.h>
 #include <wx/panel.h>
 #include <wx/radiobox.h>
 #include <wx/sizer.h>
+#include <wx/spinctrl.h>
 #include <wx/statbmp.h>
 #include <wx/statbox.h>
 #include <wx/stattext.h>
+
+#include "wxguidesigner/gui/propgrid/artdialog.h"
 
 #define ART_ICON( id ) \
     { \
@@ -33,8 +36,8 @@
         index++; \
     }
 
-static void FillBitmaps( wxImageList *images, wxListCtrl *list, int& index,
-                        const wxArtClient& client, const wxSize& size )
+static void FillBitmaps( wxImageList *images, wxListCtrl *list, int &index,
+                        const wxArtClient &client, const wxSize &size )
 {
     ART_ICON(wxART_ERROR)
     ART_ICON(wxART_QUESTION)
@@ -90,65 +93,24 @@ static void FillBitmaps( wxImageList *images, wxListCtrl *list, int& index,
     ART_ICON(wxART_REMOVABLE)
 }
 //=============================================================================
-// ArtProviderDialog
+// BitmapRequesterDialog
 //=============================================================================
-
-ArtProviderDialog::ArtProviderDialog( wxWindow* parent, wxWindowID id,
-                                        const wxString& title,
-                                        const wxPoint& pos, const wxSize& size,
-                                        long style )
-: wxDialog( parent, id, title, pos, size, style )
+BitmapRequesterDialog::BitmapRequesterDialog( wxWindow* parent )
+:
+wxDialog( parent, wxID_ANY, _("Choose an image"), wxDefaultPosition,
+            wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER )
 {
-    wxBoxSizer *mainSizer = new wxBoxSizer( wxHORIZONTAL );
+//-----------------------------------------------------------------------------
+// Controls
+//-----------------------------------------------------------------------------
+    m_artIdLvw = new wxListView( this, wxID_ANY, wxDefaultPosition,
+                                wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER |
+                                               wxLC_SINGLE_SEL );
+    m_artIdLvw->InsertColumn( 0, "wxArtID" );
 
-    mainSizer->SetMinSize( wxSize( 450,450 ) );
-
-    wxStaticBoxSizer* sbsArtID = new wxStaticBoxSizer
-        ( new wxStaticBox( this, wxID_ANY, "wxArtID" ), wxVERTICAL );
-
-    m_lvwArt = new wxListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize,
-                                wxLC_NO_HEADER|wxLC_REPORT|wxLC_SINGLE_SEL );
-
-    m_lvwArt->InsertColumn( 0, "wxArtID" );
-
-    sbsArtID->Add( m_lvwArt, 1, wxALL|wxEXPAND, 5 );
-    mainSizer->Add( sbsArtID, 1, wxBOTTOM|wxEXPAND|wxLEFT|wxTOP, 5 );
-
-    m_pnlRight = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize,
-                                wxTAB_TRAVERSAL );
-
-    wxBoxSizer *rightSizer = new wxBoxSizer( wxVERTICAL );
-
-    wxStaticBoxSizer* sbsPreview = new wxStaticBoxSizer
-    (
-        new wxStaticBox( m_pnlRight, wxID_ANY, _("Preview") ), wxVERTICAL
-    );
-
-	wxGridSizer* gbsArt;
-	gbsArt = new wxGridSizer( 0, 2, 0, 0 );
-	
-	m_bmpArt = new wxStaticBitmap( m_pnlRight, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxDefaultSize, 0 );
-	gbsArt->Add( m_bmpArt, 0, wxALL, 5 );
-	
-	wxBoxSizer* bsArt;
-	bsArt = new wxBoxSizer( wxVERTICAL );
-	
-	wxStaticText* lblSize;
-	lblSize = new wxStaticText( m_pnlRight, wxID_ANY, _("Size:"), wxDefaultPosition, wxDefaultSize, 0 );
-	lblSize->Wrap( -1 );
-	bsArt->Add( lblSize, 0, wxALL, 5 );
-	
-	m_lblArt = new wxStaticText( m_pnlRight, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	m_lblArt->Wrap( -1 );
-	bsArt->Add( m_lblArt, 0, wxALL, 5 );
-	
-	
-	gbsArt->Add( bsArt, 1, wxEXPAND, 5 );
-    sbsPreview->Add( gbsArt, 0, wxEXPAND, 5 );
-
-    rightSizer->Add( sbsPreview, 0, wxEXPAND, 5 );
-
-    wxString m_rbxClientChoices[] = {
+    wxPanel *rightPnl = new wxPanel( this, wxID_ANY, wxDefaultPosition,
+                                    wxDefaultSize, wxTAB_TRAVERSAL );
+    wxString clientRbxChoices[] = {
         "wxART_OTHER",
         "wxART_MENU",
         "wxART_BUTTON",
@@ -159,79 +121,128 @@ ArtProviderDialog::ArtProviderDialog( wxWindow* parent, wxWindowID id,
         "wxART_HELP_BROWSER"
     };
 
-    int m_rbxClientNChoices = sizeof( m_rbxClientChoices ) / sizeof( wxString );
-    m_rbxClient = new wxRadioBox( m_pnlRight, wxID_ANY, "wxArtClient",
-                                    wxDefaultPosition, wxDefaultSize,
-                                    m_rbxClientNChoices, m_rbxClientChoices,
-                                    1, wxRA_SPECIFY_COLS );
-    m_rbxClient->SetSelection( 0 );
-    rightSizer->Add( m_rbxClient, 1, wxEXPAND, 5 );
+    int clientRbxNChoices = sizeof( clientRbxChoices ) / sizeof( wxString );
+    wxRadioBox *clientRbx = new wxRadioBox( rightPnl, wxID_ANY, "wxArtClient",
+                                            wxDefaultPosition, wxDefaultSize,
+                                            clientRbxNChoices, clientRbxChoices,
+                                            1, wxRA_SPECIFY_COLS );
+    clientRbx->SetSelection( 0 );
 
-    wxBoxSizer* buttonSizer = new wxBoxSizer( wxHORIZONTAL );
+    m_bmpArt = new wxStaticBitmap( rightPnl, wxID_ANY, wxNullBitmap );
 
-    m_btnCancel = new wxButton( m_pnlRight, wxID_CANCEL, wxEmptyString,
-                                wxDefaultPosition, wxDefaultSize, 0 );
+    wxStaticText *lblSize = new wxStaticText( rightPnl, wxID_ANY, _("Size:") );
+    m_lblArt              = new wxStaticText( rightPnl, wxID_ANY, wxEmptyString );
+    m_lblArt->Wrap( -1 );
+    lblSize->Wrap( -1 );
 
-    buttonSizer->Add( m_btnCancel, 0, wxBOTTOM|wxTOP, 5 );
+    wxSpinCtrl *widthSpin = new wxSpinCtrl( rightPnl, wxID_ANY, wxEmptyString,
+                                            wxDefaultPosition, wxDefaultSize,
+                                            wxSP_ARROW_KEYS, 0, 255, 22 );
+    widthSpin->Enable( false );
 
-    buttonSizer->Add( 0, 0, 1, wxEXPAND, 5 );
+    wxSpinCtrl *heightSpin = new wxSpinCtrl( rightPnl, wxID_ANY, wxEmptyString,
+                                            wxDefaultPosition, wxDefaultSize,
+                                            wxSP_ARROW_KEYS, 0, 255, 22 );
+    heightSpin->Enable( false );
 
-    m_btnOK = new wxButton( m_pnlRight, wxID_OK, wxEmptyString,
-                            wxDefaultPosition, wxDefaultSize, 0 );
+    wxButton *cancel = new wxButton( rightPnl, wxID_CANCEL, wxEmptyString );
+    wxButton *ok     = new wxButton( rightPnl, wxID_OK,     wxEmptyString );
+//-----------------------------------------------------------------------------
+// Sizers
+//-----------------------------------------------------------------------------
+    wxBoxSizer *mainSizer   = new wxBoxSizer( wxHORIZONTAL );
+    wxBoxSizer *rightSizer  = new wxBoxSizer( wxVERTICAL );
+    wxBoxSizer *buttonSizer = new wxBoxSizer( wxHORIZONTAL );
+    wxBoxSizer *artBS       = new wxBoxSizer( wxVERTICAL );
+    wxGridSizer *artGBS     = new wxGridSizer( 0, 2, 0, 0 );
 
-    buttonSizer->Add( m_btnOK, 0, wxBOTTOM|wxTOP, 5 );
+    wxStaticBoxSizer *artIdSBS = new wxStaticBoxSizer
+    (
+        new wxStaticBox( this, wxID_ANY, "wxArtID" ), wxVERTICAL
+    );
 
+    wxStaticBoxSizer *sizer = new wxStaticBoxSizer
+    (
+        new wxStaticBox( rightPnl, wxID_ANY, _("Size") ), wxHORIZONTAL
+    );
+
+    wxStaticBoxSizer* previewSBS = new wxStaticBoxSizer
+    (
+        new wxStaticBox( rightPnl, wxID_ANY, _("Preview") ), wxVERTICAL
+    );
+
+    rightSizer->Add( clientRbx,   1, wxEXPAND, 5 );
+    rightSizer->Add( sizer, 0, 0, 5 );
+    rightSizer->Add( previewSBS,  0, wxEXPAND, 5 );
     rightSizer->Add( buttonSizer, 0, wxEXPAND, 5 );
+    rightSizer->Fit( rightPnl );
 
-    m_pnlRight->SetSizer( rightSizer );
-    m_pnlRight->Layout();
+    rightPnl->SetSizer( rightSizer );
+    rightPnl->Layout();
 
-    rightSizer->Fit( m_pnlRight );
-    mainSizer->Add( m_pnlRight, 0, wxALL|wxEXPAND, 5 );
+    buttonSizer->Add( cancel, 1, wxBOTTOM | wxTOP, 5 );
+    buttonSizer->Add( ok,     1, wxBOTTOM | wxTOP, 5 );
+
+    artBS->Add( lblSize,  0, wxALL, 5 );
+    artBS->Add( m_lblArt, 0, wxALL, 5 );
+
+    artGBS->Add( m_bmpArt, 0, wxALL,    5 );
+    artGBS->Add( artBS,    1, wxEXPAND, 5 );
+
+    artIdSBS->Add( m_artIdLvw, 1, wxEXPAND | wxALL );
+
+    sizer->Add( widthSpin,  0, wxBOTTOM, 5 );
+    sizer->Add( heightSpin, 0, wxBOTTOM, 5 );
+
+    previewSBS->Add( artGBS,   0, wxEXPAND, 5 );
+
+    mainSizer->SetMinSize( wxSize( 450,450 ) );
+    mainSizer->Add( artIdSBS, 1, wxEXPAND | wxLEFT | wxTOP | wxBOTTOM, 5 );
+    mainSizer->Add( rightPnl, 0, wxEXPAND | wxALL, 5 );
 
     this->SetSizerAndFit( mainSizer );
     this->Centre( wxBOTH );
 
-    SetArtClient( wxART_MESSAGE_BOX );
+    SetArtClient();
 
     Bind( wxEVT_COMMAND_RADIOBOX_SELECTED,
-            &ArtProviderDialog::OnChooseClient, this );
+            &BitmapRequesterDialog::OnChooseClient, this );
 
     Bind( wxEVT_COMMAND_LIST_ITEM_SELECTED,
-            &ArtProviderDialog::OnSelectItem, this );
+            &BitmapRequesterDialog::OnSelectItem, this );
 }
 
-ArtProviderDialog::~ArtProviderDialog()
+BitmapRequesterDialog::~BitmapRequesterDialog()
 {
 }
 
-void ArtProviderDialog::SetArtClient( const wxArtClient& client )
+void BitmapRequesterDialog::SetArtClient( const wxArtClient &client )
 {
     wxBusyCursor bcur;
 
     wxImageList *ils = new wxImageList( 16, 16 );
     int index = 0;
 
-    long sel = m_lvwArt->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_FOCUSED);
+    long sel = m_artIdLvw->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_FOCUSED);
     if( sel < 0 )
         sel = 0;
 
-    m_lvwArt->DeleteAllItems();
-    FillBitmaps( ils, m_lvwArt, index, client, wxSize( 16, 16 ) );
-    m_lvwArt->AssignImageList( ils, wxIMAGE_LIST_SMALL );
-    m_lvwArt->SetColumnWidth( 0, wxLIST_AUTOSIZE );
+    m_artIdLvw->DeleteAllItems();
+    FillBitmaps( ils, m_artIdLvw, index, client, wxSize( 16, 16 ) );
+    m_artIdLvw->AssignImageList( ils, wxIMAGE_LIST_SMALL );
+    m_artIdLvw->SetColumnWidth( 0, wxLIST_AUTOSIZE );
 
-    m_lvwArt->SetItemState( sel, wxLIST_STATE_FOCUSED, wxLIST_STATE_FOCUSED );
+    m_artIdLvw->SetItemState( sel, wxLIST_STATE_FOCUSED, wxLIST_STATE_FOCUSED );
 
     m_client = client;
-    m_id     = (const char*)m_lvwArt->GetItemData( sel );
+    m_id     = (const char*)m_artIdLvw->GetItemData( sel );
 
     SetArtBitmap( m_id, m_client );
 }
 
-void ArtProviderDialog::SetArtBitmap( const wxArtID& id,
-                                        const wxArtClient& client,
-                                        const wxSize& size )
+void BitmapRequesterDialog::SetArtBitmap  ( const wxArtID       &id,
+                                            const wxArtClient   &client,
+                                            const wxSize        &size )
 {
     wxBitmap bmp = wxArtProvider::GetBitmap( id, client, size );
     m_bmpArt->SetSize( bmp.GetWidth(), bmp.GetHeight() );
@@ -241,14 +252,14 @@ void ArtProviderDialog::SetArtBitmap( const wxArtID& id,
     Refresh();
 }
 
-void ArtProviderDialog::OnSelectItem( wxListEvent &event )
+void BitmapRequesterDialog::OnSelectItem( wxListEvent &event )
 {
     const char *data = (const char*)event.GetData();
     m_id = data;
     SetArtBitmap( m_id, m_client, wxDefaultSize );
 }
 
-void ArtProviderDialog::OnChooseClient( wxCommandEvent &event )
+void BitmapRequesterDialog::OnChooseClient( wxCommandEvent &event )
 {
     switch( event.GetSelection() )
     {

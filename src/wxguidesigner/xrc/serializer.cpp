@@ -153,9 +153,9 @@ void wxXRCSerializer::SerializeProperties( Properties props, wxXmlNode *parent )
             if( count < 2 )
                 continue;
 
-            int bitmapType = wxAtoi( attributes.Item(0) );
+            wxString source = attributes.Item(0);
 
-            if( bitmapType == 1 ) // wxArtProvider
+            if( source == _("wxArtProvider") )
             {
                 wxXmlNode *bitmapNode =
                 new wxXmlNode( parent, wxXML_ELEMENT_NODE, name );
@@ -179,7 +179,7 @@ void wxXRCSerializer::SerializeProperties( Properties props, wxXmlNode *parent )
                 }
 
             }
-            else if( bitmapType == 2 ) // File
+            else if( source == _("File") )
             {
                 value = attributes.Item(1);
                 wxXmlNode *bitmapNode =

@@ -196,7 +196,7 @@ void wxGDPropertyBook::OnPropGridChanged( wxPropertyGridEvent &event )
                     value = fontProperty->GetValue().GetString();
                     
                 property->SetValue( value );
-            }
+            }/*
             else if( type == PROPERTY_TYPE_BITMAP )
             {
                 wxString value   = pgProperty->GetValueAsString();
@@ -219,7 +219,7 @@ void wxGDPropertyBook::OnPropGridChanged( wxPropertyGridEvent &event )
                 {
                     property->SetValue( wxEmptyString );
                 }
-            }
+            }*/
             else if( type == PROPERTY_TYPE_STYLE )
             {
                 wxString value = pgProperty->GetValueAsString();
@@ -543,10 +543,7 @@ wxPGProperty *wxGDPropertyBook::AddProperty( Property property )
     }
     else if( type == PROPERTY_TYPE_BITMAP )
     {
-        wxString value      = property->GetAsString();
-        int      bitmapType = StringToBitmapType( value );
-
-        return new wxGDBitmapProperty( bitmapType, value, label, name );
+        return new wxGDBitmapProperty( label, name, property->GetAsString() );
     }
     else if( type == PROPERTY_TYPE_BOOL )
     {

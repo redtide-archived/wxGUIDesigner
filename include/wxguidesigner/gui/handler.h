@@ -38,20 +38,15 @@ class wxXmlResource;
     class wxGDDebugWindow;
 #endif
 
-class wxGDAboutDialog;
 class wxGDEditorBook;
 class wxGDPropertyBook;
 class wxGDToolPalette;
 class wxGDTreeView;
 class wxGDMainFrame;
-class wxGDDialogPrefs;
-class Settings;
 class ObjectTree;
 
 using namespace std;
 using namespace std::tr1;
-
-//typedef shared_ptr< Settings > wxGDSettings;
 
 class DLLIMPEXP_WXGUIDESIGNER wxGDHandler : public wxEvtHandler
 {
@@ -106,7 +101,6 @@ private:
     wxGDToolPalette     *m_palette;
     wxGDPropertyBook    *m_propBook;
     wxGDTreeView        *m_treeView;
-    wxGDAboutDialog     *m_about;
 
     vector< wxEvtHandler * >        m_handlers;
     RTTITree                        m_tree;

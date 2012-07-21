@@ -30,46 +30,39 @@
 //    params is empty
 //
 //=============================================================================
-enum
-{
-    wxPG_BMP_SRC_NONE = 0,
-    wxPG_BMP_SRC_ART = 1,
-    wxPG_BMP_SRC_FILE = 2
-};
-
-class wxGDBitmapProperty : public wxEnumProperty
+class wxGDBitmapProperty : public wxPGProperty
 {
     WX_PG_DECLARE_PROPERTY_CLASS( wxGDBitmapProperty )
 
     friend class wxPGBitmapDialogAdapter;
 
 public:
-    wxGDBitmapProperty( int            source = wxPG_BMP_SRC_NONE,
-                      const wxString &value = wxEmptyString,
-                      const wxString &label = wxPG_LABEL,
-                      const wxString &name  = wxPG_LABEL );
+    wxGDBitmapProperty( const wxString &label = wxPG_LABEL,
+                        const wxString &name  = wxPG_LABEL,
+                        const wxString &value = wxEmptyString );
 
     virtual ~wxGDBitmapProperty();
 
-    virtual bool                    IntToValue( wxVariant &variant, int number,
-                                                int argFlags = 0 ) const;
+    wxString                        ValueToString ( wxVariant &value,
+                                                    int        flags = 0 ) const;
+/*
+    virtual void                    OnSetValue();
     virtual bool                    StringToValue( wxVariant &variant,
                                                     const wxString &text,
                                                     int argFlags = 0 ) const;
-
-    wxString                        ValueToString( wxVariant &value,
-                                                        int flags ) const;
-    virtual void                    OnSetValue();
+*/
+//=============================================================================
+// wxPGBitmapDialogAdapter
+//=============================================================================
     virtual wxPGEditorDialogAdapter *GetEditorDialog() const;
-
-    // Thumbnail
+//=============================================================================
+// Thumbnail
+//=============================================================================
     virtual wxSize                  OnMeasureImage( int item ) const;
     virtual void                    OnCustomPaint( wxDC& dc, const wxRect& rect,
                                                     wxPGPaintData& paintdata );
-
 protected:
-    void Init ( int             source  = wxPG_BMP_SRC_NONE,
-                const wxString &value   = wxEmptyString );
+    void                            Init( const wxString &value );
 
     wxBitmap                        m_bmpThumb; // final thumbnail area
     wxImage                         m_imgThumb; // intermediate thumbnail area
