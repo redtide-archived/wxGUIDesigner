@@ -20,7 +20,6 @@
 #include <wx/xrc/xmlres.h>
 
 #include "wxguidesigner/rtti/tree.h"
-//#include "wxguidesigner/settings.h"
 #include "wxguidesigner/manager.h"
 #include "wxguidesigner/gui/aui/dockart.h"
 #include "wxguidesigner/gui/handler.h"
@@ -268,7 +267,6 @@ void wxGDMainFrame::LoadLayout()
 
 void wxGDMainFrame::SaveLayout()
 {
-//  wxGDSettings settings = m_handler->GetSettings();
     wxString perspective  = m_mgr->SavePerspective();
     bool        iconized  = IsIconized();
     bool        maximized = IsMaximized();
@@ -293,7 +291,6 @@ void wxGDMainFrame::SaveLayout()
     config->Write( "last_dir",               m_lastDir   );
 
     m_history.Save( *config );
-//  settings->Update();
 }
 
 bool wxGDMainFrame::SaveWarning()
@@ -317,17 +314,20 @@ bool wxGDMainFrame::SaveWarning()
 
 void wxGDMainFrame::OnAbout( wxCommandEvent & )
 {
-    if(!m_handler)
+    if( !m_handler )
         return;
 
     wxDialog *dlg = m_handler->GetAboutDialog( this );
     if( dlg )
+    {
         dlg->ShowModal();
+        dlg->Destroy();
+    }
 }
 
 void wxGDMainFrame::OnPreferences( wxCommandEvent & )
 {
-    if(!m_handler)
+    if( !m_handler )
         return;
 
     wxDialog *dlg = m_handler->GetSettingsDialog( this );
