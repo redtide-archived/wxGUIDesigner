@@ -45,12 +45,6 @@ public:
 
     wxString                        ValueToString ( wxVariant &value,
                                                     int        flags = 0 ) const;
-/*
-    virtual void                    OnSetValue();
-    virtual bool                    StringToValue( wxVariant &variant,
-                                                    const wxString &text,
-                                                    int argFlags = 0 ) const;
-*/
 //=============================================================================
 // wxPGBitmapDialogAdapter
 //=============================================================================
@@ -62,8 +56,6 @@ public:
     virtual void                    OnCustomPaint( wxDC& dc, const wxRect& rect,
                                                     wxPGPaintData& paintdata );
 protected:
-    void                            Init( const wxString &value );
-
     wxBitmap                        m_bmpThumb; // final thumbnail area
     wxImage                         m_imgThumb; // intermediate thumbnail area
 
