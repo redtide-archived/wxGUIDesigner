@@ -59,7 +59,6 @@ namespace wxGD
         bool            StringToBool                ( const wxString &value );
         double          StringToFloat               ( const wxString &value );
         wxArrayString   StringToArrayString         ( const wxString &value );
-        wxColour        StringToColour              ( const wxString &value );
         wxColour        StringToSystemColour        ( const wxString &value );
         wxFontContainer StringToFont                ( const wxString &value );
         wxFont          StringToSystemFont          ( const wxString &value );

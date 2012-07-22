@@ -249,24 +249,22 @@ size_t PropertyNode::GetAttributeCount() const
 //-----------------------------------------------------------------------------
 // Getters
 //-----------------------------------------------------------------------------
-using namespace wxGD::Convert;
-
 wxArrayString PropertyNode::GetAsArrayString() const
 {
-    return StringToArrayString( m_value );
+    return wxGD::Convert::StringToArrayString( m_value );
 }
 
 bool PropertyNode::GetAsBool() const
 {
-    return StringToBool( m_value );
+    return wxGD::Convert::StringToBool( m_value );
 }
 
 int PropertyNode::GetAsSystemColour() const
 {
     // System or Default Colour
-    wxColour colour = StringToColour( m_value );
+    wxColour colour = wxColour( m_value );
     if( colour == wxNullColour )
-        return StringToSystemColourIndex( m_value );
+        return wxGD::Convert::StringToSystemColourIndex( m_value );
 
     // Custom Colour
     return 0xFFFFFF;
@@ -279,37 +277,37 @@ wxColour PropertyNode::GetAsColour() const
         return wxNullColour;
 
     // System Colour or Default Colour
-    wxColour colour = StringToSystemColour( m_value );
+    wxColour colour = wxGD::Convert::StringToSystemColour( m_value );
     if( colour != wxNullColour )
         return colour;
 
     // Custom Colour
-    return StringToColour( m_value );
+    return wxColour( m_value );
 }
 
 double PropertyNode::GetAsDouble() const
 {
-    return StringToFloat( m_value );
+    return wxGD::Convert::StringToFloat( m_value );
 }
 
 wxFontContainer PropertyNode::GetAsFont() const
 {
-    return StringToFont( m_value );
+    return wxGD::Convert::StringToFont( m_value );
 }
 
 int PropertyNode::GetAsInteger() const
 {
-    return StringToInteger( m_value );
+    return wxGD::Convert::StringToInteger( m_value );
 }
 
 wxPoint PropertyNode::GetAsPoint() const
 {
-    return StringToPoint( m_value );
+    return wxGD::Convert::StringToPoint( m_value );
 }
 
 wxSize PropertyNode::GetAsSize() const
 {
-    return StringToSize( m_value );
+    return wxGD::Convert::StringToSize( m_value );
 }
 
 wxString PropertyNode::GetAsString() const
@@ -319,7 +317,7 @@ wxString PropertyNode::GetAsString() const
 
 int PropertyNode::GetAsStyle() const
 {
-    return StringToFlag( m_value );
+    return wxGD::Convert::StringToFlag( m_value );
 }
 
 wxString PropertyNode::GetAsText() const
@@ -341,22 +339,22 @@ void PropertyNode::SetValue( const wxString &value )
 
 void PropertyNode::SetValue( int value )
 {
-    m_value = IntegerToString(value);
+    m_value = wxGD::Convert::IntegerToString(value);
 }
 
 void PropertyNode::SetValue( bool value )
 {
-    m_value = BoolToString(value);
+    m_value = wxGD::Convert::BoolToString(value);
 }
 
 void PropertyNode::SetValue( double value )
 {
-    m_value = FloatToString(value);
+    m_value = wxGD::Convert::FloatToString(value);
 }
 
 void PropertyNode::SetValue( const wxArrayString &value )
 {
-    m_value = ArrayStringToString(value);
+    m_value = wxGD::Convert::ArrayStringToString(value);
 }
 
 void PropertyNode::SetValue( const wxColour &colour, int type )
@@ -370,29 +368,29 @@ void PropertyNode::SetValue( const wxColour &colour, int type )
         }
         case 0xFFFFFF:  // Custom Colour
         {
-            m_value = ColourToString( colour, type );
+            m_value = wxGD::Convert::ColourToString( colour, type );
             break;
         }
         default:        // System Colour
         {
-            m_value = SystemColourToString( type );
+            m_value = wxGD::Convert::SystemColourToString( type );
         }
     }
 }
 
 void PropertyNode::SetValue( const wxFontContainer &value )
 {
-    m_value = FontToString(value);
+    m_value = wxGD::Convert::FontToString(value);
 }
 
 void PropertyNode::SetValue( const wxPoint &value )
 {
-    m_value = PointToString(value);
+    m_value = wxGD::Convert::PointToString(value);
 }
 
 void PropertyNode::SetValue( const wxSize &value )
 {
-    m_value = SizeToString(value);
+    m_value = wxGD::Convert::SizeToString(value);
 }
 //=============================================================================
 // ObjectNode Class

@@ -25,6 +25,8 @@ public:
                         const wxColourPropertyValue &value  =
                                                     wxColourPropertyValue() );
     virtual ~wxGDColourProperty();
+
+    virtual wxString ColourToString( const wxColour &colour, int index, int flags ) const;
 };
 //=============================================================================
 // wxGDFlagsProperty

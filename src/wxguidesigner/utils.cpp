@@ -136,26 +136,6 @@ wxFont wxGD::Convert::StringToSystemFont( const wxString &value )
     return wxNullFont;
 }
 
-wxColour wxGD::Convert::StringToColour( const wxString &value )
-{
-    /* System colour
-    if( value.StartsWith("wxSYS_COLOUR_") )
-        return StringToSystemColour( value );
-*/
-    // Custom colour: "r,g,b"
-    wxStringTokenizer tokenizer( value, "," );
-    bool ok; unsigned long r = 0, g = 0, b = 0;
-
-    ok = tokenizer.GetNextToken().ToULong( &r );
-    ok = ok && tokenizer.GetNextToken().ToULong( &g );
-    ok = ok && tokenizer.GetNextToken().ToULong( &b );
-
-    if( ok )
-        return wxColour( r, g, b );
-
-    return wxNullColour;
-}
-
 wxColour wxGD::Convert::StringToSystemColour( const wxString &value )
 {
     if( !value.empty() )

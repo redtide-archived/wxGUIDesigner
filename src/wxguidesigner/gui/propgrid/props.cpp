@@ -251,6 +251,21 @@ wxSystemColourProperty( label, name, gs_cp_labels, gs_cp_values,
         SetValueToUnspecified();
 }
 
+wxString wxGDColourProperty::ColourToString( const wxColour &colour,
+                                            int index, int flags ) const
+{
+    if( index == 0 )
+    {
+        return wxEmptyString;
+    }
+    else if( index == -1 )
+    {
+        return colour.GetAsString();
+    }
+
+    return wxGD::Convert::SystemColourToString( gs_cp_values[index] );
+}
+
 wxGDColourProperty::~wxGDColourProperty()
 {
 }

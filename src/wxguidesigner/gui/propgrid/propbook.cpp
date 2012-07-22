@@ -34,8 +34,6 @@
 
 #include "wxguidesigner/gui/handler.h"
 
-using namespace wxGD::Convert;
-
 wxGDPropertyBook::wxGDPropertyBook( wxGDHandler *handler, wxWindow* parent )
 :
 wxNotebook( parent, wxID_ANY ),
@@ -171,20 +169,8 @@ void wxGDPropertyBook::OnPropGridChanged( wxPropertyGridEvent &event )
 
         if( property )
         {
-            PropertyType type = property->GetType();
-
-            if( type == PROPERTY_TYPE_COLOUR )
-            {
-                wxColourPropertyValue colourValue =
-                pgProperty->GetValue().GetAny().As< wxColourPropertyValue >();
-
-                property->SetValue( colourValue.m_colour, colourValue.m_type );
-            }
-            else
-            {
-                wxString value = pgProperty->GetValueAsString();
-                property->SetValue( value );
-            }
+            wxString value = pgProperty->GetValueAsString();
+            property->SetValue( value );
 
             wxGDPropertyEvent event( wxGD_EVT_PROPERTY_CHANGED, GetId(), property );
             m_handler->SendEvent( event );
@@ -550,7 +536,7 @@ wxPGProperty *wxGDPropertyBook::AddProperty( Property property )
     }
     else if( type == PROPERTY_TYPE_NAME   ||
              type == PROPERTY_TYPE_STRING ||
-             type == PROPERTY_TYPE_TEXT   )
+             type == PROPERTY_TYPE_TEXT   ) // TODO
     {
         return new wxStringProperty( label, name, property->GetAsString() );
     }

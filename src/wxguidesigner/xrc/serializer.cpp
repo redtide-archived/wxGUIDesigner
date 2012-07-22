@@ -211,8 +211,6 @@ void wxXRCSerializer::SerializeProperties( Properties props, wxXmlNode *parent )
             wxString value = property->GetAsString();
             if( value.empty() )
                 continue;
-            else if( !value.Contains("wxSYS_COLOUR_") )
-                value.Prepend("rgb(").Append(")");
 
             wxXmlNode *colourNode =
             new wxXmlNode( parent, wxXML_ELEMENT_NODE, name );
