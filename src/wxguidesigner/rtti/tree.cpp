@@ -256,12 +256,6 @@ wxArrayString PropertyNode::GetAsArrayString() const
     return StringToArrayString( m_value );
 }
 
-int PropertyNode::GetAsBitmapType() const
-{
-    wxString value( m_value );
-    return StringToBitmapType( value );
-}
-
 bool PropertyNode::GetAsBool() const
 {
     return StringToBool( m_value );
@@ -363,11 +357,6 @@ void PropertyNode::SetValue( double value )
 void PropertyNode::SetValue( const wxArrayString &value )
 {
     m_value = ArrayStringToString(value);
-}
-
-void PropertyNode::SetValue( int bitmapType, const wxString &value )
-{
-    m_value = BitmapTypeToString( bitmapType, value );
 }
 
 void PropertyNode::SetValue( const wxColour &colour, int type )

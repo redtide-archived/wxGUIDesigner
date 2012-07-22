@@ -52,8 +52,7 @@ namespace wxGD
 //-----------------------------------------------------------------------------
 // Getters
 //-----------------------------------------------------------------------------
-        int             StringToBitmapType          (       wxString &value );
-        int             StringToHex                 ( const wxString &value );
+//      int             StringToHex                 ( const wxString &value );
         int             StringToFlag                ( const wxString &value );
         int             StringToInteger             ( const wxString &value );
         int             StringToSystemColourIndex   ( const wxString &value );
@@ -70,14 +69,12 @@ namespace wxGD
 // Setters
 //-----------------------------------------------------------------------------
         wxString        IntegerToString       ( int     value );
-        wxString        FlagToString          ( int     value );
+//      wxString        FlagToString          ( int     value );
         wxString        BoolToString          ( bool    value );
         wxString        FloatToString         ( double  value );
         wxString        SystemColourToString  ( int     index );
         wxString        ColourToString        ( const wxColour &colour,
                                                 int colourType );
-        wxString        BitmapTypeToString    ( int bitmapType,
-                                                const wxString          &value );
         wxString        ArrayStringToString   ( const wxArrayString     &value );
         wxString        FontToString          ( const wxFontContainer   &value );
         wxString        PointToString         ( const wxPoint           &value );

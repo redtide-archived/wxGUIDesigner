@@ -24,6 +24,7 @@
 //-----------------------------------------------------------------------------
 // Getters
 //-----------------------------------------------------------------------------
+/*
 int wxGD::Convert::StringToHex( const wxString &text )
 {
     std::stringstream s(text.ToStdString());
@@ -31,7 +32,7 @@ int wxGD::Convert::StringToHex( const wxString &text )
     s >> std::hex >> ret;
     return ret;
 }
-
+*/
 int wxGD::Convert::StringToFlag( const wxString &value )
 {
     int result = 0;
@@ -59,7 +60,7 @@ int wxGD::Convert::StringToInteger( const wxString &value )
 
 bool wxGD::Convert::StringToBool( const wxString &value )
 {
-    if( value == "true" || (StringToInteger( value ) > 0) )
+    if( value.Lower() == "true" || (StringToInteger( value ) > 0) )
         return true;
 
     return false;
@@ -75,39 +76,6 @@ double wxGD::Convert::StringToFloat( const wxString &value )
 wxArrayString wxGD::Convert::StringToArrayString( const wxString &value )
 {
     return wxStringTokenize( value, "\n" );
-}
-
-int wxGD::Convert::StringToBitmapType( wxString &value )
-{
-    int bitmapType = 0;
-
-    if( !value.empty() )
-    {
-        wxArrayString attributes = wxStringTokenize( value, ";" );
-        size_t count = attributes.GetCount();
-
-        if( count > 1 ) // "<bmpType>;<value>"
-        {
-            wxString bmpType    = attributes.Item(0);
-                     value      = attributes.Item(1);
-                     bitmapType = wxAtoi( bmpType );
-
-            if( bitmapType == 0 )       // Default
-            {
-                value = wxEmptyString;
-            }
-            else if( bitmapType == 1 )  // wxArtProvider
-            {
-                if( count == 3 )        // - wxArtClient
-                    value += ";" + attributes.Item(2) + "_C";
-
-                if( count == 4 )        // - wxSize
-                    value += ";" + attributes.Item(3);
-            }
-        }
-    }
-
-    return bitmapType;
 }
 
 wxFontContainer wxGD::Convert::StringToFont( const wxString &value )
@@ -330,12 +298,12 @@ wxString wxGD::Convert::IntegerToString( int value )
 {
     return wxString::Format( "%i", value );
 }
-
+/*
 wxString wxGD::Convert::FlagToString( int value )
 {
     return wxFlagsManager::Get()->GetFlag( value );
 }
-
+*/
 wxString wxGD::Convert::BoolToString( bool value )
 {
     return( value ? "1" : "0" );
@@ -418,44 +386,6 @@ wxString wxGD::Convert::ArrayStringToString( const wxArrayString &value )
         result += value.Item(i) + "\n";
 
     return result;
-}
-
-wxString wxGD::Convert::BitmapTypeToString( int bitmapType, const wxString &value )
-{
-// "Default"
-    wxString type     = wxString::Format( "%i", bitmapType );
-    wxString newValue = wxEmptyString;
-
-// "wxArtProvider"
-    if( bitmapType == 1 )
-    {
-        wxArrayString attributes = wxStringTokenize( value, ";" );
-        size_t        count      = attributes.GetCount();
-
-        if( !count )
-            return newValue;
-
-        if( count > 0 ) // wxArtID
-            newValue = type + ";" + attributes.Item(0);
-
-        if( count > 1 ) // wxArtClient
-        {
-            wxString client = attributes.Item(1);
-            // Remove the last '_C' in wxArtClient
-            client.Truncate( client.length() - 2 );
-            newValue += ";" + client;
-        }
-
-        if( count > 2 ) // wxSize
-            newValue += ";" + attributes.Item(2);
-    }
-// "File"
-    else if( bitmapType == 2 )
-    {
-        newValue = type + ";" + value;
-    }
-
-    return newValue;
 }
 
 wxString wxGD::Convert::FontToString( const wxFontContainer &font )

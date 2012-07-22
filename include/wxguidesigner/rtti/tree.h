@@ -86,7 +86,6 @@ public:
     bool            GetAsBool()         const;
     double          GetAsDouble()       const;
     wxArrayString   GetAsArrayString()  const;
-    int             GetAsBitmapType()   const;
     wxColour        GetAsColour()       const;
     wxFontContainer GetAsFont()         const;
     wxPoint         GetAsPoint()        const;
@@ -105,9 +104,8 @@ public:
     void            SetValue( const wxPoint         &value );
     void            SetValue( const wxSize          &value );
     void            SetValue( const wxString        &value );
-    void            SetValue( int   bitmapType,
-                              const wxString        &value );
     void            SetValue( const wxColour        &value, int type = 0xFFFFFF );
+
 private:
     Attributes      m_attributes;
     PropertyInfo    m_propertyInfo;

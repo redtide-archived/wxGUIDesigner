@@ -87,7 +87,12 @@ public:
     virtual ~wxGDFontProperty();
 
     virtual void        OnSetValue();
-    virtual wxString    ValueToString ( wxVariant &value, int flags = 0 ) const;
+    virtual wxString    ValueToString ( wxVariant       &value,
+                                        int             argFlags ) const;
+
+    virtual bool        StringToValue ( wxVariant       &variant,
+                                        const wxString  &text,
+                                        int             argFlags ) const;
 
     virtual bool        OnEvent       ( wxPropertyGrid *propgrid,
                                         wxWindow *primary, wxEvent &event );
@@ -110,9 +115,17 @@ public:
 
     virtual ~wxGDPointProperty();
 
-    virtual wxVariant   ChildChanged  ( wxVariant &thisValue,
-                                        int       childIndex,
-                                        wxVariant &childValue ) const;
+    virtual wxString    ValueToString ( wxVariant       &value,
+                                        int             argFlags ) const;
+
+    virtual bool        StringToValue ( wxVariant       &variant,
+                                        const wxString  &text,
+                                        int             argFlags ) const;
+
+    virtual wxVariant   ChildChanged  ( wxVariant       &thisValue,
+                                        int             childIndex,
+                                        wxVariant       &childValue ) const;
+
     virtual void        RefreshChildren();
 
 protected:
@@ -132,9 +145,17 @@ public:
 
     virtual ~wxGDSizeProperty();
 
-    virtual wxVariant   ChildChanged  ( wxVariant &thisValue,
-                                        int       childIndex,
-                                        wxVariant &childValue ) const;
+    virtual wxString    ValueToString ( wxVariant       &value,
+                                        int             argFlags ) const;
+
+    virtual bool        StringToValue ( wxVariant       &variant,
+                                        const wxString  &text,
+                                        int             argFlags ) const;
+
+    virtual wxVariant   ChildChanged  ( wxVariant       &thisValue,
+                                        int             childIndex,
+                                        wxVariant       &childValue ) const;
+
     virtual void        RefreshChildren();
 
 protected:

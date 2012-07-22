@@ -173,65 +173,12 @@ void wxGDPropertyBook::OnPropGridChanged( wxPropertyGridEvent &event )
         {
             PropertyType type = property->GetType();
 
-            if( type == PROPERTY_TYPE_BOOL )
-            {
-                bool value = pgProperty->GetValue().GetAny().As< bool >();
-                property->SetValue( value );
-            }
-            else if( type == PROPERTY_TYPE_COLOUR )
+            if( type == PROPERTY_TYPE_COLOUR )
             {
                 wxColourPropertyValue colourValue =
                 pgProperty->GetValue().GetAny().As< wxColourPropertyValue >();
 
                 property->SetValue( colourValue.m_colour, colourValue.m_type );
-            }
-            else if( type == PROPERTY_TYPE_FONT )
-            {
-                wxString value = wxEmptyString;
-
-                wxGDFontProperty *fontProperty =
-                wxDynamicCast( pgProperty, wxGDFontProperty );
-
-                if( fontProperty )
-                    value = fontProperty->GetValue().GetString();
-                    
-                property->SetValue( value );
-            }/*
-            else if( type == PROPERTY_TYPE_BITMAP )
-            {
-                wxString value   = pgProperty->GetValueAsString();
-                int      bmpType = pgProperty->GetChoices().Index( value );
-
-                wxGDBitmapProperty *bmpProperty =
-                wxDynamicCast( pgProperty, wxGDBitmapProperty );
-
-                if( bmpProperty )
-                {
-                    value = bmpProperty->GetValue().GetString();
-
-                    // No need index string representation value for empty values
-                    if( value.IsNumber() )
-                        value = wxEmptyString;
-
-                    property->SetValue( bmpType, value );
-                }
-                else
-                {
-                    property->SetValue( wxEmptyString );
-                }
-            }*/
-            else if( type == PROPERTY_TYPE_STYLE )
-            {
-                wxString value = pgProperty->GetValueAsString();
-                value.Replace( ", ", "|" );
-                property->SetValue( value );
-            }
-            else if((type == PROPERTY_TYPE_POINT) ||
-                    (type == PROPERTY_TYPE_SIZE)  )
-            {
-                wxString value = pgProperty->GetValueAsString();
-                value.Replace( "; ", "," );
-                property->SetValue( value );
             }
             else
             {
@@ -252,17 +199,16 @@ void wxGDPropertyBook::OnPropGridSelected( wxPropertyGridEvent &event )
     wxPGProperty *pgProperty = event.GetProperty();
     if( pgProperty )
     {
-        wxString propName    = pgProperty->GetBaseName();
-        wxString description = "<h5>" + pgProperty->GetLabel() + "</h5>";
-        Object   object      = m_handler->GetSelectedObject();
+        wxString propertyName = pgProperty->GetBaseName();
+        wxString description  = "<h5>" + pgProperty->GetLabel() + "</h5>";
+        Object   object       = m_handler->GetSelectedObject();
 
         if( pgProperty->IsCategory() )
         {
             // Can't get a baseclass description from the object
-            ClassInfo info = ClassInfoDB::Get()->GetClassInfo( propName );
-
+            ClassInfo info = ClassInfoDB::Get()->GetClassInfo( propertyName );
             if( info )
-                description += "<p>" + info->GetDescription() + "</p>";
+                description += info->GetDescription();
         }
         else if( pgProperty->IsSubProperty() )
         {
@@ -273,19 +219,18 @@ void wxGDPropertyBook::OnPropGridSelected( wxPropertyGridEvent &event )
             for( size_t i = 0; i < info->GetChildCount(); i++ )
             {
                 PropertyInfo child = info->GetChild( i );
-                if( child->GetName() == propName )
+                if( child->GetName() == propertyName )
                 {
-                    description += "<p>" + child->GetDescription() + "</p>";
+                    description += child->GetDescription();
                     break;
                 }
             }
         }
         else
         {
-            Property property = object->GetProperty( propName );
-
+            Property property = object->GetProperty( propertyName );
             if( property )
-                description += "<p>" + property->GetDescription() + "</p>";
+                description += property->GetDescription();
         }
 
         m_pgHtml->SetPage( description );
@@ -358,7 +303,7 @@ void wxGDPropertyBook::OnEventGridSelected( wxPropertyGridEvent &event )
                 if( evt->GetTypeName( i ) == evtTypeName )
                 {
                     desc = "<h5>" + evtTypeName + "</h5>";
-                    desc += "<p>" + evt->GetTypeDescription( i ) + "</p>";
+                    desc += evt->GetTypeDescription(i);
                     break;
                 }
             }
@@ -366,7 +311,7 @@ void wxGDPropertyBook::OnEventGridSelected( wxPropertyGridEvent &event )
         else
         {
             if( !evt->GetDescription().empty() )
-                desc += "<p>" + evt->GetDescription() + "</p>";
+                desc += evt->GetDescription();
         }
 
         m_egHtml->SetPage( desc );
@@ -621,7 +566,7 @@ wxPGProperty *wxGDPropertyBook::AddProperty( Property property )
     {
         return new wxFileProperty( label, name, property->GetAsURL() );
     }
-    else if( type == PROPERTY_TYPE_FLAG || type == PROPERTY_TYPE_STYLE )
+    else if( type == PROPERTY_TYPE_STYLE )
     {
         wxArrayString styleNames;
         wxArrayInt    styleValues;
@@ -637,7 +582,7 @@ wxPGProperty *wxGDPropertyBook::AddProperty( Property property )
 
         wxPGProperty *pgProperty =
         new wxGDFlagsProperty( label, name, styleNames, styleValues,
-                                                property->GetAsInteger() );
+                                                property->GetAsStyle() );
         return pgProperty;
     }
 
