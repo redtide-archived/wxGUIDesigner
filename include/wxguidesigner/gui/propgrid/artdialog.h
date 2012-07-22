@@ -60,7 +60,9 @@ public:
 
 private:
     void            SetSelection( size_t selection );
-    void            OnSelectSource( wxCommandEvent &event );
+
+    void            OnSelectSource  ( wxCommandEvent    &event );
+    void            OnFileActivated ( wxFileCtrlEvent   &event );
 
     wxBoxSizer              *m_sizer;
     BitmapRequesterArtPanel *m_artReq;

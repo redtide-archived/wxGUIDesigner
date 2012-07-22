@@ -357,6 +357,9 @@ wxDialog( parent, wxID_ANY, _("Open an image file"), wxDefaultPosition,
 
     Bind( wxEVT_COMMAND_RADIOBOX_SELECTED,
             &BitmapRequesterDialog::OnSelectSource, this );
+
+    Bind( wxEVT_FILECTRL_FILEACTIVATED,
+            &BitmapRequesterDialog::OnFileActivated, this );
 }
 
 BitmapRequesterDialog::~BitmapRequesterDialog()
@@ -427,3 +430,9 @@ void BitmapRequesterDialog::OnSelectSource( wxCommandEvent &event )
     SetSelection( event.GetSelection() );
     Layout();
 }
+
+void BitmapRequesterDialog::OnFileActivated( wxFileCtrlEvent & )
+{
+    EndModal( wxID_OK );
+}
+
