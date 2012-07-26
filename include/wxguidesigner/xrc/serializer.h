@@ -13,11 +13,11 @@
 
 namespace wxXRCSerializer
 {
-    bool    Load                  ( RTTITree    tree, const wxString &path );
-    bool    Save                  ( RTTITree    tree, const wxString &path,
-                                    int indent = 4 );
+    bool        Load                  ( RTTITree    tree, const wxString &path );
+    bool        Save                  ( RTTITree    tree, const wxString &path,
+                                        int indent = 4 );
 
-    wxXmlDocument Serialize       ( RTTITree    tree );
+    wxXmlNode   *Serialize            ( RTTITree    tree );
 
     void    SerializeObject       ( Object      object,     wxXmlNode *parent );
     void    SerializeChildren     ( Objects     children,   wxXmlNode *parent );

@@ -30,6 +30,7 @@ class wxToolBar;
 class wxTreeCtrl;
 class wxWindow;
 class wxXmlDocument;
+class wxXmlNode;
 class wxXmlResource;
 
 #ifdef __WXDEBUG__
@@ -73,14 +74,14 @@ public:
 //-----------------------------------------------------------------------------
     bool            Load                ( const wxString &filePath );
     bool            Save                ( const wxString &filePath );
-    wxXmlDocument   Serialize();
+    void            Serialize();
+    void            SerializeObject     ( Object object, wxXmlNode *rootNode );
 //-----------------------------------------------------------------------------
 // Object operations
 //-----------------------------------------------------------------------------
     void CreateObject( const wxString &className, int senderId );
     void SelectObject( Object object, int senderId );
     Object GetSelectedObject() const;
-    Object GetTopLevelObject( Object object );
 
     void SendEvent      ( wxEvent &event, bool delayed = false );
 
@@ -104,7 +105,6 @@ private:
 
     vector< wxEvtHandler * >        m_handlers;
     RTTITree                        m_tree;
-//  wxGDSettings                    m_settings;
     wxLocale                        m_locale;
 };
 

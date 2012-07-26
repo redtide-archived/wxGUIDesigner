@@ -132,7 +132,11 @@ bool Wizard::Create( wxWindow *parent, int id, const wxString& title,
     mainColumn->Add( 0, 5, 0, wxEXPAND ); 
     mainColumn->Add( buttonRow, 0, wxALIGN_RIGHT );
 
-    GetClientSizer()->Add( mainColumn, 1, wxALL | wxEXPAND, 5 );
+    wxBoxSizer *windowSizer = new wxBoxSizer( wxVERTICAL );
+    windowSizer->Add( mainColumn, 1, wxALL | wxEXPAND, 5 );
+
+    SetSizer( windowSizer );
+    Layout();
 
     m_help->Bind( wxEVT_COMMAND_BUTTON_CLICKED, &Wizard::OnHelp,        this );
     m_prev->Bind( wxEVT_COMMAND_BUTTON_CLICKED, &Wizard::OnBackOrNext,  this );

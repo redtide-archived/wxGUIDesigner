@@ -64,14 +64,21 @@ bool wxXRCSerializer::Save( RTTITree tree, const wxString &path, int indent )
     if( !tree || !fileName.DirExists() )
         return false;
 
-    wxXmlDocument xmlDocument = Serialize( tree );
+    wxXmlDocument xmlDocument;
+    xmlDocument.SetRoot( Serialize( tree ) );
 
     return xmlDocument.Save( path, indent );
 }
 
-wxXmlDocument wxXRCSerializer::Serialize( RTTITree tree )
+wxXmlNode *wxXRCSerializer::Serialize( RTTITree tree )
 {
-    wxXmlDocument xmlDocument;
+    if( !tree )
+        return NULL;
+
+    Object root = tree->GetRootObject();
+
+    if( !root )
+        return NULL;
 
     int xrcVerSel;
     wxString xrcVer = "2.5.3.1";
@@ -84,20 +91,10 @@ wxXmlDocument wxXRCSerializer::Serialize( RTTITree tree )
     rootNode->AddAttribute( "xmlns", "http://www.wxwidgets.org/wxxrc" );
     rootNode->AddAttribute( "version", xrcVer );
 
-    xmlDocument.SetRoot( rootNode );
-
-    if( !tree )
-        return xmlDocument;
-
-    Object root = tree->GetRootObject();
-
-    if( !root )
-        return xmlDocument;
-
     // Serialize toplevel objects (no events / properties for root node)
     SerializeChildren( root->GetChildren(), rootNode );
 
-    return xmlDocument;
+    return rootNode;
 }
 
 void wxXRCSerializer::SerializeObject( Object object, wxXmlNode *parent )
@@ -114,9 +111,9 @@ void wxXRCSerializer::SerializeObject( Object object, wxXmlNode *parent )
     if( object->IsExpanded() )
         objNode->AddAttribute( "expanded", "1" );
 
-    SerializeProperties ( object->GetProperties(),  objNode );
-    SerializeEvents     ( object->GetEvents(),      objNode );
     SerializeChildren   ( object->GetChildren(),    objNode );
+    SerializeEvents     ( object->GetEvents(),      objNode );
+    SerializeProperties ( object->GetProperties(),  objNode );
 }
 
 void wxXRCSerializer::SerializeChildren( Objects children, wxXmlNode *parent )

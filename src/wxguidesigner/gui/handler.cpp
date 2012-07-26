@@ -41,7 +41,6 @@
 #include "wxguidesigner/events.h"
 #include "wxguidesigner/utils.h"
 
-#include "wxguidesigner/rtti/tree.h"
 #include "wxguidesigner/rtti/database.h"
 #include "wxguidesigner/rtti/tree.h"
 
@@ -54,9 +53,10 @@
 #endif
 #include "wxguidesigner/gui/dialog/about.h"
 #include "wxguidesigner/gui/dialog/prefs.h"
-#include "wxguidesigner/gui/editor.h"
+#include "wxguidesigner/gui/editor/designer.h"
+#include "wxguidesigner/gui/editor/book.h"
 #include "wxguidesigner/gui/palette.h"
-#include "wxguidesigner/gui/propgrid/propbook.h"
+#include "wxguidesigner/gui/property/book.h"
 #include "wxguidesigner/gui/treeview.h"
 #include "wxguidesigner/gui/mainframe.h"
 #include "wxguidesigner/gui/handler.h"
@@ -245,6 +245,10 @@ wxTreeCtrl *wxGDHandler::GetTreeView( wxWindow *parent )
 void wxGDHandler::CreateObject( const wxString &className, int senderId )
 {
     Object object = m_tree->CreateObject( className );
+    if( !object )
+        return;
+
+    Serialize();
 
     wxGDObjectEvent event( wxGD_EVT_OBJECT_CREATED, senderId, object );
     SendEvent( event );
@@ -254,15 +258,13 @@ void wxGDHandler::SelectObject( Object object, int senderId )
 {
     if( !object )
         return;
-        
+
     m_tree->SelectObject( object );
+
+    Serialize();
+
     wxGDObjectEvent event( wxGD_EVT_OBJECT_SELECTED, senderId, object );
     SendEvent( event );
-}
-
-Object wxGDHandler::GetTopLevelObject( Object object )
-{
-    return m_tree->GetTopLevelObject( object );
 }
 
 Object wxGDHandler::GetSelectedObject() const
@@ -282,9 +284,32 @@ bool wxGDHandler::Save( const wxString &filePath )
     return wxXRCSerializer::Save( m_tree, filePath );
 }
 
-wxXmlDocument wxGDHandler::Serialize()
+void wxGDHandler::Serialize()
 {
-    return wxXRCSerializer::Serialize( m_tree );
+    wxXmlNode *xrcRoot = wxXRCSerializer::Serialize( m_tree );
+
+// Reload the XRC project in memory
+    wxXmlResource::Get()->Unload("memory:xrc.xrc");
+    wxMemoryFSHandler::RemoveFile("xrc.xrc");
+
+    wxStringOutputStream sout;
+    wxXmlDocument        doc;
+    doc.SetRoot( xrcRoot );
+    doc.Save( sout, 4 );
+    wxString xrcText = sout.GetString();
+
+    wxMemoryFSHandler::AddFile("xrc.xrc", xrcText );
+    wxXmlResource::Get()->Load("memory:xrc.xrc");
+
+// Display the new XRC project
+    wxStyledTextCtrl *xrcEditor = wxDynamicCast( m_editBook->GetPage(1), wxStyledTextCtrl );
+    if( xrcEditor )
+        xrcEditor->SetText( xrcText );
+}
+
+void wxGDHandler::SerializeObject( Object object, wxXmlNode *rootNode )
+{
+    wxXRCSerializer::SerializeObject( object, rootNode );
 }
 
 void wxGDHandler::SendEvent( wxEvent &event, bool delayed )

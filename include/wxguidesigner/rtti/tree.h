@@ -115,7 +115,7 @@ private:
 //=============================================================================
 // ObjectNode Class
 //=============================================================================
-class ObjectNode
+class ObjectNode : public enable_shared_from_this< ObjectNode >
 {
 public:
     ObjectNode( ClassInfo classInfo, Object parent,
@@ -161,10 +161,11 @@ public:
 // Parent / children objects
 //-----------------------------------------------------------------------------
     void        AddChild( Object child );
-    Object      GetChild( size_t index ) const;
-    Object      GetParent()              const;
-    Objects     GetChildren()            const;
-    size_t      GetChildCount()          const;
+    Object      GetChild( size_t index )    const;
+    Object      GetParent()                 const;
+    Object      GetTopLevelParent();
+    Objects     GetChildren()               const;
+    size_t      GetChildCount()             const;
 
 private:
     ClassInfo   m_classInfo;
@@ -189,7 +190,6 @@ public:
 
     Object GetRootObject()                                          const;
     Object GetSelectedObject()                                      const;
-    Object GetTopLevelObject( Object object )                       const;
     size_t GetSiblingsCount ( Object parent, ClassInfo classInfo )  const;
     bool   IsChildOk        ( Object parent, ClassInfo classInfo )  const;
 

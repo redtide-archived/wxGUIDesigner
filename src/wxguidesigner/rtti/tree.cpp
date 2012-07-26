@@ -602,6 +602,20 @@ Object ObjectNode::GetParent() const
     return m_parent;
 }
 
+Object ObjectNode::GetTopLevelParent()
+{
+    Object parent = shared_from_this();
+    while( parent )
+    {
+        if( parent->IsTopLevel() )
+            return parent;
+
+        parent = parent->GetParent();
+    }
+
+    return Object();
+}
+
 Objects ObjectNode::GetChildren() const
 {
     return m_children;
@@ -790,23 +804,6 @@ Object ObjectTree::GetRootObject() const
 Object ObjectTree::GetSelectedObject() const
 {
     return m_selected;
-}
-
-Object ObjectTree::GetTopLevelObject( Object object ) const
-{
-    if( !object )
-        return Object();
-
-    Object parent = object;
-    while( parent )
-    {
-        if( parent->IsTopLevel() )
-            return parent;
-
-        parent = parent->GetParent();
-    }
-
-    return parent;
 }
 
 void ObjectTree::SelectObject( Object object )

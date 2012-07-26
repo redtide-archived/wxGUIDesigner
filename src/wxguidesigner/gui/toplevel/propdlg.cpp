@@ -65,10 +65,14 @@ bool PropertySheetDialog::Create  ( wxWindow       *parent,
 #if defined(__SMARTPHONE__) || defined(__POCKETPC__)
     m_sheetOuterBorder = 0;
 #endif
-    GetClientSizer()->Add(m_innerSizer, 1, wxGROW|wxALL, m_sheetOuterBorder);
+    wxBoxSizer *windowSizer = new wxBoxSizer( wxVERTICAL );
+    windowSizer->Add(m_innerSizer, 1, wxGROW|wxALL, m_sheetOuterBorder);
 
     m_bookCtrl = CreateBookCtrl();
     AddBookCtrl(m_innerSizer);
+
+    SetSizer( windowSizer );
+    Layout();
 
     return true;
 }
