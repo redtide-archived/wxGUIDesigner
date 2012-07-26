@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name:        wxguidesigner/gui/propgrid/props.h
+// Name:        wxguidesigner/gui/property/props.h
 // Purpose:     
 // Author:      Andrea Zanellato
 // Modified by:
@@ -8,13 +8,11 @@
 // Copyleft:    (ɔ) Andrea Zanellato
 // Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
-#ifndef __WXGUIDESIGNER_GUI_PROPGRID_PROPS_H__
-#define __WXGUIDESIGNER_GUI_PROPGRID_PROPS_H__
+#ifndef __WXGUIDESIGNER_GUI_PROPERTY_PROPS_H__
+#define __WXGUIDESIGNER_GUI_PROPERTY_PROPS_H__
 //=============================================================================
 // wxGDColourProperty
 //=============================================================================
-enum{ wxPG_COLOUR_DEFAULT = 0 };
-
 class wxGDColourProperty : public wxSystemColourProperty
 {
     WX_PG_DECLARE_PROPERTY_CLASS( wxGDColourProperty )
@@ -26,12 +24,13 @@ public:
                                                     wxColourPropertyValue() );
     virtual ~wxGDColourProperty();
 
-    virtual wxString ColourToString( const wxColour &colour, int index, int flags ) const;
+    virtual wxString ColourToString( const wxColour &colour,
+                                    int index, int flags = 0 ) const;
 };
 //=============================================================================
 // wxGDFlagsProperty
 //=============================================================================
-class WXDLLIMPEXP_PROPGRID wxGDFlagsProperty : public wxPGProperty
+class wxGDFlagsProperty : public wxPGProperty
 {
     WX_PG_DECLARE_PROPERTY_CLASS( wxGDFlagsProperty )
 
@@ -45,9 +44,9 @@ public:
     virtual ~wxGDFlagsProperty();
 
     virtual void        OnSetValue();
-    virtual wxString    ValueToString ( wxVariant &value, int argFlags = 0 ) const;
+    virtual wxString    ValueToString ( wxVariant &value, int flags = 0 ) const;
     virtual bool        StringToValue ( wxVariant &variant,
-                                        const wxString &text, int flags ) const;
+                                        const wxString &text, int flags = 0 ) const;
     virtual wxVariant   ChildChanged  ( wxVariant &thisValue, int childIndex,
                                         wxVariant &childValue ) const;
     virtual void        RefreshChildren();
@@ -90,11 +89,11 @@ public:
 
     virtual void        OnSetValue();
     virtual wxString    ValueToString ( wxVariant       &value,
-                                        int             argFlags ) const;
+                                        int             flags = 0 ) const;
 
     virtual bool        StringToValue ( wxVariant       &variant,
                                         const wxString  &text,
-                                        int             argFlags ) const;
+                                        int             flags = 0 ) const;
 
     virtual bool        OnEvent       ( wxPropertyGrid *propgrid,
                                         wxWindow *primary, wxEvent &event );
@@ -118,11 +117,11 @@ public:
     virtual ~wxGDPointProperty();
 
     virtual wxString    ValueToString ( wxVariant       &value,
-                                        int             argFlags ) const;
+                                        int             flags = 0 ) const;
 
     virtual bool        StringToValue ( wxVariant       &variant,
                                         const wxString  &text,
-                                        int             argFlags ) const;
+                                        int             flags = 0 ) const;
 
     virtual wxVariant   ChildChanged  ( wxVariant       &thisValue,
                                         int             childIndex,
@@ -148,11 +147,11 @@ public:
     virtual ~wxGDSizeProperty();
 
     virtual wxString    ValueToString ( wxVariant       &value,
-                                        int             argFlags ) const;
+                                        int             flags = 0 ) const;
 
     virtual bool        StringToValue ( wxVariant       &variant,
                                         const wxString  &text,
-                                        int             argFlags ) const;
+                                        int             flags = 0 ) const;
 
     virtual wxVariant   ChildChanged  ( wxVariant       &thisValue,
                                         int             childIndex,
@@ -164,4 +163,4 @@ protected:
     void DoSetValue( const wxSize &value ) { m_value = WXVARIANT( value ); }
 };
 
-#endif //__WXGUIDESIGNER_GUI_PROPGRID_PROPS_H__
+#endif //__WXGUIDESIGNER_GUI_PROPERTY_PROPS_H__

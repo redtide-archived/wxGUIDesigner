@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        wxguidesigner/gui/propgrid/propbmp.cpp
-// Purpose:     wxGDBitmapProperty and related support classes implementation
+// Name:        wxguidesigner/gui/property/bitmap.cpp
+// Purpose:     
 // Author:      Andrea Zanellato
 // Modified by: 
 // Created:     2012-05-08
@@ -15,8 +15,8 @@
 
 #include <wx/log.h>
 
-#include "wxguidesigner/gui/propgrid/propbmp.h"
-#include "wxguidesigner/gui/propgrid/artdialog.h"
+#include "wxguidesigner/gui/property/bitmapdialog.h"
+#include "wxguidesigner/gui/property/bitmap.h"
 //=============================================================================
 // wxPGBitmapDialogAdapter
 //=============================================================================
@@ -40,7 +40,7 @@ bool wxPGBitmapDialogAdapter::DoShowDialog( wxPropertyGrid* propGrid,
                 selection = 1;
         }
 
-        BitmapRequesterDialog dlg( propGrid->GetPanel(), selection );
+        wxGDBitmapDialog dlg( propGrid->GetPanel(), selection );
         dlg.SetFilterIndex( bmpProp->ms_indFilter );
         dlg.SetDirectory( bmpProp->ms_lastDir );
 

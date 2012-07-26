@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name:        wxguidesigner/gui/editor.h
+// Name:        wxguidesigner/gui/editor/book.h
 // Purpose:     wxGDEditorBook: Visual and code editor wxNotebook
 // Author:      Andrea Zanellato
 // Modified by:
@@ -8,26 +8,24 @@
 // Copyleft:    (ɔ) Andrea Zanellato
 // Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
-#ifndef __WXGUIDESIGNER_GUI_EDITOR_H__
-#define __WXGUIDESIGNER_GUI_EDITOR_H__
+#ifndef __WXGUIDESIGNER_GUI_EDITOR_BOOK_H__
+#define __WXGUIDESIGNER_GUI_EDITOR_BOOK_H__
 
 #include <utility>
 #include <map>
 
+#include <wx/xml/xml.h>
+
+#include "wxguidesigner/rtti.h"
+
 class wxNotebook;
-class wxPanel;
-class wxScrolledWindow;
-class wxStaticBitmap;
-class wxStaticText;
 class wxWindow;
 
 class wxGDEvent;
 class wxGDPropertyEvent;
 class wxGDObjectEvent;
 class wxGDHandler;
-class wxGDTitleBarPanel;
-class wxGDResizingPanel;
-class wxGlossyButton;
+class wxGDEditor;
 
 class wxGDEditorBook : public wxNotebook
 {
@@ -35,14 +33,12 @@ public:
     wxGDEditorBook( wxGDHandler *handler, wxWindow* parent );
     ~wxGDEditorBook();
 
+    wxGDEditor *GetGUIEditor() const;
+
 private:
-    typedef pair< Object, wxObject * > wxGDObject;
-    typedef map< Object, wxObject * >  wxGDObjects;
-
     void LoadCodeEditorPages();
-    void UpdateControls();
-
-    void OnDesignerResize( wxSizeEvent &event );
+    void Reload();
+    void SetupWindow        ( wxWindow *window );
 
     void OnObjectCreated    ( wxGDObjectEvent   &event );
     void OnObjectDeleted    ( wxGDObjectEvent   &event );
@@ -50,13 +46,13 @@ private:
     void OnEventChanged     ( wxGDEvent         &event );
     void OnPropertyChanged  ( wxGDPropertyEvent &event );
 
-    wxGDHandler         *m_handler;
-    wxScrolledWindow    *m_scrolled;
-    wxGDResizingPanel   *m_resizer;
-    wxPanel             *m_border;
-//  wxPanel             *m_designer;
+    wxGDHandler *m_handler;
+    wxGDEditor  *m_editor;
 
-    wxGDObjects         m_objects;
+    typedef pair< Object, wxObject * > wxGDObject;
+    typedef map< Object, wxObject * >  wxGDObjects;
+    wxGDObjects m_objects;
+    Object      m_oldTop;
 };
 
-#endif //__WXGUIDESIGNER_GUI_EDITOR_H__
+#endif //__WXGUIDESIGNER_GUI_EDITOR_BOOK_H__

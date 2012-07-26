@@ -11,7 +11,7 @@
 #include <wx/dcbuffer.h>
 #include <wx/log.h>
 
-#include "wxguidesigner/gui/glossybutton.h"
+#include "wxguidesigner/gui/editor/glossybutton.h"
 #include "wxguidesigner/gui/utils/draw.h"
 
 void DrawUtils::DrawGlossyGradient( wxDC &dc, wxRect &rect, wxColour &topStart,

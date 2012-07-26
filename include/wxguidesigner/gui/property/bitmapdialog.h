@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name:        wxguidesigner/gui/propgrid/artdialog.h
+// Name:        wxguidesigner/gui/property/bitmapdialog.h
 // Purpose:     
 // Author:      Andrea Zanellato
 // Modified by:
@@ -8,8 +8,8 @@
 // Copyleft:    (ɔ) Andrea Zanellato
 // Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
-#ifndef __WXGUIDESIGNER_GUI_PROPGRID_ARTDIALOG_H__
-#define __WXGUIDESIGNER_GUI_PROPGRID_ARTDIALOG_H__
+#ifndef __WXGUIDESIGNER_GUI_PROPERTY_BITMAPDIALOG_H__
+#define __WXGUIDESIGNER_GUI_PROPERTY_BITMAPDIALOG_H__
 
 class wxBoxSizer;
 class wxFileCtrl;
@@ -18,11 +18,11 @@ class wxRadioBox;
 class wxStaticBitmap;
 class wxStaticText;
 
-class BitmapRequesterArtPanel : public wxPanel 
+class wxGDBitmapArtPanel : public wxPanel 
 {
 public:
-    BitmapRequesterArtPanel( wxWindow *parent ); 
-    ~BitmapRequesterArtPanel();
+    wxGDBitmapArtPanel( wxWindow *parent ); 
+    ~wxGDBitmapArtPanel();
 
     wxArtClient     GetArtClient() const { return m_client; }
     wxArtID         GetArtId()     const { return m_id; }
@@ -43,11 +43,11 @@ private:
     wxString        m_id;
 };
 
-class BitmapRequesterDialog : public wxDialog 
+class wxGDBitmapDialog : public wxDialog 
 {
 public:
-    BitmapRequesterDialog( wxWindow *parent, int source = 0 ); 
-    ~BitmapRequesterDialog();
+    wxGDBitmapDialog( wxWindow *parent, int source = 0 ); 
+    ~wxGDBitmapDialog();
 
     void            SetDirectory    ( const wxString &directory );
     void            SetFilterIndex  ( int index );
@@ -64,11 +64,11 @@ private:
     void            OnSelectSource  ( wxCommandEvent    &event );
     void            OnFileActivated ( wxFileCtrlEvent   &event );
 
-    wxBoxSizer              *m_sizer;
-    BitmapRequesterArtPanel *m_artReq;
-    wxFileCtrl              *m_fileReq;
-    wxRadioBox              *m_fileTypeRbx;
-    wxString                m_path;
+    wxBoxSizer          *m_sizer;
+    wxGDBitmapArtPanel  *m_artReq;
+    wxFileCtrl          *m_fileReq;
+    wxRadioBox          *m_fileTypeRbx;
+    wxString            m_path;
 };
 
-#endif //__WXGUIDESIGNER_GUI_PROPGRID_ARTDIALOG_H__
+#endif //__WXGUIDESIGNER_GUI_PROPERTY_BITMAPDIALOG_H__

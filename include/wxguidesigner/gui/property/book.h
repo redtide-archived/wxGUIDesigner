@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name:        wxguidesigner/gui/propgrid/propbook.h
+// Name:        wxguidesigner/gui/property/book.h
 // Purpose:     
 // Author:      Andrea Zanellato
 // Modified by: 
@@ -8,8 +8,8 @@
 // Copyleft:    (ɔ) Andrea Zanellato
 // Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
-#ifndef __WXGUIDESIGNER_GUI_PROPGRID_PROPBOOK_H__
-#define __WXGUIDESIGNER_GUI_PROPGRID_PROPBOOK_H__
+#ifndef __WXGUIDESIGNER_GUI_PROPERTY_BOOK_H__
+#define __WXGUIDESIGNER_GUI_PROPERTY_BOOK_H__
 
 class wxNotebook;
 class wxWindow;
@@ -42,9 +42,6 @@ private:
     void OnEventGridLeftDClick  ( wxPropertyGridEvent   &event );
     void OnLinkClicked          ( wxHtmlLinkEvent       &event );
 
-    void OnObjectCreated        ( wxGDObjectEvent &event );
-    void OnObjectDeleted        ( wxGDObjectEvent &event );
-    void OnObjectExpanded       ( wxGDObjectEvent &event );
     void OnObjectSelected       ( wxGDObjectEvent &event );
 
     void LoadEvents             ( Object object );
@@ -63,4 +60,4 @@ private:
     wxHtmlWindow     *m_pgHtml;
 };
 
-#endif //__WXGUIDESIGNER_GUI_PROPGRID_PROPBOOK_H__
+#endif //__WXGUIDESIGNER_GUI_PROPERTY_BOOK_H__

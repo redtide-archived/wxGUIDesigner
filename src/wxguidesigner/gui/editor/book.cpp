@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name:        wxguidesigner/gui/editor.cpp
+// Name:        wxguidesigner/gui/editor/book.cpp
 // Purpose:     wxGDEditorBook: Visual and code editor wxNotebook impl.
 // Author:      Andrea Zanellato
 // Modified by: 
@@ -19,7 +19,6 @@
 #include <wx/panel.h>
 #include <wx/settings.h>
 #include <wx/scrolwin.h>
-#include <wx/sizer.h>
 #include <wx/sstream.h>
 #include <wx/stc/stc.h>
 #include <wx/xrc/xmlres.h>
@@ -34,59 +33,28 @@
 #include "wxguidesigner/gui/artprovider.h"
 #include "wxguidesigner/gui/handler.h"
 #include "wxguidesigner/gui/debugwindow.h"
-#include "wxguidesigner/gui/designer.h"
-#include "wxguidesigner/gui/editor.h"
+#include "wxguidesigner/gui/editor/designer.h"
+#include "wxguidesigner/gui/editor/book.h"
 //=============================================================================
 // wxGDEditorBook
 //=============================================================================
 wxGDEditorBook::wxGDEditorBook( wxGDHandler *handler, wxWindow *parent )
 :
 wxNotebook( parent, wxID_ANY ),
-m_handler( handler )
+m_handler ( handler ),
+m_editor  ( NULL )
 {
-//=============================================================================
-// wxGDEditor
-//=============================================================================
     SetOwnBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_BTNFACE ) );
-//-----------------------------------------------------------------------------
-// Scrolled window, the main visual editor page
-//-----------------------------------------------------------------------------
-    // Working area, block events propagation to our application
-    m_scrolled = new wxScrolledWindow( this, wxID_ANY, wxDefaultPosition,
-                                        wxDefaultSize, wxHSCROLL | wxVSCROLL |
-                                                        wxWS_EX_BLOCK_EVENTS );
-    m_scrolled->SetScrollRate( 5, 5 );
-    m_scrolled->SetBackgroundColour( wxColour( 192, 192, 192 ) );
-//-----------------------------------------------------------------------------
-// 'Invisible' resize area, where to catch and handle user mouse events
-//-----------------------------------------------------------------------------
-    m_resizer = new wxGDResizingPanel( m_scrolled );
-    m_resizer->SetBackgroundColour( wxColour( 192, 192, 192 ) );
 
-    wxBoxSizer* reSizer = new wxBoxSizer( wxVERTICAL );
-    m_resizer->SetSizer( reSizer );
-    m_resizer->Layout();
-    reSizer->Fit( m_resizer );
-/*-----------------------------------------------------------------------------
-// The client area, this is our 'GetClientSize()' except when has scrollbars
-//-----------------------------------------------------------------------------
-    m_client = new wxPanel( m_designer );
+    m_editor = new wxGDEditor( this );
 
-    designerSizer->Add( m_client, 1, wxEXPAND );
-    m_designer->SetSizer( designerSizer );
-    m_designer->Layout();
-    designerSizer->Fit( m_designer );
-*/
-    // Editor imagelist
     wxImageList *imageList = m_handler->GetSmallImageList();
-    if( !imageList )
-        return;
-
-    SetImageList( imageList );
+    if( imageList )
+        SetImageList( imageList );
 
     int imgIndex = wxGDArtProvider::GetGroupImageListIndex( "controls", "toplevel" );
 
-    AddPage( m_scrolled, _("Designer"), true, imgIndex );
+    AddPage( m_editor, _("Designer"), true, imgIndex );
 //=============================================================================
 // wxGDCodeEditors
 //=============================================================================
@@ -101,6 +69,11 @@ m_handler( handler )
 wxGDEditorBook::~wxGDEditorBook()
 {
     m_objects.clear();
+}
+
+wxGDEditor *wxGDEditorBook::GetGUIEditor() const
+{
+    return m_editor;
 }
 
 void wxGDEditorBook::LoadCodeEditorPages()
@@ -155,83 +128,54 @@ void wxGDEditorBook::LoadCodeEditorPages()
     }
 }
 
-void wxGDEditorBook::OnDesignerResize( wxSizeEvent &event )
+void wxGDEditorBook::OnObjectCreated( wxGDObjectEvent &event )
 {
-    // Update the scrolled window virtual size to show scroll bars
-    wxSize size = m_resizer->GetSize();
-    m_scrolled->SetVirtualSize( size.GetX() + 15, size.GetY() + 15 );
-    event.Skip();
+    Reload();
 }
 
-void wxGDEditorBook::OnObjectCreated( wxGDObjectEvent & )
+void wxGDEditorBook::OnObjectDeleted( wxGDObjectEvent &event )
 {
-    UpdateControls();
+    Reload();
 }
 
-void wxGDEditorBook::OnObjectDeleted( wxGDObjectEvent & )
+void wxGDEditorBook::OnObjectSelected( wxGDObjectEvent &event )
 {
-    UpdateControls();
+    Reload();
 }
 
-void wxGDEditorBook::OnObjectSelected( wxGDObjectEvent & )
+void wxGDEditorBook::OnEventChanged( wxGDEvent &event )
 {
-    UpdateControls();
-    // TODO: Draw the coloured rectangle
+    Reload();
 }
 
-void wxGDEditorBook::OnEventChanged( wxGDEvent & )
+void wxGDEditorBook::OnPropertyChanged( wxGDPropertyEvent &event )
 {
-    UpdateControls();
+    Reload();
 }
 
-void wxGDEditorBook::OnPropertyChanged( wxGDPropertyEvent & )
-{
-    UpdateControls();
-}
-
-void wxGDEditorBook::UpdateControls()
+void wxGDEditorBook::Reload()
 {
     Object object = m_handler->GetSelectedObject();
     if( !object )
         return;
 
-    Object toplevel = m_handler->GetTopLevelObject( object );
-    if( !toplevel )
-        return;
-
-    // Load the xrcText in memory so access it and load the object
-    wxXmlDocument doc = m_handler->Serialize();
-    wxStringOutputStream sout;
-    doc.Save( sout, 4 );
-    wxString xrcText = sout.GetString();
-
-    wxMemoryFSHandler::AddFile("xrc.xrc", xrcText );
-    wxXmlResource::Get()->Load("memory:xrc.xrc");
-
-    wxStyledTextCtrl *xrcEditor = wxDynamicCast( GetPage(1), wxStyledTextCtrl );
-    if( xrcEditor )
-        xrcEditor->SetText( xrcText );
-
+    Object   toplevel  = object->GetTopLevelParent();
     wxString className = toplevel->GetClassName();
     wxString name      = toplevel->GetName();
 
-    m_resizer->DestroyChildren();
+    m_handler->Serialize();
+    m_editor->UpdateDesigner( className, name );
+}
 
-    wxObject *wxobject = wxXmlResource::Get()->LoadObject( m_resizer, name, className );
-    wxWindow *wxwindow = wxDynamicCast( wxobject, wxWindow );
-
-    wxMemoryFSHandler::RemoveFile("xrc.xrc");
-
-    if( !wxwindow )
+void wxGDEditorBook::SetupWindow( wxWindow *window )
+{
+    Object object = m_handler->GetSelectedObject();
+    if( !window || !object )
         return;
 
-    wxSizer *reSizer = m_resizer->GetSizer();
-    if( reSizer )
-        reSizer->Add( wxwindow, 1, wxBOTTOM | wxRIGHT | wxEXPAND, 3 );
+    Property property = object->GetProperty("size");
+    wxSize   size     = property->GetAsSize();
 
-    wxwindow->Reparent( m_resizer );
-    m_resizer->SetSize( wxSize( 399,339 ) );
-    m_resizer->Layout();
-
-    wxwindow->Bind( wxEVT_SIZE, &wxGDEditorBook::OnDesignerResize, this );
+    if( size != wxDefaultSize )
+        window->SetSize( size );
 }

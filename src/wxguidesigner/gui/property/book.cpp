@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name:        wxguidesigner/gui/propgrid/propbook.cpp
+// Name:        wxguidesigner/gui/property/book.cpp
 // Purpose:     
 // Author:      Andrea Zanellato
 // Modified by: 
@@ -28,9 +28,9 @@
 #include "wxguidesigner/fontcontainer.h"
 #include "wxguidesigner/utils.h"
 
-#include "wxguidesigner/gui/propgrid/propbook.h"
-#include "wxguidesigner/gui/propgrid/propbmp.h"
-#include "wxguidesigner/gui/propgrid/props.h"
+#include "wxguidesigner/gui/property/book.h"
+#include "wxguidesigner/gui/property/bitmap.h"
+#include "wxguidesigner/gui/property/props.h"
 
 #include "wxguidesigner/gui/handler.h"
 
@@ -155,8 +155,6 @@ void wxGDPropertyBook::OnSize( wxSizeEvent &event )
         m_pgSplitter->SetSashPosition( height * 0.7 );
         m_egSplitter->SetSashPosition( height * 0.7 );
     }
-
-    event.Skip();
 }
 
 void wxGDPropertyBook::OnPropGridChanged( wxPropertyGridEvent &event )
@@ -176,8 +174,6 @@ void wxGDPropertyBook::OnPropGridChanged( wxPropertyGridEvent &event )
             m_handler->SendEvent( event );
         }
     }
-
-    event.Skip();
 }
 
 void wxGDPropertyBook::OnPropGridSelected( wxPropertyGridEvent &event )
@@ -221,8 +217,6 @@ void wxGDPropertyBook::OnPropGridSelected( wxPropertyGridEvent &event )
 
         m_pgHtml->SetPage( description );
     }
-
-    event.Skip();
 }
 
 void wxGDPropertyBook::OnEventGridChanged( wxPropertyGridEvent &event )
@@ -232,110 +226,106 @@ void wxGDPropertyBook::OnEventGridChanged( wxPropertyGridEvent &event )
     if( pgProperty && pgProperty->GetParent() )
     {
         // Get the event class name from the pgProperty parent
-        wxPGProperty *pgCat = pgProperty->GetParent();
-        if( !pgCat )
-        {
-            event.Skip(); return; // Just to be sure, shouldn't happen
-        }
+        wxPGProperty *pgCategory = pgProperty->GetParent();
+        if( !pgCategory )
+            return; // Just to be sure, shouldn't happen
 
-        Event evt = // Get the Event
-        m_handler->GetSelectedObject()->GetEvent( pgCat->GetName() );
+        Event gdEvent = // Get the Event
+        m_handler->GetSelectedObject()->GetEvent( pgCategory->GetName() );
 
-        if( evt )
+        if( gdEvent )
         {
             // Iterate to find the right event type name
-            for( size_t i = 0; i < evt->GetTypeCount(); i++ )
+            for( size_t i = 0; i < gdEvent->GetTypeCount(); i++ )
             {
                 wxString evtTypeName = pgProperty->GetLabel();
-                if( evt->GetTypeName( i ) == evtTypeName )
+                if( gdEvent->GetTypeName(i) == evtTypeName )
                 {
-                    evt->SetHandlerName( i, pgProperty->GetValueAsString() );
+                    gdEvent->SetHandlerName( i, pgProperty->GetValueAsString() );
 
-                    wxGDEvent event( wxGD_EVT_EVENT_CHANGED, GetId(), evt );
+                    wxGDEvent event( wxGD_EVT_EVENT_CHANGED, GetId(), gdEvent );
                     m_handler->SendEvent( event );
-
                     break;
                 }
             }
         }
     }
-
-    event.Skip();
 }
 
 void wxGDPropertyBook::OnEventGridSelected( wxPropertyGridEvent &event )
 {
-    wxPGProperty *pgPropEvt = event.GetProperty();
-    if( pgPropEvt )
+    wxPGProperty *pgProperty = event.GetProperty();
+    if( pgProperty )
     {
         wxPGProperty *pgPropEvtType = NULL;
-        if( !pgPropEvt->IsCategory() )
+        if( !pgProperty->IsCategory() )
         {
-            pgPropEvtType = pgPropEvt;
-            pgPropEvt     = pgPropEvtType->GetParent();
+            pgPropEvtType = pgProperty;
+            pgProperty    = pgPropEvtType->GetParent();
 
-            if( !pgPropEvt )
+            if( !pgProperty )
                 return;
         }
-        wxString evtName = pgPropEvt->GetLabel();
-        Event evt = m_handler->GetSelectedObject()->GetEvent( evtName );
-        wxString desc = "<h5>" + evtName + "</h5>";
+
+        wxString name = pgProperty->GetLabel();
+        Event gdEvent = m_handler->GetSelectedObject()->GetEvent( name );
+        wxString description = "<h5>" + name + "</h5>";
 
         if( pgPropEvtType )
         {
-            wxString evtTypeName = pgPropEvtType->GetLabel();
-            for( size_t i = 0; i < evt->GetTypeCount(); i++ )
+            wxString typeName = pgPropEvtType->GetLabel();
+            for( size_t i = 0; i < gdEvent->GetTypeCount(); i++ )
             {
-                if( evt->GetTypeName( i ) == evtTypeName )
+                if( gdEvent->GetTypeName(i) == typeName )
                 {
-                    desc = "<h5>" + evtTypeName + "</h5>";
-                    desc += evt->GetTypeDescription(i);
+                    description = "<h5>" + typeName + "</h5>";
+                    description += gdEvent->GetTypeDescription(i);
                     break;
                 }
             }
         }
         else
         {
-            if( !evt->GetDescription().empty() )
-                desc += evt->GetDescription();
+            if( !gdEvent->GetDescription().empty() )
+                description += gdEvent->GetDescription();
         }
 
-        m_egHtml->SetPage( desc );
+        m_egHtml->SetPage( description );
     }
-    event.Skip();
 }
 
 void wxGDPropertyBook::OnEventGridLeftDClick( wxPropertyGridEvent &event )
 {
-    wxPGProperty *p = event.GetProperty();
-    if( p && !p->IsCategory() )
+    wxPGProperty *pgProperty = event.GetProperty();
+    if( pgProperty && !pgProperty->IsCategory() )
     {
-        wxString evtTypeName( p->GetLabel() );
+        wxString gdEventType = pgProperty->GetLabel();
+        wxString name( gdEventType );
 
-        evtTypeName.MakeLower().Replace("wxevt_", "");
+        name.MakeLower().Replace("wxevt_", "");
 
-        wxString          evtFuncName = "On";
-        wxStringTokenizer tokenizer( evtTypeName, "_" );
+        wxString          handlerName = "On";
+        wxStringTokenizer tokenizer( name, "_" );
         while( tokenizer.HasMoreTokens() )
         {
-            evtFuncName.Append( tokenizer.GetNextToken().MakeCapitalized() );
+            handlerName.Append( tokenizer.GetNextToken().MakeCapitalized() );
         }
 
-        Object obj = m_handler->GetSelectedObject();
-        wxPGProperty *evtCat = p->GetParent();
+        Object        object     = m_handler->GetSelectedObject();
+        wxPGProperty *pgCategory = pgProperty->GetParent();
 
-        if( obj && evtCat )
+        if( object && pgCategory )
         {
-            Event evt = obj->GetEvent( evtCat->GetLabel() );
-            if( evt )
+            Event gdEvent = object->GetEvent( pgCategory->GetLabel() );
+            if( gdEvent )
             {
-                evt->SetHandlerName( p->GetLabel(), evtFuncName );
+                gdEvent->SetHandlerName( gdEventType, handlerName );
 
-                wxGDEvent event( wxGD_EVT_EVENT_CHANGED, GetId(), evt );
+                wxGDEvent event( wxGD_EVT_EVENT_CHANGED, GetId(), gdEvent );
                 m_handler->SendEvent( event );
             }
 
-            p->SetValueFromString( evtFuncName );
+            pgProperty->SetValueFromString( handlerName );
         }
     }
 }
@@ -345,26 +335,9 @@ void wxGDPropertyBook::OnLinkClicked( wxHtmlLinkEvent &event )
     wxLaunchDefaultBrowser( event.GetLinkInfo().GetHref() );
 }
 
-void wxGDPropertyBook::OnObjectCreated( wxGDObjectEvent &event )
-{
-    // Do nothing.
-}
-
-void wxGDPropertyBook::OnObjectDeleted( wxGDObjectEvent &event )
-{
-    // Do nothing.
-}
-
-void wxGDPropertyBook::OnObjectExpanded( wxGDObjectEvent &event )
-{
-    // Do nothing.
-}
-
 void wxGDPropertyBook::OnObjectSelected( wxGDObjectEvent &event )
 {
     Object object = event.GetObject();
-    if( !object )
-        return;
 
     LoadProperties( object );
     LoadEvents( object );
@@ -373,6 +346,7 @@ void wxGDPropertyBook::OnObjectSelected( wxGDObjectEvent &event )
 void wxGDPropertyBook::LoadEvents( Object object )
 {
     m_pgEvents->Clear();
+    m_egHtml->SetPage( wxEmptyString );
 
     if( !object )
         return;
@@ -381,20 +355,24 @@ void wxGDPropertyBook::LoadEvents( Object object )
 
     for( Events::const_iterator it = events.begin(); it != events.end(); ++it )
     {
-        Event evt = *it;
-        if( evt )
+        Event gdEvent = *it;
+        if( gdEvent )
         {
-            wxPGProperty *cat =
+            wxPGProperty *pgCategory =
             m_pgEvents->Append( new wxPropertyCategory
-                                        ( evt->GetName(), wxPG_LABEL ) );
+            (
+                gdEvent->GetName(), wxPG_LABEL )
+            );
 
-            for( size_t n = 0; n < evt->GetTypeCount(); n++ )
+            for( size_t i = 0; i < gdEvent->GetTypeCount(); i++ )
             {
-                wxPGProperty *p =
-                cat->AppendChild( new wxStringProperty
-                                        ( evt->GetTypeName( n ), wxPG_LABEL ) );
+                wxPGProperty *pgProperty =
+                pgCategory->AppendChild( new wxStringProperty
+                (
+                    gdEvent->GetTypeName(i), wxPG_LABEL )
+                );
 
-                p->SetValueFromString( evt->GetHandlerName( n ) );
+                pgProperty->SetValueFromString( gdEvent->GetHandlerName(i) );
             }
         }
     }
@@ -403,12 +381,16 @@ void wxGDPropertyBook::LoadEvents( Object object )
 void wxGDPropertyBook::LoadProperties( Object object )
 {
     m_pgProps->Clear();
+    m_pgHtml->SetPage( wxEmptyString );
 
     if( !object )
         return;
 
-    wxPGProperty *mainCat =
-    m_pgProps->Append( new wxPropertyCategory( object->GetClassName(), wxPG_LABEL ) );
+    wxPGProperty *pgCategory =
+    m_pgProps->Append( new wxPropertyCategory
+    (
+        object->GetClassName(), wxPG_LABEL )
+    );
 
     Properties properties = object->GetProperties();
 
@@ -426,36 +408,36 @@ void wxGDPropertyBook::LoadProperties( Object object )
 
                 Properties children = property->GetChildren();
 
-                for( Properties::const_iterator it = children.begin();
-                                                it != children.end(); ++it )
+                for( Properties::const_iterator child = children.begin();
+                                                child != children.end(); ++child )
                 {
-                    wxPGProperty *pgChild = AddProperty( *it );
+                    wxPGProperty *pgChild = AddProperty( *child );
 
                     if( pgChild )
                         pgProperty->AppendChild( pgChild );
                 }
 
-                ClassInfo info =
+                ClassInfo classInfo =
                 ClassInfoDB::Get()->GetClassInfo( property->GetName() );
 
-                if( info && info->IsTypeOf( CLASS_TYPE_ABSTRACT ) )
+                if( classInfo && classInfo->IsTypeOf( CLASS_TYPE_ABSTRACT ) )
                 {
                     pgProperty->SetBackgroundColour( wxColour( 255, 255, 225 ) );
                 }
-                else if( info && info->IsTypeOf( CLASS_TYPE_ITEM ) )
+                else if( classInfo && classInfo->IsTypeOf( CLASS_TYPE_ITEM ) )
                 {
                     pgProperty->SetBackgroundColour( wxColour( 225, 255, 255 ) );
                 }
             }
             else
             {
-                mainCat->AppendChild( pgProperty );
+                pgCategory->AppendChild( pgProperty );
             }
         }
     }
 
-    wxPGCell cell; cell.SetBgCol( wxColour( 255, 255, 225 ) );
-    m_pgProps->SetUnspecifiedValueAppearance( cell );
+    wxPGCell pgCell; pgCell.SetBgCol( wxColour( 255, 255, 225 ) );
+    m_pgProps->SetUnspecifiedValueAppearance( pgCell );
 }
 
 wxPGProperty *wxGDPropertyBook::AddProperty( Property property )
@@ -502,8 +484,7 @@ wxPGProperty *wxGDPropertyBook::AddProperty( Property property )
     }/*
     else if( type == PROPERTY_TYPE_DIMENSION )
     {
-        return new wxDimensionProperty( label, name,
-                                        property->GetAsDimension() );
+        return new wxGDDimensionProperty( label, name, property->GetAsDimension() );
     }*/
     else if( type == PROPERTY_TYPE_FLOAT || type == PROPERTY_TYPE_DOUBLE )
     {
@@ -516,7 +497,7 @@ wxPGProperty *wxGDPropertyBook::AddProperty( Property property )
 
         for( size_t i = 0; i < property->GetInfo()->GetChildCount(); i++ )
         {
-            wxString flagName = property->GetInfo()->GetChild( i )->GetName();
+            wxString flagName = property->GetInfo()->GetChild(i)->GetName();
             int      flagVal  = wxFlagsManager::Get()->GetFlag( flagName );
 
             flagNames.Add( flagName );

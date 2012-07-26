@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name:        wxguidesigner/gui/propgrid/props.cpp
+// Name:        wxguidesigner/gui/property/props.cpp
 // Purpose:     
 // Author:      Andrea Zanellato
 // Modified by:
@@ -13,163 +13,7 @@
 
 #include "wxguidesigner/utils.h"
 #include "wxguidesigner/fontcontainer.h"
-#include "wxguidesigner/gui/propgrid/props.h"
-//=============================================================================
-// wxGDSizeProperty
-//=============================================================================
-WX_PG_IMPLEMENT_PROPERTY_CLASS( wxGDSizeProperty, wxPGProperty,
-                                wxSize, const wxSize&, TextCtrl )
-
-wxGDSizeProperty::wxGDSizeProperty( const wxString &label,
-                                const wxString &name,
-                                const wxSize   &value )
-:
-wxPGProperty( label, name )
-{
-    DoSetValue( value );
-    AddPrivateChild( new wxIntProperty( _("Width"),  wxPG_LABEL, value.x ) );
-    AddPrivateChild( new wxIntProperty( _("Height"), wxPG_LABEL, value.y ) );
-}
-
-wxGDSizeProperty::~wxGDSizeProperty()
-{
-}
-
-void wxGDSizeProperty::RefreshChildren()
-{
-    if( !GetChildCount() ) return;
-
-    const wxSize &size = wxSizeRefFromVariant( m_value );
-
-    Item(0)->SetValue( (long)size.x );
-    Item(1)->SetValue( (long)size.y );
-}
-
-wxVariant wxGDSizeProperty::ChildChanged( wxVariant &thisValue,
-                                        int       childIndex,
-                                        wxVariant &childValue ) const
-{
-    wxSize &size = wxSizeRefFromVariant( thisValue );
-
-    int val = childValue.GetLong();
-
-    switch( childIndex )
-    {
-        case 0:
-        {
-            size.x = val;
-            break;
-        }
-        case 1:
-        {
-            size.y = val;
-            break;
-        }
-    }
-
-    wxVariant newVariant;
-    newVariant << size;
-    return newVariant;
-}
-
-wxString wxGDSizeProperty::ValueToString( wxVariant &value, int flags ) const
-{
-    if( value.GetType() == "wxSize" )
-    {
-        wxSize &size = wxSizeRefFromVariant( value );
-        wxString val   = wxGD::Convert::SizeToString( size );
-        value = WXVARIANT( val );
-        return val;
-    }
-
-    return wxPGProperty::ValueToString( value, flags );
-}
-
-bool wxGDSizeProperty::StringToValue ( wxVariant       &variant,
-                                        const wxString  &text, int flags ) const
-{
-    wxSize size = wxGD::Convert::StringToSize( text );
-    variant << size;
-    return true;
-}
-//=============================================================================
-// wxGDPointProperty
-//=============================================================================
-WX_PG_IMPLEMENT_PROPERTY_CLASS( wxGDPointProperty, wxPGProperty, wxPoint,
-                                const wxPoint&, TextCtrl )
-
-wxGDPointProperty::wxGDPointProperty  ( const wxString &label,
-                                        const wxString &name,
-                                        const wxPoint  &value )
-:
-wxPGProperty( label, name )
-{
-    DoSetValue( value );
-    AddPrivateChild( new wxIntProperty( "X", wxPG_LABEL, value.x ) );
-    AddPrivateChild( new wxIntProperty( "Y", wxPG_LABEL, value.y ) );
-}
-
-wxGDPointProperty::~wxGDPointProperty()
-{
-}
-
-void wxGDPointProperty::RefreshChildren()
-{
-    if( !GetChildCount() )
-        return;
-
-    const wxPoint &point = wxPointRefFromVariant( m_value );
-
-    Item(0)->SetValue( (long)point.x );
-    Item(1)->SetValue( (long)point.y );
-}
-
-wxVariant wxGDPointProperty::ChildChanged ( wxVariant   &thisValue,
-                                            int         childIndex,
-                                            wxVariant   &childValue) const
-{
-    wxPoint &point = wxPointRefFromVariant( thisValue );
-
-    int val = childValue.GetLong();
-    switch( childIndex )
-    {
-        case 0:
-        {
-            point.x = val;
-            break;
-        }
-        case 1:
-        {
-            point.y = val;
-            break;
-        }
-    }
-
-    wxVariant newVariant;
-    newVariant << point;
-    return newVariant;
-}
-
-wxString wxGDPointProperty::ValueToString( wxVariant &value, int flags ) const
-{
-    if( value.GetType() == "wxPoint" )
-    {
-        wxPoint &point = wxPointRefFromVariant( value );
-        wxString val   = wxGD::Convert::PointToString( point );
-        value = WXVARIANT( val );
-        return val;
-    }
-
-    return wxPGProperty::ValueToString( value, flags );
-}
-
-bool wxGDPointProperty::StringToValue ( wxVariant       &variant,
-                                        const wxString  &text, int flags ) const
-{
-    wxPoint point = wxGD::Convert::StringToPoint( text );
-    variant << point;
-    return true;
-}
+#include "wxguidesigner/gui/property/props.h"
 //=============================================================================
 // wxGDColourProperty
 //=============================================================================
@@ -204,7 +48,7 @@ static const wxChar* const gs_cp_labels[] = {
 };
 
 static const long gs_cp_values[] = {
-    wxPG_COLOUR_DEFAULT,
+    0,
     wxSYS_COLOUR_APPWORKSPACE,
     wxSYS_COLOUR_ACTIVEBORDER,
     wxSYS_COLOUR_ACTIVECAPTION,
@@ -236,14 +80,14 @@ WX_PG_IMPLEMENT_PROPERTY_CLASS( wxGDColourProperty, wxSystemColourProperty,
                                 wxColourPropertyValue,
                                 const wxColourPropertyValue &, Choice )
 
-static wxPGChoices gs_wxGDColourProperty_choicesCache;
+static wxPGChoices gs_cp_choicesCache;
 
 wxGDColourProperty::wxGDColourProperty( const wxString              &label,
                                         const wxString              &name,
                                         const wxColourPropertyValue &value )
 :
 wxSystemColourProperty( label, name, gs_cp_labels, gs_cp_values,
-                        &gs_wxGDColourProperty_choicesCache, value )
+                        &gs_cp_choicesCache, value )
 {
     if( &value )
         Init( value.m_type, value.m_colour );
@@ -538,14 +382,14 @@ bool wxGDFlagsProperty::DoSetAttribute( const wxString &name, wxVariant &value )
     return false;
 }
 //=============================================================================
-// wxGDFontProperty
+// wxGDFontProperty - TODO: Implement 'sysfont' and 'relativesize' properties
 //=============================================================================
 #include <wx/fontenum.h>
 #include <wx/fontdata.h>
 #include <wx/fontdlg.h>
 #include <wx/fontmap.h>
 
-static const wxChar* const gs_fp_es_family_labels[] = {
+static const wxChar* const gs_fp_family_labels[] = {
     _("Default"),
     _("Decorative"),
     _("Roman"),
@@ -557,7 +401,7 @@ static const wxChar* const gs_fp_es_family_labels[] = {
     (const wxChar*) NULL
 };
 
-static const long gs_fp_es_family_values[] = {
+static const long gs_fp_family_values[] = {
     wxFONTFAMILY_DEFAULT,
     wxFONTFAMILY_DECORATIVE,
     wxFONTFAMILY_ROMAN,
@@ -568,34 +412,34 @@ static const long gs_fp_es_family_values[] = {
     wxFONTFAMILY_UNKNOWN
 };
 
-static const wxChar* const gs_fp_es_style_labels[] = {
+static const wxChar* const gs_fp_style_labels[] = {
     _("Normal"),
     _("Slant"),
     _("Italic"),
     (const wxChar*) NULL
 };
 
-static const long gs_fp_es_style_values[] = {
+static const long gs_fp_style_values[] = {
     wxFONTSTYLE_NORMAL,
     wxFONTSTYLE_SLANT,
     wxFONTSTYLE_ITALIC
 };
 
-static const wxChar* const gs_fp_es_weight_labels[] = {
+static const wxChar* const gs_fp_weight_labels[] = {
     _("Normal"),
     _("Light"),
     _("Bold"),
     (const wxChar*) NULL
 };
 
-static const long gs_fp_es_weight_values[] = {
+static const long gs_fp_weight_values[] = {
     wxFONTWEIGHT_NORMAL,
     wxFONTWEIGHT_LIGHT,
     wxFONTWEIGHT_BOLD
 };
 
-static wxArrayString gs_fp_es_encodings;
-static wxArrayInt gs_fp_es_encodings_vals;
+static wxArrayString    gs_fp_encodings;
+static wxArrayInt       gs_fp_encodings_vals;
 
 WX_PG_IMPLEMENT_PROPERTY_CLASS( wxGDFontProperty, wxPGProperty, wxFont,
                                 const wxFont &, TextCtrlAndButton )
@@ -623,18 +467,18 @@ wxPGProperty( label, name )
                                         value.GetPointSize() ) );
 
     AddPrivateChild   ( new wxEnumProperty( _("Family"), "family",
-                                            gs_fp_es_family_labels,
-                                            gs_fp_es_family_values,
+                                            gs_fp_family_labels,
+                                            gs_fp_family_values,
                                             value.GetFamily()) );
 
     AddPrivateChild   ( new wxEnumProperty( _("Style"), "style",
-                                            gs_fp_es_style_labels,
-                                            gs_fp_es_style_values,
+                                            gs_fp_style_labels,
+                                            gs_fp_style_values,
                                             value.GetStyle() ) );
 
     AddPrivateChild   ( new wxEnumProperty( _("Weight"), "weight",
-                                            gs_fp_es_weight_labels,
-                                            gs_fp_es_weight_values,
+                                            gs_fp_weight_labels,
+                                            gs_fp_weight_values,
                                             value.GetWeight()) );
 
     wxPGProperty* pgChild = new wxBoolProperty( _("Underlined"), "underlined",
@@ -657,7 +501,7 @@ wxPGProperty( label, name )
 
     AddPrivateChild( pgChild );
 
-    if( gs_fp_es_encodings.empty() )
+    if( gs_fp_encodings.empty() )
     {
         wxFontEncoding fontEncoding;
         size_t count = wxFontMapper::GetSupportedEncodingsCount();
@@ -668,13 +512,13 @@ wxPGProperty( label, name )
             if( fontEncoding == wxFONTENCODING_SYSTEM )
                 continue;
 
-            gs_fp_es_encodings.Add( wxFontMapper::GetEncodingName(fontEncoding) );
-            gs_fp_es_encodings_vals.Add( fontEncoding );
+            gs_fp_encodings.Add( wxFontMapper::GetEncodingName(fontEncoding) );
+            gs_fp_encodings_vals.Add( fontEncoding );
         }
     }
 
-    AddPrivateChild( new wxEnumProperty( _("Encoding"), "encoding", gs_fp_es_encodings,
-                                        gs_fp_es_encodings_vals, value.GetEncoding() ) );
+    AddPrivateChild( new wxEnumProperty( _("Encoding"), "encoding", gs_fp_encodings,
+                                        gs_fp_encodings_vals, value.GetEncoding() ) );
 }
 
 wxGDFontProperty::~wxGDFontProperty()
@@ -817,4 +661,160 @@ wxVariant wxGDFontProperty::ChildChanged  ( wxVariant &thisValue,
 
     thisValue = WXVARIANT( wxGD::Convert::FontToString(font) );
     return thisValue;
+}
+//=============================================================================
+// wxGDPointProperty
+//=============================================================================
+WX_PG_IMPLEMENT_PROPERTY_CLASS( wxGDPointProperty, wxPGProperty, wxPoint,
+                                const wxPoint&, TextCtrl )
+
+wxGDPointProperty::wxGDPointProperty  ( const wxString &label,
+                                        const wxString &name,
+                                        const wxPoint  &value )
+:
+wxPGProperty( label, name )
+{
+    DoSetValue( value );
+    AddPrivateChild( new wxIntProperty( "X", wxPG_LABEL, value.x ) );
+    AddPrivateChild( new wxIntProperty( "Y", wxPG_LABEL, value.y ) );
+}
+
+wxGDPointProperty::~wxGDPointProperty()
+{
+}
+
+void wxGDPointProperty::RefreshChildren()
+{
+    if( !GetChildCount() )
+        return;
+
+    const wxPoint &point = wxPointRefFromVariant( m_value );
+
+    Item(0)->SetValue( (long)point.x );
+    Item(1)->SetValue( (long)point.y );
+}
+
+wxVariant wxGDPointProperty::ChildChanged ( wxVariant   &thisValue,
+                                            int         childIndex,
+                                            wxVariant   &childValue) const
+{
+    wxPoint &point = wxPointRefFromVariant( thisValue );
+
+    int val = childValue.GetLong();
+    switch( childIndex )
+    {
+        case 0:
+        {
+            point.x = val;
+            break;
+        }
+        case 1:
+        {
+            point.y = val;
+            break;
+        }
+    }
+
+    wxVariant newVariant;
+    newVariant << point;
+    return newVariant;
+}
+
+wxString wxGDPointProperty::ValueToString( wxVariant &value, int flags ) const
+{
+    if( value.GetType() == "wxPoint" )
+    {
+        wxPoint &point = wxPointRefFromVariant( value );
+        wxString val   = wxGD::Convert::PointToString( point );
+        value = WXVARIANT( val );
+        return val;
+    }
+
+    return wxPGProperty::ValueToString( value, flags );
+}
+
+bool wxGDPointProperty::StringToValue ( wxVariant       &variant,
+                                        const wxString  &text, int flags ) const
+{
+    wxPoint point = wxGD::Convert::StringToPoint( text );
+    variant << point;
+    return true;
+}
+//=============================================================================
+// wxGDSizeProperty
+//=============================================================================
+WX_PG_IMPLEMENT_PROPERTY_CLASS( wxGDSizeProperty, wxPGProperty,
+                                wxSize, const wxSize&, TextCtrl )
+
+wxGDSizeProperty::wxGDSizeProperty( const wxString &label,
+                                const wxString &name,
+                                const wxSize   &value )
+:
+wxPGProperty( label, name )
+{
+    DoSetValue( value );
+    AddPrivateChild( new wxIntProperty( _("Width"),  wxPG_LABEL, value.x ) );
+    AddPrivateChild( new wxIntProperty( _("Height"), wxPG_LABEL, value.y ) );
+}
+
+wxGDSizeProperty::~wxGDSizeProperty()
+{
+}
+
+void wxGDSizeProperty::RefreshChildren()
+{
+    if( !GetChildCount() ) return;
+
+    const wxSize &size = wxSizeRefFromVariant( m_value );
+
+    Item(0)->SetValue( (long)size.x );
+    Item(1)->SetValue( (long)size.y );
+}
+
+wxVariant wxGDSizeProperty::ChildChanged( wxVariant &thisValue,
+                                        int       childIndex,
+                                        wxVariant &childValue ) const
+{
+    wxSize &size = wxSizeRefFromVariant( thisValue );
+
+    int val = childValue.GetLong();
+
+    switch( childIndex )
+    {
+        case 0:
+        {
+            size.x = val;
+            break;
+        }
+        case 1:
+        {
+            size.y = val;
+            break;
+        }
+    }
+
+    wxVariant newVariant;
+    newVariant << size;
+    return newVariant;
+}
+
+wxString wxGDSizeProperty::ValueToString( wxVariant &value, int flags ) const
+{
+    if( value.GetType() == "wxSize" )
+    {
+        wxSize &size = wxSizeRefFromVariant( value );
+        wxString val   = wxGD::Convert::SizeToString( size );
+        value = WXVARIANT( val );
+        return val;
+    }
+
+    return wxPGProperty::ValueToString( value, flags );
+}
+
+bool wxGDSizeProperty::StringToValue ( wxVariant       &variant,
+                                        const wxString  &text, int flags ) const
+{
+    wxSize size = wxGD::Convert::StringToSize( text );
+    variant << size;
+    return true;
 }

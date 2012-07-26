@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////
-// Name:        wxguidesigner/gui/propgrid/propbmp.h
-// Purpose:     wxGDBitmapProperty and related support classes
+// Name:        wxguidesigner/gui/property/bitmap.h
+// Purpose:     
 // Author:      Andrea Zanellato
 // Modified by:
 // Created:     2012-05-08
@@ -8,27 +8,10 @@
 // Copyleft:    (ɔ) Andrea Zanellato
 // Licence:     GNU General Public License Version 3
 /////////////////////////////////////////////////////////////////////////////
-#ifndef __WXGUIDESIGNER_GUI_PROPGRID_PROPBMP_H__
-#define __WXGUIDESIGNER_GUI_PROPGRID_PROPBMP_H__
+#ifndef __WXGUIDESIGNER_GUI_PROPERTY_BITMAP_H__
+#define __WXGUIDESIGNER_GUI_PROPERTY_BITMAP_H__
 //=============================================================================
 // wxGDBitmapProperty
-//
-// Manages wxBitmap values from different source/index from a wxArrayString.
-// Currently, it supports 2 source types plus a default value:
-//
-// - wxArtProvider:
-//    source is equal to 1 (wxPG_BMP_SRC_ART)
-//    params.Item(0) is a wxArtID string
-//    params.Item(1) is a wxArtClient string
-//
-// - File:
-//    source is equal to 2 (wxPG_BMP_SRC_FILE)
-//    params.Item(0) is a file path string
-//
-// - Default value (no bitmap)
-//    source is equal to 0 (wxPG_BMP_SRC_NONE)
-//    params is empty
-//
 //=============================================================================
 class wxGDBitmapProperty : public wxPGProperty
 {
@@ -72,4 +55,4 @@ public:
                                wxPGProperty*   property );
 };
 
-#endif //__WXGUIDESIGNER_GUI_PROPGRID_PROPBMP_H__
+#endif //__WXGUIDESIGNER_GUI_PROPERTY_BITMAP_H__
