@@ -79,20 +79,25 @@ wxXmlNode *wxXRCSerializer::Serialize( RTTITree tree )
 
     if( !root )
         return NULL;
-
+/*
     int xrcVerSel;
     wxString xrcVer = "2.5.3.1";
     wxConfigBase::Get()->Read( "locale/selected", &xrcVerSel, 1 );
 
     if( xrcVerSel == 0 )
         xrcVer = "2.3.0.1";
-
+*/
     wxXmlNode *rootNode = new wxXmlNode( NULL, wxXML_ELEMENT_NODE, "resource" );
+/*
     rootNode->AddAttribute( "xmlns", "http://www.wxwidgets.org/wxxrc" );
     rootNode->AddAttribute( "version", xrcVer );
-
+*/
     // Serialize toplevel objects (no events / properties for root node)
-    SerializeChildren( root->GetChildren(), rootNode );
+    Objects objects = root->GetChildren();
+    for( Objects::const_iterator it = objects.begin(); it != objects.end(); ++it )
+    {
+        SerializeObject( *it, rootNode );
+    }
 
     return rootNode;
 }
@@ -102,341 +107,377 @@ void wxXRCSerializer::SerializeObject( Object object, wxXmlNode *parent )
     if( !object || !parent )
         return;
 
-    wxString   objType = object->IsReference() ? "object_ref" : "object";
-    wxXmlNode *objNode = new wxXmlNode( parent, wxXML_ELEMENT_NODE, objType );
+    wxString   objectType = object->IsReference() ? "object_ref" : "object";
+    wxXmlNode *objectNode = new wxXmlNode( NULL, wxXML_ELEMENT_NODE, objectType );
 
-    objNode->AddAttribute( "class", object->GetClassName() );
-    objNode->AddAttribute( "name",  object->GetName() );
+    objectNode->AddAttribute( "class", object->GetClassName() );
+    objectNode->AddAttribute( "name",  object->GetName() );
 
     if( object->IsExpanded() )
-        objNode->AddAttribute( "expanded", "1" );
+        objectNode->AddAttribute( "expanded", "1" );
 
-    SerializeChildren   ( object->GetChildren(),    objNode );
-    SerializeEvents     ( object->GetEvents(),      objNode );
-    SerializeProperties ( object->GetProperties(),  objNode );
-}
-
-void wxXRCSerializer::SerializeChildren( Objects children, wxXmlNode *parent )
-{
-    for( Objects::const_iterator it = children.begin(); it != children.end(); ++it )
+    Properties properties = object->GetProperties();
+    for( Properties::const_iterator it = properties.begin();
+                                    it != properties.end(); ++it )
     {
-        Object object = *it;
-        SerializeObject( object, parent );
+        SerializeProperty( *it, objectNode );
     }
+
+    Events events = object->GetEvents();
+    for( Events::const_iterator it = events.begin();
+                                it != events.end(); ++it )
+    {
+        SerializeEvent( *it, objectNode );
+    }
+
+    Objects objects = object->GetChildren();
+    for( Objects::const_iterator it = objects.begin(); it != objects.end(); ++it )
+    {
+        SerializeObject( *it, parent );
+    }
+
+    parent->AddChild( objectNode );
 }
 
-void wxXRCSerializer::SerializeProperties( Properties props, wxXmlNode *parent )
+void wxXRCSerializer::SerializeProperty( Property property, wxXmlNode *objectNode )
 {
-    for( Properties::const_iterator it = props.begin(); it != props.end(); ++it )
+    wxString     name = property->GetName();
+    PropertyType type = property->GetType();
+
+    wxXmlNode *propertyNode = NULL;
+    wxXmlNode *childNode    = NULL;
+    wxXmlNode *valueNode    = NULL;
+
+    // In XRC the "name" property is an attribute, skip it:
+    // it is set in Serialize()
+    if( name == "name" )
     {
-        Property property = *it;
-        wxString     name = property->GetName();
-        PropertyType type = property->GetType();
+        return;
+    }
+    else if( type == PROPERTY_TYPE_BITMAP )
+    {
+        wxString value = property->GetAsString();
+        if( value.empty() )
+            return;
 
-        // In XRC the "name" property is an attribute, skip it:
-        // it is set in Serialize()
-        if( name == "name" )
+        wxArrayString attributes = wxStringTokenize( value, ";" );
+        size_t count = attributes.GetCount();
+        if( count < 2 )
+            return;
+
+        wxString source = attributes.Item(0);
+
+        if( source == _("wxArtProvider") )
         {
-            continue;
-        }
-        else if( type == PROPERTY_TYPE_BITMAP )
-        {
-            wxString value = property->GetAsString();
-            if( value.empty() )
-                continue;
+            propertyNode = new wxXmlNode( NULL, wxXML_ELEMENT_NODE, name );
 
-            wxArrayString attributes = wxStringTokenize( value, ";" );
-            size_t count = attributes.GetCount();
-            if( count < 2 )
-                continue;
-
-            wxString source = attributes.Item(0);
-
-            if( source == _("wxArtProvider") )
+            if( count > 1 )
             {
-                wxXmlNode *bitmapNode =
-                new wxXmlNode( parent, wxXML_ELEMENT_NODE, name );
+                wxString artId = attributes.Item(1);
+                propertyNode->AddAttribute("stock_id", artId );
+            }
 
-                if( count > 1 )
+            if( count > 2 )
+            {
+                wxString client = attributes.Item(2);
+                propertyNode->AddAttribute("stock_client", client );
+            }
+
+            if( count > 3 )
+            {
+                wxString size = attributes.Item(3);
+                propertyNode->AddAttribute("size", size ); // TODO
+            }
+
+            objectNode->AddChild( propertyNode );
+        }
+        else if( source == _("File") )
+        {
+            value        = attributes.Item(1);
+            propertyNode = new wxXmlNode( NULL, wxXML_ELEMENT_NODE, name );
+            valueNode    = new wxXmlNode( NULL, wxXML_TEXT_NODE, "", value );
+
+            propertyNode->AddChild( valueNode );
+            objectNode->AddChild( propertyNode );
+        }
+    }
+    else if( type == PROPERTY_TYPE_BOOL )
+    {
+        bool value = property->GetAsBool();
+        if( !value )
+            return;
+
+        propertyNode = new wxXmlNode( NULL, wxXML_ELEMENT_NODE, name );
+        valueNode    = new wxXmlNode( NULL, wxXML_TEXT_NODE, "", "1" );
+
+        propertyNode->AddChild( valueNode );
+        objectNode->AddChild( propertyNode );
+    }
+    else if( type == PROPERTY_TYPE_CATEGORY )
+    {
+        Properties properties = property->GetChildren();
+        for( Properties::const_iterator it = properties.begin();
+                                        it != properties.end(); ++it )
+        {
+            SerializeProperty( *it, objectNode );
+        }
+    }
+    else if( type == PROPERTY_TYPE_COLOUR )
+    {
+        wxString value = property->GetAsString();
+        if( value.empty() )
+            return;
+
+        propertyNode = new wxXmlNode( NULL, wxXML_ELEMENT_NODE, name );
+        valueNode    = new wxXmlNode( NULL, wxXML_TEXT_NODE, "", value );
+
+        propertyNode->AddChild( valueNode );
+        objectNode->AddChild( propertyNode );
+    }
+    else if( type == PROPERTY_TYPE_FONT )
+    {
+        wxFontContainer font = property->GetAsFont();
+        int     size        = font.GetPointSize();
+        int     family      = font.GetFamily();
+        int     style       = font.GetStyle();
+        int     weight      = font.GetWeight();
+        int     encoding    = font.GetEncoding();
+        bool    underlined  = font.GetUnderlined();
+        wxString face       = font.GetFaceName();
+
+        if( size < 1 && family == wxFONTFAMILY_DEFAULT &&
+            style  == wxFONTSTYLE_NORMAL &&
+            weight == wxFONTWEIGHT_NORMAL &&
+            encoding == wxFONTENCODING_DEFAULT && underlined == false &&
+            ( face.empty() || (face == _("Default")) ) )
+            return;
+
+        propertyNode = new wxXmlNode( NULL, wxXML_ELEMENT_NODE, name );
+
+        // Font face
+        if( !face.empty() && (face != _("Default")) )
+        {
+            childNode = new wxXmlNode( NULL, wxXML_ELEMENT_NODE, "face" );
+            valueNode = new wxXmlNode( NULL, wxXML_TEXT_NODE, "", face );
+
+            childNode->AddChild( valueNode );
+            propertyNode->AddChild( childNode );
+        }
+
+        // Font style
+        if( style != wxFONTSTYLE_NORMAL )
+        {
+            wxString value;
+            switch( style )
+            {
+                case wxFONTSTYLE_ITALIC:
                 {
-                    wxString artId  = attributes.Item(1);
-                    bitmapNode->AddAttribute("stock_id", artId );
+                    value = "italic";
+                    break;
                 }
-
-                if( count > 2 )
+                case wxFONTSTYLE_SLANT:
                 {
-                    wxString client = attributes.Item(2);
-                    bitmapNode->AddAttribute("stock_client", client );
+                    value = "slant";
+                    break;
                 }
-
-                if( count > 3 )
+                default:
                 {
-                    wxString size   = attributes.Item(3);
-                    bitmapNode->AddAttribute("size", size ); // TODO
+                    value = "normal";
+                    break;
                 }
-
-            }
-            else if( source == _("File") )
-            {
-                value = attributes.Item(1);
-                wxXmlNode *bitmapNode =
-                new wxXmlNode( parent, wxXML_ELEMENT_NODE, name );
-                new wxXmlNode( bitmapNode, wxXML_TEXT_NODE, "", value );
             }
 
-            continue;
+            childNode = new wxXmlNode( NULL, wxXML_ELEMENT_NODE, "style" );
+            valueNode = new wxXmlNode( NULL, wxXML_TEXT_NODE, "", value );
+
+            childNode->AddChild( valueNode );
+            propertyNode->AddChild( childNode );
         }
-        else if( type == PROPERTY_TYPE_BOOL )
+
+        // Font weight
+        if( weight != wxFONTWEIGHT_NORMAL )
         {
-            bool value = property->GetAsBool();
-            if( !value )
-                continue;
-
-            wxXmlNode *boolNode =
-            new wxXmlNode( parent, wxXML_ELEMENT_NODE, name );
-            new wxXmlNode( boolNode, wxXML_TEXT_NODE, "", "1" );
-
-            continue;
-        }
-        else if( type == PROPERTY_TYPE_CATEGORY )
-        {
-            SerializeProperties( property->GetChildren(), parent );
-            continue;
-        }
-        else if( type == PROPERTY_TYPE_COLOUR )
-        {
-            wxString value = property->GetAsString();
-            if( value.empty() )
-                continue;
-
-            wxXmlNode *colourNode =
-            new wxXmlNode( parent, wxXML_ELEMENT_NODE, name );
-            new wxXmlNode( colourNode, wxXML_TEXT_NODE, "", value );
-
-            continue;
-        }
-        else if( type == PROPERTY_TYPE_FONT )
-        {
-            wxFontContainer font = property->GetAsFont();
-            int     size        = font.GetPointSize();
-            int     family      = font.GetFamily();
-            int     style       = font.GetStyle();
-            int     weight      = font.GetWeight();
-            int     encoding    = font.GetEncoding();
-            bool    underlined  = font.GetUnderlined();
-            wxString face       = font.GetFaceName();
-
-            if( size < 1 && family == wxFONTFAMILY_DEFAULT &&
-                style  == wxFONTSTYLE_NORMAL &&
-                weight == wxFONTWEIGHT_NORMAL &&
-                encoding == wxFONTENCODING_DEFAULT && underlined == false &&
-                ( face.empty() || (face == _("Default")) ) )
-                continue;
-
-            wxXmlNode *fontNode =
-            new wxXmlNode( parent, wxXML_ELEMENT_NODE, name );
-
-            // Font face
-            if( !face.empty() && (face != _("Default")) )
+            wxString value;
+            switch( weight )
             {
-                wxXmlNode *faceNode =
-                new wxXmlNode( fontNode, wxXML_ELEMENT_NODE, "face" );
-                new wxXmlNode( faceNode, wxXML_TEXT_NODE, "", face );
-            }
-
-            // Font style
-            if( style != wxFONTSTYLE_NORMAL )
-            {
-                wxString value;
-                switch( style )
+                case wxFONTWEIGHT_LIGHT:
                 {
-                    case wxFONTSTYLE_ITALIC:
-                    {
-                        value = "italic";
-                        break;
-                    }
-                    case wxFONTSTYLE_SLANT:
-                    {
-                        value = "slant";
-                        break;
-                    }
-                    default:
-                    {
-                        value = "normal";
-                        break;
-                    }
+                    value = "light";
+                    break;
                 }
-
-                wxXmlNode *styleNode =
-                new wxXmlNode( fontNode, wxXML_ELEMENT_NODE, "style" );
-                new wxXmlNode( styleNode, wxXML_TEXT_NODE, "", value );
-            }
-
-            // Font weight
-            if( weight != wxFONTWEIGHT_NORMAL )
-            {
-                wxString value;
-                switch( weight )
+                case wxFONTWEIGHT_BOLD:
                 {
-                    case wxFONTWEIGHT_LIGHT:
-                    {
-                        value = "light";
-                        break;
-                    }
-                    case wxFONTWEIGHT_BOLD:
-                    {
-                        value = "bold";
-                        break;
-                    }
-                    default:
-                    {
-                        value = "normal";
-                        break;
-                    }
+                    value = "bold";
+                    break;
                 }
-
-                wxXmlNode *weightNode =
-                new wxXmlNode( fontNode, wxXML_ELEMENT_NODE, "weight" );
-                new wxXmlNode( weightNode, wxXML_TEXT_NODE, "", value );
-            }
-
-            // Font size
-            if( size > 0 )
-            {
-                wxString value = wxString::Format( "%i", size );
-                wxXmlNode *sizeNode =
-                new wxXmlNode( fontNode, wxXML_ELEMENT_NODE, "size" );
-                new wxXmlNode( sizeNode, wxXML_TEXT_NODE, "", value );
-            }
-
-            // Font family
-            if( family != wxFONTFAMILY_DEFAULT )
-            {
-                wxString value;
-                switch( family )
+                default:
                 {
-                    case wxFONTFAMILY_DECORATIVE:
-                    {
-                        value = "decorative";
-                        break;
-                    }
-                    case wxFONTFAMILY_ROMAN:
-                    {
-                        value = "roman";
-                        break;
-                    }
-                    case wxFONTFAMILY_SCRIPT:
-                    {
-                        value = "script";
-                        break;
-                    }
-                    case wxFONTFAMILY_SWISS:
-                    {
-                        value = "swiss";
-                        break;
-                    }
-                    case wxFONTFAMILY_MODERN:
-                    {
-                        value = "modern";
-                        break;
-                    }
-                    case wxFONTFAMILY_TELETYPE:
-                    {
-                        value = "teletype";
-                        break;
-                    }
-                    default: // wxFONTFAMILY_DEFAULT
-                    {
-                        value = "default";
-                        break;
-                    }
+                    value = "normal";
+                    break;
                 }
-
-                wxXmlNode *familyNode =
-                new wxXmlNode( fontNode, wxXML_ELEMENT_NODE, "family" );
-                new wxXmlNode( familyNode, wxXML_TEXT_NODE, "", value );
             }
 
-            // Font underlined
-            if( underlined )
-            {
-                wxXmlNode *underlinedNode =
-                new wxXmlNode( fontNode, wxXML_ELEMENT_NODE, "underlined" );
-                new wxXmlNode( underlinedNode, wxXML_TEXT_NODE, "", "1" );
-            }
+            childNode = new wxXmlNode( NULL, wxXML_ELEMENT_NODE, "weight" );
+            valueNode = new wxXmlNode( NULL, wxXML_TEXT_NODE, "", value );
 
-            if( encoding != wxFONTENCODING_DEFAULT )
-            {
-                wxString value =
-                wxFontMapper::GetEncodingName( (wxFontEncoding)encoding );
-                wxXmlNode *encodingNode =
-                new wxXmlNode( fontNode, wxXML_ELEMENT_NODE, "encoding" );
-                new wxXmlNode( encodingNode, wxXML_TEXT_NODE, "", value );
-            }
-
-            continue;
+            childNode->AddChild( valueNode );
+            propertyNode->AddChild( childNode );
         }
-        else if( (type == PROPERTY_TYPE_POINT) || (type == PROPERTY_TYPE_SIZE) )
+
+        // Font size
+        if( size > 0 )
         {
-            wxString value = property->GetAsString();
-            if( value.empty() || value == "-1,-1" )
-                continue;
+            wxString value = wxString::Format( "%i", size );
+            childNode = new wxXmlNode( NULL, wxXML_ELEMENT_NODE, "size" );
+            valueNode = new wxXmlNode( NULL, wxXML_TEXT_NODE, "", value );
 
-            wxXmlNode *node =
-            new wxXmlNode( parent, wxXML_ELEMENT_NODE, name );
-            new wxXmlNode( node, wxXML_TEXT_NODE, "", value );
-
-            continue;
+            childNode->AddChild( valueNode );
+            propertyNode->AddChild( childNode );
         }
 
+        // Font family
+        if( family != wxFONTFAMILY_DEFAULT )
+        {
+            wxString value;
+            switch( family )
+            {
+                case wxFONTFAMILY_DECORATIVE:
+                {
+                    value = "decorative";
+                    break;
+                }
+                case wxFONTFAMILY_ROMAN:
+                {
+                    value = "roman";
+                    break;
+                }
+                case wxFONTFAMILY_SCRIPT:
+                {
+                    value = "script";
+                    break;
+                }
+                case wxFONTFAMILY_SWISS:
+                {
+                    value = "swiss";
+                    break;
+                }
+                case wxFONTFAMILY_MODERN:
+                {
+                    value = "modern";
+                    break;
+                }
+                case wxFONTFAMILY_TELETYPE:
+                {
+                    value = "teletype";
+                    break;
+                }
+                default: // wxFONTFAMILY_DEFAULT
+                {
+                    value = "default";
+                    break;
+                }
+            }
+
+            childNode = new wxXmlNode( NULL, wxXML_ELEMENT_NODE, "family" );
+            valueNode = new wxXmlNode( NULL, wxXML_TEXT_NODE, "", value );
+
+            childNode->AddChild( valueNode );
+            propertyNode->AddChild( childNode );
+        }
+
+        // Font underlined
+        if( underlined )
+        {
+            childNode = new wxXmlNode( NULL, wxXML_ELEMENT_NODE, "underlined" );
+            valueNode = new wxXmlNode( NULL, wxXML_TEXT_NODE, "", "1" );
+
+            childNode->AddChild( valueNode );
+            propertyNode->AddChild( childNode );
+        }
+
+        if( encoding != wxFONTENCODING_DEFAULT )
+        {
+            wxString value =
+            wxFontMapper::GetEncodingName( (wxFontEncoding)encoding );
+
+            childNode = new wxXmlNode( NULL, wxXML_ELEMENT_NODE, "encoding" );
+            valueNode = new wxXmlNode( NULL, wxXML_TEXT_NODE, "", value );
+
+            childNode->AddChild( valueNode );
+            propertyNode->AddChild( childNode );
+        }
+
+        objectNode->AddChild( propertyNode );
+    }
+    else if( (type == PROPERTY_TYPE_POINT) || (type == PROPERTY_TYPE_SIZE) )
+    {
+        wxString value = property->GetAsString();
+        if( value.empty() || value == "-1,-1" )
+            return;
+
+        propertyNode = new wxXmlNode( NULL, wxXML_ELEMENT_NODE, name );
+        valueNode    = new wxXmlNode( NULL, wxXML_TEXT_NODE, "", value );
+
+        propertyNode->AddChild( valueNode );
+        objectNode->AddChild( propertyNode );
+    }
+    else
+    {
         wxString value    = property->GetAsString();
         size_t   count    = property->GetAttributeCount();
         bool     hasValue = !value.empty();
 
-        wxXmlNode *propNode = NULL;
-
         if( hasValue || count )
-            propNode = new wxXmlNode( parent, wxXML_ELEMENT_NODE, name );
+            propertyNode = new wxXmlNode( NULL, wxXML_ELEMENT_NODE, name );
         else
-            continue;
+            return;
 
         if( hasValue )
-            new wxXmlNode( propNode, wxXML_TEXT_NODE, "", value );
+            valueNode = new wxXmlNode( NULL, wxXML_TEXT_NODE, "", value );
 
-        for( size_t i = 0; i < count; i++ )
+        if( propertyNode )
         {
-            wxString attrName = property->GetAttributeName(i);
-            wxString attrVal  = property->GetAttributeValue(i);
-//          wxLogDebug("%s %s", attrName, attrVal);
-            propNode->AddAttribute( attrName, attrVal );
+            for( size_t i = 0; i < count; i++ )
+            {
+                wxString attributeName  = property->GetAttributeName(i);
+                wxString attributeValue = property->GetAttributeValue(i);
+
+                propertyNode->AddAttribute( attributeName, attributeValue );
+            }
+
+            if( valueNode )
+                propertyNode->AddChild( valueNode );
+
+            objectNode->AddChild( propertyNode );
         }
     }
 }
 
-void wxXRCSerializer::SerializeEvents( Events events, wxXmlNode *parent )
+void wxXRCSerializer::SerializeEvent( Event event, wxXmlNode *objectNode )
 {
-    for( Events::const_iterator it = events.begin(); it != events.end(); ++it )
+    if( event && event->HasHandlers() )
     {
-        Event event = (*it);
+        wxXmlNode *eventNode =
+            new wxXmlNode( NULL, wxXML_ELEMENT_NODE, "event" );
 
-        if( event && event->HasHandlers() )
+        eventNode->AddAttribute( "class", event->GetName() );
+        objectNode->AddChild( eventNode );
+
+        for( size_t i = 0; i < event->GetTypeCount(); i++ )
         {
-            wxXmlNode *eventNode =
-            new wxXmlNode( parent, wxXML_ELEMENT_NODE, "event" );
-            eventNode->AddAttribute( "class", event->GetName() );
+            wxString handler = event->GetHandlerName(i);
 
-            for( size_t i = 0; i < event->GetTypeCount(); i++ )
+            if( !handler.empty() )
             {
-                wxString handler = event->GetHandlerName(i);
+                wxXmlNode *typeNode =
+                    new wxXmlNode( NULL, wxXML_ELEMENT_NODE, "type" );
 
-                if( !handler.empty() )
-                {
-                    wxXmlNode *typeNode =
-                    new wxXmlNode( eventNode, wxXML_ELEMENT_NODE, "type" );
-                    new wxXmlNode( typeNode,  wxXML_TEXT_NODE, "", handler );
+                wxXmlNode *valueNode =
+                    new wxXmlNode( NULL,  wxXML_TEXT_NODE, "", handler );
 
-                    typeNode->AddAttribute( "name", event->GetTypeName(i) );
-                }
+                typeNode->AddAttribute( "name", event->GetTypeName(i) );
+                typeNode->AddChild( valueNode );
+                eventNode->AddChild( typeNode );
             }
         }
     }

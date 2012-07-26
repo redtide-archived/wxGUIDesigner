@@ -13,20 +13,17 @@
 
 namespace wxXRCSerializer
 {
-    bool        Load                  ( RTTITree    tree, const wxString &path );
-    bool        Save                  ( RTTITree    tree, const wxString &path,
-                                        int indent = 4 );
+    bool Load( RTTITree tree, const wxString &path );
+    bool Save( RTTITree tree, const wxString &path, int indent = 4 );
 
-    wxXmlNode   *Serialize            ( RTTITree    tree );
+    wxXmlNode *Serialize( RTTITree tree );
 
-    void    SerializeObject       ( Object      object,     wxXmlNode *parent );
-    void    SerializeChildren     ( Objects     children,   wxXmlNode *parent );
-    void    SerializeProperties   ( Properties  properties, wxXmlNode *parent );
-    void    SerializeEvents       ( Events      events,     wxXmlNode *parent );
+    void    SerializeObject     ( Object    object,     wxXmlNode *objectNode );
+    void    SerializeProperty   ( Property  property,   wxXmlNode *objectNode );
+    void    SerializeEvent      ( Event     event,      wxXmlNode *objectNode );
 
-    Object  CreateObject          ( RTTITree    tree,       Object parent,
-                                    wxXmlNode *parentNode,
-                                    bool isReference = false );
+    Object  CreateObject( RTTITree tree, Object parent, wxXmlNode *parentNode,
+                            bool isReference = false );
 };
 
 #endif //__WXGUIDESIGNER_XRC_SERIALIZER_H__
