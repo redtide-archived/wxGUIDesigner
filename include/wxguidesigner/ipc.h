@@ -17,12 +17,14 @@
 
 namespace wxGD
 {
-class IPCFileServer;
+namespace IPC
+{
+class FileServer;
 
-class IPCFile
+class File
 {
 public:
-    IPCFile() : m_port( 4242 ) {}
+    File() : m_port( 4242 ) {}
 
     bool CheckSingleInstance( const wxString &filePath, bool switchTo = true );
     void Reset();
@@ -31,32 +33,32 @@ private:
     bool CreateServer( const wxString &serverName );
 
     wxScopedPtr< wxSingleInstanceChecker >  m_checker;
-    wxScopedPtr< IPCFileServer >            m_server;
+    wxScopedPtr< FileServer >               m_server;
     const int                               m_port;
 };
 
-class IPCConnection: public wxConnection
+class Connection: public wxConnection
 {
 public:
-    IPCConnection() {}
-    ~IPCConnection() {}
+    Connection() {}
+    ~Connection() {}
     
 private:
     wxString m_data;
 };
 
-class IPCFileClient: public wxClient
+class FileClient: public wxClient
 {
 public:
-    IPCFileClient(){}
+    FileClient(){}
 
     wxConnectionBase *OnMakeConnection();
 };
 
-class IPCFileServer: public wxServer
+class FileServer: public wxServer
 {
 public:
-    IPCFileServer( const wxString& filePath ) : m_filePath( filePath ) {}
+    FileServer( const wxString& filePath ) : m_filePath( filePath ) {}
 
     wxConnectionBase* OnAcceptConnection( const wxString &topic );
 
@@ -65,6 +67,7 @@ public:
 private:
     const wxString m_filePath;
 };
-};
+}; // namespace IPC
+}; // namespace wxGD
 
 #endif //__WXGUIDESIGNER_IPC_H__

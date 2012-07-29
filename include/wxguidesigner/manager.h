@@ -37,8 +37,9 @@ class DLLIMPEXP_WXGUIDESIGNER wxGUIDesigner
 public:
     static wxGUIDesigner *Get();
     static void Free();
-
-    // Handler
+//-----------------------------------------------------------------------------
+// Handler
+//-----------------------------------------------------------------------------
     wxFrame         *GetMainFrame        ( wxWindow *parent = NULL );
     wxDialog        *GetAboutDialog      ( wxWindow *parent );
     wxNotebook      *GetEditorBook       ( wxWindow *parent );
@@ -49,28 +50,30 @@ public:
     wxPropertyGrid  *GetPropertiesGrid();
     wxPropertyGrid  *GetEventsGrid();
 //  wxStyledTextCtrl *GetEditor( wxWindow *parent, const wxString &name );
+//-----------------------------------------------------------------------------
+// Project
+//-----------------------------------------------------------------------------
+    void            NewProject();
+    bool            LoadProject( const wxString &filePath, bool check = true );
+    bool            SaveProject( const wxString &filePath );
+    wxString        GetProjectFileName() const  { return m_currPrj; }
+    wxString        GetProjectFilePath() const  { return m_currDir; }
+    bool            IsProjectModified()         { return m_isChanged; }
 
-    // Project
-    void        NewProject();
-    bool        LoadProject( const wxString &filePath, bool check = true );
-    bool        SaveProject( const wxString &filePath );
-    wxString    GetProjectFileName() const  { return m_currPrj; }
-    wxString    GetProjectFilePath() const  { return m_currDir; }
-    bool        IsProjectModified()         { return m_isChanged; }
-    bool        CheckSingleInstance( const wxString &filePath,
+    bool            CheckSingleInstance( const wxString &filePath,
                                         bool switchTo = true );
-    void        GenerateCode();
+    void            GenerateCode();
 
 private:
     wxGUIDesigner();
     ~wxGUIDesigner();
 
-    static wxGUIDesigner                *ms_instance;
-    wxGD::Handler                       *m_handler;
-    std::tr1::shared_ptr< wxGD::IPCFile > m_ipcFile;
-    wxString                            m_currPrj;
-    wxString                            m_currDir;
-    bool                                m_isChanged;
+    static wxGUIDesigner                    *ms_instance;
+    wxGD::Handler                           *m_handler;
+    std::tr1::shared_ptr< wxGD::IPC::File > m_ipcFile;
+    wxString                                m_currPrj;
+    wxString                                m_currDir;
+    bool                                    m_isChanged;
 };
 
 #endif //__WXGUIDESIGNER_MANAGER_H__

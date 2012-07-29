@@ -13,12 +13,12 @@
 #include <wx/filename.h>
 #include <wx/frame.h>
 
-bool wxGD::IPCFile::CheckSingleInstance( const wxString &filePath, bool switchTo )
+bool wxGD::IPC::File::CheckSingleInstance( const wxString &filePath, bool switchTo )
 {
     wxFileName fileName( filePath );
     if( !fileName.IsOk() )
     {
-        wxLogError( "IPCFile: Invalid path: %s", filePath );
+        wxLogError( "IPC::File: Invalid path: %s", filePath );
         return false;
     }
 
@@ -26,7 +26,7 @@ bool wxGD::IPCFile::CheckSingleInstance( const wxString &filePath, bool switchTo
     {
         if( !fileName.MakeAbsolute() )
         {
-            wxLogError( "IPCFile: Invalid absolute path: %s", filePath );
+            wxLogError( "IPC::File: Invalid absolute path: %s", filePath );
             return false;
         }
     }
@@ -98,7 +98,7 @@ bool wxGD::IPCFile::CheckSingleInstance( const wxString &filePath, bool switchTo
         }
 
         // Create the client
-        wxScopedPtr< IPCFileClient > client( new IPCFileClient );
+        wxScopedPtr< FileClient > client( new FileClient );
 
         // Create the connection
         wxScopedPtr< wxConnectionBase > connection;
@@ -141,9 +141,9 @@ bool wxGD::IPCFile::CheckSingleInstance( const wxString &filePath, bool switchTo
     return false;
 }
 
-bool wxGD::IPCFile::CreateServer( const wxString &serverName )
+bool wxGD::IPC::File::CreateServer( const wxString &serverName )
 {
-    wxScopedPtr< IPCFileServer > server( new IPCFileServer( serverName ) );
+    wxScopedPtr< FileServer > server( new FileServer( serverName ) );
 
 #ifdef __WXMSW__
     if( server->Create( serverName ) )
@@ -174,13 +174,13 @@ bool wxGD::IPCFile::CreateServer( const wxString &serverName )
     return false;
 }
 
-void wxGD::IPCFile::Reset()
+void wxGD::IPC::File::Reset()
 {
     m_server.reset();
     m_checker.reset();
 }
 
-wxConnectionBase* wxGD::IPCFileServer::OnAcceptConnection( const wxString &topic )
+wxConnectionBase* wxGD::IPC::FileServer::OnAcceptConnection( const wxString &topic )
 {
     if( topic == m_filePath )
     {
@@ -195,13 +195,13 @@ wxConnectionBase* wxGD::IPCFileServer::OnAcceptConnection( const wxString &topic
 
         frame->Raise();
 
-        return new IPCConnection;
+        return new Connection;
     }
 
     return NULL;
 }
 
-wxConnectionBase* wxGD::IPCFileClient::OnMakeConnection()
+wxConnectionBase* wxGD::IPC::FileClient::OnMakeConnection()
 {
-    return new IPCConnection;
+    return new Connection;
 }
