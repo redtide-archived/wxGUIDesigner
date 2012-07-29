@@ -10,49 +10,49 @@
 /////////////////////////////////////////////////////////////////////////////
 #ifndef __WXGUIDESIGNER_GUI_PROPERTY_BITMAP_H__
 #define __WXGUIDESIGNER_GUI_PROPERTY_BITMAP_H__
-//=============================================================================
-// wxGDBitmapProperty
-//=============================================================================
-class wxGDBitmapProperty : public wxPGProperty
-{
-    WX_PG_DECLARE_PROPERTY_CLASS( wxGDBitmapProperty )
 
-    friend class wxPGBitmapDialogAdapter;
+namespace wxGD
+{
+//=============================================================================
+// BitmapProperty
+//=============================================================================
+class BitmapProperty : public wxPGProperty
+{
+    WX_PG_DECLARE_PROPERTY_CLASS( BitmapProperty )
+
+    friend class BitmapDialogAdapter;
 
 public:
-    wxGDBitmapProperty( const wxString &label = wxPG_LABEL,
+    BitmapProperty( const wxString &label = wxPG_LABEL,
                         const wxString &name  = wxPG_LABEL,
                         const wxString &value = wxEmptyString );
 
-    virtual ~wxGDBitmapProperty();
+    virtual ~BitmapProperty();
 
-    wxString                        ValueToString ( wxVariant &value,
-                                                    int        flags = 0 ) const;
-//=============================================================================
-// wxPGBitmapDialogAdapter
-//=============================================================================
+    wxString        ValueToString ( wxVariant &value,
+                                    int        flags = 0 ) const;
+
     virtual wxPGEditorDialogAdapter *GetEditorDialog() const;
-//=============================================================================
-// Thumbnail
-//=============================================================================
-    virtual wxSize                  OnMeasureImage( int item ) const;
-    virtual void                    OnCustomPaint( wxDC& dc, const wxRect& rect,
-                                                    wxPGPaintData& paintdata );
-protected:
-    wxBitmap                        m_bmpThumb; // final thumbnail area
-    wxImage                         m_imgThumb; // intermediate thumbnail area
 
-    static int                      ms_indFilter; // index to the selected filter
-    static wxString                 ms_lastDir;   // last used path
-};
+    virtual wxSize  OnMeasureImage( int item ) const;
+    virtual void    OnCustomPaint( wxDC& dc, const wxRect& rect,
+                                    wxPGPaintData& paintdata );
+protected:
+    wxBitmap        m_bmpThumb; // final thumbnail area
+    wxImage         m_imgThumb; // intermediate thumbnail area
+
+    static int      ms_indFilter; // index to the selected filter
+    static wxString ms_lastDir;   // last used path
+    };
 //=============================================================================
-// wxPGBitmapDialogAdapter
+// BitmapDialogAdapter
 //=============================================================================
-class wxPGBitmapDialogAdapter : public wxPGEditorDialogAdapter
+class BitmapDialogAdapter : public wxPGEditorDialogAdapter
 {
 public:
-    virtual bool DoShowDialog( wxPropertyGrid* propGrid,
-                               wxPGProperty*   property );
+    virtual bool    DoShowDialog( wxPropertyGrid* propGrid,
+                                    wxPGProperty* property );
+};
 };
 
 #endif //__WXGUIDESIGNER_GUI_PROPERTY_BITMAP_H__

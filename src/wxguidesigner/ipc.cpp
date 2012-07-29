@@ -13,7 +13,7 @@
 #include <wx/filename.h>
 #include <wx/frame.h>
 
-bool IPCFile::CheckSingleInstance( const wxString &filePath, bool switchTo )
+bool wxGD::IPCFile::CheckSingleInstance( const wxString &filePath, bool switchTo )
 {
     wxFileName fileName( filePath );
     if( !fileName.IsOk() )
@@ -141,7 +141,7 @@ bool IPCFile::CheckSingleInstance( const wxString &filePath, bool switchTo )
     return false;
 }
 
-bool IPCFile::CreateServer( const wxString &serverName )
+bool wxGD::IPCFile::CreateServer( const wxString &serverName )
 {
     wxScopedPtr< IPCFileServer > server( new IPCFileServer( serverName ) );
 
@@ -174,13 +174,13 @@ bool IPCFile::CreateServer( const wxString &serverName )
     return false;
 }
 
-void IPCFile::Reset()
+void wxGD::IPCFile::Reset()
 {
     m_server.reset();
     m_checker.reset();
 }
 
-wxConnectionBase* IPCFileServer::OnAcceptConnection( const wxString &topic )
+wxConnectionBase* wxGD::IPCFileServer::OnAcceptConnection( const wxString &topic )
 {
     if( topic == m_filePath )
     {
@@ -201,7 +201,7 @@ wxConnectionBase* IPCFileServer::OnAcceptConnection( const wxString &topic )
     return NULL;
 }
 
-wxConnectionBase* IPCFileClient::OnMakeConnection()
+wxConnectionBase* wxGD::IPCFileClient::OnMakeConnection()
 {
     return new IPCConnection;
 }

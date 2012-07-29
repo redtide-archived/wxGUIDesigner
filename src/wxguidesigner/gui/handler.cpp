@@ -61,7 +61,7 @@
 #include "wxguidesigner/gui/mainframe.h"
 #include "wxguidesigner/gui/handler.h"
 
-wxGDHandler::wxGDHandler()
+wxGD::Handler::Handler()
 :
 wxEvtHandler(),
 #ifdef __WXDEBUG__
@@ -116,7 +116,7 @@ m_treeView      ( NULL )
                     ( wxART_MISSING_IMAGE, wxART_OTHER, wxSize( 22,22 ) );
     m_largeImgs->Add( bmp );
 
-    wxGDArtProvider::Load( "controls", m_smallImgs, m_largeImgs );
+    ArtProvider::Load( "controls", m_smallImgs, m_largeImgs );
 
     if( enabled )
     {
@@ -130,29 +130,29 @@ m_treeView      ( NULL )
         SelectLanguage( language );
     }
 
-    m_frame = new wxGDMainFrame(this);
-    m_tree  = RTTITree( new ObjectTree() );
+    m_frame = new MainFrame(this);
+    m_tree  = RTTI::Tree( new RTTI::ObjectTree() );
 }
 
-wxGDHandler::~wxGDHandler()
+wxGD::Handler::~Handler()
 {
     delete wxLog::SetActiveTarget( m_logOld );
     m_handlers.clear();
 //  wxXmlResource::Get()->ClearHandlers(); done in wxXmlResource dtor
-    wxGDArtProvider::Unload();
+    ArtProvider::Unload();
 //  m_tree = shared_ptr< ObjectTree >();
 
     delete m_smallImgs;
     delete m_largeImgs;
 }
 
-wxFrame *wxGDHandler::GetMainFrame( wxWindow *parent )
+wxFrame *wxGD::Handler::GetMainFrame( wxWindow *parent )
 {
     return m_frame;
 }
 
 #ifdef __WXDEBUG__
-wxGDDebugWindow *wxGDHandler::GetDebugWindow( wxWindow *parent )
+wxGD::DebugWindow *wxGD::Handler::GetDebugWindow( wxWindow *parent )
 {
     if( !parent )
     {
@@ -164,7 +164,7 @@ wxGDDebugWindow *wxGDHandler::GetDebugWindow( wxWindow *parent )
 
     if( !m_debug )
     {
-        m_debug  = new wxGDDebugWindow( this, parent );
+        m_debug  = new DebugWindow( this, parent );
         m_logOld = wxLog::SetActiveTarget(new wxLogTextCtrl(m_debug));
         wxLogMessage(_("Started") );
     }
@@ -172,56 +172,56 @@ wxGDDebugWindow *wxGDHandler::GetDebugWindow( wxWindow *parent )
     return m_debug;
 }
 #endif
-wxDialog *wxGDHandler::GetAboutDialog( wxWindow *parent )
+wxDialog *wxGD::Handler::GetAboutDialog( wxWindow *parent )
 {
     if( parent )
-        return new wxGDAboutDialog( parent );
+        return new AboutDialog( parent );
 
     return NULL;
 }
 
-wxDialog *wxGDHandler::GetSettingsDialog( wxWindow *parent )
+wxDialog *wxGD::Handler::GetSettingsDialog( wxWindow *parent )
 {
     if( parent )
-        return new wxGDDialogPrefs( parent );
+        return new PrefsDialog( parent );
 
     return NULL;
 }
 
-wxNotebook *wxGDHandler::GetEditorBook( wxWindow *parent )
+wxNotebook *wxGD::Handler::GetEditorBook( wxWindow *parent )
 {
     if( !m_editBook )
     {
         // Force groups to use small imagelist
-        wxGDArtProvider::Load( "languages", m_smallImgs, m_largeImgs, true );
+        ArtProvider::Load( "languages", m_smallImgs, m_largeImgs, true );
 
-        m_editBook = new wxGDEditorBook( this, parent );
+        m_editBook = new EditorBook( this, parent );
         m_handlers.push_back( m_editBook );
     }
 
     return m_editBook;
 }
 
-wxNotebook *wxGDHandler::GetPaletteBook( wxWindow *parent )
+wxNotebook *wxGD::Handler::GetPaletteBook( wxWindow *parent )
 {
     if( !m_palette )
-        m_palette = new wxGDToolPalette( this, parent );
+        m_palette = new ToolPalette( this, parent );
 
     return m_palette;
 }
 
-wxNotebook *wxGDHandler::GetPropertyBook( wxWindow *parent )
+wxNotebook *wxGD::Handler::GetPropertyBook( wxWindow *parent )
 {
     if( !m_propBook )
     {
-        m_propBook = new wxGDPropertyBook( this, parent );
+        m_propBook = new PropertyBook( this, parent );
         m_handlers.push_back( m_propBook );
     }
 
     return m_propBook;
 }
 
-wxToolBar *wxGDHandler::GetToolBar( wxWindow *parent )
+wxToolBar *wxGD::Handler::GetToolBar( wxWindow *parent )
 {
     if( !m_toolBar )
         m_toolBar = wxXmlResource::Get()->LoadToolBar( parent, "ToolBar" );
@@ -229,11 +229,11 @@ wxToolBar *wxGDHandler::GetToolBar( wxWindow *parent )
     return m_toolBar;
 }
 
-wxTreeCtrl *wxGDHandler::GetTreeView( wxWindow *parent )
+wxTreeCtrl *wxGD::Handler::GetTreeView( wxWindow *parent )
 {
     if( !m_treeView )
     {
-        m_treeView = new wxGDTreeView( this, parent );
+        m_treeView = new TreeView( this, parent );
         m_handlers.push_back( m_treeView );
     }
 
@@ -242,19 +242,19 @@ wxTreeCtrl *wxGDHandler::GetTreeView( wxWindow *parent )
 //-----------------------------------------------------------------------------
 // Object operations
 //-----------------------------------------------------------------------------
-void wxGDHandler::CreateObject( const wxString &className, int senderId )
+void wxGD::Handler::CreateObject( const wxString &className, int senderId )
 {
-    Object object = m_tree->CreateObject( className );
+    RTTI::Object object = m_tree->CreateObject( className );
     if( !object )
         return;
 
     Serialize();
 
-    wxGDObjectEvent event( wxGD_EVT_OBJECT_CREATED, senderId, object );
+    RTTI::ObjectEvent event( wxGD_EVT_OBJECT_CREATED, senderId, object );
     SendEvent( event );
 }
 
-void wxGDHandler::SelectObject( Object object, int senderId )
+void wxGD::Handler::SelectObject( RTTI::Object object, int senderId )
 {
     if( !object )
         return;
@@ -263,30 +263,30 @@ void wxGDHandler::SelectObject( Object object, int senderId )
 
     Serialize();
 
-    wxGDObjectEvent event( wxGD_EVT_OBJECT_SELECTED, senderId, object );
+    RTTI::ObjectEvent event( wxGD_EVT_OBJECT_SELECTED, senderId, object );
     SendEvent( event );
 }
 
-Object wxGDHandler::GetSelectedObject() const
+wxGD::RTTI::Object wxGD::Handler::GetSelectedObject() const
 {
     return m_tree->GetSelectedObject();
 }
 //-----------------------------------------------------------------------------
 // Serialize
 //-----------------------------------------------------------------------------
-bool wxGDHandler::Load( const wxString &filePath )
+bool wxGD::Handler::Load( const wxString &filePath )
 {
-    return wxXRCSerializer::Load( m_tree, filePath );
+    return XRCSerializer::Load( m_tree, filePath );
 }
 
-bool wxGDHandler::Save( const wxString &filePath )
+bool wxGD::Handler::Save( const wxString &filePath )
 {
-    return wxXRCSerializer::Save( m_tree, filePath );
+    return XRCSerializer::Save( m_tree, filePath );
 }
 
-void wxGDHandler::Serialize()
+void wxGD::Handler::Serialize()
 {
-    wxXmlNode *xrcRoot = wxXRCSerializer::Serialize( m_tree );
+    wxXmlNode *xrcRoot = XRCSerializer::Serialize( m_tree );
 
 // Reload the XRC project in memory
     wxXmlResource::Get()->Unload("memory:xrc.xrc");
@@ -307,14 +307,14 @@ void wxGDHandler::Serialize()
         xrcEditor->SetText( xrcText );
 }
 
-void wxGDHandler::SerializeObject( Object object, wxXmlNode *rootNode )
+void wxGD::Handler::SerializeObject( RTTI::Object object, wxXmlNode *rootNode )
 {
-    wxXRCSerializer::SerializeObject( object, rootNode );
+    XRCSerializer::SerializeObject( object, rootNode );
 }
 
-void wxGDHandler::SendEvent( wxEvent &event, bool delayed )
+void wxGD::Handler::SendEvent( wxEvent &event, bool delayed )
 {
-    vector< wxEvtHandler * >::iterator it;
+    std::vector< wxEvtHandler * >::iterator it;
     // Process the event immediatly or delay it using
     // QueueEvent to be thread safe to all wxEvtHandlers
     for( it = m_handlers.begin(); it != m_handlers.end(); ++it )
@@ -330,7 +330,7 @@ void wxGDHandler::SendEvent( wxEvent &event, bool delayed )
     }
 }
 
-void wxGDHandler::SelectLanguage( int language )
+void wxGD::Handler::SelectLanguage( int language )
 {
     if ( !m_locale.Init( language ) )
     {
@@ -358,7 +358,7 @@ void wxGDHandler::SelectLanguage( int language )
 #endif
 }
 
-void wxGDHandler::InitAllXmlHandlers()
+void wxGD::Handler::InitAllXmlHandlers()
 {
     wxXmlResource::Get()->AddHandler(new wxUnknownWidgetXmlHandler);
     wxXmlResource::Get()->AddHandler(new wxBitmapXmlHandler);

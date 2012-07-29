@@ -15,6 +15,8 @@
 #include <wx/snglinst.h>
 #include <wx/scopedptr.h>
 
+namespace wxGD
+{
 class IPCFileServer;
 
 class IPCFile
@@ -62,6 +64,7 @@ public:
 
 private:
     const wxString m_filePath;
+};
 };
 
 #endif //__WXGUIDESIGNER_IPC_H__

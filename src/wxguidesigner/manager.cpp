@@ -33,8 +33,8 @@
 wxGUIDesigner::wxGUIDesigner()
 :
 //IGUIDesigner(),
-m_handler( new wxGDHandler ),
-m_ipcFile( new IPCFile ),
+m_handler( new wxGD::Handler ),
+m_ipcFile( new wxGD::IPCFile ),
 m_currPrj(),
 m_currDir(),
 m_isChanged( false )

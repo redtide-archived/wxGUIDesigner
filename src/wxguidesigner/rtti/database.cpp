@@ -8,9 +8,6 @@
 // Copyleft:    (ɔ) Andrea Zanellato
 // Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
-#include "wxguidesigner/rtti/database.h"
-#include "wxguidesigner/utils.h"
-
 #include <wx/app.h>
 #include <wx/dir.h>
 #include <wx/filefn.h>
@@ -20,12 +17,13 @@
 
 #include <wx/log.h>
 
-using namespace std;
+#include "wxguidesigner/utils.h"
+#include "wxguidesigner/rtti/database.h"
 //=============================================================================
 // ChildInfoNode
 //=============================================================================
-ChildInfoNode::ChildInfoNode  ( ClassType type, const wxString &name,
-                                int max, bool option )
+wxGD::RTTI::ChildInfoNode::ChildInfoNode  ( ClassType type, const wxString &name,
+                                            int max, bool option )
 :
 m_type  ( type ),
 m_name  ( name ),
@@ -34,73 +32,75 @@ m_option( option )
 {
 }
 
-ChildInfoNode::~ChildInfoNode()
+wxGD::RTTI::ChildInfoNode::~ChildInfoNode()
 {
 }
 
-ClassType ChildInfoNode::GetType() const
+wxGD::RTTI::ClassType wxGD::RTTI::ChildInfoNode::GetType() const
 {
     return m_type;
 }
 
-wxString ChildInfoNode::GetName() const
+wxString wxGD::RTTI::ChildInfoNode::GetName() const
 {
     return m_name;
 }
 
-int ChildInfoNode::GetMax() const
+int wxGD::RTTI::ChildInfoNode::GetMax() const
 {
     return m_max;
 }
 
-bool ChildInfoNode::IsOption() const
+bool wxGD::RTTI::ChildInfoNode::IsOption() const
 {
     return m_option;
 }
 
-bool ChildInfoNode::IsType() const
+bool wxGD::RTTI::ChildInfoNode::IsType() const
 {
     return m_name.empty();
 }
 //=============================================================================
 // EventInfoNode
 //=============================================================================
-EventInfoNode::EventInfoNode( const wxString &name, const wxString &description )
+wxGD::RTTI::EventInfoNode::EventInfoNode  ( const wxString &name,
+                                            const wxString &description )
 :
 m_name( name ),
 m_desc( description )
 {
 }
 
-EventInfoNode::~EventInfoNode()
+wxGD::RTTI::EventInfoNode::~EventInfoNode()
 {
     m_types.clear();
 }
 
-wxString EventInfoNode::GetName() const
+wxString wxGD::RTTI::EventInfoNode::GetName() const
 {
     return m_name;
 }
 
-wxString EventInfoNode::GetDescription() const
+wxString wxGD::RTTI::EventInfoNode::GetDescription() const
 {
     return m_desc;
 }
 //-----------------------------------------------------------------------------
 // EventTypeInfos
 //-----------------------------------------------------------------------------
-void EventInfoNode::AddType( const wxString &name, const wxString &description )
+void wxGD::RTTI::EventInfoNode::AddType(const wxString &name,
+                                        const wxString &description)
 {
     EventTypeInfo info( new EventTypeInfoNode( name, description ) );
     m_types.push_back( info );
 }
 
-void EventInfoNode::SetDescription( const wxString &description )
+void wxGD::RTTI::EventInfoNode::SetDescription( const wxString &description )
 {
     m_desc = description;
 }
 
-wxString EventInfoNode::GetTypeName( size_t index ) const
+wxString wxGD::RTTI::EventInfoNode::GetTypeName( size_t index ) const
 {
     if( index < m_types.size() )
         return m_types.at( index )->GetName();
@@ -108,7 +108,7 @@ wxString EventInfoNode::GetTypeName( size_t index ) const
     return wxEmptyString;
 }
 
-wxString EventInfoNode::GetTypeDescription( size_t index ) const
+wxString wxGD::RTTI::EventInfoNode::GetTypeDescription( size_t index ) const
 {
     if( index < m_types.size() )
         return m_types.at( index )->GetDescription();
@@ -116,15 +116,16 @@ wxString EventInfoNode::GetTypeDescription( size_t index ) const
     return wxEmptyString;
 }
 
-size_t EventInfoNode::GetTypeCount() const
+size_t wxGD::RTTI::EventInfoNode::GetTypeCount() const
 {
     return m_types.size();
 }
 //=============================================================================
 //  PropertyInfoNode
 //=============================================================================
-PropertyInfoNode::PropertyInfoNode( PropertyType type, const wxString &name,
-                                    const wxString &label )
+wxGD::RTTI::PropertyInfoNode::PropertyInfoNode( PropertyType    type,
+                                                const wxString &name,
+                                                const wxString &label )
 :
 m_type  ( type ),
 m_name  ( name ),
@@ -134,47 +135,49 @@ m_desc  ( wxEmptyString )
 {
 }
 
-PropertyInfoNode::~PropertyInfoNode()
+wxGD::RTTI::PropertyInfoNode::~PropertyInfoNode()
 {
     m_children.clear();
 }
 
-PropertyType PropertyInfoNode::GetType() const
+wxGD::RTTI::PropertyType
+wxGD::RTTI::PropertyInfoNode::GetType() const
 {
     return m_type;
 }
 
-wxString PropertyInfoNode::GetName() const
+wxString wxGD::RTTI::PropertyInfoNode::GetName() const
 {
     return m_name;
 }
 
-wxString PropertyInfoNode::GetLabel() const
+wxString wxGD::RTTI::PropertyInfoNode::GetLabel() const
 {
     return m_label;
 }
 
-wxString PropertyInfoNode::GetDefaultValue() const
+wxString wxGD::RTTI::PropertyInfoNode::GetDefaultValue() const
 {
     return m_value;
 }
 
-wxString PropertyInfoNode::GetDescription() const
+wxString wxGD::RTTI::PropertyInfoNode::GetDescription() const
 {
     return m_desc;
 }
 
-size_t PropertyInfoNode::GetChildCount() const
+size_t wxGD::RTTI::PropertyInfoNode::GetChildCount() const
 {
     return m_children.size();
 }
 
-void PropertyInfoNode::AddChild( PropertyInfo info )
+void wxGD::RTTI::PropertyInfoNode::AddChild( PropertyInfo info )
 {
     m_children.push_back( info );
 }
 
-PropertyInfo PropertyInfoNode::GetChild( size_t index )
+wxGD::RTTI::PropertyInfo
+wxGD::RTTI::PropertyInfoNode::GetChild( size_t index )
 {
     if( index < m_children.size() )
         return m_children.at( index );
@@ -182,26 +185,26 @@ PropertyInfo PropertyInfoNode::GetChild( size_t index )
     return PropertyInfo();
 }
 
-void PropertyInfoNode::SetDefaultValue( const wxString &value )
+void wxGD::RTTI::PropertyInfoNode::SetDefaultValue( const wxString &value )
 {
     m_value = value;
 }
 
-void PropertyInfoNode::SetDescription( const wxString &description )
+void wxGD::RTTI::PropertyInfoNode::SetDescription( const wxString &description )
 {
     m_desc = description;
 }
 //=============================================================================
 //  ClassNode
 //=============================================================================
-ClassNode::ClassNode( const wxString &className, ClassType classType )
+wxGD::RTTI::ClassNode::ClassNode( const wxString &className, ClassType classType )
 :
 m_name( className ),
 m_type( classType )
 {
 }
 
-ClassNode::~ClassNode()
+wxGD::RTTI::ClassNode::~ClassNode()
 {
     m_eventInfos.clear();
     m_propInfos.clear();
@@ -209,29 +212,30 @@ ClassNode::~ClassNode()
     m_baseInfos.clear();
 }
 
-wxString ClassNode::GetName() const
+wxString wxGD::RTTI::ClassNode::GetName() const
 {
     return m_name;
 }
 
-wxString ClassNode::GetDescription() const
+wxString wxGD::RTTI::ClassNode::GetDescription() const
 {
     return m_desc;
 }
 
-ClassType ClassNode::GetType() const
+wxGD::RTTI::ClassType
+wxGD::RTTI::ClassNode::GetType() const
 {
     return m_type;
 }
 
-void ClassNode::SetDescription( const wxString &description )
+void wxGD::RTTI::ClassNode::SetDescription( const wxString &description )
 {
     m_desc = description;
 }
 //-----------------------------------------------------------------------------
 // Inherited classes
 //-----------------------------------------------------------------------------
-ClassInfo ClassNode::GetBaseInfo( size_t index ) const
+wxGD::RTTI::ClassInfo wxGD::RTTI::ClassNode::GetBaseInfo( size_t index ) const
 {
     if( index < m_baseInfos.size() )
         return m_baseInfos.at( index );
@@ -239,7 +243,7 @@ ClassInfo ClassNode::GetBaseInfo( size_t index ) const
     return ClassInfo();
 }
 
-wxString ClassNode::GetBaseName( size_t index ) const
+wxString wxGD::RTTI::ClassNode::GetBaseName( size_t index ) const
 {
     if( index < m_baseInfos.size() )
         return m_baseInfos.at( index )->GetName();
@@ -247,20 +251,29 @@ wxString ClassNode::GetBaseName( size_t index ) const
     return wxEmptyString;
 }
 
-size_t ClassNode::GetBaseCount() const
+size_t wxGD::RTTI::ClassNode::GetBaseCount() const
 {
     return m_baseInfos.size();
 }
 
-void ClassNode::AddBaseInfo( ClassInfo classInfo )
+void wxGD::RTTI::ClassNode::AddBaseInfo( ClassInfo classInfo )
 {
     if( !classInfo )
         return;
 
     m_baseInfos.push_back( classInfo );
+    wxLogMessage( "%s: Added base %s", m_name, classInfo->GetName() );
+
+    for( size_t i = 0; i < classInfo->GetBaseCount(); i++ )
+    {
+        ClassInfo baseInfo = classInfo->GetBaseInfo(i);
+        AddBaseInfo( baseInfo );
+        wxLogMessage( "%s: Added base %s", classInfo->GetName(),
+                                            baseInfo->GetName() );
+    }
 }
 
-bool ClassNode::IsA( const wxString &className ) const
+bool wxGD::RTTI::ClassNode::IsA( const wxString &className ) const
 {
     if( m_name == className )
         return true;
@@ -273,7 +286,7 @@ bool ClassNode::IsA( const wxString &className ) const
             return true;
 
         // Recursively check a level up
-        ClassInfo baseInfo = ClassInfoDB::Get()->GetClassInfo( baseName );
+        ClassInfo baseInfo = ClassTree::Get()->GetClassInfo( baseName );
 
         if( baseInfo && baseInfo->IsA( className ) )
             return true;
@@ -282,14 +295,14 @@ bool ClassNode::IsA( const wxString &className ) const
     return false;
 }
 
-bool ClassNode::IsTypeOf( ClassType type ) const
+bool wxGD::RTTI::ClassNode::IsTypeOf( ClassType classType ) const
 {
-    return( m_type == type );
+    return( m_type == classType );
 }
 //-----------------------------------------------------------------------------
 // PropertyInfos
 //-----------------------------------------------------------------------------
-void ClassNode::AddPropertyInfo( PropertyInfo propertyInfo )
+void wxGD::RTTI::ClassNode::AddPropertyInfo( PropertyInfo propertyInfo )
 {
     if( !propertyInfo )
         return;
@@ -297,7 +310,8 @@ void ClassNode::AddPropertyInfo( PropertyInfo propertyInfo )
     m_propInfos.push_back( propertyInfo );
 }
 
-PropertyInfo ClassNode::GetPropertyInfo( size_t index ) const
+wxGD::RTTI::PropertyInfo
+wxGD::RTTI::ClassNode::GetPropertyInfo( size_t index ) const
 {
     if( index < m_propInfos.size() )
         return m_propInfos.at( index );
@@ -305,10 +319,11 @@ PropertyInfo ClassNode::GetPropertyInfo( size_t index ) const
     return PropertyInfo();
 }
 
-PropertyInfo ClassNode::GetPropertyInfo( const wxString &name ) const
+wxGD::RTTI::PropertyInfo
+wxGD::RTTI::ClassNode::GetPropertyInfo( const wxString &name ) const
 {
     for( PropertyInfos::const_iterator it = m_propInfos.begin();
-                                      it != m_propInfos.end(); ++it )
+                                    it != m_propInfos.end(); ++it )
     {
         PropertyInfo propertyInfo = *it;
         if( propertyInfo->GetName() == name )
@@ -318,19 +333,20 @@ PropertyInfo ClassNode::GetPropertyInfo( const wxString &name ) const
     return PropertyInfo();
 }
 
-size_t ClassNode::GetPropertyInfoCount() const
+size_t wxGD::RTTI::ClassNode::GetPropertyInfoCount() const
 {
     return m_propInfos.size();
 }
 //-----------------------------------------------------------------------------
 // EventInfos
 //-----------------------------------------------------------------------------
-void ClassNode::AddEventInfo( EventInfo eventInfo )
+void wxGD::RTTI::ClassNode::AddEventInfo( EventInfo eventInfo )
 {
     m_eventInfos.push_back( eventInfo );
 }
 
-EventInfo ClassNode::GetEventInfo( size_t index ) const
+wxGD::RTTI::EventInfo
+wxGD::RTTI::ClassNode::GetEventInfo( size_t index ) const
 {
     if( index < m_eventInfos.size() )
         return m_eventInfos.at( index );
@@ -338,19 +354,20 @@ EventInfo ClassNode::GetEventInfo( size_t index ) const
     return EventInfo();
 }
 
-size_t ClassNode::GetEventInfoCount() const
+size_t wxGD::RTTI::ClassNode::GetEventInfoCount() const
 {
     return m_eventInfos.size();
 }
 //-----------------------------------------------------------------------------
 // ChildInfos
 //-----------------------------------------------------------------------------
-void ClassNode::AddChildInfo( ChildInfo childInfo )
+void wxGD::RTTI::ClassNode::AddChildInfo( ChildInfo childInfo )
 {
     m_children.push_back( childInfo );
 }
 
-ChildInfo ClassNode::GetChildInfo( size_t index ) const
+wxGD::RTTI::ChildInfo
+wxGD::RTTI::ClassNode::GetChildInfo( size_t index ) const
 {
     if( index < m_children.size() )
         return m_children.at( index );
@@ -358,10 +375,11 @@ ChildInfo ClassNode::GetChildInfo( size_t index ) const
     return ChildInfo();
 }
 
-ChildInfo ClassNode::GetChildInfo( const wxString &name ) const
+wxGD::RTTI::ChildInfo
+wxGD::RTTI::ClassNode::GetChildInfo( const wxString &name ) const
 {
     for( ChildInfos::const_iterator it = m_children.begin();
-                                    it != m_children.end(); ++it )
+                                        it != m_children.end(); ++it )
     {
         ChildInfo childInfo = *it;
         if( childInfo->GetName() == name )
@@ -371,23 +389,24 @@ ChildInfo ClassNode::GetChildInfo( const wxString &name ) const
     return ChildInfo();
 }
 
-size_t ClassNode::GetChildInfoCount() const
+size_t wxGD::RTTI::ClassNode::GetChildInfoCount() const
 {
     return m_children.size();
 }
 
-bool ClassNode::IsChildInfoOk( const wxString &className, size_t count ) const
+bool wxGD::RTTI::ClassNode::IsChildInfoOk( const wxString &className,
+                                                    size_t count ) const
 {
-    ClassInfo classInfo = ClassInfoDB::Get()->GetClassInfo( className );
+    ClassInfo classInfo = ClassTree::Get()->GetClassInfo( className );
     if( !classInfo )
         return false;
 
     for( size_t i = 0; i < m_children.size(); i++ )
     {
-        ChildInfo childInfo = m_children.at(i);
-        int       childMax  = childInfo->GetMax();
-        bool      countOK   = ((childMax == -1) || (childMax > (int)count));
-        wxString  childName = childInfo->GetName();
+        ChildInfo   childInfo = m_children.at(i);
+        int         childMax  = childInfo->GetMax();
+        bool        countOK   = ((childMax == -1) || (childMax > (int)count));
+        wxString    childName = childInfo->GetName();
 
         if( classInfo->IsA( childName ) && countOK )
             return true;
@@ -396,14 +415,14 @@ bool ClassNode::IsChildInfoOk( const wxString &className, size_t count ) const
     return false;
 }
 //=============================================================================
-//  ClassInfoDB
+//  ClassTree
 //=============================================================================
-ClassInfoDB::ClassInfoDB()
+wxGD::RTTI::ClassTree::ClassTree()
 {
     Init();
 }
 
-ClassInfoDB::~ClassInfoDB()
+wxGD::RTTI::ClassTree::~ClassTree()
 {
     m_classInfos.clear();
     m_classNames.clear();
@@ -412,17 +431,17 @@ ClassInfoDB::~ClassInfoDB()
     m_baseNames.clear();
 }
 
-ClassInfoDB *ClassInfoDB::ms_instance = NULL;
+wxGD::RTTI::ClassTree *wxGD::RTTI::ClassTree::ms_instance = NULL;
 
-ClassInfoDB *ClassInfoDB::Get()
+wxGD::RTTI::ClassTree *wxGD::RTTI::ClassTree::Get()
 {
     if(!ms_instance)
-        ms_instance = new ClassInfoDB;
+        ms_instance = new ClassTree;
 
     return ms_instance;
 }
 
-void ClassInfoDB::Free()
+void wxGD::RTTI::ClassTree::Free()
 {
     if( ms_instance )
     {
@@ -431,34 +450,80 @@ void ClassInfoDB::Free()
     }
 }
 
-void ClassInfoDB::InitPropertyTypes()
+void wxGD::RTTI::ClassTree::InitPropertyTypes()
 {
-    m_propTypes.insert( PropertyTypeMap::value_type( "arraystring", PROPERTY_TYPE_ARRAYSTRING ) );
-    m_propTypes.insert( PropertyTypeMap::value_type( "bitmap",      PROPERTY_TYPE_BITMAP ) );
-    m_propTypes.insert( PropertyTypeMap::value_type( "bool",        PROPERTY_TYPE_BOOL ) );
-    m_propTypes.insert( PropertyTypeMap::value_type( "category",    PROPERTY_TYPE_CATEGORY ) );
-    m_propTypes.insert( PropertyTypeMap::value_type( "colour",      PROPERTY_TYPE_COLOUR ) );
-    m_propTypes.insert( PropertyTypeMap::value_type( "dimension",   PROPERTY_TYPE_DIMENSION ) );
-    m_propTypes.insert( PropertyTypeMap::value_type( "double",      PROPERTY_TYPE_DOUBLE ) );
-    m_propTypes.insert( PropertyTypeMap::value_type( "event",       PROPERTY_TYPE_EVENT ) );
-    m_propTypes.insert( PropertyTypeMap::value_type( "enum",        PROPERTY_TYPE_ENUM ) );
-    m_propTypes.insert( PropertyTypeMap::value_type( "float",       PROPERTY_TYPE_FLOAT ) );
-    m_propTypes.insert( PropertyTypeMap::value_type( "flag",        PROPERTY_TYPE_FLAG ) );
-    m_propTypes.insert( PropertyTypeMap::value_type( "font",        PROPERTY_TYPE_FONT ) );
-    m_propTypes.insert( PropertyTypeMap::value_type( "listcolfmt",  PROPERTY_TYPE_LISTCOLFMT ) );
-    m_propTypes.insert( PropertyTypeMap::value_type( "items",       PROPERTY_TYPE_ITEMS ) );
-    m_propTypes.insert( PropertyTypeMap::value_type( "int",         PROPERTY_TYPE_INT ) );
-    m_propTypes.insert( PropertyTypeMap::value_type( "name",        PROPERTY_TYPE_NAME ) );
-    m_propTypes.insert( PropertyTypeMap::value_type( "point",       PROPERTY_TYPE_POINT ) );
-    m_propTypes.insert( PropertyTypeMap::value_type( "size",        PROPERTY_TYPE_SIZE ) );
-    m_propTypes.insert( PropertyTypeMap::value_type( "string",      PROPERTY_TYPE_STRING ) );
-    m_propTypes.insert( PropertyTypeMap::value_type( "style",       PROPERTY_TYPE_STYLE ) );
-    m_propTypes.insert( PropertyTypeMap::value_type( "exstyle",     PROPERTY_TYPE_STYLE ) );
-    m_propTypes.insert( PropertyTypeMap::value_type( "text",        PROPERTY_TYPE_TEXT ) );
-    m_propTypes.insert( PropertyTypeMap::value_type( "url",         PROPERTY_TYPE_URL ) );
+    m_propTypes.insert( PropertyTypeMap::value_type( "arraystring",
+                        PROPERTY_TYPE_ARRAYSTRING ) );
+
+    m_propTypes.insert( PropertyTypeMap::value_type( "bitmap",
+                        PROPERTY_TYPE_BITMAP ) );
+
+    m_propTypes.insert( PropertyTypeMap::value_type( "bool",
+                        PROPERTY_TYPE_BOOL ) );
+
+    m_propTypes.insert( PropertyTypeMap::value_type( "category",
+                        PROPERTY_TYPE_CATEGORY ) );
+
+    m_propTypes.insert( PropertyTypeMap::value_type( "colour",
+                        PROPERTY_TYPE_COLOUR ) );
+
+    m_propTypes.insert( PropertyTypeMap::value_type( "dimension",
+                        PROPERTY_TYPE_DIMENSION ) );
+
+    m_propTypes.insert( PropertyTypeMap::value_type( "double",
+                        PROPERTY_TYPE_DOUBLE ) );
+
+    m_propTypes.insert( PropertyTypeMap::value_type( "event",
+                        PROPERTY_TYPE_EVENT ) );
+
+    m_propTypes.insert( PropertyTypeMap::value_type( "enum",
+                        PROPERTY_TYPE_ENUM ) );
+
+    m_propTypes.insert( PropertyTypeMap::value_type( "float",
+                        PROPERTY_TYPE_FLOAT ) );
+
+    m_propTypes.insert( PropertyTypeMap::value_type( "flag",
+                        PROPERTY_TYPE_FLAG ) );
+
+    m_propTypes.insert( PropertyTypeMap::value_type( "font",
+                        PROPERTY_TYPE_FONT ) );
+
+    m_propTypes.insert( PropertyTypeMap::value_type( "listcolfmt",
+                        PROPERTY_TYPE_LISTCOLFMT ) );
+
+    m_propTypes.insert( PropertyTypeMap::value_type( "items",
+                        PROPERTY_TYPE_ITEMS ) );
+
+    m_propTypes.insert( PropertyTypeMap::value_type( "int",
+                        PROPERTY_TYPE_INT ) );
+
+    m_propTypes.insert( PropertyTypeMap::value_type( "name",
+                        PROPERTY_TYPE_NAME ) );
+
+    m_propTypes.insert( PropertyTypeMap::value_type( "point",
+                        PROPERTY_TYPE_POINT ) );
+
+    m_propTypes.insert( PropertyTypeMap::value_type( "size",
+                        PROPERTY_TYPE_SIZE ) );
+
+    m_propTypes.insert( PropertyTypeMap::value_type( "string",
+                        PROPERTY_TYPE_STRING ) );
+
+    m_propTypes.insert( PropertyTypeMap::value_type( "style",
+                        PROPERTY_TYPE_STYLE ) );
+
+    m_propTypes.insert( PropertyTypeMap::value_type( "exstyle",
+                        PROPERTY_TYPE_STYLE ) );
+
+    m_propTypes.insert( PropertyTypeMap::value_type( "text",
+                        PROPERTY_TYPE_TEXT ) );
+
+    m_propTypes.insert( PropertyTypeMap::value_type( "url",
+                        PROPERTY_TYPE_URL ) );
+
 }
 
-bool ClassInfoDB::InitClassList( const wxString &category )
+bool wxGD::RTTI::ClassTree::InitClassList( const wxString &category )
 {
     wxString path = GetDataBasePath() + wxFILE_SEP_PATH + category + ".xml";
 
@@ -478,7 +543,7 @@ bool ClassInfoDB::InitClassList( const wxString &category )
                 wxString className = node->GetNodeContent();
 
                 m_baseNames.push_back( className );
-//              wxLogDebug("Loaded %s", className );
+//              wxLogMessage("Loaded %s", className );
             }
         }
         else if( category == "controls" )
@@ -493,7 +558,7 @@ bool ClassInfoDB::InitClassList( const wxString &category )
                     m_classNames.push_back( className );
                     m_classTypes.push_back( nodeName );
 
-//                  wxLogDebug("Loaded %s", className );
+//                  wxLogMessage("Loaded %s", className );
                 }
 
                 itemNode = itemNode->GetNext();
@@ -510,7 +575,7 @@ bool ClassInfoDB::InitClassList( const wxString &category )
     return false;
 }
 
-void ClassInfoDB::Init()
+void wxGD::RTTI::ClassTree::Init()
 {
     InitPropertyTypes();
 
@@ -525,7 +590,7 @@ void ClassInfoDB::Init()
     LoadClasses("controls");
 }
 
-void ClassInfoDB::LoadClasses( const wxString &category )
+void wxGD::RTTI::ClassTree::LoadClasses( const wxString &category )
 {
     wxString path = GetDataBasePath() + wxFILE_SEP_PATH + category;
 
@@ -535,6 +600,8 @@ void ClassInfoDB::LoadClasses( const wxString &category )
     wxDir dbDir( path );
     if( !dbDir.IsOpened() )
         return;
+
+    BaseInfoMap baseInfoMap;
 
     if( category == "controlbase" )
     {
@@ -550,10 +617,11 @@ void ClassInfoDB::LoadClasses( const wxString &category )
                 if(!xmlFileName.IsAbsolute())
                     xmlFileName.MakeAbsolute();
 
-                LoadXML( xmlFileName.GetFullPath() );
+                BaseInfo baseInfo = LoadXML( xmlFileName.GetFullPath() );
+                baseInfoMap.insert( baseInfo );
             }
 //          else
-//              wxLogDebug("Path %s not found", xmlFilePath);
+//              wxLogError("Path %s not found", xmlFilePath);
         }
     }
     else if( category == "controls" )
@@ -578,21 +646,51 @@ void ClassInfoDB::LoadClasses( const wxString &category )
                     if(!xmlFileName.IsAbsolute())
                         xmlFileName.MakeAbsolute();
 
-                    LoadXML( xmlFileName.GetFullPath() );
+                    BaseInfo baseInfo = LoadXML( xmlFileName.GetFullPath() );
+                    baseInfoMap.insert( baseInfo );
                 }
 //              else
-//                  wxLogDebug("Path %s not found", xmlFilePath);
+//                  wxLogError("Path %s not found", xmlFilePath);
+            }
+        }
+    }
+
+//  Since all classes are now loaded, add base info classes to each one
+    for( BaseInfoMap::iterator it = baseInfoMap.begin();
+                                it != baseInfoMap.end(); ++it )
+    {
+        ClassInfo   classInfo = (*it).first;
+        Strings     baseInfos = (*it).second;
+
+        for( Strings::iterator iter = baseInfos.begin();
+                                iter != baseInfos.end(); ++iter )
+        {
+            ClassInfo baseInfo = GetClassInfo( *iter );
+            if( baseInfo )
+            {
+                classInfo->AddBaseInfo( baseInfo );
+/*
+                // Add baseInfo's inherited classes informations
+                for( size_t i = 0; i < baseInfo->GetBaseCount(); i++ )
+                {
+                    ClassInfo baseParentInfo = baseInfo->GetBaseInfo(i);
+                    AddBaseInfos( classInfo, baseParentInfo );
+                    wxLogMessage( "%s: Added base %s", classInfo->GetName(),
+                                                        baseParentInfo->GetName() );
+                }
+*/
             }
         }
     }
 }
 
-bool ClassInfoDB::LoadXML( const wxString &path )
+wxGD::RTTI::BaseInfo
+wxGD::RTTI::ClassTree::LoadXML( const wxString &path )
 {
     // Check document
     wxXmlDocument doc;
     if( !doc.Load( path ) )
-        return false;
+        return BaseInfo();
 
     // If the 'class' element isn't the root node, then we could have
     // other classes defined in the xml: tell it to the parser.
@@ -603,22 +701,22 @@ bool ClassInfoDB::LoadXML( const wxString &path )
     {
         classNode = classNode->GetChildren();
         if( !classNode || ( classNode->GetName() != "class" ) )
-            return false;
+            return BaseInfo();
 
         hasClasses = true;
     }
 
-    Parse( classNode, hasClasses );
-    return true;
+    return Parse( classNode, hasClasses );
 }
 
-bool ClassInfoDB::CheckClass( const wxString &name )
+bool wxGD::RTTI::ClassTree::CheckClass( const wxString &name )
 {
     // Test for existance in wxRTTI system
     return( wxClassInfo::FindClass( name ) != NULL );
 }
 
-ClassType ClassInfoDB::ClassTypeFromString( const wxString &value ) const
+wxGD::RTTI::ClassType
+wxGD::RTTI::ClassTree::ClassTypeFromString( const wxString &value ) const
 {
     if     ( value == "abstract"  ) return CLASS_TYPE_ABSTRACT;
     else if( value == "container" ) return CLASS_TYPE_CONTAINER;
@@ -634,20 +732,21 @@ ClassType ClassInfoDB::ClassTypeFromString( const wxString &value ) const
     return CLASS_TYPE_UNKNOWN;
 }
 
-void ClassInfoDB::Parse( wxXmlNode *classNode, bool recursively )
+wxGD::RTTI::BaseInfo
+wxGD::RTTI::ClassTree::Parse( wxXmlNode *classNode, bool recursively )
 {
     // 'class' element must have a non-empty 'name' attribute
     wxString className = classNode->GetAttribute("name");
     if( className.empty() )
     {
         wxLogError("Unnamed class was found.");
-        return;
+        return BaseInfo();
     }
 
     // Check only real classes
     // Disabled classes in XML (wxXML_COMMENT_NODEs) will be skipped.
-    ClassType classType = ClassTypeFromString( classNode->GetAttribute("type") );
-    bool      classIsOk = CheckClass( className );
+    ClassType   classType = ClassTypeFromString( classNode->GetAttribute("type") );
+    bool        classIsOk = CheckClass( className );
 
     // TODO: Why wxAnyButton is not recognized by wxRTTI?
     if( (classType != CLASS_TYPE_ROOT) && (classType != CLASS_TYPE_CUSTOM) &&
@@ -662,21 +761,22 @@ void ClassInfoDB::Parse( wxXmlNode *classNode, bool recursively )
         if( (baseIt == m_baseNames.end()) && (classIt == m_classNames.end()) )
         {
             wxLogError( "Class '%s' was not found in registered list.", className );
-            return;
+            return BaseInfo();
         }
         else if( !classIsOk )
         {
             wxLogError( "Can't register class '%s'.", className );
-            return;
+            return BaseInfo();
         }
     }
 
-//  wxLogDebug( "Loading class %s", className );
+//  wxLogMessage( "Loading class %s", className );
 
     ClassInfo classInfo( new ClassNode( className, classType ) );
     m_classInfos.insert( ClassInfoMap::value_type( className, classInfo ) );
 
     wxXmlNode *node = classNode->GetChildren();
+    BaseInfo baseInfo;
 
     while( node )
     {
@@ -689,16 +789,19 @@ void ClassInfoDB::Parse( wxXmlNode *classNode, bool recursively )
         else if( nodeName == "inherits" )
         {
             wxXmlNode *childNode = node->GetChildren();
+            wxGD::Strings baseInfos;
+
             while( childNode && childNode->GetName() == "class" )
             {
-                wxString  baseName = childNode->GetNodeContent();
-                ClassInfo baseInfo = GetClassInfo( baseName );
+                baseInfos.push_back( childNode->GetNodeContent() );
 
-                if( baseInfo )
-                    classInfo->AddBaseInfo( baseInfo );
+                wxLogMessage( "%s: Adding base %s", classInfo->GetName(),
+                                                    childNode->GetNodeContent() );
 
                 childNode = childNode->GetNext();
             }
+
+            baseInfo = BaseInfo( classInfo, baseInfos );
         }
         else if( nodeName == "children" )
         {
@@ -731,13 +834,6 @@ void ClassInfoDB::Parse( wxXmlNode *classNode, bool recursively )
         node = node->GetNext();
     }
 
-    // Add inherited classes events/properties informations
-    for( size_t i = 0; i < classInfo->GetBaseCount(); i++ )
-    {
-        ClassInfo baseInfo = classInfo->GetBaseInfo(i);
-        AddBaseInfos( classInfo, baseInfo );
-    }
-
     // Parse eventually other classes defined inside same XML file
     if( recursively )
     {
@@ -746,9 +842,12 @@ void ClassInfoDB::Parse( wxXmlNode *classNode, bool recursively )
         if( classNode )
             Parse( classNode, true );
     }
+
+    return baseInfo;
 }
 
-void ClassInfoDB::AddBaseInfos( ClassInfo classInfo, ClassInfo baseInfo )
+void wxGD::RTTI::ClassTree::AddBaseInfos  ( ClassInfo classInfo,
+                                            ClassInfo baseInfo )
 {
     wxString baseName = baseInfo->GetName();
     bool found = false;
@@ -773,43 +872,49 @@ void ClassInfoDB::AddBaseInfos( ClassInfo classInfo, ClassInfo baseInfo )
     if( !found )
         return;
 
-    for( size_t i = 0; i < baseInfo->GetPropertyInfoCount(); i++ )
+    for( size_t i = 0; i < baseInfo->GetBaseCount(); i++ )
     {
-        PropertyInfo propInfoBase = baseInfo->GetPropertyInfo(i);
-        wxString     propBaseName = propInfoBase->GetName();
-        PropertyInfo propertyInfo = classInfo->GetPropertyInfo( propBaseName );
+        AddBaseInfos( baseInfo, baseInfo->GetBaseInfo(i) );
 
-        if( propertyInfo )
+        for( size_t i = 0; i < baseInfo->GetPropertyInfoCount(); i++ )
         {
-            for( size_t j = 0; j < propInfoBase->GetChildCount(); j++ )
+            PropertyInfo    propInfoBase = baseInfo->GetPropertyInfo(i);
+            wxString        propBaseName = propInfoBase->GetName();
+            PropertyInfo    propertyInfo = classInfo->GetPropertyInfo( propBaseName );
+
+            if( propertyInfo )
             {
-                PropertyInfo child = propInfoBase->GetChild(j);
-                propertyInfo->AddChild( child );
+                for( size_t j = 0; j < propInfoBase->GetChildCount(); j++ )
+                {
+                    PropertyInfo child = propInfoBase->GetChild(j);
+                    propertyInfo->AddChild( child );
+                }
+            }
+            else
+            {
+                classInfo->AddPropertyInfo( propInfoBase );
             }
         }
-        else
-        {
-            classInfo->AddPropertyInfo( propInfoBase );
-        }
-    }
 
-    for( size_t i = 0; i < baseInfo->GetEventInfoCount(); i++ )
-    {
-        EventInfo eventInfoBase = baseInfo->GetEventInfo(i);
-        classInfo->AddEventInfo( eventInfoBase );
+        for( size_t i = 0; i < baseInfo->GetEventInfoCount(); i++ )
+        {
+            EventInfo eventInfoBase = baseInfo->GetEventInfo(i);
+            classInfo->AddEventInfo( eventInfoBase );
+        }
     }
 }
 
-ChildInfo ClassInfoDB::DoGetChildInfo( wxXmlNode *node )
+wxGD::RTTI::ChildInfo
+wxGD::RTTI::ClassTree::DoGetChildInfo( wxXmlNode *node )
 {
     if( !node )
         return ChildInfo();
 
-    ClassType childType = CLASS_TYPE_UNKNOWN;
-    wxString  childName = wxEmptyString;
-    wxString  nodeName  = node->GetName();
-    int       max       = -1;
-    bool      isOption  = false;
+    ClassType   childType = CLASS_TYPE_UNKNOWN;
+    wxString    childName = wxEmptyString;
+    wxString    nodeName  = node->GetName();
+    int         max       = -1;
+    bool        isOption  = false;
 
     if( nodeName == "type" )
     {
@@ -836,7 +941,8 @@ ChildInfo ClassInfoDB::DoGetChildInfo( wxXmlNode *node )
     return info;
 }
 
-EventInfo ClassInfoDB::DoGetEventInfo( wxXmlNode *eventNode )
+wxGD::RTTI::EventInfo
+wxGD::RTTI::ClassTree::DoGetEventInfo( wxXmlNode *eventNode )
 {
     if( !eventNode )
         return EventInfo();
@@ -849,7 +955,7 @@ EventInfo ClassInfoDB::DoGetEventInfo( wxXmlNode *eventNode )
         return EventInfo();
     }
 
-    EventInfo eventInfo( new EventInfoNode( evtClsName ) );
+    wxGD::RTTI::EventInfo eventInfo( new EventInfoNode( evtClsName ) );
 
     wxXmlNode *node = eventNode->GetChildren();
     while( node )
@@ -884,7 +990,8 @@ EventInfo ClassInfoDB::DoGetEventInfo( wxXmlNode *eventNode )
     return eventInfo;
 }
 
-PropertyInfo ClassInfoDB::DoGetPropertyInfo( wxXmlNode *propertyNode )
+wxGD::RTTI::PropertyInfo
+wxGD::RTTI::ClassTree::DoGetPropertyInfo( wxXmlNode *propertyNode )
 {
     if( !propertyNode || (propertyNode->GetType() == wxXML_COMMENT_NODE) )
         return PropertyInfo();
@@ -936,9 +1043,10 @@ PropertyInfo ClassInfoDB::DoGetPropertyInfo( wxXmlNode *propertyNode )
     return propInfo;
 }
 //=============================================================================
-//  ClassInfoDB public functions
+//  ClassTree public functions
 //=============================================================================
-ClassInfo ClassInfoDB::GetClassInfo( const wxString &name ) const
+wxGD::RTTI::ClassInfo
+wxGD::RTTI::ClassTree::GetClassInfo( const wxString &name ) const
 {
     ClassInfoMap::const_iterator it = m_classInfos.find( name );
 
@@ -948,7 +1056,8 @@ ClassInfo ClassInfoDB::GetClassInfo( const wxString &name ) const
     return ClassInfo();
 }
 
-PropertyType ClassInfoDB::GetPropertyType( const wxString &name ) const
+wxGD::RTTI::PropertyType
+wxGD::RTTI::ClassTree::GetPropertyType( const wxString &name ) const
 {
     PropertyTypeMap::const_iterator it = m_propTypes.find( name );
 
@@ -958,7 +1067,7 @@ PropertyType ClassInfoDB::GetPropertyType( const wxString &name ) const
     return PROPERTY_TYPE_UNKNOWN;
 }
 
-bool ClassInfoDB::ClassInfoExists( const wxString &name )
+bool wxGD::RTTI::ClassTree::ClassInfoExists( const wxString &name )
 {
     ClassInfoMap::iterator it = m_classInfos.find( name );
     return( it != m_classInfos.end() );

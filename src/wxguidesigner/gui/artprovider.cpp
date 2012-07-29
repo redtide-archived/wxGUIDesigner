@@ -23,11 +23,9 @@
 #include "wxguidesigner/rtti/database.h"
 #include "wxguidesigner/utils.h"
 
-using namespace wxGDArtProvider;
+wxGD::IconCategoryMap wxGD::ArtProvider::Categories;
 
-wxGDIconCategoryMap  wxGDArtProvider::Categories;
-
-void wxGDArtProvider::Load( const wxString &categoryName,
+void wxGD::ArtProvider::Load( const wxString &categoryName,
                             wxImageList *smallImageList,
                             wxImageList *largeImageList, bool useSmallIcons )
 {
@@ -57,26 +55,26 @@ void wxGDArtProvider::Load( const wxString &categoryName,
     }
 }
 
-void wxGDArtProvider::Unload()
+void wxGD::ArtProvider::Unload()
 {
     Categories.clear();
 }
 
-size_t wxGDArtProvider::GetGroupCount( const wxString &category )
+size_t wxGD::ArtProvider::GetGroupCount( const wxString &category )
 {
     return Categories[category].size();
 }
 
-bool wxGDArtProvider::LoadXML( const wxFileName &xmlFileName,
-                                    wxImageList *smallImageList,
-                                    wxImageList *largeImageList,
-                                    bool useSmallIcons )
+bool wxGD::ArtProvider::LoadXML(const wxFileName &xmlFileName,
+                                wxImageList *smallImageList,
+                                wxImageList *largeImageList,
+                                bool useSmallIcons)
 {
     wxXmlDocument doc;
     if( !doc.Load( xmlFileName.GetFullPath() ) )
         return false;
 
-    wxGDIconGroups  groups;
+    IconGroups  groups;
     wxXmlNode       *groupNode = doc.GetRoot()->GetChildren();
 
     while( groupNode )
@@ -94,9 +92,9 @@ bool wxGDArtProvider::LoadXML( const wxFileName &xmlFileName,
         if( bmp.IsOk() )
             grpsImgIdx = smallImageList->Add( bmp );
 
-        wxGDIconGroupNames  groupNames( groupName, groupLabel );
-        wxGDIconGroupInfo   groupInfo( groupNames, grpsImgIdx );
-        wxGDIconInfos       iconInfos;
+        IconGroupNames  groupNames( groupName, groupLabel );
+        IconGroupInfo   groupInfo( groupNames, grpsImgIdx );
+        IconInfos       iconInfos;
 
         bool wasOk = false;
 
@@ -132,14 +130,14 @@ bool wxGDArtProvider::LoadXML( const wxFileName &xmlFileName,
                     itmsImgIdx = largeImageList->Add( bmp );
             }
 
-            wxGDIconInfo iconInfo( itemName, itmsImgIdx );
+            IconInfo iconInfo( itemName, itmsImgIdx );
             iconInfos.push_back( iconInfo );
 
             itemNode = itemNode->GetNext();
         }
 
         // IconGroups can have no items
-        wxGDIconGroup group( groupInfo, iconInfos );
+        IconGroup group( groupInfo, iconInfos );
         groups.push_back( group );
         groupNode = groupNode->GetNext();
     }
@@ -147,13 +145,13 @@ bool wxGDArtProvider::LoadXML( const wxFileName &xmlFileName,
     if( groups.empty() )
         return false;
 
-    wxGDIconCategory category( xmlFileName.GetName(), groups );
+    IconCategory category( xmlFileName.GetName(), groups );
 
     Categories.insert( category );
     return true;
 }
 
-wxBitmap wxGDArtProvider::LoadBitmap  ( const wxString &category,
+wxBitmap wxGD::ArtProvider::LoadBitmap( const wxString &category,
                                         const wxString &group,
                                         const wxString &item )
 {
@@ -183,17 +181,17 @@ wxBitmap wxGDArtProvider::LoadBitmap  ( const wxString &category,
     return wxNullBitmap;
 }
 
-bool wxGDArtProvider::CategoryExists( const wxString &categoryName )
+bool wxGD::ArtProvider::CategoryExists( const wxString &categoryName )
 {
-    wxGDIconCategoryMap::iterator category = Categories.find( categoryName );
+    IconCategoryMap::iterator category = Categories.find( categoryName );
     if( category != Categories.end() )
         return true;
 
     return false;
 }
 
-bool wxGDArtProvider::GroupExists ( const wxString &categoryName,
-                                    size_t groupIndex )
+bool wxGD::ArtProvider::GroupExists(const wxString &categoryName,
+                                    size_t groupIndex)
 {
     return
     (
@@ -202,7 +200,7 @@ bool wxGDArtProvider::GroupExists ( const wxString &categoryName,
     );
 }
 
-bool wxGDArtProvider::ItemExists  ( const wxString &categoryName,
+bool wxGD::ArtProvider::ItemExists( const wxString &categoryName,
                                     size_t groupIndex, size_t itemIndex )
 {
     return
@@ -212,8 +210,8 @@ bool wxGDArtProvider::ItemExists  ( const wxString &categoryName,
     );
 }
 
-wxString wxGDArtProvider::GetGroupName( const wxString &categoryName,
-                                        size_t groupIndex )
+wxString wxGD::ArtProvider::GetGroupName  ( const wxString &categoryName,
+                                            size_t groupIndex )
 {
     if( GroupExists( categoryName, groupIndex ) )
         return Categories[categoryName].at(groupIndex).first.first.first;
@@ -221,8 +219,8 @@ wxString wxGDArtProvider::GetGroupName( const wxString &categoryName,
     return wxEmptyString;
 }
 
-wxString wxGDArtProvider::GetGroupLabel( const wxString &categoryName,
-                                         size_t groupIndex )
+wxString wxGD::ArtProvider::GetGroupLabel ( const wxString &categoryName,
+                                            size_t groupIndex )
 {
     if( GroupExists( categoryName, groupIndex ) )
         return Categories[categoryName].at(groupIndex).first.first.second;
@@ -230,8 +228,8 @@ wxString wxGDArtProvider::GetGroupLabel( const wxString &categoryName,
     return wxEmptyString;
 }
 
-int wxGDArtProvider::GetGroupImageListIndex( const wxString &categoryName,
-                                             const wxString &groupName )
+int wxGD::ArtProvider::GetGroupImageListIndex ( const wxString &categoryName,
+                                                const wxString &groupName )
 {
     if( CategoryExists( categoryName ) )
     {
@@ -245,8 +243,8 @@ int wxGDArtProvider::GetGroupImageListIndex( const wxString &categoryName,
     return 0; // wxART_MISSING_IMAGE
 }
 
-int wxGDArtProvider::GetGroupImageListIndex( const wxString &categoryName,
-                                             size_t groupIndex )
+int wxGD::ArtProvider::GetGroupImageListIndex ( const wxString &categoryName,
+                                                size_t groupIndex )
 {
     if( GroupExists( categoryName, groupIndex )  )
         return Categories[categoryName].at(groupIndex).first.second;
@@ -254,7 +252,7 @@ int wxGDArtProvider::GetGroupImageListIndex( const wxString &categoryName,
     return 0; // wxART_MISSING_IMAGE
 }
 
-size_t wxGDArtProvider::GetItemCount  ( const wxString &categoryName,
+size_t wxGD::ArtProvider::GetItemCount( const wxString &categoryName,
                                         size_t groupIndex )
 {
     if( GroupExists( categoryName, groupIndex ) )
@@ -263,8 +261,8 @@ size_t wxGDArtProvider::GetItemCount  ( const wxString &categoryName,
     return 0; // wxART_MISSING_IMAGE
 }
 
-wxString wxGDArtProvider::GetItemLabel( const wxString &categoryName,
-                                        size_t groupIndex, size_t itemIndex )
+wxString wxGD::ArtProvider::GetItemLabel  ( const wxString &categoryName,
+                                            size_t groupIndex, size_t itemIndex )
 {
     if( ItemExists( categoryName, groupIndex, itemIndex ) )
         return
@@ -273,8 +271,8 @@ wxString wxGDArtProvider::GetItemLabel( const wxString &categoryName,
     return wxEmptyString;
 }
 
-int wxGDArtProvider::GetItemImageListIndex( const wxString &categoryName,
-                                            const wxString &itemName )
+int wxGD::ArtProvider::GetItemImageListIndex  ( const wxString &categoryName,
+                                                const wxString &itemName )
 {
     if( CategoryExists( categoryName ) )
     {
@@ -291,8 +289,9 @@ int wxGDArtProvider::GetItemImageListIndex( const wxString &categoryName,
     return 0; // wxART_MISSING_IMAGE
 }
 
-int wxGDArtProvider::GetItemImageListIndex( const wxString &categoryName,
-                                            size_t groupIndex, size_t itemIndex )
+int wxGD::ArtProvider::GetItemImageListIndex  ( const wxString &categoryName,
+                                                size_t          groupIndex,
+                                                size_t          itemIndex )
 {
     if( ItemExists( categoryName, groupIndex, itemIndex ) )
         return Categories[categoryName].at(groupIndex).second.at(itemIndex).second;
@@ -300,7 +299,7 @@ int wxGDArtProvider::GetItemImageListIndex( const wxString &categoryName,
     return 0; // wxART_MISSING_IMAGE
 }
 
-int wxGDArtProvider::GetItemImageListSize()
+int wxGD::ArtProvider::GetItemImageListSize()
 {
     // Load icons preferences
     bool smallIcons = false;

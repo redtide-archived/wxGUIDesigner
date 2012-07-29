@@ -18,7 +18,7 @@ class wxSize;
 class wxSizer;
 class wxString;
 class wxWindow;
-;
+
 class TopLevelWindow;
 
 class Dialog : public TopLevelWindow 

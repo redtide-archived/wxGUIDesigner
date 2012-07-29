@@ -31,13 +31,15 @@ wxDECLARE_EVENT( wxGD_EVT_GUI_OPTION_CHANGED, wxCommandEvent );
 wxDECLARE_EVENT( wxGD_EVT_GUI_CONFIG_UPDATE,  wxCommandEvent );
 wxDECLARE_EVENT( wxGD_EVT_GUI_CONFIG_SAVE,    wxCommandEvent );
 //=============================================================================
-// wxGDDialogPrefs
+// PrefsDialog
 //=============================================================================
-class wxGDDialogPrefs : public wxDialog 
+namespace wxGD
+{
+class PrefsDialog : public wxDialog 
 {
 public:
-    wxGDDialogPrefs( wxWindow *parent ); 
-    ~wxGDDialogPrefs();
+    PrefsDialog( wxWindow *parent ); 
+    ~PrefsDialog();
 
 private:
     void OnPrefsChanged ( wxCommandEvent &event );
@@ -51,13 +53,13 @@ private:
     wxTreebook              *m_tbkPrefs;
 };
 //=============================================================================
-// wxGDPageProject
+// PageProject
 //=============================================================================
-class wxGDPageProject : public wxPanel 
+class PageProject : public wxPanel 
 {
 public:
-    wxGDPageProject( wxGDDialogPrefs *parent ); 
-    ~wxGDPageProject();
+    PageProject( PrefsDialog *parent ); 
+    ~PageProject();
 
 private:
     void OnPrefsChanged ( wxCommandEvent &event );
@@ -74,13 +76,13 @@ private:
     bool m_compat;
 };
 //=============================================================================
-// wxGDPageGUI
+// PageGUI
 //=============================================================================
-class wxGDPageGUI : public wxPanel 
+class PageGUI : public wxPanel 
 {
 public:
-    wxGDPageGUI( wxGDDialogPrefs *parent ); 
-    ~wxGDPageGUI();
+    PageGUI( PrefsDialog *parent ); 
+    ~PageGUI();
 
 private:
     void OnPrefsChanged ( wxCommandEvent &event );
@@ -92,13 +94,13 @@ private:
     bool m_smallIcons;
 };
 //=============================================================================
-// wxGDPageLocale
+// PageLocale
 //=============================================================================
-class wxGDPageLocale : public wxPanel 
+class PageLocale : public wxPanel 
 {
 public:
-    wxGDPageLocale( wxGDDialogPrefs *parent ); 
-    ~wxGDPageLocale();
+    PageLocale( PrefsDialog *parent ); 
+    ~PageLocale();
 
 private:
     void OnPrefsChanged ( wxCommandEvent &event );
@@ -112,13 +114,13 @@ private:
     int  m_selected;
 };
 //=============================================================================
-// wxGDPageEditors
+// PageEditors
 //=============================================================================
-class wxGDPageEditors : public wxPanel 
+class PageEditors : public wxPanel 
 {
 public:
-    wxGDPageEditors( wxGDDialogPrefs *parent ); 
-    ~wxGDPageEditors();
+    PageEditors( PrefsDialog *parent ); 
+    ~PageEditors();
 
 private:
     void OnPrefsChanged ( wxCommandEvent &event );
@@ -146,6 +148,7 @@ private:
 //  int  m_selEditor;
     int  m_selTabsW;
     int  m_caretW;
+};
 };
 
 #endif //__WXGUIDESIGNER_GUI_DIALOG_PREFS_H__

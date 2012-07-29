@@ -16,18 +16,21 @@ class wxWindow;
 class wxString;
 class wxCommandEvent;
 
-class wxGDHandler;
+namespace wxGD
+{
+class Handler;
 
-class wxGDDebugWindow : public wxTextCtrl
+class DebugWindow : public wxTextCtrl
 {
 public:
-    wxGDDebugWindow( wxGDHandler *handler, wxWindow *parent );
-    virtual ~wxGDDebugWindow();
+    DebugWindow( Handler *handler, wxWindow *parent );
+    virtual ~DebugWindow();
 
 private:
     void OnTextUpdated( wxCommandEvent &event );
 
-    wxGDHandler *m_handler;
+    Handler *m_handler;
+};
 };
 
 #endif //__WXGUIDESIGNER_GUI_DEBUGWINDOW_H__

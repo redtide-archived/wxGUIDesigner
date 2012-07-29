@@ -18,20 +18,23 @@ class wxWindow;
 class wxString;
 class wxCommandEvent;
 
-class wxGDHandler;
+namespace wxGD
+{
+class Handler;
 
-class wxGDToolPalette : public wxNotebook
+class ToolPalette : public wxNotebook
 {
 public:
-    wxGDToolPalette( wxGDHandler *handler, wxWindow* parent );
-    ~wxGDToolPalette();
+    ToolPalette( Handler *handler, wxWindow* parent );
+    ~ToolPalette();
 
     wxAuiToolBar *AddGroup( const wxString &label, int imageIndex );
 
 private:
     void OnToolClicked( wxCommandEvent &event );
 
-    wxGDHandler *m_handler;
+    Handler *m_handler;
+};
 };
 
 #endif //__WXGUIDESIGNER_GUI_PALETTE_H__

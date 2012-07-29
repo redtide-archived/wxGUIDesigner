@@ -40,11 +40,11 @@ int wxGD::Convert::StringToFlag( const wxString &value )
     wxStringTokenizer tokenizer( value, "|" );
     while( tokenizer.HasMoreTokens() )
     {
-        wxString token = tokenizer.GetNextToken();
-        token.Trim( true );
-        token.Trim( false );
+        wxString flag = tokenizer.GetNextToken();
+        flag.Trim( true );
+        flag.Trim( false );
 
-        result |= wxFlagsManager::Get()->GetFlag( token );
+        result |= wxGD::Flags::Get()->Get( flag );
     }
 
     return result;
@@ -281,7 +281,7 @@ wxString wxGD::Convert::IntegerToString( int value )
 /*
 wxString wxGD::Convert::FlagToString( int value )
 {
-    return wxFlagsManager::Get()->GetFlag( value );
+    return wxGD::Flags::Get()->Get( value );
 }
 */
 wxString wxGD::Convert::BoolToString( bool value )

@@ -22,20 +22,23 @@ class wxStaticText;
 class wxXmlNode;
 
 class wxGlossyButton;
+
+namespace wxGD
+{
 //=============================================================================
-// wxGDTitleBar
+// TitleBar
 //=============================================================================
-class wxGDTitleBar : public wxPanel
+class TitleBar : public wxPanel
 {
 public:
-    wxGDTitleBar();
-    wxGDTitleBar  ( wxWindow        *parent,
-                    wxWindowID      id        = wxID_ANY,
-                    const wxPoint   &position = wxDefaultPosition,
-                    const wxSize    &size     = wxDefaultSize,
-                    long            style     = 0,
-                    const wxString  &name     = "titlebar" );
-    ~wxGDTitleBar();
+    TitleBar();
+    TitleBar  ( wxWindow        *parent,
+                wxWindowID      id        = wxID_ANY,
+                const wxPoint   &position = wxDefaultPosition,
+                const wxSize    &size     = wxDefaultSize,
+                long            style     = 0,
+                const wxString  &name     = "titlebar" );
+    ~TitleBar();
 
     bool Create(wxWindow        *parent,
                 wxWindowID      id        = wxID_ANY,
@@ -56,18 +59,18 @@ private:
     wxGlossyButton  *m_titleBmpMax;
     wxGlossyButton  *m_titleBmpClose;
 
-    DECLARE_DYNAMIC_CLASS( wxGDTitleBar )
+    DECLARE_DYNAMIC_CLASS( TitleBar )
 };
 //=============================================================================
-// wxGDResizingPanel
+// ResizingPanel
 //=============================================================================
-class wxGDEditor;
+class Editor;
 
-class wxGDResizingPanel : public wxPanel
+class ResizingPanel : public wxPanel
 {
 public:
-    wxGDResizingPanel( wxGDEditor *parent );
-    ~wxGDResizingPanel();
+    ResizingPanel( Editor *parent );
+    ~ResizingPanel();
 
 private:
     void OnMouseMotion  ( wxMouseEvent &event );
@@ -82,20 +85,20 @@ private:
         RIGHTBOTTOM
     }   m_sizing;
 
-    int         m_curX, m_curY, m_difX, m_difY;
-    int         m_resizeBorder;
-    wxSize      m_minSize;
-    wxSize      m_baseMinSize;
-    wxGDEditor  *m_editor;
+    int     m_curX, m_curY, m_difX, m_difY;
+    int     m_resizeBorder;
+    wxSize  m_minSize;
+    wxSize  m_baseMinSize;
+    Editor  *m_editor;
 };
 //=============================================================================
-// wxGDEditor: Scrolled window, the main visual editor page
+// Editor: Scrolled window, the main visual editor page
 //=============================================================================
-class wxGDEditor : public wxScrolled< wxPanel >
+class Editor : public wxScrolled< wxPanel >
 {
 public:
-    wxGDEditor( wxWindow *parent );
-    ~wxGDEditor();
+    Editor( wxWindow *parent );
+    ~Editor();
 
     void Cleanup();
     void ShowTitleBar( bool show = true );
@@ -105,11 +108,12 @@ public:
 
 private:
 
-    wxPanel             *m_border;
-    wxPanel             *m_client;
-    wxPanel             *m_designer;
-    wxGDResizingPanel   *m_resizer;
-    wxGDTitleBar        *m_title;
+    wxPanel         *m_border;
+    wxPanel         *m_client;
+    wxPanel         *m_designer;
+    ResizingPanel   *m_resizer;
+    TitleBar        *m_title;
+};
 };
 
 #endif //__WXGUIDESIGNER_GUI_DESIGNER_H__

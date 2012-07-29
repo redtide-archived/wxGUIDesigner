@@ -19,13 +19,16 @@
 
 #include <boost/tr1/memory.hpp>
 
-#include <wx/bitmap.h>
-#include <wx/colour.h>
 #include <wx/defs.h>
 
-using namespace std;
-using namespace tr1;
+class wxString;
 
+namespace wxGD
+{
+typedef std::vector< wxString > Strings;
+
+namespace RTTI
+{
 enum ClassType
 {
     CLASS_TYPE_UNKNOWN = 0,
@@ -39,14 +42,6 @@ enum ClassType
     CLASS_TYPE_SIZER,
     CLASS_TYPE_ABSTRACT,
     CLASS_TYPE_ITEM
-};
-
-enum ObjectEventType
-{
-    EVT_OBJECT_CREATED,
-    EVT_OBJECT_DELETED,
-    EVT_OBJECT_EXPANDED,
-    EVT_OBJECT_SELECTED
 };
 
 enum PropertyType
@@ -75,34 +70,32 @@ enum PropertyType
     PROPERTY_TYPE_TEXT,
     PROPERTY_TYPE_URL
 };
-
+//=============================================================================
+// ClassTree
+//
+// Note: unique_ptr not available and scoped_ptr can't be used
+//       inside STL containers
+//=============================================================================
 class EventInfoNode;
 class EventTypeInfoNode;
 class PropertyInfoNode;
 class ChildInfoNode;
 class ClassNode;
 
-class wxString;
-//=============================================================================
-// ClassInfoDB
-//
-// Note: unique_ptr not available and scoped_ptr can't be used
-//       inside STL containers
-//=============================================================================
-typedef shared_ptr< ChildInfoNode >     ChildInfo;
-typedef shared_ptr< EventInfoNode >     EventInfo;
-typedef shared_ptr< EventTypeInfoNode > EventTypeInfo;
-typedef shared_ptr< PropertyInfoNode >  PropertyInfo;
-typedef shared_ptr< ClassNode >         ClassInfo;
+typedef std::tr1::shared_ptr< ChildInfoNode >       ChildInfo;
+typedef std::tr1::shared_ptr< EventInfoNode >       EventInfo;
+typedef std::tr1::shared_ptr< EventTypeInfoNode >   EventTypeInfo;
+typedef std::tr1::shared_ptr< PropertyInfoNode >    PropertyInfo;
+typedef std::tr1::shared_ptr< ClassNode >           ClassInfo;
 
-typedef vector< ChildInfo >             ChildInfos;
-typedef vector< EventTypeInfo >         EventTypeInfos;
-typedef vector< EventInfo >             EventInfos;
-typedef vector< PropertyInfo >          PropertyInfos;
-typedef vector< ClassInfo >             ClassInfos;
+typedef std::vector< ChildInfo >                    ChildInfos;
+typedef std::vector< EventTypeInfo >                EventTypeInfos;
+typedef std::vector< EventInfo >                    EventInfos;
+typedef std::vector< PropertyInfo >                 PropertyInfos;
+typedef std::vector< ClassInfo >                    ClassInfos;
 
-typedef map< wxString, PropertyType >   PropertyTypeMap;
-typedef map< wxString, ClassInfo >      ClassInfoMap;
+typedef std::map< wxString, PropertyType >          PropertyTypeMap;
+typedef std::map< wxString, ClassInfo >             ClassInfoMap;
 //=============================================================================
 // ObjectTree
 //=============================================================================
@@ -111,16 +104,19 @@ class PropertyNode;
 class ObjectNode;
 class ObjectTree;
 
-typedef pair< wxString, wxString >  Attribute;
-typedef shared_ptr< EventNode >     Event;
-typedef shared_ptr< PropertyNode >  Property;
-typedef shared_ptr< ObjectNode >    Object;
-typedef shared_ptr< ObjectTree >    RTTITree;
+typedef std::pair< wxString, wxString >             Attribute;
+typedef std::tr1::shared_ptr< EventNode >           EventProperty;
+typedef std::tr1::shared_ptr< PropertyNode >        Property;
+typedef std::tr1::shared_ptr< ObjectNode >          Object;
+typedef std::tr1::shared_ptr< ObjectTree >          Tree;
 
-typedef vector< Attribute >         Attributes;
-typedef vector< Event >             Events;
-typedef vector< wxString >          Handlers;
-typedef vector< Property >          Properties;
-typedef vector< Object >            Objects;
+typedef std::vector< Attribute >                    Attributes;
+typedef std::vector< EventProperty >                EventProperties;
+typedef std::vector< wxString >                     Handlers;
+typedef std::vector< Property >                     Properties;
+typedef std::vector< Object >                       Objects;
+
+}; // namespace RTTI
+}; // namespace wxGD
 
 #endif //__WXGUIDESIGNER_DEFS_H__

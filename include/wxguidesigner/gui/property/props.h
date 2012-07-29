@@ -10,38 +10,41 @@
 ///////////////////////////////////////////////////////////////////////////////
 #ifndef __WXGUIDESIGNER_GUI_PROPERTY_PROPS_H__
 #define __WXGUIDESIGNER_GUI_PROPERTY_PROPS_H__
-//=============================================================================
-// wxGDColourProperty
-//=============================================================================
-class wxGDColourProperty : public wxSystemColourProperty
+
+namespace wxGD
 {
-    WX_PG_DECLARE_PROPERTY_CLASS( wxGDColourProperty )
+//=============================================================================
+// ColourProperty
+//=============================================================================
+class ColourProperty : public wxSystemColourProperty
+{
+    WX_PG_DECLARE_PROPERTY_CLASS( ColourProperty )
 
 public:
-    wxGDColourProperty( const wxString              &label  = wxPG_LABEL,
-                        const wxString              &name   = wxPG_LABEL,
-                        const wxColourPropertyValue &value  =
-                                                    wxColourPropertyValue() );
-    virtual ~wxGDColourProperty();
+    ColourProperty( const wxString              &label  = wxPG_LABEL,
+                    const wxString              &name   = wxPG_LABEL,
+                    const wxColourPropertyValue &value  =
+                                                wxColourPropertyValue() );
+    virtual ~ColourProperty();
 
     virtual wxString ColourToString( const wxColour &colour,
                                     int index, int flags = 0 ) const;
 };
 //=============================================================================
-// wxGDFlagsProperty
+// FlagsProperty
 //=============================================================================
-class wxGDFlagsProperty : public wxPGProperty
+class FlagsProperty : public wxPGProperty
 {
-    WX_PG_DECLARE_PROPERTY_CLASS( wxGDFlagsProperty )
+    WX_PG_DECLARE_PROPERTY_CLASS( FlagsProperty )
 
 public:
-    wxGDFlagsProperty ( const wxString         &label  = wxPG_LABEL,
-                        const wxString         &name   = wxPG_LABEL,
-                        const wxArrayString    &labels = wxArrayString(),
-                        const wxArrayInt       &values = wxArrayInt(),
-                        int                    value   = 0 );
+    FlagsProperty ( const wxString         &label  = wxPG_LABEL,
+                    const wxString         &name   = wxPG_LABEL,
+                    const wxArrayString    &labels = wxArrayString(),
+                    const wxArrayInt       &values = wxArrayInt(),
+                    int                    value   = 0 );
 
-    virtual ~wxGDFlagsProperty();
+    virtual ~FlagsProperty();
 
     virtual void        OnSetValue();
     virtual wxString    ValueToString ( wxVariant &value, int flags = 0 ) const;
@@ -74,18 +77,18 @@ protected:
     long                m_oldValue;
 };
 //=============================================================================
-// wxGDFontProperty
+// FontProperty
 //=============================================================================
-class wxGDFontProperty : public wxPGProperty
+class FontProperty : public wxPGProperty
 {
-    WX_PG_DECLARE_PROPERTY_CLASS( wxGDFontProperty )
+    WX_PG_DECLARE_PROPERTY_CLASS( FontProperty )
 
 public:
-    wxGDFontProperty  ( const wxString          &label = wxPG_LABEL,
-                        const wxString          &name  = wxPG_LABEL,
-                        const wxFontContainer   &value = *wxNORMAL_FONT );
+    FontProperty  ( const wxString          &label = wxPG_LABEL,
+                    const wxString          &name  = wxPG_LABEL,
+                    const wxFontContainer   &value = *wxNORMAL_FONT );
 
-    virtual ~wxGDFontProperty();
+    virtual ~FontProperty();
 
     virtual void        OnSetValue();
     virtual wxString    ValueToString ( wxVariant       &value,
@@ -103,18 +106,18 @@ public:
     virtual void        RefreshChildren();
 };
 //=============================================================================
-// wxGDPointProperty
+// PointProperty
 //=============================================================================
-class wxGDPointProperty : public wxPGProperty
+class PointProperty : public wxPGProperty
 {
-    WX_PG_DECLARE_PROPERTY_CLASS( wxGDPointProperty )
+    WX_PG_DECLARE_PROPERTY_CLASS( PointProperty )
 
 public:
-    wxGDPointProperty ( const wxString &label = wxPG_LABEL,
-                        const wxString &name  = wxPG_LABEL,
-                        const wxPoint  &value = wxPoint() );
+    PointProperty ( const wxString &label = wxPG_LABEL,
+                    const wxString &name  = wxPG_LABEL,
+                    const wxPoint  &value = wxPoint() );
 
-    virtual ~wxGDPointProperty();
+    virtual ~PointProperty();
 
     virtual wxString    ValueToString ( wxVariant       &value,
                                         int             flags = 0 ) const;
@@ -133,18 +136,18 @@ protected:
     void DoSetValue( const wxPoint &value ) { m_value = WXVARIANT( value ); }
 };
 //=============================================================================
-// wxGDSizeProperty
+// SizeProperty
 //=============================================================================
-class wxGDSizeProperty : public wxPGProperty
+class SizeProperty : public wxPGProperty
 {
-    WX_PG_DECLARE_PROPERTY_CLASS( wxGDSizeProperty )
+    WX_PG_DECLARE_PROPERTY_CLASS( SizeProperty )
 
 public:
-    wxGDSizeProperty  ( const wxString &label = wxPG_LABEL,
-                        const wxString &name  = wxPG_LABEL,
-                        const wxSize   &value = wxSize() );
+    SizeProperty  ( const wxString &label = wxPG_LABEL,
+                    const wxString &name  = wxPG_LABEL,
+                    const wxSize   &value = wxSize() );
 
-    virtual ~wxGDSizeProperty();
+    virtual ~SizeProperty();
 
     virtual wxString    ValueToString ( wxVariant       &value,
                                         int             flags = 0 ) const;
@@ -161,6 +164,7 @@ public:
 
 protected:
     void DoSetValue( const wxSize &value ) { m_value = WXVARIANT( value ); }
+};
 };
 
 #endif //__WXGUIDESIGNER_GUI_PROPERTY_PROPS_H__

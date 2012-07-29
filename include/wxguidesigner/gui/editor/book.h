@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        wxguidesigner/gui/editor/book.h
-// Purpose:     wxGDEditorBook: Visual and code editor wxNotebook
+// Purpose:     EditorBook: Visual and code editor wxNotebook
 // Author:      Andrea Zanellato
 // Modified by:
 // Created:     2011/11/30
@@ -21,38 +21,45 @@
 class wxNotebook;
 class wxWindow;
 
-class wxGDEvent;
-class wxGDPropertyEvent;
-class wxGDObjectEvent;
-class wxGDHandler;
-class wxGDEditor;
+namespace wxGD
+{
+class Editor;
+class Handler;
 
-class wxGDEditorBook : public wxNotebook
+namespace RTTI
+{
+class EventPropertyEvent;
+class PropertyEvent;
+class ObjectEvent;
+};
+
+class EditorBook : public wxNotebook
 {
 public:
-    wxGDEditorBook( wxGDHandler *handler, wxWindow* parent );
-    ~wxGDEditorBook();
+    EditorBook( Handler *handler, wxWindow* parent );
+    ~EditorBook();
 
-    wxGDEditor *GetGUIEditor() const;
+    Editor *GetGUIEditor() const;
 
 private:
     void LoadCodeEditorPages();
     void Reload();
     void SetupWindow        ( wxWindow *window );
 
-    void OnObjectCreated    ( wxGDObjectEvent   &event );
-    void OnObjectDeleted    ( wxGDObjectEvent   &event );
-    void OnObjectSelected   ( wxGDObjectEvent   &event );
-    void OnEventChanged     ( wxGDEvent         &event );
-    void OnPropertyChanged  ( wxGDPropertyEvent &event );
+    void OnObjectCreated    ( RTTI::ObjectEvent           &event );
+    void OnObjectDeleted    ( RTTI::ObjectEvent           &event );
+    void OnObjectSelected   ( RTTI::ObjectEvent           &event );
+    void OnEventChanged     ( RTTI::EventPropertyEvent    &event );
+    void OnPropertyChanged  ( RTTI::PropertyEvent         &event );
 
-    wxGDHandler *m_handler;
-    wxGDEditor  *m_editor;
+    Handler *m_handler;
+    Editor  *m_editor;
 
-    typedef pair< Object, wxObject * > wxGDObject;
-    typedef map< Object, wxObject * >  wxGDObjects;
-    wxGDObjects m_objects;
-    Object      m_oldTop;
+    typedef std::pair< RTTI::Object, wxObject * > wxGDObject;
+    typedef std::map < RTTI::Object, wxObject * > wxGDObjects;
+    wxGDObjects     m_objects;
+    RTTI::Object    m_oldTop;
+};
 };
 
 #endif //__WXGUIDESIGNER_GUI_EDITOR_BOOK_H__

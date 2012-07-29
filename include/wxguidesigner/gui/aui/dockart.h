@@ -19,16 +19,19 @@ class wxRect;
 class wxAuiPaneInfo;
 class wxColour;
 
-class wxGDAUIDockArt : public wxAuiDefaultDockArt
+namespace wxGD
 {
-public:
-    wxGDAUIDockArt();
-    virtual ~wxGDAUIDockArt();
+    class AUIDockArt : public wxAuiDefaultDockArt
+    {
+    public:
+        AUIDockArt();
+        virtual ~AUIDockArt();
 
-    void DrawCaption( wxDC& dc, wxWindow *window, const wxString &text,
-                        const wxRect &rect, wxAuiPaneInfo &pane );
-private:
-    wxString EllipsizeText( wxDC &dc, const wxString &text, int maxSize );
+        void DrawCaption( wxDC& dc, wxWindow *window, const wxString &text,
+                            const wxRect &rect, wxAuiPaneInfo &pane );
+    private:
+        wxString EllipsizeText( wxDC &dc, const wxString &text, int maxSize );
+    };
 };
 
 #endif //__WXGUIDESIGNER_GUI_AUI_DOCKART_H__

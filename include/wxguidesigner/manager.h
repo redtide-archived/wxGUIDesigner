@@ -26,19 +26,19 @@ class wxPropertyGrid;
 class wxStyledTextCtrl;
 class wxToolBar;
 class wxTreeCtrl;
-class wxGDHandler;
-//class IGUIDesigner;
 
-using namespace std;
-using namespace tr1;
+namespace wxGD
+{
+class Handler;
+}
 
-class DLLIMPEXP_WXGUIDESIGNER wxGUIDesigner// : public IGUIDesigner
+class DLLIMPEXP_WXGUIDESIGNER wxGUIDesigner
 {
 public:
     static wxGUIDesigner *Get();
     static void Free();
 
-    // wxGDHandler
+    // Handler
     wxFrame         *GetMainFrame        ( wxWindow *parent = NULL );
     wxDialog        *GetAboutDialog      ( wxWindow *parent );
     wxNotebook      *GetEditorBook       ( wxWindow *parent );
@@ -65,13 +65,12 @@ private:
     wxGUIDesigner();
     ~wxGUIDesigner();
 
-    static wxGUIDesigner    *ms_instance;
-
-    wxGDHandler             *m_handler;
-    shared_ptr< IPCFile >   m_ipcFile;
-    wxString                m_currPrj;
-    wxString                m_currDir;
-    bool                    m_isChanged;
+    static wxGUIDesigner                *ms_instance;
+    wxGD::Handler                       *m_handler;
+    std::tr1::shared_ptr< wxGD::IPCFile > m_ipcFile;
+    wxString                            m_currPrj;
+    wxString                            m_currDir;
+    bool                                m_isChanged;
 };
 
 #endif //__WXGUIDESIGNER_MANAGER_H__

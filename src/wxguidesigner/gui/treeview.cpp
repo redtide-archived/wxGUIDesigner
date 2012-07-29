@@ -22,23 +22,26 @@
 #include "wxguidesigner/events.h"
 #include "wxguidesigner/rtti/tree.h"
 //============================================================================
-// wxGDTreeItemData
+// TreeItemData
 //============================================================================
-class wxGDTreeItemData : public wxTreeItemData
+wxGD::TreeItemData::TreeItemData( RTTI::Object object )
+:
+m_object( object )
 {
-public:
-    wxGDTreeItemData( Object object ) : m_object( object ) {}
-    ~wxGDTreeItemData() {}
+}
 
-    Object GetObject() { return m_object; }
+wxGD::TreeItemData::~TreeItemData()
+{
+}
 
-private:
-    Object m_object;
-};
+wxGD::RTTI::Object wxGD::TreeItemData::GetObject()
+{
+    return m_object;
+}
 //============================================================================
-// wxGDTreeView
+// TreeView
 //============================================================================
-wxGDTreeView::wxGDTreeView( wxGDHandler *handler, wxWindow *parent )
+wxGD::TreeView::TreeView( Handler *handler, wxWindow *parent )
 :
 wxTreeCtrl( parent, wxID_ANY, wxDefaultPosition, wxDefaultSize,
                     wxTR_DEFAULT_STYLE | wxTR_HIDE_ROOT ),
@@ -50,33 +53,33 @@ m_handler( handler )
 
     SetImageList( imageList );
 
-    int imageIndex = wxGDArtProvider::GetItemImageListIndex( "controls", "Project" );
+    int imageIndex = ArtProvider::GetItemImageListIndex( "controls", "Project" );
 
     AddRoot( "Project", imageIndex );
 
-    Bind( wxEVT_COMMAND_TREE_BEGIN_DRAG,        &wxGDTreeView::OnBeginDrag,     this );
-    Bind( wxEVT_COMMAND_TREE_END_DRAG,          &wxGDTreeView::OnEndDrag,       this );
-    Bind( wxEVT_COMMAND_TREE_ITEM_COLLAPSED,    &wxGDTreeView::OnItemCollapsed, this );
-    Bind( wxEVT_COMMAND_TREE_ITEM_EXPANDED,     &wxGDTreeView::OnItemExpanded,  this );
-    Bind( wxEVT_COMMAND_TREE_ITEM_RIGHT_CLICK,  &wxGDTreeView::OnItemRightClick,this );
-    Bind( wxEVT_COMMAND_TREE_SEL_CHANGED,       &wxGDTreeView::OnSelChanged,    this );
+    Bind( wxEVT_COMMAND_TREE_BEGIN_DRAG,        &TreeView::OnBeginDrag,     this );
+    Bind( wxEVT_COMMAND_TREE_END_DRAG,          &TreeView::OnEndDrag,       this );
+    Bind( wxEVT_COMMAND_TREE_ITEM_COLLAPSED,    &TreeView::OnItemCollapsed, this );
+    Bind( wxEVT_COMMAND_TREE_ITEM_EXPANDED,     &TreeView::OnItemExpanded,  this );
+    Bind( wxEVT_COMMAND_TREE_ITEM_RIGHT_CLICK,  &TreeView::OnItemRightClick,this );
+    Bind( wxEVT_COMMAND_TREE_SEL_CHANGED,       &TreeView::OnSelChanged,    this );
 
-    Bind( wxGD_EVT_OBJECT_CREATED, &wxGDTreeView::OnObjectCreated, this );
+    Bind( wxGD_EVT_OBJECT_CREATED, &TreeView::OnObjectCreated, this );
 }
 
-wxGDTreeView::~wxGDTreeView()
+wxGD::TreeView::~TreeView()
 {
 }
 
-void wxGDTreeView::OnObjectCreated( wxGDObjectEvent &event )
+void wxGD::TreeView::OnObjectCreated( RTTI::ObjectEvent &event )
 {
-    Object object = event.GetObject();
+    RTTI::Object object = event.GetObject();
     if( !object )
         return;
 
     wxTreeItemId item;
     wxString name   = object->GetClassName();
-    int      imgIdx = wxGDArtProvider::GetItemImageListIndex( "controls", name );
+    int      imgIdx = ArtProvider::GetItemImageListIndex( "controls", name );
 
     if( object->IsRoot() )
     {
@@ -94,7 +97,7 @@ void wxGDTreeView::OnObjectCreated( wxGDObjectEvent &event )
             parent = GetSelection();
             while( parent.IsOk() )
             {
-                wxGDTreeItemData *data = dynamic_cast< wxGDTreeItemData * >
+                TreeItemData *data = dynamic_cast< TreeItemData * >
                                                     ( GetItemData( parent ) );
                 if( !data )
                     return;
@@ -112,48 +115,48 @@ void wxGDTreeView::OnObjectCreated( wxGDObjectEvent &event )
         item = AppendItem( parent, name, imgIdx );
     }
 
-    SetItemData( item, new wxGDTreeItemData( object ) );
+    SetItemData( item, new TreeItemData( object ) );
     SelectItem( item );
 }
 
-void wxGDTreeView::OnObjectDeleted( wxGDObjectEvent &event )
+void wxGD::TreeView::OnObjectDeleted( RTTI::ObjectEvent &event )
 {
 //  wxLogDebug( "Deleted %s", object->GetClassName() );
 }
 
-void wxGDTreeView::OnObjectExpanded( wxGDObjectEvent &event )
+void wxGD::TreeView::OnObjectExpanded( RTTI::ObjectEvent &event )
 {
 //  wxLogDebug( "Expanded %s", object->GetClassName() );
 }
 
-void wxGDTreeView::OnObjectSelected( wxGDObjectEvent &event )
+void wxGD::TreeView::OnObjectSelected( RTTI::ObjectEvent &event )
 {
 //  wxLogDebug( "Selected %s", object->GetClassName() );
 }
 
-void wxGDTreeView::OnBeginDrag( wxTreeEvent &event )
+void wxGD::TreeView::OnBeginDrag( wxTreeEvent &event )
 {
     event.Allow();
 }
 
-void wxGDTreeView::OnEndDrag( wxTreeEvent &event )
+void wxGD::TreeView::OnEndDrag( wxTreeEvent &event )
 {
     
 }
 
-void wxGDTreeView::OnSelChanged( wxTreeEvent &event )
+void wxGD::TreeView::OnSelChanged( wxTreeEvent &event )
 {
-    wxTreeItemId      item = event.GetItem();
-    wxGDTreeItemData *data = dynamic_cast< wxGDTreeItemData * >
+    wxTreeItemId item  = event.GetItem();
+    TreeItemData *data = dynamic_cast< TreeItemData * >
                                         ( GetItemData( item ) );
     if( data )
     {
-        Object object( data->GetObject() );
+        RTTI::Object object( data->GetObject() );
         if( object )
         {
             m_handler->SelectObject( object, GetId() );
 /*
-            wxGDObjectEvent event( wxGD_EVT_OBJECT_SELECTED, GetId(), object );
+            ObjectEvent event( wxGD_EVT_OBJECT_SELECTED, GetId(), object );
             m_handler->SendEvent( event );
 */
         }
@@ -162,14 +165,14 @@ void wxGDTreeView::OnSelChanged( wxTreeEvent &event )
     event.Skip();
 }
 
-void wxGDTreeView::OnItemCollapsed( wxTreeEvent &event )
+void wxGD::TreeView::OnItemCollapsed( wxTreeEvent &event )
 {
-    wxTreeItemId      item = event.GetItem();
-    wxGDTreeItemData *data = dynamic_cast< wxGDTreeItemData * >
+    wxTreeItemId item  = event.GetItem();
+    TreeItemData *data = dynamic_cast< TreeItemData * >
                                         ( GetItemData( item ) );
     if( data )
     {
-        Object object( data->GetObject() );
+        RTTI::Object object( data->GetObject() );
 
         if( object )
             object->Collapse();
@@ -178,14 +181,14 @@ void wxGDTreeView::OnItemCollapsed( wxTreeEvent &event )
     event.Skip();
 }
 
-void wxGDTreeView::OnItemExpanded( wxTreeEvent &event )
+void wxGD::TreeView::OnItemExpanded( wxTreeEvent &event )
 {
-    wxTreeItemId      item = event.GetItem();
-    wxGDTreeItemData *data = dynamic_cast< wxGDTreeItemData * >
+    wxTreeItemId item  = event.GetItem();
+    TreeItemData *data = dynamic_cast< TreeItemData * >
                                         ( GetItemData( item ) );
     if( data )
     {
-        Object object( data->GetObject() );
+        RTTI::Object object( data->GetObject() );
 
         if( object )
             object->Expand();
@@ -194,7 +197,7 @@ void wxGDTreeView::OnItemExpanded( wxTreeEvent &event )
     event.Skip();
 }
 
-void wxGDTreeView::OnItemRightClick( wxTreeEvent &event )
+void wxGD::TreeView::OnItemRightClick( wxTreeEvent &event )
 {
     
 }

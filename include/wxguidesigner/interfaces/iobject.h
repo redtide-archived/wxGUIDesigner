@@ -23,8 +23,6 @@ class wxFrame;
 class wxPanel;
 class wxTreeCtrl;
 
-using namespace std::tr1;
-
 class IGUIDesigner
 {
 public:

@@ -11,38 +11,39 @@
 #ifndef __WXGUIDESIGNER_RTTI_FLAGS_H__
 #define __WXGUIDESIGNER_RTTI_FLAGS_H__
 
-#include "wxguidesigner/dllimpexp.h"
-
 #include <wx/arrstr.h>
 #include <wx/dynarray.h>
 
-class wxArrayString;
+#include "wxguidesigner/dllimpexp.h"
 
-class DLLIMPEXP_WXGUIDESIGNER wxFlagsManager
+class wxString;
+
+namespace wxGD
+{
+class DLLIMPEXP_WXGUIDESIGNER Flags
 {
 public:
-    static wxFlagsManager *Get();
+    static Flags *Get();
     static void Free();
 
-    void        AddFlag( const wxString &name, int value );
-    int         GetFlag( const wxString &name );
-    wxString    GetFlag( size_t index );
+    void        Add( const wxString &name, int value );
+    int         Get( const wxString &name );
+    wxString    Get( size_t index );
 
 private:
-    wxFlagsManager();
-    ~wxFlagsManager();
+    Flags();
+    ~Flags();
 
-    wxFlagsManager( const wxFlagsManager & );
-    wxFlagsManager& operator=( wxFlagsManager const & );
+    Flags( const Flags & );
+    Flags& operator=( Flags const & );
 
     void Init();
 
-    wxArrayString m_flagNames;
-    wxArrayInt    m_flagValues;
+    wxArrayString   m_flagNames;
+    wxArrayInt      m_flagValues;
 
-    static wxFlagsManager *ms_instance;
+    static Flags *ms_instance;
 };
-
-#define wxFLAG_ADD( style ) AddFlag( #style, style )
+};
 
 #endif //__WXGUIDESIGNER_RTTI_FLAGS_H__

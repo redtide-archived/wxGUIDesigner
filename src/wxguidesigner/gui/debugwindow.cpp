@@ -14,20 +14,20 @@
 #include "wxguidesigner/gui/handler.h"
 #include "wxguidesigner/gui/debugwindow.h"
 
-wxGDDebugWindow::wxGDDebugWindow( wxGDHandler *handler, wxWindow *parent )
+wxGD::DebugWindow::DebugWindow( Handler *handler, wxWindow *parent )
 :
 wxTextCtrl( parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize,
                     wxTE_MULTILINE | wxTE_READONLY | wxTE_LEFT ),
 m_handler( handler )
 {
-    Bind( wxEVT_COMMAND_TEXT_UPDATED, &wxGDDebugWindow::OnTextUpdated, this );
+    Bind( wxEVT_COMMAND_TEXT_UPDATED, &DebugWindow::OnTextUpdated, this );
 }
 
-wxGDDebugWindow::~wxGDDebugWindow()
+wxGD::DebugWindow::~DebugWindow()
 {
 }
 
-void wxGDDebugWindow::OnTextUpdated( wxCommandEvent &event )
+void wxGD::DebugWindow::OnTextUpdated( wxCommandEvent &event )
 {
     wxString msg = event.GetString();
 

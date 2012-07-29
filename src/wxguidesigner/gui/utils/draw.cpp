@@ -12,7 +12,7 @@
 
 #include "wxguidesigner/gui/utils/draw.h"
 
-const bool wxGDDraw::IsDark( const wxColour &colour )
+const bool wxGD::Draw::IsDark( const wxColour &colour )
 {
     int average = ( colour.Red() + colour.Green() + colour.Blue() ) / 3;
     if ( average < 128 )

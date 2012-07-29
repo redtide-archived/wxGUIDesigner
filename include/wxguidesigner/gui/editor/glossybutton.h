@@ -11,18 +11,6 @@
 #ifndef __WXGUIDESIGNER_GUI_GLOSSYBUTTON_H__
 #define __WXGUIDESIGNER_GUI_GLOSSYBUTTON_H__
 
-#include <wx/settings.h>
-
-namespace DrawUtils
-{
-    void DrawGlossyGradient( wxDC &dc, wxRect &rect, wxColour &topStart,
-                             wxColour &bottomStart,  wxColour &bottomEnd,
-                             wxColour &colour, bool hover = false );
-
-    void DrawBitmap( wxDC &dc, const wxBitmap &bitmap, const wxRect &rect,
-                    const wxString &text );
-};
-
 class wxGlossyButton : public wxWindow
 {    
 public:

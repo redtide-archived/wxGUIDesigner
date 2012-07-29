@@ -15,44 +15,56 @@
 
 class wxEvent;
 
-class wxGDEvent;
-class wxGDPropertyEvent;
-class wxGDObjectEvent;
+namespace wxGD
+{
+    namespace RTTI
+    {
+        class EventPropertyEvent;
+        class PropertyEvent;
+        class ObjectEvent;
+    };
+};
 
-wxDECLARE_EVENT( wxGD_EVT_EVENT_CHANGED,    wxGDEvent );
-wxDECLARE_EVENT( wxGD_EVT_PROPERTY_CHANGED, wxGDPropertyEvent );
-wxDECLARE_EVENT( wxGD_EVT_OBJECT_CREATED,   wxGDObjectEvent );
-wxDECLARE_EVENT( wxGD_EVT_OBJECT_DELETED,   wxGDObjectEvent );
-wxDECLARE_EVENT( wxGD_EVT_OBJECT_EXPANDED,  wxGDObjectEvent );
-wxDECLARE_EVENT( wxGD_EVT_OBJECT_SELECTED,  wxGDObjectEvent );
+wxDECLARE_EVENT( wxGD_EVT_EVENT_CHANGED,    wxGD::RTTI::EventPropertyEvent );
+wxDECLARE_EVENT( wxGD_EVT_PROPERTY_CHANGED, wxGD::RTTI::PropertyEvent );
+wxDECLARE_EVENT( wxGD_EVT_OBJECT_CREATED,   wxGD::RTTI::ObjectEvent );
+wxDECLARE_EVENT( wxGD_EVT_OBJECT_DELETED,   wxGD::RTTI::ObjectEvent );
+wxDECLARE_EVENT( wxGD_EVT_OBJECT_EXPANDED,  wxGD::RTTI::ObjectEvent );
+wxDECLARE_EVENT( wxGD_EVT_OBJECT_SELECTED,  wxGD::RTTI::ObjectEvent );
 wxDECLARE_EVENT( wxGD_EVT_PROJECT_LOADED,   wxCommandEvent );
 wxDECLARE_EVENT( wxGD_EVT_PROJECT_SAVED,    wxCommandEvent );
 wxDECLARE_EVENT( wxGD_EVT_PROJECT_UPDATED,  wxCommandEvent );
 wxDECLARE_EVENT( wxGD_EVT_CODE_GENERATED,   wxCommandEvent );
+
+namespace wxGD
+{
+namespace RTTI
+{
 //=============================================================================
-// wxGDEvent
+// EventPropertyEvent
 //=============================================================================
-class wxGDEvent: public wxEvent
+class EventPropertyEvent: public wxEvent
 {
 public:
-    wxGDEvent( wxEventType type = wxEVT_NULL, int id = 0, Event event = Event() );
-    ~wxGDEvent();
+    EventPropertyEvent( wxEventType     type  = wxEVT_NULL, int id = 0,
+                        EventProperty   event = EventProperty() );
+    ~EventPropertyEvent();
 
     wxEvent *Clone() const;
-    Event GetEvent() const;
+    EventProperty GetEvent() const;
 
 private:
-    Event m_event;
+    EventProperty m_event;
 };
 //=============================================================================
-// wxGDPropertyEvent
+// PropertyEvent
 //=============================================================================
-class wxGDPropertyEvent: public wxEvent
+class PropertyEvent: public wxEvent
 {
 public:
-    wxGDPropertyEvent( wxEventType type = wxEVT_NULL, int id = 0,
-                        Property property = Property() );
-    ~wxGDPropertyEvent();
+    PropertyEvent ( wxEventType type = wxEVT_NULL, int id = 0,
+                    wxGD::RTTI::Property property = Property() );
+    ~PropertyEvent();
 
     wxEvent *Clone()        const;
     Property GetProperty()  const;
@@ -61,14 +73,14 @@ private:
     Property m_property;
 };
 //=============================================================================
-// wxGDObjectEvent
+// ObjectEvent
 //=============================================================================
-class wxGDObjectEvent: public wxEvent
+class ObjectEvent: public wxEvent
 {
 public:
-    wxGDObjectEvent( wxEventType type = wxEVT_NULL, int id = 0,
-                        Object object = Object() );
-    ~wxGDObjectEvent();
+    ObjectEvent   ( wxEventType type   = wxEVT_NULL, int id = 0,
+                    Object      object = Object() );
+    ~ObjectEvent();
 
     wxEvent *Clone()    const;
     Object  GetObject() const;
@@ -76,5 +88,8 @@ public:
 private:
     Object m_object;
 };
+
+}; // namespace RTTI
+}; // namespace wxGD
 
 #endif //__WXGUIDESIGNER_EVENTS_H__

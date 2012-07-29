@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        wxguidesigner/gui/editor/book.cpp
-// Purpose:     wxGDEditorBook: Visual and code editor wxNotebook impl.
+// Purpose:     EditorBook: Visual and code editor wxNotebook impl.
 // Author:      Andrea Zanellato
 // Modified by: 
 // Created:     2011/11/30
@@ -36,9 +36,9 @@
 #include "wxguidesigner/gui/editor/designer.h"
 #include "wxguidesigner/gui/editor/book.h"
 //=============================================================================
-// wxGDEditorBook
+// EditorBook
 //=============================================================================
-wxGDEditorBook::wxGDEditorBook( wxGDHandler *handler, wxWindow *parent )
+wxGD::EditorBook::EditorBook( wxGD::Handler *handler, wxWindow *parent )
 :
 wxNotebook( parent, wxID_ANY ),
 m_handler ( handler ),
@@ -46,13 +46,13 @@ m_editor  ( NULL )
 {
     SetOwnBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_BTNFACE ) );
 
-    m_editor = new wxGDEditor( this );
+    m_editor = new Editor( this );
 
     wxImageList *imageList = m_handler->GetSmallImageList();
     if( imageList )
         SetImageList( imageList );
 
-    int imgIndex = wxGDArtProvider::GetGroupImageListIndex( "controls", "toplevel" );
+    int imgIndex = ArtProvider::GetGroupImageListIndex( "controls", "toplevel" );
 
     AddPage( m_editor, _("Designer"), true, imgIndex );
 //=============================================================================
@@ -60,29 +60,29 @@ m_editor  ( NULL )
 //=============================================================================
     LoadCodeEditorPages();
 
-    Bind( wxGD_EVT_OBJECT_CREATED,   &wxGDEditorBook::OnObjectCreated,   this );
-    Bind( wxGD_EVT_OBJECT_SELECTED,  &wxGDEditorBook::OnObjectSelected,  this );
-    Bind( wxGD_EVT_EVENT_CHANGED,    &wxGDEditorBook::OnEventChanged,    this );
-    Bind( wxGD_EVT_PROPERTY_CHANGED, &wxGDEditorBook::OnPropertyChanged, this );
+    Bind( wxGD_EVT_OBJECT_CREATED,   &EditorBook::OnObjectCreated,   this );
+    Bind( wxGD_EVT_OBJECT_SELECTED,  &EditorBook::OnObjectSelected,  this );
+    Bind( wxGD_EVT_EVENT_CHANGED,    &EditorBook::OnEventChanged,    this );
+    Bind( wxGD_EVT_PROPERTY_CHANGED, &EditorBook::OnPropertyChanged, this );
 }
 
-wxGDEditorBook::~wxGDEditorBook()
+wxGD::EditorBook::~EditorBook()
 {
     m_objects.clear();
 }
 
-wxGDEditor *wxGDEditorBook::GetGUIEditor() const
+wxGD::Editor *wxGD::EditorBook::GetGUIEditor() const
 {
     return m_editor;
 }
 
-void wxGDEditorBook::LoadCodeEditorPages()
+void wxGD::EditorBook::LoadCodeEditorPages()
 {
     wxString c = "languages";
 
-    for( size_t g = 0; g < wxGDArtProvider::GetGroupCount( c ); g++ )
+    for( size_t g = 0; g < wxGD::ArtProvider::GetGroupCount( c ); g++ )
     {
-        wxString name        = wxGDArtProvider::GetGroupName( c, g );
+        wxString name        = wxGD::ArtProvider::GetGroupName( c, g );
         wxString xrcFilePath = GetDataBasePath() + wxFILE_SEP_PATH + c +
                                 wxFILE_SEP_PATH + name + wxFILE_SEP_PATH +
                                 name + ".xrc";
@@ -90,9 +90,9 @@ void wxGDEditorBook::LoadCodeEditorPages()
         if( !wxXmlResource::Get()->Load( xrcFilePath ) )
             continue;
 
-        int      index = wxGDArtProvider::GetGroupImageListIndex( c, g );
-        wxString label = wxGDArtProvider::GetGroupLabel( c, g );
-        size_t   count = wxGDArtProvider::GetItemCount( c, g );
+        int      index = wxGD::ArtProvider::GetGroupImageListIndex( c, g );
+        wxString label = wxGD::ArtProvider::GetGroupLabel( c, g );
+        size_t   count = wxGD::ArtProvider::GetItemCount( c, g );
 
         if( count )
         {
@@ -107,8 +107,8 @@ void wxGDEditorBook::LoadCodeEditorPages()
 
             for( size_t i = 0; i < count; i++ )
             {
-                index = wxGDArtProvider::GetItemImageListIndex( c, g, i );
-                label = wxGDArtProvider::GetItemLabel( c, g, i );
+                index = wxGD::ArtProvider::GetItemImageListIndex( c, g, i );
+                label = wxGD::ArtProvider::GetItemLabel( c, g, i );
 
                 wxObject *obj =
                 wxXmlResource::Get()->LoadObject( nb, label, "wxStyledTextCtrl" );
@@ -128,53 +128,53 @@ void wxGDEditorBook::LoadCodeEditorPages()
     }
 }
 
-void wxGDEditorBook::OnObjectCreated( wxGDObjectEvent &event )
+void wxGD::EditorBook::OnObjectCreated( RTTI::ObjectEvent &event )
 {
     Reload();
 }
 
-void wxGDEditorBook::OnObjectDeleted( wxGDObjectEvent &event )
+void wxGD::EditorBook::OnObjectDeleted( RTTI::ObjectEvent &event )
 {
     Reload();
 }
 
-void wxGDEditorBook::OnObjectSelected( wxGDObjectEvent &event )
+void wxGD::EditorBook::OnObjectSelected( RTTI::ObjectEvent &event )
 {
     Reload();
 }
 
-void wxGDEditorBook::OnEventChanged( wxGDEvent &event )
+void wxGD::EditorBook::OnEventChanged( RTTI::EventPropertyEvent &event )
+{
+    m_handler->Serialize();
+}
+
+void wxGD::EditorBook::OnPropertyChanged( RTTI::PropertyEvent &event )
 {
     Reload();
 }
 
-void wxGDEditorBook::OnPropertyChanged( wxGDPropertyEvent &event )
+void wxGD::EditorBook::Reload()
 {
-    Reload();
-}
-
-void wxGDEditorBook::Reload()
-{
-    Object object = m_handler->GetSelectedObject();
+    RTTI::Object object = m_handler->GetSelectedObject();
     if( !object )
         return;
 
-    Object   toplevel  = object->GetTopLevelParent();
-    wxString className = toplevel->GetClassName();
-    wxString name      = toplevel->GetName();
+    RTTI::Object    toplevel  = object->GetTopLevelParent();
+    wxString        className = toplevel->GetClassName();
+    wxString        name      = toplevel->GetName();
 
     m_handler->Serialize();
     m_editor->UpdateDesigner( className, name );
 }
 
-void wxGDEditorBook::SetupWindow( wxWindow *window )
+void wxGD::EditorBook::SetupWindow( wxWindow *window )
 {
-    Object object = m_handler->GetSelectedObject();
+    RTTI::Object object = m_handler->GetSelectedObject();
     if( !window || !object )
         return;
 
-    Property property = object->GetProperty("size");
-    wxSize   size     = property->GetAsSize();
+    RTTI::Property  property = object->GetProperty("size");
+    wxSize          size     = property->GetAsSize();
 
     if( size != wxDefaultSize )
         window->SetSize( size );

@@ -30,11 +30,11 @@
 #include "wxguidesigner/gui/editor/glossybutton.h"
 #include "wxguidesigner/gui/editor/designer.h"
 //=============================================================================
-// wxGDTitleBar
+// TitleBar
 //=============================================================================
-IMPLEMENT_DYNAMIC_CLASS( wxGDTitleBar, wxPanel )
+IMPLEMENT_DYNAMIC_CLASS( wxGD::TitleBar, wxPanel )
 
-void wxGDTitleBar::Init()
+void wxGD::TitleBar::Init()
 {
     m_titleLbl      = NULL;
     m_titleBmp      = NULL;
@@ -43,12 +43,12 @@ void wxGDTitleBar::Init()
     m_titleBmpClose = NULL;
 }
 
-wxGDTitleBar::wxGDTitleBar()
+wxGD::TitleBar::TitleBar()
 {
     Init();
 }
 
-wxGDTitleBar::wxGDTitleBar( wxWindow *parent, wxWindowID id, const wxPoint &position,
+wxGD::TitleBar::TitleBar( wxWindow *parent, wxWindowID id, const wxPoint &position,
                     const wxSize &size, long style, const wxString &name )
 {
     Init();
@@ -56,7 +56,7 @@ wxGDTitleBar::wxGDTitleBar( wxWindow *parent, wxWindowID id, const wxPoint &posi
     Create( parent, id, position, size, style, name );
 }
 
-bool wxGDTitleBar::Create ( wxWindow *parent, wxWindowID id, const wxPoint &pos,
+bool wxGD::TitleBar::Create ( wxWindow *parent, wxWindowID id, const wxPoint &pos,
                         const wxSize &size, long style, const wxString &name )
 {
     if( !wxPanel::Create( parent, id, pos, size, style, name ) )
@@ -82,7 +82,7 @@ bool wxGDTitleBar::Create ( wxWindow *parent, wxWindowID id, const wxPoint &pos,
     // TODO: wxRendererNative for wxMAC and wxMSW
 
     // Titlebar label color, depending if background dark or bright
-    wxColour label = wxGDDraw::IsDark( caption ) ? *wxWHITE : *wxBLACK;
+    wxColour label = wxGD::Draw::IsDark( caption ) ? *wxWHITE : *wxBLACK;
     m_titleLbl->SetFont( wxFont( 9, 70, 90, 90, false, wxEmptyString ) );
     m_titleLbl->SetForegroundColour( label );
     titleSizer->Add( m_titleLbl, 1, wxALIGN_CENTER_VERTICAL | wxALL, 3 );
@@ -113,21 +113,21 @@ bool wxGDTitleBar::Create ( wxWindow *parent, wxWindowID id, const wxPoint &pos,
     this->Layout();
     titleSizer->Fit( this );
 
-    Bind( wxEVT_PAINT, &wxGDTitleBar::OnPaint, this );
+    Bind( wxEVT_PAINT, &TitleBar::OnPaint, this );
 
     return true;
 }
 
-wxGDTitleBar::~wxGDTitleBar()
+wxGD::TitleBar::~TitleBar()
 {
 }
 
-void wxGDTitleBar::SetTitleLabel( const wxString &label )
+void wxGD::TitleBar::SetTitleLabel( const wxString &label )
 {
     
 }
 
-void wxGDTitleBar::OnPaint( wxPaintEvent & )
+void wxGD::TitleBar::OnPaint( wxPaintEvent & )
 {
 // Draw caption glossy gradient
     wxColour topStart, topEnd, bottomStart, bottomEnd; int r, g, b;
@@ -173,9 +173,9 @@ void wxGDTitleBar::OnPaint( wxPaintEvent & )
                         x, y, true );
 }
 //=============================================================================
-// wxGDResizingPanel
+// ResizingPanel
 //=============================================================================
-wxGDResizingPanel::wxGDResizingPanel( wxGDEditor *parent )
+wxGD::ResizingPanel::ResizingPanel( Editor *parent )
 :
 wxPanel( parent, wxID_ANY, wxPoint( 9,9 ), wxDefaultSize, wxFULL_REPAINT_ON_RESIZE ),
 m_sizing        ( NONE ),
@@ -189,16 +189,16 @@ m_editor        ( parent )
     m_minSize.x += 9;
     m_minSize.y += 9;
 
-    Bind( wxEVT_MOTION,     &wxGDResizingPanel::OnMouseMotion, this );
-    Bind( wxEVT_LEFT_DOWN,  &wxGDResizingPanel::OnLeftDown,    this );
-    Bind( wxEVT_LEFT_UP,    &wxGDResizingPanel::OnLeftUp,      this );
+    Bind( wxEVT_MOTION,     &ResizingPanel::OnMouseMotion, this );
+    Bind( wxEVT_LEFT_DOWN,  &ResizingPanel::OnLeftDown,    this );
+    Bind( wxEVT_LEFT_UP,    &ResizingPanel::OnLeftUp,      this );
 }
 
-wxGDResizingPanel::~wxGDResizingPanel()
+wxGD::ResizingPanel::~ResizingPanel()
 {
 }
 
-void wxGDResizingPanel::OnMouseMotion( wxMouseEvent &event )
+void wxGD::ResizingPanel::OnMouseMotion( wxMouseEvent &event )
 {
     if ( m_sizing != NONE )
     {
@@ -260,7 +260,7 @@ void wxGDResizingPanel::OnMouseMotion( wxMouseEvent &event )
     SetSize( m_curX, m_curY );
 }
 
-void wxGDResizingPanel::OnLeftDown( wxMouseEvent &event )
+void wxGD::ResizingPanel::OnLeftDown( wxMouseEvent &event )
 {
     if ( m_sizing == NONE )
     {
@@ -281,7 +281,7 @@ void wxGDResizingPanel::OnLeftDown( wxMouseEvent &event )
     }
 }
 
-void wxGDResizingPanel::OnLeftUp( wxMouseEvent & )
+void wxGD::ResizingPanel::OnLeftUp( wxMouseEvent & )
 {
     if ( m_sizing != NONE )
     {
@@ -291,9 +291,9 @@ void wxGDResizingPanel::OnLeftUp( wxMouseEvent & )
     }
 }
 //=============================================================================
-// wxGDEditor
+// Editor
 //=============================================================================
-wxGDEditor::wxGDEditor( wxWindow *parent )
+wxGD::Editor::Editor( wxWindow *parent )
 :
 wxScrolled< wxPanel >( parent, wxID_ANY, wxDefaultPosition, wxDefaultSize,
                         wxHSCROLL | wxVSCROLL | wxWS_EX_BLOCK_EVENTS ),
@@ -307,7 +307,7 @@ m_resizer   ( NULL )
 //-----------------------------------------------------------------------------
 // 'Invisible' resize area, where to catch and handle user mouse events
 //-----------------------------------------------------------------------------
-    m_resizer = new wxGDResizingPanel( this );
+    m_resizer = new ResizingPanel( this );
     m_resizer->SetBackgroundColour( wxColour( 192, 192, 192 ) );
 //-----------------------------------------------------------------------------
 // The main designer
@@ -317,7 +317,7 @@ m_resizer   ( NULL )
 //-----------------------------------------------------------------------------
 // The 'fake TopLevelWindow' titlebar
 //-----------------------------------------------------------------------------
-    m_title = new wxGDTitleBar( m_designer );
+    m_title = new TitleBar( m_designer );
     m_title->Hide();
 //-----------------------------------------------------------------------------
 // The 'client' area, 'GetClientSize()' except when has scrollbars
@@ -340,29 +340,29 @@ m_resizer   ( NULL )
     reSizer->Fit( m_resizer );
 }
 
-wxGDEditor::~wxGDEditor()
+wxGD::Editor::~Editor()
 {
 }
 
-void wxGDEditor::Cleanup()
+void wxGD::Editor::Cleanup()
 {
     m_client->DestroyChildren();
 }
 
-void wxGDEditor::ShowTitleBar( bool show )
+void wxGD::Editor::ShowTitleBar( bool show )
 {
     m_title->Show( show );
 }
 
-void wxGDEditor::UpdateVirtualSize()
+void wxGD::Editor::UpdateVirtualSize()
 {
     // Update the scrolled window virtual size to show scroll bars
     wxSize size = m_resizer->GetSize();
     SetVirtualSize( size.GetX() + 15, size.GetY() + 15 );
 }
 
-void wxGDEditor::UpdateDesigner(const wxString &topClassName,
-                                const wxString &topName)
+void wxGD::Editor::UpdateDesigner ( const wxString &topClassName,
+                                    const wxString &topName)
 {
     Cleanup();
 

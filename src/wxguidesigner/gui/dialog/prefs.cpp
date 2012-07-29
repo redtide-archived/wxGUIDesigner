@@ -36,9 +36,9 @@ wxDEFINE_EVENT( wxGD_EVT_GUI_OPTION_CHANGED, wxCommandEvent );
 wxDEFINE_EVENT( wxGD_EVT_GUI_CONFIG_UPDATE,  wxCommandEvent );
 wxDEFINE_EVENT( wxGD_EVT_GUI_CONFIG_SAVE,    wxCommandEvent );
 //=============================================================================
-// wxGDDialogPrefs
+// PrefsDialog
 //=============================================================================
-wxGDDialogPrefs::wxGDDialogPrefs( wxWindow *parent )
+wxGD::PrefsDialog::PrefsDialog( wxWindow *parent )
 :
 wxDialog( parent, wxID_ANY, _("Preferences"), wxDefaultPosition, wxDefaultSize,
           wxDEFAULT_DIALOG_STYLE|wxMAXIMIZE_BOX|wxMINIMIZE_BOX|wxRESIZE_BORDER ),
@@ -66,22 +66,22 @@ m_tbkPrefs  ( NULL )
     int imgIndex = -1;
     if( bmpPrj.IsOk() )
         imgIndex = imageList->Add( bmpPrj );
-    m_tbkPrefs->AddPage( new wxGDPageProject(this), _("Project"), true, imgIndex );
+    m_tbkPrefs->AddPage( new PageProject(this), _("Project"), true, imgIndex );
 
     imgIndex = -1;
     if( bmpLocale.IsOk() )
         imgIndex = imageList->Add( bmpLocale );
-    m_tbkPrefs->AddPage( new wxGDPageLocale(this), _("Locale"), false, imgIndex );
+    m_tbkPrefs->AddPage( new PageLocale(this), _("Locale"), false, imgIndex );
 
     imgIndex = -1;
     if( bmpEditor.IsOk() )
         imgIndex = imageList->Add( bmpEditor );
-    m_tbkPrefs->AddPage( new wxGDPageEditors(this), _("Editors"), false, imgIndex );
+    m_tbkPrefs->AddPage( new PageEditors(this), _("Editors"), false, imgIndex );
 
     imgIndex = -1;
     if( bmpDesign.IsOk() )
         imgIndex = imageList->Add( bmpDesign );
-    m_tbkPrefs->AddPage( new wxGDPageGUI(this), _("GUI"), false, imgIndex );
+    m_tbkPrefs->AddPage( new PageGUI(this), _("GUI"), false, imgIndex );
 
     prefsSizer->Add( m_tbkPrefs, 1, wxALL|wxEXPAND, 5 );
 
@@ -101,25 +101,25 @@ m_tbkPrefs  ( NULL )
     prefsSizer->Fit( this );
     Centre( wxBOTH );
 
-    Bind( wxGD_EVT_GUI_OPTION_CHANGED, &wxGDDialogPrefs::OnPrefsChanged, this );
+    Bind( wxGD_EVT_GUI_OPTION_CHANGED, &PrefsDialog::OnPrefsChanged, this );
     m_ok->Bind( wxEVT_COMMAND_BUTTON_CLICKED,
-                                        &wxGDDialogPrefs::OnUpdatePrefs, this );
+                                        &PrefsDialog::OnUpdatePrefs, this );
     m_apply->Bind( wxEVT_COMMAND_BUTTON_CLICKED,
-                                        &wxGDDialogPrefs::OnSavePrefs,   this );
+                                        &PrefsDialog::OnSavePrefs,   this );
 }
 
-wxGDDialogPrefs::~wxGDDialogPrefs()
+wxGD::PrefsDialog::~PrefsDialog()
 {
-    Unbind( wxGD_EVT_GUI_OPTION_CHANGED, &wxGDDialogPrefs::OnPrefsChanged, this );
+    Unbind( wxGD_EVT_GUI_OPTION_CHANGED, &PrefsDialog::OnPrefsChanged, this );
 }
 
-void wxGDDialogPrefs::OnPrefsChanged( wxCommandEvent &event )
+void wxGD::PrefsDialog::OnPrefsChanged( wxCommandEvent &event )
 {
     m_apply->Enable ( event.GetInt() );
     m_ok->Enable    ( event.GetInt() );
 }
 
-void wxGDDialogPrefs::OnUpdatePrefs( wxCommandEvent & )
+void wxGD::PrefsDialog::OnUpdatePrefs( wxCommandEvent & )
 {
     wxCommandEvent evt( wxGD_EVT_GUI_CONFIG_UPDATE );
     for( size_t i = 0; i < m_tbkPrefs->GetPageCount(); i++ )
@@ -131,7 +131,7 @@ void wxGDDialogPrefs::OnUpdatePrefs( wxCommandEvent & )
     Destroy();
 }
 
-void wxGDDialogPrefs::OnSavePrefs( wxCommandEvent & )
+void wxGD::PrefsDialog::OnSavePrefs( wxCommandEvent & )
 {
     wxCommandEvent evt( wxGD_EVT_GUI_CONFIG_SAVE );
     for( size_t i = 0; i < m_tbkPrefs->GetPageCount(); i++ )
@@ -143,9 +143,9 @@ void wxGDDialogPrefs::OnSavePrefs( wxCommandEvent & )
     Destroy();
 }
 //=============================================================================
-// wxGDPageProject
+// PageProject
 //=============================================================================
-wxGDPageProject::wxGDPageProject( wxGDDialogPrefs *parent )
+wxGD::PageProject::PageProject( PrefsDialog *parent )
 :
 wxPanel( parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL ),
 m_choPrjVer ( NULL ),
@@ -256,30 +256,30 @@ m_clbCodeGen( NULL )
     Layout();
 
     m_choPrjEnc->Bind( wxEVT_COMMAND_CHOICE_SELECTED,
-                                    &wxGDPageProject::OnPrefsChanged, this );
+                                    &PageProject::OnPrefsChanged, this );
     m_choPrjVer->Bind( wxEVT_COMMAND_CHOICE_SELECTED,
-                                    &wxGDPageProject::OnPrefsChanged, this );
+                                    &PageProject::OnPrefsChanged, this );
     m_chkCompat->Bind( wxEVT_COMMAND_CHECKBOX_CLICKED,
-                                    &wxGDPageProject::OnPrefsChanged, this );
+                                    &PageProject::OnPrefsChanged, this );
 
-    Bind( wxGD_EVT_GUI_CONFIG_UPDATE, &wxGDPageProject::OnUpdatePrefs, this );
-    Bind( wxGD_EVT_GUI_CONFIG_SAVE,   &wxGDPageProject::OnSavePrefs,   this );
+    Bind( wxGD_EVT_GUI_CONFIG_UPDATE, &PageProject::OnUpdatePrefs, this );
+    Bind( wxGD_EVT_GUI_CONFIG_SAVE,   &PageProject::OnSavePrefs,   this );
 }
 
-wxGDPageProject::~wxGDPageProject()
+wxGD::PageProject::~PageProject()
 {
     m_choPrjEnc->Unbind( wxEVT_COMMAND_CHOICE_SELECTED,
-                                    &wxGDPageProject::OnPrefsChanged, this );
+                                    &PageProject::OnPrefsChanged, this );
     m_choPrjVer->Unbind( wxEVT_COMMAND_CHOICE_SELECTED,
-                                    &wxGDPageProject::OnPrefsChanged, this );
+                                    &PageProject::OnPrefsChanged, this );
     m_chkCompat->Unbind( wxEVT_COMMAND_CHECKBOX_CLICKED,
-                                    &wxGDPageProject::OnPrefsChanged, this );
+                                    &PageProject::OnPrefsChanged, this );
 
-    Unbind( wxGD_EVT_GUI_CONFIG_UPDATE, &wxGDPageProject::OnUpdatePrefs, this );
-    Unbind( wxGD_EVT_GUI_CONFIG_SAVE,   &wxGDPageProject::OnSavePrefs,   this );
+    Unbind( wxGD_EVT_GUI_CONFIG_UPDATE, &PageProject::OnUpdatePrefs, this );
+    Unbind( wxGD_EVT_GUI_CONFIG_SAVE,   &PageProject::OnSavePrefs,   this );
 }
 
-void wxGDPageProject::OnPrefsChanged( wxCommandEvent & )
+void wxGD::PageProject::OnPrefsChanged( wxCommandEvent & )
 {
     bool isDirty = (m_selEnc    != m_choPrjEnc->GetSelection()) ||
                    (m_selXrcVer != m_choPrjVer->GetSelection()) ||
@@ -290,14 +290,14 @@ void wxGDPageProject::OnPrefsChanged( wxCommandEvent & )
     GetParent()->GetEventHandler()->ProcessEvent( evt );
 }
 
-void wxGDPageProject::OnUpdatePrefs( wxCommandEvent & )
+void wxGD::PageProject::OnUpdatePrefs( wxCommandEvent & )
 {
     m_selEnc    = m_choPrjEnc->GetSelection();
     m_selXrcVer = m_choPrjVer->GetSelection();
     m_compat    = m_chkCompat->IsChecked();
 }
 
-void wxGDPageProject::OnSavePrefs( wxCommandEvent & )
+void wxGD::PageProject::OnSavePrefs( wxCommandEvent & )
 {
     wxConfigBase::Get()->Write( "xrc/encoding",  m_choPrjEnc->GetSelection() );
     wxConfigBase::Get()->Write( "xrc/version",   m_choPrjVer->GetSelection() );
@@ -305,9 +305,9 @@ void wxGDPageProject::OnSavePrefs( wxCommandEvent & )
     wxConfigBase::Get()->Flush();
 }
 //=============================================================================
-// wxGDPageGUI
+// PageGUI
 //=============================================================================
-wxGDPageGUI::wxGDPageGUI( wxGDDialogPrefs *parent )
+wxGD::PageGUI::PageGUI( PrefsDialog *parent )
 :
 wxPanel( parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL ),
 m_chkIcons  ( NULL )
@@ -341,20 +341,20 @@ m_chkIcons  ( NULL )
     Layout();
 
     m_chkIcons->Bind( wxEVT_COMMAND_CHECKBOX_CLICKED,
-                                      &wxGDPageGUI::OnPrefsChanged, this );
-    Bind( wxGD_EVT_GUI_CONFIG_UPDATE, &wxGDPageGUI::OnUpdatePrefs,  this );
-    Bind( wxGD_EVT_GUI_CONFIG_SAVE,   &wxGDPageGUI::OnSavePrefs,    this );
+                                      &PageGUI::OnPrefsChanged, this );
+    Bind( wxGD_EVT_GUI_CONFIG_UPDATE, &PageGUI::OnUpdatePrefs,  this );
+    Bind( wxGD_EVT_GUI_CONFIG_SAVE,   &PageGUI::OnSavePrefs,    this );
 }
 
-wxGDPageGUI::~wxGDPageGUI()
+wxGD::PageGUI::~PageGUI()
 {
     m_chkIcons->Unbind( wxEVT_COMMAND_CHECKBOX_CLICKED,
-                                        &wxGDPageGUI::OnPrefsChanged, this );
-    Unbind( wxGD_EVT_GUI_CONFIG_UPDATE, &wxGDPageGUI::OnUpdatePrefs,  this );
-    Unbind( wxGD_EVT_GUI_CONFIG_SAVE,   &wxGDPageGUI::OnSavePrefs,    this );
+                                        &PageGUI::OnPrefsChanged, this );
+    Unbind( wxGD_EVT_GUI_CONFIG_UPDATE, &PageGUI::OnUpdatePrefs,  this );
+    Unbind( wxGD_EVT_GUI_CONFIG_SAVE,   &PageGUI::OnSavePrefs,    this );
 }
 
-void wxGDPageGUI::OnPrefsChanged( wxCommandEvent & )
+void wxGD::PageGUI::OnPrefsChanged( wxCommandEvent & )
 {
     bool isDirty = (m_smallIcons != m_chkIcons->IsChecked());
 
@@ -363,20 +363,20 @@ void wxGDPageGUI::OnPrefsChanged( wxCommandEvent & )
     GetParent()->GetEventHandler()->ProcessEvent( evt );
 }
 
-void wxGDPageGUI::OnUpdatePrefs( wxCommandEvent & )
+void wxGD::PageGUI::OnUpdatePrefs( wxCommandEvent & )
 {
     m_smallIcons =  m_chkIcons->IsChecked();
 }
 
-void wxGDPageGUI::OnSavePrefs( wxCommandEvent & )
+void wxGD::PageGUI::OnSavePrefs( wxCommandEvent & )
 {
     wxConfigBase::Get()->Write( "gui/smallicons", m_chkIcons->IsChecked() );
     wxConfigBase::Get()->Flush();
 }
 //=============================================================================
-// wxGDPageLocale
+// PageLocale
 //=============================================================================
-wxGDPageLocale::wxGDPageLocale( wxGDDialogPrefs *parent )
+wxGD::PageLocale::PageLocale( PrefsDialog *parent )
 :
 wxPanel( parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL ),
 m_bcbLang   ( NULL ),
@@ -410,11 +410,7 @@ m_selected  ( 0 )
     pnlLocale->SetSizer( pnlSizer );
     pnlLocale->Layout();
     pnlSizer->Fit( pnlLocale );
-/*
-    wxGDSettings settings = m_handler->GetSettings();
-    m_selected = settings->GetInt("locale/selected", 0);
-    m_enabled  = settings->GetBool("locale/enabled", false);
-*/
+
     wxConfigBase::Get()->Read( "locale/enabled",  &m_enabled,  false );
     wxConfigBase::Get()->Read( "locale/selected", &m_selected, 0    );
 
@@ -433,28 +429,28 @@ m_selected  ( 0 )
     Layout();
 
     m_chkLang->Bind( wxEVT_COMMAND_CHECKBOX_CLICKED,
-                                    &wxGDPageLocale::OnPrefsChanged, this );
+                                    &PageLocale::OnPrefsChanged, this );
 
     m_bcbLang->Bind( wxEVT_COMMAND_COMBOBOX_SELECTED,
-                                    &wxGDPageLocale::OnPrefsChanged, this );
+                                    &PageLocale::OnPrefsChanged, this );
 
-    Bind( wxGD_EVT_GUI_CONFIG_UPDATE, &wxGDPageLocale::OnUpdatePrefs, this );
-    Bind( wxGD_EVT_GUI_CONFIG_SAVE,   &wxGDPageLocale::OnSavePrefs,   this );
+    Bind( wxGD_EVT_GUI_CONFIG_UPDATE, &PageLocale::OnUpdatePrefs, this );
+    Bind( wxGD_EVT_GUI_CONFIG_SAVE,   &PageLocale::OnSavePrefs,   this );
 }
 
-wxGDPageLocale::~wxGDPageLocale()
+wxGD::PageLocale::~PageLocale()
 {
     m_chkLang->Unbind( wxEVT_COMMAND_CHECKBOX_CLICKED,
-                        &wxGDPageLocale::OnPrefsChanged, this );
+                        &PageLocale::OnPrefsChanged, this );
 
     m_bcbLang->Unbind( wxEVT_COMMAND_COMBOBOX_SELECTED,
-                        &wxGDPageLocale::OnPrefsChanged, this );
+                        &PageLocale::OnPrefsChanged, this );
 
-    Unbind( wxGD_EVT_GUI_CONFIG_UPDATE, &wxGDPageLocale::OnUpdatePrefs, this );
-    Unbind( wxGD_EVT_GUI_CONFIG_SAVE,   &wxGDPageLocale::OnSavePrefs,   this );
+    Unbind( wxGD_EVT_GUI_CONFIG_UPDATE, &PageLocale::OnUpdatePrefs, this );
+    Unbind( wxGD_EVT_GUI_CONFIG_SAVE,   &PageLocale::OnSavePrefs,   this );
 }
 
-void wxGDPageLocale::OnPrefsChanged( wxCommandEvent & )
+void wxGD::PageLocale::OnPrefsChanged( wxCommandEvent & )
 {
     bool isDirty = (m_enabled  != m_chkLang->IsChecked())   ||
                    (m_selected != m_bcbLang->GetSelection());
@@ -466,22 +462,22 @@ void wxGDPageLocale::OnPrefsChanged( wxCommandEvent & )
     GetParent()->GetEventHandler()->ProcessEvent( evt );
 }
 
-void wxGDPageLocale::OnUpdatePrefs( wxCommandEvent & )
+void wxGD::PageLocale::OnUpdatePrefs( wxCommandEvent & )
 {
     m_enabled  = m_chkLang->IsChecked();
     m_selected = m_bcbLang->GetSelection();
 }
 
-void wxGDPageLocale::OnSavePrefs( wxCommandEvent & )
+void wxGD::PageLocale::OnSavePrefs( wxCommandEvent & )
 {
     wxConfigBase::Get()->Write( "locale/enabled",  m_chkLang->IsChecked() );
     wxConfigBase::Get()->Write( "locale/selected", m_bcbLang->GetSelection() );
     wxConfigBase::Get()->Flush();
 }
 //=============================================================================
-// wxGDPageEditors
+// PageEditors
 //=============================================================================
-wxGDPageEditors::wxGDPageEditors( wxGDDialogPrefs *parent )
+wxGD::PageEditors::PageEditors( PrefsDialog *parent )
 :
 wxPanel( parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL ),
 m_bcbEditor     ( NULL ),
@@ -627,54 +623,54 @@ m_spnCaretW     ( NULL )
     Layout();
 
     m_chkLineNums->Bind( wxEVT_COMMAND_CHECKBOX_CLICKED,
-                                    &wxGDPageEditors::OnPrefsChanged, this );
+                                    &PageEditors::OnPrefsChanged, this );
     m_chkGuides->Bind( wxEVT_COMMAND_CHECKBOX_CLICKED,
-                                    &wxGDPageEditors::OnPrefsChanged, this );
+                                    &PageEditors::OnPrefsChanged, this );
     m_chkWSpace->Bind( wxEVT_COMMAND_CHECKBOX_CLICKED,
-                                    &wxGDPageEditors::OnPrefsChanged, this );
+                                    &PageEditors::OnPrefsChanged, this );
     m_chkEOL->Bind( wxEVT_COMMAND_CHECKBOX_CLICKED,
-                                    &wxGDPageEditors::OnPrefsChanged, this );
+                                    &PageEditors::OnPrefsChanged, this );
     m_chkBackspace->Bind( wxEVT_COMMAND_CHECKBOX_CLICKED,
-                                    &wxGDPageEditors::OnPrefsChanged, this );
+                                    &PageEditors::OnPrefsChanged, this );
     m_chkUseTabs->Bind( wxEVT_COMMAND_CHECKBOX_CLICKED,
-                                    &wxGDPageEditors::OnPrefsChanged, this );
+                                    &PageEditors::OnPrefsChanged, this );
     m_chkTabsIndent->Bind( wxEVT_COMMAND_CHECKBOX_CLICKED,
-                                    &wxGDPageEditors::OnPrefsChanged, this );
+                                    &PageEditors::OnPrefsChanged, this );
     m_choTabsWidth->Bind( wxEVT_COMMAND_CHOICE_SELECTED,
-                                    &wxGDPageEditors::OnPrefsChanged, this );
+                                    &PageEditors::OnPrefsChanged, this );
     m_spnCaretW->Bind( wxEVT_COMMAND_SPINCTRL_UPDATED,
-                                    &wxGDPageEditors::OnPrefsChanged, this );
+                                    &PageEditors::OnPrefsChanged, this );
 
-    Bind( wxGD_EVT_GUI_CONFIG_UPDATE, &wxGDPageEditors::OnUpdatePrefs, this );
-    Bind( wxGD_EVT_GUI_CONFIG_SAVE,   &wxGDPageEditors::OnSavePrefs,   this );
+    Bind( wxGD_EVT_GUI_CONFIG_UPDATE, &PageEditors::OnUpdatePrefs, this );
+    Bind( wxGD_EVT_GUI_CONFIG_SAVE,   &PageEditors::OnSavePrefs,   this );
 }
 
-wxGDPageEditors::~wxGDPageEditors()
+wxGD::PageEditors::~PageEditors()
 {
     m_chkLineNums->Unbind( wxEVT_COMMAND_CHECKBOX_CLICKED,
-                                    &wxGDPageEditors::OnPrefsChanged, this );
+                                    &PageEditors::OnPrefsChanged, this );
     m_chkGuides->Unbind( wxEVT_COMMAND_CHECKBOX_CLICKED,
-                                    &wxGDPageEditors::OnPrefsChanged, this );
+                                    &PageEditors::OnPrefsChanged, this );
     m_chkWSpace->Unbind( wxEVT_COMMAND_CHECKBOX_CLICKED,
-                                    &wxGDPageEditors::OnPrefsChanged, this );
+                                    &PageEditors::OnPrefsChanged, this );
     m_chkEOL->Unbind( wxEVT_COMMAND_CHECKBOX_CLICKED,
-                                    &wxGDPageEditors::OnPrefsChanged, this );
+                                    &PageEditors::OnPrefsChanged, this );
     m_chkBackspace->Unbind( wxEVT_COMMAND_CHECKBOX_CLICKED,
-                                    &wxGDPageEditors::OnPrefsChanged, this );
+                                    &PageEditors::OnPrefsChanged, this );
     m_chkUseTabs->Unbind( wxEVT_COMMAND_CHECKBOX_CLICKED,
-                                    &wxGDPageEditors::OnPrefsChanged, this );
+                                    &PageEditors::OnPrefsChanged, this );
     m_chkTabsIndent->Unbind( wxEVT_COMMAND_CHECKBOX_CLICKED,
-                                    &wxGDPageEditors::OnPrefsChanged, this );
+                                    &PageEditors::OnPrefsChanged, this );
     m_choTabsWidth->Unbind( wxEVT_COMMAND_CHOICE_SELECTED,
-                                    &wxGDPageEditors::OnPrefsChanged, this );
+                                    &PageEditors::OnPrefsChanged, this );
     m_spnCaretW->Unbind( wxEVT_COMMAND_SPINCTRL_UPDATED,
-                                    &wxGDPageEditors::OnPrefsChanged, this );
+                                    &PageEditors::OnPrefsChanged, this );
 
-    Unbind( wxGD_EVT_GUI_CONFIG_UPDATE, &wxGDPageEditors::OnUpdatePrefs, this );
-    Unbind( wxGD_EVT_GUI_CONFIG_SAVE,   &wxGDPageEditors::OnSavePrefs,   this );
+    Unbind( wxGD_EVT_GUI_CONFIG_UPDATE, &PageEditors::OnUpdatePrefs, this );
+    Unbind( wxGD_EVT_GUI_CONFIG_SAVE,   &PageEditors::OnSavePrefs,   this );
 }
 
-void wxGDPageEditors::OnPrefsChanged( wxCommandEvent & )
+void wxGD::PageEditors::OnPrefsChanged( wxCommandEvent & )
 {
     bool isDirty =  (m_showLines     != m_chkLineNums->IsChecked())         ||
                     (m_showGuides    != m_chkGuides->IsChecked())           ||
@@ -691,7 +687,7 @@ void wxGDPageEditors::OnPrefsChanged( wxCommandEvent & )
     GetParent()->GetEventHandler()->ProcessEvent( evt );
 }
 
-void wxGDPageEditors::OnUpdatePrefs( wxCommandEvent & )
+void wxGD::PageEditors::OnUpdatePrefs( wxCommandEvent & )
 {
 //  m_selEditor     = m_bcbEditor->GetSelection();
     m_showLines     = m_chkLineNums->IsChecked();
@@ -705,7 +701,7 @@ void wxGDPageEditors::OnUpdatePrefs( wxCommandEvent & )
     m_caretW        = m_spnCaretW->GetValue();
 }
 
-void wxGDPageEditors::OnSavePrefs( wxCommandEvent & )
+void wxGD::PageEditors::OnSavePrefs( wxCommandEvent & )
 {
     wxConfigBase::Get()->Write( "editors/ShowLineNumbers",       m_chkLineNums->IsChecked() );
     wxConfigBase::Get()->Write( "editors/ShowIndentationGuides", m_chkGuides->IsChecked() );

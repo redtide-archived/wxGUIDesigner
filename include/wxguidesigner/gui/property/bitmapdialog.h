@@ -18,11 +18,13 @@ class wxRadioBox;
 class wxStaticBitmap;
 class wxStaticText;
 
-class wxGDBitmapArtPanel : public wxPanel 
+namespace wxGD
+{
+class BitmapArtPanel : public wxPanel 
 {
 public:
-    wxGDBitmapArtPanel( wxWindow *parent ); 
-    ~wxGDBitmapArtPanel();
+    BitmapArtPanel( wxWindow *parent ); 
+    ~BitmapArtPanel();
 
     wxArtClient     GetArtClient() const { return m_client; }
     wxArtID         GetArtId()     const { return m_id; }
@@ -43,11 +45,11 @@ private:
     wxString        m_id;
 };
 
-class wxGDBitmapDialog : public wxDialog 
+class BitmapDialog : public wxDialog 
 {
 public:
-    wxGDBitmapDialog( wxWindow *parent, int source = 0 ); 
-    ~wxGDBitmapDialog();
+    BitmapDialog( wxWindow *parent, int source = 0 ); 
+    ~BitmapDialog();
 
     void            SetDirectory    ( const wxString &directory );
     void            SetFilterIndex  ( int index );
@@ -64,11 +66,12 @@ private:
     void            OnSelectSource  ( wxCommandEvent    &event );
     void            OnFileActivated ( wxFileCtrlEvent   &event );
 
-    wxBoxSizer          *m_sizer;
-    wxGDBitmapArtPanel  *m_artReq;
-    wxFileCtrl          *m_fileReq;
-    wxRadioBox          *m_fileTypeRbx;
-    wxString            m_path;
+    wxBoxSizer      *m_sizer;
+    BitmapArtPanel  *m_artReq;
+    wxFileCtrl      *m_fileReq;
+    wxRadioBox      *m_fileTypeRbx;
+    wxString        m_path;
+};
 };
 
 #endif //__WXGUIDESIGNER_GUI_PROPERTY_BITMAPDIALOG_H__

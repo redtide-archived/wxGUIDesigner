@@ -12,83 +12,87 @@
 
 #include "wxguidesigner/events.h"
 
-wxDEFINE_EVENT( wxGD_EVT_EVENT_CHANGED,    wxGDEvent );
-wxDEFINE_EVENT( wxGD_EVT_PROPERTY_CHANGED, wxGDPropertyEvent );
-wxDEFINE_EVENT( wxGD_EVT_OBJECT_CREATED,   wxGDObjectEvent );
-wxDEFINE_EVENT( wxGD_EVT_OBJECT_DELETED,   wxGDObjectEvent );
-wxDEFINE_EVENT( wxGD_EVT_OBJECT_EXPANDED,  wxGDObjectEvent );
-wxDEFINE_EVENT( wxGD_EVT_OBJECT_SELECTED,  wxGDObjectEvent );
+wxDEFINE_EVENT( wxGD_EVT_EVENT_CHANGED,    wxGD::RTTI::EventPropertyEvent );
+wxDEFINE_EVENT( wxGD_EVT_PROPERTY_CHANGED, wxGD::RTTI::PropertyEvent );
+wxDEFINE_EVENT( wxGD_EVT_OBJECT_CREATED,   wxGD::RTTI::ObjectEvent );
+wxDEFINE_EVENT( wxGD_EVT_OBJECT_DELETED,   wxGD::RTTI::ObjectEvent );
+wxDEFINE_EVENT( wxGD_EVT_OBJECT_EXPANDED,  wxGD::RTTI::ObjectEvent );
+wxDEFINE_EVENT( wxGD_EVT_OBJECT_SELECTED,  wxGD::RTTI::ObjectEvent );
 wxDEFINE_EVENT( wxGD_EVT_PROJECT_LOADED,   wxCommandEvent );
 wxDEFINE_EVENT( wxGD_EVT_PROJECT_SAVED,    wxCommandEvent );
 wxDEFINE_EVENT( wxGD_EVT_PROJECT_UPDATED,  wxCommandEvent );
 wxDEFINE_EVENT( wxGD_EVT_CODE_GENERATED,   wxCommandEvent );
 //=============================================================================
-// wxGDEvent
+// EventPropertyEvent
 //=============================================================================
-wxGDEvent::wxGDEvent( wxEventType type, int id, Event event )
+wxGD::RTTI::EventPropertyEvent::EventPropertyEvent( wxEventType type, int id,
+                                                    EventProperty event )
 :
 wxEvent( id, type ),
 m_event( event )
 {
 }
 
-wxGDEvent::~wxGDEvent()
+wxGD::RTTI::EventPropertyEvent::~EventPropertyEvent()
 {
 }
 
-wxEvent *wxGDEvent::Clone() const
+wxEvent *wxGD::RTTI::EventPropertyEvent::Clone() const
 {
-    return new wxGDEvent( *this );
+    return new EventPropertyEvent( *this );
 }
 
-Event wxGDEvent::GetEvent() const
+wxGD::RTTI::EventProperty
+wxGD::RTTI::EventPropertyEvent::GetEvent() const
 {
     return m_event;
 }
 //=============================================================================
-// wxGDPropertyEvent
+// PropertyEvent
 //=============================================================================
-wxGDPropertyEvent::wxGDPropertyEvent( wxEventType type, int id,
-                                        Property property )
+wxGD::RTTI::PropertyEvent::PropertyEvent( wxEventType type, int id,
+                                            Property property )
 :
 wxEvent( id, type ),
 m_property( property )
 {
 }
 
-wxGDPropertyEvent::~wxGDPropertyEvent()
+wxGD::RTTI::PropertyEvent::~PropertyEvent()
 {
 }
 
-wxEvent *wxGDPropertyEvent::Clone() const
+wxEvent *wxGD::RTTI::PropertyEvent::Clone() const
 {
-    return new wxGDPropertyEvent( *this );
+    return new PropertyEvent( *this );
 }
 
-Property wxGDPropertyEvent::GetProperty() const
+wxGD::RTTI::Property
+wxGD::RTTI::PropertyEvent::GetProperty() const
 {
     return m_property;
 }
 //=============================================================================
-// wxGDObjectEvent
+// ObjectEvent
 //=============================================================================
-wxGDObjectEvent::wxGDObjectEvent( wxEventType type, int id, Object object )
+wxGD::RTTI::ObjectEvent::ObjectEvent( wxEventType type, int id, Object object )
 :
 wxEvent( id, type ),
 m_object( object )
 {
 }
 
-wxGDObjectEvent::~wxGDObjectEvent()
+wxGD::RTTI::ObjectEvent::~ObjectEvent()
 {
 }
 
-wxEvent *wxGDObjectEvent::Clone() const
+wxEvent *wxGD::RTTI::ObjectEvent::Clone() const
 {
-    return new wxGDObjectEvent( *this );
+    return new ObjectEvent( *this );
 }
 
-Object wxGDObjectEvent::GetObject() const
+wxGD::RTTI::Object
+wxGD::RTTI::ObjectEvent::GetObject() const
 {
     return m_object;
 }

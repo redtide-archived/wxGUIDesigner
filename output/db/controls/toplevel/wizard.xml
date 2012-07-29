@@ -76,8 +76,8 @@
             <class>wxPanel</class>
         </inherits>
         <children>
-            <class>wxSizer</class>
-            <type>control</type>
+            <option max="1">wxSizer</option>
+            <option max="1">wxWindow</option>
         </children>
         <name label="Name">
             <value>wizPage</value>

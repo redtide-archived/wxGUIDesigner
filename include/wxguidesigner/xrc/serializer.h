@@ -11,19 +11,22 @@
 #ifndef __WXGUIDESIGNER_XRC_SERIALIZER_H__
 #define __WXGUIDESIGNER_XRC_SERIALIZER_H__
 
-namespace wxXRCSerializer
+namespace wxGD
 {
-    bool Load( RTTITree tree, const wxString &path );
-    bool Save( RTTITree tree, const wxString &path, int indent = 4 );
+namespace XRCSerializer
+{
+    bool Load( RTTI::Tree tree, const wxString &path );
+    bool Save( RTTI::Tree tree, const wxString &path, int indent = 4 );
 
-    wxXmlNode *Serialize( RTTITree tree );
+    wxXmlNode *Serialize  ( RTTI::Tree tree );
 
-    void    SerializeObject     ( Object    object,     wxXmlNode *objectNode );
-    void    SerializeProperty   ( Property  property,   wxXmlNode *objectNode );
-    void    SerializeEvent      ( Event     event,      wxXmlNode *objectNode );
+    void SerializeObject  ( RTTI::Object object,        wxXmlNode *objectNode );
+    void SerializeProperty( RTTI::Property property,    wxXmlNode *objectNode );
+    void SerializeEvent   ( RTTI::EventProperty event,  wxXmlNode *objectNode );
 
-    Object  CreateObject( RTTITree tree, Object parent, wxXmlNode *parentNode,
-                            bool isReference = false );
+    RTTI::Object CreateObject ( RTTI::Tree tree, RTTI::Object parent,
+                                wxXmlNode *parentNode, bool isReference = false );
+};
 };
 
 #endif //__WXGUIDESIGNER_XRC_SERIALIZER_H__

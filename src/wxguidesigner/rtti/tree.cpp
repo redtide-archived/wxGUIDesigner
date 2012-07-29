@@ -25,13 +25,10 @@
 #include "wxguidesigner/rtti/flags.h"
 #include "wxguidesigner/rtti/database.h"
 #include "wxguidesigner/rtti/tree.h"
-
-
-using namespace std;
 //=============================================================================
 // EventNode Class
 //=============================================================================
-EventNode::EventNode( EventInfo eventInfo )
+wxGD::RTTI::EventNode::EventNode( EventInfo eventInfo )
 :
 m_eventInfo( eventInfo )
 {
@@ -39,21 +36,21 @@ m_eventInfo( eventInfo )
         m_handlers.push_back(wxEmptyString);
 }
 
-EventNode::~EventNode()
+wxGD::RTTI::EventNode::~EventNode()
 {
 }
 
-wxString EventNode::GetName() const
+wxString wxGD::RTTI::EventNode::GetName() const
 {
     return m_eventInfo->GetName();
 }
 
-wxString EventNode::GetDescription() const
+wxString wxGD::RTTI::EventNode::GetDescription() const
 {
     return m_eventInfo->GetDescription();
 }
 
-wxString EventNode::GetHandlerName( size_t typeIndex ) const
+wxString wxGD::RTTI::EventNode::GetHandlerName( size_t typeIndex ) const
 {
     if( typeIndex < m_handlers.size() )
         return m_handlers.at( typeIndex );
@@ -61,7 +58,7 @@ wxString EventNode::GetHandlerName( size_t typeIndex ) const
     return wxEmptyString;
 }
 
-wxString EventNode::GetTypeName( size_t typeIndex  ) const
+wxString wxGD::RTTI::EventNode::GetTypeName( size_t typeIndex  ) const
 {
     if( typeIndex < m_eventInfo->GetTypeCount() )
         return m_eventInfo->GetTypeName( typeIndex );
@@ -69,7 +66,7 @@ wxString EventNode::GetTypeName( size_t typeIndex  ) const
     return wxEmptyString;
 }
 
-wxString EventNode::GetTypeDescription( size_t typeIndex  ) const
+wxString wxGD::RTTI::EventNode::GetTypeDescription( size_t typeIndex  ) const
 {
     if( typeIndex < m_eventInfo->GetTypeCount() )
         return m_eventInfo->GetTypeDescription( typeIndex );
@@ -77,17 +74,18 @@ wxString EventNode::GetTypeDescription( size_t typeIndex  ) const
     return wxEmptyString;
 }
 
-size_t EventNode::GetTypeCount() const
+size_t wxGD::RTTI::EventNode::GetTypeCount() const
 {
     return m_eventInfo->GetTypeCount();
 }
 
-Handlers EventNode::GetHandlers() const
+wxGD::RTTI::Handlers
+wxGD::RTTI::EventNode::GetHandlers() const
 {
     return m_handlers;
 }
 
-bool EventNode::HasHandlers()
+bool wxGD::RTTI::EventNode::HasHandlers()
 {
     bool hasHandlers = false;
 
@@ -103,7 +101,8 @@ bool EventNode::HasHandlers()
     return hasHandlers;
 }
 
-void EventNode::SetHandlerName( size_t typeIndex, const wxString &funcName )
+void wxGD::RTTI::EventNode::SetHandlerName( size_t typeIndex,
+                                            const wxString &funcName )
 {
     if( typeIndex < m_eventInfo->GetTypeCount() )
     {
@@ -113,8 +112,8 @@ void EventNode::SetHandlerName( size_t typeIndex, const wxString &funcName )
     }
 }
 
-void EventNode::SetHandlerName( const wxString &typeName,
-                                const wxString &funcName )
+void wxGD::RTTI::EventNode::SetHandlerName( const wxString &typeName,
+                                            const wxString &funcName )
 {
     for( size_t i = 0; i < m_eventInfo->GetTypeCount(); i++ )
     {
@@ -129,51 +128,53 @@ void EventNode::SetHandlerName( const wxString &typeName,
 //=============================================================================
 // PropertyNode Class
 //=============================================================================
-PropertyNode::PropertyNode( PropertyInfo propertyInfo )
+wxGD::RTTI::PropertyNode::PropertyNode( wxGD::RTTI::PropertyInfo propertyInfo )
 :
 m_propertyInfo  ( propertyInfo ),
 m_value         ( propertyInfo->GetDefaultValue() )
 {
 }
 
-PropertyNode::~PropertyNode()
+wxGD::RTTI::PropertyNode::~PropertyNode()
 {
     m_children.clear();
 }
 
-wxString PropertyNode::GetName() const
+wxString wxGD::RTTI::PropertyNode::GetName() const
 {
     return m_propertyInfo->GetName();
 }
 
-wxString PropertyNode::GetLabel() const
+wxString wxGD::RTTI::PropertyNode::GetLabel() const
 {
     return m_propertyInfo->GetLabel();
 }
 
-wxString PropertyNode::GetDescription() const
+wxString wxGD::RTTI::PropertyNode::GetDescription() const
 {
     return m_propertyInfo->GetDescription();
 }
 
-PropertyType PropertyNode::GetType() const
+wxGD::RTTI::PropertyType
+wxGD::RTTI::PropertyNode::GetType() const
 {
     return m_propertyInfo->GetType();
 }
 
-PropertyInfo PropertyNode::GetInfo() const
+wxGD::RTTI::PropertyInfo
+wxGD::RTTI::PropertyNode::GetInfo() const
 {
     return m_propertyInfo;
 }
 
-bool PropertyNode::IsCategory() const
+bool wxGD::RTTI::PropertyNode::IsCategory() const
 {
     return( m_propertyInfo->GetType() == PROPERTY_TYPE_CATEGORY );
 }
 //-----------------------------------------------------------------------------
 // Children
 //-----------------------------------------------------------------------------
-void PropertyNode::AddChild( Property property )
+void wxGD::RTTI::PropertyNode::AddChild( Property property )
 {
     if( !property )
         return;
@@ -184,14 +185,15 @@ void PropertyNode::AddChild( Property property )
 
     for( size_t i = 0; i < propertyInfo->GetChildCount(); i++ )
     {
-        PropertyInfo childInfo = propertyInfo->GetChild(i);
-        Property child( new PropertyNode( childInfo ) );
+        PropertyInfo  childInfo = propertyInfo->GetChild(i);
+        Property      child( new PropertyNode( childInfo ) );
 
         property->AddChild( child );
     }
 }
 
-Property PropertyNode::GetChild( size_t index  ) const
+wxGD::RTTI::Property
+wxGD::RTTI::PropertyNode::GetChild( size_t index  ) const
 {
     if( index < m_children.size() )
         return m_children.at( index );
@@ -199,26 +201,29 @@ Property PropertyNode::GetChild( size_t index  ) const
     return Property();
 }
 
-Properties PropertyNode::GetChildren() const
+wxGD::RTTI::Properties
+wxGD::RTTI::PropertyNode::GetChildren() const
 {
     return m_children;
 }
 
-size_t PropertyNode::GetChildCount() const
+size_t wxGD::RTTI::PropertyNode::GetChildCount() const
 {
     return m_children.size();
 }
 //-----------------------------------------------------------------------------
 // Attributes
 //-----------------------------------------------------------------------------
-void PropertyNode::AddAttribute( const wxString &name, const wxString &value )
+void wxGD::RTTI::PropertyNode::AddAttribute(const wxString &name,
+                                            const wxString &value)
 {
-    Attribute attr = make_pair( name, value );
+    Attribute attr( name, value );
 
     m_attributes.push_back( attr );
 }
 
-Attribute PropertyNode::GetAttribute( size_t index ) const
+wxGD::RTTI::Attribute
+wxGD::RTTI::PropertyNode::GetAttribute( size_t index ) const
 {
     if( index < m_attributes.size() )
         return m_attributes.at( index );
@@ -226,7 +231,7 @@ Attribute PropertyNode::GetAttribute( size_t index ) const
     return Attribute();
 }
 
-wxString PropertyNode::GetAttributeName( size_t index )  const
+wxString wxGD::RTTI::PropertyNode::GetAttributeName( size_t index )  const
 {
     if( index < m_attributes.size() )
         return m_attributes.at( index ).first;
@@ -234,7 +239,7 @@ wxString PropertyNode::GetAttributeName( size_t index )  const
     return wxEmptyString;
 }
 
-wxString PropertyNode::GetAttributeValue( size_t index )  const
+wxString wxGD::RTTI::PropertyNode::GetAttributeValue( size_t index )  const
 {
     if( index < m_attributes.size() )
         return m_attributes.at( index ).second;
@@ -242,24 +247,24 @@ wxString PropertyNode::GetAttributeValue( size_t index )  const
     return wxEmptyString;
 }
 
-size_t PropertyNode::GetAttributeCount() const
+size_t wxGD::RTTI::PropertyNode::GetAttributeCount() const
 {
     return m_attributes.size();
 }
 //-----------------------------------------------------------------------------
 // Getters
 //-----------------------------------------------------------------------------
-wxArrayString PropertyNode::GetAsArrayString() const
+wxArrayString wxGD::RTTI::PropertyNode::GetAsArrayString() const
 {
     return wxGD::Convert::StringToArrayString( m_value );
 }
 
-bool PropertyNode::GetAsBool() const
+bool wxGD::RTTI::PropertyNode::GetAsBool() const
 {
     return wxGD::Convert::StringToBool( m_value );
 }
 
-int PropertyNode::GetAsSystemColour() const
+int wxGD::RTTI::PropertyNode::GetAsSystemColour() const
 {
     // System or Default Colour
     wxColour colour = wxColour( m_value );
@@ -270,7 +275,7 @@ int PropertyNode::GetAsSystemColour() const
     return 0xFFFFFF;
 }
 
-wxColour PropertyNode::GetAsColour() const
+wxColour wxGD::RTTI::PropertyNode::GetAsColour() const
 {
     // Default Colour
     if( m_value.empty() )
@@ -285,79 +290,79 @@ wxColour PropertyNode::GetAsColour() const
     return wxColour( m_value );
 }
 
-double PropertyNode::GetAsDouble() const
+double wxGD::RTTI::PropertyNode::GetAsDouble() const
 {
     return wxGD::Convert::StringToFloat( m_value );
 }
 
-wxFontContainer PropertyNode::GetAsFont() const
+wxFontContainer wxGD::RTTI::PropertyNode::GetAsFont() const
 {
     return wxGD::Convert::StringToFont( m_value );
 }
 
-int PropertyNode::GetAsInteger() const
+int wxGD::RTTI::PropertyNode::GetAsInteger() const
 {
     return wxGD::Convert::StringToInteger( m_value );
 }
 
-wxPoint PropertyNode::GetAsPoint() const
+wxPoint wxGD::RTTI::PropertyNode::GetAsPoint() const
 {
     return wxGD::Convert::StringToPoint( m_value );
 }
 
-wxSize PropertyNode::GetAsSize() const
+wxSize wxGD::RTTI::PropertyNode::GetAsSize() const
 {
     return wxGD::Convert::StringToSize( m_value );
 }
 
-wxString PropertyNode::GetAsString() const
+wxString wxGD::RTTI::PropertyNode::GetAsString() const
 {
     return m_value;
 }
 
-int PropertyNode::GetAsStyle() const
+int wxGD::RTTI::PropertyNode::GetAsStyle() const
 {
     return wxGD::Convert::StringToFlag( m_value );
 }
 
-wxString PropertyNode::GetAsText() const
+wxString wxGD::RTTI::PropertyNode::GetAsText() const
 {
     return GetAsString(); // TODO
 }
 
-wxString PropertyNode::GetAsURL() const
+wxString wxGD::RTTI::PropertyNode::GetAsURL() const
 {
     return GetAsString(); // TODO
 }
 //-----------------------------------------------------------------------------
 // Setters
 //-----------------------------------------------------------------------------
-void PropertyNode::SetValue( const wxString &value )
+void wxGD::RTTI::PropertyNode::SetValue( const wxString &value )
 {
     m_value = value;
 }
 
-void PropertyNode::SetValue( int value )
+void wxGD::RTTI::PropertyNode::SetValue( int value )
 {
     m_value = wxGD::Convert::IntegerToString(value);
 }
 
-void PropertyNode::SetValue( bool value )
+void wxGD::RTTI::PropertyNode::SetValue( bool value )
 {
     m_value = wxGD::Convert::BoolToString(value);
 }
 
-void PropertyNode::SetValue( double value )
+void wxGD::RTTI::PropertyNode::SetValue( double value )
 {
     m_value = wxGD::Convert::FloatToString(value);
 }
 
-void PropertyNode::SetValue( const wxArrayString &value )
+void wxGD::RTTI::PropertyNode::SetValue( const wxArrayString &value )
 {
     m_value = wxGD::Convert::ArrayStringToString(value);
 }
 
-void PropertyNode::SetValue( const wxColour &colour, int type )
+void wxGD::RTTI::PropertyNode::SetValue( const wxColour &colour, int type )
 {
     switch( type )
     {
@@ -378,25 +383,25 @@ void PropertyNode::SetValue( const wxColour &colour, int type )
     }
 }
 
-void PropertyNode::SetValue( const wxFontContainer &value )
+void wxGD::RTTI::PropertyNode::SetValue( const wxFontContainer &value )
 {
     m_value = wxGD::Convert::FontToString(value);
 }
 
-void PropertyNode::SetValue( const wxPoint &value )
+void wxGD::RTTI::PropertyNode::SetValue( const wxPoint &value )
 {
     m_value = wxGD::Convert::PointToString(value);
 }
 
-void PropertyNode::SetValue( const wxSize &value )
+void wxGD::RTTI::PropertyNode::SetValue( const wxSize &value )
 {
     m_value = wxGD::Convert::SizeToString(value);
 }
 //=============================================================================
 // ObjectNode Class
 //=============================================================================
-ObjectNode::ObjectNode( ClassInfo classInfo, Object parent,
-                        bool expanded, bool isReference )
+wxGD::RTTI::ObjectNode::ObjectNode( ClassInfo classInfo, Object parent,
+                                    bool expanded, bool isReference )
 :
 m_classInfo ( classInfo ),
 m_parent    ( parent ),
@@ -405,74 +410,75 @@ m_isRef     ( isReference )
 {
 }
 
-ObjectNode::~ObjectNode()
+wxGD::RTTI::ObjectNode::~ObjectNode()
 {
     m_properties.clear();
     m_events.clear();
     m_children.clear();
 }
 
-wxString ObjectNode::GetName() const
+wxString wxGD::RTTI::ObjectNode::GetName() const
 {
-    Property prop = GetProperty("name");
-    if( prop )
-        return prop->GetAsString();
+    Property property = GetProperty("name");
+    if( property )
+        return property->GetAsString();
 
     return wxEmptyString;
 }
 
-wxString ObjectNode::GetDescription() const
+wxString wxGD::RTTI::ObjectNode::GetDescription() const
 {
     return m_classInfo->GetDescription();
 }
 
-bool ObjectNode::IsReference() const
+bool wxGD::RTTI::ObjectNode::IsReference() const
 {
     return m_isRef;
 }
 
-bool ObjectNode::IsRoot() const
+bool wxGD::RTTI::ObjectNode::IsRoot() const
 {
     return( m_classInfo->GetType() == CLASS_TYPE_ROOT );
 }
 
-bool ObjectNode::IsTopLevel() const
+bool wxGD::RTTI::ObjectNode::IsTopLevel() const
 {
     return( m_classInfo->IsTypeOf( CLASS_TYPE_TOPLEVEL ) );
 }
 //-----------------------------------------------------------------------------
 // State into the tree
 //-----------------------------------------------------------------------------
-bool ObjectNode::IsExpanded() const
+bool wxGD::RTTI::ObjectNode::IsExpanded() const
 {
     return m_expanded;
 }
 
-void ObjectNode::Collapse()
+void wxGD::RTTI::ObjectNode::Collapse()
 {
     m_expanded = false;
 }
 
-void ObjectNode::Expand()
+void wxGD::RTTI::ObjectNode::Expand()
 {
     m_expanded = true;
 }
 //-----------------------------------------------------------------------------
 // ClassInfos
 //-----------------------------------------------------------------------------
-ClassInfo ObjectNode::GetClassInfo() const
+wxGD::RTTI::ClassInfo
+wxGD::RTTI::ObjectNode::GetClassInfo() const
 {
     return m_classInfo;
 }
 
-wxString ObjectNode::GetClassName() const
+wxString wxGD::RTTI::ObjectNode::GetClassName() const
 {
     return m_classInfo->GetName();
 }
 //-----------------------------------------------------------------------------
 // Events
 //-----------------------------------------------------------------------------
-void ObjectNode::AddEvent( Event event )
+void wxGD::RTTI::ObjectNode::AddEvent( EventProperty event )
 {
     if( !event )
         return;
@@ -480,39 +486,42 @@ void ObjectNode::AddEvent( Event event )
     m_events.push_back( event );
 }
 
-Event ObjectNode::GetEvent( size_t index ) const
+wxGD::RTTI::EventProperty
+wxGD::RTTI::ObjectNode::GetEvent( size_t index ) const
 {
     if( index < m_events.size() )
         return m_events.at( index );
 
-    return Event();
+    return EventProperty();
 }
 
-Event ObjectNode::GetEvent( const wxString &name ) const
+wxGD::RTTI::EventProperty
+wxGD::RTTI::ObjectNode::GetEvent( const wxString &name ) const
 {
-    for( Events::const_iterator it = m_events.begin();
-                                it != m_events.end(); ++it )
+    for( EventProperties::const_iterator it = m_events.begin();
+                                        it != m_events.end(); ++it )
     {
         if( (*it)->GetName() == name )
             return *it;
     }
 
-    return Event();
+    return EventProperty();
 }
 
-Events ObjectNode::GetEvents() const
+wxGD::RTTI::EventProperties
+wxGD::RTTI::ObjectNode::GetEvents() const
 {
     return m_events;
 }
 
-size_t ObjectNode::GetEventCount() const
+size_t wxGD::RTTI::ObjectNode::GetEventCount() const
 {
     return m_events.size();
 }
 //-----------------------------------------------------------------------------
 // Properties
 //-----------------------------------------------------------------------------
-void ObjectNode::AddProperty( Property property )
+void wxGD::RTTI::ObjectNode::AddProperty( Property property )
 {
     if( !property )
         return;
@@ -523,16 +532,17 @@ void ObjectNode::AddProperty( Property property )
 
     for( size_t i = 0; i < propertyInfo->GetChildCount(); i++ )
     {
-        PropertyInfo childInfo = propertyInfo->GetChild(i);
-        wxString     value     = childInfo->GetDefaultValue();
-        Property     child( new PropertyNode( childInfo ) );
+        PropertyInfo  childInfo = propertyInfo->GetChild(i);
+        wxString      value     = childInfo->GetDefaultValue();
+        Property      child( new PropertyNode( childInfo ) );
 
         child->SetValue( value );
         property->AddChild( child );
     }
 }
 
-Property ObjectNode::GetProperty( size_t index ) const
+wxGD::RTTI::Property
+wxGD::RTTI::ObjectNode::GetProperty( size_t index ) const
 {
     if( index < m_properties.size() )
         return m_properties.at( index );
@@ -540,7 +550,8 @@ Property ObjectNode::GetProperty( size_t index ) const
     return Property();
 }
 
-Property ObjectNode::GetProperty( const wxString &name ) const
+wxGD::RTTI::Property
+wxGD::RTTI::ObjectNode::GetProperty( const wxString &name ) const
 {
     for( Properties::const_iterator it = m_properties.begin();
                                     it != m_properties.end(); ++it )
@@ -556,40 +567,43 @@ Property ObjectNode::GetProperty( const wxString &name ) const
     return Property();
 }
 
-Property ObjectNode::GetChildProperty( Property parent,
-                                       const wxString &name ) const
+wxGD::RTTI::Property
+wxGD::RTTI::ObjectNode::GetChildProperty( Property parent,
+                                        const wxString &name ) const
 {
     if( parent )
     {
         for( size_t i = 0; i < parent->GetChildCount(); i++ )
         {
-            Property prop = parent->GetChild(i);
-            if( prop && prop->GetName() == name )
-                return prop;
+            Property property = parent->GetChild(i);
+            if( property && property->GetName() == name )
+                return property;
         }
     }
 
     return Property();
 }
 
-Properties ObjectNode::GetProperties() const
+wxGD::RTTI::Properties
+wxGD::RTTI::ObjectNode::GetProperties() const
 {
     return m_properties;
 }
 
-size_t ObjectNode::GetPropertyCount() const
+size_t wxGD::RTTI::ObjectNode::GetPropertyCount() const
 {
     return m_properties.size();
 }
 //-----------------------------------------------------------------------------
 // Parent / children objects
 //-----------------------------------------------------------------------------
-void ObjectNode::AddChild( Object child )
+void wxGD::RTTI::ObjectNode::AddChild( Object child )
 {
     m_children.push_back( child );
 }
 
-Object ObjectNode::GetChild( size_t index ) const
+wxGD::RTTI::Object
+wxGD::RTTI::ObjectNode::GetChild( size_t index ) const
 {
     if( index < m_children.size() )
         return m_children.at( index );
@@ -597,12 +611,14 @@ Object ObjectNode::GetChild( size_t index ) const
     return Object();
 }
 
-Object ObjectNode::GetParent() const
+wxGD::RTTI::Object
+wxGD::RTTI::ObjectNode::GetParent() const
 {
     return m_parent;
 }
 
-Object ObjectNode::GetTopLevelParent()
+wxGD::RTTI::Object
+wxGD::RTTI::ObjectNode::GetTopLevelParent()
 {
     Object parent = shared_from_this();
     while( parent )
@@ -616,37 +632,40 @@ Object ObjectNode::GetTopLevelParent()
     return Object();
 }
 
-Objects ObjectNode::GetChildren() const
+wxGD::RTTI::Objects
+wxGD::RTTI::ObjectNode::GetChildren() const
 {
     return m_children;
 }
 
-size_t ObjectNode::GetChildCount() const
+size_t wxGD::RTTI::ObjectNode::GetChildCount() const
 {
     return m_children.size();
 }
 //=============================================================================
 // ObjectTree
 //=============================================================================
-ObjectTree::ObjectTree()
+wxGD::RTTI::ObjectTree::ObjectTree()
 {
-    wxFlagsManager::Get();
-    ClassInfo classInfo = ClassInfoDB::Get()->GetClassInfo("Project");
+    wxGD::Flags::Get();
+    ClassInfo classInfo = ClassTree::Get()->GetClassInfo("Project");
 
     m_root      = Object( new ObjectNode( classInfo, Object() ) );
     m_selected  = m_root;
 }
 
-ObjectTree::~ObjectTree()
+wxGD::RTTI::ObjectTree::~ObjectTree()
 {
     m_selected  =
     m_root      = Object();
 
-    ClassInfoDB::Free();
-    wxFlagsManager::Free();
+    ClassTree::Free();
+    wxGD::Flags::Free();
 }
 
-Object ObjectTree::CreateObject( const wxString &className, Object parent )
+wxGD::RTTI::Object
+wxGD::RTTI::ObjectTree::CreateObject  ( const wxString &className,
+                                        Object parent )
 {
 //  - Get the requested object class information
 //  - Count how many children are allowed for the current object
@@ -654,7 +673,7 @@ Object ObjectTree::CreateObject( const wxString &className, Object parent )
 
 //  This function is not called for the special root object.
 
-    ClassInfo classInfo = ClassInfoDB::Get()->GetClassInfo( className );
+    ClassInfo classInfo = ClassTree::Get()->GetClassInfo( className );
     if( !classInfo )
     {
         wxLogError(_("Unknown object type") + " " + className );
@@ -696,32 +715,33 @@ Object ObjectTree::CreateObject( const wxString &className, Object parent )
     // Add properties
     for( size_t i = 0; i < classInfo->GetPropertyInfoCount(); i++ )
     {
-        PropertyInfo propertyInfo = classInfo->GetPropertyInfo(i);
-        Property property( new PropertyNode( propertyInfo ) );
+        PropertyInfo  propertyInfo = classInfo->GetPropertyInfo(i);
+        Property      property( new PropertyNode( propertyInfo ) );
         object->AddProperty( property );
     }
 
     // Add events
     for( size_t i = 0; i < classInfo->GetEventInfoCount(); i++ )
     {
-        EventInfo eventInfo = classInfo->GetEventInfo(i);
-        Event event( new EventNode( eventInfo ) );
+        EventInfo     eventInfo = classInfo->GetEventInfo(i);
+        EventProperty event( new EventNode( eventInfo ) );
         object->AddEvent( event );
     }
 
     return object;
 }
 
-size_t ObjectTree::GetSiblingsCount( Object parent, ClassInfo classInfo ) const
+size_t wxGD::RTTI::ObjectTree::GetSiblingsCount(Object      parent,
+                                                ClassInfo   classInfo) const
 {
     size_t count = 0;
 
     // Enumerate all children at same depth
     for( size_t i = 0; i < parent->GetChildCount(); i++ )
     {
-        Object    sibling     = parent->GetChild(i);
-        ClassInfo siblingInfo = sibling->GetClassInfo();
-        wxString  siblingName = siblingInfo->GetName();
+        Object      sibling     = parent->GetChild(i);
+        ClassInfo   siblingInfo = sibling->GetClassInfo();
+        wxString    siblingName = siblingInfo->GetName();
 
         // Compare sibling class
         if( classInfo->IsA( siblingName ) )
@@ -747,14 +767,15 @@ size_t ObjectTree::GetSiblingsCount( Object parent, ClassInfo classInfo ) const
     return count;
 }
 
-bool ObjectTree::IsChildOk( Object parentObject, ClassInfo classInfo ) const
+bool wxGD::RTTI::ObjectTree::IsChildOk( Object      parentObject,
+                                        ClassInfo   classInfo ) const
 {
     if( !parentObject || !classInfo )
         return false;
 
-    ClassInfo parentInfo = parentObject->GetClassInfo();
-    wxString  parentName = parentInfo->GetName();
-    wxString  className  = classInfo->GetName();
+    ClassInfo   parentInfo = parentObject->GetClassInfo();
+    wxString    parentName = parentInfo->GetName();
+    wxString    className  = classInfo->GetName();
 
     // Partial check at database level
     size_t childCount = GetSiblingsCount( parentObject, classInfo );
@@ -770,8 +791,8 @@ bool ObjectTree::IsChildOk( Object parentObject, ClassInfo classInfo ) const
 
             for( size_t j = 0; j < parentInfo->GetChildInfoCount(); j++ )
             {
-                ChildInfo childInfo = parentInfo->GetChildInfo(j);
-                wxString  childName = childInfo->GetName();
+                ChildInfo   childInfo = parentInfo->GetChildInfo(j);
+                wxString    childName = childInfo->GetName();
 
                 if( classInfo->IsA( childName ) &&
                     childInfo->IsOption() )
@@ -796,17 +817,19 @@ bool ObjectTree::IsChildOk( Object parentObject, ClassInfo classInfo ) const
     return isOk;
 }
 
-Object ObjectTree::GetRootObject() const
+wxGD::RTTI::Object
+wxGD::RTTI::ObjectTree::GetRootObject() const
 {
     return m_root;
 }
 
-Object ObjectTree::GetSelectedObject() const
+wxGD::RTTI::Object
+wxGD::RTTI::ObjectTree::GetSelectedObject() const
 {
     return m_selected;
 }
 
-void ObjectTree::SelectObject( Object object )
+void wxGD::RTTI::ObjectTree::SelectObject( Object object )
 {
     wxASSERT( object != m_selected );
 

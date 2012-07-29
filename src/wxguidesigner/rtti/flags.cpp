@@ -40,26 +40,26 @@
 #include <wx/wizard.h>
 #include <wx/wrapsizer.h>
 
-wxFlagsManager::wxFlagsManager()
+wxGD::Flags::Flags()
 {
     Init();
 }
 
-wxFlagsManager::~wxFlagsManager()
+wxGD::Flags::~Flags()
 {
 }
 
-wxFlagsManager *wxFlagsManager::ms_instance = NULL;
+wxGD::Flags *wxGD::Flags::ms_instance = NULL;
 
-wxFlagsManager *wxFlagsManager::Get()
+wxGD::Flags *wxGD::Flags::Get()
 {
     if( !ms_instance )
-        ms_instance = new wxFlagsManager;
+        ms_instance = new wxGD::Flags;
 
     return ms_instance;
 }
 
-void wxFlagsManager::Free()
+void wxGD::Flags::Free()
 {
     if( ms_instance )
     {
@@ -68,399 +68,402 @@ void wxFlagsManager::Free()
     }
 }
 
-void wxFlagsManager::AddFlag( const wxString& name, int value )
+void wxGD::Flags::Add( const wxString &name, int value )
 {
     m_flagNames.Add( name );
     m_flagValues.Add( value );
 }
 
-int wxFlagsManager::GetFlag( const wxString &name )
+int wxGD::Flags::Get( const wxString &name )
 {
-    for( size_t i = 0; i < m_flagValues.GetCount(); i++ )
+    for( size_t index = 0; index < m_flagValues.size(); index++ )
     {
-        if( m_flagNames.Item( i ) == name )
-            return m_flagValues.Item( i );
+        if( m_flagNames.Item( index ) == name )
+            return m_flagValues.Item( index );
     }
 
     return 0; // Default style
 }
 
-wxString wxFlagsManager::GetFlag( size_t index )
+wxString wxGD::Flags::Get( size_t index )
 {
     if( index < m_flagNames.GetCount() )
         return m_flagNames.Item( index );
 
-    return wxEmptyString;
+    return "";
 }
 
-void wxFlagsManager::Init()
+void wxGD::Flags::Init()
 {
     // TODO: seems that 0 is not a valid value for the wxIntProperty,
     // so, if this isn't a bug or those flags with 0 as value (default values)
     // aren't necessary, just comment them
 
+    #define wxGD_ADD_FLAG( style ) Add( #style, style )
+
     // wxBorder                             Old styles
-//  wxFLAG_ADD(wxBORDER_DEFAULT);   // 0
-    wxFLAG_ADD(wxBORDER);           // same as wxBORDER_SIMPLE
-    wxFLAG_ADD(wxBORDER_NONE);      wxFLAG_ADD(wxNO_BORDER);
-//  wxFLAG_ADD(wxDOUBLE_BORDER);    wxFLAG_ADD(wxBORDER_DOUBLE); // deprecated
-    wxFLAG_ADD(wxBORDER_THEME);     // replace wxDOUBLE_BORDER
-    wxFLAG_ADD(wxBORDER_RAISED);    wxFLAG_ADD(wxRAISED_BORDER);
-    wxFLAG_ADD(wxBORDER_SIMPLE);    wxFLAG_ADD(wxSIMPLE_BORDER);
-    wxFLAG_ADD(wxBORDER_STATIC);    wxFLAG_ADD(wxSTATIC_BORDER);
-    wxFLAG_ADD(wxBORDER_SUNKEN);    wxFLAG_ADD(wxSUNKEN_BORDER);
+//  wxGD_ADD_FLAG(wxBORDER_DEFAULT);   // 0
+    wxGD_ADD_FLAG(wxBORDER);           // same as wxBORDER_SIMPLE
+    wxGD_ADD_FLAG(wxBORDER_NONE);      wxGD_ADD_FLAG(wxNO_BORDER);
+//  wxGD_ADD_FLAG(wxDOUBLE_BORDER);    wxGD_ADD_FLAG(wxBORDER_DOUBLE); // deprecated
+    wxGD_ADD_FLAG(wxBORDER_THEME);     // replace wxDOUBLE_BORDER
+    wxGD_ADD_FLAG(wxBORDER_RAISED);    wxGD_ADD_FLAG(wxRAISED_BORDER);
+    wxGD_ADD_FLAG(wxBORDER_SIMPLE);    wxGD_ADD_FLAG(wxSIMPLE_BORDER);
+    wxGD_ADD_FLAG(wxBORDER_STATIC);    wxGD_ADD_FLAG(wxSTATIC_BORDER);
+    wxGD_ADD_FLAG(wxBORDER_SUNKEN);    wxGD_ADD_FLAG(wxSUNKEN_BORDER);
 
     // wxDirection
-    wxFLAG_ADD(wxTOP);
-    wxFLAG_ADD(wxBOTTOM);
-    wxFLAG_ADD(wxLEFT);
-    wxFLAG_ADD(wxRIGHT);
-    wxFLAG_ADD(wxALL);
+    wxGD_ADD_FLAG(wxTOP);
+    wxGD_ADD_FLAG(wxBOTTOM);
+    wxGD_ADD_FLAG(wxLEFT);
+    wxGD_ADD_FLAG(wxRIGHT);
+    wxGD_ADD_FLAG(wxALL);
 
     // wxStretch
-    wxFLAG_ADD(wxEXPAND);
-    wxFLAG_ADD(wxSHAPED);
+    wxGD_ADD_FLAG(wxEXPAND);
+    wxGD_ADD_FLAG(wxSHAPED);
 
     // wxSizerFlagBits
-    wxFLAG_ADD(wxFIXED_MINSIZE);
-    wxFLAG_ADD(wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+    wxGD_ADD_FLAG(wxFIXED_MINSIZE);
+    wxGD_ADD_FLAG(wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 
     // wxAlignment
-    wxFLAG_ADD(wxALIGN_CENTER);
-    wxFLAG_ADD(wxALIGN_LEFT);
-    wxFLAG_ADD(wxALIGN_RIGHT);
-    wxFLAG_ADD(wxALIGN_TOP);
-    wxFLAG_ADD(wxALIGN_BOTTOM);
-    wxFLAG_ADD(wxALIGN_CENTER_VERTICAL);
-    wxFLAG_ADD(wxALIGN_CENTER_HORIZONTAL);
+    wxGD_ADD_FLAG(wxALIGN_CENTER);
+    wxGD_ADD_FLAG(wxALIGN_LEFT);
+    wxGD_ADD_FLAG(wxALIGN_RIGHT);
+    wxGD_ADD_FLAG(wxALIGN_TOP);
+    wxGD_ADD_FLAG(wxALIGN_BOTTOM);
+    wxGD_ADD_FLAG(wxALIGN_CENTER_VERTICAL);
+    wxGD_ADD_FLAG(wxALIGN_CENTER_HORIZONTAL);
 
     // wxWindow Styles
-    wxFLAG_ADD(wxHSCROLL);
-    wxFLAG_ADD(wxVSCROLL);
-    wxFLAG_ADD(wxALWAYS_SHOW_SB);
-    wxFLAG_ADD(wxCLIP_CHILDREN);
-    wxFLAG_ADD(wxFULL_REPAINT_ON_RESIZE);
-    wxFLAG_ADD(wxTAB_TRAVERSAL);
-    wxFLAG_ADD(wxTRANSPARENT_WINDOW);
-    wxFLAG_ADD(wxWANTS_CHARS);
+    wxGD_ADD_FLAG(wxHSCROLL);
+    wxGD_ADD_FLAG(wxVSCROLL);
+    wxGD_ADD_FLAG(wxALWAYS_SHOW_SB);
+    wxGD_ADD_FLAG(wxCLIP_CHILDREN);
+    wxGD_ADD_FLAG(wxFULL_REPAINT_ON_RESIZE);
+    wxGD_ADD_FLAG(wxTAB_TRAVERSAL);
+    wxGD_ADD_FLAG(wxTRANSPARENT_WINDOW);
+    wxGD_ADD_FLAG(wxWANTS_CHARS);
 
     // wxWindow Extra Styles
-    wxFLAG_ADD(wxWS_EX_BLOCK_EVENTS);
-    wxFLAG_ADD(wxWS_EX_VALIDATE_RECURSIVELY);
-    wxFLAG_ADD(wxWS_EX_TRANSIENT);
-    wxFLAG_ADD(wxWS_EX_CONTEXTHELP);
-    wxFLAG_ADD(wxWS_EX_PROCESS_IDLE);
-    wxFLAG_ADD(wxWS_EX_PROCESS_UI_UPDATES);
+    wxGD_ADD_FLAG(wxWS_EX_BLOCK_EVENTS);
+    wxGD_ADD_FLAG(wxWS_EX_VALIDATE_RECURSIVELY);
+    wxGD_ADD_FLAG(wxWS_EX_TRANSIENT);
+    wxGD_ADD_FLAG(wxWS_EX_CONTEXTHELP);
+    wxGD_ADD_FLAG(wxWS_EX_PROCESS_IDLE);
+    wxGD_ADD_FLAG(wxWS_EX_PROCESS_UI_UPDATES);
 
     // wxFrame and wxDialog
-    wxFLAG_ADD(wxCAPTION);
-    wxFLAG_ADD(wxCLOSE_BOX);
-    wxFLAG_ADD(wxICONIZE);
-    wxFLAG_ADD(wxMAXIMIZE);
-    wxFLAG_ADD(wxMAXIMIZE_BOX);
-    wxFLAG_ADD(wxMINIMIZE);
-    wxFLAG_ADD(wxMINIMIZE_BOX);
-    wxFLAG_ADD(wxRESIZE_BORDER);
-    wxFLAG_ADD(wxSTAY_ON_TOP);
-    wxFLAG_ADD(wxSYSTEM_MENU);
+    wxGD_ADD_FLAG(wxCAPTION);
+    wxGD_ADD_FLAG(wxCLOSE_BOX);
+    wxGD_ADD_FLAG(wxICONIZE);
+    wxGD_ADD_FLAG(wxMAXIMIZE);
+    wxGD_ADD_FLAG(wxMAXIMIZE_BOX);
+    wxGD_ADD_FLAG(wxMINIMIZE);
+    wxGD_ADD_FLAG(wxMINIMIZE_BOX);
+    wxGD_ADD_FLAG(wxRESIZE_BORDER);
+    wxGD_ADD_FLAG(wxSTAY_ON_TOP);
+    wxGD_ADD_FLAG(wxSYSTEM_MENU);
 
     // wxFrame styles
-    wxFLAG_ADD(wxDEFAULT_FRAME_STYLE);
-    wxFLAG_ADD(wxFRAME_NO_TASKBAR);
-    wxFLAG_ADD(wxFRAME_FLOAT_ON_PARENT);
-    wxFLAG_ADD(wxFRAME_SHAPED);
-    wxFLAG_ADD(wxFRAME_TOOL_WINDOW);
+    wxGD_ADD_FLAG(wxDEFAULT_FRAME_STYLE);
+    wxGD_ADD_FLAG(wxFRAME_NO_TASKBAR);
+    wxGD_ADD_FLAG(wxFRAME_FLOAT_ON_PARENT);
+    wxGD_ADD_FLAG(wxFRAME_SHAPED);
+    wxGD_ADD_FLAG(wxFRAME_TOOL_WINDOW);
 
     // wxFrame extra styles
-    wxFLAG_ADD(wxFRAME_EX_CONTEXTHELP);
-    wxFLAG_ADD(wxFRAME_EX_METAL);
+    wxGD_ADD_FLAG(wxFRAME_EX_CONTEXTHELP);
+    wxGD_ADD_FLAG(wxFRAME_EX_METAL);
 
     // wxDialog
-    wxFLAG_ADD(wxDEFAULT_DIALOG_STYLE); // wxCAPTION|wxSYSTEM_MENU|wxCLOSE_BOX
-    wxFLAG_ADD(wxDIALOG_NO_PARENT);
+    wxGD_ADD_FLAG(wxDEFAULT_DIALOG_STYLE); // wxCAPTION|wxSYSTEM_MENU|wxCLOSE_BOX
+    wxGD_ADD_FLAG(wxDIALOG_NO_PARENT);
 
     // wxDialog extra styles
-    wxFLAG_ADD(wxDIALOG_EX_CONTEXTHELP);
-    wxFLAG_ADD(wxDIALOG_EX_METAL);
+    wxGD_ADD_FLAG(wxDIALOG_EX_CONTEXTHELP);
+    wxGD_ADD_FLAG(wxDIALOG_EX_METAL);
 
     // wxWizard
-    wxFLAG_ADD(wxWIZARD_EX_HELPBUTTON);
+    wxGD_ADD_FLAG(wxWIZARD_EX_HELPBUTTON);
 
-    wxFLAG_ADD(wxOK);
-    wxFLAG_ADD(wxCANCEL);
+    wxGD_ADD_FLAG(wxOK);
+    wxGD_ADD_FLAG(wxCANCEL);
 
     // wxAnyButton
-    wxFLAG_ADD(wxBU_LEFT);
-    wxFLAG_ADD(wxBU_TOP);
-    wxFLAG_ADD(wxBU_RIGHT);
-    wxFLAG_ADD(wxBU_BOTTOM);
-    wxFLAG_ADD(wxBU_EXACTFIT);
-    wxFLAG_ADD(wxBU_NOTEXT);
+    wxGD_ADD_FLAG(wxBU_LEFT);
+    wxGD_ADD_FLAG(wxBU_TOP);
+    wxGD_ADD_FLAG(wxBU_RIGHT);
+    wxGD_ADD_FLAG(wxBU_BOTTOM);
+    wxGD_ADD_FLAG(wxBU_EXACTFIT);
+    wxGD_ADD_FLAG(wxBU_NOTEXT);
 
     // wxCheckBox
-    wxFLAG_ADD(wxCHK_2STATE);
-    wxFLAG_ADD(wxCHK_3STATE);
-    wxFLAG_ADD(wxCHK_ALLOW_3RD_STATE_FOR_USER);
+    wxGD_ADD_FLAG(wxCHK_2STATE);
+    wxGD_ADD_FLAG(wxCHK_3STATE);
+    wxGD_ADD_FLAG(wxCHK_ALLOW_3RD_STATE_FOR_USER);
 
     // wxChoice / wxComboBox
-    wxFLAG_ADD(wxCB_DROPDOWN);
-    wxFLAG_ADD(wxCB_READONLY);
-    wxFLAG_ADD(wxCB_SIMPLE);
-    wxFLAG_ADD(wxCB_SORT);
+    wxGD_ADD_FLAG(wxCB_DROPDOWN);
+    wxGD_ADD_FLAG(wxCB_READONLY);
+    wxGD_ADD_FLAG(wxCB_SIMPLE);
+    wxGD_ADD_FLAG(wxCB_SORT);
 
     // wxTextCtrl
-    wxFLAG_ADD(wxTE_LEFT);
-    wxFLAG_ADD(wxTE_CENTER);
-    wxFLAG_ADD(wxTE_CENTRE);
-    wxFLAG_ADD(wxTE_RIGHT);
-    wxFLAG_ADD(wxTE_BESTWRAP);
-    wxFLAG_ADD(wxTE_CHARWRAP);
-    wxFLAG_ADD(wxTE_DONTWRAP);
-    wxFLAG_ADD(wxTE_WORDWRAP);
-    wxFLAG_ADD(wxTE_AUTO_URL);
-    wxFLAG_ADD(wxTE_CAPITALIZE);
-    wxFLAG_ADD(wxTE_MULTILINE);
-    wxFLAG_ADD(wxTE_NOHIDESEL);
-    wxFLAG_ADD(wxTE_NO_VSCROLL);
-    wxFLAG_ADD(wxTE_PROCESS_ENTER);
-    wxFLAG_ADD(wxTE_PROCESS_TAB);
-    wxFLAG_ADD(wxTE_RICH);
-    wxFLAG_ADD(wxTE_RICH2);
-    wxFLAG_ADD(wxTE_READONLY);
-    wxFLAG_ADD(wxTE_PASSWORD);
+    wxGD_ADD_FLAG(wxTE_LEFT);
+    wxGD_ADD_FLAG(wxTE_CENTER);
+    wxGD_ADD_FLAG(wxTE_CENTRE);
+    wxGD_ADD_FLAG(wxTE_RIGHT);
+    wxGD_ADD_FLAG(wxTE_BESTWRAP);
+    wxGD_ADD_FLAG(wxTE_CHARWRAP);
+    wxGD_ADD_FLAG(wxTE_DONTWRAP);
+    wxGD_ADD_FLAG(wxTE_WORDWRAP);
+    wxGD_ADD_FLAG(wxTE_AUTO_URL);
+    wxGD_ADD_FLAG(wxTE_CAPITALIZE);
+    wxGD_ADD_FLAG(wxTE_MULTILINE);
+    wxGD_ADD_FLAG(wxTE_NOHIDESEL);
+    wxGD_ADD_FLAG(wxTE_NO_VSCROLL);
+    wxGD_ADD_FLAG(wxTE_PROCESS_ENTER);
+    wxGD_ADD_FLAG(wxTE_PROCESS_TAB);
+    wxGD_ADD_FLAG(wxTE_RICH);
+    wxGD_ADD_FLAG(wxTE_RICH2);
+    wxGD_ADD_FLAG(wxTE_READONLY);
+    wxGD_ADD_FLAG(wxTE_PASSWORD);
 
     // wxFileCtrl
-    wxFLAG_ADD(wxFC_DEFAULT_STYLE);
-    wxFLAG_ADD(wxFC_OPEN);
-    wxFLAG_ADD(wxFC_SAVE);
-    wxFLAG_ADD(wxFC_MULTIPLE);
-    wxFLAG_ADD(wxFC_NOSHOWHIDDEN);
-    wxFLAG_ADD(wxFC_NOSHOWHIDDEN);
+    wxGD_ADD_FLAG(wxFC_DEFAULT_STYLE);
+    wxGD_ADD_FLAG(wxFC_OPEN);
+    wxGD_ADD_FLAG(wxFC_SAVE);
+    wxGD_ADD_FLAG(wxFC_MULTIPLE);
+    wxGD_ADD_FLAG(wxFC_NOSHOWHIDDEN);
+    wxGD_ADD_FLAG(wxFC_NOSHOWHIDDEN);
 
     // wxGauge
-    wxFLAG_ADD(wxGA_HORIZONTAL);
-    wxFLAG_ADD(wxGA_VERTICAL);
-    wxFLAG_ADD(wxGA_SMOOTH);
+    wxGD_ADD_FLAG(wxGA_HORIZONTAL);
+    wxGD_ADD_FLAG(wxGA_VERTICAL);
+    wxGD_ADD_FLAG(wxGA_SMOOTH);
 
     // wxGenericDirCtrl
-    wxFLAG_ADD(wxDIRCTRL_DIR_ONLY);
-    wxFLAG_ADD(wxDIRCTRL_3D_INTERNAL);
-    wxFLAG_ADD(wxDIRCTRL_SELECT_FIRST);
-    wxFLAG_ADD(wxDIRCTRL_EDIT_LABELS);
-    wxFLAG_ADD(wxDIRCTRL_MULTIPLE);
+    wxGD_ADD_FLAG(wxDIRCTRL_DIR_ONLY);
+    wxGD_ADD_FLAG(wxDIRCTRL_3D_INTERNAL);
+    wxGD_ADD_FLAG(wxDIRCTRL_SELECT_FIRST);
+    wxGD_ADD_FLAG(wxDIRCTRL_EDIT_LABELS);
+    wxGD_ADD_FLAG(wxDIRCTRL_MULTIPLE);
 
     // wxListBox
-    wxFLAG_ADD(wxLB_SINGLE);
-    wxFLAG_ADD(wxLB_MULTIPLE);
-    wxFLAG_ADD(wxLB_EXTENDED);
-    wxFLAG_ADD(wxLB_HSCROLL);
-    wxFLAG_ADD(wxLB_ALWAYS_SB);
-    wxFLAG_ADD(wxLB_NEEDED_SB);
-    wxFLAG_ADD(wxLB_NO_SB);
-    wxFLAG_ADD(wxLB_SORT);
+    wxGD_ADD_FLAG(wxLB_SINGLE);
+    wxGD_ADD_FLAG(wxLB_MULTIPLE);
+    wxGD_ADD_FLAG(wxLB_EXTENDED);
+    wxGD_ADD_FLAG(wxLB_HSCROLL);
+    wxGD_ADD_FLAG(wxLB_ALWAYS_SB);
+    wxGD_ADD_FLAG(wxLB_NEEDED_SB);
+    wxGD_ADD_FLAG(wxLB_NO_SB);
+    wxGD_ADD_FLAG(wxLB_SORT);
 
     // wxListCtrl
-    wxFLAG_ADD(wxLC_LIST);
-    wxFLAG_ADD(wxLC_REPORT);
-    wxFLAG_ADD(wxLC_VIRTUAL);
-    wxFLAG_ADD(wxLC_ICON);
-    wxFLAG_ADD(wxLC_SMALL_ICON);
-    wxFLAG_ADD(wxLC_ALIGN_TOP);
-    wxFLAG_ADD(wxLC_ALIGN_LEFT);
-    wxFLAG_ADD(wxLC_AUTOARRANGE);
-    wxFLAG_ADD(wxLC_EDIT_LABELS);
-    wxFLAG_ADD(wxLC_NO_HEADER);
-    wxFLAG_ADD(wxLC_SINGLE_SEL);
-    wxFLAG_ADD(wxLC_SORT_ASCENDING);
-    wxFLAG_ADD(wxLC_SORT_DESCENDING);
-    wxFLAG_ADD(wxLC_HRULES);
-    wxFLAG_ADD(wxLC_VRULES);
+    wxGD_ADD_FLAG(wxLC_LIST);
+    wxGD_ADD_FLAG(wxLC_REPORT);
+    wxGD_ADD_FLAG(wxLC_VIRTUAL);
+    wxGD_ADD_FLAG(wxLC_ICON);
+    wxGD_ADD_FLAG(wxLC_SMALL_ICON);
+    wxGD_ADD_FLAG(wxLC_ALIGN_TOP);
+    wxGD_ADD_FLAG(wxLC_ALIGN_LEFT);
+    wxGD_ADD_FLAG(wxLC_AUTOARRANGE);
+    wxGD_ADD_FLAG(wxLC_EDIT_LABELS);
+    wxGD_ADD_FLAG(wxLC_NO_HEADER);
+    wxGD_ADD_FLAG(wxLC_SINGLE_SEL);
+    wxGD_ADD_FLAG(wxLC_SORT_ASCENDING);
+    wxGD_ADD_FLAG(wxLC_SORT_DESCENDING);
+    wxGD_ADD_FLAG(wxLC_HRULES);
+    wxGD_ADD_FLAG(wxLC_VRULES);
 
     // wxRadioBox
-    wxFLAG_ADD(wxRA_SPECIFY_ROWS);
-    wxFLAG_ADD(wxRA_SPECIFY_COLS);
+    wxGD_ADD_FLAG(wxRA_SPECIFY_ROWS);
+    wxGD_ADD_FLAG(wxRA_SPECIFY_COLS);
 
     // wxRadioButton
-    wxFLAG_ADD(wxRB_GROUP);
-    wxFLAG_ADD(wxRB_SINGLE);
+    wxGD_ADD_FLAG(wxRB_GROUP);
+    wxGD_ADD_FLAG(wxRB_SINGLE);
 
     // wxScrollBar
-    wxFLAG_ADD(wxSB_HORIZONTAL);
-    wxFLAG_ADD(wxSB_VERTICAL);
+    wxGD_ADD_FLAG(wxSB_HORIZONTAL);
+    wxGD_ADD_FLAG(wxSB_VERTICAL);
 
     // wxSlider
-    wxFLAG_ADD(wxSL_HORIZONTAL);
-    wxFLAG_ADD(wxSL_VERTICAL);
-    wxFLAG_ADD(wxSL_AUTOTICKS);
-    wxFLAG_ADD(wxSL_MIN_MAX_LABELS);
-    wxFLAG_ADD(wxSL_VALUE_LABEL);
-    wxFLAG_ADD(wxSL_LABELS);
-    wxFLAG_ADD(wxSL_LEFT);
-    wxFLAG_ADD(wxSL_RIGHT);
-    wxFLAG_ADD(wxSL_TOP);
-    wxFLAG_ADD(wxSL_BOTTOM);
-    wxFLAG_ADD(wxSL_SELRANGE);
-    wxFLAG_ADD(wxSL_INVERSE);
+    wxGD_ADD_FLAG(wxSL_HORIZONTAL);
+    wxGD_ADD_FLAG(wxSL_VERTICAL);
+    wxGD_ADD_FLAG(wxSL_AUTOTICKS);
+    wxGD_ADD_FLAG(wxSL_MIN_MAX_LABELS);
+    wxGD_ADD_FLAG(wxSL_VALUE_LABEL);
+    wxGD_ADD_FLAG(wxSL_LABELS);
+    wxGD_ADD_FLAG(wxSL_LEFT);
+    wxGD_ADD_FLAG(wxSL_RIGHT);
+    wxGD_ADD_FLAG(wxSL_TOP);
+    wxGD_ADD_FLAG(wxSL_BOTTOM);
+    wxGD_ADD_FLAG(wxSL_SELRANGE);
+    wxGD_ADD_FLAG(wxSL_INVERSE);
 
     // wxSpinButton and wxSpinCtrl
-    wxFLAG_ADD(wxSP_HORIZONTAL);
-    wxFLAG_ADD(wxSP_VERTICAL);
-    wxFLAG_ADD(wxSP_ARROW_KEYS);
-    wxFLAG_ADD(wxSP_WRAP);
+    wxGD_ADD_FLAG(wxSP_HORIZONTAL);
+    wxGD_ADD_FLAG(wxSP_VERTICAL);
+    wxGD_ADD_FLAG(wxSP_ARROW_KEYS);
+    wxGD_ADD_FLAG(wxSP_WRAP);
 
     // wxStaticLine
-    wxFLAG_ADD(wxLI_HORIZONTAL);
-    wxFLAG_ADD(wxLI_VERTICAL);
+    wxGD_ADD_FLAG(wxLI_HORIZONTAL);
+    wxGD_ADD_FLAG(wxLI_VERTICAL);
 
     // wxStaticText
-    wxFLAG_ADD(wxST_NO_AUTORESIZE);
-    wxFLAG_ADD(wxST_ELLIPSIZE_START);
-    wxFLAG_ADD(wxST_ELLIPSIZE_MIDDLE);
-    wxFLAG_ADD(wxST_ELLIPSIZE_END);
+    wxGD_ADD_FLAG(wxST_NO_AUTORESIZE);
+    wxGD_ADD_FLAG(wxST_ELLIPSIZE_START);
+    wxGD_ADD_FLAG(wxST_ELLIPSIZE_MIDDLE);
+    wxGD_ADD_FLAG(wxST_ELLIPSIZE_END);
 
     // wxTreeCtrl
-    wxFLAG_ADD(wxTR_EDIT_LABELS);
-    wxFLAG_ADD(wxTR_NO_BUTTONS);
-    wxFLAG_ADD(wxTR_HAS_BUTTONS);
-    wxFLAG_ADD(wxTR_TWIST_BUTTONS);
-    wxFLAG_ADD(wxTR_NO_LINES);
-    wxFLAG_ADD(wxTR_FULL_ROW_HIGHLIGHT);
-    wxFLAG_ADD(wxTR_LINES_AT_ROOT);
-    wxFLAG_ADD(wxTR_HIDE_ROOT);
-    wxFLAG_ADD(wxTR_ROW_LINES);
-    wxFLAG_ADD(wxTR_HAS_VARIABLE_ROW_HEIGHT);
-    wxFLAG_ADD(wxTR_SINGLE);
-    wxFLAG_ADD(wxTR_MULTIPLE);
-    wxFLAG_ADD(wxTR_DEFAULT_STYLE);
+    wxGD_ADD_FLAG(wxTR_EDIT_LABELS);
+    wxGD_ADD_FLAG(wxTR_NO_BUTTONS);
+    wxGD_ADD_FLAG(wxTR_HAS_BUTTONS);
+    wxGD_ADD_FLAG(wxTR_TWIST_BUTTONS);
+    wxGD_ADD_FLAG(wxTR_NO_LINES);
+    wxGD_ADD_FLAG(wxTR_FULL_ROW_HIGHLIGHT);
+    wxGD_ADD_FLAG(wxTR_LINES_AT_ROOT);
+    wxGD_ADD_FLAG(wxTR_HIDE_ROOT);
+    wxGD_ADD_FLAG(wxTR_ROW_LINES);
+    wxGD_ADD_FLAG(wxTR_HAS_VARIABLE_ROW_HEIGHT);
+    wxGD_ADD_FLAG(wxTR_SINGLE);
+    wxGD_ADD_FLAG(wxTR_MULTIPLE);
+    wxGD_ADD_FLAG(wxTR_DEFAULT_STYLE);
 
     // wxChoicebook
-    wxFLAG_ADD(wxCHB_DEFAULT);
-    wxFLAG_ADD(wxCHB_TOP);
-    wxFLAG_ADD(wxCHB_LEFT);
-    wxFLAG_ADD(wxCHB_RIGHT);
-    wxFLAG_ADD(wxCHB_BOTTOM);
+    wxGD_ADD_FLAG(wxCHB_DEFAULT);
+    wxGD_ADD_FLAG(wxCHB_TOP);
+    wxGD_ADD_FLAG(wxCHB_LEFT);
+    wxGD_ADD_FLAG(wxCHB_RIGHT);
+    wxGD_ADD_FLAG(wxCHB_BOTTOM);
 
     // wxCollapsiblePane
-    wxFLAG_ADD(wxCP_DEFAULT_STYLE);
-    wxFLAG_ADD(wxCP_NO_TLW_RESIZE);
+    wxGD_ADD_FLAG(wxCP_DEFAULT_STYLE);
+    wxGD_ADD_FLAG(wxCP_NO_TLW_RESIZE);
 
     // wxListbook
-    wxFLAG_ADD(wxLB_DEFAULT);
-    wxFLAG_ADD(wxLB_TOP);
-    wxFLAG_ADD(wxLB_LEFT);
-    wxFLAG_ADD(wxLB_RIGHT);
-    wxFLAG_ADD(wxLB_BOTTOM);
+    wxGD_ADD_FLAG(wxLB_DEFAULT);
+    wxGD_ADD_FLAG(wxLB_TOP);
+    wxGD_ADD_FLAG(wxLB_LEFT);
+    wxGD_ADD_FLAG(wxLB_RIGHT);
+    wxGD_ADD_FLAG(wxLB_BOTTOM);
 
     // wxNotebook
-    wxFLAG_ADD(wxNB_TOP);
-    wxFLAG_ADD(wxNB_LEFT);
-    wxFLAG_ADD(wxNB_RIGHT);
-    wxFLAG_ADD(wxNB_BOTTOM);
-    wxFLAG_ADD(wxNB_FIXEDWIDTH);
-    wxFLAG_ADD(wxNB_MULTILINE);
-    wxFLAG_ADD(wxNB_NOPAGETHEME);
-    wxFLAG_ADD(wxNB_FLAT);
+    wxGD_ADD_FLAG(wxNB_TOP);
+    wxGD_ADD_FLAG(wxNB_LEFT);
+    wxGD_ADD_FLAG(wxNB_RIGHT);
+    wxGD_ADD_FLAG(wxNB_BOTTOM);
+    wxGD_ADD_FLAG(wxNB_FIXEDWIDTH);
+    wxGD_ADD_FLAG(wxNB_MULTILINE);
+    wxGD_ADD_FLAG(wxNB_NOPAGETHEME);
+    wxGD_ADD_FLAG(wxNB_FLAT);
 
     // wxScrolledWindow
-    wxFLAG_ADD(wxRETAINED);
-    wxFLAG_ADD(wxSB_VERTICAL);
+    wxGD_ADD_FLAG(wxRETAINED);
+    wxGD_ADD_FLAG(wxSB_VERTICAL);
 
     // wxSplitterWindow
-    wxFLAG_ADD(wxSP_3D);
-    wxFLAG_ADD(wxSP_THIN_SASH);
-    wxFLAG_ADD(wxSP_3DSASH);
-    wxFLAG_ADD(wxSP_3DBORDER);
-    wxFLAG_ADD(wxSP_BORDER);
-    wxFLAG_ADD(wxSP_NOBORDER);
-    wxFLAG_ADD(wxSP_NO_XP_THEME);
-    wxFLAG_ADD(wxSP_PERMIT_UNSPLIT);
-    wxFLAG_ADD(wxSP_LIVE_UPDATE);
+    wxGD_ADD_FLAG(wxSP_3D);
+    wxGD_ADD_FLAG(wxSP_THIN_SASH);
+    wxGD_ADD_FLAG(wxSP_3DSASH);
+    wxGD_ADD_FLAG(wxSP_3DBORDER);
+    wxGD_ADD_FLAG(wxSP_BORDER);
+    wxGD_ADD_FLAG(wxSP_NOBORDER);
+    wxGD_ADD_FLAG(wxSP_NO_XP_THEME);
+    wxGD_ADD_FLAG(wxSP_PERMIT_UNSPLIT);
+    wxGD_ADD_FLAG(wxSP_LIVE_UPDATE);
 
     // wxBookCtrl
-    wxFLAG_ADD(wxBK_DEFAULT);
-    wxFLAG_ADD(wxBK_TOP);
-    wxFLAG_ADD(wxBK_BOTTOM);
-    wxFLAG_ADD(wxBK_LEFT);
-    wxFLAG_ADD(wxBK_RIGHT);
+    wxGD_ADD_FLAG(wxBK_DEFAULT);
+    wxGD_ADD_FLAG(wxBK_TOP);
+    wxGD_ADD_FLAG(wxBK_BOTTOM);
+    wxGD_ADD_FLAG(wxBK_LEFT);
+    wxGD_ADD_FLAG(wxBK_RIGHT);
 
     // wxToolbook
-    wxFLAG_ADD(wxTBK_BUTTONBAR);
-    wxFLAG_ADD(wxTBK_HORZ_LAYOUT);
+    wxGD_ADD_FLAG(wxTBK_BUTTONBAR);
+    wxGD_ADD_FLAG(wxTBK_HORZ_LAYOUT);
 
    // wxStatusBar
-    wxFLAG_ADD(wxSTB_SIZEGRIP);
-    wxFLAG_ADD(wxSTB_SHOW_TIPS);
-    wxFLAG_ADD(wxSTB_ELLIPSIZE_START);
-    wxFLAG_ADD(wxSTB_ELLIPSIZE_MIDDLE);
-    wxFLAG_ADD(wxSTB_ELLIPSIZE_END);
-    wxFLAG_ADD(wxSTB_DEFAULT_STYLE);
+    wxGD_ADD_FLAG(wxSTB_SIZEGRIP);
+    wxGD_ADD_FLAG(wxSTB_SHOW_TIPS);
+    wxGD_ADD_FLAG(wxSTB_ELLIPSIZE_START);
+    wxGD_ADD_FLAG(wxSTB_ELLIPSIZE_MIDDLE);
+    wxGD_ADD_FLAG(wxSTB_ELLIPSIZE_END);
+    wxGD_ADD_FLAG(wxSTB_DEFAULT_STYLE);
 
     // wxItemKind
-    wxFLAG_ADD(wxITEM_NORMAL);
-    wxFLAG_ADD(wxITEM_CHECK);
-    wxFLAG_ADD(wxITEM_DROPDOWN);
-    wxFLAG_ADD(wxITEM_RADIO);
-    wxFLAG_ADD(wxITEM_SEPARATOR);
+    wxGD_ADD_FLAG(wxITEM_NORMAL);
+    wxGD_ADD_FLAG(wxITEM_CHECK);
+    wxGD_ADD_FLAG(wxITEM_DROPDOWN);
+    wxGD_ADD_FLAG(wxITEM_RADIO);
+    wxGD_ADD_FLAG(wxITEM_SEPARATOR);
 
     // wxMenuBar
-    wxFLAG_ADD(wxMB_DOCKABLE);
+    wxGD_ADD_FLAG(wxMB_DOCKABLE);
 
     // wxToolBar
-    wxFLAG_ADD(wxTB_FLAT);
-    wxFLAG_ADD(wxTB_DOCKABLE);
-    wxFLAG_ADD(wxTB_HORIZONTAL);
-    wxFLAG_ADD(wxTB_VERTICAL);
-    wxFLAG_ADD(wxTB_TEXT);
-    wxFLAG_ADD(wxTB_NOICONS);
-    wxFLAG_ADD(wxTB_NODIVIDER);
-    wxFLAG_ADD(wxTB_NOALIGN);
-    wxFLAG_ADD(wxTB_HORZ_LAYOUT);
-    wxFLAG_ADD(wxTB_HORZ_TEXT);
-    wxFLAG_ADD(wxTB_NO_TOOLTIPS);
-    wxFLAG_ADD(wxTB_BOTTOM);
-    wxFLAG_ADD(wxTB_RIGHT);
+    wxGD_ADD_FLAG(wxTB_FLAT);
+    wxGD_ADD_FLAG(wxTB_DOCKABLE);
+    wxGD_ADD_FLAG(wxTB_HORIZONTAL);
+    wxGD_ADD_FLAG(wxTB_VERTICAL);
+    wxGD_ADD_FLAG(wxTB_TEXT);
+    wxGD_ADD_FLAG(wxTB_NOICONS);
+    wxGD_ADD_FLAG(wxTB_NODIVIDER);
+    wxGD_ADD_FLAG(wxTB_NOALIGN);
+    wxGD_ADD_FLAG(wxTB_HORZ_LAYOUT);
+    wxGD_ADD_FLAG(wxTB_HORZ_TEXT);
+    wxGD_ADD_FLAG(wxTB_NO_TOOLTIPS);
+    wxGD_ADD_FLAG(wxTB_BOTTOM);
+    wxGD_ADD_FLAG(wxTB_RIGHT);
 
     // wxColourPickerCtrl
-    wxFLAG_ADD(wxCLRP_DEFAULT_STYLE);
-    wxFLAG_ADD(wxCLRP_USE_TEXTCTRL);
-    wxFLAG_ADD(wxCLRP_SHOW_LABEL);
+    wxGD_ADD_FLAG(wxCLRP_DEFAULT_STYLE);
+    wxGD_ADD_FLAG(wxCLRP_USE_TEXTCTRL);
+    wxGD_ADD_FLAG(wxCLRP_SHOW_LABEL);
 
     // wxDatePickerCtrl
-    wxFLAG_ADD(wxDP_SPIN);
-    wxFLAG_ADD(wxDP_DROPDOWN);
-    wxFLAG_ADD(wxDP_DEFAULT);
-    wxFLAG_ADD(wxDP_ALLOWNONE);
-    wxFLAG_ADD(wxDP_SHOWCENTURY);
+    wxGD_ADD_FLAG(wxDP_SPIN);
+    wxGD_ADD_FLAG(wxDP_DROPDOWN);
+    wxGD_ADD_FLAG(wxDP_DEFAULT);
+    wxGD_ADD_FLAG(wxDP_ALLOWNONE);
+    wxGD_ADD_FLAG(wxDP_SHOWCENTURY);
 
     // wxDirPickerCtrl
-    wxFLAG_ADD(wxDIRP_DEFAULT_STYLE);
-    wxFLAG_ADD(wxDIRP_USE_TEXTCTRL);
-    wxFLAG_ADD(wxDIRP_DIR_MUST_EXIST);
-    wxFLAG_ADD(wxDIRP_CHANGE_DIR);
-    wxFLAG_ADD(wxDIRP_SMALL);
+    wxGD_ADD_FLAG(wxDIRP_DEFAULT_STYLE);
+    wxGD_ADD_FLAG(wxDIRP_USE_TEXTCTRL);
+    wxGD_ADD_FLAG(wxDIRP_DIR_MUST_EXIST);
+    wxGD_ADD_FLAG(wxDIRP_CHANGE_DIR);
+    wxGD_ADD_FLAG(wxDIRP_SMALL);
 
     // wxFilePickerCtrl
-    wxFLAG_ADD(wxFLP_DEFAULT_STYLE);
-    wxFLAG_ADD(wxFLP_USE_TEXTCTRL);
-    wxFLAG_ADD(wxFLP_OPEN);
-    wxFLAG_ADD(wxFLP_SAVE);
-    wxFLAG_ADD(wxFLP_OVERWRITE_PROMPT);
-    wxFLAG_ADD(wxFLP_FILE_MUST_EXIST);
-    wxFLAG_ADD(wxFLP_CHANGE_DIR);
-    wxFLAG_ADD(wxFLP_SMALL);
+    wxGD_ADD_FLAG(wxFLP_DEFAULT_STYLE);
+    wxGD_ADD_FLAG(wxFLP_USE_TEXTCTRL);
+    wxGD_ADD_FLAG(wxFLP_OPEN);
+    wxGD_ADD_FLAG(wxFLP_SAVE);
+    wxGD_ADD_FLAG(wxFLP_OVERWRITE_PROMPT);
+    wxGD_ADD_FLAG(wxFLP_FILE_MUST_EXIST);
+    wxGD_ADD_FLAG(wxFLP_CHANGE_DIR);
+    wxGD_ADD_FLAG(wxFLP_SMALL);
 
     // wxFontPickerCtrl
-    wxFLAG_ADD(wxFNTP_DEFAULT_STYLE);
-    wxFLAG_ADD(wxFNTP_USE_TEXTCTRL);
-    wxFLAG_ADD(wxFNTP_FONTDESC_AS_LABEL);
-    wxFLAG_ADD(wxFNTP_USEFONT_FOR_LABEL);
+    wxGD_ADD_FLAG(wxFNTP_DEFAULT_STYLE);
+    wxGD_ADD_FLAG(wxFNTP_USE_TEXTCTRL);
+    wxGD_ADD_FLAG(wxFNTP_FONTDESC_AS_LABEL);
+    wxGD_ADD_FLAG(wxFNTP_USEFONT_FOR_LABEL);
 
     // wxOrientation
-    wxFLAG_ADD(wxHORIZONTAL);
-    wxFLAG_ADD(wxVERTICAL);
+    wxGD_ADD_FLAG(wxHORIZONTAL);
+    wxGD_ADD_FLAG(wxVERTICAL);
 
     // wxWrapSizer
-    wxFLAG_ADD(wxWRAPSIZER_DEFAULT_FLAGS);
-    wxFLAG_ADD(wxEXTEND_LAST_ON_EACH_LINE);
-    wxFLAG_ADD(wxREMOVE_LEADING_SPACES);
+    wxGD_ADD_FLAG(wxWRAPSIZER_DEFAULT_FLAGS);
+    wxGD_ADD_FLAG(wxEXTEND_LAST_ON_EACH_LINE);
+    wxGD_ADD_FLAG(wxREMOVE_LEADING_SPACES);
+    #undef wxGD_ADD_FLAG
 }

@@ -18,7 +18,7 @@
 #include "wxguidesigner/rtti/tree.h"
 #include "wxguidesigner/xrc/serializer.h"
 
-bool wxXRCSerializer::Load( RTTITree tree, const wxString &path )
+bool wxGD::XRCSerializer::Load( RTTI::Tree tree, const wxString &path )
 {
     wxXmlDocument doc;
     if( !tree || !doc.Load( path ) )
@@ -27,9 +27,9 @@ bool wxXRCSerializer::Load( RTTITree tree, const wxString &path )
     if( doc.GetRoot()->GetName() != "resource" )
         return false;
 
-    Object    parent     = Object();                     // root
-    Object    child      = Object();                     // frame
-    wxXmlNode *childNode = doc.GetRoot()->GetChildren(); // frame
+    RTTI::Object    parent     = RTTI::Object();                // root
+    RTTI::Object    child      = RTTI::Object();                // frame
+    wxXmlNode       *childNode = doc.GetRoot()->GetChildren();  // frame
 
     while( childNode )
     {
@@ -58,7 +58,7 @@ bool wxXRCSerializer::Load( RTTITree tree, const wxString &path )
     return true;
 }
 
-bool wxXRCSerializer::Save( RTTITree tree, const wxString &path, int indent )
+bool wxGD::XRCSerializer::Save( RTTI::Tree tree, const wxString &path, int indent )
 {
     wxFileName fileName = path;
     if( !tree || !fileName.DirExists() )
@@ -70,12 +70,12 @@ bool wxXRCSerializer::Save( RTTITree tree, const wxString &path, int indent )
     return xmlDocument.Save( path, indent );
 }
 
-wxXmlNode *wxXRCSerializer::Serialize( RTTITree tree )
+wxXmlNode *wxGD::XRCSerializer::Serialize( RTTI::Tree tree )
 {
     if( !tree )
         return NULL;
 
-    Object root = tree->GetRootObject();
+    RTTI::Object root = tree->GetRootObject();
 
     if( !root )
         return NULL;
@@ -93,8 +93,9 @@ wxXmlNode *wxXRCSerializer::Serialize( RTTITree tree )
     rootNode->AddAttribute( "version", xrcVer );
 */
     // Serialize toplevel objects (no events / properties for root node)
-    Objects objects = root->GetChildren();
-    for( Objects::const_iterator it = objects.begin(); it != objects.end(); ++it )
+    RTTI::Objects objects = root->GetChildren();
+    for( RTTI::Objects::const_iterator it = objects.begin();
+                                        it != objects.end(); ++it )
     {
         SerializeObject( *it, rootNode );
     }
@@ -102,7 +103,7 @@ wxXmlNode *wxXRCSerializer::Serialize( RTTITree tree )
     return rootNode;
 }
 
-void wxXRCSerializer::SerializeObject( Object object, wxXmlNode *parent )
+void wxGD::XRCSerializer::SerializeObject( RTTI::Object object, wxXmlNode *parent )
 {
     if( !object || !parent )
         return;
@@ -113,36 +114,38 @@ void wxXRCSerializer::SerializeObject( Object object, wxXmlNode *parent )
     objectNode->AddAttribute( "class", object->GetClassName() );
     objectNode->AddAttribute( "name",  object->GetName() );
 
+    parent->AddChild( objectNode );
+
     if( object->IsExpanded() )
         objectNode->AddAttribute( "expanded", "1" );
 
-    Properties properties = object->GetProperties();
-    for( Properties::const_iterator it = properties.begin();
-                                    it != properties.end(); ++it )
+    RTTI::Properties properties = object->GetProperties();
+    for( RTTI::Properties::const_iterator it = properties.begin();
+                                            it != properties.end(); ++it )
     {
         SerializeProperty( *it, objectNode );
     }
 
-    Events events = object->GetEvents();
-    for( Events::const_iterator it = events.begin();
-                                it != events.end(); ++it )
+    RTTI::EventProperties events = object->GetEvents();
+    for( RTTI::EventProperties::const_iterator it = events.begin();
+                                                it != events.end(); ++it )
     {
         SerializeEvent( *it, objectNode );
     }
 
-    Objects objects = object->GetChildren();
-    for( Objects::const_iterator it = objects.begin(); it != objects.end(); ++it )
+    RTTI::Objects objects = object->GetChildren();
+    for( RTTI::Objects::const_iterator it = objects.begin();
+                                        it != objects.end(); ++it )
     {
-        SerializeObject( *it, parent );
+        SerializeObject( *it, objectNode );
     }
-
-    parent->AddChild( objectNode );
 }
 
-void wxXRCSerializer::SerializeProperty( Property property, wxXmlNode *objectNode )
+void wxGD::XRCSerializer::SerializeProperty( RTTI::Property property,
+                                            wxXmlNode *objectNode )
 {
-    wxString     name = property->GetName();
-    PropertyType type = property->GetType();
+    wxString            name = property->GetName();
+    RTTI::PropertyType  type = property->GetType();
 
     wxXmlNode *propertyNode = NULL;
     wxXmlNode *childNode    = NULL;
@@ -154,7 +157,7 @@ void wxXRCSerializer::SerializeProperty( Property property, wxXmlNode *objectNod
     {
         return;
     }
-    else if( type == PROPERTY_TYPE_BITMAP )
+    else if( type == RTTI::PROPERTY_TYPE_BITMAP )
     {
         wxString value = property->GetAsString();
         if( value.empty() )
@@ -201,7 +204,7 @@ void wxXRCSerializer::SerializeProperty( Property property, wxXmlNode *objectNod
             objectNode->AddChild( propertyNode );
         }
     }
-    else if( type == PROPERTY_TYPE_BOOL )
+    else if( type == RTTI::PROPERTY_TYPE_BOOL )
     {
         bool value = property->GetAsBool();
         if( !value )
@@ -213,16 +216,16 @@ void wxXRCSerializer::SerializeProperty( Property property, wxXmlNode *objectNod
         propertyNode->AddChild( valueNode );
         objectNode->AddChild( propertyNode );
     }
-    else if( type == PROPERTY_TYPE_CATEGORY )
+    else if( type == RTTI::PROPERTY_TYPE_CATEGORY )
     {
-        Properties properties = property->GetChildren();
-        for( Properties::const_iterator it = properties.begin();
-                                        it != properties.end(); ++it )
+        RTTI::Properties properties = property->GetChildren();
+        for( RTTI::Properties::const_iterator it = properties.begin();
+                                            it != properties.end(); ++it )
         {
             SerializeProperty( *it, objectNode );
         }
     }
-    else if( type == PROPERTY_TYPE_COLOUR )
+    else if( type == RTTI::PROPERTY_TYPE_COLOUR )
     {
         wxString value = property->GetAsString();
         if( value.empty() )
@@ -234,7 +237,7 @@ void wxXRCSerializer::SerializeProperty( Property property, wxXmlNode *objectNod
         propertyNode->AddChild( valueNode );
         objectNode->AddChild( propertyNode );
     }
-    else if( type == PROPERTY_TYPE_FONT )
+    else if( type == RTTI::PROPERTY_TYPE_FONT )
     {
         wxFontContainer font = property->GetAsFont();
         int     size        = font.GetPointSize();
@@ -409,7 +412,8 @@ void wxXRCSerializer::SerializeProperty( Property property, wxXmlNode *objectNod
 
         objectNode->AddChild( propertyNode );
     }
-    else if( (type == PROPERTY_TYPE_POINT) || (type == PROPERTY_TYPE_SIZE) )
+    else if((type == RTTI::PROPERTY_TYPE_POINT) ||
+            (type == RTTI::PROPERTY_TYPE_SIZE))
     {
         wxString value = property->GetAsString();
         if( value.empty() || value == "-1,-1" )
@@ -453,7 +457,8 @@ void wxXRCSerializer::SerializeProperty( Property property, wxXmlNode *objectNod
     }
 }
 
-void wxXRCSerializer::SerializeEvent( Event event, wxXmlNode *objectNode )
+void wxGD::XRCSerializer::SerializeEvent  ( RTTI::EventProperty event,
+                                            wxXmlNode           *objectNode )
 {
     if( event && event->HasHandlers() )
     {
@@ -483,10 +488,12 @@ void wxXRCSerializer::SerializeEvent( Event event, wxXmlNode *objectNode )
     }
 }
 
-Object wxXRCSerializer::CreateObject  ( RTTITree tree, Object parent,
-                                        wxXmlNode *childNode, bool isReference )
+wxGD::RTTI::Object wxGD::XRCSerializer::CreateObject  ( RTTI::Tree  tree,
+                                                        RTTI::Object parent,
+                                                        wxXmlNode   *childNode,
+                                                        bool        isReference )
 {
-    Object child = Object();
+    RTTI::Object child = RTTI::Object();
 
     if( tree && childNode && (childNode->GetName() == "object") )
     {
@@ -509,7 +516,7 @@ Object wxXRCSerializer::CreateObject  ( RTTITree tree, Object parent,
                     // Get all object's children recursively
                     CreateObject( tree, child, subNode );
 
-                    Property property  = child->GetProperty("name");
+                    RTTI::Property property  = child->GetProperty("name");
                     if( property )
                         property->SetValue( subNode->GetAttribute("name") );
                 }
@@ -519,8 +526,8 @@ Object wxXRCSerializer::CreateObject  ( RTTITree tree, Object parent,
                     // TODO: insert_at and ref attributes
                     CreateObject( tree, child, subNode, true );
 
-                    Property property    = child->GetProperty("name");
-                    wxString refName = subNode->GetAttribute("ref");
+                    RTTI::Property  property    = child->GetProperty("name");
+                    wxString        refName     = subNode->GetAttribute("ref");
 
                     if( property )
                     {
@@ -532,8 +539,8 @@ Object wxXRCSerializer::CreateObject  ( RTTITree tree, Object parent,
                 // we use it as property, but XRC objects use it as attribute
                 else if( (nodeName != "event") && (nodeName != "name") )
                 {
-                    Property property  = child->GetProperty( nodeName );
-                    wxString value = subNode->GetNodeContent();
+                    RTTI::Property  property    = child->GetProperty( nodeName );
+                    wxString        value       = subNode->GetNodeContent();
 
                     if( property )
                     {

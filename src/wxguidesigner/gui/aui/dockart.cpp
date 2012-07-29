@@ -17,15 +17,15 @@
 #include "wxguidesigner/gui/utils/draw.h"
 #include "wxguidesigner/gui/aui/dockart.h"
 
-wxGDAUIDockArt::wxGDAUIDockArt()
+wxGD::AUIDockArt::AUIDockArt()
 {
 }
 
-wxGDAUIDockArt::~wxGDAUIDockArt()
+wxGD::AUIDockArt::~AUIDockArt()
 {
 }
 
-wxString wxGDAUIDockArt::EllipsizeText( wxDC &dc, const wxString &text, int maxSize )
+wxString wxGD::AUIDockArt::EllipsizeText( wxDC &dc, const wxString &text, int maxSize )
 {
     wxCoord x,y;
 
@@ -53,7 +53,7 @@ wxString wxGDAUIDockArt::EllipsizeText( wxDC &dc, const wxString &text, int maxS
     return ret;
 }
 
-void wxGDAUIDockArt::DrawCaption( wxDC &dc, wxWindow *, const wxString &text,
+void wxGD::AUIDockArt::DrawCaption( wxDC &dc, wxWindow *, const wxString &text,
                                     const wxRect &rect, wxAuiPaneInfo &pane )
 {
 /*
@@ -110,7 +110,7 @@ void wxGDAUIDockArt::DrawCaption( wxDC &dc, wxWindow *, const wxString &text,
 
 // Draw caption label
     wxCoord w, h;
-    wxColour labelColour = wxGDDraw::IsDark( bottomStart ) ? *wxWHITE : *wxBLACK;
+    wxColour labelColour = wxGD::Draw::IsDark( bottomStart ) ? *wxWHITE : *wxBLACK;
     dc.GetTextExtent( "ABCDEFHXfgkj", &w, &h );
     dc.SetFont( wxFont( 9, 70, 90, 90, false, wxEmptyString ) );
     dc.SetTextForeground( labelColour );

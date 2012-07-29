@@ -36,24 +36,31 @@ class wxXmlResource;
 #ifdef __WXDEBUG__
     class wxLog;
     class wxTextCtrl;
-    class wxGDDebugWindow;
 #endif
 
-class wxGDEditorBook;
-class wxGDPropertyBook;
-class wxGDToolPalette;
-class wxGDTreeView;
-class wxGDMainFrame;
+
+namespace wxGD
+{
+class EditorBook;
+class PropertyBook;
+class ToolPalette;
+class TreeView;
+class MainFrame;
+
+namespace RTTI
+{
 class ObjectTree;
+};
 
-using namespace std;
-using namespace std::tr1;
+#ifdef __WXDEBUG__
+    class DebugWindow;
+#endif
 
-class DLLIMPEXP_WXGUIDESIGNER wxGDHandler : public wxEvtHandler
+class DLLIMPEXP_WXGUIDESIGNER Handler : public wxEvtHandler
 {
 public:
-    wxGDHandler();
-    ~wxGDHandler();
+    Handler();
+    ~Handler();
 
     wxFrame         *GetMainFrame       ( wxWindow *parent = NULL );
     wxDialog        *GetAboutDialog     ( wxWindow *parent );
@@ -67,7 +74,7 @@ public:
     wxImageList     *GetSmallImageList() const { return m_smallImgs; }
 
 #ifdef __WXDEBUG__
-    wxGDDebugWindow *GetDebugWindow     ( wxWindow *parent = NULL );
+    DebugWindow *GetDebugWindow     ( wxWindow *parent = NULL );
 #endif
 //-----------------------------------------------------------------------------
 // Serialize
@@ -75,37 +82,38 @@ public:
     bool            Load                ( const wxString &filePath );
     bool            Save                ( const wxString &filePath );
     void            Serialize();
-    void            SerializeObject     ( Object object, wxXmlNode *rootNode );
+    void            SerializeObject     ( RTTI::Object object, wxXmlNode *rootNode );
 //-----------------------------------------------------------------------------
 // Object operations
 //-----------------------------------------------------------------------------
-    void CreateObject( const wxString &className, int senderId );
-    void SelectObject( Object object, int senderId );
-    Object GetSelectedObject() const;
+    void            CreateObject( const wxString &className, int senderId );
+    void            SelectObject( RTTI::Object object, int senderId );
+    RTTI::Object    GetSelectedObject() const;
 
-    void SendEvent      ( wxEvent &event, bool delayed = false );
+    void            SendEvent( wxEvent &event, bool delayed = false );
 
 private:
-    void InitAllXmlHandlers();
-    void SelectLanguage ( int language );
+    void            InitAllXmlHandlers();
+    void            SelectLanguage ( int language );
 
 #ifdef __WXDEBUG__
-    wxGDDebugWindow     *m_debug;
-    wxLog               *m_logOld;
+    DebugWindow     *m_debug;
+    wxLog           *m_logOld;
 #endif
-    wxImageList         *m_largeImgs;
-    wxImageList         *m_smallImgs;
-    wxMenuBar           *m_menuBar;
-    wxToolBar           *m_toolBar;
-    wxGDMainFrame       *m_frame;
-    wxGDEditorBook      *m_editBook;
-    wxGDToolPalette     *m_palette;
-    wxGDPropertyBook    *m_propBook;
-    wxGDTreeView        *m_treeView;
+    wxImageList     *m_largeImgs;
+    wxImageList     *m_smallImgs;
+    wxMenuBar       *m_menuBar;
+    wxToolBar       *m_toolBar;
+    MainFrame       *m_frame;
+    EditorBook      *m_editBook;
+    ToolPalette     *m_palette;
+    PropertyBook    *m_propBook;
+    TreeView        *m_treeView;
 
-    vector< wxEvtHandler * >        m_handlers;
-    RTTITree                        m_tree;
+    std::vector< wxEvtHandler * >   m_handlers;
+    RTTI::Tree                  m_tree;
     wxLocale                        m_locale;
+};
 };
 
 #endif //__WXGUIDESIGNER_GUI_HANDLER_H__

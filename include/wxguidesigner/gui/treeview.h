@@ -14,19 +14,41 @@
 class wxTreeCtrl;
 class wxTreeEvent;
 
-class wxGDHandler;
-class wxGDObjectEvent;
+namespace wxGD
+{
+class Handler;
 
-class wxGDTreeView : public wxTreeCtrl
+namespace RTTI
+{
+class ObjectEvent;
+};
+//=============================================================================
+// TreeItemData
+//=============================================================================
+class TreeItemData : public wxTreeItemData
 {
 public:
-    wxGDTreeView( wxGDHandler *handler, wxWindow* parent );
-    ~wxGDTreeView();
+    TreeItemData( RTTI::Object object );
+    ~TreeItemData();
 
-    virtual void OnObjectCreated ( wxGDObjectEvent &event );
-    virtual void OnObjectDeleted ( wxGDObjectEvent &event );
-    virtual void OnObjectExpanded( wxGDObjectEvent &event );
-    virtual void OnObjectSelected( wxGDObjectEvent &event );
+    RTTI::Object GetObject();
+
+private:
+    RTTI::Object m_object;
+};
+//=============================================================================
+// TreeView
+//=============================================================================
+class TreeView : public wxTreeCtrl
+{
+public:
+    TreeView( Handler *handler, wxWindow* parent );
+    ~TreeView();
+
+    void OnObjectCreated    ( RTTI::ObjectEvent &event );
+    void OnObjectDeleted    ( RTTI::ObjectEvent &event );
+    void OnObjectExpanded   ( RTTI::ObjectEvent &event );
+    void OnObjectSelected   ( RTTI::ObjectEvent &event );
 
     void OnBeginDrag        ( wxTreeEvent &event );
     void OnEndDrag          ( wxTreeEvent &event );
@@ -36,7 +58,8 @@ public:
     void OnItemRightClick   ( wxTreeEvent &event );
 
 private:
-    wxGDHandler *m_handler;
+    Handler *m_handler;
+};
 };
 
 #endif //__WXGUIDESIGNER_GUI_TREEVIEW_H__

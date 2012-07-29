@@ -11,11 +11,14 @@
 #ifndef __WXGUIDESIGNER_GUI_DIALOG_ABOUT_H__
 #define __WXGUIDESIGNER_GUI_DIALOG_ABOUT_H__
 
-class wxGDAboutDialog : public wxDialog
+namespace wxGD
+{
+class AboutDialog : public wxDialog
 {
 public:
-    wxGDAboutDialog( wxWindow *parent );
-    ~wxGDAboutDialog();
+    AboutDialog( wxWindow *parent );
+    ~AboutDialog();
+};
 };
 
 #endif //__WXGUIDESIGNER_GUI_DIALOG_ABOUT_H__

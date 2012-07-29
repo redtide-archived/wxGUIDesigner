@@ -15,7 +15,6 @@
 #include <wx/filehistory.h>
 #include <wx/frame.h>
 
-class wxGDHandler;
 //class wxFrame;
 class wxWindow;
 class wxPanel;
@@ -23,11 +22,13 @@ class wxCloseEvent;
 class wxCommandEvent;
 class wxString;
 
-class wxGDMainFrame : public wxFrame
+namespace wxGD
+{
+class MainFrame : public wxFrame
 {
 public:
-    wxGDMainFrame( wxGDHandler *handler, wxWindow *parent = NULL );
-    ~wxGDMainFrame();
+    MainFrame( Handler *handler, wxWindow *parent = NULL );
+    ~MainFrame();
 
     wxAuiManager *GetAUIManager() const { return m_mgr; }
     wxPanel      *GetAUIPanel()   const { return m_panel; }
@@ -79,11 +80,12 @@ public:
     void OnBorderBottom ( wxCommandEvent &event );
 
 private:
-    wxGDHandler     *m_handler;
+    Handler         *m_handler;
     wxPanel         *m_panel;
     wxAuiManager    *m_mgr;
     wxFileHistory   m_history;
     wxString        m_lastDir;
+};
 };
 
 #endif //__WXGUIDESIGNER_FRAME_H__

@@ -9,14 +9,16 @@
 // Licence:     GNU General Public License Version 3
 ///////////////////////////////////////////////////////////////////////////////
 #include <wx/dcbuffer.h>
+#include <wx/settings.h>
+
 #include <wx/log.h>
 
 #include "wxguidesigner/gui/editor/glossybutton.h"
 #include "wxguidesigner/gui/utils/draw.h"
 
-void DrawUtils::DrawGlossyGradient( wxDC &dc, wxRect &rect, wxColour &topStart,
-                                    wxColour &bottomStart,  wxColour &bottomEnd,
-                                    wxColour &colour, bool hover )
+void wxGD::Draw::GlossyGradient( wxDC &dc, wxRect &rect, wxColour &topStart,
+                                wxColour &bottomStart,  wxColour &bottomEnd,
+                                wxColour &colour, bool hover )
 {
     wxColour topEnd = colour;
 
@@ -50,8 +52,8 @@ void DrawUtils::DrawGlossyGradient( wxDC &dc, wxRect &rect, wxColour &topStart,
         dc.GradientFillLinear( rect, bottomStart, topEnd, wxSOUTH );
 }
 
-void DrawUtils::DrawBitmap( wxDC &dc, const wxBitmap &bitmap,
-                            const wxRect &rect, const wxString &text )
+void wxGD::Draw::Bitmap( wxDC &dc, const wxBitmap &bitmap,
+                        const wxRect &rect, const wxString &text )
 {
     if( bitmap.IsOk() )
     {
@@ -112,7 +114,7 @@ void wxGlossyButton::OnPaint( wxPaintEvent &event )
         // Update defaults also when changing the current theme at runtime
         m_topEnd = wxSystemSettings::GetColour( wxSYS_COLOUR_ACTIVECAPTION );
 
-        foreground  = wxGDDraw::IsDark( m_topEnd ) ? *wxWHITE : *wxBLACK;
+        foreground  = wxGD::Draw::IsDark( m_topEnd ) ? *wxWHITE : *wxBLACK;
 
         SetBackgroundColour( m_topEnd );
         SetForegroundColour( foreground );
@@ -132,7 +134,7 @@ void wxGlossyButton::OnPaint( wxPaintEvent &event )
 #endif
     }
 
-    DrawUtils::DrawGlossyGradient( dc, gradientRect, m_topStart, m_bottomStart,
+    wxGD::Draw::GlossyGradient( dc, gradientRect, m_topStart, m_bottomStart,
                                         m_bottomEnd, m_topEnd, m_hover );
     dc.SetPen( wxPen( background ) );
     dc.SetBrush( *wxTRANSPARENT_BRUSH );
@@ -143,7 +145,7 @@ void wxGlossyButton::OnPaint( wxPaintEvent &event )
     if( GetCapture() == this )
         clientRect.Offset( 1,1 );
 
-    DrawUtils::DrawBitmap( dc, m_bitmap, clientRect, m_label );
+    wxGD::Draw::Bitmap( dc, m_bitmap, clientRect, m_label );
 
     dc.DrawLabel( m_label, clientRect,
                     wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL );
@@ -157,13 +159,13 @@ void wxGlossyButton::OnHover( wxMouseEvent &event )
     wxRect rect = GetClientRect();
     wxRect grad = rect;
 
-    DrawUtils::DrawGlossyGradient( dc, grad, m_topStart, m_bottomStart,
-                                    m_bottomEnd, m_topEnd, m_hover );
+    wxGD::Draw::GlossyGradient( dc, grad, m_topStart, m_bottomStart,
+                                m_bottomEnd, m_topEnd, m_hover );
 
     if( GetCapture() == this )
         rect.Offset( 1,1 );
 
-    DrawUtils::DrawBitmap( dc, m_bitmap, rect, m_label );
+    wxGD::Draw::Bitmap( dc, m_bitmap, rect, m_label );
 
     dc.DrawLabel( m_label, rect,
                     wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL );
