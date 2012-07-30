@@ -20,11 +20,13 @@ class wxStaticText;
 
 namespace wxGD
 {
-class BitmapArtPanel : public wxPanel 
+namespace Property
+{
+class BitmapArtBrowser : public wxPanel 
 {
 public:
-    BitmapArtPanel( wxWindow *parent ); 
-    ~BitmapArtPanel();
+    BitmapArtBrowser( wxWindow *parent ); 
+    ~BitmapArtBrowser();
 
     wxArtClient     GetArtClient() const { return m_client; }
     wxArtID         GetArtId()     const { return m_id; }
@@ -66,12 +68,14 @@ private:
     void            OnSelectSource  ( wxCommandEvent    &event );
     void            OnFileActivated ( wxFileCtrlEvent   &event );
 
-    wxBoxSizer      *m_sizer;
-    BitmapArtPanel  *m_artReq;
-    wxFileCtrl      *m_fileReq;
-    wxRadioBox      *m_fileTypeRbx;
-    wxString        m_path;
+    wxBoxSizer          *m_sizer;
+    BitmapArtBrowser    *m_artReq;
+    wxFileCtrl          *m_fileReq;
+    wxRadioBox          *m_fileTypeRbx;
+    wxString            m_path;
 };
-};
+
+}; // namespace Property
+}; // namespace wxGD
 
 #endif //__WXGUIDESIGNER_GUI_PROPERTY_BITMAPDIALOG_H__

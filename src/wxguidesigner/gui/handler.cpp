@@ -175,7 +175,7 @@ wxGD::DebugWindow *wxGD::Handler::GetDebugWindow( wxWindow *parent )
 wxDialog *wxGD::Handler::GetAboutDialog( wxWindow *parent )
 {
     if( parent )
-        return new AboutDialog( parent );
+        return new Dialog::About( parent );
 
     return NULL;
 }
@@ -183,7 +183,7 @@ wxDialog *wxGD::Handler::GetAboutDialog( wxWindow *parent )
 wxDialog *wxGD::Handler::GetSettingsDialog( wxWindow *parent )
 {
     if( parent )
-        return new PrefsDialog( parent );
+        return new Dialog::Prefs( parent );
 
     return NULL;
 }
@@ -195,7 +195,7 @@ wxNotebook *wxGD::Handler::GetEditorBook( wxWindow *parent )
         // Force groups to use small imagelist
         ArtProvider::Load( "languages", m_smallImgs, m_largeImgs, true );
 
-        m_editBook = new EditorBook( this, parent );
+        m_editBook = new Editor::Book( this, parent );
         m_handlers.push_back( m_editBook );
     }
 
@@ -214,7 +214,7 @@ wxNotebook *wxGD::Handler::GetPropertyBook( wxWindow *parent )
 {
     if( !m_propBook )
     {
-        m_propBook = new PropertyBook( this, parent );
+        m_propBook = new Property::Book( this, parent );
         m_handlers.push_back( m_propBook );
     }
 
@@ -302,7 +302,8 @@ void wxGD::Handler::Serialize()
     wxXmlResource::Get()->Load("memory:xrc.xrc");
 
 // Display the new XRC project
-    wxStyledTextCtrl *xrcEditor = wxDynamicCast( m_editBook->GetPage(1), wxStyledTextCtrl );
+    wxStyledTextCtrl *xrcEditor =
+                    wxDynamicCast( m_editBook->GetPage(1), wxStyledTextCtrl );
     if( xrcEditor )
         xrcEditor->SetText( xrcText );
 }

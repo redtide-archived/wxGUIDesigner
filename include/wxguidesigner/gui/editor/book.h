@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        wxguidesigner/gui/editor/book.h
-// Purpose:     EditorBook: Visual and code editor wxNotebook
+// Purpose:     Book: Visual and code editor wxNotebook
 // Author:      Andrea Zanellato
 // Modified by:
 // Created:     2011/11/30
@@ -23,7 +23,6 @@ class wxWindow;
 
 namespace wxGD
 {
-class Editor;
 class Handler;
 
 namespace RTTI
@@ -33,16 +32,20 @@ class PropertyEvent;
 class ObjectEvent;
 };
 
-class EditorBook : public wxNotebook
+namespace Editor
+{
+class Designer;
+
+class Book : public wxNotebook
 {
 public:
-    EditorBook( Handler *handler, wxWindow* parent );
-    ~EditorBook();
+    Book( Handler *handler, wxWindow* parent );
+    ~Book();
 
-    Editor *GetGUIEditor() const;
+    Designer *GetGUIEditor() const;
 
 private:
-    void LoadCodeEditorPages();
+    void LoadCodeEditors();
     void Reload();
     void SetupWindow        ( wxWindow *window );
 
@@ -52,14 +55,16 @@ private:
     void OnEventChanged     ( RTTI::EventPropertyEvent    &event );
     void OnPropertyChanged  ( RTTI::PropertyEvent         &event );
 
-    Handler *m_handler;
-    Editor  *m_editor;
+    Handler     *m_handler;
+    Designer   *m_editor;
 
     typedef std::pair< RTTI::Object, wxObject * > wxGDObject;
     typedef std::map < RTTI::Object, wxObject * > wxGDObjects;
     wxGDObjects     m_objects;
     RTTI::Object    m_oldTop;
 };
-};
+
+}; // namespace Editor
+}; // namespace wxGD
 
 #endif //__WXGUIDESIGNER_GUI_EDITOR_BOOK_H__

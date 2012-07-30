@@ -15,9 +15,13 @@
 #include "wxguidesigner/fontcontainer.h"
 #include "wxguidesigner/gui/property/props.h"
 //=============================================================================
-// ColourProperty
+// wxGD::Property::Colour
 //=============================================================================
-static const wxChar* const gs_cp_labels[] = {
+namespace wxGD
+{
+namespace Property
+{
+static const wxChar* const ColourLabels[] = {
     _("Default"),
     _("AppWorkspace"),
     _("ActiveBorder"),
@@ -47,7 +51,7 @@ static const wxChar* const gs_cp_labels[] = {
     (const wxChar*) NULL
 };
 
-static const long gs_cp_values[] = {
+static const long ColourValues[] = {
     0,
     wxSYS_COLOUR_APPWORKSPACE,
     wxSYS_COLOUR_ACTIVEBORDER,
@@ -75,18 +79,20 @@ static const long gs_cp_values[] = {
     wxSYS_COLOUR_WINDOWTEXT,
     wxPG_COLOUR_CUSTOM
 };
+};
+};
 
-WX_PG_IMPLEMENT_PROPERTY_CLASS( wxGD::ColourProperty, wxSystemColourProperty,
+WX_PG_IMPLEMENT_PROPERTY_CLASS( wxGD::Property::Colour, wxSystemColourProperty,
                                 wxColourPropertyValue,
                                 const wxColourPropertyValue &, Choice )
 
 static wxPGChoices gs_cp_choicesCache;
 
-wxGD::ColourProperty::ColourProperty  ( const wxString              &label,
-                                        const wxString              &name,
-                                        const wxColourPropertyValue &value )
+wxGD::Property::Colour::Colour( const wxString              &label,
+                                const wxString              &name,
+                                const wxColourPropertyValue &value )
 :
-wxSystemColourProperty( label, name, gs_cp_labels, gs_cp_values,
+wxSystemColourProperty( label, name, ColourLabels, ColourValues,
                         &gs_cp_choicesCache, value )
 {
     if( &value )
@@ -95,8 +101,8 @@ wxSystemColourProperty( label, name, gs_cp_labels, gs_cp_values,
         SetValueToUnspecified();
 }
 
-wxString wxGD::ColourProperty::ColourToString( const wxColour &colour,
-                                            int index, int flags ) const
+wxString wxGD::Property::Colour::ColourToString( const wxColour &colour,
+                                                int index, int flags ) const
 {
     if( index == 0 )
     {
@@ -107,18 +113,19 @@ wxString wxGD::ColourProperty::ColourToString( const wxColour &colour,
         return colour.GetAsString();
     }
 
-    return wxGD::Convert::SystemColourToString( gs_cp_values[index] );
+    return wxGD::Convert::SystemColourToString( ColourValues[index] );
 }
 
-wxGD::ColourProperty::~ColourProperty()
+wxGD::Property::Colour::~Colour()
 {
 }
 //=============================================================================
-// FlagsProperty
+// wxGD::Property::Flags
 //=============================================================================
-WX_PG_IMPLEMENT_PROPERTY_CLASS( wxGD::FlagsProperty, wxPGProperty, long, long, TextCtrl )
+WX_PG_IMPLEMENT_PROPERTY_CLASS( wxGD::Property::Flags, wxPGProperty,
+                                long, long, TextCtrl )
 
-void wxGD::FlagsProperty::Init()
+void wxGD::Property::Flags::Init()
 {
     long value = m_value;
 
@@ -187,7 +194,7 @@ void wxGD::FlagsProperty::Init()
         SubPropsChanged( oldSelection );
 }
 
-wxGD::FlagsProperty::FlagsProperty( const wxString      &label,
+wxGD::Property::Flags::Flags( const wxString      &label,
                                     const wxString      &name,
                                     const wxArrayString &labels,
                                     const wxArrayInt    &values,
@@ -211,11 +218,11 @@ wxPGProperty( label, name )
     }
 }
 
-wxGD::FlagsProperty::~FlagsProperty()
+wxGD::Property::Flags::~Flags()
 {
 }
 
-void wxGD::FlagsProperty::OnSetValue()
+void wxGD::Property::Flags::OnSetValue()
 {
     if( !m_choices.IsOk() || !GetItemCount() )
     {
@@ -260,7 +267,7 @@ void wxGD::FlagsProperty::OnSetValue()
     }
 }
 
-wxString wxGD::FlagsProperty::ValueToString( wxVariant &value, int ) const
+wxString wxGD::Property::Flags::ValueToString( wxVariant &value, int ) const
 {
     wxString text;
 
@@ -287,7 +294,7 @@ wxString wxGD::FlagsProperty::ValueToString( wxVariant &value, int ) const
     return text;
 }
 // Translate string into flag tokens
-bool wxGD::FlagsProperty::StringToValue( wxVariant &variant,
+bool wxGD::Property::Flags::StringToValue( wxVariant &variant,
                                         const wxString &text, int ) const
 {
     if( !m_choices.IsOk() )
@@ -318,7 +325,7 @@ bool wxGD::FlagsProperty::StringToValue( wxVariant &variant,
 }
 
 // Converts string id to a relevant bit.
-long wxGD::FlagsProperty::IdToBit( const wxString &id ) const
+long wxGD::Property::Flags::IdToBit( const wxString &id ) const
 {
     for( size_t i = 0; i < GetItemCount(); i++ )
     {
@@ -329,7 +336,7 @@ long wxGD::FlagsProperty::IdToBit( const wxString &id ) const
     return -1;
 }
 
-void wxGD::FlagsProperty::RefreshChildren()
+void wxGD::Property::Flags::RefreshChildren()
 {
     if( !m_choices.IsOk() || !GetChildCount() )
         return;
@@ -352,7 +359,7 @@ void wxGD::FlagsProperty::RefreshChildren()
     m_oldValue = flags;
 }
 
-wxVariant wxGD::FlagsProperty::ChildChanged ( wxVariant &thisValue, int childIndex,
+wxVariant wxGD::Property::Flags::ChildChanged ( wxVariant &thisValue, int childIndex,
                                             wxVariant &childValue ) const
 {
     long oldValue = thisValue.GetLong();
@@ -365,7 +372,7 @@ wxVariant wxGD::FlagsProperty::ChildChanged ( wxVariant &thisValue, int childInd
     return (long) (oldValue & ~(vi));
 }
 
-bool wxGD::FlagsProperty::DoSetAttribute( const wxString &name, wxVariant &value )
+bool wxGD::Property::Flags::DoSetAttribute( const wxString &name, wxVariant &value )
 {
     if( name == wxPG_BOOL_USE_CHECKBOX ||
         name == wxPG_BOOL_USE_DOUBLE_CLICK_CYCLING )
@@ -381,7 +388,7 @@ bool wxGD::FlagsProperty::DoSetAttribute( const wxString &name, wxVariant &value
     return false;
 }
 //=============================================================================
-// FontProperty - TODO: Implement 'sysfont' and 'relativesize' properties
+// wxGD::Property::Font - TODO: Implement 'sysfont' and 'relativesize' properties
 //=============================================================================
 #include <wx/fontenum.h>
 #include <wx/fontdata.h>
@@ -440,12 +447,12 @@ static const long gs_fp_weight_values[] = {
 static wxArrayString    gs_fp_encodings;
 static wxArrayInt       gs_fp_encodings_vals;
 
-WX_PG_IMPLEMENT_PROPERTY_CLASS( wxGD::FontProperty, wxPGProperty, wxFont,
+WX_PG_IMPLEMENT_PROPERTY_CLASS( wxGD::Property::Font, wxPGProperty, wxFont,
                                 const wxFont &, TextCtrlAndButton )
 
-wxGD::FontProperty::FontProperty  ( const wxString          &label,
-                                    const wxString          &name,
-                                    const wxFontContainer   &value )
+wxGD::Property::Font::Font( const wxString          &label,
+                            const wxString          &name,
+                            const wxFontContainer   &value )
 :
 wxPGProperty( label, name )
 {
@@ -520,15 +527,15 @@ wxPGProperty( label, name )
                                         gs_fp_encodings_vals, value.GetEncoding() ) );
 }
 
-wxGD::FontProperty::~FontProperty()
+wxGD::Property::Font::~Font()
 {
 }
 
-void wxGD::FontProperty::OnSetValue()
+void wxGD::Property::Font::OnSetValue()
 {
 }
 
-wxString wxGD::FontProperty::ValueToString( wxVariant &value, int flags ) const
+wxString wxGD::Property::Font::ValueToString( wxVariant &value, int flags ) const
 {
     if( value.GetType() == wxPG_VARIANT_TYPE_STRING )
     {
@@ -540,17 +547,16 @@ wxString wxGD::FontProperty::ValueToString( wxVariant &value, int flags ) const
     return wxPGProperty::ValueToString( value, flags );
 }
 
-bool wxGD::FontProperty::StringToValue  ( wxVariant       &variant,
-                                        const wxString  &text, int flags ) const
+bool wxGD::Property::Font::StringToValue  ( wxVariant       &variant,
+                                            const wxString  &text, int ) const
 {
     wxFontContainer font = wxGD::Convert::StringToFont( text );
     variant << font;
     return true;
 }
 
-bool wxGD::FontProperty::OnEvent( wxPropertyGrid* propgrid,
-                                wxWindow*       WXUNUSED(primary),
-                                wxEvent         &event )
+bool wxGD::Property::Font::OnEvent( wxPropertyGrid* propgrid, wxWindow *,
+                                    wxEvent         &event )
 {
     if( propgrid->IsMainButtonEvent( event ) )
     {
@@ -576,7 +582,7 @@ bool wxGD::FontProperty::OnEvent( wxPropertyGrid* propgrid,
     return false;
 }
 
-void wxGD::FontProperty::RefreshChildren()
+void wxGD::Property::Font::RefreshChildren()
 {
     wxFontContainer font = wxGD::Convert::StringToFont( m_value.GetString() );
 
@@ -589,9 +595,9 @@ void wxGD::FontProperty::RefreshChildren()
     Item(6)->SetValue( font.GetEncoding() );
 }
 
-wxVariant wxGD::FontProperty::ChildChanged  ( wxVariant &thisValue,
-                                            int       index,
-                                            wxVariant &childValue ) const
+wxVariant wxGD::Property::Font::ChildChanged  ( wxVariant &thisValue,
+                                                int       index,
+                                                wxVariant &childValue ) const
 {
     wxFontContainer font = wxGD::Convert::StringToFont( thisValue.GetString() );
 
@@ -662,14 +668,14 @@ wxVariant wxGD::FontProperty::ChildChanged  ( wxVariant &thisValue,
     return thisValue;
 }
 //=============================================================================
-// PointProperty
+// wxGD::Property::Point
 //=============================================================================
-WX_PG_IMPLEMENT_PROPERTY_CLASS( wxGD::PointProperty, wxPGProperty, wxPoint,
+WX_PG_IMPLEMENT_PROPERTY_CLASS( wxGD::Property::Point, wxPGProperty, wxPoint,
                                 const wxPoint &, TextCtrl )
 
-wxGD::PointProperty::PointProperty( const wxString &label,
-                                    const wxString &name,
-                                    const wxPoint  &value )
+wxGD::Property::Point::Point  ( const wxString &label,
+                                const wxString &name,
+                                const wxPoint  &value )
 :
 wxPGProperty( label, name )
 {
@@ -678,11 +684,11 @@ wxPGProperty( label, name )
     AddPrivateChild( new wxIntProperty( "Y", wxPG_LABEL, value.y ) );
 }
 
-wxGD::PointProperty::~PointProperty()
+wxGD::Property::Point::~Point()
 {
 }
 
-void wxGD::PointProperty::RefreshChildren()
+void wxGD::Property::Point::RefreshChildren()
 {
     if( !GetChildCount() )
         return;
@@ -693,9 +699,9 @@ void wxGD::PointProperty::RefreshChildren()
     Item(1)->SetValue( (long)point.y );
 }
 
-wxVariant wxGD::PointProperty::ChildChanged ( wxVariant   &thisValue,
-                                            int         childIndex,
-                                            wxVariant   &childValue) const
+wxVariant wxGD::Property::Point::ChildChanged ( wxVariant   &thisValue,
+                                                int         childIndex,
+                                                wxVariant   &childValue) const
 {
     wxPoint &point = wxPointRefFromVariant( thisValue );
 
@@ -719,7 +725,7 @@ wxVariant wxGD::PointProperty::ChildChanged ( wxVariant   &thisValue,
     return newVariant;
 }
 
-wxString wxGD::PointProperty::ValueToString( wxVariant &value, int flags ) const
+wxString wxGD::Property::Point::ValueToString( wxVariant &value, int flags ) const
 {
     if( value.GetType() == "wxPoint" )
     {
@@ -732,22 +738,22 @@ wxString wxGD::PointProperty::ValueToString( wxVariant &value, int flags ) const
     return wxPGProperty::ValueToString( value, flags );
 }
 
-bool wxGD::PointProperty::StringToValue( wxVariant       &variant,
-                                         const wxString  &text, int flags ) const
+bool wxGD::Property::Point::StringToValue ( wxVariant       &variant,
+                                            const wxString  &text, int ) const
 {
     wxPoint point = wxGD::Convert::StringToPoint( text );
     variant << point;
     return true;
 }
 //=============================================================================
-// SizeProperty
+// wxGD::Property::Size
 //=============================================================================
-WX_PG_IMPLEMENT_PROPERTY_CLASS( wxGD::SizeProperty, wxPGProperty,
+WX_PG_IMPLEMENT_PROPERTY_CLASS( wxGD::Property::Size, wxPGProperty,
                                 wxSize, const wxSize &, TextCtrl )
 
-wxGD::SizeProperty::SizeProperty  ( const wxString &label,
-                                    const wxString &name,
-                                    const wxSize   &value )
+wxGD::Property::Size::Size( const wxString &label,
+                            const wxString &name,
+                            const wxSize   &value )
 :
 wxPGProperty( label, name )
 {
@@ -756,11 +762,11 @@ wxPGProperty( label, name )
     AddPrivateChild( new wxIntProperty( _("Height"), wxPG_LABEL, value.y ) );
 }
 
-wxGD::SizeProperty::~SizeProperty()
+wxGD::Property::Size::~Size()
 {
 }
 
-void wxGD::SizeProperty::RefreshChildren()
+void wxGD::Property::Size::RefreshChildren()
 {
     if( !GetChildCount() ) return;
 
@@ -770,9 +776,9 @@ void wxGD::SizeProperty::RefreshChildren()
     Item(1)->SetValue( (long)size.y );
 }
 
-wxVariant wxGD::SizeProperty::ChildChanged( wxVariant &thisValue,
-                                        int       childIndex,
-                                        wxVariant &childValue ) const
+wxVariant wxGD::Property::Size::ChildChanged  ( wxVariant &thisValue,
+                                                int       childIndex,
+                                                wxVariant &childValue ) const
 {
     wxSize &size = wxSizeRefFromVariant( thisValue );
 
@@ -797,7 +803,7 @@ wxVariant wxGD::SizeProperty::ChildChanged( wxVariant &thisValue,
     return newVariant;
 }
 
-wxString wxGD::SizeProperty::ValueToString( wxVariant &value, int flags ) const
+wxString wxGD::Property::Size::ValueToString( wxVariant &value, int flags ) const
 {
     if( value.GetType() == "wxSize" )
     {
@@ -810,8 +816,8 @@ wxString wxGD::SizeProperty::ValueToString( wxVariant &value, int flags ) const
     return wxPGProperty::ValueToString( value, flags );
 }
 
-bool wxGD::SizeProperty::StringToValue ( wxVariant       &variant,
-                                        const wxString  &text, int flags ) const
+bool wxGD::Property::Size::StringToValue  ( wxVariant       &variant,
+                                            const wxString  &text, int ) const
 {
     wxSize size = wxGD::Convert::StringToSize( text );
     variant << size;

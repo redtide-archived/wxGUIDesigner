@@ -22,7 +22,7 @@
 
 #include "wxguidesigner/gui/dialog/about.h"
 
-wxGD::AboutDialog::AboutDialog( wxWindow* parent )
+wxGD::Dialog::About::About( wxWindow* parent )
 :
 wxDialog( parent, wxID_ANY, _("About") + " wxGUIDesigner",
             wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE )
@@ -146,6 +146,6 @@ wxDialog( parent, wxID_ANY, _("About") + " wxGUIDesigner",
     this->Centre( wxBOTH );
 }
 
-wxGD::AboutDialog::~AboutDialog()
+wxGD::Dialog::About::~About()
 {
 }

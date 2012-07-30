@@ -17,7 +17,7 @@
 
 #include "wxguidesigner/gui/aui/tbarart.h"
 
-void wxGD::AUIToolBarArt::DrawBackground( wxDC &dc, wxWindow *, const wxRect &rect )
+void wxGD::AUI::ToolBarArt::DrawBackground( wxDC &dc, wxWindow *, const wxRect &rect )
 {
     wxColour topEnd      = wxColour( 225,225,225 );
     wxColour topStart    = *wxWHITE;
@@ -32,7 +32,7 @@ void wxGD::AUIToolBarArt::DrawBackground( wxDC &dc, wxWindow *, const wxRect &re
     dc.GradientFillLinear( gradientRect, bottomStart, bottomEnd, wxSOUTH );
 }
 
-void wxGD::AUIToolBarArt::DrawOverflowButton( wxDC &dc, wxWindow *wnd,
+void wxGD::AUI::ToolBarArt::DrawOverflowButton( wxDC &dc, wxWindow *wnd,
                                             const wxRect &rect, int state )
 {
     // TODO: Looks like wxAUI has some bug about keeping the overflow

@@ -31,15 +31,17 @@ wxDECLARE_EVENT( wxGD_EVT_GUI_OPTION_CHANGED, wxCommandEvent );
 wxDECLARE_EVENT( wxGD_EVT_GUI_CONFIG_UPDATE,  wxCommandEvent );
 wxDECLARE_EVENT( wxGD_EVT_GUI_CONFIG_SAVE,    wxCommandEvent );
 //=============================================================================
-// PrefsDialog
+// Prefs
 //=============================================================================
 namespace wxGD
 {
-class PrefsDialog : public wxDialog 
+namespace Dialog
+{
+class Prefs : public wxDialog 
 {
 public:
-    PrefsDialog( wxWindow *parent ); 
-    ~PrefsDialog();
+    Prefs( wxWindow *parent ); 
+    ~Prefs();
 
 private:
     void OnPrefsChanged ( wxCommandEvent &event );
@@ -58,7 +60,7 @@ private:
 class PageProject : public wxPanel 
 {
 public:
-    PageProject( PrefsDialog *parent ); 
+    PageProject( Prefs *parent ); 
     ~PageProject();
 
 private:
@@ -81,7 +83,7 @@ private:
 class PageGUI : public wxPanel 
 {
 public:
-    PageGUI( PrefsDialog *parent ); 
+    PageGUI( Prefs *parent ); 
     ~PageGUI();
 
 private:
@@ -99,7 +101,7 @@ private:
 class PageLocale : public wxPanel 
 {
 public:
-    PageLocale( PrefsDialog *parent ); 
+    PageLocale( Prefs *parent ); 
     ~PageLocale();
 
 private:
@@ -119,7 +121,7 @@ private:
 class PageEditors : public wxPanel 
 {
 public:
-    PageEditors( PrefsDialog *parent ); 
+    PageEditors( Prefs *parent ); 
     ~PageEditors();
 
 private:
@@ -148,6 +150,7 @@ private:
 //  int  m_selEditor;
     int  m_selTabsW;
     int  m_caretW;
+};
 };
 };
 

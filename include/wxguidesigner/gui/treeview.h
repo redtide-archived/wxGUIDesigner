@@ -23,13 +23,13 @@ namespace RTTI
 class ObjectEvent;
 };
 //=============================================================================
-// TreeItemData
+// TreeViewItemData
 //=============================================================================
-class TreeItemData : public wxTreeItemData
+class TreeViewItemData : public wxTreeItemData
 {
 public:
-    TreeItemData( RTTI::Object object );
-    ~TreeItemData();
+    TreeViewItemData( RTTI::Object object );
+    ~TreeViewItemData();
 
     RTTI::Object GetObject();
 

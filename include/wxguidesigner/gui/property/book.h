@@ -25,18 +25,17 @@ class wxHtmlWindow;
 
 namespace wxGD
 {
+namespace RTTI { class ObjectEvent; };
+
 class Handler;
 
-namespace RTTI
+namespace Property
 {
-    class ObjectEvent;
-};
-
-class PropertyBook : public wxNotebook
+class Book : public wxNotebook
 {
 public:
-    PropertyBook( Handler *handler, wxWindow *parent );
-    ~PropertyBook();
+    Book( Handler *handler, wxWindow *parent );
+    ~Book();
 
 private:
     void OnChildFocus           ( wxChildFocusEvent     &event );
@@ -64,6 +63,8 @@ private:
     wxPanel             *m_pgDesc;
     wxHtmlWindow        *m_egHtml;
     wxHtmlWindow        *m_pgHtml;
+};
+
 };
 };
 

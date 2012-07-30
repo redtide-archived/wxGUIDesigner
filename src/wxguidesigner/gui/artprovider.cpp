@@ -23,11 +23,11 @@
 #include "wxguidesigner/rtti/database.h"
 #include "wxguidesigner/utils.h"
 
-wxGD::IconCategoryMap wxGD::ArtProvider::Categories;
+wxGD::ArtProvider::IconCategoryMap wxGD::ArtProvider::Categories;
 
-void wxGD::ArtProvider::Load( const wxString &categoryName,
-                            wxImageList *smallImageList,
-                            wxImageList *largeImageList, bool useSmallIcons )
+void wxGD::ArtProvider::Load  ( const wxString &categoryName,
+                                wxImageList *smallImageList,
+                                wxImageList *largeImageList, bool useSmallIcons )
 {
     // No duplicates
     if( CategoryExists( categoryName ) )

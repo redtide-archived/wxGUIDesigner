@@ -22,19 +22,19 @@
 #include "wxguidesigner/events.h"
 #include "wxguidesigner/rtti/tree.h"
 //============================================================================
-// TreeItemData
+// TreeViewItemData
 //============================================================================
-wxGD::TreeItemData::TreeItemData( RTTI::Object object )
+wxGD::TreeViewItemData::TreeViewItemData( RTTI::Object object )
 :
 m_object( object )
 {
 }
 
-wxGD::TreeItemData::~TreeItemData()
+wxGD::TreeViewItemData::~TreeViewItemData()
 {
 }
 
-wxGD::RTTI::Object wxGD::TreeItemData::GetObject()
+wxGD::RTTI::Object wxGD::TreeViewItemData::GetObject()
 {
     return m_object;
 }
@@ -97,7 +97,7 @@ void wxGD::TreeView::OnObjectCreated( RTTI::ObjectEvent &event )
             parent = GetSelection();
             while( parent.IsOk() )
             {
-                TreeItemData *data = dynamic_cast< TreeItemData * >
+                TreeViewItemData *data = dynamic_cast< TreeViewItemData * >
                                                     ( GetItemData( parent ) );
                 if( !data )
                     return;
@@ -115,7 +115,7 @@ void wxGD::TreeView::OnObjectCreated( RTTI::ObjectEvent &event )
         item = AppendItem( parent, name, imgIdx );
     }
 
-    SetItemData( item, new TreeItemData( object ) );
+    SetItemData( item, new TreeViewItemData( object ) );
     SelectItem( item );
 }
 
@@ -147,7 +147,7 @@ void wxGD::TreeView::OnEndDrag( wxTreeEvent &event )
 void wxGD::TreeView::OnSelChanged( wxTreeEvent &event )
 {
     wxTreeItemId item  = event.GetItem();
-    TreeItemData *data = dynamic_cast< TreeItemData * >
+    TreeViewItemData *data = dynamic_cast< TreeViewItemData * >
                                         ( GetItemData( item ) );
     if( data )
     {
@@ -168,7 +168,7 @@ void wxGD::TreeView::OnSelChanged( wxTreeEvent &event )
 void wxGD::TreeView::OnItemCollapsed( wxTreeEvent &event )
 {
     wxTreeItemId item  = event.GetItem();
-    TreeItemData *data = dynamic_cast< TreeItemData * >
+    TreeViewItemData *data = dynamic_cast< TreeViewItemData * >
                                         ( GetItemData( item ) );
     if( data )
     {
@@ -184,7 +184,7 @@ void wxGD::TreeView::OnItemCollapsed( wxTreeEvent &event )
 void wxGD::TreeView::OnItemExpanded( wxTreeEvent &event )
 {
     wxTreeItemId item  = event.GetItem();
-    TreeItemData *data = dynamic_cast< TreeItemData * >
+    TreeViewItemData *data = dynamic_cast< TreeViewItemData * >
                                         ( GetItemData( item ) );
     if( data )
     {

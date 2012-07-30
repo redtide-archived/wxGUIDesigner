@@ -34,7 +34,7 @@
 
 #include "wxguidesigner/gui/handler.h"
 
-wxGD::PropertyBook::PropertyBook( wxGD::Handler *handler, wxWindow* parent )
+wxGD::Property::Book::Book( wxGD::Handler *handler, wxWindow* parent )
 :
 wxNotebook( parent, wxID_ANY ),
 m_handler( handler )
@@ -109,44 +109,44 @@ m_handler( handler )
     AddPage( m_pgSplitter, _("Properties"), true,  propsIndex );
     AddPage( m_egSplitter, _("Events"),     false, eventIndex );
 
-    Bind( wxEVT_SIZE, &PropertyBook::OnSize, this );
+    Bind( wxEVT_SIZE, &Book::OnSize, this );
 
     m_pgProps->Bind( wxEVT_PG_CHANGED,
-                        &PropertyBook::OnPropGridChanged, this );
+                        &Book::OnPropGridChanged, this );
 
     m_pgProps->Bind( wxEVT_PG_SELECTED,
-                        &PropertyBook::OnPropGridSelected, this );
+                        &Book::OnPropGridSelected, this );
 
     m_pgEvents->Bind( wxEVT_PG_CHANGED,
-                        &PropertyBook::OnEventGridChanged, this );
+                        &Book::OnEventGridChanged, this );
 
     m_pgEvents->Bind( wxEVT_PG_SELECTED,
-                        &PropertyBook::OnEventGridSelected, this );
+                        &Book::OnEventGridSelected, this );
 
     m_pgEvents->Bind( wxEVT_PG_DOUBLE_CLICK,
-                        &PropertyBook::OnEventGridLeftDClick, this );
+                        &Book::OnEventGridLeftDClick, this );
 
     m_pgHtml->Bind( wxEVT_COMMAND_HTML_LINK_CLICKED,
-                        &PropertyBook::OnLinkClicked, this );
+                        &Book::OnLinkClicked, this );
 
     m_egHtml->Bind( wxEVT_COMMAND_HTML_LINK_CLICKED,
-                        &PropertyBook::OnLinkClicked, this );
+                        &Book::OnLinkClicked, this );
 
-    Bind( wxGD_EVT_OBJECT_SELECTED, &PropertyBook::OnObjectSelected, this );
+    Bind( wxGD_EVT_OBJECT_SELECTED, &Book::OnObjectSelected, this );
 
-    Bind( wxEVT_CHILD_FOCUS, &PropertyBook::OnChildFocus, this );
+    Bind( wxEVT_CHILD_FOCUS, &Book::OnChildFocus, this );
 }
 
-wxGD::PropertyBook::~PropertyBook()
+wxGD::Property::Book::~Book()
 {
 }
 
-void wxGD::PropertyBook::OnChildFocus( wxChildFocusEvent & )
+void wxGD::Property::Book::OnChildFocus( wxChildFocusEvent & )
 {
     // Workaround: unwanted scrollbar scrolling when clicking on a property
 }
 
-void wxGD::PropertyBook::OnSize( wxSizeEvent &event )
+void wxGD::Property::Book::OnSize( wxSizeEvent &event )
 {
     int height = event.GetSize().GetHeight();
 
@@ -157,7 +157,7 @@ void wxGD::PropertyBook::OnSize( wxSizeEvent &event )
     }
 }
 
-void wxGD::PropertyBook::OnPropGridChanged( wxPropertyGridEvent &event )
+void wxGD::Property::Book::OnPropGridChanged( wxPropertyGridEvent &event )
 {
     wxPGProperty *pgProperty = event.GetProperty();
     if( pgProperty )
@@ -178,7 +178,7 @@ void wxGD::PropertyBook::OnPropGridChanged( wxPropertyGridEvent &event )
     }
 }
 
-void wxGD::PropertyBook::OnPropGridSelected( wxPropertyGridEvent &event )
+void wxGD::Property::Book::OnPropGridSelected( wxPropertyGridEvent &event )
 {
     wxPGProperty *pgProperty = event.GetProperty();
     if( pgProperty )
@@ -222,7 +222,7 @@ void wxGD::PropertyBook::OnPropGridSelected( wxPropertyGridEvent &event )
     }
 }
 
-void wxGD::PropertyBook::OnEventGridChanged( wxPropertyGridEvent &event )
+void wxGD::Property::Book::OnEventGridChanged( wxPropertyGridEvent &event )
 {
     // pgProperty represents an event type
     wxPGProperty *pgProperty  = event.GetProperty();
@@ -257,7 +257,7 @@ void wxGD::PropertyBook::OnEventGridChanged( wxPropertyGridEvent &event )
     }
 }
 
-void wxGD::PropertyBook::OnEventGridSelected( wxPropertyGridEvent &event )
+void wxGD::Property::Book::OnEventGridSelected( wxPropertyGridEvent &event )
 {
     wxPGProperty *pgProperty = event.GetProperty();
     if( pgProperty )
@@ -301,7 +301,7 @@ void wxGD::PropertyBook::OnEventGridSelected( wxPropertyGridEvent &event )
     }
 }
 
-void wxGD::PropertyBook::OnEventGridLeftDClick( wxPropertyGridEvent &event )
+void wxGD::Property::Book::OnEventGridLeftDClick( wxPropertyGridEvent &event )
 {
     wxPGProperty *pgProperty = event.GetProperty();
     if( pgProperty && !pgProperty->IsCategory() )
@@ -341,12 +341,12 @@ void wxGD::PropertyBook::OnEventGridLeftDClick( wxPropertyGridEvent &event )
     }
 }
 
-void wxGD::PropertyBook::OnLinkClicked( wxHtmlLinkEvent &event )
+void wxGD::Property::Book::OnLinkClicked( wxHtmlLinkEvent &event )
 {
     wxLaunchDefaultBrowser( event.GetLinkInfo().GetHref() );
 }
 
-void wxGD::PropertyBook::OnObjectSelected( RTTI::ObjectEvent &event )
+void wxGD::Property::Book::OnObjectSelected( RTTI::ObjectEvent &event )
 {
     RTTI::Object object = event.GetObject();
 
@@ -354,7 +354,7 @@ void wxGD::PropertyBook::OnObjectSelected( RTTI::ObjectEvent &event )
     LoadEvents( object );
 }
 
-void wxGD::PropertyBook::LoadEvents( RTTI::Object object )
+void wxGD::Property::Book::LoadEvents( RTTI::Object object )
 {
     m_pgEvents->Clear();
     m_egHtml->SetPage( wxEmptyString );
@@ -390,7 +390,7 @@ void wxGD::PropertyBook::LoadEvents( RTTI::Object object )
     }
 }
 
-void wxGD::PropertyBook::LoadProperties( RTTI::Object object )
+void wxGD::Property::Book::LoadProperties( RTTI::Object object )
 {
     m_pgProps->Clear();
     m_pgHtml->SetPage( wxEmptyString );
@@ -453,7 +453,7 @@ void wxGD::PropertyBook::LoadProperties( RTTI::Object object )
     m_pgProps->SetUnspecifiedValueAppearance( pgCell );
 }
 
-wxPGProperty *wxGD::PropertyBook::AddProperty( RTTI::Property property )
+wxPGProperty *wxGD::Property::Book::AddProperty( RTTI::Property property )
 {
     if( !property )
         return NULL;
@@ -469,7 +469,7 @@ wxPGProperty *wxGD::PropertyBook::AddProperty( RTTI::Property property )
     }
     else if( type == RTTI::PROPERTY_TYPE_BITMAP )
     {
-        return new BitmapProperty( label, name, property->GetAsString() );
+        return new wxGD::Property::Bitmap( label, name, property->GetAsString() );
     }
     else if( type == RTTI::PROPERTY_TYPE_BOOL )
     {
@@ -490,8 +490,8 @@ wxPGProperty *wxGD::PropertyBook::AddProperty( RTTI::Property property )
 
         wxColourPropertyValue colourValue( type, colour );
 
-        ColourProperty
-        *pgProperty = new ColourProperty( label, name, colourValue );
+        wxGD::Property::Colour
+        *pgProperty = new wxGD::Property::Colour( label, name, colourValue );
 
         return pgProperty;
     }/*
@@ -522,7 +522,7 @@ wxPGProperty *wxGD::PropertyBook::AddProperty( RTTI::Property property )
     }
     else if( type == RTTI::PROPERTY_TYPE_FONT )
     {
-        return new FontProperty( label, name, property->GetAsFont() );
+        return new wxGD::Property::Font( label, name, property->GetAsFont() );
     }
     else if( type == RTTI::PROPERTY_TYPE_INT )
     {
@@ -536,11 +536,11 @@ wxPGProperty *wxGD::PropertyBook::AddProperty( RTTI::Property property )
     }
     else if( type == RTTI::PROPERTY_TYPE_SIZE )
     {
-        return new SizeProperty( label, name, property->GetAsSize() );
+        return new wxGD::Property::Size( label, name, property->GetAsSize() );
     }
     else if( type == RTTI::PROPERTY_TYPE_POINT )
     {
-        return new PointProperty( label, name, property->GetAsPoint() );
+        return new wxGD::Property::Point( label, name, property->GetAsPoint() );
     }
     else if( type == RTTI::PROPERTY_TYPE_URL )
     {
@@ -561,7 +561,7 @@ wxPGProperty *wxGD::PropertyBook::AddProperty( RTTI::Property property )
         }
 
         wxPGProperty *pgProperty =
-        new FlagsProperty( label, name, styleNames, styleValues,
+        new wxGD::Property::Flags( label, name, styleNames, styleValues,
                                                 property->GetAsStyle() );
         return pgProperty;
     }

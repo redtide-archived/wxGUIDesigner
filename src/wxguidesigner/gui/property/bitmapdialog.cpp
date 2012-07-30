@@ -94,9 +94,9 @@ static void FillBitmaps( wxImageList *images, wxListCtrl *list, int &index,
     ART_ICON(wxART_REMOVABLE)
 }
 //=============================================================================
-// BitmapArtPanel
+// BitmapArtBrowser
 //=============================================================================
-wxGD::BitmapArtPanel::BitmapArtPanel( wxWindow* parent )
+wxGD::Property::BitmapArtBrowser::BitmapArtBrowser( wxWindow* parent )
 :
 wxPanel( parent )
 {
@@ -196,17 +196,17 @@ wxPanel( parent )
     SetArtClient();
 
     Bind( wxEVT_COMMAND_RADIOBOX_SELECTED,
-            &BitmapArtPanel::OnChooseClient, this );
+            &BitmapArtBrowser::OnChooseClient, this );
 
     Bind( wxEVT_COMMAND_LIST_ITEM_SELECTED,
-            &BitmapArtPanel::OnSelectItem, this );
+            &BitmapArtBrowser::OnSelectItem, this );
 }
 
-wxGD::BitmapArtPanel::~BitmapArtPanel()
+wxGD::Property::BitmapArtBrowser::~BitmapArtBrowser()
 {
 }
 
-void wxGD::BitmapArtPanel::SetArtClient( const wxArtClient &client )
+void wxGD::Property::BitmapArtBrowser::SetArtClient( const wxArtClient &client )
 {
     wxBusyCursor bcur;
 
@@ -230,9 +230,9 @@ void wxGD::BitmapArtPanel::SetArtClient( const wxArtClient &client )
     SetArtBitmap( m_id, m_client );
 }
 
-void wxGD::BitmapArtPanel::SetArtBitmap ( const wxArtID     &id,
-                                        const wxArtClient &client,
-                                        const wxSize      &size )
+void wxGD::Property::BitmapArtBrowser::SetArtBitmap(const wxArtID     &id,
+                                                    const wxArtClient &client,
+                                                    const wxSize      &size)
 {
     wxBitmap bmp = wxArtProvider::GetBitmap( id, client, size );
     m_bmpArt->SetSize( bmp.GetWidth(), bmp.GetHeight() );
@@ -242,14 +242,14 @@ void wxGD::BitmapArtPanel::SetArtBitmap ( const wxArtID     &id,
     Refresh();
 }
 
-void wxGD::BitmapArtPanel::OnSelectItem( wxListEvent &event )
+void wxGD::Property::BitmapArtBrowser::OnSelectItem( wxListEvent &event )
 {
     const char *data = (const char*)event.GetData();
     m_id = data;
     SetArtBitmap( m_id, m_client, wxDefaultSize );
 }
 
-void wxGD::BitmapArtPanel::OnChooseClient( wxCommandEvent &event )
+void wxGD::Property::BitmapArtBrowser::OnChooseClient( wxCommandEvent &event )
 {
     switch( event.GetSelection() )
     {
@@ -282,7 +282,7 @@ void wxGD::BitmapArtPanel::OnChooseClient( wxCommandEvent &event )
 //=============================================================================
 // BitmapDialog
 //=============================================================================
-wxGD::BitmapDialog::BitmapDialog( wxWindow* parent, int source )
+wxGD::Property::BitmapDialog::BitmapDialog( wxWindow* parent, int source )
 :
 wxDialog( parent, wxID_ANY, _("Open an image file"), wxDefaultPosition,
             wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER )
@@ -316,7 +316,7 @@ wxDialog( parent, wxID_ANY, _("Open an image file"), wxDefaultPosition,
     wxBoxSizer *mainSizer   = new wxBoxSizer( wxVERTICAL );
     m_sizer                 = new wxBoxSizer( wxVERTICAL );
 
-    m_artReq                = new BitmapArtPanel( this );
+    m_artReq                = new BitmapArtBrowser( this );
     m_fileReq               = new wxFileCtrl( this, wxID_ANY, wxEmptyString,
                                                 wxEmptyString, wildCard );
 
@@ -361,51 +361,51 @@ wxDialog( parent, wxID_ANY, _("Open an image file"), wxDefaultPosition,
             &BitmapDialog::OnFileActivated, this );
 }
 
-wxGD::BitmapDialog::~BitmapDialog()
+wxGD::Property::BitmapDialog::~BitmapDialog()
 {
 }
 
-wxArtClient wxGD::BitmapDialog::GetArtClient() const
+wxArtClient wxGD::Property::BitmapDialog::GetArtClient() const
 {
     return m_artReq->GetArtClient();
 }
 
-wxArtID wxGD::BitmapDialog::GetArtId() const
+wxArtID wxGD::Property::BitmapDialog::GetArtId() const
 {
     return m_artReq->GetArtId();
 }
 
-void wxGD::BitmapDialog::SetFilterIndex( int index )
+void wxGD::Property::BitmapDialog::SetFilterIndex( int index )
 {
     m_fileReq->SetFilterIndex( index );
 }
 
-int wxGD::BitmapDialog::GetFilterIndex() const
+int wxGD::Property::BitmapDialog::GetFilterIndex() const
 {
     return m_fileReq->GetFilterIndex();
 }
 
-wxString wxGD::BitmapDialog::GetPath() const
+wxString wxGD::Property::BitmapDialog::GetPath() const
 {
     return m_fileReq->GetPath();
 }
 
-wxString wxGD::BitmapDialog::GetDirectory() const
+wxString wxGD::Property::BitmapDialog::GetDirectory() const
 {
     return m_fileReq->GetDirectory();
 }
 
-int wxGD::BitmapDialog::GetSelection() const
+int wxGD::Property::BitmapDialog::GetSelection() const
 {
     return m_fileTypeRbx->GetSelection();
 }
 
-void wxGD::BitmapDialog::SetDirectory( const wxString &directory )
+void wxGD::Property::BitmapDialog::SetDirectory( const wxString &directory )
 {
     m_fileReq->SetDirectory( directory );
 }
 
-void wxGD::BitmapDialog::SetSelection( size_t selection )
+void wxGD::Property::BitmapDialog::SetSelection( size_t selection )
 {
     if( selection >= m_fileTypeRbx->GetCount() )
         return;
@@ -424,13 +424,13 @@ void wxGD::BitmapDialog::SetSelection( size_t selection )
     }
 }
 
-void wxGD::BitmapDialog::OnSelectSource( wxCommandEvent &event )
+void wxGD::Property::BitmapDialog::OnSelectSource( wxCommandEvent &event )
 {
     SetSelection( event.GetSelection() );
     Layout();
 }
 
-void wxGD::BitmapDialog::OnFileActivated( wxFileCtrlEvent & )
+void wxGD::Property::BitmapDialog::OnFileActivated( wxFileCtrlEvent & )
 {
     EndModal( wxID_OK );
 }

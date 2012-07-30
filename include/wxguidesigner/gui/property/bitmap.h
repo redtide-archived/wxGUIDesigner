@@ -13,21 +13,23 @@
 
 namespace wxGD
 {
-//=============================================================================
-// BitmapProperty
-//=============================================================================
-class BitmapProperty : public wxPGProperty
+namespace Property
 {
-    WX_PG_DECLARE_PROPERTY_CLASS( BitmapProperty )
+//=============================================================================
+// wxGD::Property::Bitmap
+//=============================================================================
+class Bitmap : public wxPGProperty
+{
+    WX_PG_DECLARE_PROPERTY_CLASS( Bitmap )
 
     friend class BitmapDialogAdapter;
 
 public:
-    BitmapProperty( const wxString &label = wxPG_LABEL,
-                        const wxString &name  = wxPG_LABEL,
-                        const wxString &value = wxEmptyString );
+    Bitmap( const wxString &label = wxPG_LABEL,
+            const wxString &name  = wxPG_LABEL,
+            const wxString &value = wxEmptyString );
 
-    virtual ~BitmapProperty();
+    virtual ~Bitmap();
 
     wxString        ValueToString ( wxVariant &value,
                                     int        flags = 0 ) const;
@@ -45,14 +47,15 @@ protected:
     static wxString ms_lastDir;   // last used path
     };
 //=============================================================================
-// BitmapDialogAdapter
+// wxGD::Property::BitmapDialogAdapter
 //=============================================================================
 class BitmapDialogAdapter : public wxPGEditorDialogAdapter
 {
 public:
-    virtual bool    DoShowDialog( wxPropertyGrid* propGrid,
-                                    wxPGProperty* property );
+    virtual bool    DoShowDialog  ( wxPropertyGrid* propGrid,
+                                    wxPGProperty*   property );
 };
-};
+}; // namespace Property
+}; // namespace wxGD
 
 #endif //__WXGUIDESIGNER_GUI_PROPERTY_BITMAP_H__

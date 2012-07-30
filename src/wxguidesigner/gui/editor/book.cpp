@@ -1,8 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        wxguidesigner/gui/editor/book.cpp
-// Purpose:     EditorBook: Visual and code editor wxNotebook impl.
+// Purpose:     Book: Visual and code editor wxNotebook impl.
 // Author:      Andrea Zanellato
-// Modified by: 
+// Modified by:
 // Created:     2011/11/30
 // Revision:    $Hash$
 // Copyleft:    (ɔ) Andrea Zanellato
@@ -36,9 +36,9 @@
 #include "wxguidesigner/gui/editor/designer.h"
 #include "wxguidesigner/gui/editor/book.h"
 //=============================================================================
-// EditorBook
+// wxGD::Editor::Book
 //=============================================================================
-wxGD::EditorBook::EditorBook( wxGD::Handler *handler, wxWindow *parent )
+wxGD::Editor::Book::Book( wxGD::Handler *handler, wxWindow *parent )
 :
 wxNotebook( parent, wxID_ANY ),
 m_handler ( handler ),
@@ -46,7 +46,7 @@ m_editor  ( NULL )
 {
     SetOwnBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_BTNFACE ) );
 
-    m_editor = new Editor( this );
+    m_editor = new Designer( this );
 
     wxImageList *imageList = m_handler->GetSmallImageList();
     if( imageList )
@@ -58,25 +58,25 @@ m_editor  ( NULL )
 //=============================================================================
 // wxGDCodeEditors
 //=============================================================================
-    LoadCodeEditorPages();
+    LoadCodeEditors();
 
-    Bind( wxGD_EVT_OBJECT_CREATED,   &EditorBook::OnObjectCreated,   this );
-    Bind( wxGD_EVT_OBJECT_SELECTED,  &EditorBook::OnObjectSelected,  this );
-    Bind( wxGD_EVT_EVENT_CHANGED,    &EditorBook::OnEventChanged,    this );
-    Bind( wxGD_EVT_PROPERTY_CHANGED, &EditorBook::OnPropertyChanged, this );
+    Bind( wxGD_EVT_OBJECT_CREATED,   &Book::OnObjectCreated,   this );
+    Bind( wxGD_EVT_OBJECT_SELECTED,  &Book::OnObjectSelected,  this );
+    Bind( wxGD_EVT_EVENT_CHANGED,    &Book::OnEventChanged,    this );
+    Bind( wxGD_EVT_PROPERTY_CHANGED, &Book::OnPropertyChanged, this );
 }
 
-wxGD::EditorBook::~EditorBook()
+wxGD::Editor::Book::~Book()
 {
     m_objects.clear();
 }
 
-wxGD::Editor *wxGD::EditorBook::GetGUIEditor() const
+wxGD::Editor::Designer *wxGD::Editor::Book::GetGUIEditor() const
 {
     return m_editor;
 }
 
-void wxGD::EditorBook::LoadCodeEditorPages()
+void wxGD::Editor::Book::LoadCodeEditors()
 {
     wxString c = "languages";
 
@@ -128,32 +128,32 @@ void wxGD::EditorBook::LoadCodeEditorPages()
     }
 }
 
-void wxGD::EditorBook::OnObjectCreated( RTTI::ObjectEvent &event )
+void wxGD::Editor::Book::OnObjectCreated( RTTI::ObjectEvent &event )
 {
     Reload();
 }
 
-void wxGD::EditorBook::OnObjectDeleted( RTTI::ObjectEvent &event )
+void wxGD::Editor::Book::OnObjectDeleted( RTTI::ObjectEvent &event )
 {
     Reload();
 }
 
-void wxGD::EditorBook::OnObjectSelected( RTTI::ObjectEvent &event )
+void wxGD::Editor::Book::OnObjectSelected( RTTI::ObjectEvent &event )
 {
     Reload();
 }
 
-void wxGD::EditorBook::OnEventChanged( RTTI::EventPropertyEvent &event )
+void wxGD::Editor::Book::OnEventChanged( RTTI::EventPropertyEvent &event )
 {
     m_handler->Serialize();
 }
 
-void wxGD::EditorBook::OnPropertyChanged( RTTI::PropertyEvent &event )
+void wxGD::Editor::Book::OnPropertyChanged( RTTI::PropertyEvent &event )
 {
     Reload();
 }
 
-void wxGD::EditorBook::Reload()
+void wxGD::Editor::Book::Reload()
 {
     RTTI::Object object = m_handler->GetSelectedObject();
     if( !object )
@@ -167,7 +167,7 @@ void wxGD::EditorBook::Reload()
     m_editor->UpdateDesigner( className, name );
 }
 
-void wxGD::EditorBook::SetupWindow( wxWindow *window )
+void wxGD::Editor::Book::SetupWindow( wxWindow *window )
 {
     RTTI::Object object = m_handler->GetSelectedObject();
     if( !window || !object )

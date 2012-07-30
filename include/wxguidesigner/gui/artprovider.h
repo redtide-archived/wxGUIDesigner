@@ -22,22 +22,22 @@ class wxImageList;
 
 namespace wxGD
 {
-// item label (e.g. 'wxFrame') and imagelist index
-typedef std::pair< wxString, int >              IconInfo;
-typedef std::vector< IconInfo >                 IconInfos;
-
-// group name and label e.g. 'toplevel' 'Top Level'
-typedef std::pair< wxString, wxString >         IconGroupNames;
-typedef std::pair< IconGroupNames, int >        IconGroupInfo;
-typedef std::pair< IconGroupInfo, IconInfos >   IconGroup;
-typedef std::vector< IconGroup >                IconGroups;
-
-// category name e.g. "controls"
-typedef std::pair< wxString, IconGroups >       IconCategory;
-typedef std::map< wxString, IconGroups >        IconCategoryMap;
-
 namespace ArtProvider
 {
+    // item label (e.g. 'wxFrame') and imagelist index
+    typedef std::pair< wxString, int >              IconInfo;
+    typedef std::vector< IconInfo >                 IconInfos;
+
+    // group name and label e.g. 'toplevel' 'Top Level'
+    typedef std::pair< wxString, wxString >         IconGroupNames;
+    typedef std::pair< IconGroupNames, int >        IconGroupInfo;
+    typedef std::pair< IconGroupInfo, IconInfos >   IconGroup;
+    typedef std::vector< IconGroup >                IconGroups;
+
+    // category name e.g. "controls"
+    typedef std::pair< wxString, IconGroups >       IconCategory;
+    typedef std::map< wxString, IconGroups >        IconCategoryMap;
+
     void Load ( const wxString &categoryName, wxImageList *smallImageList,
                 wxImageList *largeImageList, bool useSmallIcons = false );
     void Unload();

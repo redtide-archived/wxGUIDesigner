@@ -17,15 +17,15 @@
 #include "wxguidesigner/gui/utils/draw.h"
 #include "wxguidesigner/gui/aui/dockart.h"
 
-wxGD::AUIDockArt::AUIDockArt()
+wxGD::AUI::DockArt::DockArt()
 {
 }
 
-wxGD::AUIDockArt::~AUIDockArt()
+wxGD::AUI::DockArt::~DockArt()
 {
 }
 
-wxString wxGD::AUIDockArt::EllipsizeText( wxDC &dc, const wxString &text, int maxSize )
+wxString wxGD::AUI::DockArt::EllipsizeText( wxDC &dc, const wxString &text, int maxSize )
 {
     wxCoord x,y;
 
@@ -53,7 +53,7 @@ wxString wxGD::AUIDockArt::EllipsizeText( wxDC &dc, const wxString &text, int ma
     return ret;
 }
 
-void wxGD::AUIDockArt::DrawCaption( wxDC &dc, wxWindow *, const wxString &text,
+void wxGD::AUI::DockArt::DrawCaption( wxDC &dc, wxWindow *, const wxString &text,
                                     const wxRect &rect, wxAuiPaneInfo &pane )
 {
 /*

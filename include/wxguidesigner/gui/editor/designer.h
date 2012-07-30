@@ -1,8 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        wxguidesigner/gui/editbook/designer.h
-// Purpose:     
+// Purpose:
 // Author:      Andrea Zanellato
-// Modified by: 
+// Modified by:
 // Created:     2012/06/01
 // Revision:    $Hash$
 // Copyleft:    (ɔ) Andrea Zanellato
@@ -24,6 +24,8 @@ class wxXmlNode;
 class wxGlossyButton;
 
 namespace wxGD
+{
+namespace Editor
 {
 //=============================================================================
 // TitleBar
@@ -62,15 +64,15 @@ private:
     DECLARE_DYNAMIC_CLASS( TitleBar )
 };
 //=============================================================================
-// ResizingPanel
+// Resizer
 //=============================================================================
-class Editor;
+class Designer;
 
-class ResizingPanel : public wxPanel
+class Resizer : public wxPanel
 {
 public:
-    ResizingPanel( Editor *parent );
-    ~ResizingPanel();
+    Resizer( Designer *parent );
+    ~Resizer();
 
 private:
     void OnMouseMotion  ( wxMouseEvent &event );
@@ -85,20 +87,20 @@ private:
         RIGHTBOTTOM
     }   m_sizing;
 
-    int     m_curX, m_curY, m_difX, m_difY;
-    int     m_resizeBorder;
-    wxSize  m_minSize;
-    wxSize  m_baseMinSize;
-    Editor  *m_editor;
+    int         m_curX, m_curY, m_difX, m_difY;
+    int         m_resizeBorder;
+    wxSize      m_minSize;
+    wxSize      m_baseMinSize;
+    Designer    *m_editor;
 };
 //=============================================================================
-// Editor: Scrolled window, the main visual editor page
+// wxGD::Editor::Designer: Scrolled window, the main visual editor page
 //=============================================================================
-class Editor : public wxScrolled< wxPanel >
+class Designer : public wxScrolled< wxPanel >
 {
 public:
-    Editor( wxWindow *parent );
-    ~Editor();
+    Designer( wxWindow *parent );
+    ~Designer();
 
     void Cleanup();
     void ShowTitleBar( bool show = true );
@@ -108,12 +110,14 @@ public:
 
 private:
 
-    wxPanel         *m_border;
-    wxPanel         *m_client;
-    wxPanel         *m_designer;
-    ResizingPanel   *m_resizer;
-    TitleBar        *m_title;
+    wxPanel     *m_border;
+    wxPanel     *m_client;
+    wxPanel     *m_designer;
+    Resizer     *m_resizer;
+    TitleBar    *m_title;
 };
-};
+
+}; // namespace Editor
+}; // namespace wxGD
 
 #endif //__WXGUIDESIGNER_GUI_DESIGNER_H__

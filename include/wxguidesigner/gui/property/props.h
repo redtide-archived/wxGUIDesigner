@@ -13,38 +13,40 @@
 
 namespace wxGD
 {
-//=============================================================================
-// ColourProperty
-//=============================================================================
-class ColourProperty : public wxSystemColourProperty
+namespace Property
 {
-    WX_PG_DECLARE_PROPERTY_CLASS( ColourProperty )
+//=============================================================================
+// wxGD::Property::Colour
+//=============================================================================
+class Colour : public wxSystemColourProperty
+{
+    WX_PG_DECLARE_PROPERTY_CLASS( wxGD::Property::Colour )
 
 public:
-    ColourProperty( const wxString              &label  = wxPG_LABEL,
+    Colour( const wxString              &label  = wxPG_LABEL,
                     const wxString              &name   = wxPG_LABEL,
                     const wxColourPropertyValue &value  =
                                                 wxColourPropertyValue() );
-    virtual ~ColourProperty();
+    virtual ~Colour();
 
     virtual wxString ColourToString( const wxColour &colour,
                                     int index, int flags = 0 ) const;
 };
 //=============================================================================
-// FlagsProperty
+// wxGD::Property::Flags
 //=============================================================================
-class FlagsProperty : public wxPGProperty
+class Flags : public wxPGProperty
 {
-    WX_PG_DECLARE_PROPERTY_CLASS( FlagsProperty )
+    WX_PG_DECLARE_PROPERTY_CLASS( wxGD::Property::Flags )
 
 public:
-    FlagsProperty ( const wxString         &label  = wxPG_LABEL,
-                    const wxString         &name   = wxPG_LABEL,
-                    const wxArrayString    &labels = wxArrayString(),
-                    const wxArrayInt       &values = wxArrayInt(),
-                    int                    value   = 0 );
+    Flags ( const wxString         &label  = wxPG_LABEL,
+            const wxString         &name   = wxPG_LABEL,
+            const wxArrayString    &labels = wxArrayString(),
+            const wxArrayInt       &values = wxArrayInt(),
+            int                    value   = 0 );
 
-    virtual ~FlagsProperty();
+    virtual ~Flags();
 
     virtual void        OnSetValue();
     virtual wxString    ValueToString ( wxVariant &value, int flags = 0 ) const;
@@ -77,18 +79,18 @@ protected:
     long                m_oldValue;
 };
 //=============================================================================
-// FontProperty
+// wxGD::Property::Font
 //=============================================================================
-class FontProperty : public wxPGProperty
+class Font : public wxPGProperty
 {
-    WX_PG_DECLARE_PROPERTY_CLASS( FontProperty )
+    WX_PG_DECLARE_PROPERTY_CLASS( wxGD::Property::Font )
 
 public:
-    FontProperty  ( const wxString          &label = wxPG_LABEL,
-                    const wxString          &name  = wxPG_LABEL,
-                    const wxFontContainer   &value = *wxNORMAL_FONT );
+    Font  ( const wxString          &label = wxPG_LABEL,
+            const wxString          &name  = wxPG_LABEL,
+            const wxFontContainer   &value = *wxNORMAL_FONT );
 
-    virtual ~FontProperty();
+    virtual ~Font();
 
     virtual void        OnSetValue();
     virtual wxString    ValueToString ( wxVariant       &value,
@@ -106,18 +108,18 @@ public:
     virtual void        RefreshChildren();
 };
 //=============================================================================
-// PointProperty
+// wxGD::Property::Point
 //=============================================================================
-class PointProperty : public wxPGProperty
+class Point : public wxPGProperty
 {
-    WX_PG_DECLARE_PROPERTY_CLASS( PointProperty )
+    WX_PG_DECLARE_PROPERTY_CLASS( wxGD::Property::Point )
 
 public:
-    PointProperty ( const wxString &label = wxPG_LABEL,
-                    const wxString &name  = wxPG_LABEL,
-                    const wxPoint  &value = wxPoint() );
+    Point ( const wxString &label = wxPG_LABEL,
+            const wxString &name  = wxPG_LABEL,
+            const wxPoint  &value = wxPoint() );
 
-    virtual ~PointProperty();
+    virtual ~Point();
 
     virtual wxString    ValueToString ( wxVariant       &value,
                                         int             flags = 0 ) const;
@@ -136,18 +138,18 @@ protected:
     void DoSetValue( const wxPoint &value ) { m_value = WXVARIANT( value ); }
 };
 //=============================================================================
-// SizeProperty
+// wxGD::Property::Size
 //=============================================================================
-class SizeProperty : public wxPGProperty
+class Size : public wxPGProperty
 {
-    WX_PG_DECLARE_PROPERTY_CLASS( SizeProperty )
+    WX_PG_DECLARE_PROPERTY_CLASS( wxGD::Property::Size )
 
 public:
-    SizeProperty  ( const wxString &label = wxPG_LABEL,
-                    const wxString &name  = wxPG_LABEL,
-                    const wxSize   &value = wxSize() );
+    Size  ( const wxString &label = wxPG_LABEL,
+            const wxString &name  = wxPG_LABEL,
+            const wxSize   &value = wxSize() );
 
-    virtual ~SizeProperty();
+    virtual ~Size();
 
     virtual wxString    ValueToString ( wxVariant       &value,
                                         int             flags = 0 ) const;
@@ -165,6 +167,7 @@ public:
 protected:
     void DoSetValue( const wxSize &value ) { m_value = WXVARIANT( value ); }
 };
-};
+}; // namespace Property
+}; // namespace wxGD
 
 #endif //__WXGUIDESIGNER_GUI_PROPERTY_PROPS_H__

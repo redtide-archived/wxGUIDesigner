@@ -13,12 +13,15 @@
 
 namespace wxGD
 {
-class AboutDialog : public wxDialog
+namespace Dialog
+{
+class About : public wxDialog
 {
 public:
-    AboutDialog( wxWindow *parent );
-    ~AboutDialog();
+    About( wxWindow *parent );
+    ~About();
 };
-};
+}; // namespace Dialog
+}; // namespace wxGD
 
 #endif //__WXGUIDESIGNER_GUI_DIALOG_ABOUT_H__

@@ -17,13 +17,22 @@
 
 #include "wxguidesigner/gui/property/bitmapdialog.h"
 #include "wxguidesigner/gui/property/bitmap.h"
-//=============================================================================
-// BitmapDialogAdapter
-//=============================================================================
-bool wxGD::BitmapDialogAdapter::DoShowDialog( wxPropertyGrid* propGrid,
-                                            wxPGProperty*   property )
+
+namespace wxGD
 {
-    BitmapProperty *bmpProp = wxDynamicCast( property, BitmapProperty );
+namespace Property
+{
+    wxString BitmapLastDir     = wxEmptyString;
+    int      BitmapFilterIndex = 0;
+};
+};
+//=============================================================================
+// wxGD::Property::BitmapDialogAdapter
+//=============================================================================
+bool wxGD::Property::BitmapDialogAdapter::DoShowDialog( wxPropertyGrid* propGrid,
+                                                        wxPGProperty*   property )
+{
+    Bitmap *bmpProp = wxDynamicCast( property, Bitmap );
 
     if( bmpProp )
     {
@@ -41,8 +50,8 @@ bool wxGD::BitmapDialogAdapter::DoShowDialog( wxPropertyGrid* propGrid,
         }
 
         BitmapDialog dlg( propGrid->GetPanel(), selection );
-        dlg.SetFilterIndex( bmpProp->ms_indFilter );
-        dlg.SetDirectory( bmpProp->ms_lastDir );
+        dlg.SetFilterIndex  ( wxGD::Property::BitmapFilterIndex );
+        dlg.SetDirectory    ( wxGD::Property::BitmapLastDir );
 
         if( dlg.ShowModal() == wxID_OK )
         {
@@ -50,10 +59,10 @@ bool wxGD::BitmapDialogAdapter::DoShowDialog( wxPropertyGrid* propGrid,
 
             if( selection )
             {
-                bmpProp->ms_indFilter = dlg.GetFilterIndex();
-                bmpProp->ms_lastDir   = dlg.GetDirectory();
-                wxString    filePath  = dlg.GetPath();
-                wxFileName  fileName  = filePath;
+                wxGD::Property::BitmapFilterIndex   = dlg.GetFilterIndex();
+                wxGD::Property::BitmapLastDir       = dlg.GetDirectory();
+                wxString    filePath                = dlg.GetPath();
+                wxFileName  fileName                = filePath;
 
                 if( fileName.FileExists() )
                 {
@@ -95,17 +104,14 @@ bool wxGD::BitmapDialogAdapter::DoShowDialog( wxPropertyGrid* propGrid,
     return false;
 }
 //=============================================================================
-// BitmapProperty
+// wxGD::Property::Bitmap
 //=============================================================================
-WX_PG_IMPLEMENT_PROPERTY_CLASS( wxGD::BitmapProperty, wxPGProperty, wxString,
+WX_PG_IMPLEMENT_PROPERTY_CLASS( wxGD::Property::Bitmap, wxPGProperty, wxString,
                                 const wxString &, TextCtrlAndButton )
 
-wxString wxGD::BitmapProperty::ms_lastDir   = wxEmptyString;
-int      wxGD::BitmapProperty::ms_indFilter = 0;
-
-wxGD::BitmapProperty::BitmapProperty  ( const wxString &label,
-                                        const wxString &name,
-                                        const wxString &value )
+wxGD::Property::Bitmap::Bitmap( const wxString &label,
+                                const wxString &name,
+                                const wxString &value )
 :
 wxPGProperty( label, name ),
 m_bmpThumb( wxNullBitmap ),
@@ -164,11 +170,11 @@ m_imgThumb( wxNullImage )
     m_value = WXVARIANT( newValue );
 }
 
-wxGD::BitmapProperty::~BitmapProperty()
+wxGD::Property::Bitmap::~Bitmap()
 {
 }
 
-wxString wxGD::BitmapProperty::ValueToString( wxVariant &value, int ) const
+wxString wxGD::Property::Bitmap::ValueToString( wxVariant &value, int ) const
 {
     if ( value.GetType() == wxPG_VARIANT_TYPE_STRING )
         return value.GetString();
@@ -176,19 +182,19 @@ wxString wxGD::BitmapProperty::ValueToString( wxVariant &value, int ) const
     return wxEmptyString;
 }
 
-wxPGEditorDialogAdapter *wxGD::BitmapProperty::GetEditorDialog() const
+wxPGEditorDialogAdapter *wxGD::Property::Bitmap::GetEditorDialog() const
 {
     return new BitmapDialogAdapter();
 }
 //=============================================================================
 // Thumbnail drawing
 //=============================================================================
-wxSize wxGD::BitmapProperty::OnMeasureImage( int ) const
+wxSize wxGD::Property::Bitmap::OnMeasureImage( int ) const
 {
     return wxPG_DEFAULT_IMAGE_SIZE;
 }
 
-void wxGD::BitmapProperty::OnCustomPaint( wxDC &dc, const wxRect &rect,
+void wxGD::Property::Bitmap::OnCustomPaint( wxDC &dc, const wxRect &rect,
                                                     wxPGPaintData & )
 {
     if( !m_bmpThumb.IsNull() || m_imgThumb.IsOk() )

@@ -79,7 +79,7 @@ m_mgr       (NULL)
                                         wxAUI_MGR_HINT_FADE         |
                                         wxAUI_MGR_VENETIAN_BLINDS_HINT );
 
-    m_mgr->SetArtProvider( new AUIDockArt() );
+    m_mgr->SetArtProvider( new AUI::DockArt() );
 
 #ifdef __WXDEBUG__
     wxWindow *dbgWnd = (wxWindow *)m_handler->GetDebugWindow(m_panel);
@@ -111,7 +111,7 @@ m_mgr       (NULL)
                     MaximizeButton(true).CloseButton(false).DockFixed(true) );
 
     m_mgr->AddPane( propBook, wxAuiPaneInfo().Right().
-                    Name("PropertyBookPane").Caption(_("Properties") ).
+                    Name("BookPane").Caption(_("Properties") ).
                     MaximizeButton(true).CloseButton(false).
                     MinSize(180,-1).FloatingSize(150,300).
                     TopDockable(false).BottomDockable(false) );

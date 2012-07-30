@@ -41,16 +41,13 @@ class wxXmlResource;
 
 namespace wxGD
 {
-class EditorBook;
-class PropertyBook;
+namespace Editor    { class Book; };
+namespace Property  { class Book; };
+namespace RTTI      { class ObjectTree; };
+
 class ToolPalette;
 class TreeView;
 class MainFrame;
-
-namespace RTTI
-{
-class ObjectTree;
-};
 
 #ifdef __WXDEBUG__
     class DebugWindow;
@@ -105,13 +102,13 @@ private:
     wxMenuBar       *m_menuBar;
     wxToolBar       *m_toolBar;
     MainFrame       *m_frame;
-    EditorBook      *m_editBook;
+    Editor::Book    *m_editBook;
     ToolPalette     *m_palette;
-    PropertyBook    *m_propBook;
+    Property::Book  *m_propBook;
     TreeView        *m_treeView;
 
     std::vector< wxEvtHandler * >   m_handlers;
-    RTTI::Tree                  m_tree;
+    RTTI::Tree                      m_tree;
     wxLocale                        m_locale;
 };
 };

@@ -18,16 +18,20 @@ class wxRect;
 
 namespace wxGD
 {
-class AUIToolBarArt : public wxAuiDefaultToolBarArt
+namespace AUI
+{
+class ToolBarArt : public wxAuiDefaultToolBarArt
 {
 public:
-    AUIToolBarArt()          {}
-    virtual ~AUIToolBarArt() {}
+    ToolBarArt()          {}
+    virtual ~ToolBarArt() {}
 
     virtual void DrawBackground( wxDC &dc, wxWindow *wnd, const wxRect &rect );
 
     virtual void DrawOverflowButton( wxDC &dc, wxWindow *wnd,
                                      const wxRect &rect, int state );
+};
+
 };
 };
 

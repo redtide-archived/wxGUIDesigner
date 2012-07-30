@@ -41,8 +41,7 @@ private:
 
     wxArrayString   m_flagNames;
     wxArrayInt      m_flagValues;
-
-    static Flags *ms_instance;
+    static Flags    *ms_instance;
 };
 };
 

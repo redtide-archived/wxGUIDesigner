@@ -36,9 +36,9 @@ wxDEFINE_EVENT( wxGD_EVT_GUI_OPTION_CHANGED, wxCommandEvent );
 wxDEFINE_EVENT( wxGD_EVT_GUI_CONFIG_UPDATE,  wxCommandEvent );
 wxDEFINE_EVENT( wxGD_EVT_GUI_CONFIG_SAVE,    wxCommandEvent );
 //=============================================================================
-// PrefsDialog
+// Prefs
 //=============================================================================
-wxGD::PrefsDialog::PrefsDialog( wxWindow *parent )
+wxGD::Dialog::Prefs::Prefs( wxWindow *parent )
 :
 wxDialog( parent, wxID_ANY, _("Preferences"), wxDefaultPosition, wxDefaultSize,
           wxDEFAULT_DIALOG_STYLE|wxMAXIMIZE_BOX|wxMINIMIZE_BOX|wxRESIZE_BORDER ),
@@ -101,25 +101,25 @@ m_tbkPrefs  ( NULL )
     prefsSizer->Fit( this );
     Centre( wxBOTH );
 
-    Bind( wxGD_EVT_GUI_OPTION_CHANGED, &PrefsDialog::OnPrefsChanged, this );
+    Bind( wxGD_EVT_GUI_OPTION_CHANGED, &Prefs::OnPrefsChanged, this );
     m_ok->Bind( wxEVT_COMMAND_BUTTON_CLICKED,
-                                        &PrefsDialog::OnUpdatePrefs, this );
+                                        &Prefs::OnUpdatePrefs, this );
     m_apply->Bind( wxEVT_COMMAND_BUTTON_CLICKED,
-                                        &PrefsDialog::OnSavePrefs,   this );
+                                        &Prefs::OnSavePrefs,   this );
 }
 
-wxGD::PrefsDialog::~PrefsDialog()
+wxGD::Dialog::Prefs::~Prefs()
 {
-    Unbind( wxGD_EVT_GUI_OPTION_CHANGED, &PrefsDialog::OnPrefsChanged, this );
+    Unbind( wxGD_EVT_GUI_OPTION_CHANGED, &Prefs::OnPrefsChanged, this );
 }
 
-void wxGD::PrefsDialog::OnPrefsChanged( wxCommandEvent &event )
+void wxGD::Dialog::Prefs::OnPrefsChanged( wxCommandEvent &event )
 {
     m_apply->Enable ( event.GetInt() );
     m_ok->Enable    ( event.GetInt() );
 }
 
-void wxGD::PrefsDialog::OnUpdatePrefs( wxCommandEvent & )
+void wxGD::Dialog::Prefs::OnUpdatePrefs( wxCommandEvent & )
 {
     wxCommandEvent evt( wxGD_EVT_GUI_CONFIG_UPDATE );
     for( size_t i = 0; i < m_tbkPrefs->GetPageCount(); i++ )
@@ -131,7 +131,7 @@ void wxGD::PrefsDialog::OnUpdatePrefs( wxCommandEvent & )
     Destroy();
 }
 
-void wxGD::PrefsDialog::OnSavePrefs( wxCommandEvent & )
+void wxGD::Dialog::Prefs::OnSavePrefs( wxCommandEvent & )
 {
     wxCommandEvent evt( wxGD_EVT_GUI_CONFIG_SAVE );
     for( size_t i = 0; i < m_tbkPrefs->GetPageCount(); i++ )
@@ -145,7 +145,7 @@ void wxGD::PrefsDialog::OnSavePrefs( wxCommandEvent & )
 //=============================================================================
 // PageProject
 //=============================================================================
-wxGD::PageProject::PageProject( PrefsDialog *parent )
+wxGD::Dialog::PageProject::PageProject( Prefs *parent )
 :
 wxPanel( parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL ),
 m_choPrjVer ( NULL ),
@@ -266,7 +266,7 @@ m_clbCodeGen( NULL )
     Bind( wxGD_EVT_GUI_CONFIG_SAVE,   &PageProject::OnSavePrefs,   this );
 }
 
-wxGD::PageProject::~PageProject()
+wxGD::Dialog::PageProject::~PageProject()
 {
     m_choPrjEnc->Unbind( wxEVT_COMMAND_CHOICE_SELECTED,
                                     &PageProject::OnPrefsChanged, this );
@@ -279,7 +279,7 @@ wxGD::PageProject::~PageProject()
     Unbind( wxGD_EVT_GUI_CONFIG_SAVE,   &PageProject::OnSavePrefs,   this );
 }
 
-void wxGD::PageProject::OnPrefsChanged( wxCommandEvent & )
+void wxGD::Dialog::PageProject::OnPrefsChanged( wxCommandEvent & )
 {
     bool isDirty = (m_selEnc    != m_choPrjEnc->GetSelection()) ||
                    (m_selXrcVer != m_choPrjVer->GetSelection()) ||
@@ -290,14 +290,14 @@ void wxGD::PageProject::OnPrefsChanged( wxCommandEvent & )
     GetParent()->GetEventHandler()->ProcessEvent( evt );
 }
 
-void wxGD::PageProject::OnUpdatePrefs( wxCommandEvent & )
+void wxGD::Dialog::PageProject::OnUpdatePrefs( wxCommandEvent & )
 {
     m_selEnc    = m_choPrjEnc->GetSelection();
     m_selXrcVer = m_choPrjVer->GetSelection();
     m_compat    = m_chkCompat->IsChecked();
 }
 
-void wxGD::PageProject::OnSavePrefs( wxCommandEvent & )
+void wxGD::Dialog::PageProject::OnSavePrefs( wxCommandEvent & )
 {
     wxConfigBase::Get()->Write( "xrc/encoding",  m_choPrjEnc->GetSelection() );
     wxConfigBase::Get()->Write( "xrc/version",   m_choPrjVer->GetSelection() );
@@ -307,7 +307,7 @@ void wxGD::PageProject::OnSavePrefs( wxCommandEvent & )
 //=============================================================================
 // PageGUI
 //=============================================================================
-wxGD::PageGUI::PageGUI( PrefsDialog *parent )
+wxGD::Dialog::PageGUI::PageGUI( Prefs *parent )
 :
 wxPanel( parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL ),
 m_chkIcons  ( NULL )
@@ -346,7 +346,7 @@ m_chkIcons  ( NULL )
     Bind( wxGD_EVT_GUI_CONFIG_SAVE,   &PageGUI::OnSavePrefs,    this );
 }
 
-wxGD::PageGUI::~PageGUI()
+wxGD::Dialog::PageGUI::~PageGUI()
 {
     m_chkIcons->Unbind( wxEVT_COMMAND_CHECKBOX_CLICKED,
                                         &PageGUI::OnPrefsChanged, this );
@@ -354,7 +354,7 @@ wxGD::PageGUI::~PageGUI()
     Unbind( wxGD_EVT_GUI_CONFIG_SAVE,   &PageGUI::OnSavePrefs,    this );
 }
 
-void wxGD::PageGUI::OnPrefsChanged( wxCommandEvent & )
+void wxGD::Dialog::PageGUI::OnPrefsChanged( wxCommandEvent & )
 {
     bool isDirty = (m_smallIcons != m_chkIcons->IsChecked());
 
@@ -363,12 +363,12 @@ void wxGD::PageGUI::OnPrefsChanged( wxCommandEvent & )
     GetParent()->GetEventHandler()->ProcessEvent( evt );
 }
 
-void wxGD::PageGUI::OnUpdatePrefs( wxCommandEvent & )
+void wxGD::Dialog::PageGUI::OnUpdatePrefs( wxCommandEvent & )
 {
     m_smallIcons =  m_chkIcons->IsChecked();
 }
 
-void wxGD::PageGUI::OnSavePrefs( wxCommandEvent & )
+void wxGD::Dialog::PageGUI::OnSavePrefs( wxCommandEvent & )
 {
     wxConfigBase::Get()->Write( "gui/smallicons", m_chkIcons->IsChecked() );
     wxConfigBase::Get()->Flush();
@@ -376,7 +376,7 @@ void wxGD::PageGUI::OnSavePrefs( wxCommandEvent & )
 //=============================================================================
 // PageLocale
 //=============================================================================
-wxGD::PageLocale::PageLocale( PrefsDialog *parent )
+wxGD::Dialog::PageLocale::PageLocale( Prefs *parent )
 :
 wxPanel( parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL ),
 m_bcbLang   ( NULL ),
@@ -438,7 +438,7 @@ m_selected  ( 0 )
     Bind( wxGD_EVT_GUI_CONFIG_SAVE,   &PageLocale::OnSavePrefs,   this );
 }
 
-wxGD::PageLocale::~PageLocale()
+wxGD::Dialog::PageLocale::~PageLocale()
 {
     m_chkLang->Unbind( wxEVT_COMMAND_CHECKBOX_CLICKED,
                         &PageLocale::OnPrefsChanged, this );
@@ -450,7 +450,7 @@ wxGD::PageLocale::~PageLocale()
     Unbind( wxGD_EVT_GUI_CONFIG_SAVE,   &PageLocale::OnSavePrefs,   this );
 }
 
-void wxGD::PageLocale::OnPrefsChanged( wxCommandEvent & )
+void wxGD::Dialog::PageLocale::OnPrefsChanged( wxCommandEvent & )
 {
     bool isDirty = (m_enabled  != m_chkLang->IsChecked())   ||
                    (m_selected != m_bcbLang->GetSelection());
@@ -462,13 +462,13 @@ void wxGD::PageLocale::OnPrefsChanged( wxCommandEvent & )
     GetParent()->GetEventHandler()->ProcessEvent( evt );
 }
 
-void wxGD::PageLocale::OnUpdatePrefs( wxCommandEvent & )
+void wxGD::Dialog::PageLocale::OnUpdatePrefs( wxCommandEvent & )
 {
     m_enabled  = m_chkLang->IsChecked();
     m_selected = m_bcbLang->GetSelection();
 }
 
-void wxGD::PageLocale::OnSavePrefs( wxCommandEvent & )
+void wxGD::Dialog::PageLocale::OnSavePrefs( wxCommandEvent & )
 {
     wxConfigBase::Get()->Write( "locale/enabled",  m_chkLang->IsChecked() );
     wxConfigBase::Get()->Write( "locale/selected", m_bcbLang->GetSelection() );
@@ -477,7 +477,7 @@ void wxGD::PageLocale::OnSavePrefs( wxCommandEvent & )
 //=============================================================================
 // PageEditors
 //=============================================================================
-wxGD::PageEditors::PageEditors( PrefsDialog *parent )
+wxGD::Dialog::PageEditors::PageEditors( Prefs *parent )
 :
 wxPanel( parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL ),
 m_bcbEditor     ( NULL ),
@@ -645,7 +645,7 @@ m_spnCaretW     ( NULL )
     Bind( wxGD_EVT_GUI_CONFIG_SAVE,   &PageEditors::OnSavePrefs,   this );
 }
 
-wxGD::PageEditors::~PageEditors()
+wxGD::Dialog::PageEditors::~PageEditors()
 {
     m_chkLineNums->Unbind( wxEVT_COMMAND_CHECKBOX_CLICKED,
                                     &PageEditors::OnPrefsChanged, this );
@@ -670,7 +670,7 @@ wxGD::PageEditors::~PageEditors()
     Unbind( wxGD_EVT_GUI_CONFIG_SAVE,   &PageEditors::OnSavePrefs,   this );
 }
 
-void wxGD::PageEditors::OnPrefsChanged( wxCommandEvent & )
+void wxGD::Dialog::PageEditors::OnPrefsChanged( wxCommandEvent & )
 {
     bool isDirty =  (m_showLines     != m_chkLineNums->IsChecked())         ||
                     (m_showGuides    != m_chkGuides->IsChecked())           ||
@@ -687,7 +687,7 @@ void wxGD::PageEditors::OnPrefsChanged( wxCommandEvent & )
     GetParent()->GetEventHandler()->ProcessEvent( evt );
 }
 
-void wxGD::PageEditors::OnUpdatePrefs( wxCommandEvent & )
+void wxGD::Dialog::PageEditors::OnUpdatePrefs( wxCommandEvent & )
 {
 //  m_selEditor     = m_bcbEditor->GetSelection();
     m_showLines     = m_chkLineNums->IsChecked();
@@ -701,7 +701,7 @@ void wxGD::PageEditors::OnUpdatePrefs( wxCommandEvent & )
     m_caretW        = m_spnCaretW->GetValue();
 }
 
-void wxGD::PageEditors::OnSavePrefs( wxCommandEvent & )
+void wxGD::Dialog::PageEditors::OnSavePrefs( wxCommandEvent & )
 {
     wxConfigBase::Get()->Write( "editors/ShowLineNumbers",       m_chkLineNums->IsChecked() );
     wxConfigBase::Get()->Write( "editors/ShowIndentationGuides", m_chkGuides->IsChecked() );

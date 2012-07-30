@@ -96,7 +96,7 @@ wxAuiToolBar *wxGD::ToolPalette::AddGroup( const wxString &label, int imageIndex
     wxAuiToolBar *group = new wxAuiToolBar( this, wxID_ANY, wxDefaultPosition,
                                             wxDefaultSize, wxAUI_TB_OVERFLOW );
 
-    group->SetArtProvider( new AUIToolBarArt() );
+    group->SetArtProvider( new AUI::ToolBarArt() );
 
     AddPage( group, label, false, imageIndex );
 

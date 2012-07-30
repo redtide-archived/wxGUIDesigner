@@ -21,17 +21,21 @@ class wxColour;
 
 namespace wxGD
 {
-    class AUIDockArt : public wxAuiDefaultDockArt
-    {
-    public:
-        AUIDockArt();
-        virtual ~AUIDockArt();
+namespace AUI
+{
+class DockArt : public wxAuiDefaultDockArt
+{
+public:
+    DockArt();
+    virtual ~DockArt();
 
-        void DrawCaption( wxDC& dc, wxWindow *window, const wxString &text,
-                            const wxRect &rect, wxAuiPaneInfo &pane );
-    private:
-        wxString EllipsizeText( wxDC &dc, const wxString &text, int maxSize );
-    };
+    void DrawCaption( wxDC& dc, wxWindow *window, const wxString &text,
+                        const wxRect &rect, wxAuiPaneInfo &pane );
+private:
+    wxString EllipsizeText( wxDC &dc, const wxString &text, int maxSize );
+};
+
+};
 };
 
 #endif //__WXGUIDESIGNER_GUI_AUI_DOCKART_H__

@@ -30,7 +30,7 @@ public:
     virtual ~IGUIDesigner() {}
     virtual wxDialog        *GetAboutDialog      ( wxWindow * ) = 0;
     virtual wxNotebook      *GetEditorBook       ( wxWindow * ) = 0;
-    virtual wxNotebook      *GetPropertyBook     ( wxWindow * ) = 0;
+    virtual wxNotebook      *GetBook     ( wxWindow * ) = 0;
     virtual wxNotebook      *GetPaletteBook      ( wxWindow * ) = 0;
     virtual wxTreeCtrl      *GetTreeView         ( wxWindow * ) = 0;
 };
