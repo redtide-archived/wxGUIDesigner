@@ -9,13 +9,12 @@
 -- Licence:     GNU General Public License Version 3
 -----------------------------------------------------------------------------
 project "LibCore"
-    kind        "SharedLib"
+    kind "SharedLib"
     files
     {
         "../../include/wxguidesigner/**.h", "../../src/wxguidesigner/**.cpp",
         "../../include/wx/**.h", "../../src/wx/**.cpp",
-        "../../output/db/controlbase.xml", "../../output/db/controlbase/**.xml",
-        "../../output/db/controls.xml", "../../output/db/controls/**.xml"
+        "../../output/db/classes.xml", "../../output/db/classes/**.xml"
     }
     includedirs
     {

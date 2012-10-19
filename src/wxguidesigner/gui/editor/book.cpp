@@ -24,10 +24,8 @@
 #include <wx/xrc/xmlres.h>
 
 #include "wxguidesigner/events.h"
-#include "wxguidesigner/utils.h"
 
-#include "wxguidesigner/rtti/tree.h"
-#include "wxguidesigner/rtti/database.h"
+#include "wxguidesigner/rtti/classinfo.h"
 #include "wxguidesigner/rtti/tree.h"
 
 #include "wxguidesigner/gui/artprovider.h"
@@ -83,7 +81,7 @@ void wxGD::Editor::Book::LoadCodeEditors()
     for( size_t g = 0; g < wxGD::ArtProvider::GetGroupCount( c ); g++ )
     {
         wxString name        = wxGD::ArtProvider::GetGroupName( c, g );
-        wxString xrcFilePath = GetDataBasePath() + wxFILE_SEP_PATH + c +
+        wxString xrcFilePath = RTTI::GetDataBasePath() + wxFILE_SEP_PATH + c +
                                 wxFILE_SEP_PATH + name + wxFILE_SEP_PATH +
                                 name + ".xrc";
 

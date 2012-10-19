@@ -40,26 +40,26 @@
 #include <wx/wizard.h>
 #include <wx/wrapsizer.h>
 
-wxGD::Flags::Flags()
+RTTI::Flags::Flags()
 {
     Init();
 }
 
-wxGD::Flags::~Flags()
+RTTI::Flags::~Flags()
 {
 }
 
-wxGD::Flags *wxGD::Flags::ms_instance = NULL;
+RTTI::Flags *RTTI::Flags::ms_instance = NULL;
 
-wxGD::Flags *wxGD::Flags::Get()
+RTTI::Flags *RTTI::Flags::Get()
 {
     if( !ms_instance )
-        ms_instance = new wxGD::Flags;
+        ms_instance = new RTTI::Flags;
 
     return ms_instance;
 }
 
-void wxGD::Flags::Free()
+void RTTI::Flags::Free()
 {
     if( ms_instance )
     {
@@ -68,13 +68,13 @@ void wxGD::Flags::Free()
     }
 }
 
-void wxGD::Flags::Add( const wxString &name, int value )
+void RTTI::Flags::Add( const wxString &name, int value )
 {
     m_flagNames.Add( name );
     m_flagValues.Add( value );
 }
 
-int wxGD::Flags::Get( const wxString &name )
+int RTTI::Flags::Get( const wxString &name )
 {
     for( size_t index = 0; index < m_flagValues.size(); index++ )
     {
@@ -85,7 +85,7 @@ int wxGD::Flags::Get( const wxString &name )
     return 0; // Default style
 }
 
-wxString wxGD::Flags::Get( size_t index )
+wxString RTTI::Flags::Get( size_t index )
 {
     if( index < m_flagNames.GetCount() )
         return m_flagNames.Item( index );
@@ -93,7 +93,7 @@ wxString wxGD::Flags::Get( size_t index )
     return "";
 }
 
-void wxGD::Flags::Init()
+void RTTI::Flags::Init()
 {
     // TODO: seems that 0 is not a valid value for the wxIntProperty,
     // so, if this isn't a bug or those flags with 0 as value (default values)

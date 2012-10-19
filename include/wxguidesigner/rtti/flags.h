@@ -18,7 +18,7 @@
 
 class wxString;
 
-namespace wxGD
+namespace RTTI
 {
 class DLLIMPEXP_WXGUIDESIGNER Flags
 {
