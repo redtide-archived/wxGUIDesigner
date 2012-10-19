@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        staticboxsizer.xml
+    Purpose:     wxStaticBoxSizer class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2011/12/03
+    Revision:    $Hash$
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
+-->
+<class name="wxStaticBoxSizer" type="sizer">
+    <description>
+        &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_static_box_sizer.html" title="wxStaticBoxSizer is a sizer derived from wxBoxSizer but adds a static box around the sizer..."&gt;wxStaticBoxSizer&lt;/a&gt; is a sizer derived from &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_box_sizer.html" title="The basic idea behind a box sizer is that windows will most often be laid out in rather simple basic ..."&gt;wxBoxSizer&lt;/a&gt; but adds a static box around the sizer. &lt;/p&gt;
+        &lt;p&gt;The static box may be either created independently or the sizer may create it itself as a convenience. In any case, the sizer owns the &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_static_box.html" title="A static box is a rectangle drawn around other windows to denote a logical grouping of items..."&gt;wxStaticBox&lt;/a&gt; control and will delete it in the &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_static_box_sizer.html" title="wxStaticBoxSizer is a sizer derived from wxBoxSizer but adds a static box around the sizer..."&gt;wxStaticBoxSizer&lt;/a&gt; destructor.&lt;/p&gt;
+        &lt;p&gt;Note that since wxWidgets 2.9.1 you are encouraged to create the windows which are added to &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_static_box_sizer.html" title="wxStaticBoxSizer is a sizer derived from wxBoxSizer but adds a static box around the sizer..."&gt;wxStaticBoxSizer&lt;/a&gt; as children of &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_static_box.html" title="A static box is a rectangle drawn around other windows to denote a logical grouping of items..."&gt;wxStaticBox&lt;/a&gt; itself, see this class documentation for more details.&lt;/p&gt;
+        &lt;p&gt;Example of use of this class: &lt;/p&gt;
+        &lt;div class="fragment"&gt;&lt;pre class="fragment"&gt;        &lt;span class="keywordtype"&gt;void&lt;/span&gt; MyFrame::CreateControls()
+                {
+                    &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_panel.html" title="A panel is a window on which controls are placed."&gt;wxPanel&lt;/a&gt; *panel = &lt;span class="keyword"&gt;new&lt;/span&gt; &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_panel.html" title="A panel is a window on which controls are placed."&gt;wxPanel&lt;/a&gt;(&lt;span class="keyword"&gt;this&lt;/span&gt;);
+                    ...
+                    &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_static_box_sizer.html" title="wxStaticBoxSizer is a sizer derived from wxBoxSizer but adds a static box around the sizer..."&gt;wxStaticBoxSizer&lt;/a&gt; *sz = &lt;span class="keyword"&gt;new&lt;/span&gt; &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_static_box_sizer.html#a8c2af376122e1093b95331ec1dd17ba5" title="This constructor uses an already existing static box."&gt;wxStaticBoxSizer&lt;/a&gt;(&lt;a class="code" href="http://docs.wxwidgets.org/trunk/defs_8h.html#a1e6994f40bd9cb140e292afb165af971a2134d1cb8cf605532880c118190695b5"&gt;wxVERTICAL&lt;/a&gt;, panel, &lt;span class="stringliteral"&gt;"Box"&lt;/span&gt;);
+                    sz-&gt;&lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_sizer.html#a4e2122f2749261473c21cb192d00709f" title="Appends a child to the sizer."&gt;Add&lt;/a&gt;(&lt;span class="keyword"&gt;new&lt;/span&gt; &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_static_text.html" title="A static text control displays one or more lines of read-only text."&gt;wxStaticText&lt;/a&gt;(sz-&gt;&lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_static_box_sizer.html#a556686a3445d0f7f8aa1b12e962a7494" title="Returns the static box associated with the sizer."&gt;GetStaticBox&lt;/a&gt;(), &lt;a class="code" href="http://docs.wxwidgets.org/trunk/defs_8h.html#ac66d0a09761e7d86b2ac0b2e0c6a8cbba1f375b01ea03a713bbb7e32a36a2589c" title="Any id: means that we don't care about the id, whether when installing an event handler or when creat..."&gt;wxID_ANY&lt;/a&gt;,
+                                             &lt;span class="stringliteral"&gt;"This window is a child of the staticbox"&lt;/span&gt;));
+                    ...
+                }
+        &lt;/pre&gt;&lt;/div&gt;
+    </description>
+    <inherits>
+        <class>wxBoxSizer</class>
+    </inherits>
+    <children>
+        <class>sizeritem</class>
+        <class>spacer</class>
+    </children>
+    <name label="Name">
+        <value>sbSizer</value>
+    </name>
+    <text name="label" label="Label">
+        <description>Label to be used for the static box around the sizer (required).</description>
+    </text>
+</class>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        bannerwindow.xml
+    Purpose:     wxBannerWindow class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/14
+    Revision:    $Hash$
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
+-->
+<class name="wxBannerWindow">
+    <description>
+        &lt;p&gt;A simple banner window showing either a bitmap or text. &lt;/p&gt;
+        &lt;p&gt;Banner windows can be used to present some overview of the current window contents to the user in an aesthetically pleasant way. They are typically positioned along the left or top edge of the window (although this class also supports right- and bottom-aligned banners) and show either a bitmap with a logo or a few lines of text on a gradient-filled background.&lt;/p&gt;
+        &lt;p&gt;Using this class is very simple, e.g.: &lt;/p&gt;
+        &lt;div class="fragment"&gt;&lt;pre class="fragment"&gt;    MyFrame::MyFrame(...)
+            {
+                ... create the frame itself ...
+
+                &lt;span class="comment"&gt;// Create and initialize the banner.&lt;/span&gt;
+                &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_banner_window.html" title="A simple banner window showing either a bitmap or text."&gt;wxBannerWindow&lt;/a&gt;* banner = &lt;span class="keyword"&gt;new&lt;/span&gt; &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_banner_window.html#a29260797c824b361163f18519994c2f7" title="Default constructor, use Create() later."&gt;wxBannerWindow&lt;/a&gt;(&lt;span class="keyword"&gt;this&lt;/span&gt;, &lt;a class="code" href="defs_8h.html#ac0f30319732dcceda470516918ff3556a2c9453664f068ee652a5b61a8248f000"&gt;wxTOP&lt;/a&gt;);
+                banner-&gt;&lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_banner_window.html#aa2dcae1c87dbf15486f34042cae575f6" title="Set the text to display."&gt;SetText&lt;/a&gt;(&lt;span class="stringliteral"&gt;"Welcome to my wonderful program"&lt;/span&gt;,
+                                &lt;span class="stringliteral"&gt;"  Before doing anything else, you need to connect to "&lt;/span&gt;
+                                &lt;span class="stringliteral"&gt;"the online server.\n"&lt;/span&gt;
+                                &lt;span class="stringliteral"&gt;"  Please enter your credentials in the controls below."&lt;/span&gt;);
+
+                &lt;span class="comment"&gt;// And position it along the left edge of the window.&lt;/span&gt;
+                &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_sizer.html" title="wxSizer is the abstract base class used for laying out subwindows in a window."&gt;wxSizer&lt;/a&gt;* sizer = &lt;span class="keyword"&gt;new&lt;/span&gt; &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_box_sizer.html" title="The basic idea behind a box sizer is that windows will most often be laid out in rather simple basic ..."&gt;wxBoxSizer&lt;/a&gt;(&lt;a class="code" href="defs_8h.html#a1e6994f40bd9cb140e292afb165af971a2134d1cb8cf605532880c118190695b5"&gt;wxVERTICAL&lt;/a&gt;);
+                sizer-&gt;&lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_sizer.html#a4e2122f2749261473c21cb192d00709f" title="Appends a child to the sizer."&gt;Add&lt;/a&gt;(banner, &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_sizer_flags.html" title="Container for sizer items flags providing readable names for them."&gt;wxSizerFlags&lt;/a&gt;().Expand());
+
+                ... add the rest of the window contents to the same sizer ...
+
+                &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_window.html#a29938af9828fd35da666536cdfb6b73c" title="This method calls SetSizer() and then wxSizer::SetSizeHints which sets the initial window size to the..."&gt;SetSizerAndFit&lt;/a&gt;(sizer);
+            }
+        &lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This class is currently implemented generically and so looks the same under all platforms.&lt;/p&gt;
+    </description>
+    <inherits>
+        <class>wxWindow</class>
+    </inherits>
+    <name label="Name">
+        <value>m_bannerWindow</value>
+    </name>
+    <style name="direction" label="Direction">
+        <description>The side along which the banner will be positioned.</description>
+        <flag name="wxTOP"/>
+        <flag name="wxBOTTOM"/>
+        <flag name="wxLEFT"/>
+        <flag name="wxRIGHT"/>
+    </style>
+    <bitmap label="Bitmap">
+        <description>Bitmap to use as the banner background.</description>
+    </bitmap>
+    <text name="title" label="Title">
+        <description>Banner title, should be single line.</description>
+    </text>
+    <text name="message" label="Message">
+        <description>Possibly multi-line banner message.</description>
+    </text>
+    <colour name="gradient-start" label="Gradient start">
+        <description>Starting colour of the gradient used as banner background. Can't be used if a valid bitmap is specified.</description>
+    </colour>
+    <colour name="gradient-end" label="Gradient end">
+        <description>End colour of the gradient used as banner background. Can't be used if a valid bitmap is specified.</description>
+    </colour>
+</class>

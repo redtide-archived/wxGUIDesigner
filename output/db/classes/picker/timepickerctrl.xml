@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        timepickerctrl.xml
+    Purpose:     wxTimePickerCtrl class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/14
+    Revision:    $Hash$
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
+-->
+<class name="wxTimePickerCtrl">
+    <description>
+        &lt;p&gt;This control allows the user to enter time. &lt;/p&gt;
+        &lt;p&gt;It is similar to &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_date_picker_ctrl.html" title="This control allows the user to select a date."&gt;wxDatePickerCtrl&lt;/a&gt; but is used for time, and not date, selection. While &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_time_picker_ctrl.html#a1a19b8b72bc843af608123f54a4c0397" title="Returns the currently entered time."&gt;GetValue()&lt;/a&gt; and &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_time_picker_ctrl.html#aa1369853e4cc0f71191ddbca1e1e39a1" title="Changes the current value of the control."&gt;SetValue()&lt;/a&gt; still work with values of type &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_date_time.html" title="wxDateTime class represents an absolute moment in time."&gt;wxDateTime&lt;/a&gt; (because wxWidgets doesn't provide a time-only class), their date part is ignored by this control.&lt;/p&gt;
+        &lt;p&gt;It is only available if &lt;code&gt;wxUSE_TIMEPICKCTRL&lt;/code&gt; is set to 1.&lt;/p&gt;
+        &lt;p&gt;This control currently doesn't have any specific flags.&lt;/p&gt;
+    </description>
+    <inherits>
+        <class>wxControl</class>
+    </inherits>
+    <name label="Name">
+        <value>timePicker</value>
+    </name>
+    <event name="wxDateEvent">
+        <type name="wxEVT_DATE_CHANGED">
+            <description>This event fires when the user changes the current selection in the control.</description>
+        </type>
+    </event>
+</class>

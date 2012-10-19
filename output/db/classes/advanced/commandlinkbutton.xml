@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        commandlinkbutton.xml
+    Purpose:     wxCommandLinkButton class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/15
+    Revision:    $Hash$
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
+-->
+<class name="wxCommandLinkButton">
+    <description>
+        &lt;p&gt;Objects of this class are similar in appearance to the normal wxButtons but are similar to the links in a web page in functionality. &lt;/p&gt;
+        &lt;p&gt;Pressing such button usually results in switching to another window of the program and so they can be used as a replacement for the "Next" button in a multi-page dialog (such as &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_wizard.html" title="wxWizard is the central class for implementing 'wizard-like' dialogs."&gt;wxWizard&lt;/a&gt;), for example.&lt;/p&gt;
+        &lt;p&gt;Their advantage compared to the ordinary wxButtons is that they emphasize the action of switching the window and also that they allow to give more detailed explanation to the user because, in addition to the short button label, they also show a longer description string.&lt;/p&gt;
+        &lt;p&gt;The short, title-like, part of the label is called the &lt;em&gt;main label&lt;/em&gt; and the longer description is the &lt;em&gt;note&lt;/em&gt;. Both of them can be set and queried independently using wxCommandLinkButton-specific methods such as &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_command_link_button.html#a6cecd5ecdb7eff45519d02a6766c5b07" title="Changes the main label."&gt;SetMainLabel()&lt;/a&gt; or &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_command_link_button.html#a6b6fb7dcf99ac3282577ddf22be452c0" title="Returns the currently used note."&gt;GetNote()&lt;/a&gt; or also via &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_command_link_button.html#abc8a21805f1a8c07734a3b781e8dd18b" title="Sets the string label and note for the button."&gt;SetLabel()&lt;/a&gt; and &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_command_link_button.html#a62f9b9ae4a163d4e202498edcccedea3" title="Returns the string label for the button."&gt;GetLabel()&lt;/a&gt; methods inherited from &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_button.html" title="A button is a control that contains a text string, and is one of the most common elements of a GUI..."&gt;wxButton&lt;/a&gt;. When using the latter, the main label and the note are concatenated into a single string using a new line character between them (notice that the note part can have more new lines in it).&lt;/p&gt;
+        &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_command_link_button.html" title="Objects of this class are similar in appearance to the normal wxButtons but are similar to the links ..."&gt;wxCommandLinkButton&lt;/a&gt; generates the same event as &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_button.html" title="A button is a control that contains a text string, and is one of the most common elements of a GUI..."&gt;wxButton&lt;/a&gt; but doesn't support any of wxButton-specific styles nor adds any new styles of its own.&lt;/p&gt;
+        &lt;p&gt;Currently this class uses native implementation under Windows Vista and later versions and a generic implementation for the other platforms and earlier Windows versions.&lt;/p&gt;
+        &lt;dl class="since"&gt;&lt;dt&gt;&lt;b&gt;Since:&lt;/b&gt;&lt;/dt&gt;&lt;dd&gt;2.9.2&lt;/dd&gt;&lt;/dl&gt;
+    </description>
+    <inherits>
+        <class>wxButton</class>
+    </inherits>
+    <name label="Name">
+        <value>cmdLinkBtn</value>
+    </name>
+    <text name="note" label="Note">
+        <description>Second line of text describing the action performed when the button is pressed.</description>
+    </text>
+</class>

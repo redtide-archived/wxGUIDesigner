@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        choicebook.xml
+    Purpose:     wxChoicebook class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/15
+    Revision:    $Hash$
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
+-->
+<classes>
+    <class name="wxChoicebook" type="container">
+        <description>
+            &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_choicebook.html" title="wxChoicebook is a class similar to wxNotebook, but uses a wxChoice control to show the labels instead..."&gt;wxChoicebook&lt;/a&gt; is a class similar to &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_notebook.html" title="This class represents a notebook control, which manages multiple windows with associated tabs..."&gt;wxNotebook&lt;/a&gt;, but uses a &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_choice.html" title="A choice item is used to select one of a list of strings."&gt;wxChoice&lt;/a&gt; control to show the labels instead of the tabs. &lt;/p&gt;
+            &lt;p&gt;For usage documentation of this class, please refer to the base abstract class wxBookCtrl. You can also use the &lt;a class="el" href="page_samples.html#page_samples_notebook"&gt;Notebook Sample&lt;/a&gt; to see &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_choicebook.html" title="wxChoicebook is a class similar to wxNotebook, but uses a wxChoice control to show the labels instead..."&gt;wxChoicebook&lt;/a&gt; in action.&lt;/p&gt;
+            &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_choicebook.html" title="wxChoicebook is a class similar to wxNotebook, but uses a wxChoice control to show the labels instead..."&gt;wxChoicebook&lt;/a&gt; allows the use of wxBookCtrlBase::GetControlSizer(), allowing a program to add other controls next to the choice control. This is particularly useful when screen space is restricted, as it often is when &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_choicebook.html" title="wxChoicebook is a class similar to wxNotebook, but uses a wxChoice control to show the labels instead..."&gt;wxChoicebook&lt;/a&gt; is being employed.&lt;/p&gt;
+        </description>
+        <inherits>
+            <class>wxBookCtrlBase</class>
+        </inherits>
+        <children>
+            <class>choicebookpage</class>
+            <class max="1">wxImageList</class>
+        </children>
+        <name label="Name">
+            <value>choiceBook</value>
+        </name>
+        <style label="Style">
+            <!--flag name="wxCHB_DEFAULT">
+                <description>Choose the default location for the labels depending on the current platform (left everywhere except Mac where it is top).</description>
+            </flag>
+            <flag name="wxCHB_TOP">
+                <description>Place labels above the page area.</description>
+            </flag>
+            <flag name="wxCHB_LEFT">
+                <description>Place labels on the left side.</description>
+            </flag>
+            <flag name="wxCHB_RIGHT">
+                <description>Place labels on the right side.</description>
+            </flag>
+            <flag name="wxCHB_BOTTOM">
+                <description>Place labels below the page area.</description>
+            </flag-->
+        </style>
+        <event name="wxBookCtrlEvent">
+            <type name="wxEVT_COMMAND_CHOICEBOOK_PAGE_CHANGED">
+                <macro_id>EVT_CHOICEBOOK_PAGE_CHANGED</macro_id>
+                <description>The page selection was changed. Processes a wxEVT_COMMAND_CHOICEBOOK_PAGE_CHANGED event.</description>
+            </type>
+            <type name="wxEVT_COMMAND_CHOICEBOOK_PAGE_CHANGING">
+                <macro_id>EVT_CHOICEBOOK_PAGE_CHANGING</macro_id>
+                <description>The page selection is about to be changed. Processes a wxEVT_COMMAND_CHOICEBOOK_PAGE_CHANGING event. This event can be vetoed (using wxNotifyEvent::Veto()).</description>
+            </type>
+        </event>
+    </class>
+
+    <class name="choicebookpage" type="item">
+        <children>
+            <type max="1">container</type>
+            <type max="1">widget</type>
+        </children>
+        <text name="label" label="Label">
+            <description>Sheet page's title (required).</description>
+        </text>
+        <bitmap label="Bitmap">
+            <description>Bitmap shown alongside the label (default: none).</description>
+        </bitmap>
+        <int name="image" label="Image index">
+            <description>The zero-based index of the image associated with the item into the image list.</description>
+        </int>
+        <bool name="selected" label="Selected">
+            <description>Is the page selected initially (only one page can be selected; default: 0)?</description>
+        </bool>
+    </class>
+</classes>

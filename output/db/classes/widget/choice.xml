@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        choice.xml
+    Purpose:     wxChoice class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/14
+    Revision:    $Hash$
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
+-->
+<class name="wxChoice">
+    <description>
+        &lt;p&gt;A choice item is used to select one of a list of strings. &lt;/p&gt;
+        &lt;p&gt;Unlike a &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_list_box.html" title="A listbox is used to select one or more of a list of strings."&gt;wxListBox&lt;/a&gt;, only the selection is visible until the user pulls down the menu of choices.&lt;/p&gt;
+    </description>
+    <inherits>
+        <class>wxControlWithItems</class>
+    </inherits>
+    <name label="Name">
+        <value>choice</value>
+    </name>
+    <style label="Style">
+        <flag name="wxCB_SORT">
+            <description>Sorts the entries alphabetically.</description>
+        </flag>
+    </style>
+    <int name="selection" label="Selection">
+        <description>Index of the initially selected item or -1 for no selection (default: -1).</description>
+    </int>
+    <arraystring name="content" label="Content">
+        <description>Content of the control; this property has any number of &lt;item&gt; XML elements as its children, with the items text as their text values (default: empty).</description>
+    </arraystring>
+    <event name="wxCommandEvent">
+        <type name="wxEVT_COMMAND_CHOICE_SELECTED">
+            <macro>EVT_CHOICE</macro>
+            <description>Process a wxEVT_COMMAND_CHOICE_SELECTED event, when an item on the list is selected.</description>
+        </type>
+    </event>
+</class>

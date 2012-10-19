@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        styledtextctrl.xml
+    Purpose:     wxStyledTextCtrl class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/24
+    Revision:    $Hash$
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
+-->
+<class name="wxStyledTextCtrl">
+    <description>
+        &lt;p&gt;A wxWidgets implementation of the Scintilla source code editing component. &lt;/p&gt;
+        &lt;p&gt;As well as features found in standard text editing components, Scintilla includes features especially useful when editing and debugging source code. These include support for syntax styling, error indicators, code completion and call tips.&lt;/p&gt;
+        &lt;p&gt;The selection margin can contain markers like those used in debuggers to indicate breakpoints and the current line. Styling choices are more open than with many editors, allowing the use of proportional fonts, bold and italics, multiple foreground and background colours and multiple fonts.&lt;/p&gt;
+        &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_styled_text_ctrl.html" title="A wxWidgets implementation of the Scintilla source code editing component."&gt;wxStyledTextCtrl&lt;/a&gt; is a 1 to 1 mapping of "raw" scintilla interface, whose documentation can be found in the Scintilla website (&lt;a href="http://www.scintilla.org/"&gt;http://www.scintilla.org/&lt;/a&gt;).&lt;/p&gt;
+    </description>
+    <inherits>
+        <class>wxControl</class>
+    </inherits>
+    <name label="Name">
+        <value>stc</value>
+    </name>
+    <event name="wxStyledTextEvent">
+        <type name="EVT_STC_CHANGE">
+            <description></description>
+        </type>
+        <type name="EVT_STC_STYLENEEDED">
+            <description></description>
+        </type>
+        <type name="EVT_STC_CHARADDED">
+            <description></description>
+        </type>
+        <type name="EVT_STC_SAVEPOINTREACHED">
+            <description></description>
+        </type>
+        <type name="EVT_STC_SAVEPOINTLEFT">
+            <description></description>
+        </type>
+        <type name="EVT_STC_ROMODIFYATTEMPT">
+            <description></description>
+        </type>
+        <type name="EVT_STC_KEY">
+            <description></description>
+        </type>
+        <type name="EVT_STC_DOUBLECLICK">
+            <description></description>
+        </type>
+        <type name="EVT_STC_UPDATEUI">
+            <description></description>
+        </type>
+        <type name="EVT_STC_MODIFIED">
+            <description></description>
+        </type>
+        <type name="EVT_STC_MACRORECORD">
+            <description></description>
+        </type>
+        <type name="EVT_STC_MARGINCLICK">
+            <description></description>
+        </type>
+        <type name="EVT_STC_NEEDSHOWN">
+            <description></description>
+        </type>
+        <type name="EVT_STC_PAINTED">
+            <description></description>
+        </type>
+        <type name="EVT_STC_USERLISTSELECTION">
+            <description></description>
+        </type>
+        <type name="EVT_STC_URIDROPPED">
+            <description></description>
+        </type>
+        <type name="EVT_STC_DWELLSTART">
+            <description></description>
+        </type>
+        <type name="EVT_STC_DWELLEND">
+            <description></description>
+        </type>
+        <type name="EVT_STC_START_DRAG">
+            <description></description>
+        </type>
+        <type name="EVT_STC_DRAG_OVER">
+            <description></description>
+        </type>
+        <type name="EVT_STC_DO_DROP">
+            <description></description>
+        </type>
+        <type name="EVT_STC_ZOOM">
+            <description></description>
+        </type>
+        <type name="EVT_STC_HOTSPOT_CLICK">
+            <description></description>
+        </type>
+        <type name="EVT_STC_HOTSPOT_DCLICK">
+            <description></description>
+        </type>
+        <type name="EVT_STC_CALLTIP_CLICK">
+            <description></description>
+        </type>
+        <type name="EVT_STC_AUTOCOMP_SELECTION">
+            <description></description>
+        </type>
+        <type name="EVT_STC_INDICATOR_CLICK">
+            <description></description>
+        </type>
+        <type name="EVT_STC_INDICATOR_RELEASE">
+            <description></description>
+        </type>
+        <type name="EVT_STC_AUTOCOMP_CANCELLED">
+            <description></description>
+        </type>
+        <type name="EVT_STC_AUTOCOMP_CHAR_DELETED">
+            <description></description>
+        </type>
+    </event>
+</class>

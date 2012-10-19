@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        classes.xml
+    Purpose:     Class name list
+    Author:      Andrea Zanellato
+    Modified by:
+    Created:     2011/12/01
+    Revision:    $Hash$
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
+-->
+<classes>
+    <abstract>
+        <name>Project</name>
+        <name>wxWindow</name>
+        <name>wxTopLevelWindow</name>
+        <name>wxSizer</name>
+        <name>wxControl</name>
+        <name>wxAnyButton</name>
+        <name>wxBookCtrlBase</name>
+    </abstract>
+    <toplevel label="Top level">
+        <name>wxFrame</name>
+        <name>wxDialog</name>
+        <name>wxPropertySheetDialog</name>
+        <name>wxWizard</name>
+        <name>wxWizardPage</name>
+        <name>wxWizardPageSimple</name>
+    </toplevel>
+    <bar>
+        <name>wxToolBar</name>
+        <name>tool</name>
+        <name>separator</name>
+        <name>wxMenuBar</name>
+        <name>wxMenu</name>
+        <name>wxMenuItem</name>
+        <name>wxStatusBar</name>
+        <name>wxAuiToolBar</name>
+        <name>wxAuiToolBarItem</name>
+    </bar>
+    <layout>
+        <name>wxBoxSizer</name>
+        <name>wxGridSizer</name>
+        <name>wxFlexGridSizer</name>
+        <name>wxGridBagSizer</name>
+        <name>wxStaticBoxSizer</name>
+        <name>wxStdDialogButtonSizer</name>
+        <name>wxWrapSizer</name>
+        <name>spacer</name>
+        <name>wxAuiManager</name>
+    </layout>
+    <widget>
+        <name>wxButton</name>
+        <name>wxBitmapButton</name>
+        <name>wxBitmapToggleButton</name>
+        <name>wxToggleButton</name>
+        <name>wxTextCtrl</name>
+        <name>wxChoice</name>
+        <name>wxComboBox</name>
+        <name>wxListBox</name>
+        <name>wxCheckListBox</name>
+        <name>wxImageList</name>
+        <name>wxListCtrl</name>
+        <name>listcol</name>
+        <name>listitem</name>
+        <name>wxGenericDirCtrl</name>
+        <name>wxFileCtrl</name>
+        <name>wxInfoBar</name>
+        <name>wxTreeCtrl</name>
+        <name>wxStaticBitmap</name>
+        <name>wxStaticBox</name>
+        <name>wxStaticLine</name>
+        <name>wxStaticText</name>
+        <name>wxCheckBox</name>
+        <name>wxRadioButton</name>
+        <name>wxRadioBox</name>
+        <name>wxGauge</name>
+        <name>wxSlider</name>
+        <name>wxSpinButton</name>
+        <name>wxSpinCtrl</name>
+        <name>wxScrollBar</name>
+    </widget>
+    <container>
+        <name>wxPanel</name>
+        <name>wxCollapsiblePane</name>
+        <name>wxScrolledWindow</name>
+        <name>wxSplitterWindow</name>
+    </container>
+    <book>
+        <name>wxNotebook</name>
+        <name>wxChoicebook</name>
+        <name>wxListbook</name>
+        <name>wxToolbook</name>
+        <name>wxTreebook</name>
+        <name>wxAuiNotebook</name>
+    </book>
+    <picker>
+        <name>wxColourPickerCtrl</name>
+        <name>wxDatePickerCtrl</name>
+        <name>wxDirPickerCtrl</name>
+        <name>wxFilePickerCtrl</name>
+        <name>wxFontPickerCtrl</name>
+        <name>wxTimePickerCtrl</name>
+    </picker>
+    <advanced>
+        <name>wxCommandLinkButton</name>
+        <name>wxSearchCtrl</name>
+        <name>wxOwnerDrawnComboBox</name>
+        <name>wxBitmapComboBox</name>
+        <name>ownerdrawnitem</name>
+        <name>wxTreeListCtrl</name>
+        <name>treelistcol</name>
+        <name>treelistitem</name>
+        <name>wxCalendarCtrl</name>
+        <name>wxHyperlinkCtrl</name>
+        <name>wxGrid</name>
+        <name>wxBannerWindow</name>
+        <name>wxAnimationCtrl</name>
+        <name>wxMediaCtrl</name>
+        <name>wxRichTextCtrl</name>
+        <name>wxStyledTextCtrl</name>
+        <name>wxPropertyGrid</name>
+        <name>wxPropertyGridManager</name>
+        <name>CustomCtrl</name>
+    </advanced>
+    <html label="HTML">
+        <name>wxHtmlWindow</name>
+        <name>wxSimpleHtmlListBox</name>
+        <name>wxWebView</name>
+    </html>
+</classes>

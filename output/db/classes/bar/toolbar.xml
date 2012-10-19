@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        toolbar.xml
+    Purpose:     wxToolBar class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2011/12/03
+    Revision:    $Hash$
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
+-->
+<classes>
+    <class name="wxToolBar">
+        <description>
+            &lt;p&gt;A toolbar is a bar of buttons and/or other controls usually placed below the menu bar in a &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_frame.html" title="A frame is a window whose size and position can (usually) be changed by the user."&gt;wxFrame&lt;/a&gt;. &lt;/p&gt;
+            &lt;p&gt;You may create a toolbar that is managed by a frame calling &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_frame.html#a529698edc2fd2037ac8578dadafad0e2" title="Creates a toolbar at the top or left of the frame."&gt;wxFrame::CreateToolBar()&lt;/a&gt;. Under Pocket PC, you should always use this function for creating the toolbar to be managed by the frame, so that wxWidgets can use a combined menubar and toolbar. Where you manage your own toolbars, create &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_tool_bar.html" title="A toolbar is a bar of buttons and/or other controls usually placed below the menu bar in a wxFrame..."&gt;wxToolBar&lt;/a&gt; as usual.&lt;/p&gt;
+            &lt;p&gt;There are several different types of tools you can add to a toolbar. These types are controlled by the &lt;a class="el" href="http://docs.wxwidgets.org/trunk/defs_8h.html#abd0c640814a55e4adda3bce698646d2d" title="Item kinds for use with wxMenu, wxMenuItem, and wxToolBar."&gt;wxItemKind&lt;/a&gt; enumeration.&lt;/p&gt;
+            &lt;p&gt;Note that many methods in &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_tool_bar.html" title="A toolbar is a bar of buttons and/or other controls usually placed below the menu bar in a wxFrame..."&gt;wxToolBar&lt;/a&gt; such as &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_tool_bar.html#acd25fec352f66fb174f7f81a7d834b21" title="Adds a tool to the toolbar."&gt;wxToolBar::AddTool&lt;/a&gt; return a &lt;code&gt;wxToolBarToolBase*&lt;/code&gt; object. This should be regarded as an opaque handle representing the newly added toolbar item, providing access to its id and position within the toolbar. Changes to the item's state should be made through calls to &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_tool_bar.html" title="A toolbar is a bar of buttons and/or other controls usually placed below the menu bar in a wxFrame..."&gt;wxToolBar&lt;/a&gt; methods, for example &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_tool_bar.html#ad6b3481a2a6d71cad7b0923adf15c9d0" title="Enables or disables the tool."&gt;wxToolBar::EnableTool&lt;/a&gt;. Calls to &lt;code&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_tool_bar_tool_base.html" title="A toolbar tool represents one item on the toolbar."&gt;wxToolBarToolBase&lt;/a&gt;&lt;/code&gt; methods (undocumented by purpose) will not change the visible state of the item within the tool bar.&lt;/p&gt;
+            &lt;p&gt;&lt;b&gt;wxMSW note&lt;/b&gt;: Note that under wxMSW toolbar paints tools to reflect system-wide colours. If you use more than 16 colours in your tool bitmaps, you may wish to suppress this behaviour, otherwise system colours in your bitmaps will inadvertently be mapped to system colours. To do this, set the msw.remap system option before creating the toolbar: &lt;/p&gt;
+            &lt;div class="fragment"&gt;&lt;pre class="fragment"&gt;    &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_system_options.html#aa04043bfa0ffee30aaf09f2e436f6208" title="Sets an option."&gt;wxSystemOptions::SetOption&lt;/a&gt;(&lt;span class="stringliteral"&gt;"msw.remap"&lt;/span&gt;, 0);
+            &lt;/pre&gt;&lt;/div&gt;&lt;p&gt; If you wish to use 32-bit images (which include an alpha channel for transparency) use: &lt;/p&gt;
+            &lt;div class="fragment"&gt;&lt;pre class="fragment"&gt;    &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_system_options.html#aa04043bfa0ffee30aaf09f2e436f6208" title="Sets an option."&gt;wxSystemOptions::SetOption&lt;/a&gt;(&lt;span class="stringliteral"&gt;"msw.remap"&lt;/span&gt;, 2);
+            &lt;/pre&gt;&lt;/div&gt;&lt;p&gt; Then colour remapping is switched off, and a transparent background used. But only use this option under Windows XP with true colour: &lt;/p&gt;
+            &lt;div class="fragment"&gt;&lt;pre class="fragment"&gt;    &lt;span class="keywordflow"&gt;if&lt;/span&gt; (&lt;a class="code" href="http://docs.wxwidgets.org/trunk/interface_2wx_2app_8h.html#a01fd2cb0a8fbaade87800e71a50e855d" title="The global pointer to the singleton wxApp object."&gt;wxTheApp&lt;/a&gt;-&gt;GetComCtl32Version() &gt;= 600 &amp;&amp;&lt;a class="code" href="http://docs.wxwidgets.org/trunk/group__group__funcmacro__gdi.html#gaa144903f36a28751aa9b80b3b5f804ba" title="Returns the depth of the display (a value of 1 denotes a monochrome display)."&gt; ::wxDisplayDepth&lt;/a&gt;() &gt;= 32)
+            &lt;/pre&gt;&lt;/div&gt;
+        </description>
+        <inherits>
+            <class>wxControl</class>
+        </inherits>
+        <children>
+            <class>wxControl</class>
+            <class>separator</class>
+            <class>space</class>
+            <class>tool</class>
+        </children>
+        <name>
+            <value>toolBar</value>
+        </name>
+        <style label="Style">
+            <flag name="wxTB_FLAT">
+                <description>Gives the toolbar a flat look (Windows and GTK only).</description>
+            </flag>
+            <flag name="wxTB_DOCKABLE">
+                <description>Makes the toolbar floatable and dockable (GTK only).</description>
+            </flag>
+            <flag name="wxTB_HORIZONTAL">
+                <description>Specifies horizontal layout (default).</description>
+            </flag>
+            <flag name="wxTB_VERTICAL">
+                <description>Specifies vertical layout.</description>
+            </flag>
+            <flag name="wxTB_TEXT">
+                <description>Shows the text in the toolbar buttons; by default only icons are shown.</description>
+            </flag>
+            <flag name="wxTB_NOICONS">
+                <description>Specifies no icons in the toolbar buttons; by default they are shown.</description>
+            </flag>
+            <flag name="wxTB_NODIVIDER">
+                <description>Specifies no divider (border) above the toolbar (Windows only)</description>
+            </flag>
+            <flag name="wxTB_NOALIGN">
+                <description>Specifies no alignment with the parent window (Windows only, not very useful).</description>
+            </flag>
+            <flag name="wxTB_HORZ_LAYOUT">
+                <description>Shows the text and the icons alongside, not vertically stacked (Windows and GTK 2 only). This style must be used with wxTB_TEXT.</description>
+            </flag>
+            <flag name="wxTB_HORZ_TEXT">
+                <description>Combination of wxTB_HORZ_LAYOUT and wxTB_TEXT.</description>
+            </flag>
+            <flag name="wxTB_NO_TOOLTIPS">
+                <description>Don't show the short help tooltips for the tools when the mouse hovers over them.</description>
+            </flag>
+            <flag name="wxTB_BOTTOM">
+                <description>Align the toolbar at the bottom of parent window.</description>
+            </flag>
+            <flag name="wxTB_RIGHT">
+                <description>Align the toolbar at the right side of parent window.</description>
+            </flag>
+        </style>
+        <size name="bitmapsize" label="Bitmap size">
+            <description>Size of toolbar bitmaps (default: not set).</description>
+        </size>
+        <size name="margins" label="Margins">
+            <description>Margins (default: platform default).</description>
+        </size>
+        <int name="packing" label="Packing">
+            <description>Packing, see wxToolBar::SetToolPacking() (default: not set).</description>
+        </int>
+        <int name="separation" label="Separation">
+            <description>Default separator size, see wxToolBar::SetToolSeparation() (default: not set).</description>
+        </int>
+        <bool name="dontattachtoframe" label="Don't attack to frame">
+            <description>If set to 0 and the toolbar object is child of a wxFrame, wxFrame::SetToolBar() is called; otherwise, you have to add it to a frame manually. The toolbar is attached by default, you have to set this property to 1 to disable this behaviour (default: 0).</description>
+        </bool>
+        <event name="wxCommandEvent">
+            <type name="wxEVT_COMMAND_TOOL_CLICKED">
+                <description>Process a wxEVT_COMMAND_TOOL_CLICKED event (a synonym for wxEVT_COMMAND_MENU_SELECTED). Pass the id of the tool.</description>
+            </type>
+            <type name="wxEVT_COMMAND_MENU_SELECTED">
+                <description>The same as wxEVT_COMMAND_TOOL_CLICKED.</description>
+            </type>
+            <type name="wxEVT_COMMAND_TOOL_RCLICKED">
+                <description>Process a wxEVT_COMMAND_TOOL_RCLICKED event. Pass the id of the tool. (Not available on wxOSX.)</description>
+             </type>
+            <type name="wxEVT_COMMAND_TOOL_ENTER">
+                <description>Process a wxEVT_COMMAND_TOOL_ENTER event. Pass the id of the toolbar itself. The value of wxCommandEvent::GetSelection() is the tool id, or -1 if the mouse cursor has moved off a tool. (Not available on wxOSX.)</description>
+            </type>
+            <type name="wxEVT_COMMAND_TOOL_DROPDOWN_CLICKED">
+                <description>Process a wxEVT_COMMAND_TOOL_DROPDOWN_CLICKED event. If unhandled, displays the default dropdown menu set using wxToolBar::SetDropdownMenu().</description>
+            </type>
+        </event>
+    </class>
+
+    <class name="tool" type="item">
+        <description>The tool pseudo-class objects specify toolbar buttons.</description>
+        <children>
+            <class max="1">wxMenu</class>
+        </children>
+        <name>
+            <value>tool</value>
+        </name>
+        <bitmap name="bitmap" label="Bitmap">
+            <description>Tool's bitmap (required).</description>
+        </bitmap>
+        <bitmap name="bitmap2" label="Disabled bitmap">
+            <description>Bitmap for disabled tool (default: derived from bitmap).</description>
+        </bitmap>
+        <text name="label">
+            <description>Label to display on the tool (default: no label).</description>
+        </text>
+        <enum name="kind" label="Kind">
+            <flag name="normal" label="wxITEM_NORMAL">
+                <description>A normal button (default)</description>
+            </flag>
+            <flag name="radio" label="wxITEM_RADIO">
+                <description>A checkable tool which makes part of a radio group of tools each of which is automatically unchecked whenever another button in the group is checked.</description>
+            </flag>
+            <flag name="toggle" label="wxITEM_CHECK">
+                <description>A checkable tool (such tool stays pressed after it had been toggled)</description>
+            </flag>
+            <flag name="dropdown" label="wxITEM_DROPDOWN">
+                <description>Specifies that a drop-down menu button will appear next to the tool button (only GTK+ and MSW) (only available since wxWidgets 2.9.0).</description>
+            </flag>
+        </enum>
+        <text name="tooltip" label="Tooltip">
+            <description>Tooltip to use for the tool (default: none).</description>
+        </text>
+        <text name="longhelp" label="Long help">
+            <description>Help text shown in statusbar when the mouse is on the tool (default: none).</description>
+        </text>
+        <bool name="disabled" label="Disabled">
+            <description>Is the tool initially disabled (default: 0)?</description>
+        </bool>
+        <bool name="checked" label="Checked">
+            <description>Is the tool initially checked (default: 0)? (only available since wxWidgets 2.9.3)</description>
+        </bool>
+    </class>
+
+    <class name="separator" type="item">
+        <description>The separator pseudo-class is used to insert separators into the toolbar and has neither properties nor children.</description>
+    </class>
+
+    <class name="space" type="item">
+        <description>the space pseudo-class is used for stretchable spaces (see wxToolBar::AddStretchableSpace(), new since wxWidgets 2.9.1).</description>
+    </class>
+</classes>

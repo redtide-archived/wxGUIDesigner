@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        bitmaptogglebutton.xml
+    Purpose:     wxBitmapToggleButton class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/14
+    Revision:    $Hash$
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
+-->
+<class name="wxBitmapToggleButton">
+    <description>
+        &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_bitmap_toggle_button.html" title="wxBitmapToggleButton is a wxToggleButton that contains a bitmap instead of text."&gt;wxBitmapToggleButton&lt;/a&gt; is a &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_toggle_button.html" title="wxToggleButton is a button that stays pressed when clicked by the user."&gt;wxToggleButton&lt;/a&gt; that contains a bitmap instead of text. &lt;/p&gt;
+        &lt;p&gt;This class is not available in all ports currently (although it is available in the major ones), test for &lt;code&gt;wxHAS_BITMAPTOGGLEBUTTON&lt;/code&gt; to determine whether it can be used (in addition for possibly testing for &lt;code&gt;wxUSE_TOGGLEBTN&lt;/code&gt; which can be set to 0 to explicitly disable support for this class and &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_toggle_button.html" title="wxToggleButton is a button that stays pressed when clicked by the user."&gt;wxToggleButton&lt;/a&gt;).&lt;/p&gt;
+        &lt;p&gt;This control emits an update UI event.&lt;/p&gt;
+    </description>
+    <inherits>
+        <class>wxToggleButton</class>
+    </inherits>
+    <name label="Name">
+        <value>toggleBtn</value>
+    </name>
+    <style label="Style">
+        <flag name="wxBU_LEFT">
+            <description>Left-justifies the label. Windows and GTK+ only.</description>
+        </flag>
+        <flag name="wxBU_TOP">
+            <description>Aligns the label to the top of the button. Windows and GTK+ only.</description>
+        </flag>
+        <flag name="wxBU_RIGHT">
+            <description>Right-justifies the bitmap label. Windows and GTK+ only.</description>
+        </flag>
+        <flag name="wxBU_BOTTOM">
+            <description>Aligns the label to the bottom of the button. Windows and GTK+ only.</description>
+        </flag>
+        <flag name="wxBU_EXACTFIT">
+            <description>Creates the button as small as possible instead of making it of the standard size (which is the default behaviour ).</description>
+        </flag>
+        <flag name="wxBU_NOTEXT">
+            <description>Disables the display of the text label in the button even if it has one or its id is one of the standard stock ids with an associated label: without using this style a button which is only supposed to show a bitmap but uses a standard id would display a label too.</description>
+        </flag>
+    </style>
+    <bitmap label="Bitmap">
+        <description>Bitmap to display (required).</description>
+    </bitmap>
+</class>

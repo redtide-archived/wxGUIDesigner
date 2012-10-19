@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        filepickerctrl.xml
+    Purpose:     wxFilePickerCtrl class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/14
+    Revision:    $Hash$
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
+-->
+<class name="wxFilePickerCtrl">
+    <description>
+        &lt;p&gt;This control allows the user to select a file. &lt;/p&gt;
+        &lt;p&gt;The generic implementation is a button which brings up a &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_file_dialog.html" title="This class represents the file chooser dialog."&gt;wxFileDialog&lt;/a&gt; when clicked. Native implementation may differ but this is usually a (small) widget which give access to the file-chooser dialog. It is only available if &lt;code&gt;wxUSE_FILEPICKERCTRL&lt;/code&gt; is set to 1 (the default).&lt;/p&gt;
+    </description>
+    <inherits>
+        <class>wxPickerBase</class>
+    </inherits>
+    <name label="Name">
+        <value>filePicker</value>
+    </name>
+    <style label="Style">
+        <flag name="wxFLP_DEFAULT_STYLE">
+            <description>The default style: includes wxFLP_OPEN | wxFLP_FILE_MUST_EXIST and, under wxMSW only, wxFLP_USE_TEXTCTRL.</description>
+        </flag>
+        <flag name="wxFLP_USE_TEXTCTRL">
+            <description>Creates a text control to the left of the picker button which is completely managed by the wxFilePickerCtrl and which can be used by the user to specify a path (see SetPath). The text control is automatically synchronized with button's value. Use functions defined in wxPickerBase to modify the text control.</description>
+        </flag>
+        <flag name="wxFLP_OPEN">
+            <description>Creates a picker which allows the user to select a file to open.</description>
+        </flag>
+        <flag name="wxFLP_SAVE">
+            <description>Creates a picker which allows the user to select a file to save.</description>
+        </flag>
+        <flag name="wxFLP_OVERWRITE_PROMPT">
+            <description>Can be combined with wxFLP_SAVE only: ask confirmation to the user before selecting a file.</description>
+        </flag>
+        <flag name="wxFLP_FILE_MUST_EXIST">
+            <description>Can be combined with wxFLP_OPEN only: the selected file must be an existing file.</description>
+        </flag>
+        <flag name="wxFLP_CHANGE_DIR">
+            <description>Change current working directory on each user file selection change.</description>
+        </flag>
+        <flag name="wxFLP_SMALL">
+            <description>Use smaller version of the control with a small "..." button instead of the normal "Browse" one. This flag is new since wxWidgets 2.9.3.</description>
+        </flag>
+    </style>
+    <string name="value" label="Value">
+        <description>Initial value of the control (default: empty).</description>
+    </string>
+    <text name="message" label="Message">
+        <description>Message shown to the user in wxDirDialog shown by the control (required).</description>
+    </text>
+    <string name="wildcard" label="Wildcard">
+        <description>Sets the wildcard, which can contain multiple file types, for example: "BMP files (*.bmp)|*.bmp|GIF files (*.gif)|*.gif".</description>
+    </string>
+    <event name="wxFileDirPickerEvent">
+        <type name="wxEVT_COMMAND_FILEPICKER_CHANGED">
+            <description>The user changed the file selected in the control either using the button or using text control (see wxFLP_USE_TEXTCTRL; note that in this case the event is fired only if the user's input is valid, e.g. an existing file path if wxFLP_FILE_MUST_EXIST was given).</description>
+        </type>
+    </event>
+</class>

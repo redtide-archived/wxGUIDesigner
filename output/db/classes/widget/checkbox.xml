@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        checkbox.xml
+    Purpose:     wxCheckBox class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/14
+    Revision:    $Hash$
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
+-->
+<class name="wxCheckBox">
+    <description>
+        &lt;p&gt;A checkbox is a labelled box which by default is either on (checkmark is visible) or off (no checkmark). &lt;/p&gt;
+        &lt;p&gt;Optionally (when the wxCHK_3STATE style flag is set) it can have a third state, called the mixed or undetermined state. Often this is used as a "Does Not Apply" state.&lt;/p&gt;
+    </description>
+    <inherits>
+        <class>wxControl</class>
+    </inherits>
+    <name label="Name">
+        <value>chkBox</value>
+    </name>
+    <style label="Style">
+        <flag name="wxCHK_2STATE">
+            <description>Create a 2-state checkbox. This is the default.</description>
+        </flag>
+        <flag name="wxCHK_3STATE">
+            <description>Create a 3-state checkbox. Not implemented in wxMGL, wxOS2 and wxGTK built against GTK+ 1.2.</description>
+        </flag>
+        <flag name="wxCHK_ALLOW_3RD_STATE_FOR_USER">
+            <description>By default a user can't set a 3-state checkbox to the third state. It can only be done from code. Using this flags allows the user to set the checkbox to the third state by clicking.</description>
+        </flag>
+        <flag name="wxALIGN_RIGHT">
+            <description>Makes the text appear on the left of the checkbox.</description>
+        </flag>
+    </style>
+    <bool name="checked" label="Checked">
+        <description>Should the checkbox be checked initially (default: 0)?</description>
+    </bool>
+    <event name="wxCommandEvent">
+        <type name="wxEVT_COMMAND_CHECKBOX_CLICKED">
+            <description>Process a wxEVT_COMMAND_CHECKBOX_CLICKED event, when the checkbox is clicked.</description>
+        </type>
+    </event>
+</class>

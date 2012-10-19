@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        flexgrid.xml
+    Purpose:     wxFlexGridSizer class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2011/12/03
+    Revision:    $Hash$
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
+-->
+<class name="wxFlexGridSizer" type="sizer">
+    <description>
+        &lt;p&gt;A flex grid sizer is a sizer which lays out its children in a two-dimensional table with all table fields in one row having the same height and all fields in one column having the same width, but all rows or all columns are not necessarily the same height or width as in the &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_grid_sizer.html" title="A grid sizer is a sizer which lays out its children in a two-dimensional table with all table fields ..."&gt;wxGridSizer&lt;/a&gt;. &lt;/p&gt;
+        &lt;p&gt;Since wxWidgets 2.5.0, &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_flex_grid_sizer.html" title="A flex grid sizer is a sizer which lays out its children in a two-dimensional table with all table fi..."&gt;wxFlexGridSizer&lt;/a&gt; can also size items equally in one direction but unequally ("flexibly") in the other. If the sizer is only flexible in one direction (this can be changed using &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_flex_grid_sizer.html#a5c206d868699abb1e550cdbaa6cb19bc" title="Specifies whether the sizer should flexibly resize its columns, rows, or both."&gt;wxFlexGridSizer::SetFlexibleDirection&lt;/a&gt;), it needs to be decided how the sizer should grow in the other ("non-flexible") direction in order to fill the available space. The &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_flex_grid_sizer.html#a24c64f822320fa04e34c21ddde7260b9" title="Specifies how the sizer should grow in the non-flexible direction if there is one (so SetFlexibleDire..."&gt;wxFlexGridSizer::SetNonFlexibleGrowMode()&lt;/a&gt; method serves this purpose.&lt;/p&gt;
+    </description>
+    <inherits>
+        <class>wxGridSizer</class>
+    </inherits>
+    <children>
+        <class>sizeritem</class>
+        <class>spacer</class>
+    </children>
+    <name label="Name">
+        <value>fgSizer</value>
+    </name>
+    <string name="growablerows" label="Growable rows">
+        <description>Comma-separated list of indexes of rows that are growable (default: none).</description>
+    </string>
+    <string name="growablecols" label="Growable cols">
+        <description>Comma-separated list of indexes of columns that are growable (default: none).</description>
+    </string>
+    <enum name="flexible_direction" label="Flexible direction">
+        <description>&lt;a class="el" href="http://docs.wxwidgets.org/trunk/defs_8h.html#a1e6994f40bd9cb140e292afb165af971" title="A generic orientation value."&gt;wxOrientation&lt;/a&gt; value that specifies whether the sizer flexibly resizes its columns, rows, or both (default).</description>
+        <flag name="wxHORIZONTAL">
+            <description>Columns are flexibly sized.</description>
+        </flag>
+        <flag name="wxVERTICAL">
+            <description>Rows are flexibly sized.</description>
+        </flag>
+        <flag name="wxBOTH">
+            <description>Both rows and columns are flexibly sized (this is the default value).</description>
+        </flag>
+    </enum>
+    <enum name="non_flexible_grow_mode" label="Non flexible grow mode">
+        <description>Values which define the behaviour for resizing &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_flex_grid_sizer.html" title="A flex grid sizer is a sizer which lays out its children in a two-dimensional table..."&gt;wxFlexGridSizer&lt;/a&gt; cells in the "non-flexible" direction. </description>
+        <flag name="wxFLEX_GROWMODE_NONE">
+            <description>Don't resize the cells in non-flexible direction at all. </description>
+        </flag>
+        <flag name="wxFLEX_GROWMODE_SPECIFIED">
+            <description>Uniformly resize only the specified ones (default). </description>
+        </flag>
+        <flag name="wxFLEX_GROWMODE_ALL">
+            <description>Uniformly resize all cells. </description>
+        </flag>
+    </enum>
+</class>

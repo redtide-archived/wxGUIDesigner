@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        propertygridmanager.xml
+    Purpose:     wxPropertyGridManager class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/24
+    Revision:    $Hash$
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
+-->
+<class name="wxPropertyGridManager">
+    <description>
+        &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_property_grid_manager.html" title="wxPropertyGridManager is an efficient multi-page version of wxPropertyGrid, which can optionally have..."&gt;wxPropertyGridManager&lt;/a&gt; is an efficient multi-page version of &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_property_grid.html" title="wxPropertyGrid is a specialized grid for editing properties - in other words name = value pairs..."&gt;wxPropertyGrid&lt;/a&gt;, which can optionally have toolbar for mode and page selection, a help text box, and a header. &lt;/p&gt;
+        &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_property_grid_manager.html" title="wxPropertyGridManager is an efficient multi-page version of wxPropertyGrid, which can optionally have..."&gt;wxPropertyGridManager&lt;/a&gt; inherits from &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_property_grid_interface.html" title="Most of the shared property manipulation interface shared by wxPropertyGrid, wxPropertyGridPage, and wxPropertyGridManager is defined in this class."&gt;wxPropertyGridInterface&lt;/a&gt;, and as such it has most property manipulation functions. However, only some of them affect properties on all pages (eg. &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_property_grid_interface.html#ac5723b61ae48d373671343e774632ed3" title="Returns pointer to a property with given name (case-sensitive)."&gt;GetPropertyByName()&lt;/a&gt; and &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_property_grid_interface.html#a678020610f0af4140eda4726cd89d728" title="Expands all items that can be expanded."&gt;ExpandAll()&lt;/a&gt;), while some (eg. &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_property_grid_interface.html#a8496963f469db86941157f8ce67896c4" title="Appends property to the list."&gt;Append()&lt;/a&gt;) only apply to the currently selected page.&lt;/p&gt;
+        &lt;p&gt;To operate explicitly on properties on specific page, use &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_property_grid_manager.html#a7deaa866fbf87e6880c0564e4582f54e" title="Returns page object for given page index."&gt;wxPropertyGridManager::GetPage()&lt;/a&gt; to obtain pointer to page's &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_property_grid_page.html" title="Holder of property grid page information."&gt;wxPropertyGridPage&lt;/a&gt; object.&lt;/p&gt;
+        &lt;p&gt;Visual methods, such as SetCellBackgroundColour() are only available in &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_property_grid.html" title="wxPropertyGrid is a specialized grid for editing properties - in other words name = value pairs..."&gt;wxPropertyGrid&lt;/a&gt;. Use &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_property_grid_manager.html#aa0c62e680e94493dabdf40ab4642fef6" title="Returns pointer to the contained wxPropertyGrid."&gt;wxPropertyGridManager::GetGrid()&lt;/a&gt; to obtain pointer to it.&lt;/p&gt;
+        &lt;p&gt;Non-virtual iterators will not work in &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_property_grid_manager.html" title="wxPropertyGridManager is an efficient multi-page version of wxPropertyGrid, which can optionally have..."&gt;wxPropertyGridManager&lt;/a&gt;. Instead, you must acquire the internal grid (&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_property_grid_manager.html#aa0c62e680e94493dabdf40ab4642fef6" title="Returns pointer to the contained wxPropertyGrid."&gt;GetGrid()&lt;/a&gt;) or &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_property_grid_page.html" title="Holder of property grid page information."&gt;wxPropertyGridPage&lt;/a&gt; object (&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_property_grid_manager.html#a7deaa866fbf87e6880c0564e4582f54e" title="Returns page object for given page index."&gt;GetPage()&lt;/a&gt;).&lt;/p&gt;
+        &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_property_grid_manager.html" title="wxPropertyGridManager is an efficient multi-page version of wxPropertyGrid, which can optionally have..."&gt;wxPropertyGridManager&lt;/a&gt; constructor has exact same format as &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_property_grid.html" title="wxPropertyGrid is a specialized grid for editing properties - in other words name = value pairs..."&gt;wxPropertyGrid&lt;/a&gt; constructor, and basically accepts same extra window style flags (albeit also has some extra ones).&lt;/p&gt;
+        &lt;p&gt;Here's some example code for creating and populating a &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_property_grid_manager.html" title="wxPropertyGridManager is an efficient multi-page version of wxPropertyGrid, which can optionally have..."&gt;wxPropertyGridManager&lt;/a&gt;:&lt;/p&gt;
+        &lt;div class="fragment"&gt;&lt;pre class="fragment"&gt;        &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_property_grid_manager.html" title="wxPropertyGridManager is an efficient multi-page version of wxPropertyGrid, which can optionally have..."&gt;wxPropertyGridManager&lt;/a&gt;* pgMan = &lt;span class="keyword"&gt;new&lt;/span&gt; &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_property_grid_manager.html" title="wxPropertyGridManager is an efficient multi-page version of wxPropertyGrid, which can optionally have..."&gt;wxPropertyGridManager&lt;/a&gt;(&lt;span class="keyword"&gt;this&lt;/span&gt;, PGID,
+                    &lt;a class="code" href="http://docs.wxwidgets.org/trunk/gdicmn_8h.html#af5a90c753eaf3d3e3e5068a19ec3c1d0" title="Global instance of a wxPoint initialized with values (-1,-1)."&gt;wxDefaultPosition&lt;/a&gt;, &lt;a class="code" href="http://docs.wxwidgets.org/trunk/gdicmn_8h.html#a33a012cdb075e9f78c93f63bec2dc27b" title="Global instance of a wxSize object initialized to (-1,-1)."&gt;wxDefaultSize&lt;/a&gt;,
+                    &lt;span class="comment"&gt;// These and other similar styles are automatically&lt;/span&gt;
+                    &lt;span class="comment"&gt;// passed to the embedded wxPropertyGrid.&lt;/span&gt;
+                    &lt;a class="code" href="http://docs.wxwidgets.org/trunk/interface_2wx_2propgrid_2propgrid_8h.html#a967b646b15085e115051d83a65ffdfe8a9b4250bcee1b0c651e9b76b3b88bd68a" title="Modified values are shown in bold font."&gt;wxPG_BOLD_MODIFIED&lt;/a&gt;|&lt;a class="code" href="http://docs.wxwidgets.org/trunk/interface_2wx_2propgrid_2propgrid_8h.html#a967b646b15085e115051d83a65ffdfe8a998b9d55c606adb1010be7438286e3c5" title="When wxPropertyGrid is resized, splitter moves to the center."&gt;wxPG_SPLITTER_AUTO_CENTER&lt;/a&gt;|
+                    &lt;span class="comment"&gt;// Include toolbar.&lt;/span&gt;
+                    &lt;a class="code" href="http://docs.wxwidgets.org/trunk/interface_2wx_2propgrid_2propgrid_8h.html#a967b646b15085e115051d83a65ffdfe8a4c708718b58d1b4b61a8bb23be022ec4" title="wxPropertyGridManager only: Show tool bar for mode and page selection."&gt;wxPG_TOOLBAR&lt;/a&gt; |
+                    &lt;span class="comment"&gt;// Include description box.&lt;/span&gt;
+                    &lt;a class="code" href="http://docs.wxwidgets.org/trunk/interface_2wx_2propgrid_2propgrid_8h.html#a967b646b15085e115051d83a65ffdfe8ae7a176f7037ce590e834bf62659a8326" title="wxPropertyGridManager only: Show adjustable text box showing description or help text, if available, for currently selected property."&gt;wxPG_DESCRIPTION&lt;/a&gt; |
+                    &lt;span class="comment"&gt;// Include compactor.&lt;/span&gt;
+                    wxPG_COMPACTOR |
+                    &lt;span class="comment"&gt;// Plus defaults.&lt;/span&gt;
+                    &lt;a class="code" href="http://docs.wxwidgets.org/trunk/interface_2wx_2propgrid_2propgrid_8h.html#a422babdd5ce8058435ed638fd1c486b0" title="Combines various styles."&gt;wxPGMAN_DEFAULT_STYLE&lt;/a&gt;
+                   );
+
+                &lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_property_grid_page.html" title="Holder of property grid page information."&gt;wxPropertyGridPage&lt;/a&gt;* page;
+
+                page = pgMan-&gt;&lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_property_grid_manager.html#aea73aeb92bf18ba189198820f5341f7c" title="Creates new property page."&gt;AddPage&lt;/a&gt;(&lt;span class="stringliteral"&gt;"First Page"&lt;/span&gt;);
+
+                page-&gt;&lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_property_grid_interface.html#a8496963f469db86941157f8ce67896c4" title="Appends property to the list."&gt;Append&lt;/a&gt;( &lt;span class="keyword"&gt;new&lt;/span&gt; wxPropertyCategory(&lt;span class="stringliteral"&gt;"Category A1"&lt;/span&gt;) );
+
+                page-&gt;&lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_property_grid_interface.html#a8496963f469db86941157f8ce67896c4" title="Appends property to the list."&gt;Append&lt;/a&gt;( &lt;span class="keyword"&gt;new&lt;/span&gt; wxIntProperty(&lt;span class="stringliteral"&gt;"Number"&lt;/span&gt;,wxPG_LABEL,1) );
+
+                page-&gt;&lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_property_grid_interface.html#a8496963f469db86941157f8ce67896c4" title="Appends property to the list."&gt;Append&lt;/a&gt;( &lt;span class="keyword"&gt;new&lt;/span&gt; wxColourProperty(&lt;span class="stringliteral"&gt;"Colour"&lt;/span&gt;,wxPG_LABEL,*&lt;a class="code" href="colour_8h.html#a3b00973fd189d6ddd42d74046bd45694"&gt;wxWHITE&lt;/a&gt;) );
+
+                page = pgMan-&gt;&lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_property_grid_manager.html#aea73aeb92bf18ba189198820f5341f7c" title="Creates new property page."&gt;AddPage&lt;/a&gt;(&lt;span class="stringliteral"&gt;"Second Page"&lt;/span&gt;);
+
+                page-&gt;&lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_property_grid_interface.html#a8496963f469db86941157f8ce67896c4" title="Appends property to the list."&gt;Append&lt;/a&gt;( &lt;span class="stringliteral"&gt;"Text"&lt;/span&gt;,wxPG_LABEL,&lt;span class="stringliteral"&gt;"(no text)"&lt;/span&gt; );
+
+                page-&gt;&lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_property_grid_interface.html#a8496963f469db86941157f8ce67896c4" title="Appends property to the list."&gt;Append&lt;/a&gt;( &lt;span class="keyword"&gt;new&lt;/span&gt; wxFontProperty(&lt;span class="stringliteral"&gt;"Font"&lt;/span&gt;,wxPG_LABEL) );
+
+                &lt;span class="comment"&gt;// Display a header above the grid&lt;/span&gt;
+                pgMan-&gt;&lt;a class="code" href="http://docs.wxwidgets.org/trunk/classwx_property_grid_manager.html#a9c52643774dfa45d4aecbf05629cfd91" title="Show or hide the property grid header control."&gt;ShowHeader&lt;/a&gt;();
+        &lt;/pre&gt;&lt;/div&gt;
+    </description>
+    <inherits>
+        <class>wxPanel</class>
+        <class>wxPropertyGridInterface</class>
+    </inherits>
+    <name label="Name">
+        <value>propGridMgr</value>
+    </name>
+</class>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        propertygrid.xml
+    Purpose:     wxPropertyGrid class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/24
+    Revision:    $Hash$
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
+-->
+<class name="wxPropertyGrid">
+    <description>
+        &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_property_grid.html" title="wxPropertyGrid is a specialized grid for editing properties - in other words name = value pairs..."&gt;wxPropertyGrid&lt;/a&gt; is a specialized grid for editing properties - in other words name = value pairs. &lt;/p&gt;
+        &lt;p&gt;List of ready-to-use property classes include strings, numbers, flag sets, fonts, colours and many others. It is possible, for example, to categorize properties, set up a complete tree-hierarchy, add more than two columns, and set arbitrary per-property attributes.&lt;/p&gt;
+        &lt;p&gt;Please note that most member functions are inherited and as such not documented on this page. This means you will probably also want to read &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_property_grid_interface.html" title="Most of the shared property manipulation interface shared by wxPropertyGrid, wxPropertyGridPage, and wxPropertyGridManager is defined in this class."&gt;wxPropertyGridInterface&lt;/a&gt; class reference.&lt;/p&gt;
+        &lt;p&gt;See also &lt;a class="el" href="overview_propgrid.html"&gt;wxPropertyGrid Overview&lt;/a&gt;.&lt;/p&gt;
+    </description>
+    <inherits>
+        <class>wxControl</class>
+        <class>wxPropertyGridInterface</class>
+    </inherits>
+    <name label="Name">
+        <value>propGrid</value>
+    </name>
+    <event name="wxPropertyGridEvent">
+        <type name="EVT_PG_SELECTED">
+            <description>Respond to wxEVT_PG_SELECTED event, generated when a property selection has been changed, either by user action or by indirect program function. For instance, collapsing a parent property programmatically causes any selected child property to become unselected, and may therefore cause this event to be generated.</description>
+        </type>
+        <type name="EVT_PG_CHANGED">
+            <description>Respond to wxEVT_PG_CHANGED event, generated when property value has been changed by the user.</description>
+        </type>
+        <type name="EVT_PG_CHANGING">
+            <description>Respond to wxEVT_PG_CHANGING event, generated when property value is about to be changed by user. Use wxPropertyGridEvent::GetValue() to take a peek at the pending value, and wxPropertyGridEvent::Veto() to prevent change from taking place, if necessary.</description>
+        </type>
+        <type name="EVT_PG_HIGHLIGHTED">
+            <description>Respond to wxEVT_PG_HIGHLIGHTED event, which occurs when mouse moves over a property. Event's property is NULL if hovered area does not belong to any property.</description>
+        </type>
+        <type name="EVT_PG_RIGHT_CLICK">
+            <description>Respond to wxEVT_PG_RIGHT_CLICK event, which occurs when property is clicked on with right mouse button.</description>
+        </type>
+        <type name="EVT_PG_DOUBLE_CLICK">
+            <description>Respond to wxEVT_PG_DOUBLE_CLICK event, which occurs when property is double-clicked on with left mouse button.</description>
+        </type>
+        <type name="EVT_PG_ITEM_COLLAPSED">
+            <description>Respond to wxEVT_PG_ITEM_COLLAPSED event, generated when user collapses a property or category.</description>
+        </type>
+        <type name="EVT_PG_ITEM_EXPANDED">
+            <description>Respond to wxEVT_PG_ITEM_EXPANDED event, generated when user expands a property or category.</description>
+        </type>
+        <type name="EVT_PG_LABEL_EDIT_BEGIN">
+            <description>Respond to wxEVT_PG_LABEL_EDIT_BEGIN event, generated when user is about to begin editing a property label. You can veto this event to prevent the action.</description>
+        </type>
+        <type name="EVT_PG_LABEL_EDIT_ENDING">
+            <description>Respond to wxEVT_PG_LABEL_EDIT_ENDING event, generated when user is about to end editing of a property label. You can veto this event to prevent the action.</description>
+        </type>
+        <type name="EVT_PG_COL_BEGIN_DRAG">
+            <description>Respond to wxEVT_PG_COL_BEGIN_DRAG event, generated when user starts resizing a column - can be vetoed.</description>
+        </type>
+        <type name="EVT_PG_COL_DRAGGING">
+            <description>Respond to wxEVT_PG_COL_DRAGGING, event, generated when a column resize by user is in progress. This event is also generated when user double-clicks the splitter in order to recenter it.</description>
+        </type>
+        <type name="EVT_PG_COL_END_DRAG">
+            <description>Respond to wxEVT_PG_COL_END_DRAG event, generated after column resize by user has finished.</description>
+        </type>
+    </event>
+</class>

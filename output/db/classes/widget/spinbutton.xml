@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        spinbutton.xml
+    Purpose:     wxSpinButton class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/15
+    Revision:    $Hash$
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
+-->
+<class name="wxSpinButton">
+    <description>
+        &lt;p&gt;A &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_spin_button.html" title="A wxSpinButton has two small up and down (or left and right) arrow buttons."&gt;wxSpinButton&lt;/a&gt; has two small up and down (or left and right) arrow buttons. &lt;/p&gt;
+        &lt;p&gt;It is often used next to a text control for increment and decrementing a value. Portable programs should try to use &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_spin_ctrl.html" title="wxSpinCtrl combines wxTextCtrl and wxSpinButton in one control."&gt;wxSpinCtrl&lt;/a&gt; instead as &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_spin_button.html" title="A wxSpinButton has two small up and down (or left and right) arrow buttons."&gt;wxSpinButton&lt;/a&gt; is not implemented for all platforms but &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_spin_ctrl.html" title="wxSpinCtrl combines wxTextCtrl and wxSpinButton in one control."&gt;wxSpinCtrl&lt;/a&gt; is as it degenerates to a simple &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_text_ctrl.html" title="A text control allows text to be displayed and edited."&gt;wxTextCtrl&lt;/a&gt; on such platforms.&lt;/p&gt;
+        &lt;dl class="note"&gt;&lt;dt&gt;&lt;b&gt;Note:&lt;/b&gt;&lt;/dt&gt;&lt;dd&gt;the range supported by this control (and &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_spin_ctrl.html" title="wxSpinCtrl combines wxTextCtrl and wxSpinButton in one control."&gt;wxSpinCtrl&lt;/a&gt;) depends on the platform but is at least &lt;code&gt;-0x8000&lt;/code&gt; to &lt;code&gt;0x7fff&lt;/code&gt;. Under GTK and Win32 with sufficiently new version of &lt;code&gt;comctrl32.dll&lt;/code&gt; (at least 4.71 is required, 5.80 is recommended) the full 32 bit range is supported.&lt;/dd&gt;&lt;/dl&gt;
+    </description>
+    <inherits>
+        <class>wxControl</class>
+    </inherits>
+    <name label="Name">
+        <value>spinBtn</value>
+    </name>
+    <style label="Style">
+        <flag name="wxSP_HORIZONTAL">
+            <description>Specifies a horizontal spin button (note that this style is not supported in wxGTK).</description>
+        </flag>
+        <flag name="wxSP_VERTICAL">
+            <description>Specifies a vertical spin button.</description>
+        </flag>
+        <flag name="wxSP_ARROW_KEYS">
+            <description>The user can use arrow keys to change the value.</description>
+        </flag>
+        <flag name="wxSP_WRAP">
+            <description>The value wraps at the minimum and maximum.</description>
+        </flag>
+    </style>
+    <int name="value" label="Value">
+        <description>Initial value of the control (default: 0).</description>
+    </int>
+    <int name="min" label="Minimum">
+        <description>Minimum allowed value (default: 0).</description>
+    </int>
+    <int name="max" label="Maximum">
+        <description>Maximum allowed value (default: 100).</description>
+    </int>
+    <event name="wxSpinEvent">
+        <type name="EVT_SPIN">
+            <description>Generated whenever an arrow is pressed.</description>
+        </type>
+        <type name="EVT_SPIN_UP">
+            <description>Generated when left/up arrow is pressed.</description>
+        </type>
+        <type name="EVT_SPIN_DOWN">
+            <description>Generated when right/down arrow is pressed.</description>
+        </type>
+    </event>
+</class>

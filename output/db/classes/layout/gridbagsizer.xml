@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        gridbagsizer.xml
+    Purpose:     wxGridBagSizer class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2011/12/03
+    Revision:    $Hash$
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
+-->
+<classes>
+    <class name="wxGridBagSizer" type="sizer">
+        <description>
+            &lt;p&gt;A &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_sizer.html" title="wxSizer is the abstract base class used for laying out subwindows in a window."&gt;wxSizer&lt;/a&gt; that can lay out items in a virtual grid like a &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_flex_grid_sizer.html" title="A flex grid sizer is a sizer which lays out its children in a two-dimensional table with all table fi..."&gt;wxFlexGridSizer&lt;/a&gt; but in this case explicit positioning of the items is allowed using &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_g_b_position.html" title="This class represents the position of an item in a virtual grid of rows and columns managed by a wxGr..."&gt;wxGBPosition&lt;/a&gt;, and items can optionally span more than one row and/or column using &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_g_b_span.html" title="This class is used to hold the row and column spanning attributes of items in a wxGridBagSizer."&gt;wxGBSpan&lt;/a&gt;. &lt;/p&gt;
+        </description>
+        <inherits>
+           <class>wxFlexGridSizer</class>
+        </inherits>
+        <children>
+            <class>sizeritem</class>
+            <class>spacer</class>
+        </children>
+        <name label="Name">
+            <value>gbSizer</value>
+        </name>
+        <size name="empty_cell_size" label="Empty cell size">
+            <description>Set the size used for cells in the grid with no item. </description>
+        </size>
+    </class>
+</classes>

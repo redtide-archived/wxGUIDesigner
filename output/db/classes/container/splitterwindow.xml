@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        splitterwindow.xml
+    Purpose:     wxSplitterWindow class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/15
+    Revision:    $Hash$
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
+-->
+<class name="wxSplitterWindow" type="container">
+    <description>
+        &lt;p&gt;This class manages up to two subwindows. &lt;/p&gt;
+        &lt;p&gt;The current view can be split into two programmatically (perhaps from a menu command), and unsplit either programmatically or via the &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_splitter_window.html" title="This class manages up to two subwindows."&gt;wxSplitterWindow&lt;/a&gt; user interface.&lt;/p&gt;
+    </description>
+    <inherits>
+        <class>wxWindow</class>
+    </inherits>
+    <children>
+        <type max="2">control</type>
+    </children>
+    <name label="Name">
+        <value>splitter</value>
+    </name>
+    <style label="Style">
+        <flag name="wxSP_3D">
+            <description>Draws a 3D effect border and sash.</description>
+        </flag>
+        <flag name="wxSP_THIN_SASH">
+            <description>Draws a thin sash.</description>
+        </flag>
+        <flag name="wxSP_3DSASH">
+            <description>Draws a 3D effect sash (part of default style).</description>
+        </flag>
+        <flag name="wxSP_3DBORDER">
+            <description>Synonym for wxSP_BORDER.</description>
+        </flag>
+        <flag name="wxSP_BORDER">
+            <description>Draws a standard border.</description>
+        </flag>
+        <flag name="wxSP_NOBORDER">
+            <description>No border (default).</description>
+        </flag>
+        <flag name="wxSP_NO_XP_THEME">
+            <description>Under Windows XP, switches off the attempt to draw the splitter using Windows XP theming, so the borders and sash will take on the pre-XP look.</description>
+        </flag>
+        <flag name="wxSP_PERMIT_UNSPLIT">
+            <description>Always allow to unsplit, even with the minimum pane size other than zero.</description>
+        </flag>
+        <flag name="wxSP_LIVE_UPDATE">
+            <description>Don't draw XOR line but resize the child windows immediately.</description>
+        </flag>
+    </style>
+    <string name="orientation" label="Orientation">
+        <description>Orientation of the splitter, either "vertical" or "horizontal" (default: horizontal).</description>
+    </string>
+    <int name="sashpos" label="Sash position">
+        <description>Initial position of the sash (default: 0).</description>
+    </int>
+    <int name="minsize" label="Minimum size">
+        <description>Minimum child size (default: not set).</description>
+    </int>
+    <float name="gravity" label="Sash gravity">
+        <description>Sash gravity, see wxSplitterWindow::SetSashGravity() (default: not set).</description>
+    </float>
+    <event name="wxSplitterEvent">
+        <type name="wxEVT_COMMAND_SPLITTER_SASH_POS_CHANGING">
+            <macro_id>EVT_SPLITTER_SASH_POS_CHANGING</macro_id>
+            <description>The sash position is in the process of being changed. May be used to modify the position of the tracking bar to properly reflect the position that would be set if the drag were to be completed at this point.</description>
+        </type>
+        <type name="wxEVT_COMMAND_SPLITTER_SASH_POS_CHANGED">
+            <macro_id>EVT_SPLITTER_SASH_POS_CHANGED</macro_id>
+            <description>The sash position was changed. May be used to modify the sash position before it is set, or to prevent the change from taking place</description>
+        </type>
+        <type name="wxEVT_COMMAND_SPLITTER_UNSPLIT">
+            <macro_id>EVT_SPLITTER_UNSPLIT</macro_id>
+            <description>The splitter has been just unsplit. Processes a wxEVT_COMMAND_SPLITTER_UNSPLIT event.</description>
+        </type>
+        <type name="wxEVT_COMMAND_SPLITTER_DOUBLECLICKED">
+            <macro_id>EVT_SPLITTER_DCLICK</macro_id>
+            <description>The sash was double clicked. The default behaviour is to unsplit the window when this happens (unless the minimum pane size has been set to a value greater than zero).</description>
+        </type>
+    </event>
+</class>

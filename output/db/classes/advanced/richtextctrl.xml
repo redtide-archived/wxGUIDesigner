@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        richtextctrl.xml
+    Purpose:     wxRichTextCtrl class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2011/12/02
+    Revision:    $Hash$
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
+-->
+<class name="wxRichTextCtrl">
+    <description>
+        &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_rich_text_ctrl.html" title="wxRichTextCtrl provides a generic, ground-up implementation of a text control capable of showing mult..."&gt;wxRichTextCtrl&lt;/a&gt; provides a generic, ground-up implementation of a text control capable of showing multiple styles and images. &lt;/p&gt;
+        &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_rich_text_ctrl.html" title="wxRichTextCtrl provides a generic, ground-up implementation of a text control capable of showing mult..."&gt;wxRichTextCtrl&lt;/a&gt; sends notification events: see &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_rich_text_event.html" title="This is the event class for wxRichTextCtrl notifications."&gt;wxRichTextEvent&lt;/a&gt;.&lt;/p&gt;
+        &lt;p&gt;It also sends the standard &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_text_ctrl.html" title="A text control allows text to be displayed and edited."&gt;wxTextCtrl&lt;/a&gt; events &lt;code&gt;wxEVT_COMMAND_TEXT_ENTER&lt;/code&gt; and &lt;code&gt;wxEVT_COMMAND_TEXT_UPDATED&lt;/code&gt;, and wxTextUrlEvent when URL content is clicked.&lt;/p&gt;
+        &lt;p&gt;For more information, see the &lt;a class="el" href="http://docs.wxwidgets.org/trunk/overview_richtextctrl.html"&gt;wxRichTextCtrl Overview&lt;/a&gt;.&lt;/p&gt;
+    </description>
+    <inherits>
+        <class>wxControl</class>
+    </inherits>
+    <name label="Name">
+        <value>richText</value>
+    </name>
+    <style label="Style">
+        <flag name="wxRE_CENTRE_CARET">
+            <description>The control will try to keep the caret line centred vertically while editing. wxRE_CENTER_CARET is a synonym for this style.</description>
+        </flag>
+        <flag name="wxRE_MULTILINE">
+            <description>The control will be multiline (mandatory).</description>
+        </flag>
+        <flag name="wxRE_READONLY">
+            <description>The control will not be editable.</description>
+        </flag>
+    </style>
+    <text name="value" label="Value">
+        <description>Initial value of the control (default: empty).</description>
+    </text>
+    <int name="maxlength" label="Max length">
+        <description>Maximum length of the text entered (default: unlimited).</description>
+    </int>
+</class>

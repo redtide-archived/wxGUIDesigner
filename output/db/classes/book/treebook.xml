@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        treebook.xml
+    Purpose:     wxTreebook class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/15
+    Revision:    $Hash$
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
+-->
+<classes>
+    <class name="wxTreebook">
+        <description>
+            &lt;p&gt;This class is an extension of the &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_notebook.html" title="This class represents a notebook control, which manages multiple windows with associated tabs..."&gt;wxNotebook&lt;/a&gt; class that allows a tree structured set of pages to be shown in a control. &lt;/p&gt;
+            &lt;p&gt;A classic example is a netscape preferences dialog that shows a tree of preference sections on the left and select section page on the right.&lt;/p&gt;
+            &lt;p&gt;To use the class simply create it and populate with pages using &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_treebook.html#a9491fe745b68b9a51063f8f3aac59376" title="Inserts a new page just before the page indicated by pagePos."&gt;InsertPage()&lt;/a&gt;, &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_treebook.html#ae3c46fd64891e13d511b4840b275143c" title="Inserts a sub page under the specified page."&gt;InsertSubPage()&lt;/a&gt;, &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_treebook.html#a005654249564b0f3e3c1127bc33cfb8b" title="Adds a new page."&gt;AddPage()&lt;/a&gt;, &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_treebook.html#a409e957bacff40d46c3ba9a6606fc0d2" title="Adds a new child-page to the last top-level page."&gt;AddSubPage()&lt;/a&gt;.&lt;/p&gt;
+            &lt;p&gt;If your tree is no more than 1 level in depth then you could simply use &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_treebook.html#a005654249564b0f3e3c1127bc33cfb8b" title="Adds a new page."&gt;AddPage()&lt;/a&gt; and &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_treebook.html#a409e957bacff40d46c3ba9a6606fc0d2" title="Adds a new child-page to the last top-level page."&gt;AddSubPage()&lt;/a&gt; to sequentially populate your tree by adding at every step a page or a subpage to the end of the tree.&lt;/p&gt;
+        </description>
+        <inherits>
+            <class>wxBookCtrlBase</class>
+        </inherits>
+        <children>
+            <class>treebookpage</class>
+            <class max="1">wxImageList</class>
+        </children>
+        <name label="Name">
+            <value>treeBook</value>
+        </name>
+        <style label="Style"/>
+        <event name="wxBookCtrlEvent">
+            <type name="wxEVT_COMMAND_TREEBOOK_PAGE_CHANGED">
+                <macro_id>EVT_TREEBOOK_PAGE_CHANGED</macro_id>
+                <description>The page selection was changed.</description>
+            </type>
+            <type name="wxEVT_COMMAND_TREEBOOK_PAGE_CHANGING">
+                <macro_id>EVT_TREEBOOK_PAGE_CHANGING</macro_id>
+                <description>The page selection is about to be changed. This event can be vetoed (using wxNotifyEvent::Veto()).</description>
+            </type>
+            <type name="wxEVT_COMMAND_TREEBOOK_NODE_COLLAPSED">
+                <macro_id>EVT_TREEBOOK_NODE_COLLAPSED</macro_id>
+                <description>The page node is going to be collapsed.</description>
+            </type>
+            <type name="wxEVT_COMMAND_TREEBOOK_NODE_EXPANDED">
+                <macro_id>EVT_TREEBOOK_NODE_EXPANDED</macro_id>
+                <description>The page node is going to be expanded.</description>
+            </type>
+        </event>
+    </class>
+
+    <class name="treebookpage" type="item">
+        <text name="label" label="Label">
+            <description>Sheet page's title (required).</description>
+        </text>
+        <bitmap label="Bitmap">
+            <description>Bitmap shown alongside the label (default: none).</description>
+        </bitmap>
+        <int name="image" label="Image index">
+            <description>The zero-based index of the image associated with the item into the image list.</description>
+        </int>
+        <bool name="selected" label="Selected">
+            <description>Is the page selected initially (only one page can be selected; default: 0)?</description>
+        </bool>
+        <bool name="expanded" label="Expanded">
+            <description>If set to 1, the page is initially expanded. By default all pages are initially collapsed.</description>
+        </bool>
+        <int name="depth" label="Depth">
+            <description>Page's depth in the labels tree.</description>
+        </int>
+    </class>
+</classes>

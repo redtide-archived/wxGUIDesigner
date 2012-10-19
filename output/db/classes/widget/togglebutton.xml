@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        togglebutton.xml
+    Purpose:     wxToggleButton class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/14
+    Revision:    $Hash$
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
+-->
+<class name="wxToggleButton">
+    <description>
+        &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_toggle_button.html" title="wxToggleButton is a button that stays pressed when clicked by the user."&gt;wxToggleButton&lt;/a&gt; is a button that stays pressed when clicked by the user. &lt;/p&gt;
+        &lt;p&gt;In other words, it is similar to &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_check_box.html" title="A checkbox is a labelled box which by default is either on (checkmark is visible) or off (no checkmar..."&gt;wxCheckBox&lt;/a&gt; in functionality but looks like a &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_button.html" title="A button is a control that contains a text string, and is one of the most common elements of a GUI..."&gt;wxButton&lt;/a&gt;.&lt;/p&gt;
+        &lt;p&gt;Since wxWidgets version 2.9.0 this control emits an update UI event.&lt;/p&gt;
+        &lt;p&gt;You can see &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_toggle_button.html" title="wxToggleButton is a button that stays pressed when clicked by the user."&gt;wxToggleButton&lt;/a&gt; in action in &lt;a class="el" href="http://docs.wxwidgets.org/trunk/page_samples.html#page_samples_controls"&gt;Controls Sample&lt;/a&gt;.&lt;/p&gt;
+    </description>
+    <inherits>
+        <class>wxAnyButton</class>
+    </inherits>
+    <name label="Name">
+        <value>toggleBtn</value>
+    </name>
+    <style label="Style">
+        <flag name="wxBU_LEFT">
+            <description>Left-justifies the label. Windows and GTK+ only.</description>
+        </flag>
+        <flag name="wxBU_TOP">
+            <description>Aligns the label to the top of the button. Windows and GTK+ only.</description>
+        </flag>
+        <flag name="wxBU_RIGHT">
+            <description>Right-justifies the bitmap label. Windows and GTK+ only.</description>
+        </flag>
+        <flag name="wxBU_BOTTOM">
+            <description>Aligns the label to the bottom of the button. Windows and GTK+ only.</description>
+        </flag>
+        <flag name="wxBU_EXACTFIT">
+            <description>Creates the button as small as possible instead of making it of the standard size (which is the default behaviour ).</description>
+        </flag>
+        <flag name="wxBU_NOTEXT">
+            <description>Disables the display of the text label in the button even if it has one or its id is one of the standard stock ids with an associated label: without using this style a button which is only supposed to show a bitmap but uses a standard id would display a label too.</description>
+        </flag>
+    </style>
+    <bool name="checked" label="Checked">
+        <description>Should the button be checked/pressed initially (default: 0)?</description>
+    </bool>
+    <event name="wxCommandEvent">
+        <type name="wxEVT_COMMAND_TOGGLEBUTTON_CLICKED">
+            <macro_id>EVT_TOGGLEBUTTON</macro_id>
+            <description>Handles a wxEVT_COMMAND_TOGGLEBUTTON_CLICKED event.</description>
+        </type>
+    </event>
+</class>

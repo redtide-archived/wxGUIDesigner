@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        checklistbox.xml
+    Purpose:     wxCheckListBox class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/14
+    Revision:    $Hash$
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
+-->
+<classes>
+    <class name="wxCheckListBox">
+        <description>
+            &lt;p&gt;A &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_check_list_box.html" title="A wxCheckListBox is like a wxListBox, but allows items to be checked or unchecked."&gt;wxCheckListBox&lt;/a&gt; is like a &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_list_box.html" title="A listbox is used to select one or more of a list of strings."&gt;wxListBox&lt;/a&gt;, but allows items to be checked or unchecked. &lt;/p&gt;
+            &lt;p&gt;When using this class under Windows wxWidgets must be compiled with wxUSE_OWNER_DRAWN set to 1.&lt;/p&gt;
+        </description>
+        <inherits>
+            <class>wxListBox</class>
+        </inherits>
+        <children>
+            <class>checklistboxitem</class>
+        </children>
+        <name label="Name">
+            <value>chkLstBox</value>
+        </name>
+        <items name="content" label="Content">
+            <description>Content of the control; this property has any number of &gt;item&lt; XML elements as its children, with the items text as their text values (see below; default: empty).</description>
+        </items>
+        <event name="wxCommandEvent">
+            <type name="wxEVT_COMMAND_CHECKLISTBOX_TOGGLED">
+                <macro>EVT_CHECKLISTBOX</macro>
+                <description>Process a wxEVT_COMMAND_CHECKLISTBOX_TOGGLED event, when an item in the check list box is checked or unchecked. wxCommandEvent::GetInt() will contain the index of the item that was checked or unchecked. wxCommandEvent::IsChecked() is not valid! Use wxCheckListBox::IsChecked() instead.</description>
+            </type>
+        </event>
+    </class>
+
+    <class name="checklistboxitem" type="item">
+        <bool name="checked" label="Checked" xrcattribute="1"/>
+    </class>
+</classes>

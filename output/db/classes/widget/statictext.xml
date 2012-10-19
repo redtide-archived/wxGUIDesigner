@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        statictext.xml
+    Purpose:     wxStaticText class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/15
+    Revision:    $Hash$
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
+-->
+<class name="wxStaticText">
+    <description>
+        &lt;p&gt;A static text control displays one or more lines of read-only text. &lt;/p&gt;
+        &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_static_text.html" title="A static text control displays one or more lines of read-only text."&gt;wxStaticText&lt;/a&gt; supports the three classic text alignments, label ellipsization i.e. replacing parts of the text with the ellipsis ("...") if the label doesn't fit into the provided space and also formatting markup with &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_control.html#afeb308dc3b54d8d735b33cb250395503" title="Sets the controls label to a string using markup."&gt;wxControl::SetLabelMarkup()&lt;/a&gt;.&lt;/p&gt;
+    </description>
+    <inherits>
+        <class>wxControl</class>
+    </inherits>
+    <name label="Name">
+        <value>statText</value>
+    </name>
+    <style label="Style">
+        <flag name="wxALIGN_LEFT">
+            <description>Align the text to the left.</description>
+        </flag>
+        <flag name="wxALIGN_RIGHT">
+            <description>Align the text to the right.</description>
+        </flag>
+        <flag name="wxALIGN_CENTRE">
+            <description>Center the text (horizontally).</description>
+        </flag>
+        <flag name="wxST_NO_AUTORESIZE">
+            <description>By default, the control will adjust its size to exactly fit to the size of the text when SetLabel() is called. If this style flag is given, the control will not change its size (this style is especially useful with controls which also have the wxALIGN_RIGHT or the wxALIGN_CENTRE style because otherwise they won't make sense any longer after a call to SetLabel()).</description>
+        </flag>
+        <flag name="wxST_ELLIPSIZE_START">
+            <description>If the labeltext width exceeds the control width, replace the beginning of the label with an ellipsis; uses wxControl::Ellipsize.</description>
+        </flag>
+        <flag name="wxST_ELLIPSIZE_MIDDLE">
+            <description>If the label text width exceeds the control width, replace the middle of the label with an ellipsis; uses wxControl::Ellipsize.</description>
+        </flag>
+        <flag name="wxST_ELLIPSIZE_END">
+            <description>If the label text width exceeds the control width, replace the end of the label with an ellipsis; uses wxControl::Ellipsize.</description>
+        </flag>
+    </style>
+    <int name="wrap" label="Wrap">
+        <description>Wrap the text so that each line is at most the given number of pixels, see wxStaticText::Wrap() (default: no wrap).</description>
+    </int>
+</class>

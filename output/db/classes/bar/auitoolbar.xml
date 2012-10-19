@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        auitoolbar.xml
+    Purpose:     wxAuiToolBar class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/24
+    Revision:    $Hash$
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
+-->
+<classes>
+    <class name="wxAuiToolBar">
+        <description>
+            &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_aui_tool_bar.html" title="wxAuiToolBar is a dockable toolbar, part of the wxAUI class framework."&gt;wxAuiToolBar&lt;/a&gt; is a dockable toolbar, part of the wxAUI class framework. &lt;/p&gt;
+            &lt;p&gt;See also &lt;a class="el" href="http://docs.wxwidgets.org/trunk/overview_aui.html"&gt;wxAUI Overview&lt;/a&gt;.&lt;/p&gt;
+        </description>
+        <inherits>
+            <class>wxControl</class>
+        </inherits>
+        <children>
+            <class>wxAuiToolBarItem</class>
+        </children>
+        <name label="Name">
+            <value>auiBar</value>
+        </name>
+        <style label="Style">
+            <flag name="wxAUI_TB_TEXT">
+                <description></description>
+            </flag>
+            <flag name="wxAUI_TB_NO_TOOLTIPS">
+                <description></description>
+            </flag>
+            <flag name="wxAUI_TB_NO_AUTORESIZE">
+                <description></description>
+            </flag>
+            <flag name="wxAUI_TB_GRIPPER">
+                <description></description>
+            </flag>
+            <flag name="wxAUI_TB_OVERFLOW">
+                <description></description>
+            </flag>
+            <flag name="wxAUI_TB_VERTICAL">
+                <description>using this style forces the toolbar to be vertical and be only dockable to the left or right sides of the window whereas by default it can be horizontal or vertical and be docked anywhere</description>
+            </flag>
+            <flag name="wxAUI_TB_HORZ_LAYOUT">
+                <description></description>
+            </flag>
+            <flag name="wxAUI_TB_HORIZONTAL">
+                <description>analogous to wxAUI_TB_VERTICAL, but forces the toolbar to be horizontal</description>
+            </flag>
+            <flag name="wxAUI_TB_HORZ_TEXT">
+                <description>Equivalent to wxAUI_TB_HORZ_LAYOUT | wxAUI_TB_TEXT</description>
+            </flag>
+            <flag name="wxAUI_TB_DEFAULT_STYLE">
+                <description>The default is to have no styles</description>
+            </flag>
+        </style>
+        <event name="wxAuiToolBarEvent">
+            <type name="wxEVT_COMMAND_AUITOOLBAR_TOOL_DROPDOWN">
+                <macro_id>EVT_AUITOOLBAR_TOOL_DROPDOWN</macro_id>
+                <description>Process a wxEVT_COMMAND_AUITOOLBAR_TOOL_DROPDOWN event</description>
+            </type>
+            <type name="wxEVT_COMMAND_AUITOOLBAR_OVERFLOW_CLICK">
+                <macro_id>EVT_AUITOOLBAR_OVERFLOW_CLICK</macro_id>
+                <description>Process a wxEVT_COMMAND_AUITOOLBAR_OVERFLOW_CLICK event</description>
+            </type>
+            <type name="wxEVT_COMMAND_AUITOOLBAR_RIGHT_CLICK">
+                <macro_id>EVT_AUITOOLBAR_RIGHT_CLICK</macro_id>
+                <description>Process a wxEVT_COMMAND_AUITOOLBAR_RIGHT_CLICK event</description>
+            </type>
+            <type name="wxEVT_COMMAND_AUITOOLBAR_MIDDLE_CLICK">
+                <macro_id>EVT_AUITOOLBAR_MIDDLE_CLICK</macro_id>
+                <description>Process a wxEVT_COMMAND_AUITOOLBAR_MIDDLE_CLICK event</description>
+            </type>
+            <type name="wxEVT_COMMAND_AUITOOLBAR_BEGIN_DRAG">
+                <macro_id>EVT_AUITOOLBAR_BEGIN_DRAG</macro_id>
+                <description>Process a wxEVT_COMMAND_AUITOOLBAR_BEGIN_DRAG event</description>
+            </type>
+        </event>
+    </class>
+
+    <class name="wxAuiToolBarItem" type="item">
+        <description>
+            &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_aui_tool_bar_item.html" title="wxAuiToolBarItem is part of the wxAUI class framework."&gt;wxAuiToolBarItem&lt;/a&gt; is part of the wxAUI class framework. &lt;/p&gt;
+            &lt;p&gt;See also &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_aui_tool_bar.html"&gt;wxAuiToolBar&lt;/a&gt; and &lt;a class="el" href="http://docs.wxwidgets.org/trunk/overview_aui.html"&gt;wxAUI Overview&lt;/a&gt;.&lt;/p&gt;
+        </description>
+    </class>
+</classes>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        customctrl.xml
+    Purpose:     CustomCtrl class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/24
+    Revision:    $Hash$
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
+-->
+<class name="CustomCtrl" type="custom">
+    <inherits>
+        <class>wxControl</class>
+    </inherits>
+    <name label="Name">
+        <value>custCtrl</value>
+    </name>
+</class>

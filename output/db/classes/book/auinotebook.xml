@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        auinotebook.xml
+    Purpose:     wxAuiNotebook class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/15
+    Revision:    $Hash$
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
+-->
+<classes>
+    <class name="wxAuiNotebook" type="container">
+        <description>
+            &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_aui_notebook.html" title="wxAuiNotebook is part of the wxAUI class framework."&gt;wxAuiNotebook&lt;/a&gt; is part of the wxAUI class framework. &lt;/p&gt;
+            &lt;p&gt;See also &lt;a class="el" href="http://docs.wxwidgets.org/trunk/overview_aui.html"&gt;wxAUI Overview&lt;/a&gt;.&lt;/p&gt;
+            &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_aui_notebook.html" title="wxAuiNotebook is part of the wxAUI class framework."&gt;wxAuiNotebook&lt;/a&gt; is a notebook control which implements many features common in applications with dockable panes. Specifically, &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_aui_notebook.html" title="wxAuiNotebook is part of the wxAUI class framework."&gt;wxAuiNotebook&lt;/a&gt; implements functionality which allows the user to rearrange tab order via drag-and-drop, split the tab window into many different splitter configurations, and toggle through different themes to customize the control's look and feel.&lt;/p&gt;
+            &lt;p&gt;The default theme that is used is wxAuiDefaultTabArt, which provides a modern, glossy look and feel. The theme can be changed by calling &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_aui_notebook.html#ab1b3740da86630f7f1a7e3f5c7f308d2" title="Sets the art provider to be used by the notebook."&gt;wxAuiNotebook::SetArtProvider&lt;/a&gt;.&lt;/p&gt;
+        </description>
+        <inherits>
+            <class>wxBookCtrlBase</class>
+        </inherits>
+        <children>
+            <class>auinotebookpage</class>
+        </children>
+        <name label="Name">
+            <value>auiBook</value>
+        </name>
+        <style label="Style">
+            <flag name="wxAUI_NB_DEFAULT_STYLE">
+                <description>Defined as wxAUI_NB_TOP | wxAUI_NB_TAB_SPLIT | wxAUI_NB_TAB_MOVE | wxAUI_NB_SCROLL_BUTTONS | wxAUI_NB_CLOSE_ON_ACTIVE_TAB.</description>
+            </flag>
+            <flag name="wxAUI_NB_TAB_SPLIT">
+                <description>Allows the tab control to be split by dragging a tab.</description>
+            </flag>
+            <flag name="wxAUI_NB_TAB_MOVE">
+                <description>Allows a tab to be moved horizontally by dragging.</description>
+            </flag>
+            <flag name="wxAUI_NB_TAB_EXTERNAL_MOVE">
+                <description>Allows a tab to be moved to another tab control.</description>
+            </flag>
+            <flag name="wxAUI_NB_TAB_FIXED_WIDTH">
+                <description>With this style, all tabs have the same width.</description>
+            </flag>
+            <flag name="wxAUI_NB_SCROLL_BUTTONS">
+                <description>With this style, left and right scroll buttons are displayed.</description>
+            </flag>
+            <flag name="wxAUI_NB_WINDOWLIST_BUTTON">
+                <description>With this style, a drop-down list of windows is available.</description>
+            </flag>
+            <flag name="wxAUI_NB_CLOSE_BUTTON">
+                <description>With this style, a close button is available on the tab bar.</description>
+            </flag>
+            <flag name="wxAUI_NB_CLOSE_ON_ACTIVE_TAB">
+                <description>With this style, the close button is visible on the active tab.</description>
+            </flag>
+            <flag name="wxAUI_NB_CLOSE_ON_ALL_TABS">
+                <description>With this style, the close button is visible on all tabs.</description>
+            </flag>
+            <flag name="wxAUI_NB_TOP">
+                <description>With this style, tabs are drawn along the top of the notebook.</description>
+            </flag>
+            <flag name="wxAUI_NB_BOTTOM">
+                <description>With this style, tabs are drawn along the bottom of the notebook.</description>
+            </flag>
+        </style>
+        <event name="wxAuiNotebookEvent">
+            <type name="wxEVT_COMMAND_AUINOTEBOOK_PAGE_CLOSE">
+                <macro_id>EVT_AUINOTEBOOK_PAGE_CLOSE</macro_id>
+                <description>A page is about to be closed. Processes a wxEVT_COMMAND_AUINOTEBOOK_PAGE_CLOSE event.</description>
+            </type>
+            <type name="wxEVT_COMMAND_AUINOTEBOOK_PAGE_CHANGED">
+                <macro_id>EVT_AUINOTEBOOK_PAGE_CHANGED</macro_id>
+                <description>The page selection was changed. Processes a wxEVT_COMMAND_AUINOTEBOOK_PAGE_CHANGED event.</description>
+            </type>
+            <type name="wxEVT_COMMAND_AUINOTEBOOK_PAGE_CHANGING">
+                <macro_id>EVT_AUINOTEBOOK_PAGE_CHANGING</macro_id>
+                <description>The page selection is about to be changed. Processes a wxEVT_COMMAND_AUINOTEBOOK_PAGE_CHANGING event. This event can be vetoed.</description>
+            </type>
+            <type name="wxEVT_COMMAND_AUINOTEBOOK_BUTTON">
+                <macro_id>EVT_AUINOTEBOOK_BUTTON</macro_id>
+                <description>The window list button has been pressed. Processes a wxEVT_COMMAND_AUINOTEBOOK_BUTTON event.</description>
+            </type>
+            <type name="wxEVT_COMMAND_AUINOTEBOOK_BEGIN_DRAG">
+                <macro_id>EVT_AUINOTEBOOK_BEGIN_DRAG</macro_id>
+                <description>Dragging is about to begin. Processes a wxEVT_COMMAND_AUINOTEBOOK_BEGIN_DRAG event.</description>
+            </type>
+            <type name="wxEVT_COMMAND_AUINOTEBOOK_END_DRAG">
+                <macro_id>EVT_AUINOTEBOOK_END_DRAG</macro_id>
+                <description>Dragging has ended. Processes a wxEVT_COMMAND_AUINOTEBOOK_END_DRAG event.</description>
+            </type>
+            <type name="wxEVT_COMMAND_AUINOTEBOOK_DRAG_MOTION">
+                <macro_id>EVT_AUINOTEBOOK_DRAG_MOTION</macro_id>
+                <description>Emitted during a drag and drop operation. Processes a wxEVT_COMMAND_AUINOTEBOOK_DRAG_MOTION event.</description>
+            </type>
+            <type name="wxEVT_COMMAND_AUINOTEBOOK_ALLOW_DND">
+                <macro_id>EVT_AUINOTEBOOK_ALLOW_DND</macro_id>
+                <description>Whether to allow a tab to be dropped. Processes a wxEVT_COMMAND_AUINOTEBOOK_ALLOW_DND event. This event must be specially allowed.</description>
+            </type>
+        </event>
+    </class>
+
+    <class name="auinotebookpage" type="item">
+        <text name="label" label="Label">
+            <description>Sheet page's title (required).</description>
+        </text>
+        <bitmap label="Bitmap">
+            <description>Bitmap shown alongside the label (default: none).</description>
+        </bitmap>
+        <bool name="selected" label="Selected">
+            <description>Is the page selected initially (only one page can be selected; default: 0)?</description>
+        </bool>
+    </class>
+</classes>

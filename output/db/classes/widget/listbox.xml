@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        gauge.xml
+    Purpose:     wxGauge class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/14
+    Revision:    $Hash$
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
+-->
+<class name="wxListBox">
+    <description>
+        &lt;p&gt;A listbox is used to select one or more of a list of strings. &lt;/p&gt;
+        &lt;p&gt;The strings are displayed in a scrolling box, with the selected string(s) marked in reverse video. A listbox can be single selection (if an item is selected, the previous selection is removed) or multiple selection (clicking an item toggles the item on or off independently of other selections).&lt;/p&gt;
+        &lt;p&gt;List box elements are numbered from zero. Their number may be limited under some platforms.&lt;/p&gt;
+        &lt;p&gt;A listbox callback gets an event &lt;code&gt;wxEVT_COMMAND_LISTBOX_SELECTED&lt;/code&gt; for single clicks, and &lt;code&gt;wxEVT_COMMAND_LISTBOX_DOUBLECLICKED&lt;/code&gt; for double clicks.&lt;/p&gt;
+    </description>
+    <inherits>
+        <class>wxControlWithItems</class>
+    </inherits>
+    <name label="Name">
+        <value>listBox</value>
+    </name>
+    <style label="Style">
+        <description>Note that wxLB_SINGLE, wxLB_MULTIPLE and wxLB_EXTENDED styles are mutually exclusive and you can specify at most one of them (single selection is the default). See also Window Styles.</description>
+        <flag name="wxLB_SINGLE">
+            <description>Single-selection list.</description>
+        </flag>
+        <flag name="wxLB_MULTIPLE">
+            <description>Multiple-selection list: the user can toggle multiple items on and off. This is the same as wxLB_EXTENDED in wxGTK2 port.</description>
+        </flag>
+        <flag name="wxLB_EXTENDED">
+            <description>Extended-selection list: the user can extend the selection by using SHIFT or CTRL keys together with the cursor movement keys or the mouse.</description>
+        </flag>
+        <flag name="wxLB_HSCROLL">
+            <description>Create horizontal scrollbar if contents are too wide (Windows only).</description>
+        </flag>
+        <flag name="wxLB_ALWAYS_SB">
+            <description>Always show a vertical scrollbar.</description>
+        </flag>
+        <flag name="wxLB_NEEDED_SB">
+            <description>Only create a vertical scrollbar if needed.</description>
+        </flag>
+        <flag name="wxLB_NO_SB">
+            <description>Don't create vertical scrollbar (wxMSW only).</description>
+        </flag>
+        <flag name="wxLB_SORT">
+            <description>The listbox contents are sorted in alphabetical order.</description>
+        </flag>
+    </style>
+    <int name="selection" label="Selection">
+        <description>Index of the initially selected item or -1 for no selection (default: -1).</description>
+    </int>
+    <arraystring name="content" label="Content">
+        <description>Content of the control; this property has any number of &lt;item&gt; XML elements as its children, with the items text as their text values (default: empty).</description>
+    </arraystring>
+    <event name="wxCommandEvent">
+        <type name="wxEVT_COMMAND_LISTBOX_SELECTED">
+            <description>Process a wxEVT_COMMAND_LISTBOX_SELECTED event, when an item on the list is selected or the selection changes.</description>
+        </type>
+        <type name="wxEVT_COMMAND_LISTBOX_DOUBLECLICKED">
+            <description>Process a wxEVT_COMMAND_LISTBOX_DOUBLECLICKED event, when the listbox is double-clicked.</description>
+        </type>
+    </event>
+</class>

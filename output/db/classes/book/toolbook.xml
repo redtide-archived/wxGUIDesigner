@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Name:        toolbook.xml
+    Purpose:     wxToolbook class definition
+    Author:      Andrea Zanellato
+    Modified by: 
+    Created:     2012/01/15
+    Revision:    $Hash$
+    Copyleft:    (ɔ) Andrea Zanellato
+    Licence:     GNU General Public License Version 3
+-->
+<classes>
+    <class name="wxToolbook">
+        <description>
+            &lt;p&gt;&lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_toolbook.html" title="wxToolbook is a class similar to wxNotebook but which uses a wxToolBar to show the labels instead of ..."&gt;wxToolbook&lt;/a&gt; is a class similar to &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_notebook.html" title="This class represents a notebook control, which manages multiple windows with associated tabs..."&gt;wxNotebook&lt;/a&gt; but which uses a &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_tool_bar.html" title="A toolbar is a bar of buttons and/or other controls usually placed below the menu bar in a wxFrame..."&gt;wxToolBar&lt;/a&gt; to show the labels instead of the tabs. &lt;/p&gt;
+            &lt;p&gt;There is no documentation for this class yet but its usage is identical to &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_notebook.html" title="This class represents a notebook control, which manages multiple windows with associated tabs..."&gt;wxNotebook&lt;/a&gt; (except for the features clearly related to tabs only), so please refer to that class documentation for now. You can also use the &lt;a class="el" href="http://docs.wxwidgets.org/trunk/page_samples.html#page_samples_notebook"&gt;Notebook Sample&lt;/a&gt; to see &lt;a class="el" href="http://docs.wxwidgets.org/trunk/classwx_toolbook.html" title="wxToolbook is a class similar to wxNotebook but which uses a wxToolBar to show the labels instead of ..."&gt;wxToolbook&lt;/a&gt; in action.&lt;/p&gt;
+        </description>
+        <inherits>
+            <class>wxBookCtrlBase</class>
+        </inherits>
+        <children>
+            <class>toolbookpage</class>
+            <class max="1">wxImageList</class>
+        </children>
+        <name label="Name">
+            <value>toolBook</value>
+        </name>
+        <style label="Style">
+            <flag name="wxTBK_BUTTONBAR">
+                <description>Use wxButtonToolBar-based implementation under Mac OS (ignored under other platforms).</description>
+            </flag>
+            <flag name="wxTBK_HORZ_LAYOUT">
+                <description>Shows the text and the icons alongside, not vertically stacked (only implement under Windows and GTK 2 platforms as it relies on wxTB_HORZ_LAYOUT flag support).</description>
+            </flag>
+        </style>
+        <event name="wxBookCtrlEvent">
+            <type name="wxEVT_COMMAND_TOOLBOOK_PAGE_CHANGED">
+                <macro_id>EVT_TOOLBOOK_PAGE_CHANGED</macro_id>
+                <description>The page selection was changed.</description>
+            </type>
+            <type name="wxEVT_COMMAND_TOOLBOOK_PAGE_CHANGING">
+                <macro_id>EVT_TOOLBOOK_PAGE_CHANGING</macro_id>
+                <description>The page selection is about to be changed. This event can be vetoed (using wxNotifyEvent::Veto()).</description>
+            </type>
+        </event>
+    </class>
+
+    <class name="toolbookpage" type="item">
+        <text name="label" label="Label">
+            <description>Sheet page's title (required).</description>
+        </text>
+        <bitmap label="Bitmap">
+            <description>Bitmap shown alongside the label (default: none).</description>
+        </bitmap>
+        <int name="image" label="Image index">
+            <description>The zero-based index of the image associated with the item into the image list.</description>
+        </int>
+        <bool name="selected" label="Selected">
+            <description>Is the page selected initially (only one page can be selected; default: 0)?</description>
+        </bool>
+    </class>
+</classes>
